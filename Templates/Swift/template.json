@@ -1,0 +1,21 @@
+{
+    "formatter": "Swift",
+    "files":
+    [
+        {
+            "template": "model.mustache",
+            "context": "definitions",
+            "path": "Models/{{name}}.swift"
+        },
+        {
+            "template": "operation.mustache",
+            "context": "operations",
+            "path": "Requests/{{upperCamelCase(tag)}}/{{upperCamelCase(operationId)}}.swift"
+        },
+        {
+            "template": "Request.mustache",
+            "path": "Request.swift"
+        }
+    ],
+
+}

@@ -1,0 +1,19 @@
+
+extension {{upperCamelCase(tag)}} {
+
+    public class {{upperCamelCase(operationId)}}: APIRequest {
+      {{#enums}}
+      public enum {{enumName}} { {{#enums}}
+          case {{name}} = "{{value}}"{{/enums}}
+      }{{/enums}}
+      public init({{#each(params)}}{{formattedName}}: {{type}}{{^required}}? = nil{{/required}}{{^@last}}, {{/}}{{/}}) {
+          let path = "{{path}}"{{#pathParams}}.replacingOccurrences(of: "{{=<% %>=}}{<%name%>}<%={{ }}=%>", with: {{decodedValue}}){{/pathParams}}{{#bodyParam}}
+          let params:[String:Any?] = {{decodedValue}}{{/bodyParam}}{{#queryParams.count}}
+          let params:[String:Any?] = [ {{#queryParams}}
+              "{{name}}": {{decodedValue}},{{/queryParams}}
+          ]{{/queryParams.count}}{{#security}}
+          let security = RequestSecurity(type: {{name}}, scope: {{scope}}){{/security}}
+          super.init(path: path, method: "{{method}}", params: params, security: security)
+      }
+    }
+}

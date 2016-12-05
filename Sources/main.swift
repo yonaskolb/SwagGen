@@ -35,6 +35,11 @@ func generate(templatePath:Path, destinationPath:Path, spec:String, clean: Bool)
             return
         }
 
+        guard spec != "" && URL(string: spec) != nil else {
+            print("Must provide a valid spec")
+            return
+        }
+
         print("Template: \(templatePath)")
         print("Destination: \(destinationPath)")
         print("Spec: \(spec)")
@@ -63,10 +68,10 @@ func generate(templatePath:Path, destinationPath:Path, spec:String, clean: Bool)
 }
 
 command(
-    Option("template", Path("/Users/Yonas/Developer/SwiftySwagGen/Templates/Swift"), description: "The path to the template json file", validator: isReadable),
-    Option("destination", Path.current, description: "The directory where the generated files will be created", validator: isWritable),
-    Option("spec", "/Users/Yonas/Downloads/spec.json", description: "The path or url to a swagger spec json file"),
-    Flag("clean", description: "Whether the destition directory will be cleared before generating", default: false),
+    Option("template", Path(""), flag: "f", description: "The path to the template json file", validator: isReadable),
+    Option("destination", Path.current, flag: "d", description: "The directory where the generated files will be created", validator: isWritable),
+    Option("spec", "", flag: "s", description: "The path or url to a swagger spec json file"),
+    Flag("clean", description: "Whether the destination directory will be cleared before generating", default: false),
     generate)
     .run()
 

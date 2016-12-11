@@ -1,0 +1,11 @@
+
+struct Request {
+
+    let method:String
+    let path:String
+}
+
+struct API {
+{% for tag in tags %}
+    struct {{ tag.name | upperCamelCase }} {}{% endfor %}
+}

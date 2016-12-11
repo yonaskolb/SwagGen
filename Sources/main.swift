@@ -20,7 +20,7 @@ func isReadable(path: Path) -> Path {
 
 func isWritable(path: Path) -> Path {
     if !path.isWritable {
-        print("'\(path)' is is not readable.")
+        print("'\(path)' is is not writable.")
         exit(1)
     }
     return path
@@ -31,7 +31,7 @@ func generate(templatePath:Path, destinationPath:Path, spec:String, clean: Bool)
     do {
 
         guard templatePath.exists else {
-            print("Must provide valid template path")
+            print("Must provide valid template path \"\(templatePath)\"")
             return
         }
 

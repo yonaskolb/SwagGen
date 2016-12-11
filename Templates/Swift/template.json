@@ -3,17 +3,17 @@
     "files":
     [
         {
-            "template": "model.mustache",
+            "template": "model.stencil",
             "context": "definitions",
-            "path": "Models/{{name}}.swift"
+            "path": "Models/{{ name }}.swift"
         },
         {
-            "template": "operation.mustache",
+            "template": "operation.stencil",
             "context": "operations",
-            "path": "Requests/{{upperCamelCase(tag)}}/{{upperCamelCase(operationId)}}.swift"
+            "path": "Requests/{{ tag|upperCamelCase }}/{{ operationId|upperCamelCase }}.swift"
         },
         {
-            "template": "Request.mustache",
+            "template": "Request.stencil",
             "path": "Request.swift"
         }
     ],

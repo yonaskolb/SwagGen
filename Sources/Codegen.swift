@@ -9,7 +9,7 @@
 import Foundation
 import PathKit
 import JSONUtilities
-import Mustache
+import Stencil
 
 struct TemplateConfig {
 
@@ -38,7 +38,7 @@ struct TemplateConfig {
     init(path:Path) throws {
         self.path = path
         let templatePath = path + "template.json"
-        let data:Data = try templatePath.read()
+        let data = try templatePath.read()
         let json = try JSONDictionary.from(jsonData: data)
         files = try json.json(atKeyPath: "files")
         formatter = try json.json(atKeyPath: "formatter")
@@ -55,18 +55,23 @@ class Codegen {
     var destination:Path
     var templateConfig:TemplateConfig
     let context:JSONDictionary
+    let namespace:Namespace
 
     init(context:JSONDictionary, destination:Path, templateConfig:TemplateConfig) {
         self.context = context
         self.destination = destination
         self.templateConfig = templateConfig
+        namespace = Namespace()
+
+        namespace.registerFilter("lowerCamelCase") { ($0 as? String)?.lowerCamelCased() ?? $0 }
+        namespace.registerFilter("upperCamelCase") { ($0 as? String)?.upperCamelCased() ?? $0}
     }
 
     func generate() throws {
 
         for file in templateConfig.files {
             let path = templateConfig.path + file.template
-            let template = try Template(path: path.description)
+            let template = try Template(path: path)
 
             if let fileContext = file.context {
                 if let context:JSONDictionary = context.json(atKeyPath: fileContext) {
@@ -87,30 +92,16 @@ class Codegen {
 
     func writeFile(template:Template, context:JSONDictionary, path:String) throws {
 
-        template.registerDefaultFilters()
+        let context = Context(dictionary: context, namespace: namespace)
+        let pathTemplate = Template(templateString: path)
 
-        let pathTemplate = try Template(string: path)
-        pathTemplate.registerDefaultFilters()
         let contextPath = try pathTemplate.render(context)
 
-        let outputPath:Path = destination + contextPath
         let rendered = try template.render(context)
+        let outputPath = destination + contextPath
         try outputPath.parent().mkpath()
         try outputPath.write(rendered)
         print("Write file \(outputPath)")
-    }
-}
-
-extension Template {
-    func registerDefaultFilters() {
-        register(Filter({ (value:String?) -> Any? in
-            return value?.lowerCamelCased()
-        }), forKey: "lowerCamelCase")
-
-        register(Filter({ (value:String?) -> Any? in
-            return value?.upperCamelCased()
-        }), forKey: "upperCamelCase")
-        register(StandardLibrary.each, forKey: "each")
     }
 }
 

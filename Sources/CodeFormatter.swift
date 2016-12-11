@@ -23,7 +23,7 @@ class CodeFormatter {
     func getSpecContext() -> [String:Any?] {
         return [
             "operations": swaggerSpec.operations.map(getOperationContext),
-            "tags": swaggerSpec.opererationsByTag.map{["tag":$0, "operations": $1.map(getOperationContext)]},
+            "tags": swaggerSpec.opererationsByTag.map{["name":$0, "operations": $1.map(getOperationContext)]},
             "definitions":Array(swaggerSpec.definitions.values).map(getDefinitionContext),
         ]
     }

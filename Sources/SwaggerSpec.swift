@@ -199,6 +199,10 @@ class Definition:JSONObjectConvertible {
         }
     }
 
+    var allProperties:[Property] {
+        return (parent?.allProperties ?? []) + properties
+    }
+
     func deepDescription(prefix:String) -> String {
         return "\(prefix)\(name)\n\(prefix)\(properties.map{$0.deepDescription(prefix: prefix)}.joined(separator: "\n\(prefix)"))"
     }

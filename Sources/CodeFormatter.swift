@@ -90,6 +90,7 @@ class CodeFormatter {
             "requiredProperties": definition.requiredProperties.map(getPropertyContext),
             "optionalProperties": definition.optionalProperties.map(getPropertyContext),
             "properties": definition.properties.map(getPropertyContext),
+            "allProperties": definition.allProperties.map(getPropertyContext),
             "enums": definition.properties.filter{$0.enumValues != nil}.map(getPropertyContext),
         ]
     }

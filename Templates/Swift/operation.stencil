@@ -1,19 +1,22 @@
 
-extension {{ tag | upperCamelCase }} {
+extension {{ tag|upperCamelCase }} {
 
-    {% for enum in enums %}
-    public enum {{enum.enumName}} { {% for enumCase in enums %}
-        case {{enumCase.name}} = "{{enumCase.value}}"{% endfor %}
-    }{% endfor %}
+    public class {{ operationId|upperCamelCase }}: APIRequest {
 
-    func {{ operationId | upperCamelCase }}({% for param in params %}{{ param.formattedName }}: {{ param.type }}{% ifnot param.required %}? = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
-        let path = "{{ path }}"{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: {{ param.decodedValue }}){% endfor %}{% if bodyParam %}
-        let params:[String:Any?] = {{ bodyParam.decodedValue }}{% endif %}{% if queryParams %}
-        let params:[String:Any?] = [ {% for param in queryParams %}
+        {% for enum in enums %}
+        public enum {{enum.enumName}} { {% for enumCase in enums %}
+            case {{enumCase.name}} = "{{enumCase.value}}"{% endfor %}
+        }{% endfor %}
+
+        public init({% for param in params %}{{ param.formattedName }}: {{ param.optionalType }}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
+            let path = "{{ path }}"{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: {{ param.decodedValue }}){% endfor %}{% if bodyParam %}
+            let params:[String:Any?] = {{ bodyParam.decodedValue }}{% endif %}{% if queryParams %}
+            let params:[String:Any?] = [ {% for param in queryParams %}
             "{{param.name}}": {{ param.decodedValue }},{% endfor %}
-        ]{% endif %}{{#security}}
-        let security = RequestSecurity(type: {{security.name}}, scope: {{security.scope}}){{/security}}
-        return Request(path: path, method: "{{ method | uppercase }}", params: params)
+            ]{% endif %}{{#security}}
+            let security = RequestSecurity(type: {{security.name}}, scope: {{security.scope}}){{/security}}
+            super.init(path: path, method: "{{ method | uppercase }}", params: params)
+        }
     }
 
 }

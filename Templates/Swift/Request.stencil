@@ -1,8 +1,15 @@
 
-struct Request {
+class APIRequest {
 
     let method:String
     let path:String
+    let params: [String: Any]
+
+    init(path: String, method: String, params: [String: Any]) {
+        self.path = path
+        self.method = method
+        self.params = params
+    }
 }
 
 struct API {

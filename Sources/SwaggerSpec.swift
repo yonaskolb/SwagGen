@@ -67,6 +67,9 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
                 if let reference = getDefinitionReference(property.reference) {
                     property.object = reference
                 }
+                if let reference = getDefinitionReference(property.arrayRef) {
+                    property.arrayDefinition = reference
+                }
 
             }
         }
@@ -210,8 +213,11 @@ class Value:JSONObjectConvertible {
     var required:Bool
     let type:String
     var reference:String?
+    var format:String?
     var enumValues:[String]?
-    var items:Value?
+    var arrayValue:Value?
+    var arrayDefinition:Definition?
+    var arrayRef:String?
     var object:Definition?
 
     required init(jsonDictionary:JSONDictionary) throws {
@@ -219,13 +225,16 @@ class Value:JSONObjectConvertible {
         description = jsonDictionary.json(atKeyPath: "description")
         reference = jsonDictionary.json(atKeyPath: "$ref")
 
+        arrayRef = jsonDictionary.json(atKeyPath: "items.$ref")
+
         required = jsonDictionary.json(atKeyPath: "required") ?? false
         type = jsonDictionary.json(atKeyPath: "type") ?? "unknown"
+        format = jsonDictionary.json(atKeyPath: "format")
         enumValues = jsonDictionary.json(atKeyPath: "enum")
         if let schemaRef = jsonDictionary.json(atKeyPath: "schema.$ref") as String? {
             reference = schemaRef
         }
-        items = jsonDictionary.json(atKeyPath: "items")
+        arrayValue = jsonDictionary.json(atKeyPath: "items")
     }
 
     func deepDescription(prefix:String) -> String {

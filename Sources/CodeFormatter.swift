@@ -106,6 +106,18 @@ class CodeFormatter {
         if let object = value.object {
             return getModelName(object)
         }
+
+        switch value.type.lowercased() {
+            case "array":
+            if let definition = value.arrayDefinition {
+                return "[\(definition.name)]"
+            }
+            else {
+                let arrayValue = value.arrayValue!
+                return "[\(arrayValue.enumValues != nil ? getEnumName(value) : getValueType(arrayValue))]"
+            }
+        default: break
+        }
         return value.type
     }
 

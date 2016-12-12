@@ -4,14 +4,13 @@ class {{ name }} {% if parent %}: {{ parent.name }}{% endif %} {
     {% for property in enums %}
     enum {{ property.enumName }} { {% for enumCase in property.enums %}
         case {{ enumCase.name }} = "{{ enumCase.value }}"{% endfor %}
-    }
-    {% endfor %}
-    {% for property in properties %}{% if property.description %}
-    /** {{ property.description }}  */{% endif %}
-    let {{ property.name }}: {{ property.type }}{% ifnot property.required %}?{% endif %}
-    {% endfor %}
+    }{% endfor %}
+    {% for property in properties %}
 
-    init({% for property in properties %}{{ property.name }}: {{ property.type }}{% ifnot forloop.last %}{% ifnot property.required %}? = nil{% endif %}, {% endif %}{% endfor %}) { {% for property in properties %}
+    {% if property.description %}/** {{ property.description }}  */{% endif %}
+    let {{ property.name }}: {{ property.optionalType }}{% endfor %}
+
+    init({% for property in properties %}{{ property.name }}: {{ property.optionalType }}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) { {% for property in properties %}
         self.{{ property.name }} = {{ property.name }}{% endfor %}
     }
 }

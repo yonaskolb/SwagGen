@@ -36,6 +36,7 @@ class CodeFormatter {
     }
 
     func getOperationContext(operation:Operation) -> [String:Any?] {
+        let successResponse = operation.responses.filter{$0.statusCode == 200 || $0.statusCode == 204}.first
         return [
             "operationId": operation.operationId,
             "method": operation.method.uppercased(),
@@ -47,6 +48,9 @@ class CodeFormatter {
             "queryParams":operation.parameters.filter{$0.parameterType == .query}.map(getParameterContext),
             "enums": operation.parameters.filter{$0.enumValues != nil}.map(getParameterContext),
             "security": operation.security.map(getSecurityContext).first,
+            "responses": operation.responses.map(getResponseContext),
+            "successResponse": successResponse.flatMap(getResponseContext),
+            "successType": successResponse?.schema?.object.flatMap(getModelName) ?? successResponse?.schema.flatMap(getValueType),
         ]
     }
 
@@ -58,9 +62,18 @@ class CodeFormatter {
         ]
     }
 
+    func getResponseContext(response:Response) -> [String:Any?] {
+        return [
+            "statusCode": response.statusCode,
+            "schema": response.schema.flatMap(getValueContext),
+            "description": response.description,
+        ]
+    }
+
     func getValueContext(value:Value) -> [String:Any?] {
         return [
             "type": getValueType(value),
+            "rawType": value.type,
             "name": value.name,
             "formattedName": getValueName(value),
             "value": value.name,
@@ -69,6 +82,10 @@ class CodeFormatter {
             "enumName": getEnumName(value),
             "description": value.description,
             "enums": value.enumValues?.map{["name":getEnumCaseName($0), "value":$0]},
+            "arrayType": value.arrayDefinition.flatMap(getModelName),
+            "dictionaryType": value.dictionaryDefinition.flatMap(getModelName),
+            "isArray": value.type == "array",
+            "isDictionary": value.type == "object" && (value.dictionaryDefinition != nil || value.dictionaryValue != nil),
         ]
     }
 
@@ -106,18 +123,6 @@ class CodeFormatter {
     func getValueType(_ value:Value)->String {
         if let object = value.object {
             return getModelName(object)
-        }
-
-        switch value.type.lowercased() {
-            case "array":
-            if let definition = value.arrayDefinition {
-                return "[\(definition.name)]"
-            }
-            else {
-                let arrayValue = value.arrayValue!
-                return "[\(arrayValue.enumValues != nil ? getEnumName(value) : getValueType(arrayValue))]"
-            }
-        default: break
         }
         return value.type
     }

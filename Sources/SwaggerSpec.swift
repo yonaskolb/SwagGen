@@ -41,7 +41,7 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
         definitions = try jsonDictionary.json(atKeyPath: "definitions")
         parameters = try jsonDictionary.json(atKeyPath: "parameters")
         security = try jsonDictionary.json(atKeyPath: "securityDefinitions")
-
+        
         resolve()
     }
 
@@ -70,7 +70,9 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
                 if let reference = getDefinitionReference(property.arrayRef) {
                     property.arrayDefinition = reference
                 }
-
+                if let reference = getDefinitionReference(property.dictionaryDefinitionRef) {
+                    property.dictionaryDefinition = reference
+                }
             }
         }
 
@@ -82,6 +84,17 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
                 }
                 if let reference = getParameterReference(parameter.reference) {
                     operation.parameters[index] = reference
+                }
+            }
+            for response in operation.responses {
+                if let reference = getDefinitionReference(response.schema?.reference) {
+                    response.schema?.object = reference
+                }
+                else if let reference = getDefinitionReference(response.schema?.arrayRef) {
+                    response.schema?.arrayDefinition = reference
+                }
+                if let reference = getDefinitionReference(response.schema?.dictionaryDefinitionRef) {
+                    response.schema?.dictionaryDefinition = reference
                 }
             }
         }
@@ -150,6 +163,7 @@ class Operation {
     var parameters:[Parameter]
     let method:String
     let path:String
+    let responses:[Response]
     var security:[OperationSecurity]
 
     init(path:String, method:String, jsonDictionary:JSONDictionary) throws {
@@ -160,8 +174,29 @@ class Operation {
         tags = try jsonDictionary.json(atKeyPath: "tags")
         parameters = try jsonDictionary.json(atKeyPath: "parameters")
         security = jsonDictionary.json(atKeyPath: "security") ?? []
+        let responseDictionary:JSONDictionary = try jsonDictionary.json(atKeyPath: "responses")
+        var responses:[Response] = []
+        for (key, value) in responseDictionary {
+            if let statusCode = Int(key), let jsonDictionary = value as? JSONDictionary {
+                responses.append(Response(statusCode: statusCode, jsonDictionary:jsonDictionary))
+            }
+        }
+        self.responses = responses
     }
 
+}
+
+class Response {
+
+    let statusCode:Int
+    let description:String?
+    var schema: Value?
+
+    init(statusCode:Int, jsonDictionary:JSONDictionary) {
+        self.statusCode = statusCode
+        description = jsonDictionary.json(atKeyPath: "description")
+        schema = jsonDictionary.json(atKeyPath: "schema")
+    }
 }
 
 class Definition:JSONObjectConvertible {
@@ -223,6 +258,9 @@ class Value:JSONObjectConvertible {
     var arrayDefinition:Definition?
     var arrayRef:String?
     var object:Definition?
+    var dictionaryDefinition:Definition?
+    var dictionaryDefinitionRef:String?
+    var dictionaryValue:Value?
 
     required init(jsonDictionary:JSONDictionary) throws {
         name = jsonDictionary.json(atKeyPath: "name") ?? ""
@@ -230,6 +268,10 @@ class Value:JSONObjectConvertible {
         reference = jsonDictionary.json(atKeyPath: "$ref")
 
         arrayRef = jsonDictionary.json(atKeyPath: "items.$ref")
+        arrayValue = jsonDictionary.json(atKeyPath: "items")
+
+        dictionaryDefinitionRef = jsonDictionary.json(atKeyPath: "additionalProperties.$ref")
+        dictionaryValue = jsonDictionary.json(atKeyPath: "additionalProperties")
 
         required = jsonDictionary.json(atKeyPath: "required") ?? false
         type = jsonDictionary.json(atKeyPath: "type") ?? "unknown"
@@ -238,7 +280,6 @@ class Value:JSONObjectConvertible {
         if let schemaRef = jsonDictionary.json(atKeyPath: "schema.$ref") as String? {
             reference = schemaRef
         }
-        arrayValue = jsonDictionary.json(atKeyPath: "items")
     }
 
     func deepDescription(prefix:String) -> String {

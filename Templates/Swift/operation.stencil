@@ -4,7 +4,7 @@ extension {{ tag|upperCamelCase }} {
     public class {{ operationId|upperCamelCase }}: APIRequest {
 
         {% for enum in enums %}
-        public enum {{enum.enumName}} { {% for enumCase in enums %}
+        public enum {{enum.enumName}} { {% for enumCase in enum.enums %}
             case {{enumCase.name}} = "{{enumCase.value}}"{% endfor %}
         }{% endfor %}
 
@@ -13,9 +13,21 @@ extension {{ tag|upperCamelCase }} {
             let params:[String:Any?] = {{ bodyParam.decodedValue }}{% endif %}{% if queryParams %}
             let params:[String:Any?] = [ {% for param in queryParams %}
             "{{param.name}}": {{ param.decodedValue }},{% endfor %}
-            ]{% endif %}{{#security}}
-            let security = RequestSecurity(type: {{security.name}}, scope: {{security.scope}}){{/security}}
+            ]{% endif %}{% if security %}
+            let security = RequestSecurity(type: "{{security.name}}", scope: "{{security.scope}}"){% endif %}
             super.init(path: path, method: "{{ method | uppercase }}", params: params)
+        }
+
+        static func decode(json: Any) throws -> {% if successType %}{{successType}}{% else %}Void{% endif %} {
+            {% if successType %}{% if successResponse.schema.isArray %}guard let array = json as? [JSONDictionary] else { throw DecodingError() }
+            return try array.map({{successResponse.schema.arrayType}}.init){% endif %}{% if successResponse.schema.isDictionary %}guard let jsonDictionary = json as? JSONDictionary else { throw DecodingError() }
+            let dictionary: {{successType}} = [:]
+            for (key, value in jsonDictionary) {
+                dictionary[key] = try {{successResponse.schema.dictionaryType}}(jsonDictionary: value)
+            }
+            return dictionary{% endif %}{% if not successResponse.schema.isDictionary and not successResponse.schema.isArray%}guard let jsonDictionary = json as? JSONDictionary else { throw DecodingError() }
+            return try {{successType}}(jsonDictionary: jsonDictionary)
+            {% endif %}{%else%}return{% endif %}
         }
     }
 

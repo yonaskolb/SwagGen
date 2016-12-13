@@ -29,7 +29,24 @@ class SwiftFormatter: CodeFormatter {
         case "number", "double": return "Double"
         case "date": return "Date"
         case "boolean": return "Bool"
-        case "object": return "[String: Any]"
+        case "object":
+            if let definition = value.dictionaryDefinition {
+                return "[String: \(getModelName(definition))]"
+            }
+            else if let value = value.dictionaryValue {
+                return "[String: \(getValueType(value))]"
+            }
+            else {
+                return "[String: Any]"
+            }
+        case "array":
+            if let definition = value.arrayDefinition {
+                return "[\(getModelName(definition))]"
+            }
+            else {
+                let arrayValue = value.arrayValue!
+                return "[\(arrayValue.enumValues != nil ? getEnumName(value) : getValueType(arrayValue))]"
+            }
         default: break
         }
         return super.getValueType(value)

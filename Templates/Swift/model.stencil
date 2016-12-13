@@ -8,7 +8,7 @@ class {{ name }}: {% if parent %}{{ parent.name }}{% else %}JSONObjectConvertibl
     {% for property in properties %}
 
     {% if property.description %}/** {{ property.description }}  */{% endif %}
-    let {{ property.name }}: {{ property.optionalType }}{% endfor %}
+    var {{ property.name }}: {{ property.optionalType }}{% endfor %}
 
     init({% for property in allProperties %}{{ property.name }}: {{ property.optionalType }}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) { {% for property in properties %}
         self.{{ property.name }} = {{ property.name }}{% endfor %}{% if parent %}

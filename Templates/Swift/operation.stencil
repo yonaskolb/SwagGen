@@ -1,16 +1,27 @@
 
 extension {{ tag|upperCamelCase }} {
 
+    {% if description %}
+    /** {{ description }} */
+    {% endif %}
     public class {{ operationId|upperCamelCase }}: APIRequest {
 
         {% for enum in enums %}
-        public enum {{enum.enumName}} { {% for enumCase in enum.enums %}
-            case {{enumCase.name}} = "{{enumCase.value}}"{% endfor %}
-        }{% endfor %}{% if security %}
-        let security = RequestSecurity(type: "{{security.name}}", scope: "{{security.scope}}"){% endif %}{% if nonBodyParams %}
+        public enum {{enum.enumName}} {
+            {% for enumCase in enum.enums %}
+            case {{enumCase.name}} = "{{enumCase.value}}"
+            {% endfor %}
+        }
+        {% endfor %}
+        {% if security %}
+        let security = RequestSecurity(type: "{{ security.name }}", scope: "{{ security.scope }}")
+        {% endif %}
+        {% if nonBodyParams %}
 
-        struct Params { {% for param in nonBodyParams %}
-            var {{ param.formattedName }}: {{ param.optionalType }}{% endfor %}
+        struct Params {
+            {% for param in nonBodyParams %}
+            var {{ param.formattedName }}: {{ param.optionalType }}
+            {% endfor %}
         }
 
         var params: Params
@@ -21,20 +32,29 @@ extension {{ tag|upperCamelCase }} {
 
         public init({% for param in nonBodyParams %}{{ param.formattedName }}: {{ param.optionalType }}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
             self.params = Params({% for param in nonBodyParams %}{{param.formattedName}}: {{param.formattedName}}{% ifnot forloop.last %}, {% endif %}{% endfor %})
-        }{% endif %}{% if bodyParam %}
+        }
+        {% endif %}
+        {% if bodyParam %}
 
         public var body: {{bodyParam.optionalType}}
 
         public init({{bodyParam.formattedName}}: {{bodyParam.optionalType}}) {
             self.body = body
-        }{% endif %}
+        }
+        {% endif %}
 
         public var urlRequest: URLRequest {
-            let path = "{{ path }}"{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: params.{{ param.decodedValue }}){% endfor %}{% if bodyParam %}
-            let params:[String:Any?] = {{ bodyParam.decodedValue }}{% endif %}{% if queryParams %}
-            let params:[String:Any?] = [ {% for param in queryParams %}
-                "{{param.name}}": params.{{ param.decodedValue }},{% endfor %}
-            ]{% endif %}
+            let path = "{{ path }}"{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: params.{{ param.decodedValue }}){% endfor %}
+            {% if bodyParam %}
+            let params:[String:Any?] = {{ bodyParam.decodedValue }}
+            {% endif %}
+            {% if queryParams %}
+            let params:[String:Any?] = [
+                {% for param in queryParams %}
+                "{{param.name}}": params.{{ param.decodedValue }},
+                {% endfor %}
+            ]
+            {% endif %}
             let url = URL(string: path)
             let urlRequest = URLRequest(url: url)
             urlRequest.httpMethod = "{{ method | uppercase }}"
@@ -42,12 +62,20 @@ extension {{ tag|upperCamelCase }} {
         }
 
         public init({% for param in params %}{{ param.formattedName }}: {{ param.optionalType }}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
-            let path = "{{ path }}"{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: {{ param.decodedValue }}){% endfor %}{% if bodyParam %}
-            let params:[String:Any?] = {{ bodyParam.decodedValue }}{% endif %}{% if queryParams %}
-            let params:[String:Any?] = [ {% for param in queryParams %}
-            "{{param.name}}": {{ param.decodedValue }},{% endfor %}
-            ]{% endif %}{% if security %}
-            let security = RequestSecurity(type: "{{security.name}}", scope: "{{security.scope}}"){% endif %}
+            let path = "{{ path }}"{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: {{ param.decodedValue }}){% endfor %}
+            {% if bodyParam %}
+            let params:[String:Any?] = {{ bodyParam.decodedValue }}
+            {% endif %}
+            {% if queryParams %}
+            let params:[String:Any?] = [
+                {% for param in queryParams %}
+                "{{param.name}}": {{ param.decodedValue }},
+                {% endfor %}
+            ]
+            {% endif %}
+            {% if security %}
+            let security = RequestSecurity(type: "{{security.name}}", scope: "{{security.scope}}")
+            {% endif %}
             super.init(path: path, method: "{{ method | uppercase }}", params: params)
         }
 

@@ -13,6 +13,9 @@ class APIRequest {
 }
 
 struct API {
-{% for tag in tags %}
-    struct {{ tag.name | upperCamelCase }} {}{% endfor %}
+
+    {% for tag in tags %}
+    struct {{ tag.name | upperCamelCase }} {}
+    {% endfor %}
+
 }

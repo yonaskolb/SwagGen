@@ -1,22 +1,38 @@
-
-{% if description %}/** {{ description }} */{% endif %}
-class {{ name }}: {% if parent %}{{ parent.name }}{% else %}JSONObjectConvertible{% endif %}{
+{% if description %}
+/** {{ description }} */
+{% endif %}
+class {{ name }}: {% if parent %}{{ parent.name }}{% else %}JSONObjectConvertible{% endif %} {
     {% for property in enums %}
-    enum {{ property.enumName }} { {% for enumCase in property.enums %}
-        case {{ enumCase.name }} = "{{ enumCase.value }}"{% endfor %}
-    }{% endfor %}
+
+    enum {{ property.enumName }} {
+        {% for enumCase in property.enums %}
+        case {{ enumCase.name }} = "{{ enumCase.value }}"
+        {% endfor %}
+    }
+    {% endfor %}
     {% for property in properties %}
 
-    {% if property.description %}/** {{ property.description }}  */{% endif %}
-    var {{ property.name }}: {{ property.optionalType }}{% endfor %}
+    {% if property.description %}
+    /** {{ property.description }}  */
+    {% endif %}
+    var {{ property.name }}: {{ property.optionalType }}
+    {% endfor %}
 
-    init({% for property in allProperties %}{{ property.name }}: {{ property.optionalType }}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) { {% for property in properties %}
-        self.{{ property.name }} = {{ property.name }}{% endfor %}{% if parent %}
-        super.init({% for property in parent.properties %}{{ property.name }}: {{ property.name }}{% ifnot forloop.last %}, {% endif %}{% endfor %}){% endif %}
+    init({% for property in allProperties %}{{ property.name }}: {{ property.optionalType }}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
+        {% for property in properties %}
+        self.{{ property.name }} = {{ property.name }}
+        {% endfor %}
+        {% if parent %}
+        super.init({% for property in parent.properties %}{{ property.name }}: {{ property.name }}{% ifnot forloop.last %}, {% endif %}{% endfor %})
+        {% endif %}
     }
 
-    public init(jsonDictionary: JSONDictionary) throws { {% for property in properties %}
-        {{property.name}} = {% if property.required %}try {% endif %}jsonDictionary.json(atKeyPath: "{{property.value}}"){% endfor %}{% if parent %}
-        super.init(jsonDictionary: jsonDictionary){% endif %}
+    public init(jsonDictionary: JSONDictionary) throws {
+        {% for property in properties %}
+        {{property.name}} = {% if property.required %}try {% endif %}jsonDictionary.json(atKeyPath: "{{property.value}}")
+        {% endfor %}
+        {% if parent %}
+        super.init(jsonDictionary: jsonDictionary)
+        {% endif %}
     }
 }

@@ -10,10 +10,10 @@ import Foundation
 
 class CodeFormatter {
 
-    let swaggerSpec:SwaggerSpec
+    let spec:SwaggerSpec
 
-    init(swaggerSpec:SwaggerSpec) {
-        self.swaggerSpec = swaggerSpec
+    init(spec:SwaggerSpec) {
+        self.spec = spec
     }
 
     func getContext() -> [String:Any] {
@@ -22,9 +22,9 @@ class CodeFormatter {
 
     func getSpecContext() -> [String:Any?] {
         return [
-            "operations": swaggerSpec.operations.map(getOperationContext),
-            "tags": swaggerSpec.opererationsByTag.map{["name":$0, "operations": $1.map(getOperationContext)]},
-            "definitions":Array(swaggerSpec.definitions.values).map(getDefinitionContext),
+            "operations": spec.operations.map(getOperationContext),
+            "tags": spec.opererationsByTag.map{["name":$0, "operations": $1.map(getOperationContext)]},
+            "definitions":Array(spec.definitions.values).map(getDefinitionContext),
         ]
     }
 

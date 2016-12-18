@@ -1,0 +1,18 @@
+
+protocol APIRequest {
+
+    var urlRequest: URLRequest {get}
+}
+
+protocol Authorized {
+
+    var authorization: Authorization {get}
+}
+
+struct API {
+
+    {% for tag in tags %}
+    struct {{ tag.name | upperCamelCase }} {}
+    {% endfor %}
+
+}

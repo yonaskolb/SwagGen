@@ -8,13 +8,13 @@
             "path": "Models/{{ name }}.swift"
         },
         {
-            "template": "operation.stencil",
+            "template": "request.stencil",
             "context": "operations",
             "path": "Requests/{{ tag|upperCamelCase }}/{{ operationId|upperCamelCase }}.swift"
         },
         {
-            "template": "Request.stencil",
-            "path": "Request.swift"
+            "template": "API.stencil",
+            "path": "API.swift"
         }
     ],
 

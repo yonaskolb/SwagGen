@@ -17,7 +17,17 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
     let definitions:[String:Definition]
     let parameters:[String: Parameter]
     let security:[String: Security]
-    let title:String
+    let info: Info
+
+
+    struct Info: JSONObjectConvertible {
+
+        let title:String?
+
+        init(jsonDictionary:JSONDictionary) throws {
+            title = jsonDictionary.json(atKeyPath: "title")
+        }
+    }
 
     convenience init(path:String) throws {
         var url = URL(string: path)!
@@ -29,7 +39,7 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
     }
 
     required init(jsonDictionary:JSONDictionary) throws {
-        title = try jsonDictionary.json(atKeyPath: "info.title")
+        info = try jsonDictionary.json(atKeyPath: "info")
         var paths:[String:Endpoint] = [:]
         if let pathsDictionary = jsonDictionary["paths"] as? [String:JSONDictionary] {
 
@@ -129,7 +139,7 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
     var description: String {
         let ops = "Operations:\n\t" + operations.map{$0.operationId}.joined(separator: "\n\t") as String
         let defs = "Definitions:\n" + Array(definitions.values).map{$0.deepDescription(prefix:"\t")}.joined(separator: "\n") as String
-        return "\(title)\n\n\(ops)\n\n\(defs))"
+        return "\(info)\n\n\(ops)\n\n\(defs))"
     }
 
 }

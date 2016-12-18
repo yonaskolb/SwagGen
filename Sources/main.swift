@@ -26,7 +26,7 @@ func isWritable(path: Path) -> Path {
     return path
 }
 
-func generate(templatePath:Path, destinationPath:Path, spec:String, clean: Bool) {
+func generate(templatePath:Path, destinationPath:Path, specPath:String, clean: Bool) {
 
     do {
 
@@ -35,23 +35,26 @@ func generate(templatePath:Path, destinationPath:Path, spec:String, clean: Bool)
             return
         }
 
-        guard spec != "" && URL(string: spec) != nil else {
+        guard specPath != "" && URL(string: specPath) != nil else {
             print("Must provide a valid spec")
             return
         }
 
         print("Template: \(templatePath)")
         print("Destination: \(destinationPath)")
-        print("Spec: \(spec)")
-        let swaggerSpec = try SwaggerSpec(path: spec)
+        print("Spec: \(specPath)")
+        let spec = try SwaggerSpec(path: specPath)
+        print("Loaded spec: \(spec.info.title ?? ""), \(spec.operations.count) operations, \(spec.definitions.count) definitions")
 
         let templateConfig = try TemplateConfig(path: templatePath)
+        print("Loaded template: \(templateConfig.files.count) files")
+
         let codeFormatter:CodeFormatter
         switch templateConfig.formatter {
             case "Swift":
-              codeFormatter = SwiftFormatter(swaggerSpec: swaggerSpec)
+              codeFormatter = SwiftFormatter(spec: spec)
             default:
-            codeFormatter = CodeFormatter(swaggerSpec: swaggerSpec)
+            codeFormatter = CodeFormatter(spec: spec)
             return
         }
         let context = codeFormatter.getContext()

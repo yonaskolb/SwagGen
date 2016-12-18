@@ -101,7 +101,7 @@ class Codegen {
         let outputPath = destination + contextPath
         try outputPath.parent().mkpath()
         try outputPath.write(rendered)
-        print("Write file \(outputPath)")
+        print("Added file \(outputPath)")
     }
 }
 

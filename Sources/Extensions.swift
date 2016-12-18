@@ -24,17 +24,8 @@ extension Path: ArgumentConvertible {
 
 extension Dictionary where Key: StringProtocol {
 
-    func json<JSONObjectConvertibleType : JSONObjectConvertible>(atKeyPath keyPath: Key) throws -> [String:JSONObjectConvertibleType] {
-
-        guard let jsonValues = self[keyPath] as? JSONDictionary else {
-            throw DecodingError.mandatoryKeyNotFound(key: keyPath)
         }
 
-        var result: [String: JSONObjectConvertibleType] = [:]
-        for (key, _) in jsonValues {
-            result[key] = try jsonValues.json(atKeyPath: key) as JSONObjectConvertibleType
         }
-
-        return result
     }
 }

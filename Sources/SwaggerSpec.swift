@@ -34,7 +34,14 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
         if url.scheme == nil {
             url = URL(fileURLWithPath: path)
         }
-        let json = try JSONDictionary.from(url: url)
+        let data = try Data(contentsOf: url)
+
+        /// yaml parsing. Doesn't handle ordered params at the moment
+        //        let string = String(data: data, encoding: .utf8)!
+        //        let yaml = try Yaml.load(string)
+        //        let json = yaml.jsonDictionary!
+
+        let json = try JSONDictionary.from(jsonData: data)
         try self.init(jsonDictionary:json)
     }
 

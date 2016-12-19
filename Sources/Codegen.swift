@@ -55,23 +55,24 @@ class Codegen {
     var destination:Path
     var templateConfig:TemplateConfig
     let context:JSONDictionary
-    let namespace:Namespace
+    let environment:Environment
 
     init(context:JSONDictionary, destination:Path, templateConfig:TemplateConfig) {
         self.context = context
         self.destination = destination
         self.templateConfig = templateConfig
-        namespace = Namespace()
 
-        namespace.registerFilter("lowerCamelCase") { ($0 as? String)?.lowerCamelCased() ?? $0 }
-        namespace.registerFilter("upperCamelCase") { ($0 as? String)?.upperCamelCased() ?? $0}
+        let filterExtension = Extension()
+        filterExtension.registerFilter("lowerCamelCase") { ($0 as? String)?.lowerCamelCased() ?? $0 }
+        filterExtension.registerFilter("upperCamelCase") { ($0 as? String)?.upperCamelCased() ?? $0}
+
+        environment = Environment(loader: FileSystemLoader(paths: [templateConfig.path]), extensions: [filterExtension])
     }
 
     func generate() throws {
 
         for file in templateConfig.files {
-            let path = templateConfig.path + file.template
-            let template = try Template(path: path)
+            let template = try environment.loadTemplate(name: file.template)
 
             if let fileContext = file.context {
                 if let context:JSONDictionary = context.json(atKeyPath: fileContext) {
@@ -89,16 +90,11 @@ class Codegen {
         }
     }
 
-
     func writeFile(template:Template, context:JSONDictionary, path:String) throws {
 
-        let context = Context(dictionary: context, namespace: namespace)
-        let pathTemplate = Template(templateString: path)
-
-        let contextPath = try pathTemplate.render(context)
-
+        let filePath = try environment.renderTemplate(string: path, context: context)
         let rendered = try template.render(context)
-        let outputPath = destination + contextPath
+        let outputPath = destination + filePath
         try outputPath.parent().mkpath()
         try outputPath.write(rendered)
         print("Added file \(outputPath)")

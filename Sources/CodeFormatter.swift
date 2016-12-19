@@ -48,24 +48,26 @@ class CodeFormatter {
         ]
     }
 
-        return [
-            "operationId": operation.operationId,
-            "method": operation.method.uppercased(),
-            "path": operation.path,
-            "tag": operation.tags.first,
-            "params":operation.parameters.map(getParameterContext),
-            "hasBody": operation.getParameters(type: .body).count > 0 || operation.getParameters(type: .form).count > 0,
-            "bodyParam":operation.getParameters(type: .body).map(getParameterContext).first,
-            "pathParams":operation.getParameters(type: .path).map(getParameterContext),
-            "queryParams":operation.getParameters(type: .query).map(getParameterContext),
-            "enums": operation.enums.map(getValueContext),
-            "security": operation.security.map(getSecurityContext).first,
-            "responses": operation.responses.map(getResponseContext),
-            "successResponse": successResponse.flatMap(getResponseContext),
-            "successType": successResponse?.schema?.object.flatMap(getModelName) ?? successResponse?.schema.flatMap(getValueType),
-        ]
     func getOperationContext(operation: Operation) -> [String: Any?] {
         let successResponse = operation.responses.filter { $0.statusCode == 200 || $0.statusCode == 204 }.first
+        var context: [String: Any?] = [:]
+
+        context["operationId"] = operation.operationId
+        context["method"] = operation.method.uppercased()
+        context["path"] = operation.path
+        context["tag"] = operation.tags.first
+        context["params"] = operation.parameters.map(getParameterContext)
+        context["hasBody"] = operation.getParameters(type: .body).count > 0 || operation.getParameters(type: .form).count > 0
+        context["bodyParam"] = operation.getParameters(type: .body).map(getParameterContext).first
+        context["pathParams"] = operation.getParameters(type: .path).map(getParameterContext)
+        context["queryParams"] = operation.getParameters(type: .query).map(getParameterContext)
+        context["enums"] = operation.enums.map(getValueContext)
+        context["security"] = operation.security.map(getSecurityContext).first
+        context["responses"] = operation.responses.map(getResponseContext)
+        context["successResponse"] = successResponse.flatMap(getResponseContext)
+        context["successType"] = successResponse?.schema?.object.flatMap(getModelName) ?? successResponse?.schema.flatMap(getValueType)
+
+        return context
     }
 
     func getSecurityContext(security: OperationSecurity) -> [String: Any?] {
@@ -84,24 +86,27 @@ class CodeFormatter {
         ]
     }
 
-        return [
-            "type": getValueType(value),
-            "rawType": value.type,
-            "name": value.name,
-            "formattedName": getValueName(value),
-            "value": value.name,
-            "required": value.required,
-            "optional": !value.required,
-            "enumName": getEnumName(value),
-            "description": value.description,
-            "enums": (value.enumValues ?? value.arrayValue?.enumValues)?.map{["name":getEnumCaseName($0), "value":$0]},
-            "arrayType": value.arrayDefinition.flatMap(getModelName),
-            "dictionaryType": value.dictionaryDefinition.flatMap(getModelName),
-            "isArray": value.type == "array",
-            "isDictionary": value.type == "object" && (value.dictionaryDefinition != nil || value.dictionaryValue != nil),
-        ]
-    }
     func getValueContext(value: Value) -> [String: Any?] {
+        var context: [String: Any?] = [:]
+
+        context["type"] = getValueType(value)
+        context["rawType"] = value.type
+        context["name"] = value.name
+        context["formattedName"] = getValueName(value)
+        context["value"] = value.name
+        context["required"] = value.required
+        context["optional"] = !value.required
+        context["enumName"] = getEnumName(value)
+        context["description"] = value.description
+        let enums = value.enumValues ?? value.arrayValue?.enumValues
+        context["enums"] = enums?.map { ["name": getEnumCaseName($0), "value": $0] }
+        context["arrayType"] = value.arrayDefinition.flatMap(getModelName)
+        context["dictionaryType"] = value.dictionaryDefinition.flatMap(getModelName)
+        context["isArray"] = value.type == "array"
+        context["isDictionary"] = value.type == "object" && (value.dictionaryDefinition != nil || value.dictionaryValue != nil)
+        return context
+    }
+
     func getParameterContext(parameter: Parameter) -> [String: Any?] {
         return getValueContext(value: parameter) + [
             "parameterType": parameter.parameterType?.rawValue,
@@ -112,18 +117,18 @@ class CodeFormatter {
         return getValueContext(value: property)
     }
 
-        return [
-            "name": definition.name,
-            "formattedName": getModelName(definition),
-            "parent": definition.parent.flatMap(getDefinitionContext),
-            "description": definition.description,
-            "requiredProperties": definition.requiredProperties.map(getPropertyContext),
-            "optionalProperties": definition.optionalProperties.map(getPropertyContext),
-            "properties": definition.properties.map(getPropertyContext),
-            "allProperties": definition.allProperties.map(getPropertyContext),
-            "enums": definition.enums.map(getValueContext),
-        ]
     func getDefinitionContext(definition: Definition) -> [String: Any?] {
+        var context: [String: Any?] = [:]
+        context["name"] = definition.name
+        context["formattedName"] = getModelName(definition)
+        context["parent"] = definition.parent.flatMap(getDefinitionContext)
+        context["description"] = definition.description
+        context["requiredProperties"] = definition.requiredProperties.map(getPropertyContext)
+        context["optionalProperties"] = definition.optionalProperties.map(getPropertyContext)
+        context["properties"] = definition.properties.map(getPropertyContext)
+        context["allProperties"] = definition.allProperties.map(getPropertyContext)
+        context["enums"] = definition.enums.map(getValueContext)
+        return context
     }
 
     func escapeTypeName(_ name: String) -> String {

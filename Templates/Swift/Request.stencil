@@ -1,30 +1,34 @@
+import JSONUtilities
 
-extension {{ tag|upperCamelCase }} {
+extension API.{{ tag|upperCamelCase }} {
 
     {% if description %}
     /** {{ description }} */
     {% endif %}
     public struct {{ operationId|upperCamelCase }}: APIRequest{% if security %}, Authorized{% endif %} {
 
+        public typealias ResponseType = {{successType|default:"Void"}}
         {% for enum in enums %}
-        public enum {{enum.enumName}} {
+
+        public enum {{enum.enumName}}: String {
             {% for enumCase in enum.enums %}
             case {{enumCase.name}} = "{{enumCase.value}}"
             {% endfor %}
         }
         {% endfor %}
         {% if security %}
-        let authorization = Authorization(type: "{{ security.name }}", scope: "{{ security.scope }}")
+
+        public let authorization = Authorization(type: "{{ security.name }}", scope: "{{ security.scope }}")
         {% endif %}
         {% if nonBodyParams %}
 
-        struct Params {
+        public struct Params {
             {% for param in nonBodyParams %}
-            var {{ param.formattedName }}: {{ param.optionalType }}
+            public var {{ param.formattedName }}: {{ param.optionalType }}
             {% endfor %}
         }
 
-        var params: Params
+        public var params: Params
 
         public init(params: Params) {
             self.params = params
@@ -43,34 +47,60 @@ extension {{ tag|upperCamelCase }} {
         }
         {% endif %}
 
-        public var urlRequest: URLRequest {
-            let path = "{{ path }}"{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: params.{{ param.decodedValue }}){% endfor %}
-            {% if bodyParam %}
-            let params:[String:Any?] = {{ bodyParam.decodedValue }}
-            {% endif %}
-            {% if queryParams %}
-            let params:[String:Any?] = [
-                {% for param in queryParams %}
-                "{{param.name}}": params.{{ param.decodedValue }},
-                {% endfor %}
-            ]
-            {% endif %}
-            let url = URL(string: path)
-            let urlRequest = URLRequest(url: url)
-            urlRequest.httpMethod = "{{ method|uppercase }}"
-            return urlRequest
+        public var path: String {
+            return "{{ path }}"{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: self.params.{{ param.encodedValue }}){% endfor %}
         }
 
-        func decode(json: Any) throws -> {% if successType %}{{successType}}{% else %}Void{% endif %} {
-            {% if successType %}{% if successResponse.schema.isArray %}guard let array = json as? [JSONDictionary] else { throw DecodingError() }
-            return try array.map({{successResponse.schema.arrayType}}.init){% endif %}{% if successResponse.schema.isDictionary %}guard let jsonDictionary = json as? JSONDictionary else { throw DecodingError() }
-            let dictionary: {{successType}} = [:]
-            for (key, value in jsonDictionary) {
-                dictionary[key] = try {{successResponse.schema.dictionaryType}}(jsonDictionary: value)
+        public var method: String {
+            return "{{ method|uppercase }}"
+        }
+
+        public var hasBody: Bool {
+            return {% if hasBody %}true{% else %}false{% endif %}
+        }
+
+        public var urlParams: [String: Any] {
+            {% if bodyParam %}
+            return {{ bodyParam.encodedValue }}
+            {% endif %}
+            {% if queryParams %}
+            var params: JSONDictionary = [:]
+            {% for param in queryParams %}
+            {% if param.optional %}
+            if let {{ param.formattedName }} = self.params.{{ param.encodedValue }} {
+              params["{{ param.value }}"] = {{ param.formattedName }}
             }
-            return dictionary{% endif %}{% if not successResponse.schema.isDictionary and not successResponse.schema.isArray%}guard let jsonDictionary = json as? JSONDictionary else { throw DecodingError() }
+            {% else %}
+            params["{{ param.value }}"] = self.params.{{ param.encodedValue }}
+            {% endif %}
+            {% endfor %}
+            return params
+            {% else %}
+            return [:]
+            {% endif %}
+        }
+
+        public func decode(json: Any) throws -> {{successType|default:"Void"}} {
+            {% if successType %}
+            {% if successResponse.schema.isArray %}
+            guard let array = json as? [JSONDictionary] else { throw JSONUtilsError.fileNotAJSONDictionary }
+            return try array.map({{successResponse.schema.arrayType}}.init)
+            {% endif %}
+            {% if successResponse.schema.isDictionary %}
+            guard let jsonDictionary = json as? JSONDictionary else { throw JSONUtilsError.fileNotAJSONDictionary }
+            var dictionary: {{successType}} = [:]
+            for (key, value) in jsonDictionary {
+                dictionary[key] = try jsonDictionary.json(atKeyPath: key)
+            }
+            return dictionary
+            {% endif %}
+            {% if not successResponse.schema.isDictionary and not successResponse.schema.isArray%}
+            guard let jsonDictionary = json as? JSONDictionary else { throw JSONUtilsError.fileNotAJSONDictionary }
             return try {{successType}}(jsonDictionary: jsonDictionary)
-            {% endif %}{%else%}return{% endif %}
+            {% endif %}
+            {% else %}
+            return
+            {% endif %}
         }
     }
 

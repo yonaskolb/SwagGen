@@ -23,9 +23,11 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
     struct Info: JSONObjectConvertible {
 
         let title:String?
+        let version:String?
 
         init(jsonDictionary:JSONDictionary) throws {
             title = jsonDictionary.json(atKeyPath: "title")
+            version = jsonDictionary.json(atKeyPath: "version")
         }
     }
 
@@ -201,6 +203,14 @@ class Operation {
         self.responses = responses
     }
 
+    func getParameters(type: Parameter.ParamaterType) -> [Parameter] {
+        return parameters.filter{$0.parameterType == type}
+    }
+
+    var enums: [Value] {
+        return parameters.filter{$0.enumValues != nil || $0.arrayValue?.enumValues != nil}
+    }
+
 }
 
 class Response {
@@ -259,6 +269,10 @@ class Definition:JSONObjectConvertible {
         return "\(prefix)\(name)\n\(prefix)\(properties.map{$0.deepDescription(prefix: prefix)}.joined(separator: "\n\(prefix)"))"
     }
 
+    var enums: [Value] {
+        return properties.filter{$0.enumValues != nil || $0.arrayValue?.enumValues != nil}
+    }
+
 }
 
 
@@ -312,6 +326,7 @@ class Parameter: Value {
         case body
         case path
         case query
+        case form
     }
 
     required init(jsonDictionary:JSONDictionary) throws {

@@ -1,10 +1,12 @@
+import JSONUtilities
+
 {% if description %}
 /** {{ description }} */
 {% endif %}
-class {{ name }}: {% if parent %}{{ parent.name }}{% else %}JSONObjectConvertible{% endif %} {
+public class {{ formattedName }}: {% if parent %}{{ parent.formattedName }}{% else %}JSONDecodable, JSONEncodable{% endif %} {
     {% for property in enums %}
 
-    enum {{ property.enumName }} {
+    public enum {{ property.enumName }}: String {
         {% for enumCase in property.enums %}
         case {{ enumCase.name }} = "{{ enumCase.value }}"
         {% endfor %}
@@ -15,10 +17,10 @@ class {{ name }}: {% if parent %}{{ parent.name }}{% else %}JSONObjectConvertibl
     {% if property.description %}
     /** {{ property.description }}  */
     {% endif %}
-    var {{ property.name }}: {{ property.optionalType }}
+    public var {{ property.name }}: {{ property.optionalType }}
     {% endfor %}
 
-    init({% for property in allProperties %}{{ property.name }}: {{ property.optionalType }}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
+    public init({% for property in allProperties %}{{ property.name }}: {{ property.optionalType }}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
         {% for property in properties %}
         self.{{ property.name }} = {{ property.name }}
         {% endfor %}
@@ -27,12 +29,32 @@ class {{ name }}: {% if parent %}{{ parent.name }}{% else %}JSONObjectConvertibl
         {% endif %}
     }
 
-    public init(jsonDictionary: JSONDictionary) throws {
+    public required init(jsonDictionary: JSONDictionary) throws {
         {% for property in properties %}
         {{property.name}} = {% if property.required %}try {% endif %}jsonDictionary.json(atKeyPath: "{{property.value}}")
         {% endfor %}
         {% if parent %}
-        super.init(jsonDictionary: jsonDictionary)
+        try super.init(jsonDictionary: jsonDictionary)
         {% endif %}
+    }
+
+    public {% if parent %}override {% endif %}func encode() -> JSONDictionary {
+        var dictionary: JSONDictionary = [:]
+        {% for property in properties %}
+        {% if property.optional %}
+        if let {{ property.name }} = {{ property.encodedValue }} {
+            dictionary["{{ property.value }}"] = {{ property.name }}
+        }
+        {% else %}
+        dictionary["{{ property.value }}"] = {{ property.encodedValue }}
+        {% endif %}
+        {% endfor %}
+        {% if parent %}
+        let superDictionary = super.encode()
+        for (key, value) in superDictionary {
+            dictionary["key"] = value
+        }
+        {% endif %}
+        return dictionary
     }
 }

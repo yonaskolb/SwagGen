@@ -3,6 +3,14 @@
     "files":
     [
         {
+            "template": "Podspec.stencil",
+            "path": "{{api.name|default: \"API\"}}.podspec"
+        },
+        {
+            "template": "API.stencil",
+            "path": "API.swift"
+        },
+        {
             "template": "model.stencil",
             "context": "definitions",
             "path": "Models/{{ name }}.swift"
@@ -11,11 +19,11 @@
             "template": "request.stencil",
             "context": "operations",
             "path": "Requests/{{ tag|upperCamelCase }}/{{ operationId|upperCamelCase }}.swift"
-        },
-        {
-            "template": "API.stencil",
-            "path": "API.swift"
         }
     ],
-
+    "api":
+    {
+        "name": "API",
+        "summary": "An api generated from swagger"
+    }
 }

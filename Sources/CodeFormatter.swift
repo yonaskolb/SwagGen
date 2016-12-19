@@ -16,6 +16,10 @@ class CodeFormatter {
         self.spec = spec
     }
 
+    var disallowedTypes: [String] {
+        return []
+    }
+
     func getContext() -> [String:Any] {
         return cleanContext(getSpecContext())
     }
@@ -43,10 +47,11 @@ class CodeFormatter {
             "path": operation.path,
             "tag": operation.tags.first,
             "params":operation.parameters.map(getParameterContext),
-            "bodyParam":operation.parameters.filter{$0.parameterType == .body}.map(getParameterContext).first,
-            "pathParams":operation.parameters.filter{$0.parameterType == .path}.map(getParameterContext),
-            "queryParams":operation.parameters.filter{$0.parameterType == .query}.map(getParameterContext),
-            "enums": operation.parameters.filter{$0.enumValues != nil}.map(getParameterContext),
+            "hasBody": operation.getParameters(type: .body).count > 0 || operation.getParameters(type: .form).count > 0,
+            "bodyParam":operation.getParameters(type: .body).map(getParameterContext).first,
+            "pathParams":operation.getParameters(type: .path).map(getParameterContext),
+            "queryParams":operation.getParameters(type: .query).map(getParameterContext),
+            "enums": operation.enums.map(getValueContext),
             "security": operation.security.map(getSecurityContext).first,
             "responses": operation.responses.map(getResponseContext),
             "successResponse": successResponse.flatMap(getResponseContext),
@@ -81,7 +86,7 @@ class CodeFormatter {
             "optional": !value.required,
             "enumName": getEnumName(value),
             "description": value.description,
-            "enums": value.enumValues?.map{["name":getEnumCaseName($0), "value":$0]},
+            "enums": (value.enumValues ?? value.arrayValue?.enumValues)?.map{["name":getEnumCaseName($0), "value":$0]},
             "arrayType": value.arrayDefinition.flatMap(getModelName),
             "dictionaryType": value.dictionaryDefinition.flatMap(getModelName),
             "isArray": value.type == "array",
@@ -101,19 +106,29 @@ class CodeFormatter {
 
     func getDefinitionContext(definition:Definition) -> [String:Any?] {
         return [
-            "name": getModelName(definition),
+            "name": definition.name,
+            "formattedName": getModelName(definition),
             "parent": definition.parent.flatMap(getDefinitionContext),
             "description": definition.description,
             "requiredProperties": definition.requiredProperties.map(getPropertyContext),
             "optionalProperties": definition.optionalProperties.map(getPropertyContext),
             "properties": definition.properties.map(getPropertyContext),
             "allProperties": definition.allProperties.map(getPropertyContext),
-            "enums": definition.properties.filter{$0.enumValues != nil}.map(getPropertyContext),
+            "enums": definition.enums.map(getValueContext),
         ]
     }
 
+    func escapeTypeName(_ name: String) -> String {
+        return "_\(name)"
+    }
+
+    func escapedTypeName(_ name: String) -> String {
+        return disallowedTypes.contains(name) ? escapeTypeName(name) : name
+    }
+
     func getModelName(_ definition:Definition)->String {
-        return definition.name.upperCamelCased()
+        let name = definition.name.upperCamelCased()
+        return escapedTypeName(name)
     }
 
     func getValueName(_ value:Value)->String {
@@ -128,7 +143,7 @@ class CodeFormatter {
     }
 
     func getEnumName(_ value:Value)->String {
-        return value.name.upperCamelCased()
+        return escapedTypeName(value.name.upperCamelCased())
     }
 
     func getEnumCaseName(_ name:String)->String {

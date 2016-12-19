@@ -34,6 +34,7 @@ struct TemplateConfig {
     let files:[File]
     let path:Path
     let formatter:String
+    let api:[String: Any]
 
     init(path:Path) throws {
         self.path = path
@@ -42,6 +43,7 @@ struct TemplateConfig {
         let json = try JSONDictionary.from(jsonData: data)
         files = try json.json(atKeyPath: "files")
         formatter = try json.json(atKeyPath: "formatter")
+        api = json.json(atKeyPath: "api") ?? [:]
     }
 
 }
@@ -58,7 +60,9 @@ class Codegen {
     let environment:Environment
 
     init(context:JSONDictionary, destination:Path, templateConfig:TemplateConfig) {
-        self.context = context
+        var mergedContext = context
+        mergedContext["api"] = templateConfig.api
+        self.context = mergedContext
         self.destination = destination
         self.templateConfig = templateConfig
 

@@ -1,18 +1,89 @@
+import JSONUtilities
 
-protocol APIRequest {
+public protocol APIRequest {
 
-    var urlRequest: URLRequest {get}
+    associatedtype ResponseType
+
+    var path: String {get}
+    var method: String {get}
+    var urlParams: [String: Any] {get}
+    var hasBody: Bool {get}
+
+    func decode(json: Any) throws -> ResponseType
 }
 
-protocol Authorized {
+public protocol Authorized {
 
     var authorization: Authorization {get}
 }
 
-struct API {
+public struct API {
+
+    public static var dateEncodingFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
 
     {% for tag in tags %}
-    struct {{ tag.name | upperCamelCase }} {}
+    public struct {{ tag.name | upperCamelCase }} {}
     {% endfor %}
 
+}
+
+public struct Authorization {
+    let type:String
+    let scope:String
+}
+
+// Decoding
+
+public typealias JSONDecodable = JSONObjectConvertible
+
+let dateFormatters = {
+    return ["yyyy-MM-dd",
+    "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
+    "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ",
+    "yyyy-MM-dd'T'HH:mm:ss'Z'",
+    ].map { (format: String) -> DateFormatter in
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter
+    }
+}()
+
+extension Date: JSONPrimitiveConvertible {
+
+    public typealias JSONType = String
+
+    public static func from(jsonValue: String) -> Date? {
+
+        for formatter in dateFormatters {
+            if let date = formatter.date(from: jsonValue) {
+                return self.init(timeIntervalSince1970: date.timeIntervalSince1970)
+            }
+        }
+        return nil
+    }
+}
+
+
+// Encoding
+
+protocol JSONEncodable {
+    func encode() -> JSONDictionary
+}
+
+protocol JSONValueEncodable {
+    func encode() -> Any
+}
+
+private let dateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = API.dateEncodingFormat
+    return dateFormatter
+}()
+
+extension Date: JSONValueEncodable {
+
+    func encode() -> Any {
+        dateFormatter.dateFormat = API.dateEncodingFormat
+        return dateFormatter.string(from: self)
+    }
 }

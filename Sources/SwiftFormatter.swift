@@ -10,6 +10,17 @@ import Foundation
 
 class SwiftFormatter: CodeFormatter {
 
+    override var disallowedTypes: [String] {
+      return [
+        "Type",
+        "Class",
+        "Struct",
+        "Enum",
+        "Protocol",
+        "Set",
+        ]
+    }
+
     override func getValueType(_ value:Value)->String {
 
         if value.enumValues != nil && value.name != "" {
@@ -60,20 +71,24 @@ class SwiftFormatter: CodeFormatter {
 
 
     override func getValueContext(value:Value) -> [String:Any?] {
-        var decodedValue = getValueName(value)
+        var encodedValue = getValueName(value)
         if value.enumValues != nil {
-            decodedValue += ".rawValue"
+            encodedValue += ".rawValue"
         }
         else if value.object != nil {
-            decodedValue += ".decode()"
+            encodedValue += ".encode()"
         }
         if !value.required {
-            decodedValue = decodedValue.replacingOccurrences(of: ".", with: "?.")
+            encodedValue = encodedValue.replacingOccurrences(of: ".", with: "?.")
         }
         return super.getValueContext(value: value) + [
-            "decodedValue": decodedValue,
+            "encodedValue": encodedValue,
             "optionalType": getValueType(value) + (value.required ? "" : "?"),
         ]
+    }
+
+    override func escapeTypeName(_ name: String) -> String {
+        return "`\(name)`"
     }
 
     override func getEnumCaseName(_ name:String)->String {

@@ -18,14 +18,6 @@ func isReadable(path: Path) -> Path {
     return path
 }
 
-func isWritable(path: Path) -> Path {
-    if !path.isWritable {
-        print("'\(path)' is is not writable.")
-        exit(1)
-    }
-    return path
-}
-
 func generate(templatePath:Path, destinationPath:Path, specPath:String, clean: Bool) {
 
     do {
@@ -72,7 +64,7 @@ func generate(templatePath:Path, destinationPath:Path, specPath:String, clean: B
 
 command(
     Option("template", Path(""), flag: "f", description: "The path to the template json file", validator: isReadable),
-    Option("destination", Path.current, flag: "d", description: "The directory where the generated files will be created", validator: isWritable),
+    Option("destination", Path.current, flag: "d", description: "The directory where the generated files will be created"),
     Option("spec", "", flag: "s", description: "The path or url to a swagger spec json file"),
     Flag("clean", description: "Whether the destination directory will be cleared before generating", default: false),
     generate)

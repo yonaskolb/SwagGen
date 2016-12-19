@@ -27,16 +27,16 @@ If you want to pass the required arguments when running in XCode, you can edit t
 ## Usage
 Use `SwagGen -help` to see the list of options:
 
-- **spec** This is the path to the Swagger spec used. It can either be a file path or a url
+- **spec** This is the path to the json Swagger spec. It can either be a file path or a url
 - **template** This is the path to directory that contains the template. This directory must contain a `template.json` manifest file
-- **destination** The director where the generated files will go
-- **options**: A list of options that are passed to each template. Options must be comma delimited and each key value pair must be colon delimited e.g.  option:value, option2: value2
-- **clean** true or false - whether the destination directory is cleaned before the generated files are created
+- **destination** The directory where the generated files will go
+- **options**: A list of options that are passed to each template. Options must be comma delimited and each key value pair must be colon delimited e.g.  "option: value, option2: value2"
+- **clean** true or false - whether the destination directory is cleaned before the generated files are created. Defaults to true
 
 Example:
 
 ```
-SwagGen --template Templates/Swift --spec http://myapi.com/spec
+SwagGen --template Templates/Swift --spec http://myapi.com/spec --options "name:MyAPI, customProperty: custom value"
 ```
 
 ## Templates

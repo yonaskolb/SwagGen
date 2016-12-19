@@ -14,21 +14,16 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
 
     do {
 
-        guard templatePath.exists else {
-            print("Must provide valid template path \"\(templatePath)\"")
-            return
-        }
-
         guard specPath != "" && URL(string: specPath) != nil else {
             print("Must provide a valid spec")
             return
         }
 
-        let optionsArray = options.components(separatedBy: ",")
+        let optionsArray = options.components(separatedBy: ",").map{$0.trimmingCharacters(in: .whitespaces)}
 
         var optionsDictionary: [String: String] = [:]
         for option in optionsArray {
-            let parts = option.components(separatedBy: ":")
+            let parts = option.components(separatedBy: ":").map{$0.trimmingCharacters(in: .whitespaces)}
             if parts.count == 2 {
                 let key = parts[0]
                 let value = parts[1]

@@ -83,8 +83,12 @@ class SwiftFormatter: CodeFormatter {
         ]
     }
 
-    override func escapeTypeName(_ name: String) -> String {
-        return "`\(name)`"
+    override func escapeModelType(_ name: String) -> String {
+        return "\(name)Type"
+    }
+
+    override func escapeEnumType(_ name: String) -> String {
+        return "\(name)Enum"
     }
 
     override func getEnumCaseName(_ name: String) -> String {

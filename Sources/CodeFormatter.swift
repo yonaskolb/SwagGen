@@ -131,17 +131,18 @@ class CodeFormatter {
         return context
     }
 
-    func escapeTypeName(_ name: String) -> String {
+    func escapeModelType(_ name: String) -> String {
         return "_\(name)"
     }
 
-    func escapedTypeName(_ name: String) -> String {
-        return disallowedTypes.contains(name) ? escapeTypeName(name) : name
+    func escapeEnumType(_ name: String) -> String {
+        return "_\(name)"
     }
+
 
     func getModelName(_ definition: Definition) -> String {
         let name = definition.name.upperCamelCased()
-        return escapedTypeName(name)
+        return disallowedTypes.contains(name) ? escapeModelType(name) : name
     }
 
     func getValueName(_ value: Value) -> String {
@@ -156,7 +157,8 @@ class CodeFormatter {
     }
 
     func getEnumName(_ value: Value) -> String {
-        return escapedTypeName(value.name.upperCamelCased())
+        let name = value.name.upperCamelCased()
+        return disallowedTypes.contains(name) ? escapeEnumType(name) : name
     }
 
     func getEnumCaseName(_ name: String) -> String {

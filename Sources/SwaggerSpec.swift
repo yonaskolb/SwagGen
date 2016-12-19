@@ -105,6 +105,9 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
                 if let reference = getParameterReference(parameter.reference) {
                     operation.parameters[index] = reference
                 }
+                if let reference = getDefinitionReference(parameter.arrayRef) {
+                    parameter.arrayDefinition = reference
+                }
             }
             for response in operation.responses {
                 if let reference = getDefinitionReference(response.schema?.reference) {
@@ -279,7 +282,7 @@ class Value: JSONObjectConvertible {
     var name: String
     let description: String?
     var required: Bool
-    let type: String
+    var type: String
     var reference: String?
     var format: String?
     var enumValues: [String]?
@@ -308,6 +311,13 @@ class Value: JSONObjectConvertible {
         enumValues = jsonDictionary.json(atKeyPath: "enum")
         if let schemaRef = jsonDictionary.json(atKeyPath: "schema.$ref") as String? {
             reference = schemaRef
+        }
+
+        if let ref = jsonDictionary.json(atKeyPath: "schema.items.$ref") as String? {
+            arrayRef = ref
+            if let type = jsonDictionary.json(atKeyPath: "schema.type") as String? {
+                self.type = type
+            }
         }
     }
 

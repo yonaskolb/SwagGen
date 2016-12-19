@@ -154,6 +154,9 @@ class CodeFormatter {
         if let object = value.object {
             return getModelName(object)
         }
+        if value.type == "unknown" {
+            print("Couldn't calculate type")
+        }
         return value.type
     }
 

@@ -22,12 +22,14 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
 
     struct Info: JSONObjectConvertible {
 
-        let title:String?
-        let version:String?
+        let title: String?
+        let version: String?
+        let description: String?
 
         init(jsonDictionary:JSONDictionary) throws {
             title = jsonDictionary.json(atKeyPath: "title")
             version = jsonDictionary.json(atKeyPath: "version")
+            description = jsonDictionary.json(atKeyPath: "description")
         }
     }
 

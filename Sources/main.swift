@@ -10,15 +10,7 @@ import Foundation
 import PathKit
 import Commander
 
-func isReadable(path: Path) -> Path {
-    if !path.isReadable {
-        print("'\(path)' does not exist or is not readable.")
-        exit(1)
-    }
-    return path
-}
-
-func generate(templatePath:Path, destinationPath:Path, specPath:String, clean: Bool) {
+func generate(templatePath:Path, destinationPath:Path, specPath:String, clean: Bool, options: String) {
 
     do {
 
@@ -32,13 +24,25 @@ func generate(templatePath:Path, destinationPath:Path, specPath:String, clean: B
             return
         }
 
+        let optionsArray = options.components(separatedBy: ",")
+
+        var optionsDictionary:[String: String] = [:]
+        for option in optionsArray {
+            let parts = option.components(separatedBy: ":")
+            if parts.count == 2 {
+                let key = parts[0]
+                let value = parts[1]
+                optionsDictionary[key] = value
+            }
+        }
+
         print("Template: \(templatePath)")
         print("Destination: \(destinationPath)")
         print("Spec: \(specPath)")
         let spec = try SwaggerSpec(path: specPath)
         print("Loaded spec: \(spec.info.title ?? ""), \(spec.operations.count) operations, \(spec.definitions.count) definitions")
 
-        let templateConfig = try TemplateConfig(path: templatePath)
+        let templateConfig = try TemplateConfig(path: templatePath, options: optionsDictionary)
         print("Loaded template: \(templateConfig.files.count) files")
 
         let codeFormatter:CodeFormatter
@@ -62,11 +66,29 @@ func generate(templatePath:Path, destinationPath:Path, specPath:String, clean: B
     }
 }
 
+
+func isReadable(path: Path) -> Path {
+    if !path.isReadable {
+        print("'\(path)' does not exist or is not readable.")
+        exit(1)
+    }
+    return path
+}
+
+func optionsValidator(string: String) -> String {
+    if !string.isEmpty && !string.contains(":") {
+        print("Options arguement '\(string)' must be comma delimited and the name and value must be seperated by a colon")
+        exit(1)
+    }
+    return string
+}
+
 command(
     Option("template", Path(""), flag: "f", description: "The path to the template json file", validator: isReadable),
     Option("destination", Path.current, flag: "d", description: "The directory where the generated files will be created"),
     Option("spec", "", flag: "s", description: "The path or url to a swagger spec json file"),
-    Flag("clean", description: "Whether the destination directory will be cleared before generating", default: false),
+    Flag("clean", description: "Whether the destination directory will be cleared before generating", default: true),
+    Option("options", "", flag: "o", description: "A list of options that will be passed to the template. These options must be comma delimited and the name and value must be seperated by a colon. e.g.  option:value, option2: value2", validator: optionsValidator),
     generate)
     .run()
 

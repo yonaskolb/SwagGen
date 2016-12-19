@@ -29,6 +29,15 @@ class CodeFormatter {
             "operations": spec.operations.map(getOperationContext),
             "tags": spec.opererationsByTag.map{["name":$0, "operations": $1.map(getOperationContext)]},
             "definitions":Array(spec.definitions.values).map(getDefinitionContext),
+            "info": geSpecInfoContext(info: spec.info),
+        ]
+    }
+
+    func geSpecInfoContext(info:SwaggerSpec.Info) -> [String:Any?] {
+        return [
+            "title": info.title,
+            "description": info.description,
+            "version": info.version,
         ]
     }
 

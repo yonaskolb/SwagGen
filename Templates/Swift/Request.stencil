@@ -1,6 +1,6 @@
 import JSONUtilities
 
-extension API.{{ tag|upperCamelCase }} {
+extension {{ options.name }}.{{ tag|upperCamelCase }} {
 
     {% if description %}
     /** {{ description }} */

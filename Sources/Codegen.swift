@@ -34,16 +34,16 @@ struct TemplateConfig {
     let files:[File]
     let path:Path
     let formatter:String
-    let api:[String: Any]
+    let options:[String: Any]
 
-    init(path:Path) throws {
+    init(path:Path, options:[String: String]) throws {
         self.path = path
         let templatePath = path + "template.json"
         let data = try templatePath.read()
         let json = try JSONDictionary.from(jsonData: data)
         files = try json.json(atKeyPath: "files")
         formatter = try json.json(atKeyPath: "formatter")
-        api = json.json(atKeyPath: "api") ?? [:]
+        self.options = (json.json(atKeyPath: "options") ?? [:]) + options
     }
 
 }
@@ -61,7 +61,7 @@ class Codegen {
 
     init(context:JSONDictionary, destination:Path, templateConfig:TemplateConfig) {
         var mergedContext = context
-        mergedContext["api"] = templateConfig.api
+        mergedContext["options"] = templateConfig.options
         self.context = mergedContext
         self.destination = destination
         self.templateConfig = templateConfig
@@ -80,11 +80,15 @@ class Codegen {
 
             if let fileContext = file.context {
                 if let context:JSONDictionary = context.json(atKeyPath: fileContext) {
-                    try writeFile(template: template, context: context, path: file.path)
+                    var mergedContext = context
+                    mergedContext["options"] = templateConfig.options
+                    try writeFile(template: template, context: mergedContext, path: file.path)
                 }
                 else if let contexts:[JSONDictionary] = context.json(atKeyPath: fileContext) {
                     for context in contexts {
-                        try writeFile(template: template, context: context, path: file.path)
+                        var mergedContext = context
+                        mergedContext["options"] = templateConfig.options
+                        try writeFile(template: template, context: mergedContext, path: file.path)
                     }
                 }
             }

@@ -4,7 +4,7 @@
     [
         {
             "template": "Podspec.stencil",
-            "path": "{{api.name|default: \"API\"}}.podspec"
+            "path": "{{ options.name }}.podspec"
         },
         {
             "template": "API.stencil",
@@ -25,9 +25,8 @@
             "path": "Requests/{{ tag|upperCamelCase }}/{{ operationId|upperCamelCase }}.swift"
         }
     ],
-    "api":
+    "options":
     {
         "name": "API",
-        "summary": "An api generated from swagger"
     }
 }

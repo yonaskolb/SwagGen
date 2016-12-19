@@ -11,6 +11,10 @@
             "path": "API.swift"
         },
         {
+            "template": "Networking.stencil",
+            "path": "Networking.swift"
+        },
+        {
             "template": "model.stencil",
             "context": "definitions",
             "path": "Models/{{ name }}.swift"

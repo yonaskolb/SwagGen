@@ -1,0 +1,34 @@
+import Alamofire
+import JSONUtilities
+
+extension APIRequest {
+
+    @discardableResult
+    public func makeRequest(base: String, headers: [String: String] = [:], sessionManager: SessionManager = .default, completion:@escaping (DataResponse<ResponseType>) -> Void) -> Request? {
+        guard let url = URL(string: "\(base)/\(path)"),
+            let method = HTTPMethod(rawValue: method) else { return nil }
+        let encoding:ParameterEncoding = hasBody ? JSONEncoding.default : URLEncoding.queryString
+        return sessionManager.request(url, method: method, parameters: urlParams, encoding: encoding, headers: headers)
+        .validate()
+        .responseJSON { response in
+            let result: Result<ResponseType>
+            switch response.result {
+            case .success(let value):
+                if () is ResponseType {
+                    result = .success(() as! ResponseType)
+                } else {
+                    do {
+                        let decoded = try self.decode(json: value)
+                        result = .success(decoded)
+                    }
+                    catch let error {
+                        result = .failure(error)
+                    }
+                }
+            case .failure(let error):
+                result = .failure(error)
+            }
+            completion(DataResponse(request: response.request, response: response.response, data: response.data, result: result, timeline: response.timeline))
+        }
+    }
+}

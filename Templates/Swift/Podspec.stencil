@@ -12,4 +12,5 @@ Pod::Spec.new do |s|
 
   s.source_files = '**/*.swift'
   s.dependency 'JSONUtilities', '~> 3.2'
+  s.dependency 'Alamofire', '~> 4.2'
 end

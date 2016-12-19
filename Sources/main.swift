@@ -10,7 +10,7 @@ import Foundation
 import PathKit
 import Commander
 
-func generate(templatePath:Path, destinationPath:Path, specPath:String, clean: Bool, options: String) {
+func generate(templatePath: Path, destinationPath: Path, specPath: String, clean: Bool, options: String) {
 
     do {
 
@@ -26,7 +26,7 @@ func generate(templatePath:Path, destinationPath:Path, specPath:String, clean: B
 
         let optionsArray = options.components(separatedBy: ",")
 
-        var optionsDictionary:[String: String] = [:]
+        var optionsDictionary: [String: String] = [:]
         for option in optionsArray {
             let parts = option.components(separatedBy: ":")
             if parts.count == 2 {
@@ -45,11 +45,11 @@ func generate(templatePath:Path, destinationPath:Path, specPath:String, clean: B
         let templateConfig = try TemplateConfig(path: templatePath, options: optionsDictionary)
         print("Loaded template: \(templateConfig.files.count) files")
 
-        let codeFormatter:CodeFormatter
+        let codeFormatter: CodeFormatter
         switch templateConfig.formatter {
-            case "Swift":
-              codeFormatter = SwiftFormatter(spec: spec)
-            default:
+        case "Swift":
+            codeFormatter = SwiftFormatter(spec: spec)
+        default:
             codeFormatter = CodeFormatter(spec: spec)
             return
         }
@@ -60,12 +60,10 @@ func generate(templatePath:Path, destinationPath:Path, specPath:String, clean: B
             try? destinationPath.delete()
         }
         try codegen.generate()
-    }
-    catch let error {
+    } catch let error {
         print("Error:\n\(error)")
     }
 }
-
 
 func isReadable(path: Path) -> Path {
     if !path.isReadable {
@@ -91,9 +89,3 @@ command(
     Option("options", "", flag: "o", description: "A list of options that will be passed to the template. These options must be comma delimited and the name and value must be seperated by a colon. e.g.  option:value, option2: value2", validator: optionsValidator),
     generate)
     .run()
-
-
-
-
-
-

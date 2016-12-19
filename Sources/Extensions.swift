@@ -26,8 +26,8 @@ extension Path: ArgumentConvertible {
 extension Yaml {
 
     var jsonDictionary: JSONDictionary? {
-        guard let dictionary = dictionary else {return nil}
-        var jsonDictionary:JSONDictionary = [:]
+        guard let dictionary = dictionary else { return nil }
+        var jsonDictionary: JSONDictionary = [:]
         for (key, value) in dictionary {
             if case .string(let string) = key {
                 jsonDictionary[string] = value.rawValue
@@ -39,7 +39,7 @@ extension Yaml {
     var rawValue: Any {
         switch self {
         case .array(let array):
-            return array.map{$0.rawValue}
+            return array.map { $0.rawValue }
         case .bool(let bool): return bool
         case .dictionary: return jsonDictionary!
         case .double(let double): return double

@@ -11,25 +11,25 @@ import Foundation
 class SwiftFormatter: CodeFormatter {
 
     override var disallowedTypes: [String] {
-      return [
-        "Type",
-        "Class",
-        "Struct",
-        "Enum",
-        "Protocol",
-        "Set",
+        return [
+            "Type",
+            "Class",
+            "Struct",
+            "Enum",
+            "Protocol",
+            "Set",
         ]
     }
 
-    override func getValueType(_ value:Value)->String {
+    override func getValueType(_ value: Value) -> String {
 
         if value.enumValues != nil && value.name != "" {
-           return getEnumName(value)
+            return getEnumName(value)
         }
 
         if let format = value.format {
             switch format.lowercased() {
-                case "date-time": return "Date"
+            case "date-time": return "Date"
             default: break
             }
         }
@@ -43,18 +43,15 @@ class SwiftFormatter: CodeFormatter {
         case "object":
             if let definition = value.dictionaryDefinition {
                 return "[String: \(getModelName(definition))]"
-            }
-            else if let value = value.dictionaryValue {
+            } else if let value = value.dictionaryValue {
                 return "[String: \(getValueType(value))]"
-            }
-            else {
+            } else {
                 return "[String: Any]"
             }
         case "array":
             if let definition = value.arrayDefinition {
                 return "[\(getModelName(definition))]"
-            }
-            else {
+            } else {
                 let arrayValue = value.arrayValue!
                 return "[\(arrayValue.enumValues != nil ? getEnumName(value) : getValueType(arrayValue))]"
             }
@@ -63,19 +60,17 @@ class SwiftFormatter: CodeFormatter {
         return super.getValueType(value)
     }
 
-    override func getOperationContext(operation:Operation) -> [String:Any?] {
+    override func getOperationContext(operation: Operation) -> [String: Any?] {
         return super.getOperationContext(operation: operation) + [
-            "nonBodyParams":operation.parameters.filter{$0.parameterType != .body}.map(getParameterContext),
+            "nonBodyParams": operation.parameters.filter { $0.parameterType != .body }.map(getParameterContext),
         ]
     }
 
-
-    override func getValueContext(value:Value) -> [String:Any?] {
+    override func getValueContext(value: Value) -> [String: Any?] {
         var encodedValue = getValueName(value)
         if value.enumValues != nil {
             encodedValue += ".rawValue"
-        }
-        else if value.object != nil {
+        } else if value.object != nil {
             encodedValue += ".encode()"
         }
         if !value.required {
@@ -91,7 +86,7 @@ class SwiftFormatter: CodeFormatter {
         return "`\(name)`"
     }
 
-    override func getEnumCaseName(_ name:String)->String {
+    override func getEnumCaseName(_ name: String) -> String {
         return name.lowerCamelCased()
     }
 }

@@ -14,52 +14,52 @@ import Stencil
 struct TemplateConfig {
 
     struct File: JSONObjectConvertible {
-        let template:String
-        let path:String
-        let context:String?
+        let template: String
+        let path: String
+        let context: String?
 
-        init(template:String, path:String, context:String? ) {
+        init(template: String, path: String, context: String?) {
             self.template = template
             self.path = path
             self.context = context
         }
 
-        init(jsonDictionary:JSONDictionary) throws {
+        init(jsonDictionary: JSONDictionary) throws {
             template = try jsonDictionary.json(atKeyPath: "template")
             path = try jsonDictionary.json(atKeyPath: "path")
             context = jsonDictionary.json(atKeyPath: "context")
         }
     }
 
-    let files:[File]
-    let path:Path
-    let formatter:String
-    let options:[String: Any]
+    let files: [File]
+    let path: Path
+    let formatter: String
+    let options: [String: Any]
 
-    init(path:Path, options:[String: String]) throws {
+    init(path: Path, options: [String: String]) throws {
         self.path = path
         let templatePath = path + "template.json"
         let data = try templatePath.read()
         let json = try JSONDictionary.from(jsonData: data)
         files = try json.json(atKeyPath: "files")
         formatter = try json.json(atKeyPath: "formatter")
-        self.options = (json.json(atKeyPath: "options") ?? [:]) + options
+        let templateOptions: [String: String] = json.json(atKeyPath: "options") ?? [:]
+        self.options = templateOptions + options
     }
-
 }
 
-enum CodegenError:Error {
-    case ContextNotFound(name:String, context:[String:Any?])
+enum CodegenError: Error {
+    case ContextNotFound(name: String, context: [String: Any?])
 }
 
 class Codegen {
 
-    var destination:Path
-    var templateConfig:TemplateConfig
-    let context:JSONDictionary
-    let environment:Environment
+    var destination: Path
+    var templateConfig: TemplateConfig
+    let context: JSONDictionary
+    let environment: Environment
 
-    init(context:JSONDictionary, destination:Path, templateConfig:TemplateConfig) {
+    init(context: JSONDictionary, destination: Path, templateConfig: TemplateConfig) {
         var mergedContext = context
         mergedContext["options"] = templateConfig.options
         self.context = mergedContext
@@ -68,7 +68,7 @@ class Codegen {
 
         let filterExtension = Extension()
         filterExtension.registerFilter("lowerCamelCase") { ($0 as? String)?.lowerCamelCased() ?? $0 }
-        filterExtension.registerFilter("upperCamelCase") { ($0 as? String)?.upperCamelCased() ?? $0}
+        filterExtension.registerFilter("upperCamelCase") { ($0 as? String)?.upperCamelCased() ?? $0 }
 
         environment = Environment(loader: FileSystemLoader(paths: [templateConfig.path]), extensions: [filterExtension])
     }
@@ -79,26 +79,24 @@ class Codegen {
             let template = try environment.loadTemplate(name: file.template)
 
             if let fileContext = file.context {
-                if let context:JSONDictionary = context.json(atKeyPath: fileContext) {
+                if let context: JSONDictionary = context.json(atKeyPath: fileContext) {
                     var mergedContext = context
                     mergedContext["options"] = templateConfig.options
                     try writeFile(template: template, context: mergedContext, path: file.path)
-                }
-                else if let contexts:[JSONDictionary] = context.json(atKeyPath: fileContext) {
+                } else if let contexts: [JSONDictionary] = context.json(atKeyPath: fileContext) {
                     for context in contexts {
                         var mergedContext = context
                         mergedContext["options"] = templateConfig.options
                         try writeFile(template: template, context: mergedContext, path: file.path)
                     }
                 }
-            }
-            else {
+            } else {
                 try writeFile(template: template, context: context, path: file.path)
             }
         }
     }
 
-    func writeFile(template:Template, context:JSONDictionary, path:String) throws {
+    func writeFile(template: Template, context: JSONDictionary, path: String) throws {
 
         let filePath = try environment.renderTemplate(string: path, context: context)
         let rendered = try template.render(context)
@@ -108,4 +106,3 @@ class Codegen {
         print("Added file \(outputPath)")
     }
 }
-

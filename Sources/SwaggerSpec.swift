@@ -11,14 +11,13 @@ import JSONUtilities
 import Yaml
 import PathKit
 
-class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
+class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
 
-    let paths:[String:Endpoint]
-    let definitions:[String:Definition]
-    let parameters:[String: Parameter]
-    let security:[String: Security]
+    let paths: [String: Endpoint]
+    let definitions: [String: Definition]
+    let parameters: [String: Parameter]
+    let security: [String: Security]
     let info: Info
-
 
     struct Info: JSONObjectConvertible {
 
@@ -26,14 +25,14 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
         let version: String?
         let description: String?
 
-        init(jsonDictionary:JSONDictionary) throws {
+        init(jsonDictionary: JSONDictionary) throws {
             title = jsonDictionary.json(atKeyPath: "title")
             version = jsonDictionary.json(atKeyPath: "version")
             description = jsonDictionary.json(atKeyPath: "description")
         }
     }
 
-    convenience init(path:String) throws {
+    convenience init(path: String) throws {
         var url = URL(string: path)!
         if url.scheme == nil {
             url = URL(fileURLWithPath: path)
@@ -46,13 +45,13 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
         //        let json = yaml.jsonDictionary!
 
         let json = try JSONDictionary.from(jsonData: data)
-        try self.init(jsonDictionary:json)
+        try self.init(jsonDictionary: json)
     }
 
-    required init(jsonDictionary:JSONDictionary) throws {
+    required init(jsonDictionary: JSONDictionary) throws {
         info = try jsonDictionary.json(atKeyPath: "info")
-        var paths:[String:Endpoint] = [:]
-        if let pathsDictionary = jsonDictionary["paths"] as? [String:JSONDictionary] {
+        var paths: [String: Endpoint] = [:]
+        if let pathsDictionary = jsonDictionary["paths"] as? [String: JSONDictionary] {
 
             for (path, endpointDictionary) in pathsDictionary {
                 paths[path] = try Endpoint(path: path, jsonDictionary: endpointDictionary)
@@ -62,7 +61,7 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
         definitions = try jsonDictionary.json(atKeyPath: "definitions")
         parameters = try jsonDictionary.json(atKeyPath: "parameters")
         security = try jsonDictionary.json(atKeyPath: "securityDefinitions")
-        
+
         resolve()
     }
 
@@ -110,8 +109,7 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
             for response in operation.responses {
                 if let reference = getDefinitionReference(response.schema?.reference) {
                     response.schema?.object = reference
-                }
-                else if let reference = getDefinitionReference(response.schema?.arrayRef) {
+                } else if let reference = getDefinitionReference(response.schema?.arrayRef) {
                     response.schema?.arrayDefinition = reference
                 }
                 if let reference = getDefinitionReference(response.schema?.dictionaryDefinitionRef) {
@@ -119,75 +117,73 @@ class SwaggerSpec:JSONObjectConvertible, CustomStringConvertible {
                 }
             }
         }
-
     }
 
-    func getDefinitionReference(_ reference:String?) -> Definition? {
-        return reference?.components(separatedBy: "/").last.flatMap{definitions[$0]}
+    func getDefinitionReference(_ reference: String?) -> Definition? {
+        return reference?.components(separatedBy: "/").last.flatMap { definitions[$0] }
     }
 
-    func getParameterReference(_ reference:String?) -> Parameter? {
-        return reference?.components(separatedBy: "/").last.flatMap{parameters[$0]}
+    func getParameterReference(_ reference: String?) -> Parameter? {
+        return reference?.components(separatedBy: "/").last.flatMap { parameters[$0] }
     }
 
-    var operations:[Operation] {
-        return paths.values.reduce([]) { return $0 + $1.operations}
+    var operations: [Operation] {
+        return paths.values.reduce([]) { return $0 + $1.operations }
     }
 
-    var tags:[String] {
-        return Array(Set(operations.reduce([]){$0 + $1.tags})).sorted{$0.compare($1) == .orderedAscending}
+    var tags: [String] {
+        return Array(Set(operations.reduce([]) { $0 + $1.tags })).sorted { $0.compare($1) == .orderedAscending }
     }
 
-    var opererationsByTag:[String:[Operation]] {
-        var dictionary:[String:[Operation]] = [:]
+    var opererationsByTag: [String: [Operation]] {
+        var dictionary: [String: [Operation]] = [:]
 
         for tag in tags {
-            dictionary[tag] = operations.filter{$0.tags.contains(tag)}
+            dictionary[tag] = operations.filter { $0.tags.contains(tag) }
         }
         return dictionary
     }
 
     var description: String {
-        let ops = "Operations:\n\t" + operations.map{$0.operationId}.joined(separator: "\n\t") as String
-        let defs = "Definitions:\n" + Array(definitions.values).map{$0.deepDescription(prefix:"\t")}.joined(separator: "\n") as String
+        let ops = "Operations:\n\t" + operations.map { $0.operationId }.joined(separator: "\n\t") as String
+        let defs = "Definitions:\n" + Array(definitions.values).map { $0.deepDescription(prefix: "\t") }.joined(separator: "\n") as String
         return "\(info)\n\n\(ops)\n\n\(defs))"
     }
-
 }
 
 class Endpoint {
 
-    let path:String
-    let methods:[String:Operation]
+    let path: String
+    let methods: [String: Operation]
 
-    required init(path:String, jsonDictionary:JSONDictionary) throws {
+    required init(path: String, jsonDictionary: JSONDictionary) throws {
         self.path = path
         let methodsTypes = ["get", "delete", "post", "put"]
-        var methods: [String:Operation] = [:]
+        var methods: [String: Operation] = [:]
         for method in methodsTypes {
 
-            if let dictionary = jsonDictionary[method] as? JSONDictionary, let operation = try? Operation(path:path, method:method, jsonDictionary:dictionary) {
+            if let dictionary = jsonDictionary[method] as? JSONDictionary, let operation = try? Operation(path: path, method: method, jsonDictionary: dictionary) {
                 methods[method] = operation
             }
         }
         self.methods = methods
     }
 
-    var operations:[Operation] { return Array(methods.values) }
+    var operations: [Operation] { return Array(methods.values) }
 }
 
 class Operation {
 
-    let operationId:String
-    let description:String?
-    let tags:[String]
-    var parameters:[Parameter]
-    let method:String
-    let path:String
-    let responses:[Response]
-    var security:[OperationSecurity]
+    let operationId: String
+    let description: String?
+    let tags: [String]
+    var parameters: [Parameter]
+    let method: String
+    let path: String
+    let responses: [Response]
+    var security: [OperationSecurity]
 
-    init(path:String, method:String, jsonDictionary:JSONDictionary) throws {
+    init(path: String, method: String, jsonDictionary: JSONDictionary) throws {
         self.method = method
         self.path = path
         operationId = try jsonDictionary.json(atKeyPath: "operationId")
@@ -195,53 +191,52 @@ class Operation {
         tags = try jsonDictionary.json(atKeyPath: "tags")
         parameters = try jsonDictionary.json(atKeyPath: "parameters")
         security = jsonDictionary.json(atKeyPath: "security") ?? []
-        let responseDictionary:JSONDictionary = try jsonDictionary.json(atKeyPath: "responses")
-        var responses:[Response] = []
+        let responseDictionary: JSONDictionary = try jsonDictionary.json(atKeyPath: "responses")
+        var responses: [Response] = []
         for (key, value) in responseDictionary {
             if let statusCode = Int(key), let jsonDictionary = value as? JSONDictionary {
-                responses.append(Response(statusCode: statusCode, jsonDictionary:jsonDictionary))
+                responses.append(Response(statusCode: statusCode, jsonDictionary: jsonDictionary))
             }
         }
         self.responses = responses
     }
 
     func getParameters(type: Parameter.ParamaterType) -> [Parameter] {
-        return parameters.filter{$0.parameterType == type}
+        return parameters.filter { $0.parameterType == type }
     }
 
     var enums: [Value] {
-        return parameters.filter{$0.enumValues != nil || $0.arrayValue?.enumValues != nil}
+        return parameters.filter { $0.enumValues != nil || $0.arrayValue?.enumValues != nil }
     }
-
 }
 
 class Response {
 
-    let statusCode:Int
-    let description:String?
+    let statusCode: Int
+    let description: String?
     var schema: Value?
 
-    init(statusCode:Int, jsonDictionary:JSONDictionary) {
+    init(statusCode: Int, jsonDictionary: JSONDictionary) {
         self.statusCode = statusCode
         description = jsonDictionary.json(atKeyPath: "description")
         schema = jsonDictionary.json(atKeyPath: "schema")
     }
 }
 
-class Definition:JSONObjectConvertible {
+class Definition: JSONObjectConvertible {
 
-    var name:String = ""
-    let type:String?
-    let description:String?
-    let reference:String?
-    var parentReference:String?
-    var parent:Definition?
-    var propertiesByName:[String:Property]
-    var requiredProperties:[Property] { return Array(propertiesByName.values).filter{$0.required}}
-    var optionalProperties:[Property] { return Array(propertiesByName.values).filter{!$0.required}}
-    var properties:[Property] { return requiredProperties + optionalProperties}
+    var name: String = ""
+    let type: String?
+    let description: String?
+    let reference: String?
+    var parentReference: String?
+    var parent: Definition?
+    var propertiesByName: [String: Property]
+    var requiredProperties: [Property] { return Array(propertiesByName.values).filter { $0.required } }
+    var optionalProperties: [Property] { return Array(propertiesByName.values).filter { !$0.required } }
+    var properties: [Property] { return requiredProperties + optionalProperties }
 
-    required init(jsonDictionary:JSONDictionary) throws {
+    required init(jsonDictionary: JSONDictionary) throws {
 
         var json = jsonDictionary
         if let allOf = json.json(atKeyPath: "allOf") as [JSONDictionary]? {
@@ -252,50 +247,48 @@ class Definition:JSONObjectConvertible {
         reference = json.json(atKeyPath: "$ref")
         description = json.json(atKeyPath: "description")
         propertiesByName = try json.json(atKeyPath: "properties")
-        propertiesByName.forEach { (name, property) in
+        propertiesByName.forEach { name, property in
             property.name = name
         }
 
         if let required = json.json(atKeyPath: "required") as [String]? {
-            for property in required  {
+            for property in required {
                 propertiesByName[property]?.required = true
             }
         }
     }
 
-    var allProperties:[Property] {
+    var allProperties: [Property] {
         return (parent?.allProperties ?? []) + properties
     }
 
-    func deepDescription(prefix:String) -> String {
-        return "\(prefix)\(name)\n\(prefix)\(properties.map{$0.deepDescription(prefix: prefix)}.joined(separator: "\n\(prefix)"))"
+    func deepDescription(prefix: String) -> String {
+        return "\(prefix)\(name)\n\(prefix)\(properties.map { $0.deepDescription(prefix: prefix) }.joined(separator: "\n\(prefix)"))"
     }
 
     var enums: [Value] {
-        return properties.filter{$0.enumValues != nil || $0.arrayValue?.enumValues != nil}
+        return properties.filter { $0.enumValues != nil || $0.arrayValue?.enumValues != nil }
     }
-
 }
 
+class Value: JSONObjectConvertible {
 
-class Value:JSONObjectConvertible {
+    var name: String
+    let description: String?
+    var required: Bool
+    let type: String
+    var reference: String?
+    var format: String?
+    var enumValues: [String]?
+    var arrayValue: Value?
+    var arrayDefinition: Definition?
+    var arrayRef: String?
+    var object: Definition?
+    var dictionaryDefinition: Definition?
+    var dictionaryDefinitionRef: String?
+    var dictionaryValue: Value?
 
-    var name:String
-    let description:String?
-    var required:Bool
-    let type:String
-    var reference:String?
-    var format:String?
-    var enumValues:[String]?
-    var arrayValue:Value?
-    var arrayDefinition:Definition?
-    var arrayRef:String?
-    var object:Definition?
-    var dictionaryDefinition:Definition?
-    var dictionaryDefinitionRef:String?
-    var dictionaryValue:Value?
-
-    required init(jsonDictionary:JSONDictionary) throws {
+    required init(jsonDictionary: JSONDictionary) throws {
         name = jsonDictionary.json(atKeyPath: "name") ?? ""
         description = jsonDictionary.json(atKeyPath: "description")
         reference = jsonDictionary.json(atKeyPath: "$ref")
@@ -315,58 +308,55 @@ class Value:JSONObjectConvertible {
         }
     }
 
-    func deepDescription(prefix:String) -> String {
+    func deepDescription(prefix: String) -> String {
         return "\(prefix)\(name): \(type)"
     }
 }
 
 class Parameter: Value {
 
-    var parameterType:ParamaterType?
+    var parameterType: ParamaterType?
 
-    enum ParamaterType:String {
+    enum ParamaterType: String {
         case body
         case path
         case query
         case form
     }
 
-    required init(jsonDictionary:JSONDictionary) throws {
-        parameterType = (try? jsonDictionary.json(atKeyPath: "in") as String).flatMap{ParamaterType(rawValue: $0)}
+    required init(jsonDictionary: JSONDictionary) throws {
+        parameterType = (try? jsonDictionary.json(atKeyPath: "in") as String).flatMap { ParamaterType(rawValue: $0) }
         try super.init(jsonDictionary: jsonDictionary)
     }
-
 }
 
 class Property: Value {
-
 }
 
-class Security:JSONObjectConvertible {
+class Security: JSONObjectConvertible {
 
-    var name:String = ""
-    var type:String
-    let scopes:[String]?
-    var description:String?
+    var name: String = ""
+    var type: String
+    let scopes: [String]?
+    var description: String?
 
-    required init(jsonDictionary:JSONDictionary) throws {
+    required init(jsonDictionary: JSONDictionary) throws {
         type = try jsonDictionary.json(atKeyPath: "type")
         description = jsonDictionary.json(atKeyPath: "description")
         scopes = jsonDictionary.json(atKeyPath: "scopes")
     }
 
-    func deepDescription(prefix:String) -> String {
+    func deepDescription(prefix: String) -> String {
         return "\(prefix)\(name): \(type)"
     }
 }
 
-struct OperationSecurity:JSONObjectConvertible {
-    let name:String
-    let scopes:[String]
-    
+struct OperationSecurity: JSONObjectConvertible {
+    let name: String
+    let scopes: [String]
+
     init(jsonDictionary: JSONDictionary) throws {
         name = jsonDictionary.keys.first ?? ""
         scopes = try jsonDictionary.json(atKeyPath: "\(name).scopes")
     }
 }
-

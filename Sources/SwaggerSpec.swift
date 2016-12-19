@@ -59,7 +59,7 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         }
         self.paths = paths
         definitions = try jsonDictionary.json(atKeyPath: "definitions")
-        parameters = try jsonDictionary.json(atKeyPath: "parameters")
+        parameters = jsonDictionary.json(atKeyPath: "parameters") ?? [:]
         security = try jsonDictionary.json(atKeyPath: "securityDefinitions")
 
         resolve()

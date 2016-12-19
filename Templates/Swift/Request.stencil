@@ -30,25 +30,34 @@ extension {{ options.name }}.{{ tag|upperCamelCase }} {
 
         public var params: Params
 
-        public init(params: Params) {
-            self.params = params
-        }
-
-        public init({% for param in nonBodyParams %}{{ param.formattedName }}: {{ param.optionalType }}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
-            self.params = Params({% for param in nonBodyParams %}{{param.formattedName}}: {{param.formattedName}}{% ifnot forloop.last %}, {% endif %}{% endfor %})
-        }
         {% endif %}
         {% if bodyParam %}
 
         public var body: {{bodyParam.optionalType}}
+        {% endif %}
+        {% if nonBodyParams %}
 
-        public init({{bodyParam.formattedName}}: {{bodyParam.optionalType}}) {
-            self.body = body
+        public init({% if bodyParam %}{{ bodyParam.formattedName}}: {{ bodyParam.optionalType }}, {% endif %}params: Params) {
+            {% if bodyParam %}
+            self.body = {{ bodyParam.formattedName}}
+            {% endif %}
+            {% if nonBodyParams %}
+            self.params = params
+            {% endif %}
         }
         {% endif %}
 
+        public init({% for param in params %}{{ param.formattedName }}: {{ param.optionalType }}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
+            {% if bodyParam %}
+            self.body = {{ bodyParam.formattedName}}
+            {% endif %}
+            {% if nonBodyParams %}
+            self.params = Params({% for param in nonBodyParams %}{{param.formattedName}}: {{param.formattedName}}{% ifnot forloop.last %}, {% endif %}{% endfor %})
+            {% endif %}
+        }
+
         public var path: String {
-            return "{{ path }}"{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: self.params.{{ param.encodedValue }}){% endfor %}
+            return "{{ path }}"{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: "\(self.params.{{ param.encodedValue }})"){% endfor %}
         }
 
         public var method: String {

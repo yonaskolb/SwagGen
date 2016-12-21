@@ -56,6 +56,7 @@ class CodeFormatter {
         context["method"] = operation.method.uppercased()
         context["path"] = operation.path
         context["tag"] = operation.tags.first
+        context["tags"] = operation.tags
         context["params"] = operation.parameters.map(getParameterContext)
         context["hasBody"] = operation.getParameters(type: .body).count > 0 || operation.getParameters(type: .form).count > 0
         context["bodyParam"] = operation.getParameters(type: .body).map(getParameterContext).first

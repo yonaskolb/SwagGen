@@ -11,6 +11,14 @@
             "path": "API.swift"
         },
         {
+            "template": "APIRequest.stencil",
+            "path": "APIRequest.swift"
+        },
+        {
+            "template": "Decoding.stencil",
+            "path": "Decoding.swift"
+        },
+        {
             "template": "Networking.stencil",
             "path": "Networking.swift"
         },

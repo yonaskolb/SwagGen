@@ -1,13 +1,11 @@
 import JSONUtilities
 
-extension {{ options.name }}.{{ tag|upperCamelCase }} {
+extension {{ options.name }}.{{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }} {
 
     {% if description %}
     /** {{ description }} */
     {% endif %}
-    public struct {{ operationId|upperCamelCase }}: APIRequest{% if security %}, Authorized{% endif %} {
-
-        public typealias ResponseType = {{successType|default:"Void"}}
+    public class {{ operationId|upperCamelCase }}: APIRequest<{{successType|default:"Void"}}> {
         {% for enum in enums %}
 
         public enum {{enum.enumName}}: String {
@@ -16,10 +14,6 @@ extension {{ options.name }}.{{ tag|upperCamelCase }} {
             {% endfor %}
         }
         {% endfor %}
-        {% if security %}
-
-        public let authorization = Authorization(type: "{{ security.name }}", scope: "{{ security.scope }}")
-        {% endif %}
         {% if nonBodyParams %}
 
         public struct Params {
@@ -35,40 +29,40 @@ extension {{ options.name }}.{{ tag|upperCamelCase }} {
 
         public var body: {{bodyParam.optionalType}}
         {% endif %}
-        {% if nonBodyParams %}
 
-        public init({% if bodyParam %}{{ bodyParam.formattedName}}: {{ bodyParam.optionalType }}, {% endif %}params: Params) {
+        public init({% if bodyParam %}_ {{ bodyParam.formattedName}}: {{ bodyParam.optionalType }}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}_ params: Params{% endif %}) {
             {% if bodyParam %}
             self.body = {{ bodyParam.formattedName}}
             {% endif %}
             {% if nonBodyParams %}
             self.params = params
             {% endif %}
+            super.init(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if security %}, authorization: Authorization(type: "{{ security.name }}", scope: "{{ security.scope }}"){% endif %}) { {% if successType %}json{% else %}_{% endif %} in
+                {% if successType %}
+                try JSONDecoder.decode(json: json)
+                {% endif %}
+            }
         }
-        {% endif %}
+        {% if nonBodyParams %}
 
-        public init({% for param in params %}{{ param.formattedName }}: {{ param.optionalType }}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
+        public convenience init({% for param in params %}{{ param.formattedName }}: {{ param.optionalType }}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
             {% if bodyParam %}
             self.body = {{ bodyParam.formattedName}}
             {% endif %}
             {% if nonBodyParams %}
-            self.params = Params({% for param in nonBodyParams %}{{param.formattedName}}: {{param.formattedName}}{% ifnot forloop.last %}, {% endif %}{% endfor %})
+            let params = Params({% for param in nonBodyParams %}{{param.formattedName}}: {{param.formattedName}}{% ifnot forloop.last %}, {% endif %}{% endfor %})
             {% endif %}
+            self.init({% if bodyParam %}body{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}params{% endif %})
         }
+        {% endif %}
+        {% if pathParams %}
 
-        public var path: String {
-            return "{{ path }}"{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: "\(self.params.{{ param.encodedValue }})"){% endfor %}
+        public override var path: String {
+            return super.path{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: "\(self.params.{{ param.encodedValue }})"){% endfor %}
         }
+        {% endif %}
 
-        public var method: String {
-            return "{{ method|uppercase }}"
-        }
-
-        public var hasBody: Bool {
-            return {% if hasBody %}true{% else %}false{% endif %}
-        }
-
-        public var urlParams: [String: Any] {
+        public override var parameters: [String: Any] {
             {% if bodyParam %}
             return {{ bodyParam.encodedValue }}
             {% endif %}
@@ -84,33 +78,10 @@ extension {{ options.name }}.{{ tag|upperCamelCase }} {
             {% endif %}
             {% endfor %}
             return params
-            {% else %}
+            {% endif %}
+            {% if not bodyParam and not queryParams  %}
             return [:]
             {% endif %}
         }
-
-        public func decode(json: Any) throws -> {{successType|default:"Void"}} {
-            {% if successType %}
-            {% if successResponse.schema.isArray %}
-            guard let array = json as? [JSONDictionary] else { throw JSONUtilsError.fileNotAJSONDictionary }
-            return try array.map({{successResponse.schema.arrayType}}.init)
-            {% endif %}
-            {% if successResponse.schema.isDictionary %}
-            guard let jsonDictionary = json as? JSONDictionary else { throw JSONUtilsError.fileNotAJSONDictionary }
-            var dictionary: {{successType}} = [:]
-            for (key, value) in jsonDictionary {
-                dictionary[key] = try jsonDictionary.json(atKeyPath: key)
-            }
-            return dictionary
-            {% endif %}
-            {% if not successResponse.schema.isDictionary and not successResponse.schema.isArray%}
-            guard let jsonDictionary = json as? JSONDictionary else { throw JSONUtilsError.fileNotAJSONDictionary }
-            return try {{successType}}(jsonDictionary: jsonDictionary)
-            {% endif %}
-            {% else %}
-            return
-            {% endif %}
-        }
     }
-
 }

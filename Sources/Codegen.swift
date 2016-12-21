@@ -34,8 +34,8 @@ class Codegen {
 
     func generate() throws {
 
-        for file in templateConfig.files {
-            let template = try environment.loadTemplate(name: file.template)
+        for file in templateConfig.templateFiles {
+            let template = try environment.loadTemplate(name: file.path)
 
             if let fileContext = file.context {
                 if let context: JSONDictionary = context.json(atKeyPath: fileContext) {
@@ -43,29 +43,42 @@ class Codegen {
                     if mergedContext["options"] == nil {
                         mergedContext["options"] = templateConfig.options
                     }
-                    try writeFile(template: template, context: mergedContext, path: file.path)
+                    try writeTemplateFile(file, template: template, context: mergedContext)
                 } else if let contexts: [JSONDictionary] = context.json(atKeyPath: fileContext) {
                     for context in contexts {
                         var mergedContext = context
                         if mergedContext["options"] == nil {
                             mergedContext["options"] = templateConfig.options
                         }
-                        try writeFile(template: template, context: mergedContext, path: file.path)
+                        try writeTemplateFile(file, template: template, context: mergedContext)
                     }
                 }
             } else {
-                try writeFile(template: template, context: context, path: file.path)
+                try writeTemplateFile(file, template: template, context: context)
             }
+        }
+
+        for file in templateConfig.copiedFiles {
+            let destinationPath = destination + file
+            let sourcePath = templateConfig.path + file
+            if destinationPath.exists {
+                try? destinationPath.delete()
+            }
+            try sourcePath.copy(destinationPath)
+            print("Copied \(destinationPath)")
         }
     }
 
-    func writeFile(template: Template, context: JSONDictionary, path: String) throws {
-
-        let filePath = try environment.renderTemplate(string: path, context: context)
-        let rendered = try template.render(context)
+    func writeTemplateFile(_ templateFile: TemplateFile, template: Template, context: JSONDictionary) throws {
+        var filePath = templateFile.path
+        if let destination = templateFile.destination {
+            let path = try environment.renderTemplate(string: destination, context: context)
+            filePath = path
+        }
         let outputPath = destination + filePath
+        let rendered = try template.render(context)
         try outputPath.parent().mkpath()
         try outputPath.write(rendered)
-        print("Added file \(outputPath)")
+        print("Created \(outputPath)")
     }
 }

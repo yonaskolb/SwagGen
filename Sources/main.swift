@@ -32,10 +32,10 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
         }
 
         let spec = try SwaggerSpec(path: specPath)
-        print("Loaded spec: \(spec.info.title ?? ""), \(spec.operations.count) operations, \(spec.definitions.count) definitions, \(spec.tags.count) tags, \(spec.parameters.count) parameters")
+        print("Loaded spec: \"\(spec.info.title ?? "")\" - \(spec.operations.count) operations, \(spec.definitions.count) definitions, \(spec.tags.count) tags, \(spec.parameters.count) parameters")
 
         let templateConfig = try TemplateConfig(path: templatePath, options: optionsDictionary)
-        print("Loaded template: \(templateConfig.files.count) files")
+        print("Loaded template: \(templateConfig.templateFiles.count) templates files, \(templateConfig.copiedFiles.count) copied files")
 
         let codeFormatter: CodeFormatter
         switch templateConfig.formatter {
@@ -77,7 +77,7 @@ command(
     Option("template", Path(""), flag: "f", description: "The path to the template json file", validator: isReadable),
     Option("destination", Path.current, flag: "d", description: "The directory where the generated files will be created"),
     Option("spec", "", flag: "s", description: "The path or url to a swagger spec json file"),
-    Flag("clean", description: "Whether the destination directory will be cleared before generating", default: true),
+    Flag("clean", description: "Whether the destination directory will be cleared before generating", default: false),
     Option("options", "", flag: "o", description: "A list of options that will be passed to the template. These options must be comma delimited and the name and value must be seperated by a colon. e.g.  option:value, option2: value2", validator: optionsValidator),
     generate)
     .run()

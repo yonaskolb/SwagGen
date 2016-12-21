@@ -31,7 +31,7 @@ Use `SwagGen -help` to see the list of options:
 - **template** (required): This is the path to directory that contains the template. This directory must contain a `template.json` manifest file
 - **destination** The directory that the generated files will be added to. Defaults to the directory where the command is run from
 - **options**: A list of options that are passed to each template. Options must be comma delimited and each key value pair must be colon delimited. Whitespace is automaticall trimmed, though if you have values with spaces in them, surround the argument with quotes. e.g.  "option: value 1, option2: value 2"
-- **clean** true or false - whether the destination directory is cleaned before the generated files are created. Defaults to true
+- **clean** true or false - whether the destination directory is cleaned before the generated files are created. Defaults to false
 
 Example:
 
@@ -46,10 +46,11 @@ Templates are made up of a `template.json` manifest file and a bunch of `.stenci
 This is a manifest for the template in a **json** format. It should contain:
 
 - **formatter**: Optional formatter to use. This affects what properties are available in the templates and how they are formatted e.g. `Swift`
-- **files**: a list of files that contain:
-	- **template**: path to stencil file
+- **templateFiles**: a list of template files. These can eache have their filenames, contents and destiniation directories changes. One template file can also output to multiple files if they path is changed depending on the context. Each file contains:
+	- **path**: relative path to a **Stencil** template file. This filename can be .stencil or the type it is going to end up as
 	- **context**: optional context within the spec. This is provided to the generated file, otherwise the full context will be. If this is an array then a file will be created for each object and the context within that array is used. e.g. a file for every model in the spec `definitions` gets it's own definition context 
-	- **path**: the output path. This can contain stencil tags whose context is that from the context above. e.g. if context was `definitions` then the path could be `Models/{{name}}.swift` and the name would be the name of the definition
+	- **destination**: optional destination path. This can contain stencil tags whose context is that from the context above. e.g. if context was `definitions` then the path could be `Models/{{name}}.swift` and the name would be the name of the definition. If this is left out the destination will be the same as the path, relative to the final destination directory
+- **copiedFiles**: this is an array of relative paths that will be copied to the destination. They can be files or directories. This is used for files that won't have their contents, filenames or paths changed
 - **options**: this are the options passed into every stencil file and can be used to customize the template. These options can be override with the `templateOptions` arguement. 
 
 An example template for Swift can be found [here](Templates/Swift/template.json)

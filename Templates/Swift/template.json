@@ -1,37 +1,32 @@
 {
     "formatter": "Swift",
-    "files":
+    "templateFiles":
     [
         {
-            "template": "Podspec.stencil",
-            "path": "{{ options.name }}.podspec"
+            "path": "Podspec.podspec",
+            "destination": "{{ options.name }}.podspec"
         },
         {
-            "template": "API.stencil",
-            "path": "API.swift"
+            "path": "API.swift",
         },
         {
-            "template": "APIRequest.stencil",
-            "path": "APIRequest.swift"
+            "path": "Decoding.swift",
         },
         {
-            "template": "Decoding.stencil",
-            "path": "Decoding.swift"
-        },
-        {
-            "template": "Networking.stencil",
-            "path": "Networking.swift"
-        },
-        {
-            "template": "model.stencil",
+            "path": "model.swift",
             "context": "definitions",
-            "path": "Models/{{ name }}.swift"
+            "destination": "Models/{{ name }}.swift"
         },
         {
-            "template": "request.stencil",
+            "path": "request.swift",
             "context": "operations",
-            "path": "Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ operationId|upperCamelCase }}.swift"
+            "destination": "Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ operationId|upperCamelCase }}.swift"
         }
+    ],
+    "copiedFiles":
+    [
+        "APIRequest.swift",
+        "Networking.swift",
     ],
     "options":
     {

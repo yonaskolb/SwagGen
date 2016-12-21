@@ -12,7 +12,8 @@ import PathKit
 
 struct TemplateConfig {
 
-    let files: [TemplateFile]
+    let templateFiles: [TemplateFile]
+    let copiedFiles: [Path]
     let path: Path
     let formatter: String
     let options: [String: Any]
@@ -22,7 +23,8 @@ struct TemplateConfig {
         let templatePath = path + "template.json"
         let data = try templatePath.read()
         let json = try JSONDictionary.from(jsonData: data)
-        files = try json.json(atKeyPath: "files")
+        templateFiles = try json.json(atKeyPath: "templateFiles")
+        copiedFiles = (json.json(atKeyPath: "copiedFiles") as [String]? ?? []).map{Path($0)}
         formatter = try json.json(atKeyPath: "formatter")
         let templateOptions: [String: String] = json.json(atKeyPath: "options") ?? [:]
         self.options = templateOptions + options
@@ -31,19 +33,19 @@ struct TemplateConfig {
 
 struct TemplateFile: JSONObjectConvertible {
 
-    let template: String
     let path: String
+    let destination: String?
     let context: String?
 
-    init(template: String, path: String, context: String?) {
-        self.template = template
+    init(path: String, destination: String?, context: String?) {
         self.path = path
+        self.destination = destination
         self.context = context
     }
 
     init(jsonDictionary: JSONDictionary) throws {
-        template = try jsonDictionary.json(atKeyPath: "template")
         path = try jsonDictionary.json(atKeyPath: "path")
+        destination = jsonDictionary.json(atKeyPath: "destination")
         context = jsonDictionary.json(atKeyPath: "context")
     }
 }

@@ -81,12 +81,16 @@ class Codegen {
             if let fileContext = file.context {
                 if let context: JSONDictionary = context.json(atKeyPath: fileContext) {
                     var mergedContext = context
-                    mergedContext["options"] = templateConfig.options
+                    if mergedContext["options"] == nil {
+                        mergedContext["options"] = templateConfig.options
+                    }
                     try writeFile(template: template, context: mergedContext, path: file.path)
                 } else if let contexts: [JSONDictionary] = context.json(atKeyPath: fileContext) {
                     for context in contexts {
                         var mergedContext = context
-                        mergedContext["options"] = templateConfig.options
+                        if mergedContext["options"] == nil {
+                            mergedContext["options"] = templateConfig.options
+                        }
                         try writeFile(template: template, context: mergedContext, path: file.path)
                     }
                 }

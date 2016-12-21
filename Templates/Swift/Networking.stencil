@@ -3,12 +3,20 @@ import JSONUtilities
 
 extension APIRequest {
 
-    @discardableResult
-    public func makeRequest(base: String, headers: [String: String] = [:], sessionManager: SessionManager = .default, completion:@escaping (DataResponse<ResponseType>) -> Void) -> Request? {
-        guard let url = URL(string: "\(base)/\(path)"),
-            let method = HTTPMethod(rawValue: method) else { return nil }
+    public func createURLRequest(base: String) -> URLRequest {
+        let url = URL(string: "\(base)/\(path)")!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = method
+
         let encoding:ParameterEncoding = hasBody ? JSONEncoding.default : URLEncoding.queryString
-        return sessionManager.request(url, method: method, parameters: urlParams, encoding: encoding, headers: headers)
+        let encodedURLRequest = try! encoding.encode(urlRequest, with: parameters)
+        return encodedURLRequest
+    }
+
+    @discardableResult
+    public func makeNetworkRequest(base: String, sessionManager: SessionManager = .default, completion:@escaping (DataResponse<ResponseType>) -> Void) -> Request? {
+        let urlRequest = createURLRequest(base: base)
+        return sessionManager.request(urlRequest)
         .validate()
         .responseJSON { response in
             let result: Result<ResponseType>

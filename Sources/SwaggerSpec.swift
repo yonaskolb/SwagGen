@@ -232,9 +232,9 @@ class Definition: JSONObjectConvertible {
     var parentReference: String?
     var parent: Definition?
     var propertiesByName: [String: Property]
-    var requiredProperties: [Property] { return Array(propertiesByName.values).filter { $0.required } }
-    var optionalProperties: [Property] { return Array(propertiesByName.values).filter { !$0.required } }
-    var properties: [Property] { return requiredProperties + optionalProperties }
+    let requiredProperties: [Property]
+    let optionalProperties: [Property]
+    let properties: [Property]
 
     required init(jsonDictionary: JSONDictionary) throws {
 
@@ -256,6 +256,9 @@ class Definition: JSONObjectConvertible {
                 propertiesByName[property]?.required = true
             }
         }
+        requiredProperties = Array(propertiesByName.values).filter { $0.required }.sorted{$0.name < $1.name}
+        optionalProperties = Array(propertiesByName.values).filter { !$0.required }.sorted{$0.name < $1.name}
+        properties = requiredProperties + optionalProperties
     }
 
     var allProperties: [Property] {

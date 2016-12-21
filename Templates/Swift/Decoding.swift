@@ -2,14 +2,24 @@ import JSONUtilities
 
 struct JSONDecoder {
 
-    static func decode<T: JSONDecodable>(json: Any) throws -> [T] {
-        guard let array = json as? [JSONDictionary] else { throw JSONUtilsError.fileNotAJSONDictionary }
-        return try array.map(T.init)
+    static func decode<T: JSONRawType>(json: Any) throws -> T {
+        guard let value = json as? T else { throw JSONUtilsError.fileNotAJSONDictionary }
+        return value
     }
 
     static func decode<T: JSONDecodable>(json: Any) throws -> T {
         guard let jsonDictionary = json as? JSONDictionary else { throw JSONUtilsError.fileNotAJSONDictionary }
         return try T(jsonDictionary: jsonDictionary)
+    }
+
+    static func decode<T: JSONRawType>(json: Any) throws -> [T] {
+        guard let array = json as? [T] else { throw JSONUtilsError.fileNotAJSONDictionary }
+        return array
+    }
+
+    static func decode<T: JSONDecodable>(json: Any) throws -> [T] {
+        guard let array = json as? [JSONDictionary] else { throw JSONUtilsError.fileNotAJSONDictionary }
+        return try array.map(T.init)
     }
 
     static func decode<T: JSONRawType>(json: Any) throws -> [String: T] {

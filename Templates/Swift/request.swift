@@ -46,13 +46,10 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
         {% if nonBodyParams %}
 
         public convenience init({% for param in params %}{{ param.formattedName }}: {{ param.optionalType }}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
-            {% if bodyParam %}
-            self.body = {{ bodyParam.formattedName}}
-            {% endif %}
             {% if nonBodyParams %}
             let params = Params({% for param in nonBodyParams %}{{param.formattedName}}: {{param.formattedName}}{% ifnot forloop.last %}, {% endif %}{% endfor %})
             {% endif %}
-            self.init({% if bodyParam %}body{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}params{% endif %})
+            self.init({% if bodyParam %}{{ bodyParam.formattedName}}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}params{% endif %})
         }
         {% endif %}
         {% if pathParams %}
@@ -66,9 +63,9 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             {% if bodyParam %}
             return {{ bodyParam.encodedValue }}
             {% endif %}
-            {% if queryParams %}
+            {% if nonBodyParams %}
             var params: JSONDictionary = [:]
-            {% for param in queryParams %}
+            {% for param in nonBodyParams %}
             {% if param.optional %}
             if let {{ param.formattedName }} = self.params.{{ param.encodedValue }} {
               params["{{ param.value }}"] = {{ param.formattedName }}
@@ -79,7 +76,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             {% endfor %}
             return params
             {% endif %}
-            {% if not bodyParam and not queryParams  %}
+            {% if not bodyParam and not nonBodyParams  %}
             return [:]
             {% endif %}
         }

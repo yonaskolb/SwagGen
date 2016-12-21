@@ -61,12 +61,6 @@ class SwiftFormatter: CodeFormatter {
         return super.getValueType(value)
     }
 
-    override func getOperationContext(operation: Operation) -> [String: Any?] {
-        return super.getOperationContext(operation: operation) + [
-            "nonBodyParams": operation.parameters.filter { $0.parameterType != .body }.map(getParameterContext),
-        ]
-    }
-
     override func getValueContext(value: Value) -> [String: Any?] {
         var encodedValue = getValueName(value)
         if value.enumValues != nil {

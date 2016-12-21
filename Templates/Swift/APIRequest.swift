@@ -6,8 +6,8 @@ public class APIRequest<ResponseType> {
     public private(set) var path: String
     public let method: String
     private(set) var parameters: [String: Any]
-    let hasBody: Bool
-    let decode: (Any) throws -> ResponseType
+    public let hasBody: Bool
+    public let decode: (Any) throws -> ResponseType
     public var headers: [String: String] = [:]
     public let authorization: Authorization?
 

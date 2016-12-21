@@ -58,10 +58,12 @@ class CodeFormatter {
         context["tag"] = operation.tags.first
         context["tags"] = operation.tags
         context["params"] = operation.parameters.map(getParameterContext)
-        context["hasBody"] = operation.getParameters(type: .body).count > 0 || operation.getParameters(type: .form).count > 0
+        context["hasBody"] = operation.parameters.filter{$0.parameterType == .body || $0.parameterType == .form}.count > 0
+        context["nonBodyParams"] = operation.parameters.filter { $0.parameterType != .body}.map(getParameterContext)
         context["bodyParam"] = operation.getParameters(type: .body).map(getParameterContext).first
         context["pathParams"] = operation.getParameters(type: .path).map(getParameterContext)
         context["queryParams"] = operation.getParameters(type: .query).map(getParameterContext)
+        context["formParams"] = operation.getParameters(type: .form).map(getParameterContext)
         context["enums"] = operation.enums.map(getValueContext)
         context["security"] = operation.security.map(getSecurityContext).first
         context["responses"] = operation.responses.map(getResponseContext)

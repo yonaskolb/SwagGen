@@ -1,6 +1,6 @@
 import JSONUtilities
 
-extension {{ options.name }}.{{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }} {
+extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }}{% endif %} {
 
     {% if description %}
     /** {{ description }} */

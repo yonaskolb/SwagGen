@@ -30,7 +30,7 @@
         {
             "template": "request.stencil",
             "context": "operations",
-            "path": "Requests/{{ tag|upperCamelCase }}/{{ operationId|upperCamelCase }}.swift"
+            "path": "Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ operationId|upperCamelCase }}.swift"
         }
     ],
     "options":

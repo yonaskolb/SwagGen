@@ -8,49 +8,8 @@
 
 import Foundation
 import PathKit
-import JSONUtilities
 import Stencil
-
-struct TemplateConfig {
-
-    struct File: JSONObjectConvertible {
-        let template: String
-        let path: String
-        let context: String?
-
-        init(template: String, path: String, context: String?) {
-            self.template = template
-            self.path = path
-            self.context = context
-        }
-
-        init(jsonDictionary: JSONDictionary) throws {
-            template = try jsonDictionary.json(atKeyPath: "template")
-            path = try jsonDictionary.json(atKeyPath: "path")
-            context = jsonDictionary.json(atKeyPath: "context")
-        }
-    }
-
-    let files: [File]
-    let path: Path
-    let formatter: String
-    let options: [String: Any]
-
-    init(path: Path, options: [String: String]) throws {
-        self.path = path
-        let templatePath = path + "template.json"
-        let data = try templatePath.read()
-        let json = try JSONDictionary.from(jsonData: data)
-        files = try json.json(atKeyPath: "files")
-        formatter = try json.json(atKeyPath: "formatter")
-        let templateOptions: [String: String] = json.json(atKeyPath: "options") ?? [:]
-        self.options = templateOptions + options
-    }
-}
-
-enum CodegenError: Error {
-    case ContextNotFound(name: String, context: [String: Any?])
-}
+import JSONUtilities
 
 class Codegen {
 

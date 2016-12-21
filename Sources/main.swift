@@ -31,11 +31,8 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
             }
         }
 
-        print("Template: \(templatePath)")
-        print("Destination: \(destinationPath)")
-        print("Spec: \(specPath)")
         let spec = try SwaggerSpec(path: specPath)
-        print("Loaded spec: \(spec.info.title ?? ""), \(spec.operations.count) operations, \(spec.definitions.count) definitions")
+        print("Loaded spec: \(spec.info.title ?? ""), \(spec.operations.count) operations, \(spec.definitions.count) definitions, \(spec.tags.count) tags, \(spec.parameters.count) parameters")
 
         let templateConfig = try TemplateConfig(path: templatePath, options: optionsDictionary)
         print("Loaded template: \(templateConfig.files.count) files")

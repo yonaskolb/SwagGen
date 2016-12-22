@@ -13,6 +13,9 @@
             "path": "Decoding.swift",
         },
         {
+            "path": "Networking.swift",
+        },
+        {
             "path": "model.swift",
             "context": "definitions",
             "destination": "Models/{{ name }}.swift"
@@ -26,7 +29,6 @@
     "copiedFiles":
     [
         "APIRequest.swift",
-        "Networking.swift",
     ],
     "options":
     {

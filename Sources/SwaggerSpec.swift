@@ -18,6 +18,9 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
     let parameters: [String: Parameter]
     let security: [String: Security]
     let info: Info
+    let host: String?
+    let basePath: String?
+    let schemes: [String]
 
     struct Info: JSONObjectConvertible {
 
@@ -50,6 +53,10 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
 
     required init(jsonDictionary: JSONDictionary) throws {
         info = try jsonDictionary.json(atKeyPath: "info")
+        host = jsonDictionary.json(atKeyPath: "host")
+        basePath = jsonDictionary.json(atKeyPath: "basePath")
+        schemes = jsonDictionary.json(atKeyPath: "schemes") ?? []
+
         var paths: [String: Endpoint] = [:]
         if let pathsDictionary = jsonDictionary["paths"] as? [String: JSONDictionary] {
 

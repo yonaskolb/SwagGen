@@ -25,20 +25,27 @@ class CodeFormatter {
     }
 
     func getSpecContext() -> [String: Any?] {
-        return [
-            "operations": spec.operations.map(getOperationContext),
-            "tags": spec.opererationsByTag.map { ["name": $0, "operations": $1.map(getOperationContext)] },
-            "definitions": Array(spec.definitions.values).map(getDefinitionContext),
-            "info": geSpecInfoContext(info: spec.info),
-        ]
+        var context: [String: Any?] = [:]
+
+        context["operations"] = spec.operations.map(getOperationContext)
+        context["tags"] = spec.opererationsByTag.map { ["name": $0, "operations": $1.map(getOperationContext)] }
+        context["definitions"] = Array(spec.definitions.values).map(getDefinitionContext)
+        context["info"] = geSpecInfoContext(info: spec.info)
+        context["host"] = spec.host
+        context["basePath"] = spec.basePath
+        context["baseURL"] = "\(spec.schemes.first ?? "http")://\(spec.host ?? "")\(spec.basePath ?? "")"
+
+        return context
     }
 
     func geSpecInfoContext(info: SwaggerSpec.Info) -> [String: Any?] {
-        return [
-            "title": info.title,
-            "description": info.description,
-            "version": info.version,
-        ]
+        var context: [String: Any?] = [:]
+
+        context["title"] = info.title
+        context["description"] = info.description
+        context["version"] = info.version
+
+        return context
     }
 
     func getEndpointContext(endpoint: Endpoint) -> [String: Any?] {

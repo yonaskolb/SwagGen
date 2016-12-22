@@ -3,8 +3,9 @@ import JSONUtilities
 
 extension APIRequest {
 
-    public func createURLRequest(base: String) -> URLRequest {
-        let url = URL(string: "\(base)/\(path)")!
+    /// pass in an optional baseURL, otherwise {{ options.name }}.baseURL will be used
+    public func createURLRequest(baseURL: String? = nil) -> URLRequest {
+        let url = URL(string: "\(baseURL ?? {{ options.name }}.baseURL)/\(path)")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = service.method
 
@@ -13,9 +14,10 @@ extension APIRequest {
         return encodedURLRequest
     }
 
+    /// pass in an optional baseURL, otherwise {{ options.name }}.baseURL will be used
     @discardableResult
-    public func makeNetworkRequest(base: String, sessionManager: SessionManager = .default, completion:@escaping (DataResponse<ResponseType>) -> Void) -> Request? {
-        let urlRequest = createURLRequest(base: base)
+    public func makeNetworkRequest(baseURL: String? = nil, sessionManager: SessionManager = .default, completion:@escaping (DataResponse<ResponseType>) -> Void) -> Request? {
+        let urlRequest = createURLRequest(baseURL: baseURL)
         return sessionManager.request(urlRequest)
         .validate()
         .responseJSON { response in

@@ -26,6 +26,12 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             {% for param in nonBodyParams %}
             public var {{ param.formattedName }}: {{ param.optionalType }}
             {% endfor %}
+
+            public init({% for param in nonBodyParams %}{{param.formattedName}}: {{param.optionalType}}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
+                {% for param in nonBodyParams %}
+                self.{{param.formattedName}} = {{param.formattedName}}
+                {% endfor %}
+            }
         }
 
         public var params: Params

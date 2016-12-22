@@ -7,11 +7,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
     {% endif %}
     public class {{ operationId|upperCamelCase }}: APIRequest<{{successType|default:"Void"}}> {
 
-        public static let service = APIService<{{successType|default:"Void"}}>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if security %}, authorization: Authorization(type: "{{ security.name }}", scope: "{{ security.scope }}"){% endif %}) { {% if successType %}json{% else %}_{% endif %} in
-            {% if successType %}
-            try JSONDecoder.decode(json: json)
-            {% endif %}
-        }
+        public static let service = APIService<{{successType|default:"Void"}}>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if security %}, authorization: Authorization(type: "{{ security.name }}", scope: "{{ security.scope }}"){% endif %}, decode: {% if successType %}JSONDecoder.decode{% else %}{ _ in }{% endif %})
         {% for enum in enums %}
 
         public enum {{enum.enumName}}: String {

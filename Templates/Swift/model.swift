@@ -4,13 +4,13 @@ import JSONUtilities
 /** {{ description }} */
 {% endif %}
 public class {{ formattedName }}: {% if parent %}{{ parent.formattedName }}{% else %}JSONDecodable, JSONEncodable{% endif %} {
-    {% for property in enums %}
+    {% for enum in enums %}
 
-    {% if property.description %}
-    /** {{ property.description }}  */
+    {% if enum.description %}
+    /** {{ enum.description }}  */
     {% endif %}
-    public enum {{ property.enumName }}: String {
-        {% for enumCase in property.enums %}
+    public enum {{ enum.enumName }}: String {
+        {% for enumCase in enum.enums %}
         case {{ enumCase.name }} = "{{ enumCase.value }}"
         {% endfor %}
     }

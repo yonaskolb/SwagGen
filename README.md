@@ -40,10 +40,10 @@ SwagGen --template Templates/Swift --spec http://myapi.com/spec --options "name:
 ```
 
 ## Templates
-Templates are made up of a `template.json` manifest file and a bunch of `.stencil` files.
+Templates are made up of a `template.yml` manifest file, a bunch of **Stencil** files, and some other files that will be copied over
 
-### 1. template.json
-This is a manifest for the template in a **json** format. It should contain:
+### 1. template.yml
+This is a manifest for the template in a **YAML** format. It should contain:
 
 - **formatter**: Optional formatter to use. This affects what properties are available in the templates and how they are formatted e.g. `Swift`
 - **templateFiles**: a list of template files. These can eache have their filenames, contents and destiniation directories changes. One template file can also output to multiple files if they path is changed depending on the context. Each file contains:
@@ -55,11 +55,11 @@ This is a manifest for the template in a **json** format. It should contain:
 
 An example template for Swift can be found [here](Templates/Swift/template.json)
 
-### 2. stencil files
+### 2. Stencil files
 These files follow the **Stencil** file format outlined here [https://stencil.fuller.li](https://stencil.fuller.li)
 
 ## Formatters
-Formatters change what information is available to the templates and how it's formatted. They can be specified via the formatter property in the `template.json` file. Usually these would map to a specific target language, but can be customized for different purposes.
+Formatters change what information is available to the templates and how it's formatted. They can be specified via the formatter property in the `template.yml` file. Usually these would map to a specific target language, but can be customized for different purposes.
 
 ## Output Languages
 SwagGen can be used to generate code for any language. At the moment there is only a formatter and template for **Swift**

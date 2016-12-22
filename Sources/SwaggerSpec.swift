@@ -47,7 +47,7 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         let data = try Data(contentsOf: url)
         let json: JSONDictionary
 
-        //if the file is sure to by json do a simple parse otherwise use the slower YAML parser
+        //if the file is sure to be json do a simple parse otherwise use the slower YAML parser
         if url.pathExtension == "json" {
             json = try JSONDictionary.from(jsonData: data)
         }

@@ -38,13 +38,21 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
         print("Loaded template: \(templateConfig.templateFiles.count) templates files, \(templateConfig.copiedFiles.count) copied files")
 
         let codeFormatter: CodeFormatter
-        switch templateConfig.formatter {
-        case "Swift":
-            codeFormatter = SwiftFormatter(spec: spec)
-        default:
-            codeFormatter = CodeFormatter(spec: spec)
-            return
+        if let formatter = templateConfig.formatter {
+
+            switch formatter {
+            case "swift":
+                codeFormatter = SwiftFormatter(spec: spec)
+            default:
+                codeFormatter = CodeFormatter(spec: spec)
+                print("Unrecognized formatter \(formatter). Using default")
+                return
+            }
         }
+        else {
+            codeFormatter = CodeFormatter(spec: spec)
+        }
+
         let context = codeFormatter.getContext()
 
         let codegen = Codegen(context: context, destination: destinationPath, templateConfig: templateConfig)

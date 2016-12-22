@@ -7,26 +7,29 @@
 //
 
 import Foundation
-import JSONUtilities
 import PathKit
+import Yaml
+import JSONUtilities
 
 struct TemplateConfig {
 
     let templateFiles: [TemplateFile]
     let copiedFiles: [Path]
     let path: Path
-    let formatter: String
+    let formatter: String?
     let options: [String: Any]
 
     init(path: Path, options: [String: String]) throws {
         self.path = path
-        let templatePath = path + "template.json"
+        let templatePath = path + "template.yml"
         let data = try templatePath.read()
-        let json = try JSONDictionary.from(jsonData: data)
-        templateFiles = try json.json(atKeyPath: "templateFiles")
-        copiedFiles = (json.json(atKeyPath: "copiedFiles") as [String]? ?? []).map{Path($0)}
-        formatter = try json.json(atKeyPath: "formatter")
-        let templateOptions: [String: String] = json.json(atKeyPath: "options") ?? [:]
+        let string = String(data: data, encoding: .utf8)!
+        let yaml = try Yaml.load(string)
+        templateFiles = yaml["templateFiles"].array?.map(TemplateFile.init) ?? []
+        copiedFiles = yaml["copiedFiles"].array?.flatMap{$0.string.flatMap{Path($0)}} ?? []
+        formatter = yaml["formatter"].string
+
+        let templateOptions = yaml["options"].jsonDictionary ?? [:]
         self.options = templateOptions + options
     }
 }
@@ -47,5 +50,11 @@ struct TemplateFile: JSONObjectConvertible {
         path = try jsonDictionary.json(atKeyPath: "path")
         destination = jsonDictionary.json(atKeyPath: "destination")
         context = jsonDictionary.json(atKeyPath: "context")
+    }
+
+    init(yaml: Yaml) {
+        path = yaml["path"].string ?? ""
+        destination = yaml["destination"].string
+        context = yaml["context"].string
     }
 }

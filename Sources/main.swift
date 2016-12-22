@@ -24,9 +24,9 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
         var optionsDictionary: [String: String] = [:]
         for option in optionsArray {
             let parts = option.components(separatedBy: ":").map{$0.trimmingCharacters(in: .whitespaces)}
-            if parts.count == 2 {
-                let key = parts[0]
-                let value = parts[1]
+            if parts.count >= 2 {
+                let key = parts.first!
+                let value = Array(parts.dropFirst()).joined(separator: ":")
                 optionsDictionary[key] = value
             }
         }

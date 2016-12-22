@@ -6,9 +6,9 @@ extension APIRequest {
     public func createURLRequest(base: String) -> URLRequest {
         let url = URL(string: "\(base)/\(path)")!
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = method
+        urlRequest.httpMethod = service.method
 
-        let encoding:ParameterEncoding = hasBody ? JSONEncoding.default : URLEncoding.queryString
+        let encoding:ParameterEncoding = service.hasBody ? JSONEncoding.default : URLEncoding.queryString
         let encodedURLRequest = try! encoding.encode(urlRequest, with: parameters)
         return encodedURLRequest
     }
@@ -26,7 +26,7 @@ extension APIRequest {
                     result = .success(() as! ResponseType)
                 } else {
                     do {
-                        let decoded = try self.decode(json: value)
+                        let decoded = try self.service.decode(json: value)
                         result = .success(decoded)
                     }
                     catch let error {

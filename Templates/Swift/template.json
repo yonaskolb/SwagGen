@@ -16,6 +16,10 @@
             "path": "Networking.swift",
         },
         {
+            "path": "Enums.swift",
+            "destination": "{% if enums %}Enums.swift{% endif %}"
+        },
+        {
             "path": "model.swift",
             "context": "definitions",
             "destination": "Models/{{ name }}.swift"

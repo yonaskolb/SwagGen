@@ -34,6 +34,7 @@ class CodeFormatter {
         context["host"] = spec.host
         context["basePath"] = spec.basePath
         context["baseURL"] = "\(spec.schemes.first ?? "http")://\(spec.host ?? "")\(spec.basePath ?? "")"
+        context["enums"] = Array(spec.parameters.values).filter{$0.enumValues != nil}.map(getParameterContext)
 
         return context
     }
@@ -72,7 +73,7 @@ class CodeFormatter {
         context["pathParams"] = operation.getParameters(type: .path).map(getParameterContext)
         context["queryParams"] = operation.getParameters(type: .query).map(getParameterContext)
         context["formParams"] = operation.getParameters(type: .form).map(getParameterContext)
-        context["enums"] = operation.enums.map(getValueContext)
+        context["enums"] = operation.enums.map(getParameterContext)
         context["security"] = operation.security.map(getSecurityContext).first
         context["responses"] = operation.responses.map(getResponseContext)
         context["successResponse"] = successResponse.flatMap(getResponseContext)
@@ -119,9 +120,12 @@ class CodeFormatter {
     }
 
     func getParameterContext(parameter: Parameter) -> [String: Any?] {
-        return getValueContext(value: parameter) + [
-            "parameterType": parameter.parameterType?.rawValue,
-        ]
+        var context = getValueContext(value: parameter)
+
+        context["parameterType"] = parameter.parameterType?.rawValue
+        context["isGlobal"] = parameter.isGlobal
+
+        return context
     }
 
     func getPropertyContext(property: Property) -> [String: Any?] {

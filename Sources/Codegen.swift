@@ -73,6 +73,10 @@ class Codegen {
         var filePath = templateFile.path
         if let destination = templateFile.destination {
             let path = try environment.renderTemplate(string: destination, context: context)
+            if path == "" {
+                print("Skipping file \(templateFile.path)")
+                return
+            }
             filePath = path
         }
         let outputPath = destination + filePath

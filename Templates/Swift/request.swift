@@ -9,12 +9,17 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
 
         public static let service = APIService<{{successType|default:"Void"}}>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if security %}, authorization: Authorization(type: "{{ security.name }}", scope: "{{ security.scope }}"){% endif %}, decode: {% if successType %}JSONDecoder.decode{% else %}{ _ in }{% endif %})
         {% for enum in enums %}
+        {% if not enum.isGlobal %}
 
+        {% if enum.description %}
+        /** {{ enum.description }}  */
+        {% endif %}
         public enum {{enum.enumName}}: String {
             {% for enumCase in enum.enums %}
             case {{enumCase.name}} = "{{enumCase.value}}"
             {% endfor %}
         }
+        {% endif %}
         {% endfor %}
         {% if nonBodyParams %}
 

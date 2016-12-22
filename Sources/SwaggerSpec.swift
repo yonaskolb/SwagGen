@@ -77,6 +77,10 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
             security.name = name
         }
 
+        for (_, parameter) in parameters {
+            parameter.isGlobal = true
+        }
+
         for (name, definition) in definitions {
             definition.name = name
 
@@ -215,7 +219,7 @@ class Operation {
         return parameters.filter { $0.parameterType == type }
     }
 
-    var enums: [Value] {
+    var enums: [Parameter] {
         return parameters.filter { $0.enumValues != nil || $0.arrayValue?.enumValues != nil }
     }
 }
@@ -336,6 +340,7 @@ class Value: JSONObjectConvertible {
 class Parameter: Value {
 
     var parameterType: ParamaterType?
+    var isGlobal = false
 
     enum ParamaterType: String {
         case body

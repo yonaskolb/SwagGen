@@ -62,6 +62,7 @@ class CodeFormatter {
         context["operationId"] = operation.operationId
         context["method"] = operation.method.uppercased()
         context["path"] = operation.path
+        context["description"] = operation.description
         context["tag"] = operation.tags.first
         context["tags"] = operation.tags
         context["params"] = operation.parameters.map(getParameterContext)

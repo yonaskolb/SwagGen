@@ -6,6 +6,9 @@ import JSONUtilities
 public class {{ formattedName }}: {% if parent %}{{ parent.formattedName }}{% else %}JSONDecodable, JSONEncodable{% endif %} {
     {% for property in enums %}
 
+    {% if property.description %}
+    /** {{ property.description }}  */
+    {% endif %}
     public enum {{ property.enumName }}: String {
         {% for enumCase in property.enums %}
         case {{ enumCase.name }} = "{{ enumCase.value }}"

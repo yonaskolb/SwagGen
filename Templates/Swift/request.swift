@@ -24,6 +24,10 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
 
         public struct Params {
             {% for param in nonBodyParams %}
+
+            {% if param.description %}
+            /** {{ param.description }} */
+            {% endif %}
             public var {{ param.formattedName }}: {{ param.optionalType }}
             {% endfor %}
 

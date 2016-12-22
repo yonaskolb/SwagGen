@@ -40,14 +40,29 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         if url.scheme == nil {
             url = URL(fileURLWithPath: path)
         }
+        else {
+            print("Loading spec from \(path)")
+        }
+
         let data = try Data(contentsOf: url)
+        let json: JSONDictionary
 
-        /// yaml parsing. Doesn't handle ordered params at the moment
-        //        let string = String(data: data, encoding: .utf8)!
-        //        let yaml = try Yaml.load(string)
-        //        let json = yaml.jsonDictionary!
+        //if the file is sure to by json do a simple parse otherwise use the slower YAML parser
+        if url.pathExtension == "json" {
+            json = try JSONDictionary.from(jsonData: data)
+        }
+        else {
+            if let maybeJSON: JSONDictionary = try? JSONDictionary.from(jsonData: data) {
+                json = maybeJSON
+            }
+            else {
+                print("Parsing yaml")
+                let string = String(data: data, encoding: .utf8)!
+                let yaml = try Yaml.load(string)
+                json = yaml.jsonDictionary!
+            }
+        }
 
-        let json = try JSONDictionary.from(jsonData: data)
         try self.init(jsonDictionary: json)
     }
 

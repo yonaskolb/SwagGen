@@ -53,7 +53,7 @@ This is a manifest for the template in a **YAML** format. It should contain:
 - **copiedFiles**: this is an array of relative paths that will be copied to the destination. They can be files or directories. This is used for files that won't have their contents, filenames or paths changed
 - **options**: this are the options passed into every stencil file and can be used to customize the template. These options can be override with the `templateOptions` arguement. 
 
-An example template for Swift can be found [here](Templates/Swift/template.json)
+An example template for Swift can be found [here](Templates/Swift/template.yml)
 
 ### 2. Stencil files
 These files follow the **Stencil** file format outlined here [https://stencil.fuller.li](https://stencil.fuller.li)

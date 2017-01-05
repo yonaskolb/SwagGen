@@ -280,12 +280,16 @@ class Definition: JSONObjectConvertible {
             property.name = name
         }
 
+        var requiredProperties: [Property] = []
         if let required = json.json(atKeyPath: "required") as [String]? {
-            for property in required {
-                propertiesByName[property]?.required = true
+            for propertyName in required {
+                if let property = propertiesByName[propertyName] {
+                    property.required = true
+                    requiredProperties.append(property)
+                }
             }
         }
-        requiredProperties = Array(propertiesByName.values).filter { $0.required }.sorted{$0.name < $1.name}
+        self.requiredProperties = requiredProperties
         optionalProperties = Array(propertiesByName.values).filter { !$0.required }.sorted{$0.name < $1.name}
         properties = requiredProperties + optionalProperties
     }

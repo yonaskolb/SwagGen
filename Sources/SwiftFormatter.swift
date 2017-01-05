@@ -67,6 +67,9 @@ class SwiftFormatter: CodeFormatter {
             if let value = value.arrayValue, let path = getEncodedValuePath(value: value) {
                 encodedValue += ".map({ $0\(path) })"
             }
+            if let collectionFormatSeperator = value.collectionFormatSeperator {
+                encodedValue += ".joined(separator: \"\(collectionFormatSeperator)\")"
+            }
         }
         if let path = getEncodedValuePath(value: value) {
             encodedValue += path

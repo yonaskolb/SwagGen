@@ -319,6 +319,17 @@ class Value: JSONObjectConvertible {
     var dictionaryDefinition: Definition?
     var dictionaryDefinitionRef: String?
     var dictionaryValue: Value?
+    var collectionFormat: String?
+    var collectionFormatSeperator: String? {
+        guard let collectionFormat = collectionFormat?.lowercased() else { return nil }
+        switch collectionFormat {
+        case "csv": return ","
+        case "ssv": return " "
+        case "tsv": return "\t"
+        case "pipes": return "|"
+        default: return nil
+        }
+    }
 
     required init(jsonDictionary: JSONDictionary) throws {
         name = jsonDictionary.json(atKeyPath: "name") ?? ""
@@ -327,6 +338,7 @@ class Value: JSONObjectConvertible {
 
         arrayRef = jsonDictionary.json(atKeyPath: "items.$ref")
         arrayValue = jsonDictionary.json(atKeyPath: "items")
+        collectionFormat = jsonDictionary.json(atKeyPath: "collectionFormat")
 
         dictionaryDefinitionRef = jsonDictionary.json(atKeyPath: "additionalProperties.$ref")
         dictionaryValue = jsonDictionary.json(atKeyPath: "additionalProperties")

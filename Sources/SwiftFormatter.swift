@@ -45,6 +45,7 @@ class SwiftFormatter: CodeFormatter {
         case "date": return "Date"
         case "boolean": return "Bool"
         case "file": return "Data"
+        case "uri": return "URL"
         case "object":
             if let definition = value.dictionaryDefinition {
                 return "[String: \(getModelName(definition))]"

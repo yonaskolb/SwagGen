@@ -41,7 +41,7 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
             url = URL(fileURLWithPath: path)
         }
         else {
-            print("Loading spec from \(path)")
+            writeMessage("Loading spec from \(path)")
         }
 
         let data = try Data(contentsOf: url)
@@ -56,7 +56,7 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
                 json = maybeJSON
             }
             else {
-                print("Parsing yaml")
+                writeMessage("Parsing yaml")
                 let string = String(data: data, encoding: .utf8)!
                 let yaml = try Yaml.load(string)
                 json = yaml.jsonDictionary!

@@ -15,8 +15,8 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
     do {
 
         guard specPath != "" && URL(string: specPath) != nil else {
-            print("Must provide a valid spec")
-            return
+            writeError("Must provide a valid spec")
+            exit(EXIT_FAILURE)
         }
 
         let optionsArray = options.components(separatedBy: ",").map{$0.trimmingCharacters(in: .whitespaces)}
@@ -32,10 +32,10 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
         }
 
         let spec = try SwaggerSpec(path: specPath)
-        print("Loaded spec: \"\(spec.info.title ?? "")\" - \(spec.operations.count) operations, \(spec.definitions.count) definitions, \(spec.tags.count) tags, \(spec.parameters.count) parameters")
+        writeMessage("Loaded spec: \"\(spec.info.title ?? "")\" - \(spec.operations.count) operations, \(spec.definitions.count) definitions, \(spec.tags.count) tags, \(spec.parameters.count) parameters")
 
         let templateConfig = try TemplateConfig(path: templatePath, options: optionsDictionary)
-        print("Loaded template: \(templateConfig.templateFiles.count) templates files, \(templateConfig.copiedFiles.count) copied files")
+        writeMessage("Loaded template: \(templateConfig.templateFiles.count) templates files, \(templateConfig.copiedFiles.count) copied files")
 
         let codeFormatter: CodeFormatter
         if let formatter = templateConfig.formatter {
@@ -45,7 +45,7 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
                 codeFormatter = SwiftFormatter(spec: spec)
             default:
                 codeFormatter = CodeFormatter(spec: spec)
-                print("Unrecognized formatter \(formatter). Using default")
+                writeMessage("Unrecognized formatter \(formatter). Using default")
                 return
             }
         }
@@ -61,22 +61,22 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
         }
         try codegen.generate()
     } catch let error {
-        print("Error:\n\(error)")
+        writeError("Error: \(error.localizedDescription)")
     }
 }
 
 func isReadable(path: Path) -> Path {
     if !path.isReadable {
-        print("'\(path)' does not exist or is not readable.")
-        exit(1)
+        writeError("'\(path)' does not exist or is not readable.")
+        exit(EXIT_FAILURE)
     }
     return path
 }
 
 func optionsValidator(string: String) -> String {
     if !string.isEmpty && !string.contains(":") {
-        print("Options arguement '\(string)' must be comma delimited and the name and value must be seperated by a colon")
-        exit(1)
+        writeError("Options arguement '\(string)' must be comma delimited and the name and value must be seperated by a colon")
+        exit(EXIT_FAILURE)
     }
     return string
 }

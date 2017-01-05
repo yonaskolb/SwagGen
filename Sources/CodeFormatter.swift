@@ -169,7 +169,7 @@ class CodeFormatter {
             return getModelName(object)
         }
         if value.type == "unknown" {
-            print("Couldn't calculate type")
+            writeError("Couldn't calculate type")
         }
         return value.type
     }

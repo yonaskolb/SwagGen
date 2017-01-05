@@ -63,18 +63,31 @@ class SwiftFormatter: CodeFormatter {
 
     override func getValueContext(value: Value) -> [String: Any?] {
         var encodedValue = getValueName(value)
-        if value.enumValues != nil {
-            encodedValue += ".rawValue"
-        } else if value.object != nil {
-            encodedValue += ".encode()"
+        if value.type == "array" {
+            if let value = value.arrayValue, let path = getEncodedValuePath(value: value) {
+                encodedValue += ".map({ $0\(path) })"
+            }
         }
-        if !value.required {
-            encodedValue = encodedValue.replacingOccurrences(of: ".", with: "?.")
+        if let path = getEncodedValuePath(value: value) {
+            encodedValue += path
+        }
+
+        if !value.required, let range = encodedValue.range(of: ".") {
+            encodedValue = encodedValue.replacingOccurrences(of: ".", with: "?.", options: [], range: range)
         }
         return super.getValueContext(value: value) + [
             "encodedValue": encodedValue,
             "optionalType": getValueType(value) + (value.required ? "" : "?"),
         ]
+    }
+
+    func getEncodedValuePath(value: Value) -> String? {
+        if value.enumValues != nil {
+            return ".rawValue"
+        } else if value.object != nil {
+            return ".encode()"
+        }
+        return nil
     }
 
     override func escapeModelType(_ name: String) -> String {

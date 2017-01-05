@@ -2,14 +2,14 @@
 public class APIRequest<ResponseType> {
 
     public let service: APIService<ResponseType>
-    private(set) var parameters: [String: Any]
+    private(set) public var parameters: [String: Any]
     public var headers: [String: String] = [:]
 
     public var path: String {
         return service.path
     }
 
-    init(service: APIService<ResponseType>, parameters: [String: Any] = [:], headers: [String: String] = [:]) {
+    public init(service: APIService<ResponseType>, parameters: [String: Any] = [:], headers: [String: String] = [:]) {
         self.service = service
         self.parameters = parameters
         self.headers = headers
@@ -44,6 +44,11 @@ public struct APIService<ResponseType> {
 }
 
 public struct Authorization {
-    let type:String
-    let scope:String
+    public let type:String
+    public let scope:String
+    
+    public init(type: String, scope: String) {
+        self.type = type
+        self.scope = scope
+    }
 }

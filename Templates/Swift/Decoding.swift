@@ -66,6 +66,14 @@ let dateFormatters = {
     }
 }()
 
+extension JSONDecodable {
+
+    public init(json: Any) throws {
+        guard let jsonDictionary = json as? JSONDictionary else { throw JSONUtilsError.fileNotAJSONDictionary }
+        try self.init(jsonDictionary: jsonDictionary)
+    }
+}
+
 extension Date: JSONPrimitiveConvertible {
 
     public typealias JSONType = String

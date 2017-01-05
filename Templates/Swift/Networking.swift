@@ -9,8 +9,16 @@ extension APIRequest {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = service.method
 
+        // filter out parameters with empty string value
+        var params: [String: Any] = [:]
+        for (key, value) in parameters {
+            if String.init(describing: value) != "" {
+                params[key] = value
+            }
+        }
+
         let encoding:ParameterEncoding = service.hasBody ? JSONEncoding.default : URLEncoding.queryString
-        let encodedURLRequest = try! encoding.encode(urlRequest, with: parameters)
+        let encodedURLRequest = try! encoding.encode(urlRequest, with: params)
         return encodedURLRequest
     }
 

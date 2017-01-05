@@ -23,7 +23,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
         {% endfor %}
         {% if nonBodyParams %}
 
-        public struct Params {
+        public struct Options {
             {% for param in nonBodyParams %}
 
             {% if param.description %}
@@ -39,7 +39,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             }
         }
 
-        public var params: Params
+        public var options: Options
 
         {% endif %}
         {% if bodyParam %}
@@ -47,12 +47,12 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
         public var body: {{bodyParam.optionalType}}
         {% endif %}
 
-        public init({% if bodyParam %}_ {{ bodyParam.formattedName}}: {{ bodyParam.optionalType }}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}_ params: Params{% endif %}) {
+        public init({% if bodyParam %}_ {{ bodyParam.formattedName}}: {{ bodyParam.optionalType }}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}_ options: Options{% endif %}) {
             {% if bodyParam %}
             self.body = {{ bodyParam.formattedName}}
             {% endif %}
             {% if nonBodyParams %}
-            self.params = params
+            self.options = options
             {% endif %}
             super.init(service: {{ operationId|upperCamelCase }}.service)
         }
@@ -60,15 +60,15 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
 
         public convenience init({% for param in params %}{{ param.formattedName }}: {{ param.optionalType }}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
             {% if nonBodyParams %}
-            let params = Params({% for param in nonBodyParams %}{{param.formattedName}}: {{param.formattedName}}{% ifnot forloop.last %}, {% endif %}{% endfor %})
+            let options = Options({% for param in nonBodyParams %}{{param.formattedName}}: {{param.formattedName}}{% ifnot forloop.last %}, {% endif %}{% endfor %})
             {% endif %}
-            self.init({% if bodyParam %}{{ bodyParam.formattedName}}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}params{% endif %})
+            self.init({% if bodyParam %}{{ bodyParam.formattedName}}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}options{% endif %})
         }
         {% endif %}
         {% if pathParams %}
 
         public override var path: String {
-            return super.path{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: "\(self.params.{{ param.encodedValue }})"){% endfor %}
+            return super.path{% for param in pathParams %}.replacingOccurrences(of: "{{ param.name }}", with: "\(self.options.{{ param.encodedValue }})"){% endfor %}
         }
         {% endif %}
 
@@ -80,11 +80,11 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             var params: JSONDictionary = [:]
             {% for param in nonBodyParams %}
             {% if param.optional %}
-            if let {{ param.formattedName }} = self.params.{{ param.encodedValue }} {
+            if let {{ param.formattedName }} = self.options.{{ param.encodedValue }} {
               params["{{ param.value }}"] = {{ param.formattedName }}
             }
             {% else %}
-            params["{{ param.value }}"] = self.params.{{ param.encodedValue }}
+            params["{{ param.value }}"] = self.options.{{ param.encodedValue }}
             {% endif %}
             {% endfor %}
             return params

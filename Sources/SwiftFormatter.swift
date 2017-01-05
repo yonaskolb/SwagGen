@@ -36,7 +36,11 @@ class SwiftFormatter: CodeFormatter {
 
         switch value.type.lowercased() {
         case "int", "integer", "int32", "int64": return "Int"
-        case "string": return "String"
+        case "string":
+            if value.format == "uri" {
+                return "URL"
+            }
+            return "String"
         case "number", "double": return "Double"
         case "date": return "Date"
         case "boolean": return "Bool"

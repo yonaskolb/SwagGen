@@ -119,6 +119,8 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
                 if let reference = getDefinitionReference(property.dictionaryDefinitionRef) {
                     property.dictionaryDefinition = reference
                 }
+
+                checkGlobalEnum(value: property)
             }
         }
 
@@ -144,6 +146,24 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
                 if let reference = getDefinitionReference(response.schema?.dictionaryDefinitionRef) {
                     response.schema?.dictionaryDefinition = reference
                 }
+            }
+        }
+    }
+
+    func checkGlobalEnum(value: Value) {
+        for property in self.parameters.values {
+            if let globalEnumValues = property.enumValues {
+                if let enumValues = value.enumValues, enumValues == globalEnumValues {
+                    value.isGlobal = true
+                    value.globalName = property.name
+                    return
+                }
+                else if let enumValues = value.arrayValue?.enumValues, enumValues == globalEnumValues {
+                    value.isGlobal = true
+                    value.globalName = property.name
+                    return
+                }
+
             }
         }
     }
@@ -334,6 +354,8 @@ class Value: JSONObjectConvertible {
         default: return nil
         }
     }
+    var isGlobal = false
+    var globalName: String?
 
     required init(jsonDictionary: JSONDictionary) throws {
         name = jsonDictionary.json(atKeyPath: "name") ?? ""
@@ -371,7 +393,6 @@ class Value: JSONObjectConvertible {
 class Parameter: Value {
 
     var parameterType: ParamaterType?
-    var isGlobal = false
 
     enum ParamaterType: String {
         case body
@@ -410,7 +431,7 @@ class Security: JSONObjectConvertible {
 struct OperationSecurity: JSONObjectConvertible {
     let name: String
     let scopes: [String]
-
+    
     init(jsonDictionary: JSONDictionary) throws {
         name = jsonDictionary.keys.first ?? ""
         scopes = try jsonDictionary.json(atKeyPath: "\(name).scopes")

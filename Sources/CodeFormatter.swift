@@ -116,6 +116,7 @@ class CodeFormatter {
         context["dictionaryType"] = value.dictionaryDefinition.flatMap(getModelName)
         context["isArray"] = value.type == "array"
         context["isDictionary"] = value.type == "object" && (value.dictionaryDefinition != nil || value.dictionaryValue != nil)
+        context["isGlobal"] = value.isGlobal
         return context
     }
 
@@ -123,7 +124,6 @@ class CodeFormatter {
         var context = getValueContext(value: parameter)
 
         context["parameterType"] = parameter.parameterType?.rawValue
-        context["isGlobal"] = parameter.isGlobal
 
         return context
     }
@@ -175,7 +175,7 @@ class CodeFormatter {
     }
 
     func getEnumName(_ value: Value) -> String {
-        let name = value.name.upperCamelCased()
+        let name = (value.globalName ?? value.name).upperCamelCased()
         return disallowedTypes.contains(name) ? escapeEnumType(name) : name
     }
 

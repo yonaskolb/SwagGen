@@ -5,6 +5,7 @@ import JSONUtilities
 {% endif %}
 public class {{ formattedName }}: {% if parent %}{{ parent.formattedName }}{% else %}JSONDecodable, JSONEncodable{% endif %} {
     {% for enum in enums %}
+    {% if not enum.isGlobal %}
 
     {% if enum.description %}
     /** {{ enum.description }}  */
@@ -14,6 +15,7 @@ public class {{ formattedName }}: {% if parent %}{{ parent.formattedName }}{% el
         case {{ enumCase.name }} = "{{ enumCase.value }}"
         {% endfor %}
     }
+    {% endif %}
     {% endfor %}
     {% for property in properties %}
 

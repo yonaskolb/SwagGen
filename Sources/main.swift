@@ -35,8 +35,10 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
         writeMessage("Loaded spec: \"\(spec.info.title ?? "")\" - \(spec.operations.count) operations, \(spec.definitions.count) definitions, \(spec.tags.count) tags, \(spec.parameters.count) parameters")
 
         let templateConfig = try TemplateConfig(path: templatePath, options: optionsDictionary)
-        writeMessage("Loaded template: \(templateConfig.templateFiles.count) templates files, \(templateConfig.copiedFiles.count) copied files")
-
+        writeMessage("Loaded template: \(templateConfig.templateFiles.count) template files, \(templateConfig.copiedFiles.count) copied files")
+        if !templateConfig.options.isEmpty {
+            writeMessage("Options:\n\t\(templateConfig.options.map{"\($0): \($1)"}.joined(separator: "\n").replacingOccurrences(of: "\n", with: "\n\t"))")
+        }
         let codeFormatter: CodeFormatter
         if let formatter = templateConfig.formatter {
 
@@ -57,8 +59,8 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
 
         let codegen = Codegen(context: context, destination: destinationPath, templateConfig: templateConfig)
         if clean {
-            writeMessage("Cleaning \(destinationPath.absolute())")
             try? destinationPath.delete()
+            writeMessage("♻️ Cleaned \(destinationPath.absolute())")
         }
         try codegen.generate()
     } catch let error {

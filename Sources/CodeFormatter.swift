@@ -21,7 +21,7 @@ class CodeFormatter {
     }
 
     func getContext() -> [String: Any] {
-        return cleanContext(getSpecContext())
+        return cleanDictionary(getSpecContext())
     }
 
     func getSpecContext() -> [String: Any?] {
@@ -184,25 +184,27 @@ class CodeFormatter {
     }
 }
 
-fileprivate func cleanContext(_ dictionary: [String: Any?]) -> [String: Any] {
+fileprivate func cleanDictionary(_ dictionary: [String: Any?]) -> [String: Any] {
     var clean: [String: Any] = [:]
     for (key, value) in dictionary {
         if let value = value {
             clean[key] = value
             if let dictionary = value as? [String: Any?] {
-                clean[key] = cleanContext(dictionary)
+                clean[key] = cleanDictionary(dictionary)
             } else if let array = value as? [[String: Any?]] {
-                clean[key] = array.map { cleanContext($0) }
+                clean[key] = array.map { cleanDictionary($0) }
             }
         }
     }
     return clean
 }
 
-func +(lhs: [String: Any?], rhs: [String: Any?]) -> [String: Any?] {
-    var combined = lhs
+func +(lhs: [String: Any?], rhs: [String: Any?]) -> [String: Any] {
+    var combined = cleanDictionary(lhs)
     for (key, value) in rhs {
-        combined[key] = value
+        if let value = value {
+            combined[key] = value
+        }
     }
     return combined
 }

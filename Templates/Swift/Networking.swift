@@ -8,6 +8,7 @@ extension APIRequest {
         let url = URL(string: "\(baseURL ?? {{ options.name }}.baseURL)/\(path)")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = service.method
+        urlRequest.allHTTPHeaderFields = headers
 
         // filter out parameters with empty string value
         var params: [String: Any] = [:]

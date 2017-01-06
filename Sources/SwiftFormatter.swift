@@ -95,6 +95,9 @@ class SwiftFormatter: CodeFormatter {
         } else if value.object != nil {
             return ".encode()"
         }
+        else if value.arrayDefinition != nil {
+            return ".map({ $0.encode() })"
+        }
         return nil
     }
 

@@ -40,7 +40,6 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
         }
 
         public var options: Options
-
         {% endif %}
         {% if bodyParam %}
 
@@ -71,6 +70,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             return super.path{% for param in pathParams %}.replacingOccurrences(of: "{" + "{{ param.name }}" + "}", with: "\(self.options.{{ param.encodedValue }})"){% endfor %}
         }
         {% endif %}
+        {% if bodyParam or nonBodyParams %}
 
         public override var parameters: [String: Any] {
             {% if bodyParam %}
@@ -80,18 +80,16 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             var params: JSONDictionary = [:]
             {% for param in nonBodyParams %}
             {% if param.optional %}
-            if let {{ param.formattedName }} = self.options.{{ param.encodedValue }} {
+            if let {{ param.formattedName }} = options.{{ param.encodedValue }} {
               params["{{ param.value }}"] = {{ param.formattedName }}
             }
             {% else %}
-            params["{{ param.value }}"] = self.options.{{ param.encodedValue }}
+            params["{{ param.value }}"] = options.{{ param.encodedValue }}
             {% endif %}
             {% endfor %}
             return params
             {% endif %}
-            {% if not bodyParam and not nonBodyParams  %}
-            return [:]
-            {% endif %}
         }
+        {% endif %}
     }
 }

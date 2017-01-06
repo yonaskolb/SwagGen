@@ -65,7 +65,7 @@ public class {{ formattedName }}: {% if parent %}{{ parent.formattedName }}{% el
         {% if parent %}
         let superDictionary = super.encode()
         for (key, value) in superDictionary {
-            dictionary["key"] = value
+            dictionary[key] = value
         }
         {% endif %}
         return dictionary

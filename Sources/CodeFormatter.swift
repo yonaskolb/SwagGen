@@ -34,7 +34,7 @@ class CodeFormatter {
         context["host"] = spec.host
         context["basePath"] = spec.basePath
         context["baseURL"] = "\(spec.schemes.first ?? "http")://\(spec.host ?? "")\(spec.basePath ?? "")"
-        context["enums"] = Array(spec.parameters.values).filter{$0.enumValues != nil}.map(getParameterContext)
+        context["enums"] = spec.enums.map(getValueContext)
 
         return context
     }

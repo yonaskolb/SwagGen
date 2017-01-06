@@ -21,6 +21,7 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
     let host: String?
     let basePath: String?
     let schemes: [String]
+    var enums: [Value] = []
 
     struct Info: JSONObjectConvertible {
 
@@ -92,8 +93,17 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
             security.name = name
         }
 
-        for (_, parameter) in parameters {
+        for (name, parameter) in parameters {
             parameter.isGlobal = true
+            parameter.globalName = name
+            if parameter.enumValues != nil {
+                enums.append(parameter)
+            }
+            else if let arrayEnum = parameter.arrayValue, arrayEnum.enumValues != nil {
+                arrayEnum.isGlobal = true
+                arrayEnum.globalName = name
+                enums.append(arrayEnum)
+            }
         }
 
         for (name, definition) in definitions {
@@ -120,7 +130,15 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
                     property.dictionaryDefinition = reference
                 }
 
-                checkGlobalEnum(value: property)
+                for enumValue in enums {
+                    let propertyEnumValues = property.enumValues ?? property.arrayValue?.enumValues ?? []
+                    let globalEnumValues = enumValue.enumValues ?? enumValue.arrayValue?.enumValues ?? []
+                    if !propertyEnumValues.isEmpty && propertyEnumValues == globalEnumValues {
+                        property.isGlobal = true
+                        property.globalName = enumValue.globalName ?? enumValue.name
+                        continue
+                    }
+                }
             }
         }
 
@@ -146,24 +164,6 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
                 if let reference = getDefinitionReference(response.schema?.dictionaryDefinitionRef) {
                     response.schema?.dictionaryDefinition = reference
                 }
-            }
-        }
-    }
-
-    func checkGlobalEnum(value: Value) {
-        for property in self.parameters.values {
-            if let globalEnumValues = property.enumValues {
-                if let enumValues = value.enumValues, enumValues == globalEnumValues {
-                    value.isGlobal = true
-                    value.globalName = property.name
-                    return
-                }
-                else if let enumValues = value.arrayValue?.enumValues, enumValues == globalEnumValues {
-                    value.isGlobal = true
-                    value.globalName = property.name
-                    return
-                }
-
             }
         }
     }

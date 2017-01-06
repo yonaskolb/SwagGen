@@ -25,10 +25,16 @@ extension APIRequest {
                 params[key] = value
             }
         }
-
-        let encoding:ParameterEncoding = service.hasBody ? JSONEncoding.default : URLEncoding.queryString
-        let encodedURLRequest = try! encoding.encode(urlRequest, with: params)
-        return encodedURLRequest
+        if !params.isEmpty {
+            let encoding:ParameterEncoding = service.hasBody ? URLEncoding.httpBody : URLEncoding.queryString
+            urlRequest = try! encoding.encode(urlRequest, with: params)
+        }
+        if let jsonBody = jsonBody {
+            // not using Alamofire's JSONEncoding so that we can send a json array instead of being restricted to [String: Any]
+            urlRequest.httpBody = try! JSONSerialization.data(withJSONObject: jsonBody)
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+        return urlRequest
     }
 
     /// pass in an optional baseURL, otherwise {{ options.name }}.baseURL will be used

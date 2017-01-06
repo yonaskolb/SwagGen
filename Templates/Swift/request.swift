@@ -78,13 +78,9 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             return super.path{% for param in pathParams %}.replacingOccurrences(of: "{" + "{{ param.name }}" + "}", with: "\(self.options.{{ param.encodedValue }})"){% endfor %}
         }
         {% endif %}
-        {% if bodyParam or nonBodyParams %}
+        {% if nonBodyParams %}
 
         public override var parameters: [String: Any] {
-            {% if bodyParam %}
-            return {{ bodyParam.encodedValue }}
-            {% endif %}
-            {% if nonBodyParams %}
             var params: JSONDictionary = [:]
             {% for param in nonBodyParams %}
             {% if param.optional %}
@@ -96,7 +92,12 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             {% endif %}
             {% endfor %}
             return params
-            {% endif %}
+        }
+        {% endif %}
+        {% if bodyParam %}
+
+        public override var jsonBody: Any? {
+            return {{ bodyParam.encodedValue }}
         }
         {% endif %}
     }

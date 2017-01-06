@@ -8,16 +8,18 @@
 public class APIRequest<ResponseType> {
 
     public let service: APIService<ResponseType>
-    private(set) public var parameters: [String: Any]
+    public private(set) var parameters: [String: Any]
+    public private(set) var jsonBody: Any?
     public var headers: [String: String] = [:]
 
     public var path: String {
         return service.path
     }
 
-    public init(service: APIService<ResponseType>, parameters: [String: Any] = [:], headers: [String: String] = [:]) {
+    public init(service: APIService<ResponseType>, parameters: [String: Any] = [:], jsonBody: Any? = nil, headers: [String: String] = [:]) {
         self.service = service
         self.parameters = parameters
+        self.jsonBody = jsonBody
         self.headers = headers
     }
 

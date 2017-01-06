@@ -33,8 +33,8 @@ struct JSONDecoder {
     static func decode<T: JSONRawType>(json: Any) throws -> [String: T] {
         guard let jsonDictionary = json as? JSONDictionary else { throw JSONUtilsError.fileNotAJSONDictionary }
         var dictionary: [String: T] = [:]
-        for (key, value) in jsonDictionary {
-            dictionary[key] = try jsonDictionary.json(atKeyPath: key)
+        for key in jsonDictionary.keys {
+            dictionary[key] = try jsonDictionary.json(atKeyPath: key) as T
         }
         return dictionary
     }
@@ -42,8 +42,8 @@ struct JSONDecoder {
     static func decode<T: JSONDecodable>(json: Any) throws -> [String: T] {
         guard let jsonDictionary = json as? JSONDictionary else { throw JSONUtilsError.fileNotAJSONDictionary }
         var dictionary: [String: T] = [:]
-        for (key, value) in jsonDictionary {
-            dictionary[key] = try jsonDictionary.json(atKeyPath: key)
+        for key in jsonDictionary.keys {
+            dictionary[key] = try jsonDictionary.json(atKeyPath: key) as T
         }
         return dictionary
     }
@@ -51,8 +51,8 @@ struct JSONDecoder {
     static func decode<T: JSONPrimitiveConvertible>(json: Any) throws -> [String: T] {
         guard let jsonDictionary = json as? JSONDictionary else { throw JSONUtilsError.fileNotAJSONDictionary }
         var dictionary: [String: T] = [:]
-        for (key, value) in jsonDictionary {
-            dictionary[key] = try jsonDictionary.json(atKeyPath: key)
+        for key in jsonDictionary.keys {
+            dictionary[key] = try jsonDictionary.json(atKeyPath: key) as T
         }
         return dictionary
     }

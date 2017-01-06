@@ -57,7 +57,7 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
                 json = maybeJSON
             }
             else {
-                writeMessage("Parsing yaml")
+                writeMessage("Parsing yaml (may take a few moments)")
                 let string = String(data: data, encoding: .utf8)!
                 let yaml = try Yaml.load(string)
                 json = yaml.jsonDictionary!

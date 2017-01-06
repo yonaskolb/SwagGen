@@ -57,6 +57,7 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
 
         let codegen = Codegen(context: context, destination: destinationPath, templateConfig: templateConfig)
         if clean {
+            writeMessage("Cleaning \(destinationPath.absolute())")
             try? destinationPath.delete()
         }
         try codegen.generate()

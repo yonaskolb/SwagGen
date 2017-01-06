@@ -4,8 +4,9 @@ options:
 templateFiles:
   - path: Podspec.podspec
     destination: "{{ options.name }}.podspec"
-  - path: Enums.swift
-    destination: "{% if enums %}Enums.swift{% endif %}"
+  - path: Enum.swift
+    context: enums
+    destination: "Enums/{{ enumName }}.swift"
   - path: model.swift
     context: definitions
     destination: "Models/{{ name }}.swift"

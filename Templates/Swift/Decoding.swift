@@ -108,6 +108,78 @@ protocol JSONValueEncodable {
     func encode() -> Any
 }
 
+extension JSONRawType {
+    func encode() -> Any {
+        return self
+    }
+}
+
+extension RawRepresentable where RawValue: JSONRawType {
+    func encode() -> Any {
+        return rawValue.encode()
+    }
+}
+
+extension Array where Element: RawRepresentable, Element.RawValue == String {
+    func encode() -> [Any] {
+        return map{$0.encode()}
+    }
+}
+
+extension Array where Element: JSONRawType {
+    func encode() -> [Any] {
+        return map{$0.encode()}
+    }
+}
+
+extension Array where Element: JSONEncodable {
+    func encode() -> [Any] {
+        return map{$0.encode()}
+    }
+}
+
+extension Array where Element: JSONValueEncodable {
+    func encode() -> [Any] {
+        return map{$0.encode()}
+    }
+}
+
+extension Dictionary where Value: JSONRawType {
+    func encode() -> Any {
+        var dictionary: [Key: Any] = [:]
+        for (key, value) in self {
+            dictionary[key] = value.encode()
+        }
+        return dictionary
+    }
+}
+
+extension Dictionary where Value: JSONEncodable {
+    func encode() -> Any {
+        var dictionary: [Key: Any] = [:]
+        for (key, value) in self {
+            dictionary[key] = value.encode()
+        }
+        return dictionary
+    }
+}
+
+extension Dictionary where Value: JSONValueEncodable {
+    func encode() -> Any {
+        var dictionary: [Key: Any] = [:]
+        for (key, value) in self {
+            dictionary[key] = value.encode()
+        }
+        return dictionary
+    }
+}
+
+extension URL: JSONValueEncodable {
+    func encode() -> Any {
+        return absoluteString
+    }
+}
+
 private let dateFormatter: DateFormatter = {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = {{ options.name }}.dateEncodingFormat

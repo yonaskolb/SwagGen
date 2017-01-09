@@ -68,16 +68,19 @@ class SwiftFormatter: CodeFormatter {
 
     override func getValueContext(value: Value) -> [String: Any?] {
         var encodedValue = getValueName(value)
-        if value.type == "array" {
-            if let value = value.arrayValue, let path = getEncodedValuePath(value: value) {
-                encodedValue += ".map({ $0\(path) })"
-            }
-            if let collectionFormatSeperator = value.collectionFormatSeperator {
-                encodedValue += ".joined(separator: \"\(collectionFormatSeperator)\")"
-            }
+
+        let type = getValueType(value)
+        let jsonTypes = ["Any", "[String: Any]", "Int", "String", "Float", "Double", "Bool"]
+
+        if !jsonTypes.contains(type) && !jsonTypes.map({"[\($0)]"}).contains(type) && !jsonTypes.map({"[String: \($0)]"}).contains(type) {
+            encodedValue += ".encode()"
         }
-        if let path = getEncodedValuePath(value: value) {
-            encodedValue += path
+
+        if value.type == "array", let collectionFormatSeperator = value.collectionFormatSeperator {
+            if type != "[String]" {
+                encodedValue += ".map({ \"\\($0)\" })"
+            }
+            encodedValue += ".joined(separator: \"\(collectionFormatSeperator)\")"
         }
 
         if !value.required, let range = encodedValue.range(of: ".") {
@@ -87,18 +90,6 @@ class SwiftFormatter: CodeFormatter {
             "encodedValue": encodedValue,
             "optionalType": getValueType(value) + (value.required ? "" : "?"),
         ]
-    }
-
-    func getEncodedValuePath(value: Value) -> String? {
-        if value.enumValues != nil {
-            return ".rawValue"
-        } else if value.object != nil {
-            return ".encode()"
-        }
-        else if value.arrayDefinition != nil {
-            return ".map({ $0.encode() })"
-        }
-        return nil
     }
 
     override func escapeModelType(_ name: String) -> String {

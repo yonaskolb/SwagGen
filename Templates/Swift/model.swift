@@ -28,7 +28,7 @@ public class {{ formattedName }}: {% if parent %}{{ parent.formattedName }}{% el
     {% for property in properties %}
 
     {% if property.description %}
-    /** {{ property.description }}  */
+    /** {{ property.description }} */
     {% endif %}
     public var {{ property.name }}: {{ property.optionalType }}
     {% endfor %}

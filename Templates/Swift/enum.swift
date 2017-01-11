@@ -6,10 +6,16 @@
 //
 
 {% if description %}
-/** {{ description }}  */
+/** {{ description }} */
 {% endif %}
 public enum {{ enumName }}: String {
     {% for enumCase in enums %}
     case {{ enumCase.name }} = "{{enumCase.value}}"
     {% endfor %}
+
+    public static let cases: [{{ enumName }}] = [
+      {% for enumCase in enums %}
+      .{{ enumCase.name }},
+      {% endfor %}
+    ]
 }

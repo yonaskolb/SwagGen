@@ -4,7 +4,7 @@ options:
 templateFiles:
   - path: Podspec.podspec
     destination: "{{ options.name }}.podspec"
-  - path: Enum.swift
+  - path: enum.swift
     context: enums
     destination: "Enums/{{ enumName }}.swift"
   - path: model.swift

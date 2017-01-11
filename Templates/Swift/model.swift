@@ -16,12 +16,18 @@ public class {{ formattedName }}: {% if parent %}{{ parent.formattedName }}{% el
     {% if not enum.isGlobal %}
 
     {% if enum.description %}
-    /** {{ enum.description }}  */
+    /** {{ enum.description }} */
     {% endif %}
     public enum {{ enum.enumName }}: String {
         {% for enumCase in enum.enums %}
         case {{ enumCase.name }} = "{{ enumCase.value }}"
         {% endfor %}
+
+        public static let cases: [{{ enum.enumName }}] = [
+          {% for enumCase in enum.enums %}
+          .{{ enumCase.name }},
+          {% endfor %}
+        ]
     }
     {% endif %}
     {% endfor %}

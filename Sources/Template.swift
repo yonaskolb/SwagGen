@@ -8,7 +8,7 @@
 
 import Foundation
 import PathKit
-import Yaml
+import Yams
 import JSONUtilities
 
 struct TemplateConfig {
@@ -24,12 +24,13 @@ struct TemplateConfig {
         let templatePath = path + "template.yml"
         let data = try templatePath.read()
         let string = String(data: data, encoding: .utf8)!
-        let yaml = try Yaml.load(string)
-        templateFiles = yaml["templateFiles"].array?.map(TemplateFile.init) ?? []
-        copiedFiles = yaml["copiedFiles"].array?.flatMap{$0.string.flatMap{Path($0)}} ?? []
-        formatter = yaml["formatter"].string
+        let yaml = try Yams.load(yaml: string)
+        let json = yaml as! JSONDictionary
+        templateFiles = json.json(atKeyPath: "templateFiles") ?? []
+        copiedFiles = (json.json(atKeyPath: "copiedFiles") as [String]? ?? []).map{Path($0)}
+        formatter = json.json(atKeyPath: "formatter")
 
-        let templateOptions = yaml["options"].jsonDictionary ?? [:]
+        let templateOptions = json["options"] as? JSONDictionary ?? [:]
         self.options = templateOptions + options
     }
 }
@@ -50,11 +51,5 @@ struct TemplateFile: JSONObjectConvertible {
         path = try jsonDictionary.json(atKeyPath: "path")
         destination = jsonDictionary.json(atKeyPath: "destination")
         context = jsonDictionary.json(atKeyPath: "context")
-    }
-
-    init(yaml: Yaml) {
-        path = yaml["path"].string ?? ""
-        destination = yaml["destination"].string
-        context = yaml["context"].string
     }
 }

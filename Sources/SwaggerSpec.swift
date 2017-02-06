@@ -8,7 +8,7 @@
 
 import Foundation
 import JSONUtilities
-import Yaml
+import Yams
 import PathKit
 
 class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
@@ -46,23 +46,9 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         }
 
         let data = try Data(contentsOf: url)
-        let json: JSONDictionary
-
-        //if the file is sure to be json do a simple parse otherwise use the slower YAML parser
-        if url.pathExtension == "json" {
-            json = try JSONDictionary.from(jsonData: data)
-        }
-        else {
-            if let maybeJSON: JSONDictionary = try? JSONDictionary.from(jsonData: data) {
-                json = maybeJSON
-            }
-            else {
-                writeMessage("Parsing yaml (may take a few moments)")
-                let string = String(data: data, encoding: .utf8)!
-                let yaml = try Yaml.load(string)
-                json = yaml.jsonDictionary!
-            }
-        }
+        let string = String(data: data, encoding: .utf8)!
+        let yaml = try Yams.load(yaml: string)
+        let json = yaml as! JSONDictionary
 
         try self.init(jsonDictionary: json)
     }

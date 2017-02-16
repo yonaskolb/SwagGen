@@ -44,7 +44,7 @@ class SwiftFormatter: CodeFormatter {
         case "number", "double": return "Double"
         case "date": return "Date"
         case "boolean": return "Bool"
-        case "file": return "Data"
+        case "file": return "URL"
         case "uri": return "URL"
         case "object":
             if let definition = value.dictionaryDefinition {

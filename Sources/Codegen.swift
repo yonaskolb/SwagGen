@@ -17,6 +17,7 @@ class Codegen {
     var templateConfig: TemplateConfig
     let context: JSONDictionary
     let environment: Environment
+    var generatedCount = 0
 
     init(context: JSONDictionary, destination: Path, templateConfig: TemplateConfig) {
         var mergedContext = context
@@ -33,7 +34,7 @@ class Codegen {
     }
 
     func generate() throws {
-
+        generatedCount = 0
         for file in templateConfig.templateFiles {
             let template = try environment.loadTemplate(name: file.path)
 
@@ -58,6 +59,7 @@ class Codegen {
             }
         }
 
+        var copiedCount = 0
         for file in templateConfig.copiedFiles {
             let destinationPath = destination + file
             let sourcePath = templateConfig.path + file
@@ -65,8 +67,20 @@ class Codegen {
                 try? destinationPath.delete()
             }
             try sourcePath.copy(destinationPath)
-            writeMessage("✅ Copied \(destinationPath)")
+            writeMessage("Copied \(destinationPath)")
+            if destinationPath.isDirectory {
+                copiedCount += (try? destinationPath.recursiveChildren().count) ?? 0
+            }
+            else {
+                copiedCount += 1
+            }
         }
+
+        var message = "Generated \(generatedCount) \(generatedCount == 1 ? "file" : "files")"
+        if copiedCount > 0 {
+            message += " and Copied \(copiedCount) \(copiedCount == 1 ? "file" : "files")"
+        }
+        writeMessage(message)
     }
 
     func writeTemplateFile(_ templateFile: TemplateFile, template: Template, context: JSONDictionary) throws {
@@ -74,7 +88,7 @@ class Codegen {
         if let destination = templateFile.destination {
             let path = try environment.renderTemplate(string: destination, context: context)
             if path == "" {
-                writeMessage("❎ Skipping file \(templateFile.path)")
+                writeMessage("Skipped file \(templateFile.path)")
                 return
             }
             filePath = path
@@ -83,6 +97,7 @@ class Codegen {
         let rendered = try template.render(context)
         try outputPath.parent().mkpath()
         try outputPath.write(rendered)
-        writeMessage("✅ Created \(outputPath)")
+        writeMessage("Generated \(filePath)")
+        generatedCount += 1
     }
 }

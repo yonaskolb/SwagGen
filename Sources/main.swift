@@ -35,7 +35,8 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
         writeMessage("Loaded spec: \"\(spec.info.title ?? "")\" - \(spec.operations.count) operations, \(spec.definitions.count) definitions, \(spec.tags.count) tags, \(spec.parameters.count) parameters")
 
         let templateConfig = try TemplateConfig(path: templatePath, options: optionsDictionary)
-        writeMessage("Loaded template: \(templateConfig.templateFiles.count) template files, \(templateConfig.copiedFiles.count) copied files")
+        let counts: [String: Int] = ["template file": templateConfig.templateFiles.count, "copied file": templateConfig.copiedFiles.count, "option": templateConfig.options.keys.count]
+        writeMessage("Loaded template: \(counts.map{"\($0.value) \($0.value == 1 ? $0.key : "\($0.key)s")"}.joined(separator: ", "))")
         if !templateConfig.options.isEmpty {
             writeMessage("Options:\n\t\(templateConfig.options.map{"\($0): \($1)"}.joined(separator: "\n").replacingOccurrences(of: "\n", with: "\n\t"))")
         }
@@ -58,10 +59,13 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
         let context = codeFormatter.getContext()
 
         let codegen = Codegen(context: context, destination: destinationPath, templateConfig: templateConfig)
+
+        writeMessage("Destination: \(destinationPath.absolute())")
         if clean {
             try? destinationPath.delete()
-            writeMessage("♻️ Cleaned \(destinationPath.absolute())")
+            writeMessage("Cleaned destination")
         }
+
         try codegen.generate()
     } catch let error {
         writeError("Error: \(error.localizedDescription)")

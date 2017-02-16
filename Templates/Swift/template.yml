@@ -1,6 +1,6 @@
 formatter: swift
 options:
-  name: Api
+  name: API
 templateFiles:
   - path: Podspec.podspec
     destination: "{{ options.name }}.podspec"

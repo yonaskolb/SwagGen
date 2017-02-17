@@ -28,9 +28,6 @@ If you want to pass the required arguments when running in XCode, you can edit t
 Use `SwagGen -help` to see the list of options:
 
 - **spec** (required): This is the path to the json Swagger spec. It can either be a file path or a url
-- **template** (required): This is the path to directory that contains the template. This directory must contain a `template.json` manifest file
-- **destination** The directory that the generated files will be added to. Defaults to the directory where the command is run from
-- **options**: A list of options that are passed to each template. Options must be comma delimited and each key value pair must be colon delimited. Whitespace is automatically trimmed, though if you have values with spaces in them, surround the argument with quotes. e.g.  "option: value 1, option2: value 2"
 - **clean** true or false - whether the destination directory is cleaned before the generated files are created. Defaults to false
 
 Example:

@@ -15,13 +15,20 @@ struct TemplateConfig {
 
     let templateFiles: [TemplateFile]
     let copiedFiles: [Path]
-    let path: Path
+    let basePath: Path
     let formatter: String?
     let options: [String: Any]
 
     init(path: Path, options: [String: String]) throws {
-        self.path = path
-        let templatePath = path + "template.yml"
+        let templatePath: Path
+        if path.isDirectory {
+            basePath = path
+            templatePath = path + "template.yml"
+        }
+        else {
+            basePath = path.parent()
+            templatePath = path
+        }
         let data = try templatePath.read()
         let string = String(data: data, encoding: .utf8)!
         let yaml = try Yams.load(yaml: string)

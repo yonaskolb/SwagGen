@@ -30,7 +30,7 @@ class Codegen {
         filterExtension.registerFilter("lowerCamelCase") { ($0 as? String)?.lowerCamelCased() ?? $0 }
         filterExtension.registerFilter("upperCamelCase") { ($0 as? String)?.upperCamelCased() ?? $0 }
 
-        environment = Environment(loader: FileSystemLoader(paths: [templateConfig.path]), extensions: [filterExtension])
+        environment = Environment(loader: FileSystemLoader(paths: [templateConfig.basePath]), extensions: [filterExtension])
     }
 
     func generate() throws {
@@ -62,7 +62,7 @@ class Codegen {
         var copiedCount = 0
         for file in templateConfig.copiedFiles {
             let destinationPath = destination + file
-            let sourcePath = templateConfig.path + file
+            let sourcePath = templateConfig.basePath + file
             if destinationPath.exists {
                 try? destinationPath.delete()
             }

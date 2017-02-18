@@ -1,0 +1,7 @@
+paths:
+  /user:
+    get:
+      operationId: getUser
+      responses:
+        '201':
+          description: Empty Response

@@ -17,7 +17,7 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
     let definitions: [String: Definition]
     let parameters: [String: Parameter]
     let security: [String: Security]
-    let info: Info
+    let info: Info?
     let host: String?
     let basePath: String?
     let schemes: [String]
@@ -54,7 +54,7 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
     }
 
     required init(jsonDictionary: JSONDictionary) throws {
-        info = try jsonDictionary.json(atKeyPath: "info")
+        info = jsonDictionary.json(atKeyPath: "info")
         host = jsonDictionary.json(atKeyPath: "host")
         basePath = jsonDictionary.json(atKeyPath: "basePath")
         schemes = jsonDictionary.json(atKeyPath: "schemes") ?? []
@@ -67,9 +67,9 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
             }
         }
         self.paths = paths
-        definitions = try jsonDictionary.json(atKeyPath: "definitions")
+        definitions = jsonDictionary.json(atKeyPath: "definitions") ?? [:]
         parameters = jsonDictionary.json(atKeyPath: "parameters") ?? [:]
-        security = try jsonDictionary.json(atKeyPath: "securityDefinitions")
+        security = jsonDictionary.json(atKeyPath: "securityDefinitions") ?? [:]
 
         resolve()
     }
@@ -197,7 +197,8 @@ class Endpoint {
         var methods: [String: Operation] = [:]
         for method in methodsTypes {
 
-            if let dictionary = jsonDictionary[method] as? JSONDictionary, let operation = try? Operation(path: path, method: method, jsonDictionary: dictionary) {
+            if let dictionary = jsonDictionary[method] as? JSONDictionary {
+                let operation = try Operation(path: path, method: method, jsonDictionary: dictionary)
                 methods[method] = operation
             }
         }
@@ -223,8 +224,8 @@ class Operation {
         self.path = path
         operationId = try jsonDictionary.json(atKeyPath: "operationId")
         description = jsonDictionary.json(atKeyPath: "description")
-        tags = try jsonDictionary.json(atKeyPath: "tags")
-        parameters = try jsonDictionary.json(atKeyPath: "parameters")
+        tags = jsonDictionary.json(atKeyPath: "tags") ?? []
+        parameters = jsonDictionary.json(atKeyPath: "parameters") ?? []
         security = jsonDictionary.json(atKeyPath: "security") ?? []
         let responseDictionary: JSONDictionary = try jsonDictionary.json(atKeyPath: "responses")
         var responses: [Response] = []

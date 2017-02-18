@@ -30,7 +30,7 @@ class CodeFormatter {
         context["operations"] = spec.operations.map(getOperationContext)
         context["tags"] = spec.opererationsByTag.map { ["name": $0, "operations": $1.map(getOperationContext)] }
         context["definitions"] = Array(spec.definitions.values).map(getDefinitionContext)
-        context["info"] = geSpecInfoContext(info: spec.info)
+        context["info"] = spec.info.flatMap(getSpecInfoContext)
         context["host"] = spec.host
         context["basePath"] = spec.basePath
         context["baseURL"] = "\(spec.schemes.first ?? "http")://\(spec.host ?? "")\(spec.basePath ?? "")"
@@ -39,7 +39,7 @@ class CodeFormatter {
         return context
     }
 
-    func geSpecInfoContext(info: SwaggerSpec.Info) -> [String: Any?] {
+    func getSpecInfoContext(info: SwaggerSpec.Info) -> [String: Any?] {
         var context: [String: Any?] = [:]
 
         context["title"] = info.title

@@ -8,11 +8,11 @@
 
 import Foundation
 
-class CodeFormatter {
+public class CodeFormatter {
 
     let spec: SwaggerSpec
 
-    init(spec: SwaggerSpec) {
+    public init(spec: SwaggerSpec) {
         self.spec = spec
     }
 
@@ -20,7 +20,7 @@ class CodeFormatter {
         return []
     }
 
-    func getContext() -> [String: Any] {
+    public func getContext() -> [String: Any] {
         return cleanDictionary(getSpecContext())
     }
 

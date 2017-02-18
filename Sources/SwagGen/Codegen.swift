@@ -11,7 +11,7 @@ import PathKit
 import Stencil
 import JSONUtilities
 
-class Codegen {
+public class Codegen {
 
     var destination: Path
     var templateConfig: TemplateConfig
@@ -19,7 +19,7 @@ class Codegen {
     let environment: Environment
     var generatedCount = 0
 
-    init(context: JSONDictionary, destination: Path, templateConfig: TemplateConfig) {
+    public init(context: JSONDictionary, destination: Path, templateConfig: TemplateConfig) {
         var mergedContext = context
         mergedContext["options"] = templateConfig.options
         self.context = mergedContext
@@ -33,7 +33,7 @@ class Codegen {
         environment = Environment(loader: FileSystemLoader(paths: [templateConfig.basePath]), extensions: [filterExtension])
     }
 
-    func generate() throws {
+    public func generate() throws {
         generatedCount = 0
         for file in templateConfig.templateFiles {
             let template = try environment.loadTemplate(name: file.path)

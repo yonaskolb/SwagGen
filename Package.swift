@@ -2,6 +2,9 @@ import PackageDescription
 
 let package = Package(
     name: "SwagGen",
+    targets: [
+      Target(name: "SwagGenCommandLine", dependencies: ["SwagGen"]),
+    ],
     dependencies: [
         .Package(url: "https://github.com/kylef/PathKit.git", Version(0,7,0)),
         .Package(url: "https://github.com/kylef/Commander.git", Version(0,6,0)),

@@ -11,15 +11,15 @@ import PathKit
 import Yams
 import JSONUtilities
 
-struct TemplateConfig {
+public struct TemplateConfig {
 
-    let templateFiles: [TemplateFile]
-    let copiedFiles: [Path]
-    let basePath: Path
-    let formatter: String?
-    let options: [String: Any]
+    public let templateFiles: [TemplateFile]
+    public let copiedFiles: [Path]
+    public let basePath: Path
+    public let formatter: String?
+    public let options: [String: Any]
 
-    init(path: Path, options: [String: String]) throws {
+    public init(path: Path, options: [String: String]) throws {
         let templatePath: Path
         if path.isDirectory {
             basePath = path
@@ -42,19 +42,19 @@ struct TemplateConfig {
     }
 }
 
-struct TemplateFile: JSONObjectConvertible {
+public struct TemplateFile: JSONObjectConvertible {
 
-    let path: String
-    let destination: String?
-    let context: String?
+    public let path: String
+    public let destination: String?
+    public let context: String?
 
-    init(path: String, destination: String?, context: String?) {
+    public init(path: String, destination: String?, context: String?) {
         self.path = path
         self.destination = destination
         self.context = context
     }
 
-    init(jsonDictionary: JSONDictionary) throws {
+    public init(jsonDictionary: JSONDictionary) throws {
         path = try jsonDictionary.json(atKeyPath: "path")
         destination = jsonDictionary.json(atKeyPath: "destination")
         context = jsonDictionary.json(atKeyPath: "context")

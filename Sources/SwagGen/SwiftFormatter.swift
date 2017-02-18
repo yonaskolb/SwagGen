@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SwiftFormatter: CodeFormatter {
+public class SwiftFormatter: CodeFormatter {
 
     override var disallowedTypes: [String] {
         return [

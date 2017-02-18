@@ -11,32 +11,32 @@ import JSONUtilities
 import Yams
 import PathKit
 
-class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
+public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
 
-    let paths: [String: Endpoint]
-    let definitions: [String: Definition]
-    let parameters: [String: Parameter]
-    let security: [String: Security]
-    let info: Info?
-    let host: String?
-    let basePath: String?
-    let schemes: [String]
-    var enums: [Value] = []
+    public let paths: [String: Endpoint]
+    public let definitions: [String: Definition]
+    public let parameters: [String: Parameter]
+    public let security: [String: Security]
+    public let info: Info?
+    public let host: String?
+    public let basePath: String?
+    public let schemes: [String]
+    public var enums: [Value] = []
 
-    struct Info: JSONObjectConvertible {
+    public struct Info: JSONObjectConvertible {
 
-        let title: String?
-        let version: String?
-        let description: String?
+        public let title: String?
+        public let version: String?
+        public let description: String?
 
-        init(jsonDictionary: JSONDictionary) throws {
+        public init(jsonDictionary: JSONDictionary) throws {
             title = jsonDictionary.json(atKeyPath: "title")
             version = jsonDictionary.json(atKeyPath: "version")
             description = jsonDictionary.json(atKeyPath: "description")
         }
     }
 
-    convenience init(path: String) throws {
+    public convenience init(path: String) throws {
         var url = URL(string: path)!
         if url.scheme == nil {
             url = URL(fileURLWithPath: path)
@@ -53,7 +53,7 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         try self.init(jsonDictionary: json)
     }
 
-    required init(jsonDictionary: JSONDictionary) throws {
+    required public init(jsonDictionary: JSONDictionary) throws {
         info = jsonDictionary.json(atKeyPath: "info")
         host = jsonDictionary.json(atKeyPath: "host")
         basePath = jsonDictionary.json(atKeyPath: "basePath")
@@ -162,15 +162,15 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         return reference?.components(separatedBy: "/").last.flatMap { parameters[$0] }
     }
 
-    var operations: [Operation] {
+    public var operations: [Operation] {
         return paths.values.reduce([]) { return $0 + $1.operations }
     }
 
-    var tags: [String] {
+    public var tags: [String] {
         return Array(Set(operations.reduce([]) { $0 + $1.tags })).sorted { $0.compare($1) == .orderedAscending }
     }
 
-    var opererationsByTag: [String: [Operation]] {
+    public var opererationsByTag: [String: [Operation]] {
         var dictionary: [String: [Operation]] = [:]
 
         for tag in tags {
@@ -179,19 +179,19 @@ class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         return dictionary
     }
 
-    var description: String {
+    public var description: String {
         let ops = "Operations:\n\t" + operations.map { $0.operationId }.joined(separator: "\n\t") as String
         let defs = "Definitions:\n" + Array(definitions.values).map { $0.deepDescription(prefix: "\t") }.joined(separator: "\n") as String
         return "\(info)\n\n\(ops)\n\n\(defs))"
     }
 }
 
-class Endpoint {
+public class Endpoint {
 
     let path: String
     let methods: [String: Operation]
 
-    required init(path: String, jsonDictionary: JSONDictionary) throws {
+    required public init(path: String, jsonDictionary: JSONDictionary) throws {
         self.path = path
 
         var methods: [String: Operation] = [:]
@@ -207,7 +207,7 @@ class Endpoint {
     var operations: [Operation] { return Array(methods.values) }
 }
 
-class Operation {
+public class Operation {
 
     let operationId: String
     let description: String?
@@ -245,7 +245,7 @@ class Operation {
     }
 }
 
-class Response {
+public class Response {
 
     let statusCode: Int
     let description: String?
@@ -258,7 +258,7 @@ class Response {
     }
 }
 
-class Definition: JSONObjectConvertible {
+public class Definition: JSONObjectConvertible {
 
     var name: String = ""
     let type: String?
@@ -271,7 +271,7 @@ class Definition: JSONObjectConvertible {
     let optionalProperties: [Property]
     let properties: [Property]
 
-    required init(jsonDictionary: JSONDictionary) throws {
+    required public init(jsonDictionary: JSONDictionary) throws {
 
         var json = jsonDictionary
         if let allOf = json.json(atKeyPath: "allOf") as [JSONDictionary]? {
@@ -313,7 +313,7 @@ class Definition: JSONObjectConvertible {
     }
 }
 
-class Value: JSONObjectConvertible {
+public class Value: JSONObjectConvertible {
 
     var name: String
     let description: String?
@@ -343,7 +343,7 @@ class Value: JSONObjectConvertible {
     var isGlobal = false
     var globalName: String?
 
-    required init(jsonDictionary: JSONDictionary) throws {
+    required public init(jsonDictionary: JSONDictionary) throws {
         name = jsonDictionary.json(atKeyPath: "name") ?? ""
         description = jsonDictionary.json(atKeyPath: "description")
         reference = jsonDictionary.json(atKeyPath: "$ref")
@@ -376,7 +376,7 @@ class Value: JSONObjectConvertible {
     }
 }
 
-class Parameter: Value {
+public class Parameter: Value {
 
     var parameterType: ParamaterType?
 
@@ -387,23 +387,23 @@ class Parameter: Value {
         case form
     }
 
-    required init(jsonDictionary: JSONDictionary) throws {
+    required public init(jsonDictionary: JSONDictionary) throws {
         parameterType = (try? jsonDictionary.json(atKeyPath: "in") as String).flatMap { ParamaterType(rawValue: $0) }
         try super.init(jsonDictionary: jsonDictionary)
     }
 }
 
-class Property: Value {
+public class Property: Value {
 }
 
-class Security: JSONObjectConvertible {
+public class Security: JSONObjectConvertible {
 
     var name: String = ""
     var type: String
     let scopes: [String]?
     var description: String?
 
-    required init(jsonDictionary: JSONDictionary) throws {
+    required public init(jsonDictionary: JSONDictionary) throws {
         type = try jsonDictionary.json(atKeyPath: "type")
         description = jsonDictionary.json(atKeyPath: "description")
         scopes = jsonDictionary.json(atKeyPath: "scopes")
@@ -417,7 +417,7 @@ class Security: JSONObjectConvertible {
 struct OperationSecurity: JSONObjectConvertible {
     let name: String
     let scopes: [String]
-    
+
     init(jsonDictionary: JSONDictionary) throws {
         name = jsonDictionary.keys.first ?? ""
         scopes = try jsonDictionary.json(atKeyPath: "\(name).scopes")

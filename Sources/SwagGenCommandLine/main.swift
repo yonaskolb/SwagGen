@@ -9,6 +9,7 @@
 import Foundation
 import PathKit
 import Commander
+import SwagGen
 
 func generate(templatePath: Path, destinationPath: Path, specPath: String, clean: Bool, options: String) {
 
@@ -114,6 +115,16 @@ func optionsValidator(string: String) -> String {
         exit(EXIT_FAILURE)
     }
     return string
+}
+
+extension Path: ArgumentConvertible {
+    public init(parser: ArgumentParser) throws {
+        if let path = parser.shift() {
+            self.init(path)
+        } else {
+            throw ArgumentError.missingValue(argument: nil)
+        }
+    }
 }
 
 command(

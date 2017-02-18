@@ -193,11 +193,10 @@ class Endpoint {
 
     required init(path: String, jsonDictionary: JSONDictionary) throws {
         self.path = path
-        let methodsTypes = ["get", "delete", "post", "put"]
-        var methods: [String: Operation] = [:]
-        for method in methodsTypes {
 
-            if let dictionary = jsonDictionary[method] as? JSONDictionary {
+        var methods: [String: Operation] = [:]
+        for method in jsonDictionary.keys {
+            if method != "security", let dictionary = jsonDictionary[method] as? JSONDictionary {
                 let operation = try Operation(path: path, method: method, jsonDictionary: dictionary)
                 methods[method] = operation
             }

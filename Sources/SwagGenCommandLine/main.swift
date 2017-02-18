@@ -11,10 +11,14 @@ import PathKit
 import Commander
 import SwagGen
 
-func generate(templatePath: Path, destinationPath: Path, specPath: String, clean: Bool, options: String) {
+func generate(templatePath: String, destinationPath: Path, specPath: String, clean: Bool, options: String) {
 
     guard specPath != "" && URL(string: specPath) != nil else {
         writeError("Must provide a valid spec")
+        exit(EXIT_FAILURE)
+    }
+    guard templatePath != "" && URL(string: templatePath) != nil else {
+        writeError("Must provide a template")
         exit(EXIT_FAILURE)
     }
 
@@ -48,7 +52,7 @@ func generate(templatePath: Path, destinationPath: Path, specPath: String, clean
 
     let templateConfig: TemplateConfig
     do {
-        templateConfig = try TemplateConfig(path: templatePath, options: optionsDictionary)
+        templateConfig = try TemplateConfig(path: Path(templatePath), options: optionsDictionary)
     } catch let error {
         writeError("Error loading template: \(error)")
         exit(EXIT_FAILURE)
@@ -101,14 +105,6 @@ func getCountString(counts: [String:Int]) -> String {
     return counts.map{"\($0.value) \($0.value == 1 ? $0.key : "\($0.key)s")"}.joined(separator: ", ")
 }
 
-func isReadable(path: Path) -> Path {
-    if !path.isReadable {
-        writeError("'\(path)' does not exist or is not readable.")
-        exit(EXIT_FAILURE)
-    }
-    return path
-}
-
 func optionsValidator(string: String) -> String {
     if !string.isEmpty && !string.contains(":") {
         writeError("Options arguement '\(string)' must be comma delimited and the name and value must be seperated by a colon")
@@ -128,7 +124,7 @@ extension Path: ArgumentConvertible {
 }
 
 command(
-    Option("template", Path(""), flag: "f", description: "The path to the template json file", validator: isReadable),
+    Option("template", "", flag: "t", description: "The path to the template json file"),
     Option("destination", Path.current + "generated", flag: "d", description: "The directory where the generated files will be created"),
     Option("spec", "", flag: "s", description: "The path or url to a swagger spec json file"),
     Flag("clean", description: "Whether the destination directory will be cleared before generating", default: false),

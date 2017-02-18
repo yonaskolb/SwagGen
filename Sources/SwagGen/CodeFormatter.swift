@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Swagger
 
 public class CodeFormatter {
 
@@ -56,7 +57,7 @@ public class CodeFormatter {
         ]
     }
 
-    func getOperationContext(operation: Operation) -> [String: Any?] {
+    func getOperationContext(operation: Swagger.Operation) -> [String: Any?] {
         let successResponse = operation.responses.filter { $0.statusCode == 200 || $0.statusCode == 204 }.first
         var context: [String: Any?] = [:]
 

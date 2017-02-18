@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Swagger
 
 public class SwiftFormatter: CodeFormatter {
 

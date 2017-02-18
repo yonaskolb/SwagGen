@@ -11,7 +11,7 @@ import PathKit
 import Stencil
 import JSONUtilities
 
-public class Codegen {
+public class Generator {
 
     var destination: Path
     var templateConfig: TemplateConfig

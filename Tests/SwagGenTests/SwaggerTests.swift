@@ -1,5 +1,6 @@
 import XCTest
 @testable import SwagGen
+@testable import Swagger
 import PathKit
 
 class SwaggerTests: XCTestCase {

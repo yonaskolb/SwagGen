@@ -281,7 +281,7 @@ public class Definition: JSONObjectConvertible {
         type = json.json(atKeyPath: "type")
         reference = json.json(atKeyPath: "$ref")
         description = json.json(atKeyPath: "description")
-        propertiesByName = try json.json(atKeyPath: "properties")
+        propertiesByName = json.json(atKeyPath: "properties") ?? [:]
         propertiesByName.forEach { name, property in
             property.name = name
         }

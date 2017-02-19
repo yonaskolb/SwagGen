@@ -3,8 +3,8 @@ import PackageDescription
 let package = Package(
     name: "SwagGen",
     targets: [
-        Target(name: "SwagGenCommandLine", dependencies: ["SwagGen"]),
-        Target(name: "SwagGen", dependencies: ["Swagger"]),
+        Target(name: "SwagGen", dependencies: ["SwagGenKit"]),
+        Target(name: "SwagGenKit", dependencies: ["Swagger"]),
     ],
     dependencies: [
         .Package(url: "https://github.com/kylef/PathKit.git", Version(0, 7, 0)),

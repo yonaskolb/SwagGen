@@ -1,5 +1,5 @@
 import XCTest
-@testable import SwagGen
+@testable import SwagGenKit
 @testable import Swagger
 import PathKit
 

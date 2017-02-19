@@ -9,7 +9,7 @@
 import Foundation
 import PathKit
 import Commander
-import SwagGen
+import SwagGenKit
 
 func optionsValidator(string: String) -> String {
     if !string.isEmpty && !string.contains(":") {

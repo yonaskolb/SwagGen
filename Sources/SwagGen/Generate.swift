@@ -8,7 +8,7 @@
 
 import Foundation
 import Swagger
-import SwagGen
+import SwagGenKit
 import PathKit
 
 func generate(templatePath: String, destinationPath: Path, specPath: String, clean: Bool, options: String) {

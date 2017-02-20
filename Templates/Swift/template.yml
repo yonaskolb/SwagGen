@@ -1,6 +1,11 @@
 formatter: swift
 options:
   name: API
+  dependencies:
+    - pod: JSONUtilities
+      version: 3.2
+    - pod: Alamofire
+      version: 4.2
 templateFiles:
   - path: Podspec.podspec
     destination: "{{ options.name }}.podspec"

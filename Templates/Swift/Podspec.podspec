@@ -10,6 +10,7 @@ Pod::Spec.new do |s|
     s.tvos.deployment_target = '9.0'
     s.osx.deployment_target = '10.9'
     s.source_files = '**/*.swift'
-    s.dependency 'JSONUtilities', '~> 3.2'
-    s.dependency 'Alamofire', '~> 4.2'
+    {% for dependency in options.dependencies %}
+    s.dependency '{{ dependency.pod }}', '~> {{ dependency.version }}'
+    {% endfor %}
 end

@@ -1,8 +1,9 @@
 os:
-- osx
+  - osx
 language: generic
 sudo: required
 dist: trusty
 osx_image: xcode8
 script:
-- swift test
+  - swift build
+  - swift test

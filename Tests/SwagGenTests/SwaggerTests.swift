@@ -37,3 +37,12 @@ class SwaggerTests: XCTestCase {
         }
     }
 }
+
+extension SwaggerTests {
+    static var allTests: [(String, (SwaggerTests) -> () throws -> Void)] {
+        return [
+            ("testSwaggerParsingMinimum", testSwaggerParsingMinimum),
+            ("testSwaggerParsingPetStore", testSwaggerParsingPetStore),
+        ]
+    }
+}

@@ -1,9 +1,7 @@
 os:
   - osx
-  - linux
-language: generic
-sudo: required
-dist: trusty
-osx_image: xcode8
+language: swift
+osx_image: xcode8.2
 script:
+  - swift build
   - swift test

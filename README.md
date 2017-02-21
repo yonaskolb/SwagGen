@@ -42,7 +42,7 @@ Use `SwagGen -help` to see the list of options:
 Example:
 
 ```
-SwagGen --template Templates/Swift --spec http://myapi.com/spec --options "name: MyAPI, customProperty: custom value"
+SwagGen --template Templates/Swift --spec http://myapi.com/spec --destination generated --options "name: MyAPI, customProperty: custom value"
 ```
 
 ## Templates

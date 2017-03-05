@@ -74,6 +74,7 @@ public class CodeFormatter {
         context["pathParams"] = operation.getParameters(type: .path).map(getParameterContext)
         context["queryParams"] = operation.getParameters(type: .query).map(getParameterContext)
         context["formParams"] = operation.getParameters(type: .form).map(getParameterContext)
+        context["headerParams"] = operation.getParameters(type: .header).map(getParameterContext)
         context["enums"] = operation.enums.map(getParameterContext)
         context["security"] = operation.security.map(getSecurityContext).first
         context["responses"] = operation.responses.map(getResponseContext)

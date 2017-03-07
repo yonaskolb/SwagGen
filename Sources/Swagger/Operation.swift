@@ -78,7 +78,8 @@ public class Parameter: Value {
         case body
         case path
         case query
-        case form
+        case form = "formData"
+        case header
     }
 
     required public init(jsonDictionary: JSONDictionary) throws {

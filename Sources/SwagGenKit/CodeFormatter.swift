@@ -30,7 +30,7 @@ public class CodeFormatter {
 
         context["operations"] = spec.operations.map(getOperationContext)
         context["tags"] = spec.opererationsByTag.map { ["name": $0, "operations": $1.map(getOperationContext)] }
-        context["definitions"] = Array(spec.definitions.values).map(getDefinitionContext)
+        context["definitions"] = Array(spec.definitions.values).map(getSchemaContext)
         context["info"] = spec.info.flatMap(getSpecInfoContext)
         context["host"] = spec.host
         context["basePath"] = spec.basePath
@@ -114,10 +114,10 @@ public class CodeFormatter {
         context["description"] = value.description
         let enums = value.enumValues ?? value.arrayValue?.enumValues
         context["enums"] = enums?.map { ["name": getEnumCaseName($0), "value": $0] }
-        context["arrayType"] = value.arrayDefinition.flatMap(getModelName)
-        context["dictionaryType"] = value.dictionaryDefinition.flatMap(getModelName)
+        context["arrayType"] = value.arraySchema.flatMap(getModelName)
+        context["dictionaryType"] = value.dictionarySchema.flatMap(getModelName)
         context["isArray"] = value.type == "array"
-        context["isDictionary"] = value.type == "object" && (value.dictionaryDefinition != nil || value.dictionaryValue != nil)
+        context["isDictionary"] = value.type == "object" && (value.dictionarySchema != nil || value.dictionaryValue != nil)
         context["isGlobal"] = value.isGlobal
         return context
     }
@@ -134,17 +134,17 @@ public class CodeFormatter {
         return getValueContext(value: property)
     }
 
-    func getDefinitionContext(definition: Definition) -> [String: Any?] {
+    func getSchemaContext(schema: Schema) -> [String: Any?] {
         var context: [String: Any?] = [:]
-        context["name"] = definition.name
-        context["formattedName"] = getModelName(definition)
-        context["parent"] = definition.parent.flatMap(getDefinitionContext)
-        context["description"] = definition.description
-        context["requiredProperties"] = definition.requiredProperties.map(getPropertyContext)
-        context["optionalProperties"] = definition.optionalProperties.map(getPropertyContext)
-        context["properties"] = definition.properties.map(getPropertyContext)
-        context["allProperties"] = definition.allProperties.map(getPropertyContext)
-        context["enums"] = definition.enums.map(getValueContext)
+        context["name"] = schema.name
+        context["formattedName"] = getModelName(schema)
+        context["parent"] = schema.parent.flatMap(getSchemaContext)
+        context["description"] = schema.description
+        context["requiredProperties"] = schema.requiredProperties.map(getPropertyContext)
+        context["optionalProperties"] = schema.optionalProperties.map(getPropertyContext)
+        context["properties"] = schema.properties.map(getPropertyContext)
+        context["allProperties"] = schema.allProperties.map(getPropertyContext)
+        context["enums"] = schema.enums.map(getValueContext)
         return context
     }
 
@@ -156,9 +156,8 @@ public class CodeFormatter {
         return "_\(name)"
     }
 
-
-    func getModelName(_ definition: Definition) -> String {
-        let name = definition.name.upperCamelCased()
+    func getModelName(_ schema: Schema) -> String {
+        let name = schema.name.upperCamelCased()
         return disallowedTypes.contains(name) ? escapeModelType(name) : name
     }
 

@@ -48,16 +48,16 @@ public class SwiftFormatter: CodeFormatter {
         case "file": return "URL"
         case "uri": return "URL"
         case "object":
-            if let definition = value.dictionaryDefinition {
-                return "[String: \(getModelName(definition))]"
+            if let schema = value.dictionarySchema {
+                return "[String: \(getModelName(schema))]"
             } else if let value = value.dictionaryValue {
                 return "[String: \(getValueType(value))]"
             } else {
                 return "[String: Any]"
             }
         case "array":
-            if let definition = value.arrayDefinition {
-                return "[\(getModelName(definition))]"
+            if let schema = value.arraySchema {
+                return "[\(getModelName(schema))]"
             } else {
                 let arrayValue = value.arrayValue!
                 return "[\(arrayValue.enumValues != nil ? getEnumName(value) : getValueType(arrayValue))]"

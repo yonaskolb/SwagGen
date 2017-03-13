@@ -19,11 +19,11 @@ public class Value: JSONObjectConvertible {
     public var format: String?
     public var enumValues: [String]?
     public var arrayValue: Value?
-    public var arrayDefinition: Definition?
+    public var arraySchema: Schema?
     var arrayRef: String?
-    public var object: Definition?
-    public var dictionaryDefinition: Definition?
-    var dictionaryDefinitionRef: String?
+    public var object: Schema?
+    public var dictionarySchema: Schema?
+    var dictionarySchemaRef: String?
     public var dictionaryValue: Value?
     public var collectionFormat: String?
     public var collectionFormatSeperator: String? {
@@ -48,7 +48,7 @@ public class Value: JSONObjectConvertible {
         arrayValue = jsonDictionary.json(atKeyPath: "items")
         collectionFormat = jsonDictionary.json(atKeyPath: "collectionFormat")
 
-        dictionaryDefinitionRef = jsonDictionary.json(atKeyPath: "additionalProperties.$ref")
+        dictionarySchemaRef = jsonDictionary.json(atKeyPath: "additionalProperties.$ref")
         dictionaryValue = jsonDictionary.json(atKeyPath: "additionalProperties")
 
         required = jsonDictionary.json(atKeyPath: "required") ?? false

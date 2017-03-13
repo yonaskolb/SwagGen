@@ -13,7 +13,7 @@ import Yams
 public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
 
     public let paths: [String: Endpoint]
-    public let definitions: [String: Definition]
+    public let definitions: [String: Schema]
     public let parameters: [String: Parameter]
     public let security: [String: Security]
     public let info: Info?
@@ -123,10 +123,10 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
                     property.object = reference
                 }
                 if let reference = getDefinitionReference(property.arrayRef) {
-                    property.arrayDefinition = reference
+                    property.arraySchema = reference
                 }
-                if let reference = getDefinitionReference(property.dictionaryDefinitionRef) {
-                    property.dictionaryDefinition = reference
+                if let reference = getDefinitionReference(property.dictionarySchemaRef) {
+                    property.dictionarySchema = reference
                 }
 
                 for enumValue in enums {
@@ -151,23 +151,23 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
                     operation.parameters[index] = reference
                 }
                 if let reference = getDefinitionReference(parameter.arrayRef) {
-                    parameter.arrayDefinition = reference
+                    parameter.arraySchema = reference
                 }
             }
             for response in operation.responses {
                 if let reference = getDefinitionReference(response.schema?.reference) {
                     response.schema?.object = reference
                 } else if let reference = getDefinitionReference(response.schema?.arrayRef) {
-                    response.schema?.arrayDefinition = reference
+                    response.schema?.arraySchema = reference
                 }
-                if let reference = getDefinitionReference(response.schema?.dictionaryDefinitionRef) {
-                    response.schema?.dictionaryDefinition = reference
+                if let reference = getDefinitionReference(response.schema?.dictionarySchemaRef) {
+                    response.schema?.dictionarySchema = reference
                 }
             }
         }
     }
 
-    func getDefinitionReference(_ reference: String?) -> Definition? {
+    func getDefinitionReference(_ reference: String?) -> Schema? {
         return reference?.components(separatedBy: "/").last.flatMap { definitions[$0] }
     }
 

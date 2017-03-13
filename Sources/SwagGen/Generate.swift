@@ -66,7 +66,7 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
         ])
     writeMessage("Loaded template: \(templateCounts)")
     if !templateConfig.options.isEmpty {
-        writeMessage("Options:\n\t\(templateConfig.options.map{"\($0): \($1)"}.joined(separator: "\n").replacingOccurrences(of: "\n", with: "\n\t"))")
+        writeMessage("Options:\n  \(templateConfig.options.prettyPrinted.replacingOccurrences(of: "\n", with: "\n  "))")
     }
     let codeFormatter: CodeFormatter
     if let formatter = templateConfig.formatter {

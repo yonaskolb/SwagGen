@@ -11,7 +11,7 @@ import Swagger
 import SwagGenKit
 import PathKit
 
-func generate(templatePath: String, destinationPath: Path, specPath: String, clean: Bool, options: String) {
+func generate(templatePath: String, destinationPath: Path, specPath: String, clean: Bool, options: [String]) {
 
     guard specPath != "" && URL(string: specPath) != nil else {
         writeError("Must provide a valid spec")
@@ -22,10 +22,8 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
         exit(EXIT_FAILURE)
     }
 
-    let optionsArray = options.components(separatedBy: ",").map{$0.trimmingCharacters(in: .whitespaces)}
-
     var optionsDictionary: [String: String] = [:]
-    for option in optionsArray {
+    for option in options {
         let parts = option.components(separatedBy: ":").map{$0.trimmingCharacters(in: .whitespaces)}
         if parts.count >= 2 {
             let key = parts.first!

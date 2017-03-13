@@ -36,13 +36,17 @@ Use `SwagGen -help` to see the list of options:
 - **spec** (required): This is the path to the Swagger spec. It can either be a file path or a web url to a YAML or JSON file
 - **template** (required): This is the path to the template config yaml file. It can either be a direct path to the file, or a path to the parent directory which will by default look for `/template.yml`
 - **destination** The directory that the generated files will be added to.
-- **options**: A list of options that are passed to each template. Options must be comma delimited and each key value pair must be colon delimited. Whitespace is automatically trimmed, though if you have values with spaces in them, surround the argument with quotes. e.g.  `--options "option: value 1, option2: value 2"`
+- **option**: An option that will be merged with the template config options with those in this argument taking precedence, meaning any existing options of the same name will be overwritten. This argument can be repeated to pass in multiple options. Options must specify the option name and option value seperated by a colon, with any spaces contained in quotes. The following formats are allowed: 
+	- `-- option myOption:myValue`
+	- `-- option "myOption: my value"`
+	- `-- option myOption:" my value"`
+
 - **clean** true or false - whether the destination directory is cleaned before the generated files are created. Defaults to false
 
 Example:
 
 ```
-SwagGen --template Templates/Swift --spec http://myapi.com/spec --destination generated --options "name: MyAPI, customProperty: custom value"
+SwagGen --template Templates/Swift --spec http://myapi.com/spec --destination generated --option name:MyAPI --option "customProperty: custom value"
 ```
 
 ## Templates

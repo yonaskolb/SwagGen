@@ -34,6 +34,6 @@ command(
     Option("destination", Path.current + "generated", flag: "d", description: "The directory where the generated files will be created"),
     Option("spec", "", flag: "s", description: "The path or url to a swagger spec json file"),
     Flag("clean", description: "Whether the destination directory will be cleared before generating", default: false),
-    Option("options", "", flag: "o", description: "A list of options that will be passed to the template. These options must be comma delimited and the name and value must be seperated by a colon. e.g.  option:value, option2: value2", validator: optionsValidator),
+    VariadicOption("option", [] as [String], description: "An option that will be merged with template options. Can be repeated multiple times"),
     generate)
     .run()

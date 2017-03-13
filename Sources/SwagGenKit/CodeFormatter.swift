@@ -61,7 +61,16 @@ public class CodeFormatter {
         let successResponse = operation.responses.filter { $0.statusCode == 200 || $0.statusCode == 204 }.first
         var context: [String: Any?] = [:]
 
-        context["operationId"] = operation.operationId
+        if let operationId = operation.operationId {
+            context["operationId"] = operationId
+        } else {
+            let pathParts = operation.path.components(separatedBy: "/")
+            var pathName = pathParts.map{$0.upperCamelCased()}.joined(separator: "")
+            pathName = pathName.replacingOccurrences(of: "\\{(.*)\\}", with: "By_$1", options: .regularExpression, range: nil)
+            let generatedOperationId = operation.method.lowercased() + pathName.upperCamelCased()
+            context["operationId"] = generatedOperationId
+        }
+
         context["method"] = operation.method.uppercased()
         context["path"] = operation.path
         context["description"] = operation.description

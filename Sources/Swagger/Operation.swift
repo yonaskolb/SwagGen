@@ -11,7 +11,7 @@ import JSONUtilities
 
 public class Operation {
 
-    public let operationId: String
+    public let operationId: String?
     public let description: String?
     public let tags: [String]
     public var parameters: [Parameter]
@@ -23,7 +23,7 @@ public class Operation {
     public init(path: String, method: String, jsonDictionary: JSONDictionary) throws {
         self.method = method
         self.path = path
-        operationId = try jsonDictionary.json(atKeyPath: "operationId")
+        operationId = jsonDictionary.json(atKeyPath: "operationId")
         description = jsonDictionary.json(atKeyPath: "description")
         tags = jsonDictionary.json(atKeyPath: "tags") ?? []
         parameters = jsonDictionary.json(atKeyPath: "parameters") ?? []

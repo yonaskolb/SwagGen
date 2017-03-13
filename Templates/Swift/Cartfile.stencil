@@ -1,0 +1,3 @@
+{% for dependency in options.dependencies %}
+{{ dependency.carthage }} ~> {{ dependency.version }}
+{% endfor %}

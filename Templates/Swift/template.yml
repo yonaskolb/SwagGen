@@ -3,12 +3,16 @@ options:
   name: API
   dependencies:
     - pod: JSONUtilities
+      carthage: github "lucianomarisi/JSONUtilities"
       version: 3.2
     - pod: Alamofire
+      carthage: github "Alamofire/Alamofire"
       version: 4.2
 templateFiles:
   - path: Podspec.podspec
     destination: "{{ options.name }}.podspec"
+  - path: Cartfile.stencil
+    destination: Cartfile
   - path: enum.swift
     context: enums
     destination: "Enums/{{ enumName }}.swift"

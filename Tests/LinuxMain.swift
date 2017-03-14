@@ -1,6 +1,6 @@
 import XCTest
 
-@testable import SwagGenTests
+@testable import SwaggerTests
 
 XCTMain([
     testCase(SwaggerTests.allTests),

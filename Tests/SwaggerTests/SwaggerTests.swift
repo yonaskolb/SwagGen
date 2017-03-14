@@ -7,7 +7,8 @@ class SwaggerTests: XCTestCase {
 
     func testSwaggerParsingMinimum() {
         catchError(message: "Couldn't load spec") {
-            let spec = try SwaggerSpec(path: "Tests/SwagGenTests/Fixtures/swagger_specs/minimum.yml")
+            let path = Path(#file) + "../Fixtures/swagger_specs/minimum.yml"
+            let spec = try SwaggerSpec(path: path.string)
             XCTAssertEqual(spec.operations.count, 1, "spec must have single operation")
             XCTAssertEqual(spec.operations.first?.path, "/user", "spec must have a /user path")
         }
@@ -15,7 +16,8 @@ class SwaggerTests: XCTestCase {
 
     func testSwaggerParsingPetStore() {
         catchError(message: "Couldn't load spec") {
-            let spec = try SwaggerSpec(path: "Tests/SwagGenTests/Fixtures/swagger_specs/petstore.yml")
+            let path = Path(#file) + "../Fixtures/swagger_specs/petstore.yml"
+            let spec = try SwaggerSpec(path: path.string)
             XCTAssertEqual(spec.info?.title, "Swagger Petstore", "spec must have title")
             XCTAssertEqual(spec.operations.count, 3, "spec must have 3 operations")
             XCTAssertEqual(spec.security.count, 2, "spec must have 2 security definitions")

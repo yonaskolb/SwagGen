@@ -57,12 +57,12 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
         {% endif %}
         {% if bodyParam %}
 
-        public var body: {{bodyParam.optionalType}}
+        public var {{ bodyParam.formattedName}}: {{bodyParam.optionalType}}
         {% endif %}
 
         public init({% if bodyParam %}_ {{ bodyParam.formattedName}}: {{ bodyParam.optionalType }}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}_ options: Options{% endif %}) {
             {% if bodyParam %}
-            self.body = {{ bodyParam.formattedName}}
+            self.{{ bodyParam.formattedName}} = {{ bodyParam.formattedName}}
             {% endif %}
             {% if nonBodyParams %}
             self.options = options

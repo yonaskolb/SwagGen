@@ -49,7 +49,7 @@ public class SwiftFormatter: CodeFormatter {
         case "uri": return "URL"
         case "object":
             if let schema = value.dictionarySchema {
-                return "[String: \(getModelName(schema))]"
+                return "[String: \(getSchemaType(schema))]"
             } else if let value = value.dictionaryValue {
                 return "[String: \(getValueType(value))]"
             } else {
@@ -57,7 +57,7 @@ public class SwiftFormatter: CodeFormatter {
             }
         case "array":
             if let schema = value.arraySchema {
-                return "[\(getModelName(schema))]"
+                return "[\(getSchemaType(schema))]"
             } else {
                 let arrayValue = value.arrayValue!
                 return "[\(arrayValue.enumValues != nil ? getEnumName(value) : getValueType(arrayValue))]"

@@ -21,7 +21,7 @@ public class Value: JSONObjectConvertible {
     public var arrayValue: Value?
     public var arraySchema: Schema?
     var arrayRef: String?
-    public var object: Schema?
+    public var schema: Schema?
     public var dictionarySchema: Schema?
     var dictionarySchemaRef: String?
     public var dictionaryValue: Value?

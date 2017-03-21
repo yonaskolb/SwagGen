@@ -88,7 +88,7 @@ public class CodeFormatter {
         context["security"] = operation.security.map(getSecurityContext).first
         context["responses"] = operation.responses.map(getResponseContext)
         context["successResponse"] = successResponse.flatMap(getResponseContext)
-        context["successType"] = successResponse?.schema?.object.flatMap(getModelName) ?? successResponse?.schema.flatMap(getValueType)
+        context["successType"] = successResponse?.schema?.schema.flatMap(getSchemaType) ?? successResponse?.schema.flatMap(getValueType)
 
         return context
     }
@@ -114,8 +114,8 @@ public class CodeFormatter {
 
         context["type"] = getValueType(value)
         context["rawType"] = value.type
-        context["name"] = value.name
-        context["formattedName"] = getValueName(value)
+        context["rawName"] = value.name
+        context["name"] = getValueName(value)
         context["value"] = value.name
         context["required"] = value.required
         context["optional"] = !value.required
@@ -123,8 +123,8 @@ public class CodeFormatter {
         context["description"] = value.description
         let enums = value.enumValues ?? value.arrayValue?.enumValues
         context["enums"] = enums?.map { ["name": getEnumCaseName($0), "value": $0] }
-        context["arrayType"] = value.arraySchema.flatMap(getModelName)
-        context["dictionaryType"] = value.dictionarySchema.flatMap(getModelName)
+        context["arrayType"] = value.arraySchema.flatMap(getSchemaType)
+        context["dictionaryType"] = value.dictionarySchema.flatMap(getSchemaType)
         context["isArray"] = value.type == "array"
         context["isDictionary"] = value.type == "object" && (value.dictionarySchema != nil || value.dictionaryValue != nil)
         context["isGlobal"] = value.isGlobal
@@ -145,8 +145,8 @@ public class CodeFormatter {
 
     func getSchemaContext(schema: Schema) -> [String: Any?] {
         var context: [String: Any?] = [:]
-        context["name"] = schema.name
-        context["formattedName"] = getModelName(schema)
+        context["rawType"] = schema.name
+        context["type"] = getSchemaType(schema)
         context["parent"] = schema.parent.flatMap(getSchemaContext)
         context["description"] = schema.description
         context["requiredProperties"] = schema.requiredProperties.map(getPropertyContext)
@@ -165,9 +165,9 @@ public class CodeFormatter {
         return "_\(name)"
     }
 
-    func getModelName(_ schema: Schema) -> String {
-        let name = schema.name.upperCamelCased()
-        return disallowedTypes.contains(name) ? escapeModelType(name) : name
+    func getSchemaType(_ schema: Schema) -> String {
+        let type = schema.name.upperCamelCased()
+        return disallowedTypes.contains(type) ? escapeModelType(type) : type
     }
 
     func getValueName(_ value: Value) -> String {
@@ -175,8 +175,8 @@ public class CodeFormatter {
     }
 
     func getValueType(_ value: Value) -> String {
-        if let object = value.object {
-            return getModelName(object)
+        if let object = value.schema {
+            return getSchemaType(object)
         }
         if value.type == "unknown" {
             writeError("Couldn't calculate type")

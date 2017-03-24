@@ -13,7 +13,7 @@ extension APIRequest {
 
     /// pass in an optional baseURL, otherwise {{ options.name }}.baseURL will be used
     public func createURLRequest(baseURL: String? = nil) -> URLRequest {
-        let url = URL(string: "\(baseURL ?? {{ options.name }}.baseURL)/\(path)")!
+        let url = URL(string: "\(baseURL ?? {{ options.name }}.baseURL)\(path)")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = service.method
         urlRequest.allHTTPHeaderFields = headers

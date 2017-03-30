@@ -178,7 +178,9 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
     public var description: String {
         let ops = "Operations:\n\t" + operations.map { $0.operationId ?? $0.path }.joined(separator: "\n\t") as String
         let defs = "Definitions:\n" + Array(definitions.values).map { $0.deepDescription(prefix: "\t") }.joined(separator: "\n") as String
-        return "\(info)\n\n\(ops)\n\n\(defs))"
+        let params = "Parameters:\n" + Array(parameters.values).map { $0.deepDescription(prefix: "\t") }.joined(separator: "\n") as String
+        let infoString = info != nil ? "\(info!)\n" : ""
+        return "\(infoString)\(ops)\n\n\(defs)\n\n\(params))"
     }
 }
 

@@ -16,7 +16,7 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
     public let paths: [String: Endpoint]
     public let definitions: [String: Schema]
     public let parameters: [String: Parameter]
-    public let security: [String: Security]
+    public let securityDefinitions: [String: SecurityDefinition]
     public let info: Info
     public let host: String?
     public let basePath: String?
@@ -91,15 +91,12 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         self.paths = paths
         definitions = jsonDictionary.json(atKeyPath: "definitions") ?? [:]
         parameters = jsonDictionary.json(atKeyPath: "parameters") ?? [:]
-        security = jsonDictionary.json(atKeyPath: "securityDefinitions") ?? [:]
+        securityDefinitions = jsonDictionary.json(atKeyPath: "securityDefinitions") ?? [:]
 
         resolve()
     }
 
     func resolve() {
-        for (name, security) in security {
-            security.name = name
-        }
 
         for (name, parameter) in parameters {
             parameter.isGlobal = true
@@ -210,23 +207,3 @@ public class Endpoint {
         self.operations = operations
     }
 }
-
-public class Security: JSONObjectConvertible {
-
-    public var name: String = ""
-    public var type: String
-    public let scopes: [String]?
-    public var description: String?
-
-    required public init(jsonDictionary: JSONDictionary) throws {
-        type = try jsonDictionary.json(atKeyPath: "type")
-        description = jsonDictionary.json(atKeyPath: "description")
-        scopes = jsonDictionary.json(atKeyPath: "scopes")
-    }
-
-    func deepDescription(prefix: String) -> String {
-        return "\(prefix)\(name): \(type)"
-    }
-}
-
-

@@ -53,7 +53,7 @@ public class CodeFormatter {
     func getEndpointContext(endpoint: Endpoint) -> [String: Any?] {
         return [
             "path": endpoint.path,
-            "methods": Array(endpoint.methods.values).map(getOperationContext),
+            "methods": endpoint.operations.map(getOperationContext),
         ]
     }
 
@@ -67,11 +67,11 @@ public class CodeFormatter {
             let pathParts = operation.path.components(separatedBy: "/")
             var pathName = pathParts.map{$0.upperCamelCased()}.joined(separator: "")
             pathName = pathName.replacingOccurrences(of: "\\{(.*)\\}", with: "By_$1", options: .regularExpression, range: nil)
-            let generatedOperationId = operation.method.lowercased() + pathName.upperCamelCased()
+            let generatedOperationId = operation.method.rawValue.lowercased() + pathName.upperCamelCased()
             context["operationId"] = generatedOperationId
         }
 
-        context["method"] = operation.method.uppercased()
+        context["method"] = operation.method.rawValue.uppercased()
         context["path"] = operation.path
         context["description"] = operation.description
         context["tag"] = operation.tags.first

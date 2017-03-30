@@ -11,16 +11,26 @@ import JSONUtilities
 
 public class Operation {
 
+    public enum Method: String {
+        case get
+        case put
+        case post
+        case delete
+        case options
+        case head
+        case patch
+    }
+
     public let operationId: String?
     public let description: String?
     public let tags: [String]
     public var parameters: [Parameter]
-    public let method: String
+    public let method: Method
     public let path: String
     public let responses: [Response]
     public var security: [OperationSecurity]
 
-    public init(path: String, method: String, jsonDictionary: JSONDictionary) throws {
+    public init(path: String, method: Method, jsonDictionary: JSONDictionary) throws {
         self.method = method
         self.path = path
         operationId = jsonDictionary.json(atKeyPath: "operationId")

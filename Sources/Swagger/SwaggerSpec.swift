@@ -195,22 +195,20 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
 public class Endpoint {
 
     public let path: String
-    public let methods: [String: Operation]
+    public let operations: [Operation]
 
     required public init(path: String, jsonDictionary: JSONDictionary) throws {
         self.path = path
 
-        var methods: [String: Operation] = [:]
+        var operations: [Operation] = []
         for method in jsonDictionary.keys {
-            if method != "security", let dictionary = jsonDictionary[method] as? JSONDictionary {
-                let operation = try Operation(path: path, method: method, jsonDictionary: dictionary)
-                methods[method] = operation
+            if let operationMethod = Operation.Method(rawValue: method), let dictionary = jsonDictionary[method] as? JSONDictionary {
+                let operation = try Operation(path: path, method: operationMethod, jsonDictionary: dictionary)
+                operations.append(operation)
             }
         }
-        self.methods = methods
+        self.operations = operations
     }
-
-    public var operations: [Operation] { return Array(methods.values) }
 }
 
 public class Security: JSONObjectConvertible {

@@ -51,10 +51,10 @@ public class CodeFormatter {
     }
 
     func getEndpointContext(endpoint: Endpoint) -> [String: Any?] {
-        return [
-            "path": endpoint.path,
-            "methods": endpoint.operations.map(getOperationContext),
-        ]
+        var context: [String: Any?] = [:]
+        context["path"] = endpoint.path
+        context["methods"] = endpoint.operations.map(getOperationContext)
+        return context
     }
 
     func getOperationContext(operation: Swagger.Operation) -> [String: Any?] {
@@ -94,20 +94,20 @@ public class CodeFormatter {
         return context
     }
 
-        return [
-            "name": securityRequirement.name,
-            "scope": securityRequirement.scopes.first,
-            "scopes": securityRequirement.scopes,
-        ]
     func getSecurityRequirementContext(securityRequirement: SecurityRequirement) -> [String: Any?] {
+        var context: [String: Any?] = [:]
+        context["name"] = securityRequirement.name
+        context["scope"] = securityRequirement.scopes.first
+        context["scopes"] = securityRequirement.scopes
+        return context
     }
 
     func getResponseContext(response: Response) -> [String: Any?] {
-        return [
-            "statusCode": response.statusCode,
-            "schema": response.schema.flatMap(getValueContext),
-            "description": response.description,
-        ]
+        var context: [String: Any?] = [:]
+        context["statusCode"] = response.statusCode
+        context["schema"] = response.schema.flatMap(getValueContext)
+        context["description"] = response.description
+        return context
     }
 
     func getValueContext(value: Value) -> [String: Any?] {

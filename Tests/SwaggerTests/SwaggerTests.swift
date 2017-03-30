@@ -18,9 +18,9 @@ class SwaggerTests: XCTestCase {
         catchError(message: "Couldn't load spec") {
             let path = Path(#file) + "../Fixtures/swagger_specs/petstore.yml"
             let spec = try SwaggerSpec(path: Path(path.string))
-            XCTAssertEqual(spec.info?.title, "Swagger Petstore", "spec must have title")
+            XCTAssertEqual(spec.info.title, "Swagger Petstore", "spec must have title")
             XCTAssertEqual(spec.operations.count, 3, "spec must have 3 operations")
-            XCTAssertEqual(spec.security.count, 2, "spec must have 2 security definitions")
+            XCTAssertEqual(spec.securityDefinitions.count, 2, "spec must have 2 security definitions")
             XCTAssertEqual(spec.definitions.count, 2, "spec must have 3 definitions")
             XCTAssertEqual(spec.tags.count, 1, "spec must have 1 tag")
             XCTAssertEqual(spec.paths.count, 2, "spec must have 2 endpoints")

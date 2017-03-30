@@ -1,3 +1,6 @@
+swagger: '2.0'
+info:
+  title: Swagger Test
 paths:
   /user:
     get:

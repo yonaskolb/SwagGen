@@ -36,7 +36,13 @@ public class CodeFormatter {
         context["basePath"] = spec.basePath
         context["baseURL"] = "\(spec.schemes.first ?? "http")://\(spec.host ?? "")\(spec.basePath ?? "")"
         context["enums"] = spec.enums.map(getValueContext)
+        context["securityDefinitions"] = spec.securityDefinitions.map(getSecurityDefinitionContext)
+        return context
+    }
 
+    func getSecurityDefinitionContext(name: String, securityDefinition: SecurityDefinition) -> [String: Any?] {
+        var context: [String: Any?] = securityDefinition.jsonDictionary
+        context["name"] = name
         return context
     }
 

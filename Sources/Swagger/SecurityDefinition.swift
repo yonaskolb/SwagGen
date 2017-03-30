@@ -13,6 +13,7 @@ public struct SecurityDefinition: JSONObjectConvertible {
 
     public var type: SecurityType
     public var description: String?
+    public var jsonDictionary: JSONDictionary
 
     public enum SecurityType {
         case basic
@@ -22,6 +23,7 @@ public struct SecurityDefinition: JSONObjectConvertible {
 
     public init(jsonDictionary: JSONDictionary) throws {
 
+        self.jsonDictionary = jsonDictionary
         enum SecurityTypeString: String {
             case basic
             case apiKey

@@ -53,6 +53,10 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         }
     }
 
+    public enum SwaggerSpecError: Error {
+        case wrongVersion(version: Double)
+    }
+
     public convenience init(path: Path) throws {
         var url = URL(string: path.string)!
         if url.scheme == nil {
@@ -68,6 +72,10 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
     }
 
     required public init(jsonDictionary: JSONDictionary) throws {
+        let swaggerVersion: Double = try jsonDictionary.json(atKeyPath: "swagger")
+        if floor(swaggerVersion) != 2 {
+            throw SwaggerSpecError.wrongVersion(version: swaggerVersion)
+        }
         info = jsonDictionary.json(atKeyPath: "info")
         host = jsonDictionary.json(atKeyPath: "host")
         basePath = jsonDictionary.json(atKeyPath: "basePath")

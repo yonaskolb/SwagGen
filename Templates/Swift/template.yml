@@ -24,6 +24,6 @@ templateFiles:
     destination: "Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ operationId|upperCamelCase }}.swift"
   - path: API.swift
   - path: Decoding.swift
-  - path: Networking.swift
-copiedFiles:
-  - APIRequest.swift
+  - path: APIClient.swift
+  - path: APIService.swift
+  - path: APIRequest.swift

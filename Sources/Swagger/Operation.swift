@@ -28,7 +28,7 @@ public class Operation {
     public let method: Method
     public let path: String
     public let responses: [Response]
-    public var security: [OperationSecurity]
+    public var securityRequirements: [SecurityRequirement]
 
     public init(path: String, method: Method, jsonDictionary: JSONDictionary) throws {
         self.method = method
@@ -37,7 +37,7 @@ public class Operation {
         description = jsonDictionary.json(atKeyPath: "description")
         tags = jsonDictionary.json(atKeyPath: "tags") ?? []
         parameters = jsonDictionary.json(atKeyPath: "parameters") ?? []
-        security = jsonDictionary.json(atKeyPath: "security") ?? []
+        securityRequirements = jsonDictionary.json(atKeyPath: "security") ?? []
         let responseDictionary: JSONDictionary = try jsonDictionary.json(atKeyPath: "responses")
         var responses: [Response] = []
         for (key, value) in responseDictionary {
@@ -70,7 +70,7 @@ public class Response {
     }
 }
 
-public struct OperationSecurity: JSONObjectConvertible {
+public struct SecurityRequirement: JSONObjectConvertible {
     public let name: String
     public let scopes: [String]
 

@@ -85,7 +85,8 @@ public class CodeFormatter {
         context["formParams"] = operation.getParameters(type: .form).map(getParameterContext)
         context["headerParams"] = operation.getParameters(type: .header).map(getParameterContext)
         context["enums"] = operation.enums.map(getParameterContext)
-        context["security"] = operation.security.map(getSecurityContext).first
+        context["securityRequirement"] = operation.securityRequirements.map(getSecurityRequirementContext).first
+        context["securityRequirements"] = operation.securityRequirements.map(getSecurityRequirementContext)
         context["responses"] = operation.responses.map(getResponseContext)
         context["successResponse"] = successResponse.flatMap(getResponseContext)
         context["successType"] = successResponse?.schema?.schema.flatMap(getSchemaType) ?? successResponse?.schema.flatMap(getValueType)
@@ -93,12 +94,12 @@ public class CodeFormatter {
         return context
     }
 
-    func getSecurityContext(security: OperationSecurity) -> [String: Any?] {
         return [
-            "name": security.name,
-            "scope": security.scopes.first,
-            "scopes": security.scopes,
+            "name": securityRequirement.name,
+            "scope": securityRequirement.scopes.first,
+            "scopes": securityRequirement.scopes,
         ]
+    func getSecurityRequirementContext(securityRequirement: SecurityRequirement) -> [String: Any?] {
     }
 
     func getResponseContext(response: Response) -> [String: Any?] {

@@ -9,6 +9,7 @@
 import Foundation
 import JSONUtilities
 import Yams
+import PathKit
 
 public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
 
@@ -52,10 +53,10 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         }
     }
 
-    public convenience init(path: String) throws {
-        var url = URL(string: path)!
+    public convenience init(path: Path) throws {
+        var url = URL(string: path.string)!
         if url.scheme == nil {
-            url = URL(fileURLWithPath: path)
+            url = URL(fileURLWithPath: path.string)
         }
 
         let data = try Data(contentsOf: url)

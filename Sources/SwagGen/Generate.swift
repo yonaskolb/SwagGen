@@ -37,7 +37,7 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
         if URL(string: specPath)?.scheme != nil {
             writeMessage("Loading spec from \(specPath)")
         }
-        spec = try SwaggerSpec(path: specPath)
+        spec = try SwaggerSpec(path: Path(specPath).normalize())
     }
     catch let error {
         writeError("Error loading Swagger Spec: \(error)")
@@ -53,7 +53,7 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
 
     let templateConfig: TemplateConfig
     do {
-        templateConfig = try TemplateConfig(path: Path(templatePath), options: optionsDictionary)
+        templateConfig = try TemplateConfig(path: Path(templatePath).normalize(), options: optionsDictionary)
     } catch let error {
         writeError("Error loading template: \(error)")
         exit(EXIT_FAILURE)
@@ -86,7 +86,7 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
 
     let context = codeFormatter.getContext()
 
-    let generator = Generator(context: context, destination: destinationPath, templateConfig: templateConfig)
+    let generator = Generator(context: context, destination: destinationPath.normalize(), templateConfig: templateConfig)
 
     writeMessage("Destination: \(destinationPath.absolute())")
 

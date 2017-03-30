@@ -31,7 +31,7 @@ public class CodeFormatter {
         context["operations"] = spec.operations.map(getOperationContext)
         context["tags"] = spec.opererationsByTag.map { ["name": $0, "operations": $1.map(getOperationContext)] }
         context["definitions"] = Array(spec.definitions.values).map(getSchemaContext)
-        context["info"] = spec.info.flatMap(getSpecInfoContext)
+        context["info"] = getSpecInfoContext(info: spec.info)
         context["host"] = spec.host
         context["basePath"] = spec.basePath
         context["baseURL"] = "\(spec.schemes.first ?? "http")://\(spec.host ?? "")\(spec.basePath ?? "")"

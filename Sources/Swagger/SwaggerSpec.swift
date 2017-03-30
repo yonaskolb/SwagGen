@@ -17,7 +17,7 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
     public let definitions: [String: Schema]
     public let parameters: [String: Parameter]
     public let security: [String: Security]
-    public let info: Info?
+    public let info: Info
     public let host: String?
     public let basePath: String?
     public let schemes: [String]
@@ -42,12 +42,12 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
 
     public struct Info: JSONObjectConvertible {
 
-        public let title: String?
+        public let title: String
         public let version: String?
         public let description: String?
 
         public init(jsonDictionary: JSONDictionary) throws {
-            title = jsonDictionary.json(atKeyPath: "title")
+            title = try jsonDictionary.json(atKeyPath: "title")
             version = jsonDictionary.json(atKeyPath: "version")
             description = jsonDictionary.json(atKeyPath: "description")
         }
@@ -76,7 +76,7 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         if floor(swaggerVersion) != 2 {
             throw SwaggerSpecError.wrongVersion(version: swaggerVersion)
         }
-        info = jsonDictionary.json(atKeyPath: "info")
+        info = try jsonDictionary.json(atKeyPath: "info")
         host = jsonDictionary.json(atKeyPath: "host")
         basePath = jsonDictionary.json(atKeyPath: "basePath")
         schemes = jsonDictionary.json(atKeyPath: "schemes") ?? []
@@ -188,8 +188,7 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         let ops = "Operations:\n\t" + operations.map { $0.operationId ?? $0.path }.joined(separator: "\n\t") as String
         let defs = "Definitions:\n" + Array(definitions.values).map { $0.deepDescription(prefix: "\t") }.joined(separator: "\n") as String
         let params = "Parameters:\n" + Array(parameters.values).map { $0.deepDescription(prefix: "\t") }.joined(separator: "\n") as String
-        let infoString = info != nil ? "\(info!)\n" : ""
-        return "\(infoString)\(ops)\n\n\(defs)\n\n\(params))"
+        return "\(info)\n\(ops)\n\n\(defs)\n\n\(params))"
     }
 }
 

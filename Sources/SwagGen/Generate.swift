@@ -49,7 +49,7 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
         "tag": spec.tags.count,
         "parameter": spec.parameters.count,
         ])
-    writeMessage("Loaded spec: \(spec.info?.title != nil ? "\"\(spec.info!.title!)\" - " : "")\(specCounts)")
+    writeMessage("Loaded spec: \"\(spec.info.title)\" - \(specCounts)")
 
     let templateConfig: TemplateConfig
     do {

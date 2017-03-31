@@ -22,7 +22,7 @@ public class CodeFormatter {
     }
 
     public func getContext() -> [String: Any] {
-        return cleanDictionary(getSpecContext())
+        return getSpecContext().clean()
     }
 
     func getSpecContext() -> [String: Any?] {

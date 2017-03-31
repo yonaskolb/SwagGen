@@ -8,28 +8,29 @@
 
 import Foundation
 
+extension Dictionary where Key == String, Value == Any? {
 
-fileprivate func cleanDictionary(_ dictionary: [String: Any?]) -> [String: Any] {
-    var clean: [String: Any] = [:]
-    for (key, value) in dictionary {
-        if let value = value {
-            clean[key] = value
-            if let dictionary = value as? [String: Any?] {
-                clean[key] = cleanDictionary(dictionary)
-            } else if let array = value as? [[String: Any?]] {
-                clean[key] = array.map { cleanDictionary($0) }
+    func clean() -> [String: Any] {
+        var clean: [String: Any] = [:]
+        for (key, value) in self {
+            if let value = value {
+                clean[key] = value
+                if let dictionary = value as? [String: Any?] {
+                    clean[key] = dictionary.clean()
+                } else if let array = value as? [[String: Any?]] {
+                    clean[key] = array.map { $0.clean() }
+                }
             }
         }
+        return clean
     }
-    return clean
 }
 
 func +(lhs: [String: Any?], rhs: [String: Any?]) -> [String: Any] {
-    var combined = cleanDictionary(lhs)
-    for (key, value) in rhs {
-        if let value = value {
-            combined[key] = value
-        }
+    var combined = lhs.clean()
+    let cleanRight = rhs.clean()
+    for (key, value) in cleanRight {
+        combined[key] = value
     }
     return combined
 }

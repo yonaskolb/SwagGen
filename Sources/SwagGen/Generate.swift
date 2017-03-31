@@ -91,8 +91,13 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
     writeMessage("Destination: \(destinationPath.absolute())")
 
     if clean {
-        try? destinationPath.delete()
-        writeMessage("Cleaned destination")
+        do {
+         try destinationPath.normalize().delete()
+            writeMessage("Cleaned destination")
+        }
+        catch let error {
+            writeError("Failed to clean destination")
+        }
     }
     do {
         try generator.generate()

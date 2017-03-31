@@ -3,7 +3,7 @@
 import PathKit
 import Spectre
 
-public func specTests() {
+public func testSpecs() {
 
     describe("petstore spec") {
         let path = Path(#file) + "../../../Specs/petstore/spec.yml"

@@ -1,8 +1,8 @@
 import XCTest
 
 class SwaggerTests: XCTestCase {
-    func testSwaggerTests() {
-        parsingTests()
-        specTests()
+    func testSwagger() {
+        testParsing()
+        testSpecs()
     }
 }

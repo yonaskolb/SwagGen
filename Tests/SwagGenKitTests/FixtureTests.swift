@@ -4,7 +4,7 @@ import PathKit
 import Spectre
 import Foundation
 
-public func specTests() {
+public func testFixtures() {
 
     let specsPath = Path(#file) + "../../../Specs"
     let specs = (try? specsPath.children().filter { $0.isDirectory && !$0.lastComponent.hasPrefix(".") } ) ?? []

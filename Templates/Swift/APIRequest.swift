@@ -1,4 +1,4 @@
-{% include "Includes/header.stencil" %}
+{% include "Includes/Header.stencil" %}
 
 public class APIRequest<ResponseType: APIResponseValue> {
 

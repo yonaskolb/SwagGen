@@ -2,7 +2,7 @@
 /** {{ description }} */
 {% endif %}
 {% if enum %}
-{% include "Includes/enum.stencil" using enum %}
+{% include "Includes/Enum.stencil" using enum %}
 {% elif simpleType %}
 public typealias {{ type }} = {{ simpleType }}
 {% else %}
@@ -10,7 +10,7 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
     {% for enum in enums %}
     {% if not enum.isGlobal %}
 
-    {% include "Includes/enum.stencil" using enum %}
+    {% include "Includes/Enum.stencil" using enum %}
     {% endif %}
     {% endfor %}
     {% for property in properties %}

@@ -1,5 +1,6 @@
 import SwaggerTests
-import SwagKenKitTests
+import SwagGenKitTests
 
-swaggerTests()
-swagGenKitTests()
+testFixtures()
+testParsing()
+testSpecs()

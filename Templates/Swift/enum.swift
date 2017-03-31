@@ -1,3 +1,3 @@
-{% include "Includes/header.stencil" %}
+{% include "Includes/Header.stencil" %}
 
-{% include "Includes/enum.stencil" %}
+{% include "Includes/Enum.stencil" %}

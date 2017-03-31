@@ -1,4 +1,4 @@
-{% include "Includes/header.stencil" %}
+{% include "Includes/Header.stencil" %}
 
 import Foundation
 import JSONUtilities
@@ -14,7 +14,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
       {% for enum in requestEnums %}
       {% if not enum.isGlobal %}
 
-      {% include "Includes/enum.stencil" using enum %}
+      {% include "Includes/Enum.stencil" using enum %}
       {% endif %}
       {% endfor %}
 
@@ -97,7 +97,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             {% for enum in responseEnums %}
             {% if not enum.isGlobal %}
 
-            {% include "Includes/enum.stencil" using enum %}
+            {% include "Includes/Enum.stencil" using enum %}
             {% endif %}
             {% endfor %}
             public typealias SuccessType = {{ successType|default:"Void"}}

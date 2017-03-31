@@ -65,6 +65,11 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
 
         let data = try Data(contentsOf: url)
         let string = String(data: data, encoding: .utf8)!
+
+        try self.init(string: string)
+    }
+
+    public convenience init(string: String) throws {
         let yaml = try Yams.load(yaml: string)
         let json = yaml as! JSONDictionary
 

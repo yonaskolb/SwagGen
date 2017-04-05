@@ -27,7 +27,9 @@ struct JSONDecoder {
 
     static func decode<T: JSONDecodable>(json: Any) throws -> [T] {
         guard let array = json as? [JSONDictionary] else { throw JSONUtilsError.fileNotAJSONDictionary }
-        return try array.map(T.init)
+        return try array.map { json in
+            try T(json: json)
+        }
     }
 
     static func decode<T: JSONRawType>(json: Any) throws -> [String: T] {

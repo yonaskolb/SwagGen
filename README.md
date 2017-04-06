@@ -73,3 +73,24 @@ Formatters change what information is available to the templates and how it's fo
 
 ## Output Languages
 SwagGen can be used to generate code for any language. At the moment there is only a formatter and template for **Swift**
+
+---
+
+## Attributions
+
+This tool is powered by
+
+- custom fork of [Stencil](https://github.com/yonaskolb/Stencil) by [Kyle Fuller](https://github.com/kylef)
+- [Spectre](https://github.com/kylef/Spectre) by [Kyle Fuller](https://github.com/kylef)
+- [PathKit](https://github.com/kylef/PathKit) by [Kyle Fuller](https://github.com/kylef)
+- [Commander](https://github.com/kylef/Commander) by [Kyle Fuller](https://github.com/kylef)
+- [Yams](https://github.com/jpsim/Yams) by [JP Simard](https://github.com/jpsim)
+- [JSONUtilities](https://github.com/lucianomarisi/JSONUtilities) by [Luciano Marisi](https://github.com/lucianomarisi)
+- [Yams](https://github.com/jpsim/Yams) by [JP Simard](https://github.com/jpsim)
+
+## Contributions
+Pull requests and issues are welcome
+
+## License
+
+SwagGen is licensed under the MIT license. See [LICENSE](LICENSE) for more info.

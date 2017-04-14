@@ -44,11 +44,12 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
         exit(EXIT_FAILURE)
     }
     let specCounts  = getCountString(counts: [
-        "operation": spec.operations.count,
-        "definition": spec.definitions.count,
-        "tag": spec.tags.count,
-        "parameter": spec.parameters.count,
-        ])
+        ("operation", spec.operations.count),
+        ("definition", spec.definitions.count),
+        ("tag", spec.tags.count),
+        ("parameter", spec.parameters.count),
+        ("security definitions", spec.securityDefinitions.count),
+        ], pluralise: true)
     writeMessage("Loaded spec: \"\(spec.info.title)\" - \(specCounts)")
 
     let templateConfig: TemplateConfig
@@ -60,10 +61,10 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
     }
 
     let templateCounts  = getCountString(counts: [
-        "template file": templateConfig.templateFiles.count,
-        "copied file": templateConfig.copiedFiles.count,
-        "option": templateConfig.options.keys.count,
-        ])
+        ("template file", templateConfig.templateFiles.count),
+        ("copied file", templateConfig.copiedFiles.count),
+        ("option", templateConfig.options.keys.count),
+        ], pluralise: true)
     writeMessage("Loaded template: \(templateCounts)")
     if !templateConfig.options.isEmpty {
         writeMessage("Options:\n  \(templateConfig.options.prettyPrinted.replacingOccurrences(of: "\n", with: "\n  "))")
@@ -96,8 +97,4 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
         writeError("Error generating code: \(error)")
         exit(EXIT_FAILURE)
     }
-}
-
-func getCountString(counts: [String:Int]) -> String {
-    return counts.map{"\($0.value) \($0.value == 1 ? $0.key : "\($0.key)s")"}.joined(separator: ", ")
 }

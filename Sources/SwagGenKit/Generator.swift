@@ -145,8 +145,7 @@ public class Generator {
             ("unchanged", unchangedFiles.count),
             ("removed", removedFiles.count),
             ]
-        let countString = counts.filter{$0.1 > 0}.map{"\($0.1) \($0.0)"}.joined(separator: ", ")
-        writeMessage("Generation complete: \(countString)")
+        writeMessage("Generation complete: \(getCountString(counts: counts, pluralise: false))")
 
         return generatedFiles
     }

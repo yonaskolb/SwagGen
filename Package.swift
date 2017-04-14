@@ -5,6 +5,7 @@ let package = Package(
     targets: [
         Target(name: "SwagGen", dependencies: ["SwagGenKit"]),
         Target(name: "SwagGenKit", dependencies: ["Swagger"]),
+        Target(name: "Swagger"),
     ],
     dependencies: [
         .Package(url: "https://github.com/kylef/PathKit.git", majorVersion: 0, minor: 8),

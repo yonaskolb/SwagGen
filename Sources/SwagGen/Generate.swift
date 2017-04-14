@@ -90,17 +90,8 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
 
     writeMessage("Destination: \(destinationPath.absolute())")
 
-    if clean {
-        do {
-         try destinationPath.normalize().delete()
-            writeMessage("Cleaned destination")
-        }
-        catch let error {
-            writeError("Failed to clean destination")
-        }
-    }
     do {
-        try generator.generate()
+        try _ = generator.generate(clean: clean)
     } catch let error {
         writeError("Error generating code: \(error)")
         exit(EXIT_FAILURE)

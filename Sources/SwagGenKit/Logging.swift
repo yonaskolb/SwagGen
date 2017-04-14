@@ -1,7 +1,8 @@
 import Foundation
+import Rainbow
 
 public func writeError(_ string: String) {
-    writeMessage(string, to: .standardError)
+    writeMessage(string.red, to: .standardError)
 }
 
 public func writeMessage(_ string: String, to fileHandle: FileHandle = .standardOutput) {

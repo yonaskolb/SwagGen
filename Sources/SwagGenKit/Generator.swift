@@ -113,10 +113,11 @@ public class Generator {
 
         for file in templateConfig.copiedFiles {
             let sourcePath = templateConfig.basePath + file
-            let children = try sourcePath.recursiveChildren().filter{ $0.isFile }
+            let children = sourcePath.isFile ? [sourcePath] : try sourcePath.recursiveChildren().filter{ $0.isFile }
             for child in children {
                 let content: String = try child.read()
-                let copiedFile = GeneratedFile(path: child, content: content, destination: destination)
+                let path = Path(child.normalize().string.replacingOccurrences(of: templateConfig.basePath.normalize().string + "/", with: ""))
+                let copiedFile = GeneratedFile(path: path, content: content, destination: destination)
                 generatedFiles.append(copiedFile)
             }
         }

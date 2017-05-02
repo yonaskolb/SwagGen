@@ -29,8 +29,10 @@ public class Operation {
     public let path: String
     public let responses: [Response]
     public var securityRequirements: [SecurityRequirement]
+    public let json: JSONDictionary
 
     public init(path: String, method: Method, jsonDictionary: JSONDictionary) throws {
+        self.json = jsonDictionary
         self.method = method
         self.path = path
         operationId = jsonDictionary.json(atKeyPath: "operationId")

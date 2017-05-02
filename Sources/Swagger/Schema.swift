@@ -21,9 +21,10 @@ public class Schema: JSONObjectConvertible {
     public let requiredProperties: [Property]
     public let optionalProperties: [Property]
     public let properties: [Property]
+    public let json: JSONDictionary
 
     required public init(jsonDictionary: JSONDictionary) throws {
-
+        self.json = jsonDictionary
         var json = jsonDictionary
         if let allOf = json.json(atKeyPath: "allOf") as [JSONDictionary]? {
             parentReference = allOf[0].json(atKeyPath: "$ref")

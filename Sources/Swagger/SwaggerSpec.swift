@@ -22,6 +22,7 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
     public let basePath: String?
     public let schemes: [String]
     public var enums: [Value] = []
+    public let json: JSONDictionary
 
     public var operations: [Operation] {
         return paths.values.reduce([]) { return $0 + $1.operations }
@@ -77,6 +78,7 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
     }
 
     required public init(jsonDictionary: JSONDictionary) throws {
+        self.json = jsonDictionary
         let swaggerVersion: Double = try jsonDictionary.json(atKeyPath: "swagger")
         if floor(swaggerVersion) != 2 {
             throw SwaggerSpecError.wrongVersion(version: swaggerVersion)

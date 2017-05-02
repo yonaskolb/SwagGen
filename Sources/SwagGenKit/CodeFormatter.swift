@@ -28,6 +28,7 @@ public class CodeFormatter {
     func getSpecContext() -> [String: Any?] {
         var context: [String: Any?] = [:]
 
+        context["raw"] = spec.json
         context["operations"] = spec.operations.map(getOperationContext)
         context["tags"] = spec.opererationsByTag.map { ["name": $0, "operations": $1.map(getOperationContext)] }
         context["definitions"] = Array(spec.definitions.values).map(getSchemaContext)
@@ -77,6 +78,7 @@ public class CodeFormatter {
             context["operationId"] = generatedOperationId
         }
 
+        context["raw"] = operation.json
         context["method"] = operation.method.rawValue.uppercased()
         context["path"] = operation.path
         context["description"] = operation.description
@@ -119,9 +121,8 @@ public class CodeFormatter {
     func getValueContext(value: Value) -> [String: Any?] {
         var context: [String: Any?] = [:]
 
+        context["raw"] = value.json
         context["type"] = getValueType(value)
-        context["rawType"] = value.type
-        context["rawName"] = value.name
         context["name"] = getValueName(value)
         context["value"] = value.name
         context["required"] = value.required
@@ -152,7 +153,7 @@ public class CodeFormatter {
 
     func getSchemaContext(schema: Schema) -> [String: Any?] {
         var context: [String: Any?] = [:]
-        context["rawType"] = schema.name
+        context["raw"] = schema.json
         context["type"] = getSchemaType(schema)
         context["parent"] = schema.parent.flatMap(getSchemaContext)
         context["description"] = schema.description

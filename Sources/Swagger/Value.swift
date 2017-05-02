@@ -38,8 +38,10 @@ public class Value: JSONObjectConvertible {
     }
     public var isGlobal = false
     public var globalName: String?
+    public let json: JSONDictionary
 
     required public init(jsonDictionary: JSONDictionary) throws {
+        json = jsonDictionary
         name = jsonDictionary.json(atKeyPath: "name") ?? ""
         description = jsonDictionary.json(atKeyPath: "description")
         reference = jsonDictionary.json(atKeyPath: "$ref")

@@ -73,7 +73,7 @@ public class CodeFormatter {
         } else {
             let pathParts = operation.path.components(separatedBy: "/")
             var pathName = pathParts.map{$0.upperCamelCased()}.joined(separator: "")
-            pathName = pathName.replacingOccurrences(of: "\\{(.*)\\}", with: "By_$1", options: .regularExpression, range: nil)
+            pathName = pathName.replacingOccurrences(of: "\\{(.*?)\\}", with: "By_$1", options: .regularExpression, range: nil)
             let generatedOperationId = operation.method.rawValue.lowercased() + pathName.upperCamelCased()
             context["operationId"] = generatedOperationId
         }

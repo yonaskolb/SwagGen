@@ -60,6 +60,10 @@ public class Value: JSONObjectConvertible {
         if let schemaRef = jsonDictionary.json(atKeyPath: "schema.$ref") as String? {
             reference = schemaRef
         }
+        else if let schema = jsonDictionary.json(atKeyPath: "schema") as Schema? {
+            self.schema = schema
+            self.schema?.anonymous = true
+        }
 
         if let ref = jsonDictionary.json(atKeyPath: "schema.items.$ref") as String? {
             arrayRef = ref

@@ -136,6 +136,9 @@ public class CodeFormatter {
         context["isArray"] = value.type == "array"
         context["isDictionary"] = value.type == "object" && (value.dictionarySchema != nil || value.dictionaryValue != nil)
         context["isGlobal"] = value.isGlobal
+        if value.schema?.anonymous == true {
+            context["anonymousSchema"] = value.schema.flatMap(getSchemaContext)
+        }
         return context
     }
 
@@ -174,7 +177,14 @@ public class CodeFormatter {
     }
 
     func getSchemaType(_ schema: Schema) -> String {
-        let type = schema.name.upperCamelCased()
+        guard let name = schema.name else {
+            if schema.anonymous {
+                return "Body"
+            } else {
+                return "UNKNOWN_TYPE"
+            }
+        }
+        let type = name.upperCamelCased()
         return disallowedTypes.contains(type) ? escapeModelType(type) : type
     }
 

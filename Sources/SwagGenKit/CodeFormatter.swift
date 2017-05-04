@@ -186,10 +186,11 @@ public class CodeFormatter {
         if let object = value.schema {
             return getSchemaType(object)
         }
-        if value.type == "unknown" {
-            writeError("Couldn't calculate type")
+        guard let type = value.type else {
+            writeError("Couldn't calculate type for: \(value.name)\(value.description.flatMap{" \"\($0)\""} ?? "")")
+            return "UKNOWN_TYPE"
         }
-        return value.type
+        return type
     }
 
     func getEnumName(_ value: Value) -> String {

@@ -35,34 +35,37 @@ public class SwiftFormatter: CodeFormatter {
             }
         }
 
-        switch value.type.lowercased() {
-        case "int", "integer", "int32", "int64": return "Int"
-        case "string":
-            if value.format == "uri" {
-                return "URL"
+        if let type = value.type {
+
+            switch type.lowercased() {
+            case "int", "integer", "int32", "int64": return "Int"
+            case "string":
+                if value.format == "uri" {
+                    return "URL"
+                }
+                return "String"
+            case "number", "double": return "Double"
+            case "date": return "Date"
+            case "boolean": return "Bool"
+            case "file": return "URL"
+            case "uri": return "URL"
+            case "object":
+                if let schema = value.dictionarySchema {
+                    return "[String: \(getSchemaType(schema))]"
+                } else if let value = value.dictionaryValue {
+                    return "[String: \(getValueType(value))]"
+                } else {
+                    return "[String: Any]"
+                }
+            case "array":
+                if let schema = value.arraySchema {
+                    return "[\(getSchemaType(schema))]"
+                } else {
+                    let arrayValue = value.arrayValue!
+                    return "[\(arrayValue.enumValues != nil ? getEnumName(value) : getValueType(arrayValue))]"
+                }
+            default: break
             }
-            return "String"
-        case "number", "double": return "Double"
-        case "date": return "Date"
-        case "boolean": return "Bool"
-        case "file": return "URL"
-        case "uri": return "URL"
-        case "object":
-            if let schema = value.dictionarySchema {
-                return "[String: \(getSchemaType(schema))]"
-            } else if let value = value.dictionaryValue {
-                return "[String: \(getValueType(value))]"
-            } else {
-                return "[String: Any]"
-            }
-        case "array":
-            if let schema = value.arraySchema {
-                return "[\(getSchemaType(schema))]"
-            } else {
-                let arrayValue = value.arrayValue!
-                return "[\(arrayValue.enumValues != nil ? getEnumName(value) : getValueType(arrayValue))]"
-            }
-        default: break
         }
         return super.getValueType(value)
     }

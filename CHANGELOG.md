@@ -1,6 +1,12 @@
 # Change Log
 
-## [0.2] - 2017-05-04
+## [0.3] - 2017-05-04
+
+### Fixed
+- Operations with multiple path variables now properly generate an operationId. Thanks @HSchultjan
+- Operation parameters that contain anonymous schemas (those that don't reference a definition schema but define a schema inline) are now genererated properly as nested structs within the APIRequest 
+
+## [0.2] - 2017-05-03
 ### Added
 - `Operation`, `Definition`, `Property` and `Parameter`, now have a `raw` property that can be accessed from templates. This represents the raw data that was in the original spec. This lets you access any custom properties you have in your spec
 

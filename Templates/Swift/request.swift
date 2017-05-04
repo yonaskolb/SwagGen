@@ -61,7 +61,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
         {% if bodyParam.anonymousSchema.description %}
         /** {{ bodyParam.schema.description }} */
         {% endif %}
-        public struct Body {
+        public struct {{ bodyParam.anonymousSchema.type }} {
           {% for property in bodyParam.anonymousSchema.properties %}
 
           {% if property.description %}

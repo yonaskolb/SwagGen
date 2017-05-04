@@ -178,11 +178,7 @@ public class CodeFormatter {
 
     func getSchemaType(_ schema: Schema) -> String {
         guard let name = schema.name else {
-            if schema.anonymous {
-                return "Body"
-            } else {
-                return "UNKNOWN_TYPE"
-            }
+            return "UNKNOWN_TYPE"
         }
         let type = name.upperCamelCased()
         return disallowedTypes.contains(type) ? escapeModelType(type) : type

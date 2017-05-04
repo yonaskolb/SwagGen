@@ -3,8 +3,8 @@
 ## [0.3] - 2017-05-04
 
 ### Fixed
-- Operations with multiple path variables now properly generate an operationId. Thanks @HSchultjan
-- Operation parameters that contain anonymous schemas (those that don't reference a definition schema but define a schema inline) are now genererated properly as nested structs within the APIRequest 
+- Operations with multiple path variables now properly generate an operationId. #11  Thanks @HSchultjan
+- Operation parameters that contain anonymous schemas (those that don't reference a definition schema but define a schema inline) are now genererated properly as nested structs within the APIRequest #13
 
 ## [0.2] - 2017-05-03
 ### Added

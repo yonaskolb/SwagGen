@@ -11,7 +11,7 @@ import JSONUtilities
 
 public class Schema: JSONObjectConvertible {
 
-    public var name: String = ""
+    public var name: String?
     public let type: String?
     public let description: String?
     public let reference: String?
@@ -22,6 +22,7 @@ public class Schema: JSONObjectConvertible {
     public let optionalProperties: [Property]
     public let properties: [Property]
     public let json: JSONDictionary
+    public var anonymous: Bool = false
 
     required public init(jsonDictionary: JSONDictionary) throws {
         self.json = jsonDictionary
@@ -57,7 +58,7 @@ public class Schema: JSONObjectConvertible {
     }
 
     func deepDescription(prefix: String) -> String {
-        return "\(prefix)\(name)\n\(prefix)\(properties.map { $0.deepDescription(prefix: prefix) }.joined(separator: "\n\(prefix)"))"
+        return "\(prefix)\(name ?? "")\n\(prefix)\(properties.map { $0.deepDescription(prefix: prefix) }.joined(separator: "\n\(prefix)"))"
     }
 
     public var enums: [Value] {

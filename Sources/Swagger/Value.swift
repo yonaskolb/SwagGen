@@ -14,7 +14,7 @@ public class Value: JSONObjectConvertible {
     public var name: String
     public let description: String?
     public var required: Bool
-    public var type: String
+    public var type: String?
     public var reference: String?
     public var format: String?
     public var enumValues: [String]?
@@ -54,11 +54,16 @@ public class Value: JSONObjectConvertible {
         dictionaryValue = jsonDictionary.json(atKeyPath: "additionalProperties")
 
         required = jsonDictionary.json(atKeyPath: "required") ?? false
-        type = jsonDictionary.json(atKeyPath: "type") ?? "unknown"
+        type = jsonDictionary.json(atKeyPath: "type")
         format = jsonDictionary.json(atKeyPath: "format")
         enumValues = jsonDictionary.json(atKeyPath: "enum")
         if let schemaRef = jsonDictionary.json(atKeyPath: "schema.$ref") as String? {
             reference = schemaRef
+        }
+        else if let schema = jsonDictionary.json(atKeyPath: "schema") as Schema? {
+            self.schema = schema
+            self.schema?.name = name
+            self.schema?.anonymous = true
         }
 
         if let ref = jsonDictionary.json(atKeyPath: "schema.items.$ref") as String? {
@@ -70,6 +75,6 @@ public class Value: JSONObjectConvertible {
     }
 
     func deepDescription(prefix: String) -> String {
-        return "\(prefix)\(name): \(type)"
+        return "\(prefix)\(name): \(type ?? "")"
     }
 }

@@ -56,6 +56,27 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
         public var options: Options
         {% endif %}
         {% if bodyParam %}
+        {% if bodyParam.anonymousSchema %}
+
+        {% if bodyParam.anonymousSchema.description %}
+        /** {{ bodyParam.schema.description }} */
+        {% endif %}
+        public struct {{ bodyParam.anonymousSchema.type }} {
+          {% for property in bodyParam.anonymousSchema.properties %}
+
+          {% if property.description %}
+          /** {{ property.description }} */
+          {% endif %}
+          public var {{ property.name }}: {{ property.optionalType }}
+          {% endfor %}
+
+          public init({% for property in bodyParam.anonymousSchema.properties %}{{property.name}}: {{property.optionalType}}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
+              {% for property in bodyParam.anonymousSchema.properties %}
+              self.{{property.name}} = {{property.name}}
+              {% endfor %}
+          }
+        }
+        {% endif %}
 
         public var {{ bodyParam.name}}: {{bodyParam.optionalType}}
         {% endif %}

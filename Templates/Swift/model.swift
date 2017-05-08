@@ -38,6 +38,10 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
     {% endif %}
     public var {{ property.name }}: {{ property.optionalType }}
     {% endfor %}
+    {% if additionalPropertiesType %}
+
+    public var additionalProperties: [String: {{ additionalPropertiesType }}] = [:]
+    {% endif %}
 
     public init({% for property in allProperties %}{{ property.name }}: {{ property.optionalType }}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
         {% for property in properties %}
@@ -50,8 +54,24 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
 
     public required init(jsonDictionary: JSONDictionary) throws {
         {% for property in properties %}
-        {{property.name}} = {% if property.required %}try {% endif %}jsonDictionary.json(atKeyPath: "{{property.value}}")
+        {{ property.name }} = {% if property.required %}try {% endif %}jsonDictionary.json(atKeyPath: "{{property.value}}")
         {% endfor %}
+        {% if additionalPropertiesType %}
+
+        var additionalProperties = jsonDictionary
+        {% for property in properties %}
+        additionalProperties.removeValue(forKey: "{{ property.value }}")
+        {% endfor %}
+        {% if additionalPropertiesType != "Any" %}
+        var decodedAdditionalProperties: [String: {{ additionalPropertiesType }}] = [:]
+        for key in additionalProperties.keys {
+            decodedAdditionalProperties[key] = additionalProperties.json(atKeyPath: key)
+        }
+        self.additionalProperties = decodedAdditionalProperties
+        {% else %}
+        self.additionalProperties = additionalProperties
+        {% endif %}
+        {% endif %}
         {% if parent %}
         try super.init(jsonDictionary: jsonDictionary)
         {% endif %}
@@ -68,6 +88,12 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
         dictionary["{{ property.value }}"] = {{ property.encodedValue }}
         {% endif %}
         {% endfor %}
+        {% if additionalPropertiesType %}
+
+        for (key, value) in additionalProperties {
+          dictionary[key] = value
+        }
+        {% endif %}
         {% if parent %}
         let superDictionary = super.encode()
         for (key, value) in superDictionary {
@@ -76,4 +102,15 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
         {% endif %}
         return dictionary
     }
+    {% if additionalPropertiesType %}
+
+    public subscript(key: String) -> {{ additionalPropertiesType }}? {
+        get {
+            return additionalProperties[key]
+        }
+        set {
+            additionalProperties[key] = newValue
+        }
+    }
+    {% endif %}
 }

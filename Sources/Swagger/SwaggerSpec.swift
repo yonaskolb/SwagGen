@@ -131,6 +131,11 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
                 definition.parent = reference
             }
 
+            if case .a(let schema) = definition.additionalProperties,
+                let reference =  getDefinitionSchema(schema.reference) {
+                schema.schema = reference
+            }
+
             for property in definition.properties {
                 if let reference = getDefinitionSchema(property.reference) {
                     property.schema = reference

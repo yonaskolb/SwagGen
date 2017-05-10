@@ -112,12 +112,12 @@ public class SwiftFormatter: CodeFormatter {
         return context
     }
 
-        return "\(name)Type"
     override func escapeType(_ name: String) -> String {
+        return "`\(name)`"
     }
 
-        return "\(name)Enum"
     override func escapeName(_ name: String) -> String {
+        return "`\(name)`"
     }
 
     override func getEnumCaseName(_ name: String) -> String {

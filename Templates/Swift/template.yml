@@ -3,27 +3,32 @@ options:
   name: API
   dependencies:
     - pod: JSONUtilities
-      carthage: github "lucianomarisi/JSONUtilities"
-      version: 3.2
+      github: lucianomarisi/JSONUtilities
+      version: 3.2.0
     - pod: Alamofire
-      carthage: github "Alamofire/Alamofire"
-      version: 4.2
+      github: Alamofire/Alamofire
+      version: 4.2.0
 templateFiles:
+  - path: Package.swift
   - path: Podspec.podspec
     destination: "{{ options.name }}.podspec"
-  - path: Cartfile.stencil
-    destination: Cartfile
+  - path: Cartfile
   - path: enum.swift
     context: enums
-    destination: "Enums/{{ enumName }}.swift"
+    destination: "Sources/{{ options.name }}/Enums/{{ enumName }}.swift"
   - path: model.swift
     context: definitions
-    destination: "Models/{{ type }}.swift"
+    destination: "Sources/{{ options.name }}/Models/{{ type }}.swift"
   - path: request.swift
     context: operations
-    destination: "Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ operationId|upperCamelCase }}.swift"
+    destination: "Sources/{{ options.name }}/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ operationId|upperCamelCase }}.swift"
   - path: API.swift
+    destination: "Sources/{{ options.name }}/API.swift"
   - path: Decoding.swift
-  - path: APIClient.swift
-  - path: APIService.swift
+    destination: "Sources/{{ options.name }}/Decoding.swift"
   - path: APIRequest.swift
+    destination: "Sources/{{ options.name }}/APIRequest.swift"
+  - path: APIClient.swift
+    destination: "Sources/{{ options.name }}/APIClient.swift"
+  - path: APIService.swift
+    destination: "Sources/{{ options.name }}/APIService.swift"

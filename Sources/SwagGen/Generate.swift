@@ -11,7 +11,7 @@ import Swagger
 import SwagGenKit
 import PathKit
 
-func generate(templatePath: String, destinationPath: Path, specPath: String, clean: Bool, options: [String]) {
+func generate(templatePath: String, destinationPath: Path, specPath: String, clean: Generator.Clean, options: [String]) {
 
     guard specPath != "" && URL(string: specPath) != nil else {
         writeError("Must provide a valid spec")

@@ -11,7 +11,10 @@ import Swagger
 
 public class CodeFormatter {
 
-    let spec: SwaggerSpec
+    var spec: SwaggerSpec
+
+    public var schemaTypeErrors: [Schema] = []
+    public var valueTypeErrors: [Value] = []
 
     public init(spec: SwaggerSpec) {
         self.spec = spec
@@ -26,6 +29,8 @@ public class CodeFormatter {
     }
 
     public func getContext() -> [String: Any] {
+        schemaTypeErrors = []
+        valueTypeErrors = []
         return getSpecContext().clean()
     }
 
@@ -190,6 +195,7 @@ public class CodeFormatter {
 
     func getSchemaType(_ schema: Schema) -> String {
         guard let name = schema.name else {
+            schemaTypeErrors.append(schema)
             return "UNKNOWN_TYPE"
         }
         let type = name.upperCamelCased()
@@ -206,7 +212,7 @@ public class CodeFormatter {
             return getSchemaType(object)
         }
         guard let type = value.type else {
-            writeError("Couldn't calculate type for: \(value.name)\(value.description.flatMap{" \"\($0)\""} ?? "")")
+            valueTypeErrors.append(value)
             return "UKNOWN_TYPE"
         }
         return type

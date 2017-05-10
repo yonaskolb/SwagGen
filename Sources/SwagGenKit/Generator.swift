@@ -39,6 +39,11 @@ public class Generator {
         environment = Environment(loader: FileSystemLoader(paths: [templateConfig.basePath]), extensions: [filterExtension])
     }
 
+    public enum FileChange {
+        case generated(GeneratedFile)
+        case removed(Path)
+    }
+
     public struct GeneratedFile {
         public let path: Path
         public let content: String
@@ -74,7 +79,7 @@ public class Generator {
         }
     }
 
-    public func generate(clean: Clean) throws -> [GeneratedFile] {
+    public func generate(clean: Clean, fileChanged: (FileChange) -> Void) throws -> [FileChange] {
         var generatedFiles: [GeneratedFile] = []
 
         for file in templateConfig.templateFiles {
@@ -85,7 +90,6 @@ public class Generator {
                 if let destination = templateFile.destination {
                     let path = try environment.renderTemplate(string: destination, context: context)
                     if path == "" {
-                        writeMessage("Skipped file \(templateFile.path)".red)
                         return
                     }
                     filePath = path
@@ -128,58 +132,43 @@ public class Generator {
             }
         }
 
-        let unchangedFiles = generatedFiles.filter{ $0.state == .unchanged }
-        let modifiedFiles = generatedFiles.filter{ $0.state == .modified }
-        let createdFiles = generatedFiles.filter{ $0.state == .created }
-        var removedFiles: [Path] = []
-
-        try generatedFiles.sorted{$0.state == $1.state ? $0.path < $1.path : $0.state.rawValue > $1.state.rawValue}.forEach(writeFile)
+        generatedFiles = generatedFiles.sorted{$0.state == $1.state ? $0.path < $1.path : $0.state.rawValue > $1.state.rawValue}
 
         // clean
-        var filesToRemove: [Path] = []
+        var cleanFiles: [Path] = []
         switch clean {
         case .all:
-            filesToRemove = try destination.recursiveChildren().filter{ $0.isFile }
+            cleanFiles = try destination.recursiveChildren().filter{ $0.isFile }
         case .leaveDotFiles:
             let nonDotFiles = try destination.children().filter{!$0.lastComponentWithoutExtension.hasPrefix(".")}
-            filesToRemove = nonDotFiles.filter{ $0.isFile }
-            filesToRemove += try nonDotFiles.reduce([]) { $0 + (try $1.recursiveChildren().filter{ $0.isFile}) }
+            cleanFiles = nonDotFiles.filter{ $0.isFile }
+            cleanFiles += try nonDotFiles.reduce([]) { $0 + (try $1.recursiveChildren().filter{ $0.isFile}) }
         case .none: break;
         }
 
-        let filesToRemoveSet = Set(filesToRemove)
-        let generatedPaths = Set(generatedFiles.map{ destination + $0.path})
-        removedFiles = Array(filesToRemoveSet.subtracting(generatedPaths)).sorted()
+        let cleanFilesSet = Set(cleanFiles)
+        let generatedFilesSet = Set(generatedFiles.map{ destination + $0.path})
+        let removedFiles = Array(cleanFilesSet.subtracting(generatedFilesSet)).sorted()
+
+        for file in generatedFiles {
+            let outputPath = (destination + file.path).normalize()
+            try outputPath.parent().mkpath()
+            switch file.state {
+            case .unchanged: break
+            case .modified:
+                try outputPath.write(file.content)
+            case .created:
+                try outputPath.write(file.content)
+            }
+
+            fileChanged(.generated(file))
+        }
+
         for removedFile in removedFiles {
-            let relativePath = removedFile.absolute().string.replacingOccurrences(of: destination.normalize().absolute().string + "/", with: "")
             try? removedFile.delete()
-            writeMessage("Removed \(relativePath)".red)
+            fileChanged(.removed(removedFile))
         }
 
-        let counts: [(String, Int)] = [
-            ("created", createdFiles.count),
-            ("modified", modifiedFiles.count),
-            ("unchanged", unchangedFiles.count),
-            ("removed", removedFiles.count),
-            ]
-        writeMessage("Generation complete: \(getCountString(counts: counts, pluralise: false))")
-
-        return generatedFiles
-    }
-
-    func writeFile(file: GeneratedFile) throws {
-        let outputPath = (destination + file.path).normalize()
-        try outputPath.parent().mkpath()
-        switch file.state {
-        case .unchanged:
-            writeMessage("Unchanged \(file.path)".lightBlack)
-        case .modified:
-            try outputPath.write(file.content)
-            writeMessage("Modified \(file.path)".yellow)
-
-        case .created:
-            try outputPath.write(file.content)
-            writeMessage("Created \(file.path)".green)
-        }
+        return generatedFiles.map { .generated($0) } + removedFiles.map { .removed($0) }
     }
 }

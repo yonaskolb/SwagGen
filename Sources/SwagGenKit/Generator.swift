@@ -142,7 +142,8 @@ public class Generator {
             filesToRemove = try destination.recursiveChildren().filter{ $0.isFile }
         case .leaveDotFiles:
             let nonDotFiles = try destination.children().filter{!$0.lastComponentWithoutExtension.hasPrefix(".")}
-            filesToRemove = try nonDotFiles.reduce([]) { $0 + (try $1.recursiveChildren().filter{ $0.isFile}) }
+            filesToRemove = nonDotFiles.filter{ $0.isFile }
+            filesToRemove += try nonDotFiles.reduce([]) { $0 + (try $1.recursiveChildren().filter{ $0.isFile}) }
         case .none: break;
         }
 

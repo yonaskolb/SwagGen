@@ -19,6 +19,15 @@ public class SwiftFormatter: CodeFormatter {
             "Enum",
             "Protocol",
             "Set",
+            "extension",
+            "public",
+            "open",
+            "private",
+            "fileprivate",
+            "internal",
+            "let",
+            "var",
+            "where",
         ]
     }
 

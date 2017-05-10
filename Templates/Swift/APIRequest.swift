@@ -30,33 +30,24 @@ public class APIRequest<ResponseType> {
     }
 }
 
-public struct APIService<ResponseType> {
+extension APIRequest: CustomStringConvertible {
 
-    public let id: String
-    public let tag: String
-    public let method: String
-    public let path: String
-    public let hasBody: Bool
-    public let authorization: Authorization?
-    public let decode: (Any) throws -> ResponseType
-
-    public init(id: String, tag: String = "", method:String, path:String, hasBody: Bool, authorization: Authorization? = nil, decode: @escaping (Any) throws -> ResponseType) {
-        self.id = id
-        self.tag = tag
-        self.method = method
-        self.path = path
-        self.hasBody = hasBody
-        self.authorization = authorization
-        self.decode = decode
+    public var description: String {
+        var string = "\(service.id): \(service.method) \(path)"
+        if !parameters.isEmpty {
+            string += "?" + parameters.map {"\($0)=\($1)"}.joined(separator: "&")
+        }
+        return string
     }
 }
 
-public struct Authorization {
-    public let type:String
-    public let scope:String
+extension APIRequest: CustomDebugStringConvertible {
 
-    public init(type: String, scope: String) {
-        self.type = type
-        self.scope = scope
+    public var debugDescription: String {
+        var string = description
+        if let body = jsonBody {
+            string += "\nbody: \(body)"
+        }
+        return string
     }
 }

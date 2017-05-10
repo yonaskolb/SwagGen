@@ -14,6 +14,12 @@ import Rainbow
 
 public class Generator {
 
+    public enum Clean: String {
+        case none
+        case leaveDotFiles
+        case all
+    }
+
     var destination: Path
     var templateConfig: TemplateConfig
     let context: JSONDictionary
@@ -68,7 +74,7 @@ public class Generator {
         }
     }
 
-    public func generate(clean: Bool) throws -> [GeneratedFile] {
+    public func generate(clean: Clean) throws -> [GeneratedFile] {
         var generatedFiles: [GeneratedFile] = []
 
         for file in templateConfig.templateFiles {
@@ -129,15 +135,24 @@ public class Generator {
 
         try generatedFiles.sorted{$0.state == $1.state ? $0.path < $1.path : $0.state.rawValue > $1.state.rawValue}.forEach(writeFile)
 
-        if clean {
-            let existingPaths = try Set(destination.recursiveChildren().filter{ $0.isFile })
-            let generatedPaths = Set(generatedFiles.map{ destination + $0.path})
-            removedFiles = Array(existingPaths.subtracting(generatedPaths)).sorted()
-            for removedFile in removedFiles {
-                let relativePath = removedFile.absolute().string.replacingOccurrences(of: destination.normalize().absolute().string + "/", with: "")
-                try? removedFile.delete()
-                writeMessage("Removed \(relativePath)".red)
-            }
+        // clean
+        var filesToRemove: [Path] = []
+        switch clean {
+        case .all:
+            filesToRemove = try destination.recursiveChildren().filter{ $0.isFile }
+        case .leaveDotFiles:
+            let nonDotFiles = try destination.children().filter{!$0.lastComponentWithoutExtension.hasPrefix(".")}
+            filesToRemove = try nonDotFiles.reduce([]) { $0 + (try $1.recursiveChildren().filter{ $0.isFile}) }
+        case .none: break;
+        }
+
+        let filesToRemoveSet = Set(filesToRemove)
+        let generatedPaths = Set(generatedFiles.map{ destination + $0.path})
+        removedFiles = Array(filesToRemoveSet.subtracting(generatedPaths)).sorted()
+        for removedFile in removedFiles {
+            let relativePath = removedFile.absolute().string.replacingOccurrences(of: destination.normalize().absolute().string + "/", with: "")
+            try? removedFile.delete()
+            writeMessage("Removed \(relativePath)".red)
         }
 
         let counts: [(String, Int)] = [

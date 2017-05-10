@@ -11,7 +11,7 @@ import Swagger
 
 public class SwiftFormatter: CodeFormatter {
 
-    override var disallowedTypes: [String] {
+    var disallowedKeywords: [String] {
         return [
             "Type",
             "Class",
@@ -21,6 +21,9 @@ public class SwiftFormatter: CodeFormatter {
             "Set",
         ]
     }
+
+    override var disallowedNames: [String] { return disallowedKeywords }
+    override var disallowedTypes: [String] { return disallowedKeywords }
 
     override func getValueType(_ value: Value) -> String {
 
@@ -109,15 +112,15 @@ public class SwiftFormatter: CodeFormatter {
         return context
     }
 
-    override func escapeModelType(_ name: String) -> String {
         return "\(name)Type"
+    override func escapeType(_ name: String) -> String {
     }
 
-    override func escapeEnumType(_ name: String) -> String {
         return "\(name)Enum"
+    override func escapeName(_ name: String) -> String {
     }
 
     override func getEnumCaseName(_ name: String) -> String {
-        return name.lowerCamelCased()
+        return escapeName(name.lowerCamelCased(), escaper: escapeName)
     }
 }

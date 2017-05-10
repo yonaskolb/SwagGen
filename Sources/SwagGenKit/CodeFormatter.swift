@@ -17,6 +17,10 @@ public class CodeFormatter {
         self.spec = spec
     }
 
+    var disallowedNames: [String] {
+        return []
+    }
+
     var disallowedTypes: [String] {
         return []
     }
@@ -168,11 +172,19 @@ public class CodeFormatter {
         return context
     }
 
-    func escapeModelType(_ name: String) -> String {
+    func escapeName(_ name: String, escaper: (String) -> String) -> String {
+        return disallowedNames.contains(name) ? escaper(name) : name
+    }
+
+    func escapeType(_ type: String, escaper: (String) -> String) -> String {
+        return disallowedTypes.contains(type) ? escaper(type) : type
+    }
+
+    func escapeType(_ name: String) -> String {
         return "_\(name)"
     }
 
-    func escapeEnumType(_ name: String) -> String {
+    func escapeName(_ name: String) -> String {
         return "_\(name)"
     }
 
@@ -181,11 +193,12 @@ public class CodeFormatter {
             return "UNKNOWN_TYPE"
         }
         let type = name.upperCamelCased()
-        return disallowedTypes.contains(type) ? escapeModelType(type) : type
+        return escapeName(type, escaper: escapeType)
     }
 
     func getValueName(_ value: Value) -> String {
-        return value.name.lowerCamelCased()
+        let name = value.name.lowerCamelCased()
+        return escapeName(name, escaper: escapeName)
     }
 
     func getValueType(_ value: Value) -> String {
@@ -201,11 +214,11 @@ public class CodeFormatter {
 
     func getEnumName(_ value: Value) -> String {
         let name = (value.globalName ?? value.name).upperCamelCased()
-        return disallowedTypes.contains(name) ? escapeEnumType(name) : name
+        return escapeName(name, escaper: escapeType)
     }
 
     func getEnumCaseName(_ name: String) -> String {
-        return name.upperCamelCased()
+        let name = name.upperCamelCased()
+        return escapeName(name, escaper: escapeName)
     }
 }
-

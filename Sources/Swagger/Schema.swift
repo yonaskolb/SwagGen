@@ -23,6 +23,7 @@ public class Schema: JSONObjectConvertible {
     public let properties: [Property]
     public let json: JSONDictionary
     public var anonymous: Bool = false
+    public var additionalProperties: Either<Value, Bool>
 
     required public init(jsonDictionary: JSONDictionary) throws {
         self.json = jsonDictionary
@@ -51,6 +52,13 @@ public class Schema: JSONObjectConvertible {
         self.requiredProperties = requiredProperties
         optionalProperties = Array(propertiesByName.values).filter { !$0.required }.sorted{$0.name < $1.name}
         properties = requiredProperties + optionalProperties
+
+        if let schema = jsonDictionary.json(atKeyPath: "additionalProperties") as Value? {
+            additionalProperties = .a(schema)
+        } else {
+            let bool: Bool = jsonDictionary.json(atKeyPath: "additionalProperties") ?? false
+            additionalProperties = .b(bool)
+        }
     }
 
     public var allProperties: [Property] {

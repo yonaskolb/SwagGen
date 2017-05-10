@@ -96,6 +96,19 @@ public class SwiftFormatter: CodeFormatter {
         ]
     }
 
+    override func getSchemaContext(schema: Schema) -> [String : Any?] {
+        var context = super.getSchemaContext(schema: schema)
+
+        switch schema.additionalProperties {
+        case .a(let value): context["additionalPropertiesType"] = getValueType(value)
+        case .b(let additionalProperties):
+            if additionalProperties {
+                context["additionalPropertiesType"] = "Any"
+            }
+        }
+        return context
+    }
+
     override func escapeModelType(_ name: String) -> String {
         return "\(name)Type"
     }

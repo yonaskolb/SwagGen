@@ -49,6 +49,8 @@ Example:
 SwagGen --template Templates/Swift --spec http://myapi.com/spec --destination generated --option name:MyAPI --option "customProperty: custom value"
 ```
 
+For the Swift template, a handy option is `name`, which changes the name of the generated framework from the default of `API`. This can be set in the template or by passing in `--option name:MyCoolAPI`. 
+
 ## Templates
 Templates are made up of a template config file, a bunch of **Stencil** files, and other files that will be copied over during generation
 

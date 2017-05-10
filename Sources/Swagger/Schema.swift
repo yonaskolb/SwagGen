@@ -14,7 +14,7 @@ public class Schema: JSONObjectConvertible {
     public var name: String?
     public let type: String?
     public let description: String?
-    public let reference: String?
+    public var reference: String?
     public var parentReference: String?
     public var parent: Schema?
     public var propertiesByName: [String: Property]

@@ -116,77 +116,94 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
                 arrayEnum.globalName = name
                 enums.append(arrayEnum)
             }
+            resolveValue(parameter)
         }
 
         for (name, definition) in definitions {
             definition.name = name
-
-            if let reference = getDefinitionSchema(definition.reference) {
-                for property in reference.properties {
-                    definition.propertiesByName[property.name] = property
-                }
-            }
-
-            if let reference = getDefinitionSchema(definition.parentReference) {
-                definition.parent = reference
-            }
-
-            if case .a(let schema) = definition.additionalProperties,
-                let reference =  getDefinitionSchema(schema.reference) {
-                schema.schema = reference
-            }
-
-            for property in definition.properties {
-                if let reference = getDefinitionSchema(property.reference) {
-                    property.schema = reference
-                }
-                if let reference = getDefinitionSchema(property.arrayRef) {
-                    property.arraySchema = reference
-                }
-                if let reference = getDefinitionSchema(property.dictionarySchemaRef) {
-                    property.dictionarySchema = reference
-                }
-
-                for enumValue in enums {
-                    let propertyEnumValues = property.enumValues ?? property.arrayValue?.enumValues ?? []
-                    let globalEnumValues = enumValue.enumValues ?? enumValue.arrayValue?.enumValues ?? []
-                    if !propertyEnumValues.isEmpty && propertyEnumValues == globalEnumValues {
-                        property.isGlobal = true
-                        property.globalName = enumValue.globalName ?? enumValue.name
-                        continue
-                    }
-                }
-            }
+            resolveSchema(definition)
         }
 
         for operation in operations {
 
             for (index, parameter) in operation.parameters.enumerated() {
-                if let reference = getDefinitionSchema(parameter.reference) {
-                    parameter.schema = reference
-                }
                 if let reference = getParameterReference(parameter.reference) {
                     operation.parameters[index] = reference
-                }
-                if let reference = getDefinitionSchema(parameter.arrayRef) {
-                    parameter.arraySchema = reference
+                } else {
+                    resolveValue(parameter)
                 }
             }
             for response in operation.responses {
-                if let reference = getDefinitionSchema(response.schema?.reference) {
-                    response.schema?.schema = reference
-                } else if let reference = getDefinitionSchema(response.schema?.arrayRef) {
-                    response.schema?.arraySchema = reference
-                }
-                if let reference = getDefinitionSchema(response.schema?.dictionarySchemaRef) {
-                    response.schema?.dictionarySchema = reference
+                if let schema = response.schema {
+                    resolveValue(schema)
                 }
             }
         }
     }
 
+    func resolveSchema(_ schema: Schema) {
+        if let reference = getDefinitionSchema(schema.reference) {
+            schema.reference = nil
+
+            for property in reference.properties {
+                schema.propertiesByName[property.name] = property
+            }
+            resolveSchema(reference)
+        }
+
+        if let reference = getDefinitionSchema(schema.parentReference) {
+            reference.parentReference = nil
+            schema.parent = reference
+            resolveSchema(reference)
+        }
+
+        if case .a(let additionalSchema) = schema.additionalProperties,
+            let reference =  getDefinitionSchema(schema.reference) {
+            additionalSchema.schema = reference
+            resolveSchema(reference)
+        }
+
+        for property in schema.properties {
+
+            for enumValue in enums {
+                let propertyEnumValues = property.enumValues ?? property.arrayValue?.enumValues ?? []
+                let globalEnumValues = enumValue.enumValues ?? enumValue.arrayValue?.enumValues ?? []
+                if !propertyEnumValues.isEmpty && propertyEnumValues == globalEnumValues {
+                    property.isGlobal = true
+                    property.globalName = enumValue.globalName ?? enumValue.name
+                    continue
+                }
+            }
+            resolveValue(property)
+        }
+    }
+
+    func resolveValue(_ value: Value) {
+
+        if let schema = getDefinitionSchema(value.reference) {
+            value.reference = nil
+            value.schema = schema
+            resolveSchema(schema)
+        }
+
+        if let schema = getDefinitionSchema(value.arrayRef) {
+            value.arrayRef = nil
+            value.arraySchema = schema
+            resolveSchema(schema)
+        }
+
+        if let schema = getDefinitionSchema(value.dictionarySchemaRef) {
+            value.dictionarySchemaRef = nil
+            value.dictionarySchema = schema
+            resolveSchema(schema)
+        }
+    }
+
     func getDefinitionSchema(_ reference: String?) -> Schema? {
-        return reference?.components(separatedBy: "/").last.flatMap { definitions[$0] }
+        guard let reference = reference else {
+            return nil
+        }
+        return reference.components(separatedBy: "/").last.flatMap { definitions[$0] }
     }
 
     func getParameterReference(_ reference: String?) -> Parameter? {

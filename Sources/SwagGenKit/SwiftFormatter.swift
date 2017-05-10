@@ -72,8 +72,7 @@ public class SwiftFormatter: CodeFormatter {
             case "array":
                 if let schema = value.arraySchema {
                     return "[\(getSchemaType(schema))]"
-                } else {
-                    let arrayValue = value.arrayValue!
+                } else if let arrayValue = value.arrayValue {
                     return "[\(arrayValue.enumValues != nil ? getEnumName(value) : getValueType(arrayValue))]"
                 }
             default: break

@@ -29,3 +29,25 @@ public class APIRequest<ResponseType> {
         }
     }
 }
+
+extension APIRequest: CustomStringConvertible {
+
+    public var description: String {
+        var string = "\(service.id): \(service.method) \(path)"
+        if !parameters.isEmpty {
+            string += "?" + parameters.map {"\($0)=\($1)"}.joined(separator: "&")
+        }
+        return string
+    }
+}
+
+extension APIRequest: CustomDebugStringConvertible {
+
+    public var debugDescription: String {
+        var string = description
+        if let body = jsonBody {
+            string += "\nbody: \(body)"
+        }
+        return string
+    }
+}

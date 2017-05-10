@@ -26,6 +26,13 @@ public struct APIService<ResponseType> {
     }
 }
 
+extension APIService: CustomStringConvertible {
+
+    public var description: String {
+        return "\(id): \(method) \(path)"
+    }
+}
+
 public struct Authorization {
     public let type: String
     public let scope: String

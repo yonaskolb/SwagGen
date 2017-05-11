@@ -14,12 +14,15 @@ public class SwiftFormatter: CodeFormatter {
     var disallowedKeywords: [String] {
         return [
             "Type",
-            "Class",
-            "Struct",
-            "Enum",
-            "Protocol",
-            "Set",
+            "class",
+            "struct",
+            "enum",
+            "protocol",
             "extension",
+            "return",
+            "throw",
+            "throws",
+            "rethrows",
             "public",
             "open",
             "private",
@@ -28,6 +31,42 @@ public class SwiftFormatter: CodeFormatter {
             "let",
             "var",
             "where",
+            "guard",
+            "associatedtype",
+            "deinit",
+            "func",
+            "import",
+            "inout",
+            "operator",
+            "static",
+            "subscript",
+            "typealias",
+            "case",
+            "break",
+            "continue",
+            "default",
+            "defer",
+            "do",
+            "else",
+            "fallthrough",
+            "for",
+            "if",
+            "in",
+            "repeat",
+            "switch",
+            "where",
+            "while",
+            "as",
+            "Any",
+            "AnyObject",
+            "catch",
+            "false",
+            "true",
+            "is",
+            "nil",
+            "super",
+            "self",
+            "Self",
         ]
     }
 
@@ -120,15 +159,15 @@ public class SwiftFormatter: CodeFormatter {
         return context
     }
 
-    override func escapeType(_ name: String) -> String {
+    override func getEscapedType(_ name: String) -> String {
         return "`\(name)`"
     }
 
-    override func escapeName(_ name: String) -> String {
+    override func getEscapedName(_ name: String) -> String {
         return "`\(name)`"
     }
 
     override func getEnumCaseName(_ name: String) -> String {
-        return escapeName(name.lowerCamelCased(), escaper: escapeName)
+        return escapeName(name.lowerCamelCased())
     }
 }

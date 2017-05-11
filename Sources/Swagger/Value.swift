@@ -44,11 +44,12 @@ public class Value: JSONObjectConvertible {
         json = jsonDictionary
         name = jsonDictionary.json(atKeyPath: "name") ?? ""
         description = jsonDictionary.json(atKeyPath: "description")
+        collectionFormat = jsonDictionary.json(atKeyPath: "collectionFormat")
+
         reference = jsonDictionary.json(atKeyPath: "$ref")
 
         arrayRef = jsonDictionary.json(atKeyPath: "items.$ref")
         arrayValue = jsonDictionary.json(atKeyPath: "items")
-        collectionFormat = jsonDictionary.json(atKeyPath: "collectionFormat")
 
         dictionarySchemaRef = jsonDictionary.json(atKeyPath: "additionalProperties.$ref")
         dictionaryValue = jsonDictionary.json(atKeyPath: "additionalProperties")

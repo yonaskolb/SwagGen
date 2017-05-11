@@ -177,19 +177,53 @@ public class CodeFormatter {
         return context
     }
 
-    func escapeName(_ name: String, escaper: (String) -> String) -> String {
-        return disallowedNames.contains(name) ? escaper(name) : name
-    }
+    func escapeString(_ string: String) -> String {
+        let allowedCharacters = CharacterSet.alphanumerics
+        let replacements: [String: String] = [
+            ">=": "greaterThanOrEqualTo",
+            "<=": "lessThanOrEqualTo",
+            ">": "greaterThan",
+            "<": "lessThan",
+            "$": "dollar",
+            ".": "dot",
+            "%": "percent",
+            "#": "hash",
+            "@": "alpha",
+            "&": "and",
+        ]
+        var escapedString = string
+        for (symbol, replacement) in replacements {
+            escapedString = escapedString.replacingOccurrences(of: symbol, with: replacement)
+        }
+        escapedString = String(String.UnicodeScalarView(escapedString.unicodeScalars.filter { allowedCharacters.contains($0) }))
 
-    func escapeType(_ type: String, escaper: (String) -> String) -> String {
-        return disallowedTypes.contains(type) ? escaper(type) : type
-    }
+        // prepend _ strings starting with numbers
+        if let firstCharacter = escapedString.unicodeScalars.first,
+            CharacterSet.decimalDigits.contains(firstCharacter) {
+            escapedString = "_\(escapedString)"
+        }
 
-    func escapeType(_ name: String) -> String {
-        return "_\(name)"
+        if escapedString.isEmpty {
+            escapedString = "_"
+        }
+        return escapedString
     }
 
     func escapeName(_ name: String) -> String {
+        let string = escapeString(name)
+        return disallowedNames.contains(string) ? getEscapedName(string) : string
+    }
+
+    func escapeType(_ type: String) -> String {
+        let string = escapeString(type)
+        return disallowedTypes.contains(string) ? getEscapedType(string) : string
+    }
+
+    func getEscapedType(_ type: String) -> String {
+        return "_\(type)"
+    }
+
+    func getEscapedName(_ name: String) -> String {
         return "_\(name)"
     }
 
@@ -199,12 +233,12 @@ public class CodeFormatter {
             return "UNKNOWN_TYPE"
         }
         let type = name.upperCamelCased()
-        return escapeName(type, escaper: escapeType)
+        return escapeType(type)
     }
 
     func getValueName(_ value: Value) -> String {
         let name = value.name.lowerCamelCased()
-        return escapeName(name, escaper: escapeName)
+        return escapeName(name)
     }
 
     func getValueType(_ value: Value) -> String {
@@ -220,11 +254,10 @@ public class CodeFormatter {
 
     func getEnumName(_ value: Value) -> String {
         let name = (value.globalName ?? value.name).upperCamelCased()
-        return escapeName(name, escaper: escapeType)
+        return escapeType(name)
     }
 
     func getEnumCaseName(_ name: String) -> String {
-        let name = name.upperCamelCased()
-        return escapeName(name, escaper: escapeName)
+        return escapeName(name.upperCamelCased())
     }
 }

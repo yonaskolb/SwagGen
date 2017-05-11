@@ -103,8 +103,8 @@ public class SwiftFormatter: CodeFormatter {
             case "object":
                 if let schema = value.dictionarySchema {
                     return "[String: \(getSchemaType(schema))]"
-                } else if let value = value.dictionaryValue {
-                    return "[String: \(getValueType(value))]"
+                } else if let dictionaryValue = value.dictionaryValue {
+                    return "[String: \(dictionaryValue.enumValues != nil ? getEnumName(value) : getValueType(dictionaryValue))]"
                 } else {
                     return "[String: Any]"
                 }

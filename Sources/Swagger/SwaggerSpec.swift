@@ -197,13 +197,27 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
             value.dictionarySchema = schema
             resolveSchema(schema)
         }
+        
+        if let value = value.arrayValue {
+            resolveValue(value)
+        }
+
+        if let value = value.dictionaryValue {
+            resolveValue(value)
+        }
     }
 
     func getDefinitionSchema(_ reference: String?) -> Schema? {
-        guard let reference = reference else {
+        guard let reference = reference,
+        let definitionReference = reference.components(separatedBy: "/").last else {
             return nil
         }
-        return reference.components(separatedBy: "/").last.flatMap { definitions[$0] }
+
+        guard let schema = definitions[definitionReference] else {
+            // Couldn't find definition!
+            return nil
+        }
+        return schema
     }
 
     func getParameterReference(_ reference: String?) -> Parameter? {

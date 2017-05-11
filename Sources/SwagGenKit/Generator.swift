@@ -101,6 +101,7 @@ public class Generator {
 
     public func generate(clean: Clean, fileChanged: (FileChange) -> Void) throws -> Result {
         var generatedFiles: [GeneratedFile] = []
+        try destination.mkpath()
 
         for file in templateConfig.templateFiles {
             let template = try environment.loadTemplate(name: file.path)

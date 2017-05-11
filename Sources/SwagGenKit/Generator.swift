@@ -14,11 +14,6 @@ import Rainbow
 
 public class Generator {
 
-    public enum Clean: String {
-        case none
-        case leaveDotFiles
-        case all
-    }
 
     var destination: Path
     var templateConfig: TemplateConfig
@@ -37,6 +32,31 @@ public class Generator {
         filterExtension.registerFilter("upperCamelCase") { ($0 as? String)?.upperCamelCased() ?? $0 }
 
         environment = Environment(loader: FileSystemLoader(paths: [templateConfig.basePath]), extensions: [filterExtension])
+    }
+
+    public enum Clean: String {
+        case none
+        case leaveDotFiles
+        case all
+    }
+
+    public struct Result: CustomStringConvertible {
+        public var generated: [GeneratedFile]
+        public var removed: [Path]
+
+        public func generatedByState(_ state: GeneratedFile.State) -> [GeneratedFile] {
+            return generated.filter { $0.state == state}
+        }
+
+        public var description: String {
+            let counts: [(String, Int)] = [
+                ("created", generatedByState(.created).count),
+                ("modified", generatedByState(.modified).count),
+                ("unchanged", generatedByState(.unchanged).count),
+                ("removed", removed.count),
+                ]
+            return getCountString(counts: counts, pluralise: false)
+        }
     }
 
     public enum FileChange {
@@ -79,7 +99,7 @@ public class Generator {
         }
     }
 
-    public func generate(clean: Clean, fileChanged: (FileChange) -> Void) throws -> [FileChange] {
+    public func generate(clean: Clean, fileChanged: (FileChange) -> Void) throws -> Result {
         var generatedFiles: [GeneratedFile] = []
 
         for file in templateConfig.templateFiles {
@@ -169,6 +189,6 @@ public class Generator {
             fileChanged(.removed(removedFile))
         }
 
-        return generatedFiles.map { .generated($0) } + removedFiles.map { .removed($0) }
+        return Result(generated: generatedFiles, removed: removedFiles)
     }
 }

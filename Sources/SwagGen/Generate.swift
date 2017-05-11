@@ -52,6 +52,10 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
         ], pluralise: true)
     writeMessage("Loaded spec: \"\(spec.info.title)\" - \(specCounts)")
 
+    for reference in spec.invalidReferences {
+        writeError("Couldn't find reference: \(reference)")
+    }
+
     let templateConfig: TemplateConfig
     do {
         templateConfig = try TemplateConfig(path: Path(templatePath).normalize(), options: optionsDictionary)
@@ -99,12 +103,13 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
     writeMessage("Destination: \(destinationPath.absolute())")
 
     do {
-        let fileChanges = try generator.generate(clean: clean) { change in
+        let generationResult = try generator.generate(clean: clean) { change in
             switch change {
             case .generated(let file):
                 switch file.state {
                 case .unchanged:
-                    writeMessage("Unchanged \(file.path)".lightBlack)
+                    break
+                    //writeMessage("Unchanged \(file.path)".lightBlack)
                 case .modified:
                     writeMessage("Modified \(file.path)".yellow)
                 case .created:
@@ -115,28 +120,7 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
                 writeMessage("Removed \(relativePath)".red)
             }
         }
-
-        let generatedFiles: [Generator.GeneratedFile] = fileChanges.flatMap {
-            if case .generated(let generatedFile) = $0 {
-                return generatedFile
-            }
-            return nil
-        }
-
-        let removedFiles: [Path] = fileChanges.flatMap {
-            if case .removed(let removedFile) = $0 {
-                return removedFile
-            }
-            return nil
-        }
-
-        let counts: [(String, Int)] = [
-            ("created", generatedFiles.filter{ $0.state == .created }.count),
-            ("modified", generatedFiles.filter{ $0.state == .modified }.count),
-            ("unchanged", generatedFiles.filter{ $0.state == .unchanged }.count),
-            ("removed", removedFiles.count),
-            ]
-        writeMessage("Generation complete: \(getCountString(counts: counts, pluralise: false))")
+        writeMessage("Generation complete: \(generationResult)")
     } catch let error {
         writeError("Error generating code: \(error)")
         exit(EXIT_FAILURE)

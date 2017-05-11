@@ -23,6 +23,7 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
     public let schemes: [String]
     public var enums: [Value] = []
     public let json: JSONDictionary
+    public var invalidReferences: [String] = []
 
     public var operations: [Operation] {
         return paths.values.reduce([]) { return $0 + $1.operations }
@@ -127,7 +128,7 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         for operation in operations {
 
             for (index, parameter) in operation.parameters.enumerated() {
-                if let reference = getParameterReference(parameter.reference) {
+                if let reference = getParameterSchema(parameter.reference) {
                     operation.parameters[index] = reference
                 } else {
                     resolveValue(parameter)
@@ -215,13 +216,23 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
 
         guard let schema = definitions[definitionReference] else {
             // Couldn't find definition!
+            invalidReferences.append(reference)
             return nil
         }
         return schema
     }
 
-    func getParameterReference(_ reference: String?) -> Parameter? {
-        return reference?.components(separatedBy: "/").last.flatMap { parameters[$0] }
+    func getParameterSchema(_ reference: String?) -> Parameter? {
+        guard let reference = reference,
+            let parameterReference = reference.components(separatedBy: "/").last else {
+                return nil
+        }
+        guard let schema = parameters[parameterReference] else {
+            // Couldn't find parameter!
+            invalidReferences.append(reference)
+            return nil
+        }
+        return schema
     }
 
     public var description: String {

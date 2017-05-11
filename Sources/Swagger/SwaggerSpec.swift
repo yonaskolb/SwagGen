@@ -210,6 +210,7 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
 
     func getDefinitionSchema(_ reference: String?) -> Schema? {
         guard let reference = reference,
+            reference.contains("/definitions/"),
         let definitionReference = reference.components(separatedBy: "/").last else {
             return nil
         }
@@ -224,6 +225,7 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
 
     func getParameterSchema(_ reference: String?) -> Parameter? {
         guard let reference = reference,
+            reference.contains("/parameters/"),
             let parameterReference = reference.components(separatedBy: "/").last else {
                 return nil
         }

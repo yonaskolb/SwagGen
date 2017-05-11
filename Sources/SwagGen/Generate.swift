@@ -52,7 +52,8 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
         ], pluralise: true)
     writeMessage("Loaded spec: \"\(spec.info.title)\" - \(specCounts)")
 
-    for reference in spec.invalidReferences {
+    let invalidReferences = Array(Set(spec.invalidReferences)).sorted()
+    for reference in invalidReferences {
         writeError("Couldn't find reference: \(reference)")
     }
 

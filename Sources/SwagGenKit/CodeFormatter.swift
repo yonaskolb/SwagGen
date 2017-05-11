@@ -138,8 +138,8 @@ public class CodeFormatter {
         context["optional"] = !value.required
         context["enumName"] = getEnumName(value)
         context["description"] = value.description
-        let enums = value.enumValues ?? value.arrayValue?.enumValues
-        context["enums"] = enums?.map { ["name": getEnumCaseName($0), "value": $0] }
+        let enumCases = value.enumValues ?? value.arrayValue?.enumValues ?? value.dictionaryValue?.enumValues
+        context["enums"] = enumCases?.map { ["name": getEnumCaseName($0), "value": $0] }
         context["arrayType"] = value.arraySchema.flatMap(getSchemaType)
         context["dictionaryType"] = value.dictionarySchema.flatMap(getSchemaType)
         context["isArray"] = value.type == "array"
@@ -203,8 +203,8 @@ public class CodeFormatter {
             escapedString = "_\(escapedString)"
         }
 
-        if escapedString.isEmpty {
-            escapedString = "_"
+        if escapedString.isEmpty || escapedString == "_" {
+            escapedString = "UNKNOWN"
         }
         return escapedString
     }

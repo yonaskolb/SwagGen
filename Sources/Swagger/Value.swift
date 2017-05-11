@@ -54,6 +54,14 @@ public class Value: JSONObjectConvertible {
         dictionarySchemaRef = jsonDictionary.json(atKeyPath: "additionalProperties.$ref")
         dictionaryValue = jsonDictionary.json(atKeyPath: "additionalProperties")
 
+        if let value = dictionaryValue, value.name.isEmpty {
+            value.name = name
+        }
+
+        if let value = arrayValue, value.name.isEmpty {
+            value.name = name
+        }
+
         required = jsonDictionary.json(atKeyPath: "required") ?? false
         type = jsonDictionary.json(atKeyPath: "type")
         format = jsonDictionary.json(atKeyPath: "format")
@@ -73,6 +81,24 @@ public class Value: JSONObjectConvertible {
                 self.type = type
             }
         }
+    }
+
+    var isEnum: Bool {
+        return enumValues != nil
+    }
+
+    var enums: [Value] {
+        var enums: [Value] = []
+        if isEnum {
+            enums.append(self)
+        }
+        if let value = arrayValue {
+            enums += value.enums
+        }
+        if let value = dictionaryValue {
+            enums += value.enums
+        }
+        return enums
     }
 
     func deepDescription(prefix: String) -> String {

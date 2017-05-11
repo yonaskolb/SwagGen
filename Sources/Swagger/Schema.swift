@@ -38,6 +38,12 @@ public class Schema: JSONObjectConvertible {
         propertiesByName = json.json(atKeyPath: "properties") ?? [:]
         propertiesByName.forEach { name, property in
             property.name = name
+            if let value = property.arrayValue, value.name.isEmpty {
+                value.name = name
+            }
+            if let value = property.dictionaryValue, value.name.isEmpty {
+                value.name = name
+            }
         }
 
         var requiredProperties: [Property] = []
@@ -70,7 +76,16 @@ public class Schema: JSONObjectConvertible {
     }
 
     public var enums: [Value] {
-        return properties.filter { $0.enumValues != nil || $0.arrayValue?.enumValues != nil }
+        var enums: [Value] = []
+        for property in properties {
+            enums += property.enums
+        }
+
+        if case.a(let additionalSchema) = additionalProperties {
+            enums += additionalSchema.enums
+        }
+
+        return enums
     }
 }
 

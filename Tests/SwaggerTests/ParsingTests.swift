@@ -4,7 +4,7 @@
 import PathKit
 import Spectre
 
-public func loadingTests() {
+public func parsingTests() {
 
   describe("swagger spec") {
     $0.it("throws error on missing version") {
@@ -26,11 +26,6 @@ public func loadingTests() {
     $0.it("throws error on incorrect property type") {
         let specString = "{\"swagger\": \"2.0\", \"info\": {\"title\": 2}}"
         try expect(try SwaggerSpec(string: specString)).toThrow()
-    }
-
-    $0.it("loads minimum spec") {
-        let path = Path(#file) + "../specs/minimum.yml"
-        _ = try SwaggerSpec(path: Path(path.string))
     }
   }
 }

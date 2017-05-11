@@ -2,7 +2,7 @@ import XCTest
 
 class SwaggerTests: XCTestCase {
     func testSwaggerTests() {
-        loadingTests()
+        parsingTests()
         specTests()
     }
 }

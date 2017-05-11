@@ -1,4 +1,9 @@
 .DS_Store
-/.build
+/.build/
 /Packages
 /*.xcodeproj
+
+# specs
+/Specs/.build/
+/Specs/**/.build/
+/Specs/**/*.xcodeproj

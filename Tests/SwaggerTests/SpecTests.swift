@@ -7,7 +7,7 @@ import Spectre
 public func specTests() {
 
     describe("petstore spec") {
-        let path = Path(#file) + "../specs/petstore.yml"
+        let path = Path(#file) + "../../../Specs/petstore/spec.yml"
 
         $0.it("can load") {
             _ = try SwaggerSpec(path: Path(path.string))
@@ -90,7 +90,7 @@ public func specTests() {
         $0.it("has tags") {
             try expect(spec.tags.count) == 1
         }
-        
+
         $0.it("has paths") {
             try expect(spec.paths.count) == 2
         }

@@ -43,13 +43,15 @@ paths:
           format: int32
       responses:
         200:
-          description: An paged array of pets
+          description: An array of pets
           headers:
             x-next:
               type: string
               description: A link to the next page of responses
           schema:
-            $ref: '#/definitions/Pets'
+            type: array
+            items:
+              $ref: '#/definitions/Pet'
         default:
           description: unexpected error
           schema:

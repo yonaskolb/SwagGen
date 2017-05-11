@@ -109,13 +109,10 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
         for (name, parameter) in parameters {
             parameter.isGlobal = true
             parameter.globalName = name
-            if parameter.enumValues != nil {
+            if parameter.isEnum {
+                parameter.isGlobal = true
+                parameter.globalName = name
                 enums.append(parameter)
-            }
-            else if let arrayEnum = parameter.arrayValue, arrayEnum.enumValues != nil {
-                arrayEnum.isGlobal = true
-                arrayEnum.globalName = name
-                enums.append(arrayEnum)
             }
             resolveValue(parameter)
         }
@@ -166,13 +163,14 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
 
         for property in schema.properties {
 
-            for enumValue in enums {
-                let propertyEnumValues = property.enumValues ?? property.arrayValue?.enumValues ?? []
-                let globalEnumValues = enumValue.enumValues ?? enumValue.arrayValue?.enumValues ?? []
-                if !propertyEnumValues.isEmpty && propertyEnumValues == globalEnumValues {
-                    property.isGlobal = true
-                    property.globalName = enumValue.globalName ?? enumValue.name
-                    continue
+            if property.isEnum {
+
+                for enumValue in enums {
+
+                    if (property.nestedEnumValues?.count ?? 0) > 0 && (enumValue.nestedEnumValues?.count ?? 0) > 0 && property.nestedEnumValues! == enumValue.nestedEnumValues! {
+                        property.isGlobal = true
+                        property.globalName = enumValue.globalName ?? enumValue.name
+                    }
                 }
             }
             resolveValue(property)
@@ -198,7 +196,7 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
             value.dictionarySchema = schema
             resolveSchema(schema)
         }
-        
+
         if let value = value.arrayValue {
             resolveValue(value)
         }
@@ -211,8 +209,8 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
     func getDefinitionSchema(_ reference: String?) -> Schema? {
         guard let reference = reference,
             reference.contains("/definitions/"),
-        let definitionReference = reference.components(separatedBy: "/").last else {
-            return nil
+            let definitionReference = reference.components(separatedBy: "/").last else {
+                return nil
         }
 
         guard let schema = definitions[definitionReference] else {

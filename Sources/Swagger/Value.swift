@@ -84,21 +84,11 @@ public class Value: JSONObjectConvertible {
     }
 
     var isEnum: Bool {
-        return enumValues != nil
+        return enumValues != nil || arrayValue?.isEnum == true || dictionaryValue?.isEnum == true
     }
 
-    var enums: [Value] {
-        var enums: [Value] = []
-        if isEnum {
-            enums.append(self)
-        }
-        if let value = arrayValue {
-            enums += value.enums
-        }
-        if let value = dictionaryValue {
-            enums += value.enums
-        }
-        return enums
+    public var nestedEnumValues: [String]? {
+        return enumValues ?? arrayValue?.nestedEnumValues ?? dictionaryValue?.nestedEnumValues
     }
 
     func deepDescription(prefix: String) -> String {

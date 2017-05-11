@@ -76,13 +76,10 @@ public class Schema: JSONObjectConvertible {
     }
 
     public var enums: [Value] {
-        var enums: [Value] = []
-        for property in properties {
-            enums += property.enums
-        }
+        var enums: [Value] = properties.filter { $0.isEnum }
 
-        if case.a(let additionalSchema) = additionalProperties {
-            enums += additionalSchema.enums
+        if case.a(let additionalSchema) = additionalProperties, additionalSchema.isEnum {
+            enums.append(additionalSchema)
         }
 
         return enums

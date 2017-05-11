@@ -168,6 +168,6 @@ public class SwiftFormatter: CodeFormatter {
     }
 
     override func getEnumCaseName(_ name: String) -> String {
-        return escapeName(name.lowerCamelCased())
+        return super.getEnumCaseName(name).lowerCamelCased()
     }
 }

@@ -138,8 +138,7 @@ public class CodeFormatter {
         context["optional"] = !value.required
         context["enumName"] = getEnumName(value)
         context["description"] = value.description
-        let enumCases = value.enumValues ?? value.arrayValue?.enumValues ?? value.dictionaryValue?.enumValues
-        context["enums"] = enumCases?.map { ["name": getEnumCaseName($0), "value": $0] }
+        context["enums"] = value.nestedEnumValues?.map { ["name": getEnumCaseName($0), "value": $0] }
         context["arrayType"] = value.arraySchema.flatMap(getSchemaType)
         context["dictionaryType"] = value.dictionarySchema.flatMap(getSchemaType)
         context["isArray"] = value.type == "array"

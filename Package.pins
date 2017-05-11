@@ -10,8 +10,8 @@
     {
       "package": "JSONUtilities",
       "reason": null,
-      "repositoryURL": "https://github.com/lucianomarisi/JSONUtilities.git",
-      "version": "3.2.0"
+      "repositoryURL": "https://github.com/yonaskolb/JSONUtilities.git",
+      "version": "3.3.0"
     },
     {
       "package": "PathKit",

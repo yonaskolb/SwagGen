@@ -25,3 +25,15 @@ public struct AuthorizationError: Error {
         self.reason = reason
     }
 }
+
+/// Allows a request that has an authorization on it to be authorized asynchronously
+public protocol RequestAuthorizer {
+
+    /// complete must be called with either .success(authorizedURLRequest) or .failure(failureReason)
+    func authorize(request: APIRequest<AnyResponseValue>, authorization: Authorization, urlRequest: URLRequest, complete: (AuthorizationResult) -> Void)
+}
+
+public enum AuthorizationResult {
+    case success(authorizedRequest: URLRequest)
+    case failure(reason: String)
+}

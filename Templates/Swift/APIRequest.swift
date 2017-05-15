@@ -5,7 +5,7 @@
 // https://github.com/yonaskolb/SwagGen
 //
 
-public class APIRequest<ResponseType> {
+public class APIRequest<ResponseType: APIResponseValue> {
 
     public let service: APIService<ResponseType>
     public private(set) var parameters: [String: Any]
@@ -27,13 +27,6 @@ public class APIRequest<ResponseType> {
         if !value.isEmpty {
             headers[name] = value
         }
-    }
-}
-
-extension APIRequest {
-
-    func asAny() -> APIRequest<Any> {
-        return APIRequest<Any>(service: service.asAny(), parameters: parameters, jsonBody: jsonBody, headers: headers)
     }
 }
 

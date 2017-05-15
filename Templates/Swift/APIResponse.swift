@@ -7,9 +7,14 @@
 
 import Alamofire
 
-public typealias ResponseDecoder<T> = (Int, Any) throws -> T
+public protocol APIResponseValue {
+    var statusCode: Int { get }
+    var successful: Bool { get }
+    var response: Any? { get }
+    init(statusCode: Int, json: Any) throws
+}
 
-public struct APIResponse<T> {
+public struct APIResponse<T: APIResponseValue> {
 
     /// The APIRequest used for this response
     public let request: APIRequest<T>
@@ -36,12 +41,5 @@ public struct APIResponse<T> {
         self.urlResponse = urlResponse
         self.data = data
         self.timeline = timeline
-    }
-}
-
-extension APIResponse {
-
-    func asAny() -> APIResponse<Any> {
-        return APIResponse<Any>(request: request.asAny(), result: result.asAny(), urlRequest: urlRequest, urlResponse: urlResponse, data: data, timeline: timeline)
     }
 }

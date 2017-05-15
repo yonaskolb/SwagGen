@@ -41,7 +41,7 @@ public class APIClient {
     @discardableResult
     public func makeRequest<T>(_ request: APIRequest<T>, behaviours: [RequestBehaviour] = [], complete: @escaping (APIResponse<T>) -> Void) -> Request? {
         // create composite behaviour to make it easy to call functions on array of behaviours
-        let requestBehaviour = APIRequestBehaviour(request: request, behaviours: self.behaviours + behaviours)
+        let requestBehaviour = RequestBehaviourGroup(request: request, behaviours: self.behaviours + behaviours)
 
         // create the url request from the request
         var urlRequest: URLRequest
@@ -78,7 +78,6 @@ public class APIClient {
                     let response = APIResponse<T>(request: request, result: .failure(error), urlRequest: urlRequest)
                     requestBehaviour.onFailure(error: error)
                     complete(response)
-
                 }
             }
             return nil
@@ -88,7 +87,7 @@ public class APIClient {
     }
 
     @discardableResult
-    private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: APIRequestBehaviour, complete: @escaping (APIResponse<T>) -> Void) -> Request {
+    private func makeNetworkRequest<T: APIResponseValue>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: RequestBehaviourGroup, complete: @escaping (APIResponse<T>) -> Void) -> Request {
         requestBehaviour.beforeSend()
         return sessionManager.request(urlRequest)
             .responseJSON { dataResponse in
@@ -99,9 +98,11 @@ public class APIClient {
                 case .success(let value):
                     do {
                         let statusCode = dataResponse.response!.statusCode
-                        let decoded = try request.service.decode(statusCode, value)
+                        let decoded = try T(statusCode: statusCode, json: value)
                         result = .success(decoded)
-                        requestBehaviour.onSuccess(result: decoded)
+                        if decoded.successful {
+                            requestBehaviour.onSuccess(result: decoded.response)
+                        }
                     } catch let error {
                         let apiError: APIError
                         if let error = error as? JSONUtilsError {
@@ -125,90 +126,6 @@ public class APIClient {
                 complete(response)
         }
     }
-}
-
-/// Allows a request that has an authorization on it to be authorized asynchronously
-public protocol RequestAuthorizer {
-
-    /// complete must be called with either .success(authorizedURLRequest) or .failure(failureReason)
-    func authorize(request: APIRequest<Any>, authorization: Authorization, urlRequest: URLRequest, complete: (AuthorizationResult) -> Void)
-}
-
-public enum AuthorizationResult {
-    case success(authorizedRequest: URLRequest)
-    case failure(reason: String)
-}
-
-public protocol RequestBehaviour {
-
-    /// runs first and allows the requests to be modified
-    func modifyRequest(request: APIRequest<Any>, urlRequest: URLRequest) -> URLRequest
-
-    /// called before request is sent
-    func beforeSend(request: APIRequest<Any>)
-
-    /// called when request is successful
-    func onSuccess(request: APIRequest<Any>, result: Any)
-
-    /// called when request failed
-    func onFailure(request: APIRequest<Any>, error: APIError)
-
-    /// called if the request recieves a network response. This is not called if request fails validation or encoding
-    func onResponse(request: APIRequest<Any>, response: APIResponse<Any>)
-}
-
-struct APIRequestBehaviour {
-
-    let service: APIService<Any>
-    let request: APIRequest<Any>
-    let behaviours: [RequestBehaviour]
-
-    init<T>(request: APIRequest<T>, behaviours: [RequestBehaviour]) {
-        self.service = APIService<Any>(id: request.service.id, tag: request.service.tag, method: request.service.method, path: request.service.path, hasBody: request.service.hasBody, authorization: request.service.authorization, decode: request.service.decode)
-        self.request = APIRequest(service: service, parameters: request.parameters, jsonBody: request.jsonBody, headers: request.headers)
-        self.behaviours = behaviours
-    }
-
-    func beforeSend() {
-        behaviours.forEach {
-            $0.beforeSend(request: request)
-        }
-    }
-
-    func onSuccess(result: Any) {
-        behaviours.forEach {
-            $0.onSuccess(request: request, result: result)
-        }
-    }
-
-    func onFailure(error: APIError) {
-        behaviours.forEach {
-            $0.onFailure(request: request, error: error)
-        }
-    }
-
-    func onResponse(response: APIResponse<Any>) {
-        behaviours.forEach {
-            $0.onResponse(request: request, response: response)
-        }
-    }
-
-    func modifyRequest(_ urlRequest: URLRequest) -> URLRequest {
-        var urlRequest = urlRequest
-        behaviours.forEach {
-            urlRequest = $0.modifyRequest(request: request, urlRequest: urlRequest)
-        }
-        return urlRequest
-    }
-}
-
-// Provides empty defaults so that each function becomes optional
-public extension RequestBehaviour {
-    func beforeSend(request: APIRequest<Any>) {}
-    func onSuccess(request: APIRequest<Any>, result: Any) {}
-    func onFailure(request: APIRequest<Any>, error: APIError) {}
-    func onResponse(request: APIRequest<Any>, response: APIResponse<Any>) {}
-    func modifyRequest(request: APIRequest<Any>, urlRequest: URLRequest) -> URLRequest { return urlRequest }
 }
 
 // Helper extension for sending requests

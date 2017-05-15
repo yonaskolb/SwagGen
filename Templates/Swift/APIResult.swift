@@ -8,13 +8,3 @@
 import Result
 
 public typealias APIResult<T> = Result<T, APIError>
-
-extension Result where Error == APIError {
-
-    func asAny() -> APIResult<Any> {
-        switch self {
-        case .success(let value): return .success(value)
-        case .failure(let error): return .failure(error)
-        }
-    }
-}

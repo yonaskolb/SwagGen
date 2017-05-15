@@ -43,3 +43,5 @@ templateFiles:
     destination: "Sources/{{ options.name }}/Authorization.swift"
   - path: APIResult.swift
     destination: "Sources/{{ options.name }}/APIResult.swift"
+  - path: RequestBehaviour.swift
+    destination: "Sources/{{ options.name }}/RequestBehaviour.swift"

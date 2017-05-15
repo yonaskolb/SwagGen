@@ -12,7 +12,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
 
     public enum {{ operationId|upperCamelCase }} {
 
-      public static let service = APIService<Response>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if securityRequirement %}, authorization: Authorization(type: "{{ securityRequirement.name }}", scope: "{{ securityRequirement.scope }}"){% endif %}, decode: Response.init)
+      public static let service = APIService<Response>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if securityRequirement %}, authorization: Authorization(type: "{{ securityRequirement.name }}", scope: "{{ securityRequirement.scope }}"){% endif %})
 
       {% if description %}
       /** {{ description }} */
@@ -132,7 +132,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
           {% endif %}
         }
 
-        public enum Response {
+        public enum Response: APIResponseValue {
             {% for response in responses %}
             {% if response.description %}
 
@@ -198,7 +198,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
               }
             }
 
-            init(statusCode: Int, json: Any) throws {
+            public init(statusCode: Int, json: Any) throws {
                 switch statusCode {
                 {% for response in responses where response.statusCode %}
                 {% if response.type %}

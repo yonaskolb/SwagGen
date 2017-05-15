@@ -5,7 +5,7 @@
 // https://github.com/yonaskolb/SwagGen
 //
 
-public struct APIService<ResponseType> {
+public struct APIService<ResponseType: APIResponseValue> {
 
     public let id: String
     public let tag: String
@@ -13,23 +13,14 @@ public struct APIService<ResponseType> {
     public let path: String
     public let hasBody: Bool
     public let authorization: Authorization?
-    public let decode: ResponseDecoder<ResponseType>
 
-    public init(id: String, tag: String = "", method:String, path:String, hasBody: Bool, authorization: Authorization? = nil, decode: @escaping ResponseDecoder<ResponseType>) {
+    public init(id: String, tag: String = "", method:String, path:String, hasBody: Bool, authorization: Authorization? = nil) {
         self.id = id
         self.tag = tag
         self.method = method
         self.path = path
         self.hasBody = hasBody
         self.authorization = authorization
-        self.decode = decode
-    }
-}
-
-extension APIService {
-
-    func asAny() -> APIService<Any> {
-        return APIService<Any>(id: id, tag: tag, method: method, path: path, hasBody: hasBody, authorization: authorization, decode: decode)
     }
 }
 

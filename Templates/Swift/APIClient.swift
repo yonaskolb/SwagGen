@@ -101,7 +101,7 @@ public class APIClient {
                         let decoded = try T(statusCode: statusCode, json: value)
                         result = .success(decoded)
                         if decoded.successful {
-                            requestBehaviour.onSuccess(result: decoded.response)
+                            requestBehaviour.onSuccess(result: decoded.response as Any)
                         }
                     } catch let error {
                         let apiError: APIError

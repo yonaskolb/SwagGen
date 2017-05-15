@@ -79,23 +79,49 @@ struct RequestBehaviourGroup {
 
 //MARK: Type erased Requests and Responses
 
-public typealias AnyRequest = APIRequest<AnyResponseValue>
 public typealias AnyResponse = APIResponse<AnyResponseValue>
 
-public struct AnyResponseValue: APIResponseValue {
+public class AnyRequest: APIRequest<AnyResponseValue> {
+    private let requestPath: String
+
+    override public var path: String {
+        return requestPath
+    }
+
+    init<T>(request: APIRequest<T>) {
+        requestPath = request.path
+        super.init(service: request.service.asAny(), parameters: request.parameters, jsonBody: request.jsonBody, headers: request.headers)
+    }
+}
+
+public struct AnyResponseValue: APIResponseValue, CustomDebugStringConvertible, CustomStringConvertible {
 
     public let statusCode: Int
     public let successful: Bool
-    public let response: Any?
+    public let response: Any
+    public let responseEnum: Any
 
     public init(responseValue: APIResponseValue) {
         self.statusCode = responseValue.statusCode
         self.successful = responseValue.successful
         self.response = responseValue.response
+        self.responseEnum = responseValue
     }
 
     public init(statusCode: Int, json: Any) throws {
         fatalError()
+    }
+
+    public var description:String {
+        return "\(responseEnum)"
+    }
+
+    public var debugDescription: String {
+        if let debugDescription = responseEnum as? CustomDebugStringConvertible {
+            return debugDescription.debugDescription
+        } else {
+            return "\(responseEnum)"
+        }
     }
 }
 
@@ -112,8 +138,8 @@ extension APIResponse {
 }
 
 extension APIRequest {
-    func asAny() -> APIRequest<AnyResponseValue> {
-        return APIRequest<AnyResponseValue>(service: service.asAny(), parameters: parameters, jsonBody: jsonBody, headers: headers)
+    func asAny() -> AnyRequest {
+        return AnyRequest(request: self)
     }
 }
 

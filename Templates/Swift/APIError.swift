@@ -16,3 +16,18 @@ public enum APIError: Error {
     case networkError(Error)
     case unknownError(Error)
 }
+
+extension APIError: CustomStringConvertible {
+
+    public var description:String {
+        switch self {
+        case .unexpectedStatusCode(let statusCode, _): return "Unexpected status code \(statusCode)"
+        case .jsonDeserializationError(let error): return "\(error)"
+        case .decodingError(let error): return error.description
+        case .invalidBaseURL(let url): return "Invalid base URL \"\(url)\""
+        case .authorizationError(let error): return "Failed to authorize: \(error.reason)"
+        case .networkError(let error): return "Network error: \(error.localizedDescription)"
+        case .unknownError(let error): return "Unknown error \(error.localizedDescription)"
+        }
+    }
+}

@@ -7,10 +7,10 @@
 
 import Alamofire
 
-public protocol APIResponseValue {
+public protocol APIResponseValue: CustomDebugStringConvertible, CustomStringConvertible {
     var statusCode: Int { get }
     var successful: Bool { get }
-    var response: Any? { get }
+    var response: Any { get }
     init(statusCode: Int, json: Any) throws
 }
 
@@ -41,5 +41,31 @@ public struct APIResponse<T: APIResponseValue> {
         self.urlResponse = urlResponse
         self.data = data
         self.timeline = timeline
+    }
+}
+
+extension APIResponse: CustomStringConvertible, CustomDebugStringConvertible {
+
+    public var description:String {
+        var string = "\(request)"
+
+        switch result {
+        case .success(let value):
+            string += " returned \(value.statusCode)"
+            let responseString = "\(type(of: value.response))"
+            if responseString != "()" {
+                string += ": \(responseString)"
+            }
+        case .failure(let error): string += " failed: \(error)"
+        }
+        return string
+    }
+
+    public var debugDescription: String {
+        var string = description
+        if let response = result.value?.response, let debugStringConvertible = response as? CustomDebugStringConvertible {
+            string += "\n\(debugStringConvertible.debugDescription)"
+        }
+        return string
     }
 }

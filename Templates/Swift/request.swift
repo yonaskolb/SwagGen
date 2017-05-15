@@ -132,7 +132,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
           {% endif %}
         }
 
-        public enum Response: APIResponseValue {
+        public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
             {% for response in responses %}
             {% if response.description %}
 
@@ -167,13 +167,13 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             }
             {% endif %}
 
-            public var response: Any? {
+            public var response: Any {
                 switch self {
                 {% for response in responses where response.type %}
                 case .{{ response.name }}({% if not response.statusCode %}_, {% endif %}let response): return response
                 {% endfor %}
                 {% if not alwaysHasResponseType %}
-                default: return nil
+                default: return ()
                 {% endif %}
                 }
             }
@@ -217,6 +217,19 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 default: self = try APIError.unexpectedStatusCode(statusCode: statusCode, data: json)
                 {% endif %}
                 }
+            }
+
+            public var description: String {
+                return "\(statusCode) \(successful ? "success" : "failure")"
+            }
+
+            public var debugDescription: String {
+                var string = description
+                let responseString = "\(response)"
+                if responseString != "()" {
+                    string += "\n\(responseString)"
+                }
+                return string
             }
         }
     }

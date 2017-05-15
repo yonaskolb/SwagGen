@@ -32,13 +32,3 @@ extension APIService: CustomStringConvertible {
         return "\(id): \(method) \(path)"
     }
 }
-
-public struct Authorization {
-    public let type: String
-    public let scope: String
-
-    public init(type: String, scope: String) {
-        self.type = type
-        self.scope = scope
-    }
-}

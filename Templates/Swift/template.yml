@@ -36,3 +36,5 @@ templateFiles:
     destination: "Sources/{{ options.name }}/APIError.swift"
   - path: APIResponse.swift
     destination: "Sources/{{ options.name }}/APIResponse.swift"
+  - path: Authorization.swift
+    destination: "Sources/{{ options.name }}/Authorization.swift"

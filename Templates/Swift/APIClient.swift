@@ -47,7 +47,8 @@ public class APIClient {
         var urlRequest: URLRequest
         do {
             urlRequest = try request.createURLRequest(baseURL: baseURL)
-        } catch let error {
+        } catch _ {
+            let error = APIError.invalidBaseURL(baseURL)
             let dataResponse = DataResponse<T>(request: nil, response: nil, data: nil, result: .failure(error))
             requestBehaviour.onFailure(error: error)
             complete(dataResponse)
@@ -68,12 +69,14 @@ public class APIClient {
 
             // authorize request
             authorizer.authorize(request: requestBehaviour.request, authorization: authorization, urlRequest: urlRequest) { result in
+
                 switch result {
                 case .success(let urlRequest):
                     self.makeNetworkRequest(urlRequest: urlRequest, decoder: request.service.decode, requestBehaviour: requestBehaviour, complete: complete)
-                case .failure(let error):
-                    let dataResponse = DataResponse<T>(request: urlRequest, response: nil, data: nil, result: .failure(error))
-                    requestBehaviour.onFailure(error: error)
+                case .failure(let reason):
+                    let apiError = APIError.authorizationError(AuthorizationError(authorization: authorization, reason: reason))
+                    let dataResponse = DataResponse<T>(request: urlRequest, response: nil, data: nil, result: .failure(apiError))
+                    requestBehaviour.onFailure(error: apiError)
                     complete(dataResponse)
 
                 }
@@ -99,12 +102,22 @@ public class APIClient {
                         result = .success(decoded)
                         requestBehaviour.onSuccess(result: decoded)
                     } catch let error {
-                        result = .failure(error)
-                        requestBehaviour.onFailure(error: error)
+                        let apiError: APIError
+                        if let error = error as? JSONUtilsError {
+                            apiError = APIError.jsonDeserializationError(error)
+                        } else if let error = error as? DecodingError {
+                            apiError = APIError.decodingError(error)
+                        } else {
+                            apiError = APIError.unknownError(error)
+                        }
+
+                        result = .failure(apiError)
+                        requestBehaviour.onFailure(error: apiError)
                     }
                 case .failure(let error):
-                    result = .failure(error)
-                    requestBehaviour.onFailure(error: error)
+                    let apiError = APIError.networkError(error)
+                    result = .failure(apiError)
+                    requestBehaviour.onFailure(error: apiError)
                 }
                 let dataResponse = response.withResult(result)
                 requestBehaviour.onResponse(response: dataResponse.anyResponse)
@@ -117,7 +130,12 @@ public class APIClient {
 public protocol RequestAuthorizer {
 
     /// complete must be called with either .success(authorizedURLRequest) or .failure(failureReason)
-    func authorize(request: APIRequest<Any>, authorization: Authorization, urlRequest: URLRequest, complete: (Result<URLRequest>) -> Void)
+    func authorize(request: APIRequest<Any>, authorization: Authorization, urlRequest: URLRequest, complete: (AuthorizationResult) -> Void)
+}
+
+public enum AuthorizationResult {
+    case success(authorizedRequest: URLRequest)
+    case failure(reason: String)
 }
 
 public protocol RequestBehaviour {
@@ -132,7 +150,7 @@ public protocol RequestBehaviour {
     func onSuccess(request: APIRequest<Any>, result: Any)
 
     /// called when request failed
-    func onFailure(request: APIRequest<Any>, error: Error)
+    func onFailure(request: APIRequest<Any>, error: APIError)
 
     /// called if the request recieves a network response. This is not called if request fails validation or encoding
     func onResponse(request: APIRequest<Any>, response: DataResponse<Any>)
@@ -162,7 +180,7 @@ struct APIRequestBehaviour {
         }
     }
 
-    func onFailure(error: Error) {
+    func onFailure(error: APIError) {
         behaviours.forEach {
             $0.onFailure(request: request, error: error)
         }
@@ -187,7 +205,7 @@ struct APIRequestBehaviour {
 public extension RequestBehaviour {
     func beforeSend(request: APIRequest<Any>) {}
     func onSuccess(request: APIRequest<Any>, result: Any) {}
-    func onFailure(request: APIRequest<Any>, error: Error) {}
+    func onFailure(request: APIRequest<Any>, error: APIError) {}
     func onResponse(request: APIRequest<Any>, response: DataResponse<Any>) {}
     func modifyRequest(request: APIRequest<Any>, urlRequest: URLRequest) -> URLRequest { return urlRequest }
 }

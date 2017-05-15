@@ -5,6 +5,14 @@
 // https://github.com/yonaskolb/SwagGen
 //
 
+import JSONUtilities
+
 public enum APIError: Error {
-  case unexpectedStatusCode(statusCode: Int, data: Data)
+    case unexpectedStatusCode(statusCode: Int, data: Data)
+    case jsonDeserializationError(JSONUtilsError)
+    case decodingError(DecodingError)
+    case invalidBaseURL(String)
+    case authorizationError(AuthorizationError)
+    case networkError(Error)
+    case unknownError(Error)
 }

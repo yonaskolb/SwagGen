@@ -32,3 +32,7 @@ templateFiles:
     destination: "Sources/{{ options.name }}/APIClient.swift"
   - path: APIService.swift
     destination: "Sources/{{ options.name }}/APIService.swift"
+  - path: APIError.swift
+    destination: "Sources/{{ options.name }}/APIError.swift"
+  - path: APIResponse.swift
+    destination: "Sources/{{ options.name }}/APIResponse.swift"

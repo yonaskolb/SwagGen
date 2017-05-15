@@ -74,7 +74,11 @@ public class CodeFormatter {
     }
 
     func getOperationContext(operation: Swagger.Operation) -> [String: Any?] {
-        let successResponse = operation.responses.filter { $0.statusCode == 200 || $0.statusCode == 204 }.first
+
+        let successResponses = operation.responses.filter { $0.success }.map(getResponseContext)
+        let failureResponses = operation.responses.filter { !$0.success }.map(getResponseContext)
+        let defaultResponse = operation.responses.filter { $0.statusCode == nil}.first.map(getResponseContext)
+
         var context: [String: Any?] = [:]
 
         if let operationId = operation.operationId {
@@ -105,8 +109,19 @@ public class CodeFormatter {
         context["securityRequirement"] = operation.securityRequirements.map(getSecurityRequirementContext).first
         context["securityRequirements"] = operation.securityRequirements.map(getSecurityRequirementContext)
         context["responses"] = operation.responses.map(getResponseContext)
-        context["successResponse"] = successResponse.flatMap(getResponseContext)
-        context["successType"] = successResponse?.schema?.schema.flatMap(getSchemaType) ?? successResponse?.schema.flatMap(getValueType)
+        context["successResponse"] = successResponses.first
+        context["defaultResponse"] = defaultResponse
+        context["alwaysHasResponseType"] = operation.responses.map(getResponseContext).filter { $0["type"] != nil }.count == operation.responses.count
+
+        let successTypes = successResponses.flatMap { $0["type"] as? String }
+        let failureTypes = failureResponses.flatMap { $0["type"] as? String }
+
+        if Set(successTypes).count == 1 {
+            context["singleSuccessType"] = successTypes.first
+        }
+        if Set(failureTypes).count == 1 {
+            context["singleFailureType"] = failureTypes.first
+        }
 
         return context
     }
@@ -122,8 +137,11 @@ public class CodeFormatter {
     func getResponseContext(response: Response) -> [String: Any?] {
         var context: [String: Any?] = [:]
         context["statusCode"] = response.statusCode
+        context["name"] = (response.success ? "success" : "failure") + (response.statusCode?.description ?? "Default")
         context["schema"] = response.schema.flatMap(getValueContext)
         context["description"] = response.description
+        context["type"] = response.schema.flatMap(getValueType)
+        context["success"] = response.success
         return context
     }
 

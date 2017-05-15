@@ -13,9 +13,9 @@ public struct APIService<ResponseType> {
     public let path: String
     public let hasBody: Bool
     public let authorization: Authorization?
-    public let decode: (Any) throws -> ResponseType
+    public let decode: ResponseDecoder<ResponseType>
 
-    public init(id: String, tag: String = "", method:String, path:String, hasBody: Bool, authorization: Authorization? = nil, decode: @escaping (Any) throws -> ResponseType) {
+    public init(id: String, tag: String = "", method:String, path:String, hasBody: Bool, authorization: Authorization? = nil, decode: @escaping ResponseDecoder<ResponseType>) {
         self.id = id
         self.tag = tag
         self.method = method

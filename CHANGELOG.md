@@ -1,19 +1,22 @@
 # Change Log
 
 ## [0.5.0] - 2017-05-16
-### Swift Template changes
+### Added
+- `APIClient.makeRequest` now returns an Alamofire `Request` if one was created, so requests can now be cancelled
+- All operation responses are now generated, not just the successful one, meaning you get access to typed errors
 
-#### Model
+### Template Changes
+
+##### Model
 - Properties in a model subclass initialiser will now be ordered so that all required properties come first, instead of parent and then child's properties
 - Now provides a `CustomDebugStringConvertible` conformance that pretty prints all nested values
 
-#### APIRequest
+##### APIRequest
 - Each `APIRequest` now has a typed `Response` enum that includes all it's responses in the spec. Each case has the decoded schema as an associated enum if specified
-- Path parameters are no longer encoded as url parameters
 
 ##### APIClient
 
-The complete closure parameter has changed from `DataResponse` to `APIResponse` which:
+The `APIClient.makeRequest` complete closure parameter has changed from `DataResponse` to `APIResponse` which:
 
 - replaces result value with the new response enum
 - has result error of APIError enum via [antitypical/Result](https://github.com/antitypical/Result) which has cases for:
@@ -25,8 +28,11 @@ The complete closure parameter has changed from `DataResponse` to `APIResponse` 
 	- `networkError(Error)`
 	- `unknownError(Error)`
 
-#### Descriptions
+##### Descriptions
 Models, Requests, Errors and Responses now have CustomStringConvertible and/or CustomDebugStringConvertible conformances
+
+### Fixed
+- Path parameters are no longer also encoded as url parameters in the request template
 
 
 ## [0.4.1] - 2017-05-11

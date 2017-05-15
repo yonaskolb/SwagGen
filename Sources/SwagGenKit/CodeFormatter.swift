@@ -100,6 +100,7 @@ public class CodeFormatter {
         context["params"] = operation.parameters.map(getParameterContext)
         context["hasBody"] = operation.parameters.filter{$0.parameterType == .body || $0.parameterType == .form}.count > 0
         context["nonBodyParams"] = operation.parameters.filter { $0.parameterType != .body}.map(getParameterContext)
+        context["encodedParams"] = operation.parameters.filter { $0.parameterType == .form || $0.parameterType == .query}.map(getParameterContext)
         context["bodyParam"] = operation.getParameters(type: .body).map(getParameterContext).first
         context["pathParams"] = operation.getParameters(type: .path).map(getParameterContext)
         context["queryParams"] = operation.getParameters(type: .query).map(getParameterContext)

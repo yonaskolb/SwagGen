@@ -108,11 +108,11 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
               return super.path{% for param in pathParams %}.replacingOccurrences(of: "{" + "{{ param.name }}" + "}", with: "\(self.options.{{ param.encodedValue }})"){% endfor %}
           }
           {% endif %}
-          {% if nonBodyParams %}
+          {% if encodedParams %}
 
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
-              {% for param in nonBodyParams %}
+              {% for param in encodedParams %}
               {% if param.optional %}
               if let {{ param.name }} = options.{{ param.encodedValue }} {
                 params["{{ param.value }}"] = {{ param.name }}

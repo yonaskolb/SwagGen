@@ -114,3 +114,11 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
     }
     {% endif %}
 }
+{% if not parent %}
+
+extension {{ type }}: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        return "\(type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    }
+}
+{% endif %}

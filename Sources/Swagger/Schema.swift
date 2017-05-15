@@ -67,8 +67,16 @@ public class Schema: JSONObjectConvertible {
         }
     }
 
+    private var allRequiredProperties: [Property] {
+        return (parent?.allRequiredProperties ?? []) + requiredProperties
+    }
+
+    private var allOptionalProperties: [Property] {
+        return (parent?.allOptionalProperties ?? []) + optionalProperties
+    }
+
     public var allProperties: [Property] {
-        return (parent?.allProperties ?? []) + properties
+        return allRequiredProperties + allOptionalProperties
     }
 
     func deepDescription(prefix: String) -> String {

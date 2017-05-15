@@ -65,7 +65,7 @@ public func specTests() {
                     try expect(operation?.parameters.count) == 1
                 }
                 $0.it("has responses") {
-                    try expect(operation?.responses.count) == 1
+                    try expect(operation?.responses.count) == 2
                 }
             }
         }

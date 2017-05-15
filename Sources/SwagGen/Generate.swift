@@ -48,7 +48,7 @@ func generate(templatePath: String, destinationPath: Path, specPath: String, cle
         ("definition", spec.definitions.count),
         ("tag", spec.tags.count),
         ("parameter", spec.parameters.count),
-        ("security definitions", spec.securityDefinitions.count),
+        ("security definition", spec.securityDefinitions.count),
         ], pluralise: true)
     writeMessage("Loaded spec: \"\(spec.info.title)\" - \(specCounts)")
 

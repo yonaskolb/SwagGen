@@ -5,7 +5,7 @@
 // https://github.com/yonaskolb/SwagGen
 //
 
-public class APIRequest<ResponseType> {
+public class APIRequest<ResponseType: APIResponseValue> {
 
     public let service: APIService<ResponseType>
     public private(set) var parameters: [String: Any]

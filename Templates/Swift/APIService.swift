@@ -5,7 +5,7 @@
 // https://github.com/yonaskolb/SwagGen
 //
 
-public struct APIService<ResponseType> {
+public struct APIService<ResponseType: APIResponseValue> {
 
     public let id: String
     public let tag: String
@@ -13,16 +13,14 @@ public struct APIService<ResponseType> {
     public let path: String
     public let hasBody: Bool
     public let authorization: Authorization?
-    public let decode: (Any) throws -> ResponseType
 
-    public init(id: String, tag: String = "", method:String, path:String, hasBody: Bool, authorization: Authorization? = nil, decode: @escaping (Any) throws -> ResponseType) {
+    public init(id: String, tag: String = "", method:String, path:String, hasBody: Bool, authorization: Authorization? = nil) {
         self.id = id
         self.tag = tag
         self.method = method
         self.path = path
         self.hasBody = hasBody
         self.authorization = authorization
-        self.decode = decode
     }
 }
 
@@ -30,15 +28,5 @@ extension APIService: CustomStringConvertible {
 
     public var description: String {
         return "\(id): \(method) \(path)"
-    }
-}
-
-public struct Authorization {
-    public let type: String
-    public let scope: String
-
-    public init(type: String, scope: String) {
-        self.type = type
-        self.scope = scope
     }
 }

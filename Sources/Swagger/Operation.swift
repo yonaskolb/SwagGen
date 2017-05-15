@@ -43,11 +43,20 @@ public class Operation {
         let responseDictionary: JSONDictionary = try jsonDictionary.json(atKeyPath: "responses")
         var responses: [Response] = []
         for (key, value) in responseDictionary {
-            if let statusCode = Int(key), let jsonDictionary = value as? JSONDictionary {
-                responses.append(Response(statusCode: statusCode, jsonDictionary: jsonDictionary))
+            if let jsonDictionary = value as? JSONDictionary {
+                responses.append(Response(statusCode: key, jsonDictionary: jsonDictionary))
             }
         }
-        self.responses = responses
+        self.responses = responses.sorted {
+            let code1 = $0.statusCode
+            let code2 = $1.statusCode
+            switch (code1, code2) {
+            case (.some(let code1), .some(let code2)): return code1 < code2
+            case (.some, .none): return true
+            case (.none, .some): return false
+            default: return false
+            }
+        }
     }
 
     public func getParameters(type: Parameter.ParamaterType) -> [Parameter] {
@@ -61,14 +70,16 @@ public class Operation {
 
 public class Response {
 
-    public let statusCode: Int
+    public let statusCode: Int?
     public let description: String?
     public var schema: Value?
+    public var success: Bool
 
-    init(statusCode: Int, jsonDictionary: JSONDictionary) {
-        self.statusCode = statusCode
+    init(statusCode: String, jsonDictionary: JSONDictionary) {
+        self.statusCode = Int(statusCode)
         description = jsonDictionary.json(atKeyPath: "description")
         schema = jsonDictionary.json(atKeyPath: "schema")
+        success = statusCode.hasPrefix("2")
     }
 }
 

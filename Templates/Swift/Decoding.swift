@@ -184,14 +184,56 @@ extension URL: JSONValueEncodable {
 
 private let dateFormatter: DateFormatter = {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = {{ options.name }}.dateEncodingFormat
+    dateFormatter.dateFormat = TestAPI.dateEncodingFormat
     return dateFormatter
 }()
 
 extension Date: JSONValueEncodable {
 
     func encode() -> Any {
-        dateFormatter.dateFormat = {{ options.name }}.dateEncodingFormat
+        dateFormatter.dateFormat = TestAPI.dateEncodingFormat
         return dateFormatter.string(from: self)
+    }
+}
+
+extension Dictionary {
+
+    public var prettyPrinted: String {
+        return recursivePrint()
+    }
+
+    public func recursivePrint(indentIndex: Int = 0, indentString: String = "  ", arrayIdentifier: String = "• ") -> String {
+        let indent = String(repeating: indentString, count: indentIndex)
+        let indentNext = String(repeating: indentString, count: indentIndex + 1)
+        let newline: String = "\n"
+        let arrayWhitespace = String(repeating: " ", count: arrayIdentifier.characters.count)
+        var lines: [String] = []
+        for (key, value) in self {
+            if let dictionary = value as? [String: Any] {
+                let valueString = dictionary.recursivePrint(indentIndex: indentIndex + 1, indentString: indentString, arrayIdentifier: arrayIdentifier)
+                lines.append("\(key):\(newline)\(valueString)")
+            } else if let array = value as? [[String: Any]] {
+                if !array.isEmpty {
+                    let arrayLines: [String] = array.map { dictionary in
+                        var dictString = dictionary.recursivePrint(indentIndex: indentIndex + 1, indentString: indentString, arrayIdentifier: arrayIdentifier)
+                        if let rangeOfIndent = dictString.range(of: indentNext) {
+                            dictString = dictString.replacingCharacters(in: rangeOfIndent, with: "")
+                        }
+                        dictString = dictString.replacingOccurrences(of: indentNext, with: indentNext + arrayWhitespace)
+
+                        return "\(indentNext)\(arrayIdentifier)\(dictString)"
+                    }
+                    lines.append("\(key):\(newline)\(arrayLines.joined(separator: newline))")
+                }
+            } else if let array = value as? [Any] {
+                if !array.isEmpty {
+                    let valueString = array.map { "\(arrayIdentifier)\($0)" }.joined(separator: "\(newline)\(indentNext)")
+                    lines.append("\(key):\(newline)\(indentNext)\(valueString)")
+                }
+            } else {
+                lines.append("\(key): \(value)")
+            }
+        }
+        return lines.map { "\(indent)\($0)" }.joined(separator: newline)
     }
 }

@@ -5,9 +5,43 @@
 // https://github.com/yonaskolb/SwagGen
 //
 
+import Alamofire
+
 public typealias ResponseDecoder<T> = (Int, Any) throws -> T
 
-protocol APIResponse {
+public struct APIResponse<T> {
 
-  init(statusCode: Int, json: Any) throws
+    /// The APIRequest used for this response
+    public let request: APIRequest<T>
+
+    /// The result of the response .
+    public let result: APIResult<T>
+
+    /// The URL request sent to the server.
+    public let urlRequest: URLRequest?
+
+    /// The server's response to the URL request.
+    public let urlResponse: HTTPURLResponse?
+
+    /// The data returned by the server.
+    public let data: Data?
+
+    /// The timeline of the complete lifecycle of the request.
+    public let timeline: Timeline?
+
+    init(request: APIRequest<T>, result: APIResult<T>, urlRequest: URLRequest? = nil, urlResponse: HTTPURLResponse? = nil, data: Data? = nil, timeline: Timeline? = nil) {
+        self.request = request
+        self.result = result
+        self.urlRequest = urlRequest
+        self.urlResponse = urlResponse
+        self.data = data
+        self.timeline = timeline
+    }
+}
+
+extension APIResponse {
+
+    func asAny() -> APIResponse<Any> {
+        return APIResponse<Any>(request: request.asAny(), result: result.asAny(), urlRequest: urlRequest, urlResponse: urlResponse, data: data, timeline: timeline)
+    }
 }

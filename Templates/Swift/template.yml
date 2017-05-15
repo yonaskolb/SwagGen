@@ -8,6 +8,9 @@ options:
     - pod: Alamofire
       github: Alamofire/Alamofire
       version: 4.2.0
+    - pod: Result
+      github: antitypical/Result
+      version: 3.2.1
 templateFiles:
   - path: Package.swift
   - path: Podspec.podspec
@@ -38,3 +41,5 @@ templateFiles:
     destination: "Sources/{{ options.name }}/APIResponse.swift"
   - path: Authorization.swift
     destination: "Sources/{{ options.name }}/Authorization.swift"
+  - path: APIResult.swift
+    destination: "Sources/{{ options.name }}/APIResult.swift"

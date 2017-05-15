@@ -30,6 +30,13 @@ public class APIRequest<ResponseType> {
     }
 }
 
+extension APIRequest {
+
+    func asAny() -> APIRequest<Any> {
+        return APIRequest<Any>(service: service.asAny(), parameters: parameters, jsonBody: jsonBody, headers: headers)
+    }
+}
+
 extension APIRequest: CustomStringConvertible {
 
     public var description: String {

@@ -26,6 +26,13 @@ public struct APIService<ResponseType> {
     }
 }
 
+extension APIService {
+
+    func asAny() -> APIService<Any> {
+        return APIService<Any>(id: id, tag: tag, method: method, path: path, hasBody: hasBody, authorization: authorization, decode: decode)
+    }
+}
+
 extension APIService: CustomStringConvertible {
 
     public var description: String {

@@ -39,7 +39,7 @@ public class APIClient {
 
     /// Any request behaviours will be run in addition to the client behaviours
     @discardableResult
-    public func makeRequest<T>(_ request: APIRequest<T>, behaviours: [RequestBehaviour] = [], complete: @escaping (DataResponse<T>) -> Void) -> Request? {
+    public func makeRequest<T>(_ request: APIRequest<T>, behaviours: [RequestBehaviour] = [], complete: @escaping (APIResponse<T>) -> Void) -> Request? {
         // create composite behaviour to make it easy to call functions on array of behaviours
         let requestBehaviour = APIRequestBehaviour(request: request, behaviours: self.behaviours + behaviours)
 
@@ -49,9 +49,9 @@ public class APIClient {
             urlRequest = try request.createURLRequest(baseURL: baseURL)
         } catch _ {
             let error = APIError.invalidBaseURL(baseURL)
-            let dataResponse = DataResponse<T>(request: nil, response: nil, data: nil, result: .failure(error))
             requestBehaviour.onFailure(error: error)
-            complete(dataResponse)
+            let response = APIResponse<T>(request: request, result: .failure(error))
+            complete(response)
             return nil
         }
 
@@ -72,33 +72,34 @@ public class APIClient {
 
                 switch result {
                 case .success(let urlRequest):
-                    self.makeNetworkRequest(urlRequest: urlRequest, decoder: request.service.decode, requestBehaviour: requestBehaviour, complete: complete)
+                    self.makeNetworkRequest(request: request, urlRequest: urlRequest, requestBehaviour: requestBehaviour, complete: complete)
                 case .failure(let reason):
-                    let apiError = APIError.authorizationError(AuthorizationError(authorization: authorization, reason: reason))
-                    let dataResponse = DataResponse<T>(request: urlRequest, response: nil, data: nil, result: .failure(apiError))
-                    requestBehaviour.onFailure(error: apiError)
-                    complete(dataResponse)
+                    let error = APIError.authorizationError(AuthorizationError(authorization: authorization, reason: reason))
+                    let response = APIResponse<T>(request: request, result: .failure(error), urlRequest: urlRequest)
+                    requestBehaviour.onFailure(error: error)
+                    complete(response)
 
                 }
             }
             return nil
         } else {
-            return self.makeNetworkRequest(urlRequest: urlRequest, decoder: request.service.decode, requestBehaviour: requestBehaviour, complete: complete)
+            return self.makeNetworkRequest(request: request, urlRequest: urlRequest, requestBehaviour: requestBehaviour, complete: complete)
         }
     }
 
     @discardableResult
-    private func makeNetworkRequest<T>(urlRequest: URLRequest, decoder: @escaping ResponseDecoder<T>, requestBehaviour: APIRequestBehaviour, complete: @escaping (DataResponse<T>) -> Void) -> Request {
+    private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: APIRequestBehaviour, complete: @escaping (APIResponse<T>) -> Void) -> Request {
         requestBehaviour.beforeSend()
         return sessionManager.request(urlRequest)
-            .responseJSON { response in
-                let result: Result<T>
+            .responseJSON { dataResponse in
 
-                switch response.result {
+                let result: APIResult<T>
+
+                switch dataResponse.result {
                 case .success(let value):
                     do {
-                        let statusCode = response.response!.statusCode
-                        let decoded = try decoder(statusCode, value)
+                        let statusCode = dataResponse.response!.statusCode
+                        let decoded = try request.service.decode(statusCode, value)
                         result = .success(decoded)
                         requestBehaviour.onSuccess(result: decoded)
                     } catch let error {
@@ -119,9 +120,9 @@ public class APIClient {
                     result = .failure(apiError)
                     requestBehaviour.onFailure(error: apiError)
                 }
-                let dataResponse = response.withResult(result)
-                requestBehaviour.onResponse(response: dataResponse.anyResponse)
-                complete(dataResponse)
+                let response = APIResponse<T>(request: request, result: result, urlRequest: dataResponse.request, urlResponse: dataResponse.response, data: dataResponse.data, timeline: dataResponse.timeline)
+                requestBehaviour.onResponse(response: response.asAny())
+                complete(response)
         }
     }
 }
@@ -153,7 +154,7 @@ public protocol RequestBehaviour {
     func onFailure(request: APIRequest<Any>, error: APIError)
 
     /// called if the request recieves a network response. This is not called if request fails validation or encoding
-    func onResponse(request: APIRequest<Any>, response: DataResponse<Any>)
+    func onResponse(request: APIRequest<Any>, response: APIResponse<Any>)
 }
 
 struct APIRequestBehaviour {
@@ -186,7 +187,7 @@ struct APIRequestBehaviour {
         }
     }
 
-    func onResponse(response: DataResponse<Any>) {
+    func onResponse(response: APIResponse<Any>) {
         behaviours.forEach {
             $0.onResponse(request: request, response: response)
         }
@@ -206,27 +207,15 @@ public extension RequestBehaviour {
     func beforeSend(request: APIRequest<Any>) {}
     func onSuccess(request: APIRequest<Any>, result: Any) {}
     func onFailure(request: APIRequest<Any>, error: APIError) {}
-    func onResponse(request: APIRequest<Any>, response: DataResponse<Any>) {}
+    func onResponse(request: APIRequest<Any>, response: APIResponse<Any>) {}
     func modifyRequest(request: APIRequest<Any>, urlRequest: URLRequest) -> URLRequest { return urlRequest }
-}
-
-extension DataResponse {
-
-    var anyResponse: DataResponse<Any> {
-        let anyResult: Result<Any> = result.isSuccess ? .success(result.value!) : .failure(result.error!)
-        return DataResponse<Any>(request: request, response: response, data: data, result: anyResult, timeline: timeline)
-    }
-
-    func withResult<T>(_ result: Result<T>) -> DataResponse<T> {
-        return DataResponse<T>(request: request, response: response, data: data, result: result, timeline: timeline)
-    }
 }
 
 // Helper extension for sending requests
 extension APIRequest {
 
     /// makes a request using the default APIClient. Change your baseURL in APIClient.default.baseURL
-    public func makeRequest(complete: @escaping (DataResponse<ResponseType>) -> Void) {
+    public func makeRequest(complete: @escaping (APIResponse<ResponseType>) -> Void) {
         APIClient.default.makeRequest(self, complete: complete)
     }
 }

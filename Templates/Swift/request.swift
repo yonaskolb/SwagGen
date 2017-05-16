@@ -144,8 +144,8 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             case {{ response.name }}(statusCode: Int{% if response.type %}, {{ response.type }}{% endif %})
             {% endif %}
             {% endfor %}
-
             {% if singleSuccessType %}
+
             public var success: {{ singleSuccessType }}? {
                 switch self {
                 {% for response in responses where response.type == singleSuccessType and response.success %}
@@ -155,14 +155,27 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 }
             }
             {% endif %}
-
             {% if singleFailureType %}
+
             public var failure: {{ singleFailureType }}? {
                 switch self {
                 {% for response in responses where response.type == singleFailureType and not response.success %}
                 case .{{ response.name }}({% if not response.statusCode %}_, {% endif %}let response): return response
                 {% endfor %}
                 default: return nil
+                }
+            }
+            {% endif %}
+            {% if singleSuccessType and singleFailureType %}
+
+            /// either success or failure value. Success is anything in the 200..<300 status code range
+            public var responseResult: APIResponseResult<{{ singleSuccessType }}, {{ singleFailureType }}> {
+                if let successValue = success {
+                    return .success(successValue)
+                } else if let failureValue = failure {
+                    return .failure(failureValue)
+                } else {
+                    fatalError("Response does not have success or failure response")
                 }
             }
             {% endif %}

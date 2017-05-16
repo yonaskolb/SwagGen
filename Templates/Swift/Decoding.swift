@@ -184,14 +184,14 @@ extension URL: JSONValueEncodable {
 
 private let dateFormatter: DateFormatter = {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = TestAPI.dateEncodingFormat
+    dateFormatter.dateFormat = {{ options.name }}.dateEncodingFormat
     return dateFormatter
 }()
 
 extension Date: JSONValueEncodable {
 
     func encode() -> Any {
-        dateFormatter.dateFormat = TestAPI.dateEncodingFormat
+        dateFormatter.dateFormat = {{ options.name }}.dateEncodingFormat
         return dateFormatter.string(from: self)
     }
 }

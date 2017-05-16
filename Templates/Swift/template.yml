@@ -7,7 +7,7 @@ options:
       version: 3.2.0
     - pod: Alamofire
       github: Alamofire/Alamofire
-      version: 4.2.0
+      version: 4.4.0
     - pod: Result
       github: antitypical/Result
       version: 3.2.1

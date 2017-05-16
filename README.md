@@ -13,14 +13,13 @@ Make sure Xcode 8 is installed and run the following commands in the same direct
 
 ### 1. Command Line
 ```
-swift build -c release
+swift build
 ```
-This compiles a release build via the Swift Package Manager. You can find the output in the build directory which by default is at `.build/release/SwagGen`. You can move it out of there or simply run it:
+This compiles a release build via the Swift Package Manager. You can find the output in the build directory which by default is at `.build/debug/SwagGen`. You can move it out of there or simply run it:
 
 ```
-.build/release/SwagGen
+.build/debug/SwagGen ..arguments
 ```
-If you would like to run from anywhere, move it into `/usr/local/bin/`
 
 ### 2. Xcode
 ```

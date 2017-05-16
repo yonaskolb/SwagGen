@@ -10,33 +10,54 @@ import JSONUtilities
 
 extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }}{% endif %} {
 
+    {% if description %}
+    /** {{ description }} */
+    {% endif %}
     public enum {{ operationId|upperCamelCase }} {
 
       public static let service = APIService<Response>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if securityRequirement %}, authorization: Authorization(type: "{{ securityRequirement.name }}", scope: "{{ securityRequirement.scope }}"){% endif %})
+      {% for enum in enums %}
+      {% if not enum.isGlobal %}
 
-      {% if description %}
-      /** {{ description }} */
+      {% if enum.description %}
+      /** {{ enum.description }} */
       {% endif %}
-      public class Request: APIRequest<Response> {
-          {% for enum in enums %}
-          {% if not enum.isGlobal %}
-
-          {% if enum.description %}
-          /** {{ enum.description }} */
-          {% endif %}
-          public enum {{ enum.enumName }}: String {
-              {% for enumCase in enum.enums %}
-              case {{ enumCase.name }} = "{{enumCase.value}}"
-              {% endfor %}
-
-              public static let cases: [{{ enum.enumName }}] = [
-                {% for enumCase in enum.enums %}
-                .{{ enumCase.name }},
-                {% endfor %}
-              ]
-          }
-          {% endif %}
+      public enum {{ enum.enumName }}: String {
+          {% for enumCase in enum.enums %}
+          case {{ enumCase.name }} = "{{enumCase.value}}"
           {% endfor %}
+
+          public static let cases: [{{ enum.enumName }}] = [
+            {% for enumCase in enum.enums %}
+            .{{ enumCase.name }},
+            {% endfor %}
+          ]
+      }
+      {% endif %}
+      {% endfor %}
+      {% if bodyParam.anonymousSchema %}
+
+      {% if bodyParam.anonymousSchema.description %}
+      /** {{ bodyParam.schema.description }} */
+      {% endif %}
+      public struct {{ bodyParam.anonymousSchema.type }} {
+        {% for property in bodyParam.anonymousSchema.properties %}
+
+        {% if property.description %}
+        /** {{ property.description }} */
+        {% endif %}
+        public var {{ property.name }}: {{ property.optionalType }}
+        {% endfor %}
+
+        public init({% for property in bodyParam.anonymousSchema.properties %}{{property.name}}: {{property.optionalType}}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
+            {% for property in bodyParam.anonymousSchema.properties %}
+            self.{{property.name}} = {{property.name}}
+            {% endfor %}
+        }
+      }
+      {% endif %}
+
+      public class Request: APIRequest<Response> {
           {% if nonBodyParams %}
 
           public struct Options {
@@ -58,27 +79,6 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
           public var options: Options
           {% endif %}
           {% if bodyParam %}
-          {% if bodyParam.anonymousSchema %}
-
-          {% if bodyParam.anonymousSchema.description %}
-          /** {{ bodyParam.schema.description }} */
-          {% endif %}
-          public struct {{ bodyParam.anonymousSchema.type }} {
-            {% for property in bodyParam.anonymousSchema.properties %}
-
-            {% if property.description %}
-            /** {{ property.description }} */
-            {% endif %}
-            public var {{ property.name }}: {{ property.optionalType }}
-            {% endfor %}
-
-            public init({% for property in bodyParam.anonymousSchema.properties %}{{property.name}}: {{property.optionalType}}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
-                {% for property in bodyParam.anonymousSchema.properties %}
-                self.{{property.name}} = {{property.name}}
-                {% endfor %}
-            }
-          }
-          {% endif %}
 
           public var {{ bodyParam.name}}: {{bodyParam.optionalType}}
           {% endif %}

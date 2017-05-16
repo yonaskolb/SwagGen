@@ -196,6 +196,10 @@ extension Date: JSONValueEncodable {
     }
 }
 
+protocol PrettyPrintable {
+    var prettyPrinted: String { get }
+}
+
 extension Dictionary {
 
     public var prettyPrinted: String {

@@ -90,8 +90,14 @@ extension APIResponse: CustomStringConvertible, CustomDebugStringConvertible {
 
     public var debugDescription: String {
         var string = description
-        if let response = result.value?.response, let debugStringConvertible = response as? CustomDebugStringConvertible {
-            string += "\n\(debugStringConvertible.debugDescription)"
+        if let response = result.value?.response {
+          if let debugStringConvertible = response as? CustomDebugStringConvertible {
+              string += "\n\(debugStringConvertible.debugDescription)"
+          } else if let prettyPrinted = response as? PrettyPrintable {
+              string += "\n\(prettyPrinted.prettyPrinted)"
+          } else if let prettyPrinted = response as? [PrettyPrintable] {
+              string += "\n\(prettyPrinted.map { $0.prettyPrinted }.joined(separator: "\n"))"
+          }
         }
         return string
     }

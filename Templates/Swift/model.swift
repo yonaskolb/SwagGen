@@ -116,8 +116,10 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
 }
 {% if not parent %}
 
-extension {{ type }}: CustomDebugStringConvertible {
-    public var debugDescription: String {
+extension {{ type }}: PrettyPrintable {
+
+    /// pretty prints all properties including nested models
+    public var prettyPrinted: String {
         return "\(type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
     }
 }

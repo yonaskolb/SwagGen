@@ -133,6 +133,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
+            public typealias SuccessType = {{ successType|default:"Void"}}
             {% for response in responses %}
             {% if response.description %}
 
@@ -144,17 +145,15 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             case {{ response.name }}(statusCode: Int{% if response.type %}, {{ response.type }}{% endif %})
             {% endif %}
             {% endfor %}
-            {% if singleSuccessType %}
 
-            public var success: {{ singleSuccessType }}? {
+            public var success: {{ successType|default:"Void"}}? {
                 switch self {
-                {% for response in responses where response.type == singleSuccessType and response.success %}
+                {% for response in responses where response.type == successType and response.success %}
                 case .{{ response.name }}({% if not response.statusCode %}_, {% endif %}let response): return response
                 {% endfor %}
                 default: return nil
                 }
             }
-            {% endif %}
             {% if singleFailureType %}
 
             public var failure: {{ singleFailureType }}? {
@@ -166,10 +165,10 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 }
             }
             {% endif %}
-            {% if singleSuccessType and singleFailureType %}
+            {% if singleFailureType %}
 
             /// either success or failure value. Success is anything in the 200..<300 status code range
-            public var responseResult: APIResponseResult<{{ singleSuccessType }}, {{ singleFailureType }}> {
+            public var responseResult: APIResponseResult<{{ successType|default:"Void"}}, {{ singleFailureType }}> {
                 if let successValue = success {
                     return .success(successValue)
                 } else if let failureValue = failure {

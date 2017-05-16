@@ -8,10 +8,12 @@
 import Alamofire
 
 public protocol APIResponseValue: CustomDebugStringConvertible, CustomStringConvertible {
+    associatedtype SuccessType
     var statusCode: Int { get }
     var successful: Bool { get }
     var response: Any { get }
     init(statusCode: Int, json: Any) throws
+    var success: SuccessType? { get }
 }
 
 public enum APIResponseResult<SuccessType, FailureType>: CustomStringConvertible, CustomDebugStringConvertible {

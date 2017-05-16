@@ -96,16 +96,20 @@ public class AnyRequest: APIRequest<AnyResponseValue> {
 
 public struct AnyResponseValue: APIResponseValue, CustomDebugStringConvertible, CustomStringConvertible {
 
+    public typealias SuccessType = Any
+
     public let statusCode: Int
     public let successful: Bool
     public let response: Any
     public let responseEnum: Any
+    public let success: Any?
 
-    public init(responseValue: APIResponseValue) {
-        self.statusCode = responseValue.statusCode
-        self.successful = responseValue.successful
-        self.response = responseValue.response
-        self.responseEnum = responseValue
+    public init(statusCode: Int, successful: Bool, response: Any, responseEnum: Any, success: Any?) {
+        self.statusCode = statusCode
+        self.successful = successful
+        self.response = response
+        self.responseEnum = responseEnum
+        self.success = success
     }
 
     public init(statusCode: Int, json: Any) throws {
@@ -127,13 +131,13 @@ public struct AnyResponseValue: APIResponseValue, CustomDebugStringConvertible, 
 
 extension APIResponseValue {
     func asAny() -> AnyResponseValue {
-        return AnyResponseValue(responseValue: self)
+        return AnyResponseValue(statusCode: statusCode, successful: successful, response: response, responseEnum: self, success: success)
     }
 }
 
 extension APIResponse {
     func asAny() -> APIResponse<AnyResponseValue> {
-        return APIResponse<AnyResponseValue>(request: request.asAny(), result: result.map(AnyResponseValue.init), urlRequest: urlRequest, urlResponse: urlResponse, data: data, timeline: timeline)
+        return APIResponse<AnyResponseValue>(request: request.asAny(), result: result.map{ $0.asAny() }, urlRequest: urlRequest, urlResponse: urlResponse, data: data, timeline: timeline)
     }
 }
 

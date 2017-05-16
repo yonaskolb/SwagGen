@@ -8,7 +8,7 @@
 {% if description %}
 /** {{ description }} */
 {% endif %}
-public enum {{ enumName }}: String {
+public enum {{ enumName }}: String{% if raw.enumEmoji %}, EmojiConvertible{% endif %} {
     {% for enumCase in enums %}
     case {{ enumCase.name }} = "{{enumCase.value}}"
     {% endfor %}
@@ -18,4 +18,17 @@ public enum {{ enumName }}: String {
       .{{ enumCase.name }},
       {% endfor %}
     ]
+    {% if raw.enumEmoji %}
+
+    public var emoji: String {
+      switch self {
+      {% for type,emoji in raw.enumEmoji %}
+      case .{{ type | lowerCamelCase}}: return "{{ emoji }}"
+      {% endfor %}
+      {% if raw.enumEmoji.count != enums.count %}
+      default: return ""
+      {% endif %}
+      }
+    }
+    {% endif %}
 }

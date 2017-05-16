@@ -1,6 +1,34 @@
 # Change Log
 
 ## [0.5.2] - 2017-05-16
+### Added
+Added support for optional emoji generation from swagger spec 😀 This is not part of the official swagger spec but often useful for logging.
+##### Definiton Emoji
+Specify an `emoji` property in a definition to have a emoji for that type generated, which will be pretty printed as well.
+
+```
+User:
+    emoji: 👤
+    type: object
+    ...
+```
+
+#####Enum Emoji
+Specify an `enumEmoji` in an enum property which maps from enum case to emoji:
+
+```	
+name: animal
+type: string
+enum:
+	- dog
+	- cat
+	- mouse
+enumEmoji:
+	dog: 🐶
+	cat: 🐱
+	mouse: 🐭
+```
+
 ### Changed
 - Replaced `CustomDebugStringConvertible` with `PrettyPrinted` conformance on Models, so you can specify your own `CustomDebugStringConvertible`. Same string is available at `model.prettyPrinted`
 

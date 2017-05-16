@@ -11,7 +11,11 @@ import JSONUtilities
 {% if description %}
 /** {{ description }} */
 {% endif %}
-public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable, JSONEncodable{% endif %} {
+public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable, JSONEncodable{% endif %}{% if raw.emoji %}, EmojiType{% endif %} {
+    {% if raw.emoji %}
+
+    public static let emoji: String = "{{ raw.emoji }}"
+    {% endif %}
     {% for enum in enums %}
     {% if not enum.isGlobal %}
 
@@ -28,6 +32,19 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
           .{{ enumCase.name }},
           {% endfor %}
         ]
+        {% if enum.raw.enumEmoji %}
+
+        public var emoji: String {
+          switch self {
+          {% for type,emoji in enum.raw.enumEmoji %}
+          case .{{ type | lowerCamelCase}}: return "{{ emoji }}"
+          {% endfor %}
+          {% if enum.raw.enumEmoji.count != enum.enums.count %}
+          default: return ""
+          {% endif %}
+          }
+        }
+        {% endif %}
     }
     {% endif %}
     {% endfor %}
@@ -120,7 +137,11 @@ extension {{ type }}: PrettyPrintable {
 
     /// pretty prints all properties including nested models
     public var prettyPrinted: String {
-        return "\(type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+        var name = "\(type(of: self))"
+        if let emoji = (self as? EmojiConvertible)?.emoji, !emoji.isEmpty {
+          name = "\(emoji) \(name)"
+        }
+        return "\(name):\n\(encode().recursivePrint(indentIndex: 1))"
     }
 }
 {% endif %}

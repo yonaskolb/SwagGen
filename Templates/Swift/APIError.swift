@@ -19,7 +19,7 @@ public enum APIError: Error {
     public var name:String {
         switch self {
         case .unexpectedStatusCode: return "Unexpected status code"
-        case .jsonDeserializationError: return "JSON deserialiation error"
+        case .jsonDeserializationError: return "JSON deserialization error"
         case .decodingError: return "Decoding error"
         case .invalidBaseURL: return "Invalid base URL"
         case .authorizationError: return "Failed to authorize"

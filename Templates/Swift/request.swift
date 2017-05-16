@@ -164,8 +164,6 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 default: return nil
                 }
             }
-            {% endif %}
-            {% if singleFailureType %}
 
             /// either success or failure value. Success is anything in the 200..<300 status code range
             public var responseResult: APIResponseResult<{{ successType|default:"Void"}}, {{ singleFailureType }}> {

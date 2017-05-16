@@ -112,6 +112,7 @@ public class CodeFormatter {
         context["responses"] = operation.responses.map(getResponseContext)
         context["successResponse"] = successResponses.first
         context["defaultResponse"] = defaultResponse
+        context["successType"] = successResponses.first?["type"]
         context["alwaysHasResponseType"] = operation.responses.map(getResponseContext).filter { $0["type"] != nil }.count == operation.responses.count
 
         let successTypes = successResponses.flatMap { $0["type"] as? String }

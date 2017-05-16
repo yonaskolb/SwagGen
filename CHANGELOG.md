@@ -1,10 +1,13 @@
 # Change Log
 
 ## [0.5.2] - 2017-05-16
+### Added
+- added SuccessType typealias to APIResponseValue. This lets you map from a response to successful value
+
 ### Changed
 - Replaced `CustomDebugStringConvertible` with `PrettyPrinted` conformance on Models, so you can specify your own `CustomDebugStringConvertible`. Same string is available at `model.prettyPrinted`
 - Moved generated request enums and anonymous schema from APIRequest.Request to one level higher in scope
-- add SuccessType typealias to APIResponseValue. This lets you map from a response to successful value
+
 
 ## [0.5.1] - 2017-05-16
 ### Added

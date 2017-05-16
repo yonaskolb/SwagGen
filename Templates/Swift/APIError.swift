@@ -15,19 +15,31 @@ public enum APIError: Error {
     case authorizationError(AuthorizationError)
     case networkError(Error)
     case unknownError(Error)
+
+    public var name:String {
+        switch self {
+        case .unexpectedStatusCode: return "Unexpected status code"
+        case .jsonDeserializationError: return "JSON deserialiation error"
+        case .decodingError: return "Decoding error"
+        case .invalidBaseURL: return "Invalid base URL"
+        case .authorizationError: return "Failed to authorize"
+        case .networkError: return "Network error"
+        case .unknownError: return "Unknown error"
+        }
+    }
 }
 
 extension APIError: CustomStringConvertible {
 
     public var description:String {
         switch self {
-        case .unexpectedStatusCode(let statusCode, _): return "Unexpected status code \(statusCode)"
-        case .jsonDeserializationError(let error): return "\(error)"
-        case .decodingError(let error): return error.description
-        case .invalidBaseURL(let url): return "Invalid base URL \"\(url)\""
-        case .authorizationError(let error): return "Failed to authorize: \(error.reason)"
-        case .networkError(let error): return "Network error: \(error.localizedDescription)"
-        case .unknownError(let error): return "Unknown error \(error.localizedDescription)"
+        case .unexpectedStatusCode(let statusCode, _): return "\(name): \(statusCode)"
+        case .jsonDeserializationError(let error): return "\(name): \(error)"
+        case .decodingError(let error): return "\(name): \(error.description)"
+        case .invalidBaseURL(let url): return "\(name): \(url)"
+        case .authorizationError(let error): return "\(name): \(error.reason)"
+        case .networkError(let error): return "\(name): \(error.localizedDescription)"
+        case .unknownError(let error): return "\(name): \(error.localizedDescription)"
         }
     }
 }

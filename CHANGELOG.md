@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.5.2] - 2017-05-16
+### Changed
+- Replaced `CustomDebugStringConvertible` with `PrettyPrinted` conformance on Models, so you can specify your own `CustomDebugStringConvertible`. Same string is available at `model.prettyPrinted`
+
+
 ## [0.5.1] - 2017-05-16
 ### Added
 - A request's response now has a responseResult with either `.success(SuccessValue)` or `.failure(FailureValue)`. This is only generated if there is a single schema type for successes responses and a single schema type for failure responses
@@ -90,6 +95,7 @@ Improved the generation of complicated specs:
 ## 0.1.0 - 2017-04-27
 - First official release
 
+[0.5.2]: https://github.com/yonaskolb/SwagGen/compare/0.5.1...0.5.2
 [0.5.1]: https://github.com/yonaskolb/SwagGen/compare/0.5.0...0.5.1
 [0.5.0]: https://github.com/yonaskolb/SwagGen/compare/0.4.1...0.5.0
 [0.4.1]: https://github.com/yonaskolb/SwagGen/compare/0.4.0...0.4.1

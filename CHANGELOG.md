@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.5.1] - 2017-05-16
+### Added
+- A request's response now has a responseResult with either `.success(SuccessValue)` or `.failure(FailureValue)`. This is only generated if there is a single schema type for successes responses and a single schema type for failure responses
+
+### Changed
+- Added back `successType` in response context for backwards compatibility with old templates
+- Updated Alamofire to 4.4.0
+
+### Fixed
+- Fixed api name not being replaced in `Decoding.swift` anymore
+
 ## [0.5.0] - 2017-05-16
 ### Added
 - `APIClient.makeRequest` now returns an Alamofire `Request` if one was created, so requests can now be cancelled
@@ -79,6 +90,7 @@ Improved the generation of complicated specs:
 ## 0.1.0 - 2017-04-27
 - First official release
 
+[0.5.1]: https://github.com/yonaskolb/SwagGen/compare/0.5.0...0.5.1
 [0.5.0]: https://github.com/yonaskolb/SwagGen/compare/0.4.1...0.5.0
 [0.4.1]: https://github.com/yonaskolb/SwagGen/compare/0.4.0...0.4.1
 [0.4.0]: https://github.com/yonaskolb/SwagGen/compare/0.3...0.4

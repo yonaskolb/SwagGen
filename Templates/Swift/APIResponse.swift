@@ -5,6 +5,7 @@
 // https://github.com/yonaskolb/SwagGen
 //
 
+import Foundation
 import Alamofire
 
 public protocol APIResponseValue: CustomDebugStringConvertible, CustomStringConvertible {

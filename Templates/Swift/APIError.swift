@@ -5,6 +5,7 @@
 // https://github.com/yonaskolb/SwagGen
 //
 
+import Foundation
 import JSONUtilities
 
 public enum APIError: Error {

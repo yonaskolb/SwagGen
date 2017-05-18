@@ -5,6 +5,8 @@
 // https://github.com/yonaskolb/SwagGen
 //
 
+import Foundation
+
 public struct Authorization {
     public let type: String
     public let scope: String

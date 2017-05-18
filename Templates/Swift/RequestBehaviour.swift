@@ -5,6 +5,8 @@
 // https://github.com/yonaskolb/SwagGen
 //
 
+import Foundation
+
 public protocol RequestBehaviour {
 
     /// runs first and allows the requests to be modified

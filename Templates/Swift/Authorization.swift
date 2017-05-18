@@ -20,7 +20,7 @@ public struct AuthorizationError: Error {
     public let authorization: Authorization
     public let reason: String
 
-    init(authorization: Authorization, reason: String) {
+    public init(authorization: Authorization, reason: String) {
         self.authorization = authorization
         self.reason = reason
     }

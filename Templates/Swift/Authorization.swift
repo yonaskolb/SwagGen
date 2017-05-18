@@ -30,7 +30,7 @@ public struct AuthorizationError: Error {
 public protocol RequestAuthorizer {
 
     /// complete must be called with either .success(authorizedURLRequest) or .failure(failureReason)
-    func authorize(request: AnyRequest, authorization: Authorization, urlRequest: URLRequest, complete: (AuthorizationResult) -> Void)
+    func authorize(request: AnyRequest, authorization: Authorization, urlRequest: URLRequest, complete: @escaping (AuthorizationResult) -> Void)
 }
 
 public enum AuthorizationResult {

@@ -33,7 +33,7 @@ public class APIRequest<ResponseType: APIResponseValue> {
 extension APIRequest: CustomStringConvertible {
 
     public var description: String {
-        var string = "\(service.id): \(service.method) \(path)"
+        var string = "\(service.name): \(service.method) \(path)"
         if !parameters.isEmpty {
             string += "?" + parameters.map {"\($0)=\($1)"}.joined(separator: "&")
         }

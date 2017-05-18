@@ -26,7 +26,11 @@ public struct APIService<ResponseType: APIResponseValue> {
 
 extension APIService: CustomStringConvertible {
 
+    public var name: String {
+        return "\(tag.isEmpty ? "" : "\(tag).")\(id)"
+    }
+
     public var description: String {
-        return "\(id): \(method) \(path)"
+        return "\(name): \(method) \(path)"
     }
 }

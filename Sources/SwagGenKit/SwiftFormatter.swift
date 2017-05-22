@@ -70,8 +70,13 @@ public class SwiftFormatter: CodeFormatter {
         ]
     }
 
-    override var disallowedNames: [String] { return disallowedKeywords }
-    override var disallowedTypes: [String] { return disallowedKeywords }
+    var inbuiltTypes: [String] = [
+        "Error",
+        "Data",
+    ]
+
+    override var disallowedNames: [String] { return disallowedKeywords + inbuiltTypes }
+    override var disallowedTypes: [String] { return disallowedKeywords + inbuiltTypes }
 
     override func getValueType(_ value: Value) -> String {
 
@@ -160,6 +165,9 @@ public class SwiftFormatter: CodeFormatter {
     }
 
     override func getEscapedType(_ name: String) -> String {
+        if inbuiltTypes.contains(name) {
+            return "\(name)Type"
+        }
         return "`\(name)`"
     }
 

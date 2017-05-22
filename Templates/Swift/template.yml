@@ -21,10 +21,10 @@ templateFiles:
     destination: "Sources/{{ options.name }}/Enums/{{ enumName }}.swift"
   - path: model.swift
     context: definitions
-    destination: "Sources/{{ options.name }}/Models/{{ type }}.swift"
+    destination: "Sources/{{ options.name }}/Models/{{ filename }}.swift"
   - path: request.swift
     context: operations
-    destination: "Sources/{{ options.name }}/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ operationId|upperCamelCase }}.swift"
+    destination: "Sources/{{ options.name }}/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ filename }}.swift"
   - path: API.swift
     destination: "Sources/{{ options.name }}/API.swift"
   - path: Decoding.swift

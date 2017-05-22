@@ -83,12 +83,14 @@ public class CodeFormatter {
 
         if let operationId = operation.operationId {
             context["operationId"] = operationId
+            context["filename"] = getFilename(operationId)
         } else {
             let pathParts = operation.path.components(separatedBy: "/")
             var pathName = pathParts.map{$0.upperCamelCased()}.joined(separator: "")
             pathName = pathName.replacingOccurrences(of: "\\{(.*?)\\}", with: "By_$1", options: .regularExpression, range: nil)
             let generatedOperationId = operation.method.rawValue.lowercased() + pathName.upperCamelCased()
             context["operationId"] = generatedOperationId
+            context["filename"] = getFilename(generatedOperationId)
         }
 
         context["raw"] = operation.json
@@ -186,6 +188,7 @@ public class CodeFormatter {
         var context: [String: Any?] = [:]
         context["raw"] = schema.json
         context["type"] = getSchemaType(schema)
+        context["filename"] = getFilename(schema.name)
         context["parent"] = schema.parent.flatMap(getSchemaContext)
         context["description"] = schema.description
         context["requiredProperties"] = schema.requiredProperties.map(getPropertyContext)
@@ -244,6 +247,15 @@ public class CodeFormatter {
 
     func getEscapedName(_ name: String) -> String {
         return "_\(name)"
+    }
+
+    var generatedFileNames = 0
+    func getFilename(_ name: String?) -> String {
+        guard let name = name else {
+            generatedFileNames += 1
+            return "UnknownFilename_\(generatedFileNames)"
+        }
+        return name.upperCamelCased()
     }
 
     func getSchemaType(_ schema: Schema) -> String {

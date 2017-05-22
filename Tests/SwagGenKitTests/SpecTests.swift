@@ -17,7 +17,10 @@ public func specTests() {
 
             $0.it("can generate") {
 
-                let specPath = specFolder + "spec.yml"
+                let yamlPath = specFolder + "spec.yml"
+                let jsonPath = specFolder + "spec.json"
+                let specPath = yamlPath.exists ? yamlPath : jsonPath
+
                 let spec = try SwaggerSpec(path: specPath)
 
                 let templateType = "Swift"
@@ -34,18 +37,7 @@ public func specTests() {
                 try destinationPath.mkpath()
                 let generator = Generator(context: context, destination: destinationPath.normalize(), templateConfig: templateConfig)
                 try _ = generator.generate(clean: .all, fileChanged: {_ in})
-
-//                let buildResult = swiftBuild(path: destinationPath)
             }
         }
     }
-}
-
-func swiftBuild(path: Path) -> Bool {
-    let task = Process()
-    task.launchPath = path.absolute().normalize().string
-    task.arguments = ["build"]
-    task.launch()
-    task.waitUntilExit()
-    return task.terminationStatus == 0
 }

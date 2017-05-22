@@ -10,6 +10,7 @@
 
 ### Swift template changes
 - now uses Stencil includes. Paves the way for recursive nested schemas
+- changed how operations are decoded. Paves the way for non json responses
 - added APIError.name
 - made RequestAuthorizer.authorize completed parameter escaping
 - add tag to printed request and service descriptions

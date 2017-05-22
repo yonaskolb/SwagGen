@@ -85,7 +85,7 @@ public class APIClient {
     private func makeNetworkRequest<T: APIResponseValue>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: RequestBehaviourGroup, complete: @escaping (APIResponse<T>) -> Void) -> Request {
         requestBehaviour.beforeSend()
         return sessionManager.request(urlRequest)
-            .responseJSON { dataResponse in
+            .responseData { dataResponse in
 
                 let result: APIResult<T>
 
@@ -93,7 +93,7 @@ public class APIClient {
                 case .success(let value):
                     do {
                         let statusCode = dataResponse.response!.statusCode
-                        let decoded = try T(statusCode: statusCode, json: value)
+                        let decoded = try T(statusCode: statusCode, data: value)
                         result = .success(decoded)
                         if decoded.successful {
                             requestBehaviour.onSuccess(result: decoded.response as Any)

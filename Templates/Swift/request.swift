@@ -173,23 +173,23 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
               }
             }
 
-            public init(statusCode: Int, json: Any) throws {
+            public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
                 {% for response in responses where response.statusCode %}
                 {% if response.type %}
-                case {{ response.statusCode }}: self = try .{{ response.name }}(JSONDecoder.decode(json: json))
+                case {{ response.statusCode }}: self = try .{{ response.name }}(JSONDecoder.decode(data: data))
                 {% else %}
                 case {{ response.statusCode }}: self = .{{ response.name }}
                 {% endif %}
                 {% endfor %}
                 {% if defaultResponse %}
                 {% if defaultResponse.type %}
-                default: self = try .{{ defaultResponse.name }}(statusCode: statusCode, JSONDecoder.decode(json: json))
+                default: self = try .{{ defaultResponse.name }}(statusCode: statusCode, JSONDecoder.decode(data: data))
                 {% else %}
                 default: self = .{{ defaultResponse.name }}(statusCode: statusCode)
                 {% endif %}
                 {% else %}
-                default: self = try APIError.unexpectedStatusCode(statusCode: statusCode, data: json)
+                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 {% endif %}
                 }
             }

@@ -8,7 +8,7 @@ public protocol APIResponseValue: CustomDebugStringConvertible, CustomStringConv
     var statusCode: Int { get }
     var successful: Bool { get }
     var response: Any { get }
-    init(statusCode: Int, json: Any) throws
+    init(statusCode: Int, data: Data) throws
     var success: SuccessType? { get }
 }
 

@@ -1,5 +1,6 @@
 # SwagGen
 
+[![Git Version](https://img.shields.io/github/release/yonaskolb/swaggen.svg)](https://github.com/yonaskolb/SwagGen/releases)
 [![Build Status](https://img.shields.io/travis/yonaskolb/SwagGen/master.svg?style=flat)](https://travis-ci.org/yonaskolb/SwagGen)
 
 This is a Swift command line tool that generates client code based on a [Swagger/OpenAPI Spec](http://swagger.io)

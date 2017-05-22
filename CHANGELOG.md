@@ -1,5 +1,22 @@
 # Change Log
 
+## [0.5.3] - 2017-05-22
+### Swift template fixes
+- fixed not building with Swift Package Manager in certain situations
+- fixed array bodies being generated as inline classes
+- fix compiler error when operations have no default response
+- escape built in Swift Foundation types like Error and Data
+- escape filenames in different way to class names
+
+### Swift template changes
+- now uses Stencil includes. Paves the way for recursive nested schemas
+- added APIError.name
+- made RequestAuthorizer.authorize completed parameter escaping
+- add tag to printed request and service descriptions
+
+### Added
+Added suite of tests for parsing, generating and compiling templates from a list of specs. Will improve stability and help prevent regressions. Still some work to do in this area
+
 ## [0.5.2] - 2017-05-16
 ### Added
 - added SuccessType typealias to APIResponseValue. This lets you map from a response to successful value
@@ -100,6 +117,7 @@ Improved the generation of complicated specs:
 ## 0.1.0 - 2017-04-27
 - First official release
 
+[0.5.3]: https://github.com/yonaskolb/SwagGen/compare/0.5.2...0.5.3
 [0.5.2]: https://github.com/yonaskolb/SwagGen/compare/0.5.1...0.5.2
 [0.5.1]: https://github.com/yonaskolb/SwagGen/compare/0.5.0...0.5.1
 [0.5.0]: https://github.com/yonaskolb/SwagGen/compare/0.4.1...0.5.0

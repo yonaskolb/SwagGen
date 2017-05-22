@@ -1,0 +1,100 @@
+{% if description %}
+/** {{ description }} */
+{% endif %}
+public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable, JSONEncodable, PrettyPrintable{% endif %} {
+    {% for enum in enums %}
+    {% if not enum.isGlobal %}
+
+    {% include "Includes/enum.stencil" using enum %}
+    {% endif %}
+    {% endfor %}
+    {% for property in properties %}
+
+    {% if property.description %}
+    /** {{ property.description }} */
+    {% endif %}
+    public var {{ property.name }}: {{ property.optionalType }}
+    {% endfor %}
+    {% if additionalPropertiesType %}
+
+    public var additionalProperties: [String: {{ additionalPropertiesType }}] = [:]
+    {% endif %}
+
+    public init({% for property in allProperties %}{{ property.name }}: {{ property.optionalType }}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
+        {% for property in properties %}
+        self.{{ property.name }} = {{ property.name }}
+        {% endfor %}
+        {% if parent %}
+        super.init({% for property in parent.properties %}{{ property.name }}: {{ property.name }}{% ifnot forloop.last %}, {% endif %}{% endfor %})
+        {% endif %}
+    }
+
+    public required init(jsonDictionary: JSONDictionary) throws {
+        {% for property in properties %}
+        {{ property.name }} = {% if property.required %}try {% endif %}jsonDictionary.json(atKeyPath: "{{property.value}}")
+        {% endfor %}
+        {% if additionalPropertiesType %}
+
+        var additionalProperties = jsonDictionary
+        {% for property in properties %}
+        additionalProperties.removeValue(forKey: "{{ property.value }}")
+        {% endfor %}
+        {% if additionalPropertiesType != "Any" %}
+        var decodedAdditionalProperties: [String: {{ additionalPropertiesType }}] = [:]
+        for key in additionalProperties.keys {
+            decodedAdditionalProperties[key] = additionalProperties.json(atKeyPath: key)
+        }
+        self.additionalProperties = decodedAdditionalProperties
+        {% else %}
+        self.additionalProperties = additionalProperties
+        {% endif %}
+        {% endif %}
+        {% if parent %}
+        try super.init(jsonDictionary: jsonDictionary)
+        {% endif %}
+    }
+
+    public {% if parent %}override {% endif %}func encode() -> JSONDictionary {
+        var dictionary: JSONDictionary = [:]
+        {% for property in properties %}
+        {% if property.optional %}
+        if let {{ property.name }} = {{ property.encodedValue }} {
+            dictionary["{{ property.value }}"] = {{ property.name }}
+        }
+        {% else %}
+        dictionary["{{ property.value }}"] = {{ property.encodedValue }}
+        {% endif %}
+        {% endfor %}
+        {% if additionalPropertiesType %}
+
+        for (key, value) in additionalProperties {
+          dictionary[key] = value
+        }
+        {% endif %}
+        {% if parent %}
+        let superDictionary = super.encode()
+        for (key, value) in superDictionary {
+            dictionary[key] = value
+        }
+        {% endif %}
+        return dictionary
+    }
+    {% if additionalPropertiesType %}
+
+    public subscript(key: String) -> {{ additionalPropertiesType }}? {
+        get {
+            return additionalProperties[key]
+        }
+        set {
+            additionalProperties[key] = newValue
+        }
+    }
+    {% endif %}
+    {% if not parent %}
+
+    /// pretty prints all properties including nested models
+    public var prettyPrinted: String {
+        return "\(type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    }
+    {% endif %}
+}

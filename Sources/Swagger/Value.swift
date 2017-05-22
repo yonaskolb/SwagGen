@@ -72,7 +72,9 @@ public class Value: JSONObjectConvertible {
         else if let schema = jsonDictionary.json(atKeyPath: "schema") as Schema? {
             self.schema = schema
             self.schema?.name = name
-            self.schema?.anonymous = true
+            if schema.type == "object" {
+                self.schema?.anonymous = true
+            }
         }
 
         if let ref = jsonDictionary.json(atKeyPath: "schema.items.$ref") as String? {

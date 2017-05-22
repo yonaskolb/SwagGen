@@ -7,6 +7,17 @@
 //
 
 import Foundation
+import JSONUtilities
+import PathKit
+
+extension Path: JSONPrimitiveConvertible {
+
+    public typealias JSONType = String
+
+    public static func from(jsonValue: String) -> Path? {
+        return Path(jsonValue)
+    }
+}
 
 extension Dictionary where Key == String, Value == Any? {
 

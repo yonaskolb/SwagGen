@@ -34,7 +34,7 @@ public struct TemplateConfig {
         let yaml = try Yams.load(yaml: string)
         let json = yaml as! JSONDictionary
         templateFiles = json.json(atKeyPath: "templateFiles") ?? []
-        copiedFiles = (json.json(atKeyPath: "copiedFiles") as [String]? ?? []).map{Path($0)}
+        copiedFiles = json.json(atKeyPath: "copiedFiles") ?? []
         formatter = json.json(atKeyPath: "formatter")
 
         let templateOptions = json["options"] as? JSONDictionary ?? [:]

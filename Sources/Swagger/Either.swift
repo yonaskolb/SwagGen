@@ -16,7 +16,7 @@ public enum Either<A, B> {
 
 extension Either where A: JSONObjectConvertible {
 
-    init(jsonDictionary: JSONDictionary, key: String, b: B) {
+    init(jsonDictionary: JSONDictionary, key: KeyPath, b: B) {
         if let a: A = jsonDictionary.json(atKeyPath: key) as A? {
             self = .a(a)
         }

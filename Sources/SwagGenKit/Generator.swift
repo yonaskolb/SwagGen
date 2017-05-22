@@ -122,13 +122,13 @@ public class Generator {
             }
 
             if let fileContext = file.context {
-                if let context: JSONDictionary = context.json(atKeyPath: fileContext) {
+                if let context: JSONDictionary = context.json(atKeyPath: .key(fileContext)) {
                     var mergedContext = context
                     if mergedContext["options"] == nil {
                         mergedContext["options"] = templateConfig.options
                     }
                     try generateTemplateFile(file, template: template, context: mergedContext)
-                } else if let contexts: [JSONDictionary] = context.json(atKeyPath: fileContext) {
+                } else if let contexts: [JSONDictionary] = context.json(atKeyPath: .key(fileContext)) {
                     for context in contexts {
                         var mergedContext = context
                         if mergedContext["options"] == nil {

@@ -1,0 +1,3037 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2.4.1",
+    "title": "tbx-service-provider-api"
+  },
+  "basePath": "/v2",
+  "paths": {
+    "/UserServices/{customer}/devices": {
+      "get": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Get Devices of Customer.",
+        "operationId": "UserService.getCustomerDevices",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "description": "The customer ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DeviceObject"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Logout all devices related to the customer",
+        "operationId": "UserService.logoutAll",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "description": "The customer ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/UserServices/{customer}/tryAndBuy": {
+      "get": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Get Try and Buy data by customerId",
+        "operationId": "UserService.getTryAndBuy",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "description": "The customer ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "device",
+            "in": "query",
+            "description": "Only to this device",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/TryAndBuyObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Create a Try and Buy to Customer and  optionally to a specific device",
+        "operationId": "UserService.createTryAndBuy",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "description": "The customer ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "days",
+            "in": "formData",
+            "description": "Days to the expiration",
+            "required": true,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "device",
+            "in": "formData",
+            "description": "Only to this device",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/TryAndBuyObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/UserServices/{customer}/access": {
+      "get": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Check if the Customer has access to execute an action in many URNs",
+        "operationId": "UserService.access",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "description": "The customer ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "urn",
+            "in": "query",
+            "description": "list of urn separated by pipe \"|\", each urn must start with 'urn:'",
+            "required": true,
+            "type": "string",
+            "format": "JSON"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "description": "Value that identifies what type of action the CP user is executing.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ip",
+            "in": "query",
+            "description": "The client IP, is necessary to prevent many user use the same token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/MultiHasAccessToObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "408": {
+            "description": "The IDP took too long to respond",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "424": {
+            "description": "The IDP return an error or the received response from IDP is invalid",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/UserServices/{customer}/hasAccessTo": {
+      "get": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Check if the Customer has access to execute an action with the URN",
+        "operationId": "UserService.hasAccessTo",
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "path",
+            "description": "The customer ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "urn",
+            "in": "query",
+            "description": "This must start with 'urn:'",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "description": "Value that identifies what type of action the CP user is executing.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ip",
+            "in": "query",
+            "description": "The client IP, is necessary to prevent many user use the same token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/HasAccessToObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "408": {
+            "description": "The IDP took too long to respond",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "424": {
+            "description": "The IDP return an error or the received response from IDP is invalid",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/UserServices/device": {
+      "post": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Create a new Device",
+        "operationId": "UserService.createDevice",
+        "parameters": [
+          {
+            "name": "subscriberId",
+            "in": "formData",
+            "description": "The customer subscriber id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "country",
+            "in": "formData",
+            "description": "The customer country code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "formData",
+            "description": "Device Type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "Description to device for example the user agent",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "attributes",
+            "in": "formData",
+            "description": "Extra data to device",
+            "required": false,
+            "type": "string",
+            "format": "JSON"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/DeviceObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/UserServices/device/{device}": {
+      "get": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Find a Device by device id",
+        "operationId": "UserService.getDevice",
+        "parameters": [
+          {
+            "name": "device",
+            "in": "path",
+            "description": "The device token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/DeviceObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Update Device info",
+        "operationId": "UserService.updateDevice",
+        "parameters": [
+          {
+            "name": "device",
+            "in": "path",
+            "description": "The device token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "Device Description",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/DeviceObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "head": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Check if a Device exists and this is active",
+        "operationId": "UserService.checkDevice",
+        "parameters": [
+          {
+            "name": "device",
+            "in": "path",
+            "description": "The device token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Request was successful"
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/x-any"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/x-any"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/x-any"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/x-any"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Logout a related device by device id",
+        "operationId": "UserService.logout",
+        "parameters": [
+          {
+            "name": "device",
+            "in": "path",
+            "description": "The device token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/UserServices/device/{device}/access": {
+      "get": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Check if the Device has access to execute an action in many URNs",
+        "operationId": "UserService.deviceAccess",
+        "parameters": [
+          {
+            "name": "device",
+            "in": "path",
+            "description": "The device token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "urn",
+            "in": "query",
+            "description": "list of urn separated by pipe \"|\", each urn must start with 'urn:'",
+            "required": true,
+            "type": "string",
+            "format": "JSON"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "description": "Value that identifies what type of action the CP user is executing.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ip",
+            "in": "query",
+            "description": "The client IP, is necessary to prevent many user use the same token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/MultiHasAccessToObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "408": {
+            "description": "The IDP took too long to respond",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "424": {
+            "description": "The IDP return an error or the received response from IDP is invalid",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/UserServices/device/{device}/hasAccessTo": {
+      "get": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Check if the Device has access to execute an action with the URN",
+        "operationId": "UserService.deviceHasAccessTo",
+        "parameters": [
+          {
+            "name": "device",
+            "in": "path",
+            "description": "The device token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "urn",
+            "in": "query",
+            "description": "This must start with 'urn:'",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "description": "Value that identifies what type of action the CP user is executing.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ip",
+            "in": "query",
+            "description": "The client IP, is necessary to prevent many user use the same token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/HasAccessToObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "408": {
+            "description": "The IDP took too long to respond",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "424": {
+            "description": "The IDP return an error or the received response from IDP is invalid",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/UserServices/device/{device}/attributes": {
+      "get": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Get device data attributes by deviceToken",
+        "operationId": "UserService.getDeviceAttributes",
+        "parameters": [
+          {
+            "name": "device",
+            "in": "path",
+            "description": "The device token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/UserServices/cache": {
+      "delete": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Clear user's authorization cache",
+        "operationId": "UserService.removeUserCache",
+        "parameters": [
+          {
+            "name": "subscriberId",
+            "in": "query",
+            "description": "The customer subscriber id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "description": "The customer country code",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/UserServices/token": {
+      "post": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Create a Token to automatically sing in a customer without pass to IDP login page",
+        "operationId": "UserService.createToken",
+        "parameters": [
+          {
+            "name": "subscriberId",
+            "in": "formData",
+            "description": "The customer subscriber id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "country",
+            "in": "formData",
+            "description": "The customer country code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "formData",
+            "description": "Type of Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "expiration",
+            "in": "formData",
+            "description": "Token expiration date",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "credits",
+            "in": "formData",
+            "description": "Token credits",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "attributes",
+            "in": "formData",
+            "description": "Extra data to device",
+            "required": false,
+            "type": "string",
+            "format": "JSON"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/TokenObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/UserServices/token/{token}": {
+      "get": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Get a Token",
+        "operationId": "UserService.getToken",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "The token id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/TokenObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "UserService"
+        ],
+        "summary": "Use a Token",
+        "operationId": "UserService.useToken",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "The token id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceType",
+            "in": "formData",
+            "description": "Device Type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "Description to device for example the user agent",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "identifier",
+            "in": "formData",
+            "description": "Only for activatable devices type * DEPRECATED *",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/DeviceObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/AuthorizationServices/getUser": {
+      "get": {
+        "tags": [
+          "AuthorizationService"
+        ],
+        "operationId": "AuthorizationService.getUser",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userToken",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/AuthorizationServices/hasLogged": {
+      "get": {
+        "tags": [
+          "AuthorizationService"
+        ],
+        "operationId": "AuthorizationService.hasLogged",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userToken",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/AuthorizationServices/hasAccessTo": {
+      "get": {
+        "tags": [
+          "AuthorizationService"
+        ],
+        "operationId": "AuthorizationService.hasAccessTo",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userToken",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "urn",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ip",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/AuthorizationServices/getAttributes": {
+      "get": {
+        "tags": [
+          "AuthorizationService"
+        ],
+        "operationId": "AuthorizationService.getAttributes",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userToken",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/AuthorizationServices/getTryAndBuy": {
+      "get": {
+        "tags": [
+          "AuthorizationService"
+        ],
+        "operationId": "AuthorizationService.getTryAndBuy",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userToken",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/AuthorizationServices/createTryAndBuy": {
+      "post": {
+        "tags": [
+          "AuthorizationService"
+        ],
+        "operationId": "AuthorizationService.createTryAndBuy",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userToken",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "days",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/AuthorizationServices/overrideRule": {
+      "post": {
+        "tags": [
+          "AuthorizationService"
+        ],
+        "summary": "Create a rule to override the IDP response's",
+        "operationId": "AuthorizationService.createRuleToOverrideResponse",
+        "parameters": [
+          {
+            "name": "urn",
+            "in": "formData",
+            "description": "List of URNs to override",
+            "required": true,
+            "type": "string",
+            "format": "JSON"
+          },
+          {
+            "name": "response",
+            "in": "formData",
+            "description": "Token credits",
+            "required": true,
+            "type": "boolean"
+          },
+          {
+            "name": "country",
+            "in": "formData",
+            "description": "List of countries to override",
+            "required": false,
+            "type": "string",
+            "format": "JSON"
+          },
+          {
+            "name": "idp",
+            "in": "formData",
+            "description": "List of IDPs to override",
+            "required": false,
+            "type": "string",
+            "format": "JSON"
+          },
+          {
+            "name": "action",
+            "in": "formData",
+            "description": "List of actions to override",
+            "required": false,
+            "type": "string",
+            "format": "JSON"
+          },
+          {
+            "name": "dateFrom",
+            "in": "formData",
+            "description": "Start date",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "dateUntil",
+            "in": "formData",
+            "description": "until date",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "priority",
+            "in": "formData",
+            "description": "Priority Order",
+            "required": false,
+            "default": 0,
+            "type": "number",
+            "format": "double"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/OverrideRuleObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ErrorObject"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ErrorObject"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ErrorObject"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorObject"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/AuthorizationServices/overrideRules": {
+      "get": {
+        "tags": [
+          "AuthorizationService"
+        ],
+        "summary": "Get the list of rules to override the IDP response's",
+        "operationId": "AuthorizationService.getRulesToOverrideResponse",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OverrideRuleObject"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ErrorObject"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ErrorObject"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ErrorObject"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorObject"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/AuthorizationServices/overrideRule/{ruleId}": {
+      "delete": {
+        "tags": [
+          "AuthorizationService"
+        ],
+        "summary": "Delete a rule to override the IDP response's",
+        "operationId": "AuthorizationService.deleteRuleToOverrideResponse",
+        "parameters": [
+          {
+            "name": "ruleId",
+            "in": "path",
+            "description": "The Rule ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request ",
+            "schema": {
+              "$ref": "#/definitions/ErrorObject"
+            }
+          },
+          "401": {
+            "description": "Unauthorized ",
+            "schema": {
+              "$ref": "#/definitions/ErrorObject"
+            }
+          },
+          "404": {
+            "description": "Customer or Device not Found",
+            "schema": {
+              "$ref": "#/definitions/ErrorObject"
+            }
+          },
+          "410": {
+            "description": "Device was Logged Out or the customer not longer exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorObject"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/DeviceServices/hasLogged": {
+      "get": {
+        "tags": [
+          "DeviceService"
+        ],
+        "operationId": "DeviceService.hasLogged",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "device_id",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/DeviceServices/validateCode": {
+      "post": {
+        "tags": [
+          "DeviceService"
+        ],
+        "operationId": "DeviceService.validateCode",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/DeviceServices/listDevices": {
+      "get": {
+        "tags": [
+          "DeviceService"
+        ],
+        "operationId": "DeviceService.listDevices",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userToken",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/DeviceServices/reactivateDevice": {
+      "post": {
+        "tags": [
+          "DeviceService"
+        ],
+        "operationId": "DeviceService.reactiveDevice",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceToken",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/DeviceServices/deactivateDevice": {
+      "post": {
+        "tags": [
+          "DeviceService"
+        ],
+        "operationId": "DeviceService.deactivateDevice",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceToken",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/DeviceServices/getDevice": {
+      "get": {
+        "tags": [
+          "DeviceService"
+        ],
+        "operationId": "DeviceService.getDevice",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceToken",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/DeviceServices/createTryAndBuy": {
+      "post": {
+        "tags": [
+          "DeviceService"
+        ],
+        "operationId": "DeviceService.createTryAndBuy",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceToken",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "days",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/DeviceServices/activateDevice": {
+      "post": {
+        "tags": [
+          "DeviceService"
+        ],
+        "operationId": "DeviceService.activateDevice",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userToken",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/{cp}/mso.json": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Get list of IDPs of Content Provider",
+        "operationId": "auth.getListOfMSO",
+        "parameters": [
+          {
+            "name": "cp",
+            "in": "path",
+            "description": "ShortName of Content Provider",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MSO"
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/{cp}/auth.js": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Get Javascript SDK",
+        "operationId": "auth.generateJavascript",
+        "parameters": [
+          {
+            "name": "cp",
+            "in": "path",
+            "description": "ShortName of Content Provider",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/{cp}/status.json": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Check user device status",
+        "operationId": "auth.status",
+        "parameters": [
+          {
+            "name": "cp",
+            "in": "path",
+            "description": "ShortName of Content Provider",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "callback",
+            "in": "query",
+            "description": "*deprecated* if this parameter is sent the response will be a JSONP",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/auth"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/{cp}/logout.json": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "URL for the client can start a logout with your IDP",
+        "operationId": "auth.logout",
+        "parameters": [
+          {
+            "name": "cp",
+            "in": "path",
+            "description": "ShortName of Content Provider",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "url",
+            "in": "query",
+            "description": "URL to send the client after logout, if this parameter is blank the response will be a json",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "callback",
+            "in": "query",
+            "description": "*deprecated* if this parameter is sent the response will be a JSONP",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/{cp}/login.html": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "URL for the client can start a new login with your IDP",
+        "operationId": "auth.login",
+        "parameters": [
+          {
+            "name": "cp",
+            "in": "path",
+            "description": "ShortName of Content Provider",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idp",
+            "in": "query",
+            "description": "ShortName of Identity Provider",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "return",
+            "in": "query",
+            "description": "URL to send the client after login or if client press the cancel button in case cancel parameter was not be set, but if this parameter is blank the token will be returned as json",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "cancel",
+            "in": "query",
+            "description": "URL to send the client if he press the cancel button",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "description": "If the Identity Provider have multiple countries, this option is to tell him what country was chosen by the client",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Token created by one Identity Provider to login a client without send the client to him",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "description": "If you sends a URL we redirect the user to that URL if not we return the object",
+              "$ref": "#/definitions/auth"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/{cp}/loginWithoutRedirect.html": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "This API is deprecated please use \"login\" without send the URL instead",
+        "operationId": "auth.loginWithoutRedirect",
+        "parameters": [
+          {
+            "name": "cp",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idp",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/auth"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/{cp}/returnLogin": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "This API is deprecated please use \"login\" without send the URL instead",
+        "operationId": "auth.returnLogin",
+        "parameters": [
+          {
+            "name": "cp",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idp",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "$ref": "#/definitions/auth"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/saml/metadata.xml": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Contains information necessary for interaction with SAML-enabled identity or service providers",
+        "operationId": "auth.samlMetadata",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/saml/assert": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Return Url from SAML login",
+        "operationId": "auth.samlAssert__post_auth_saml_assert",
+        "parameters": [
+          {
+            "name": "SAMLResponse",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "RelayState",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Return Url from SAML login",
+        "operationId": "auth.samlAssert__get_auth_saml_assert",
+        "parameters": [
+          {
+            "name": "SAMLResponse",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "RelayState",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/saml/logout": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Return url from SAML logout",
+        "operationId": "auth.samlLogout",
+        "parameters": [
+          {
+            "name": "SAMLResponse",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "RelayState",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/oauth2/assert": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Return Url from OAuth2.0 login",
+        "operationId": "auth.oauth2Assert",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request was successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "UserService"
+    },
+    {
+      "name": "AuthorizationService"
+    },
+    {
+      "name": "DeviceService"
+    },
+    {
+      "name": "auth"
+    }
+  ],
+  "consumes": [
+    "application/json",
+    "application/x-www-form-urlencoded",
+    "application/xml",
+    "text/xml"
+  ],
+  "produces": [
+    "application/json",
+    "application/xml",
+    "text/xml",
+    "application/javascript",
+    "text/javascript"
+  ],
+  "definitions": {
+    "x-any": {
+      "properties": {}
+    },
+    "ContentIdentityCountry": {
+      "properties": {
+        "order": {
+          "default": 0,
+          "type": "number",
+          "format": "double"
+        },
+        "showInList": {
+          "default": true,
+          "type": "boolean"
+        },
+        "id": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "country": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "identityProvider": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "contentProvider": {
+          "$ref": "#/definitions/ObjectID"
+        }
+      },
+      "required": [
+        "order"
+      ],
+      "additionalProperties": false
+    },
+    "IdentityProvider": {
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "shortName": {
+          "maxLength": 20,
+          "type": "string"
+        },
+        "apiKey": {
+          "minimum": "32",
+          "maximum": "32",
+          "pattern": "/^[a-zA-Za0-9]+$/",
+          "type": "string"
+        },
+        "conector": {
+          "maxLength": 60,
+          "type": "string"
+        },
+        "wsURL": {
+          "maxLength": 60,
+          "type": "string"
+        },
+        "haveMultipleURNService": {
+          "type": "boolean"
+        },
+        "wsAPIKey": {
+          "maxLength": 60,
+          "type": "string"
+        },
+        "wsNameSpace": {
+          "maxLength": 60,
+          "type": "string"
+        },
+        "clientType": {
+          "default": "rest",
+          "type": "string"
+        },
+        "maintenance": {
+          "type": "boolean"
+        },
+        "wsMaintenance": {
+          "type": "boolean"
+        },
+        "wsMaintenanceCountry": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sendRequestorAuthZ": {
+          "default": false,
+          "type": "boolean"
+        },
+        "devicesLimit": {
+          "default": 0,
+          "type": "number",
+          "format": "double"
+        },
+        "active": {
+          "default": true,
+          "type": "boolean"
+        },
+        "subscriberIdData": {
+          "type": "string"
+        },
+        "canCreateToken": {
+          "default": false,
+          "type": "boolean"
+        },
+        "canCreateDevice": {
+          "default": false,
+          "type": "boolean"
+        },
+        "whitelistDomains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "saml": {
+          "type": "object"
+        },
+        "oauth2": {
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/definitions/ObjectID"
+        }
+      },
+      "required": [
+        "description",
+        "shortName",
+        "apiKey",
+        "clientType",
+        "devicesLimit",
+        "active",
+        "canCreateToken",
+        "canCreateDevice"
+      ],
+      "additionalProperties": false
+    },
+    "ResponseError": {
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/ErrorObject"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "DeviceObject": {
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "createdAt": {
+          "description": "When this device was created",
+          "type": "string",
+          "format": "date-time"
+        },
+        "type": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        },
+        "customer": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "subscriberId": {
+              "type": "string"
+            },
+            "country": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "maxLength": 2,
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            },
+            "idp": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            },
+            "createdAt": {
+              "description": "When the customer was created",
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      },
+      "required": [
+        "token",
+        "createdAt",
+        "type",
+        "customer"
+      ],
+      "additionalProperties": false
+    },
+    "ContentProvider": {
+      "properties": {
+        "description": {
+          "maxLength": 60,
+          "type": "string"
+        },
+        "shortName": {
+          "maxLength": 20,
+          "type": "string"
+        },
+        "active": {
+          "default": true,
+          "type": "boolean"
+        },
+        "apiKey": {
+          "minimum": "32",
+          "maximum": "32",
+          "pattern": "/^[a-zA-Za0-9]+$/",
+          "type": "string"
+        },
+        "devicesLimit": {
+          "default": 0,
+          "type": "number",
+          "format": "double"
+        },
+        "hasSocialID": {
+          "type": "boolean"
+        },
+        "urlMaintenance": {
+          "type": "string"
+        },
+        "permittedURN": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "whitelistDomains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "overrideRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OverrideRuleObject"
+          }
+        },
+        "canCreateTryAndBuy": {
+          "default": false,
+          "type": "boolean"
+        },
+        "canLogoutDevice": {
+          "default": true,
+          "type": "boolean"
+        },
+        "id": {
+          "$ref": "#/definitions/ObjectID"
+        }
+      },
+      "required": [
+        "description",
+        "shortName",
+        "active",
+        "apiKey",
+        "devicesLimit",
+        "canLogoutDevice"
+      ],
+      "additionalProperties": false
+    },
+    "DeviceType": {
+      "properties": {
+        "deviceType": {
+          "maxLength": 64,
+          "type": "string"
+        },
+        "shortName": {
+          "maxLength": 20,
+          "type": "string"
+        },
+        "defaultExpireDays": {
+          "type": "number",
+          "format": "double"
+        },
+        "needActivation": {
+          "type": "boolean"
+        },
+        "id": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "contentProvider": {
+          "$ref": "#/definitions/ObjectID"
+        }
+      },
+      "required": [
+        "shortName"
+      ],
+      "additionalProperties": false
+    },
+    "Customer": {
+      "properties": {
+        "subscriberID": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastLogin": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "hasNotDeviceLimit": {
+          "type": "boolean"
+        },
+        "banned": {
+          "default": false,
+          "type": "boolean"
+        },
+        "banReason": {
+          "type": "string"
+        },
+        "id": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "identityProvider": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "country": {
+          "$ref": "#/definitions/ObjectID"
+        }
+      },
+      "required": [
+        "subscriberID"
+      ],
+      "additionalProperties": false
+    },
+    "Device": {
+      "properties": {
+        "id": {
+          "maxLength": 40,
+          "type": "string"
+        },
+        "identifier": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        },
+        "description": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastLogin": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deactivateDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expirationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "loggedOutDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deviceType": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "customer": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "customerId": {
+          "$ref": "#/definitions/ObjectID"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "TryAndBuyObject": {
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expiration": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastFinishedTryAndBuy": {
+          "description": "Date when the last TryAndBuy finished",
+          "type": "string",
+          "format": "date-time"
+        },
+        "daysWithTryAndBuy": {
+          "description": "Number of days that the user was with tryandbuy",
+          "type": "number",
+          "format": "double"
+        },
+        "numTryAndBuyExpired": {
+          "description": "Number of the try and buy that the user had",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "active",
+        "createdAt",
+        "expiration",
+        "daysWithTryAndBuy",
+        "numTryAndBuyExpired"
+      ],
+      "additionalProperties": false
+    },
+    "MultiHasAccessToObject": {
+      "properties": {
+        "granted": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "denied": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "failed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HasAccessToObject"
+          }
+        }
+      },
+      "required": [
+        "granted",
+        "denied",
+        "failed",
+        "details"
+      ],
+      "additionalProperties": false
+    },
+    "HasAccessToObject": {
+      "properties": {
+        "urn": {
+          "description": "Target urn",
+          "type": "string"
+        },
+        "access": {
+          "description": "This tell if the client has access to the request",
+          "type": "boolean"
+        },
+        "idp_access": {
+          "description": "The response received from the IDP",
+          "type": "boolean"
+        },
+        "is_tryandbuy": {
+          "description": "This is for know if the client has a TryAndBuy",
+          "type": "boolean"
+        },
+        "reason": {
+          "description": "This is for know from where us get the response\nOptions: CACHE_ACCESS / IDP_ACCESS / ACTIVITY_ACCESS / PERMISSION_ACCESS / ETIMEDOUT / IDP_ERROR",
+          "type": "string"
+        },
+        "expiration": {
+          "description": "If the action is PPV this is the date on the PPV will expire",
+          "type": "string",
+          "format": "date-time"
+        },
+        "error": {
+          "$ref": "#/definitions/ErrorObject"
+        }
+      },
+      "required": [
+        "urn",
+        "access",
+        "is_tryandbuy",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "TokenObject": {
+      "properties": {
+        "token": {
+          "description": "The Token ID",
+          "type": "string"
+        },
+        "idp": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        },
+        "type": {
+          "description": "The Token type",
+          "type": "string"
+        },
+        "expiration": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "remainingCredits": {
+          "type": "number",
+          "format": "double"
+        },
+        "uses": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "token",
+        "idp",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "OverrideRuleObject": {
+      "properties": {
+        "urn": {
+          "description": "List of URNs to override",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "response": {
+          "type": "boolean"
+        },
+        "country": {
+          "description": "List of countries to override",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "idp": {
+          "description": "List of IDPs to override",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "action": {
+          "description": "List of actions to override",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dateFrom": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "dateUntil": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "priority": {
+          "default": 0,
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "urn",
+        "response",
+        "priority"
+      ],
+      "additionalProperties": false
+    },
+    "ErrorObject": {
+      "properties": {
+        "errorCode": {
+          "description": "CloudPass error code",
+          "type": "string"
+        },
+        "message": {
+          "description": "CloudPass error description",
+          "type": "string"
+        },
+        "externalCode": {
+          "description": "This is completed if the IDP returns an error",
+          "type": "string"
+        },
+        "externalMessage": {
+          "description": "This is completed if the IDP returns an error",
+          "type": "string"
+        }
+      },
+      "required": [
+        "errorCode",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "MSO": {
+      "properties": {
+        "countryCode": {
+          "maxLength": 2,
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "idp": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/x-any"
+          }
+        }
+      },
+      "required": [
+        "countryCode",
+        "country",
+        "idp"
+      ],
+      "additionalProperties": false
+    },
+    "auth": {
+      "properties": {
+        "user_token": {
+          "description": "this appears if the user is logged in",
+          "type": "string"
+        },
+        "status": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "ObjectID": {
+      "type": "string",
+      "pattern": "^[a-fA-F\\d]{24}$"
+    }
+  }
+}

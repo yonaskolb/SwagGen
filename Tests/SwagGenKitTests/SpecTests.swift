@@ -17,9 +17,10 @@ public func specTests() {
 
             $0.it("can generate") {
 
-                let yamlPath = specFolder + "spec.yml"
-                let jsonPath = specFolder + "spec.json"
-                let specPath = yamlPath.exists ? yamlPath : jsonPath
+                let possibleExtensions = ["yml", "yaml", "json"]
+                guard let specPath = possibleExtensions.map({ specFolder + "spec.\($0)" }).filter({ $0.exists }).first else {
+                  throw TestSpecError.missingSpec
+                }
 
                 let spec = try SwaggerSpec(path: specPath)
 
@@ -40,4 +41,8 @@ public func specTests() {
             }
         }
     }
+}
+
+enum TestSpecError: Error {
+  case missingSpec
 }

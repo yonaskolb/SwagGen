@@ -36,18 +36,12 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
     public var opererationsByTag: [String: [Operation]] {
         var dictionary: [String: [Operation]] = [:]
 
-        if tags.isEmpty {
-            dictionary[""] = operations
-            return dictionary
-        }
-
-        let operationWithoutTag = operations.filter { $0.tags.isEmpty }
-        dictionary[""] = operationWithoutTag
-
+        dictionary[""] = operations.filter { $0.tags.isEmpty }
 
         for tag in tags {
             dictionary[tag] = operations.filter { $0.tags.contains(tag) }
         }
+        
         return dictionary
     }
 

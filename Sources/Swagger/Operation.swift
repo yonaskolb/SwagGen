@@ -31,7 +31,7 @@ public class Operation {
     public var securityRequirements: [SecurityRequirement]
     public let json: JSONDictionary
 
-    public init(path: String, method: Method, jsonDictionary: JSONDictionary) throws {
+    public init(path: String, pathParameters: [Parameter], method: Method, jsonDictionary: JSONDictionary) throws {
         self.json = jsonDictionary
         self.method = method
         self.path = path
@@ -39,6 +39,7 @@ public class Operation {
         description = jsonDictionary.json(atKeyPath: "description")
         tags = jsonDictionary.json(atKeyPath: "tags") ?? []
         parameters = jsonDictionary.json(atKeyPath: "parameters") ?? []
+        parameters.append(contentsOf: pathParameters)
         securityRequirements = jsonDictionary.json(atKeyPath: "security") ?? []
         let responseDictionary: JSONDictionary = try jsonDictionary.json(atKeyPath: "responses")
         var responses: [Response] = []

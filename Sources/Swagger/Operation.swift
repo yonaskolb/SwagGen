@@ -96,6 +96,7 @@ public struct SecurityRequirement: JSONObjectConvertible {
 public class Parameter: Value {
 
     public var parameterType: ParamaterType?
+    public var isFile: Bool { return type == "file" }
 
     public enum ParamaterType: String {
         case body

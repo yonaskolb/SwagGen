@@ -107,7 +107,7 @@ public class CodeFormatter {
         context["pathParams"] = operation.getParameters(type: .path).map(getParameterContext)
         context["queryParams"] = operation.getParameters(type: .query).map(getParameterContext)
         context["formParams"] = operation.getParameters(type: .form).map(getParameterContext)
-        context["hasFileParam"] = operation.parameters.filter { $0.isFile }.count > 0
+        context["hasFileParam"] = operation.parameters.contains { $0.isFile }
         context["headerParams"] = operation.getParameters(type: .header).map(getParameterContext)
         context["enums"] = operation.enums.map(getParameterContext)
         context["securityRequirement"] = operation.securityRequirements.map(getSecurityRequirementContext).first

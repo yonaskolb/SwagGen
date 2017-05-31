@@ -107,6 +107,7 @@ public class CodeFormatter {
         context["pathParams"] = operation.getParameters(type: .path).map(getParameterContext)
         context["queryParams"] = operation.getParameters(type: .query).map(getParameterContext)
         context["formParams"] = operation.getParameters(type: .form).map(getParameterContext)
+        context["hasFileParam"] = operation.parameters.contains { $0.isFile }
         context["headerParams"] = operation.getParameters(type: .header).map(getParameterContext)
         context["enums"] = operation.enums.map(getParameterContext)
         context["securityRequirement"] = operation.securityRequirements.map(getSecurityRequirementContext).first
@@ -176,6 +177,7 @@ public class CodeFormatter {
         var context = getValueContext(value: parameter)
 
         context["parameterType"] = parameter.parameterType?.rawValue
+        context["isFile"] = parameter.isFile
 
         return context
     }

@@ -11,9 +11,9 @@ public func specTests() {
 
     for specFolder in specs {
 
-        let templateOptions: [String: String] = [:]
+        let specName = specFolder.lastComponent
 
-        describe("\(specFolder.lastComponent) spec") {
+        describe("\(specName) spec") {
 
             $0.it("can generate") {
 
@@ -26,7 +26,7 @@ public func specTests() {
 
                 let templateType = "Swift"
                 let templatePath = Path(#file) + "../../../Templates/\(templateType)"
-                let templateConfig = try TemplateConfig(path: templatePath, options: templateOptions)
+                let templateConfig = try TemplateConfig(path: templatePath, options: ["name": specName])
 
                 let codeFormatter = SwiftFormatter(spec: spec)
                 let context = codeFormatter.getContext()

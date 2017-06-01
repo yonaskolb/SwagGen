@@ -253,15 +253,18 @@ public class SwaggerSpec: JSONObjectConvertible, CustomStringConvertible {
 public class Endpoint {
 
     public let path: String
+    public let pathParameters: [Parameter]
     public let operations: [Operation]
 
     required public init(path: String, jsonDictionary: JSONDictionary) throws {
         self.path = path
+        pathParameters = jsonDictionary.json(atKeyPath: "parameters") ?? []
 
         var operations: [Operation] = []
+
         for method in jsonDictionary.keys {
             if let operationMethod = Operation.Method(rawValue: method), let dictionary = jsonDictionary[method] as? JSONDictionary {
-                let operation = try Operation(path: path, method: operationMethod, jsonDictionary: dictionary)
+                let operation = try Operation(path: path, pathParameters: pathParameters, method: operationMethod, jsonDictionary: dictionary)
                 operations.append(operation)
             }
         }

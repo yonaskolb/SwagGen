@@ -28,23 +28,23 @@ extension TFL.Place {
               /** An optional parameter to limit the results to active records only (Currently only the 'VariableMessageSign' place type is supported) */
               public var activeOnly: Bool?
 
-              public var bbBoxpointsdotswLat: Double
+              public var bbBoxpointsSwLat: Double
 
-              public var bbBoxpointsdotswLon: Double
+              public var bbBoxpointsSwLon: Double
 
-              public var bbBoxpointsdotneLat: Double
+              public var bbBoxpointsNeLat: Double
 
-              public var bbBoxpointsdotneLon: Double
+              public var bbBoxpointsNeLon: Double
 
-              public init(categories: [String]? = nil, includeChildren: Bool? = nil, type: [String]? = nil, activeOnly: Bool? = nil, bbBoxpointsdotswLat: Double, bbBoxpointsdotswLon: Double, bbBoxpointsdotneLat: Double, bbBoxpointsdotneLon: Double) {
+              public init(categories: [String]? = nil, includeChildren: Bool? = nil, type: [String]? = nil, activeOnly: Bool? = nil, bbBoxpointsSwLat: Double, bbBoxpointsSwLon: Double, bbBoxpointsNeLat: Double, bbBoxpointsNeLon: Double) {
                   self.categories = categories
                   self.includeChildren = includeChildren
                   self.type = type
                   self.activeOnly = activeOnly
-                  self.bbBoxpointsdotswLat = bbBoxpointsdotswLat
-                  self.bbBoxpointsdotswLon = bbBoxpointsdotswLon
-                  self.bbBoxpointsdotneLat = bbBoxpointsdotneLat
-                  self.bbBoxpointsdotneLon = bbBoxpointsdotneLon
+                  self.bbBoxpointsSwLat = bbBoxpointsSwLat
+                  self.bbBoxpointsSwLon = bbBoxpointsSwLon
+                  self.bbBoxpointsNeLat = bbBoxpointsNeLat
+                  self.bbBoxpointsNeLon = bbBoxpointsNeLon
               }
           }
 
@@ -56,8 +56,8 @@ extension TFL.Place {
           }
 
           /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(categories: [String]? = nil, includeChildren: Bool? = nil, type: [String]? = nil, activeOnly: Bool? = nil, bbBoxpointsdotswLat: Double, bbBoxpointsdotswLon: Double, bbBoxpointsdotneLat: Double, bbBoxpointsdotneLon: Double) {
-              let options = Options(categories: categories, includeChildren: includeChildren, type: type, activeOnly: activeOnly, bbBoxpointsdotswLat: bbBoxpointsdotswLat, bbBoxpointsdotswLon: bbBoxpointsdotswLon, bbBoxpointsdotneLat: bbBoxpointsdotneLat, bbBoxpointsdotneLon: bbBoxpointsdotneLon)
+          public convenience init(categories: [String]? = nil, includeChildren: Bool? = nil, type: [String]? = nil, activeOnly: Bool? = nil, bbBoxpointsSwLat: Double, bbBoxpointsSwLon: Double, bbBoxpointsNeLat: Double, bbBoxpointsNeLon: Double) {
+              let options = Options(categories: categories, includeChildren: includeChildren, type: type, activeOnly: activeOnly, bbBoxpointsSwLat: bbBoxpointsSwLat, bbBoxpointsSwLon: bbBoxpointsSwLon, bbBoxpointsNeLat: bbBoxpointsNeLat, bbBoxpointsNeLon: bbBoxpointsNeLon)
               self.init(options: options)
           }
 
@@ -75,10 +75,10 @@ extension TFL.Place {
               if let activeOnly = options.activeOnly {
                 params["activeOnly"] = activeOnly
               }
-              params["bbBoxpoints.swLat"] = options.bbBoxpointsdotswLat
-              params["bbBoxpoints.swLon"] = options.bbBoxpointsdotswLon
-              params["bbBoxpoints.neLat"] = options.bbBoxpointsdotneLat
-              params["bbBoxpoints.neLon"] = options.bbBoxpointsdotneLon
+              params["bbBoxpoints.swLat"] = options.bbBoxpointsSwLat
+              params["bbBoxpoints.swLon"] = options.bbBoxpointsSwLon
+              params["bbBoxpoints.neLat"] = options.bbBoxpointsNeLat
+              params["bbBoxpoints.neLon"] = options.bbBoxpointsNeLon
               return params
           }
         }

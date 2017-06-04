@@ -6,27 +6,29 @@
 import Foundation
 import JSONUtilities
 
-extension TFL.Road {
+extension TBX.Auth {
 
-    public enum RoadStatus {
+    public enum AuthLogout {
 
-      public static let service = APIService<Response>(id: "Road_Status", tag: "Road", method: "GET", path: "/Road/{ids}/Status", hasBody: false)
+      public static let service = APIService<Response>(id: "auth.logout", tag: "auth", method: "GET", path: "/auth/{cp}/logout.json", hasBody: false)
 
       public class Request: APIRequest<Response> {
 
           public struct Options {
 
-              /** Comma-separated list of road identifiers e.g. "A406, A2" or use "all" to ignore id filter (a full list of supported road identifiers can be found at the /Road/ endpoint) */
-              public var ids: [String]
+              /** ShortName of Content Provider */
+              public var cp: String
 
-              public var dateRangeNullableStartDate: Date?
+              /** URL to send the client after logout, if this parameter is blank the response will be a json */
+              public var url: String?
 
-              public var dateRangeNullableEndDate: Date?
+              /** *deprecated* if this parameter is sent the response will be a JSONP */
+              public var callback: String?
 
-              public init(ids: [String], dateRangeNullableStartDate: Date? = nil, dateRangeNullableEndDate: Date? = nil) {
-                  self.ids = ids
-                  self.dateRangeNullableStartDate = dateRangeNullableStartDate
-                  self.dateRangeNullableEndDate = dateRangeNullableEndDate
+              public init(cp: String, url: String? = nil, callback: String? = nil) {
+                  self.cp = cp
+                  self.url = url
+                  self.callback = callback
               }
           }
 
@@ -34,38 +36,38 @@ extension TFL.Road {
 
           public init(options: Options) {
               self.options = options
-              super.init(service: RoadStatus.service)
+              super.init(service: AuthLogout.service)
           }
 
           /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(ids: [String], dateRangeNullableStartDate: Date? = nil, dateRangeNullableEndDate: Date? = nil) {
-              let options = Options(ids: ids, dateRangeNullableStartDate: dateRangeNullableStartDate, dateRangeNullableEndDate: dateRangeNullableEndDate)
+          public convenience init(cp: String, url: String? = nil, callback: String? = nil) {
+              let options = Options(cp: cp, url: url, callback: callback)
               self.init(options: options)
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids)")
+              return super.path.replacingOccurrences(of: "{" + "cp" + "}", with: "\(self.options.cp)")
           }
 
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
-              if let dateRangeNullableStartDate = options.dateRangeNullableStartDate?.encode() {
-                params["dateRangeNullable.startDate"] = dateRangeNullableStartDate
+              if let url = options.url {
+                params["url"] = url
               }
-              if let dateRangeNullableEndDate = options.dateRangeNullableEndDate?.encode() {
-                params["dateRangeNullable.endDate"] = dateRangeNullableEndDate
+              if let callback = options.callback {
+                params["callback"] = callback
               }
               return params
           }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = [RoadCorridor]
+            public typealias SuccessType = [String: Any]
 
-            /** OK */
-            case success200([RoadCorridor])
+            /** Request was successful */
+            case success200([String: Any])
 
-            public var success: [RoadCorridor]? {
+            public var success: [String: Any]? {
                 switch self {
                 case .success200(let response): return response
                 default: return nil

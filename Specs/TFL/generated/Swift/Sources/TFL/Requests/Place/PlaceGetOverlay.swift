@@ -32,19 +32,19 @@ extension TFL.Place {
 
               public var lon: String
 
-              public var locationdotlat: Double
+              public var locationLat: Double
 
-              public var locationdotlon: Double
+              public var locationLon: Double
 
-              public init(z: Int, type: [String], width: Int, height: Int, lat: String, lon: String, locationdotlat: Double, locationdotlon: Double) {
+              public init(z: Int, type: [String], width: Int, height: Int, lat: String, lon: String, locationLat: Double, locationLon: Double) {
                   self.z = z
                   self.type = type
                   self.width = width
                   self.height = height
                   self.lat = lat
                   self.lon = lon
-                  self.locationdotlat = locationdotlat
-                  self.locationdotlon = locationdotlon
+                  self.locationLat = locationLat
+                  self.locationLon = locationLon
               }
           }
 
@@ -56,8 +56,8 @@ extension TFL.Place {
           }
 
           /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(z: Int, type: [String], width: Int, height: Int, lat: String, lon: String, locationdotlat: Double, locationdotlon: Double) {
-              let options = Options(z: z, type: type, width: width, height: height, lat: lat, lon: lon, locationdotlat: locationdotlat, locationdotlon: locationdotlon)
+          public convenience init(z: Int, type: [String], width: Int, height: Int, lat: String, lon: String, locationLat: Double, locationLon: Double) {
+              let options = Options(z: z, type: type, width: width, height: height, lat: lat, lon: lon, locationLat: locationLat, locationLon: locationLon)
               self.init(options: options)
           }
 
@@ -69,8 +69,8 @@ extension TFL.Place {
               var params: JSONDictionary = [:]
               params["lat"] = options.lat
               params["lon"] = options.lon
-              params["location.lat"] = options.locationdotlat
-              params["location.lon"] = options.locationdotlon
+              params["location.lat"] = options.locationLat
+              params["location.lon"] = options.locationLon
               return params
           }
         }

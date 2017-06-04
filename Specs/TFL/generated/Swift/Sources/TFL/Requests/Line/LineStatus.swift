@@ -26,17 +26,17 @@ extension TFL.Line {
 
               public var endDate: String
 
-              public var dateRangedotstartDate: Date?
+              public var dateRangeStartDate: Date?
 
-              public var dateRangedotendDate: Date?
+              public var dateRangeEndDate: Date?
 
-              public init(ids: [String], detail: Bool? = nil, startDate: String, endDate: String, dateRangedotstartDate: Date? = nil, dateRangedotendDate: Date? = nil) {
+              public init(ids: [String], detail: Bool? = nil, startDate: String, endDate: String, dateRangeStartDate: Date? = nil, dateRangeEndDate: Date? = nil) {
                   self.ids = ids
                   self.detail = detail
                   self.startDate = startDate
                   self.endDate = endDate
-                  self.dateRangedotstartDate = dateRangedotstartDate
-                  self.dateRangedotendDate = dateRangedotendDate
+                  self.dateRangeStartDate = dateRangeStartDate
+                  self.dateRangeEndDate = dateRangeEndDate
               }
           }
 
@@ -48,8 +48,8 @@ extension TFL.Line {
           }
 
           /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(ids: [String], detail: Bool? = nil, startDate: String, endDate: String, dateRangedotstartDate: Date? = nil, dateRangedotendDate: Date? = nil) {
-              let options = Options(ids: ids, detail: detail, startDate: startDate, endDate: endDate, dateRangedotstartDate: dateRangedotstartDate, dateRangedotendDate: dateRangedotendDate)
+          public convenience init(ids: [String], detail: Bool? = nil, startDate: String, endDate: String, dateRangeStartDate: Date? = nil, dateRangeEndDate: Date? = nil) {
+              let options = Options(ids: ids, detail: detail, startDate: startDate, endDate: endDate, dateRangeStartDate: dateRangeStartDate, dateRangeEndDate: dateRangeEndDate)
               self.init(options: options)
           }
 
@@ -64,11 +64,11 @@ extension TFL.Line {
               }
               params["startDate"] = options.startDate
               params["endDate"] = options.endDate
-              if let dateRangedotstartDate = options.dateRangedotstartDate?.encode() {
-                params["dateRange.startDate"] = dateRangedotstartDate
+              if let dateRangeStartDate = options.dateRangeStartDate?.encode() {
+                params["dateRange.startDate"] = dateRangeStartDate
               }
-              if let dateRangedotendDate = options.dateRangedotendDate?.encode() {
-                params["dateRange.endDate"] = dateRangedotendDate
+              if let dateRangeEndDate = options.dateRangeEndDate?.encode() {
+                params["dateRange.endDate"] = dateRangeEndDate
               }
               return params
           }

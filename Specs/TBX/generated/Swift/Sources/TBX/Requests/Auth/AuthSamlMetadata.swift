@@ -6,56 +6,26 @@
 import Foundation
 import JSONUtilities
 
-extension TFL.Place {
+extension TBX.Auth {
 
-    public enum PlaceGetStreetsByPostCode {
+    public enum AuthSamlMetadata {
 
-      public static let service = APIService<Response>(id: "Place_GetStreetsByPostCode", tag: "Place", method: "GET", path: "/Place/Address/Streets/{Postcode}", hasBody: false)
+      public static let service = APIService<Response>(id: "auth.samlMetadata", tag: "auth", method: "GET", path: "/auth/saml/metadata.xml", hasBody: false)
 
       public class Request: APIRequest<Response> {
 
-          public struct Options {
-
-              public var postcode: String
-
-              public var postcodeInputPostcode: String?
-
-              public init(postcode: String, postcodeInputPostcode: String? = nil) {
-                  self.postcode = postcode
-                  self.postcodeInputPostcode = postcodeInputPostcode
-              }
-          }
-
-          public var options: Options
-
-          public init(options: Options) {
-              self.options = options
-              super.init(service: PlaceGetStreetsByPostCode.service)
-          }
-
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(postcode: String, postcodeInputPostcode: String? = nil) {
-              let options = Options(postcode: postcode, postcodeInputPostcode: postcodeInputPostcode)
-              self.init(options: options)
-          }
-
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["postcode"] = options.postcode
-              if let postcodeInputPostcode = options.postcodeInputPostcode {
-                params["postcodeInput.postcode"] = postcodeInputPostcode
-              }
-              return params
+          public init() {
+              super.init(service: AuthSamlMetadata.service)
           }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = Object
+            public typealias SuccessType = String
 
-            /** OK */
-            case success200(Object)
+            /** Request was successful */
+            case success200(String)
 
-            public var success: Object? {
+            public var success: String? {
                 switch self {
                 case .success200(let response): return response
                 default: return nil

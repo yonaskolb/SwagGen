@@ -34,19 +34,19 @@ extension TFL.StopPoint {
               /** true to return the lines that each stop point serves as a nested resource */
               public var returnLines: Bool?
 
-              public var locationdotlat: Double
+              public var locationLat: Double
 
-              public var locationdotlon: Double
+              public var locationLon: Double
 
-              public init(stopTypes: [String], radius: Int? = nil, useStopPointHierarchy: Bool? = nil, modes: [String]? = nil, categories: [String]? = nil, returnLines: Bool? = nil, locationdotlat: Double, locationdotlon: Double) {
+              public init(stopTypes: [String], radius: Int? = nil, useStopPointHierarchy: Bool? = nil, modes: [String]? = nil, categories: [String]? = nil, returnLines: Bool? = nil, locationLat: Double, locationLon: Double) {
                   self.stopTypes = stopTypes
                   self.radius = radius
                   self.useStopPointHierarchy = useStopPointHierarchy
                   self.modes = modes
                   self.categories = categories
                   self.returnLines = returnLines
-                  self.locationdotlat = locationdotlat
-                  self.locationdotlon = locationdotlon
+                  self.locationLat = locationLat
+                  self.locationLon = locationLon
               }
           }
 
@@ -58,8 +58,8 @@ extension TFL.StopPoint {
           }
 
           /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(stopTypes: [String], radius: Int? = nil, useStopPointHierarchy: Bool? = nil, modes: [String]? = nil, categories: [String]? = nil, returnLines: Bool? = nil, locationdotlat: Double, locationdotlon: Double) {
-              let options = Options(stopTypes: stopTypes, radius: radius, useStopPointHierarchy: useStopPointHierarchy, modes: modes, categories: categories, returnLines: returnLines, locationdotlat: locationdotlat, locationdotlon: locationdotlon)
+          public convenience init(stopTypes: [String], radius: Int? = nil, useStopPointHierarchy: Bool? = nil, modes: [String]? = nil, categories: [String]? = nil, returnLines: Bool? = nil, locationLat: Double, locationLon: Double) {
+              let options = Options(stopTypes: stopTypes, radius: radius, useStopPointHierarchy: useStopPointHierarchy, modes: modes, categories: categories, returnLines: returnLines, locationLat: locationLat, locationLon: locationLon)
               self.init(options: options)
           }
 
@@ -81,8 +81,8 @@ extension TFL.StopPoint {
               if let returnLines = options.returnLines {
                 params["returnLines"] = returnLines
               }
-              params["location.lat"] = options.locationdotlat
-              params["location.lon"] = options.locationdotlon
+              params["location.lat"] = options.locationLat
+              params["location.lon"] = options.locationLon
               return params
           }
         }

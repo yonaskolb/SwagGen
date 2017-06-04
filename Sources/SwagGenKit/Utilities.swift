@@ -64,6 +64,7 @@ extension String {
         return camelCased(seperator: " ")
             .camelCased(seperator: "_")
             .camelCased(seperator: "-")
+            .camelCased(seperator: ".")
     }
 
     func lowerCamelCased() -> String {

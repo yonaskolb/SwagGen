@@ -209,7 +209,6 @@ public class CodeFormatter {
             ">": "greaterThan",
             "<": "lessThan",
             "$": "dollar",
-            ".": "dot",
             "%": "percent",
             "#": "hash",
             "@": "alpha",

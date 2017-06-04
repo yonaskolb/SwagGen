@@ -6,27 +6,23 @@
 import Foundation
 import JSONUtilities
 
-extension TFL.Road {
+extension TBX.Auth {
 
-    public enum RoadStatus {
+    public enum AuthOauth2Assert {
 
-      public static let service = APIService<Response>(id: "Road_Status", tag: "Road", method: "GET", path: "/Road/{ids}/Status", hasBody: false)
+      public static let service = APIService<Response>(id: "auth.oauth2Assert", tag: "auth", method: "GET", path: "/auth/oauth2/assert", hasBody: false)
 
       public class Request: APIRequest<Response> {
 
           public struct Options {
 
-              /** Comma-separated list of road identifiers e.g. "A406, A2" or use "all" to ignore id filter (a full list of supported road identifiers can be found at the /Road/ endpoint) */
-              public var ids: [String]
+              public var code: String?
 
-              public var dateRangeNullableStartDate: Date?
+              public var state: String?
 
-              public var dateRangeNullableEndDate: Date?
-
-              public init(ids: [String], dateRangeNullableStartDate: Date? = nil, dateRangeNullableEndDate: Date? = nil) {
-                  self.ids = ids
-                  self.dateRangeNullableStartDate = dateRangeNullableStartDate
-                  self.dateRangeNullableEndDate = dateRangeNullableEndDate
+              public init(code: String? = nil, state: String? = nil) {
+                  self.code = code
+                  self.state = state
               }
           }
 
@@ -34,38 +30,34 @@ extension TFL.Road {
 
           public init(options: Options) {
               self.options = options
-              super.init(service: RoadStatus.service)
+              super.init(service: AuthOauth2Assert.service)
           }
 
           /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(ids: [String], dateRangeNullableStartDate: Date? = nil, dateRangeNullableEndDate: Date? = nil) {
-              let options = Options(ids: ids, dateRangeNullableStartDate: dateRangeNullableStartDate, dateRangeNullableEndDate: dateRangeNullableEndDate)
+          public convenience init(code: String? = nil, state: String? = nil) {
+              let options = Options(code: code, state: state)
               self.init(options: options)
-          }
-
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids)")
           }
 
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
-              if let dateRangeNullableStartDate = options.dateRangeNullableStartDate?.encode() {
-                params["dateRangeNullable.startDate"] = dateRangeNullableStartDate
+              if let code = options.code {
+                params["code"] = code
               }
-              if let dateRangeNullableEndDate = options.dateRangeNullableEndDate?.encode() {
-                params["dateRangeNullable.endDate"] = dateRangeNullableEndDate
+              if let state = options.state {
+                params["state"] = state
               }
               return params
           }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = [RoadCorridor]
+            public typealias SuccessType = [String: Any]
 
-            /** OK */
-            case success200([RoadCorridor])
+            /** Request was successful */
+            case success200([String: Any])
 
-            public var success: [RoadCorridor]? {
+            public var success: [String: Any]? {
                 switch self {
                 case .success200(let response): return response
                 default: return nil

@@ -6,25 +6,20 @@
 import Foundation
 import JSONUtilities
 
-extension TFL.Line {
+extension TFL.Occupancy {
 
-    public enum LineArrivals {
+    public enum GetOccupant {
 
-      public static let service = APIService<Response>(id: "Line_Arrivals", tag: "Line", method: "GET", path: "/Line/{ids}/Arrivals", hasBody: false)
+      public static let service = APIService<Response>(id: "getOccupant", tag: "Occupancy", method: "GET", path: "/Occupancy/CarPark/{id}", hasBody: false)
 
       public class Request: APIRequest<Response> {
 
           public struct Options {
 
-              /** Id of stop to get arrival predictions for (station naptan code e.g. 940GZZLUASL, you can use /StopPoint/Search/{query} endpoint to find a stop point id from a station name) */
-              public var stopPointId: String
+              public var id: String
 
-              /** A comma-separated list of line ids e.g. victoria,circle,N133. Max. approx. 20 ids. */
-              public var ids: [String]
-
-              public init(stopPointId: String, ids: [String]) {
-                  self.stopPointId = stopPointId
-                  self.ids = ids
+              public init(id: String) {
+                  self.id = id
               }
           }
 
@@ -32,33 +27,27 @@ extension TFL.Line {
 
           public init(options: Options) {
               self.options = options
-              super.init(service: LineArrivals.service)
+              super.init(service: GetOccupant.service)
           }
 
           /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(stopPointId: String, ids: [String]) {
-              let options = Options(stopPointId: stopPointId, ids: ids)
+          public convenience init(id: String) {
+              let options = Options(id: id)
               self.init(options: options)
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids)")
-          }
-
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["stopPointId"] = options.stopPointId
-              return params
+              return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)")
           }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = [Prediction]
+            public typealias SuccessType = CarParkOccupancy
 
             /** OK */
-            case success200([Prediction])
+            case success200(CarParkOccupancy)
 
-            public var success: [Prediction]? {
+            public var success: CarParkOccupancy? {
                 switch self {
                 case .success200(let response): return response
                 default: return nil

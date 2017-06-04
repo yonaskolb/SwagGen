@@ -8,9 +8,9 @@ import JSONUtilities
 
 extension TFL.StopPoint {
 
-    public enum StopPointSearch {
+    public enum SearchStopPointsByPath {
 
-      public static let service = APIService<Response>(id: "StopPoint_Search", tag: "StopPoint", method: "GET", path: "/StopPoint/Search", hasBody: false)
+      public static let service = APIService<Response>(id: "searchStopPointsByPath", tag: "StopPoint", method: "GET", path: "/StopPoint/Search/{query}", hasBody: false)
 
       public class Request: APIRequest<Response> {
 
@@ -49,7 +49,7 @@ extension TFL.StopPoint {
 
           public init(options: Options) {
               self.options = options
-              super.init(service: StopPointSearch.service)
+              super.init(service: SearchStopPointsByPath.service)
           }
 
           /// convenience initialiser so an Option doesn't have to be created
@@ -58,9 +58,12 @@ extension TFL.StopPoint {
               self.init(options: options)
           }
 
+          public override var path: String {
+              return super.path.replacingOccurrences(of: "{" + "query" + "}", with: "\(self.options.query)")
+          }
+
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
-              params["query"] = options.query
               if let modes = options.modes {
                 params["modes"] = modes
               }

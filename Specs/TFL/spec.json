@@ -1489,7 +1489,7 @@
                "Line"
             ],
             "summary":"Get the list of arrival predictions for given line ids based at the given stop",
-            "operationId":"Line_Arrivals",
+            "operationId":"getLineArrivals",
             "consumes":[
 
             ],
@@ -1538,7 +1538,7 @@
                "Line"
             ],
             "summary":"Get the list of arrival predictions for given line ids based at the given stop going in the procided direction",
-            "operationId":"Line_Arrivals",
+            "operationId":"getLineArrivalsByPath",
             "consumes":[
 
             ],
@@ -1676,7 +1676,7 @@
                "Occupancy"
             ],
             "summary":"Gets the occupancy for a car park with a given id",
-            "operationId":"Occupancy_Get",
+            "operationId":"getOccupant",
             "consumes":[
 
             ],
@@ -1712,7 +1712,7 @@
                "Occupancy"
             ],
             "summary":"Gets the occupancy for all car parks that have occupancy data",
-            "operationId":"Occupancy_Get",
+            "operationId":"getOccupants",
             "consumes":[
 
             ],
@@ -2239,7 +2239,7 @@
                "Road"
             ],
             "summary":"Gets all roads managed by TfL",
-            "operationId":"Road_Get",
+            "operationId":"getRoads",
             "consumes":[
 
             ],
@@ -2269,7 +2269,7 @@
                "Road"
             ],
             "summary":"Gets the road with the specified id (e.g. A1)",
-            "operationId":"Road_Get",
+            "operationId":"getRoad",
             "consumes":[
 
             ],
@@ -3521,7 +3521,7 @@
                "StopPoint"
             ],
             "summary":"Search StopPoints by their common name, or their 5-digit Countdown Bus Stop Code.",
-            "operationId":"StopPoint_Search",
+            "operationId":"searchStopPointsByPath",
             "consumes":[
 
             ],
@@ -3601,7 +3601,7 @@
                "StopPoint"
             ],
             "summary":"Search StopPoints by their common name, or their 5-digit Countdown Bus Stop Code.",
-            "operationId":"StopPoint_Search",
+            "operationId":"searchStopPoints",
             "consumes":[
 
             ],

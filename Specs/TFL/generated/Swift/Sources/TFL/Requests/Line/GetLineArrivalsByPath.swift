@@ -6,21 +6,42 @@
 import Foundation
 import JSONUtilities
 
-extension TFL.Road {
+extension TFL.Line {
 
-    public enum RoadGet {
+    public enum GetLineArrivalsByPath {
 
-      public static let service = APIService<Response>(id: "Road_Get", tag: "Road", method: "GET", path: "/Road/{ids}", hasBody: false)
+      public static let service = APIService<Response>(id: "getLineArrivalsByPath", tag: "Line", method: "GET", path: "/Line/{ids}/Arrivals/{stopPointId}", hasBody: false)
+
+      /** The direction of travel. Can be inbound or outbound */
+      public enum Direction: String {
+          case inbound = "inbound"
+          case outbound = "outbound"
+          case all = "all"
+
+          public static let cases: [Direction] = [
+            .inbound,
+            .outbound,
+            .all,
+          ]
+      }
 
       public class Request: APIRequest<Response> {
 
           public struct Options {
 
-              /** Comma-separated list of road identifiers e.g. "A406, A2" (a full list of supported road identifiers can be found at the /Road/ endpoint) */
+              /** Id of stop to get arrival predictions for (station naptan code e.g. 940GZZLUASL, you can use /StopPoint/Search/{query} endpoint to find a stop point id from a station name) */
+              public var stopPointId: String
+
+              /** A comma-separated list of line ids e.g. victoria,circle,N133. Max. approx. 20 ids. */
               public var ids: [String]
 
-              public init(ids: [String]) {
+              /** The direction of travel. Can be inbound or outbound */
+              public var direction: Direction
+
+              public init(stopPointId: String, ids: [String], direction: Direction) {
+                  self.stopPointId = stopPointId
                   self.ids = ids
+                  self.direction = direction
               }
           }
 
@@ -28,27 +49,33 @@ extension TFL.Road {
 
           public init(options: Options) {
               self.options = options
-              super.init(service: RoadGet.service)
+              super.init(service: GetLineArrivalsByPath.service)
           }
 
           /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(ids: [String]) {
-              let options = Options(ids: ids)
+          public convenience init(stopPointId: String, ids: [String], direction: Direction) {
+              let options = Options(stopPointId: stopPointId, ids: ids, direction: direction)
               self.init(options: options)
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids)")
+              return super.path.replacingOccurrences(of: "{" + "stopPointId" + "}", with: "\(self.options.stopPointId)").replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids)")
+          }
+
+          public override var parameters: [String: Any] {
+              var params: JSONDictionary = [:]
+              params["direction"] = options.direction.encode()
+              return params
           }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = [RoadCorridor]
+            public typealias SuccessType = [Prediction]
 
             /** OK */
-            case success200([RoadCorridor])
+            case success200([Prediction])
 
-            public var success: [RoadCorridor]? {
+            public var success: [Prediction]? {
                 switch self {
                 case .success200(let response): return response
                 default: return nil

@@ -15,6 +15,10 @@ struct JSONDecoder {
         return jsonType
     }
 
+    static func decode(data: Data) throws -> [String: Any] {
+        return try decodeJSON(data: data)
+    }
+
     static func decode<T: JSONRawType>(data: Data) throws -> T {
         return try decodeJSON(data: data)
     }

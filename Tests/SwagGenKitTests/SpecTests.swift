@@ -36,7 +36,10 @@ public func specTests() {
                 let destinationPath = specFolder + "generated/\(templateType)"
                 try destinationPath.mkpath()
                 let generator = Generator(context: context, destination: destinationPath.normalize(), templateConfig: templateConfig)
-                try _ = generator.generate(clean: .all, fileChanged: {_ in})
+                let result = try generator.generate(clean: .all, fileChanged: {_ in})
+                try expect(result.generatedByState(.created).count) ==  0
+                try expect(result.generatedByState(.modified).count) ==  0
+                try expect(result.removed.count) ==  0
             }
         }
     }

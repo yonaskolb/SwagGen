@@ -153,6 +153,21 @@ public class Generator {
             }
         }
 
+//        //remove duplicate filenames
+//        let originalGeneratedFiles = generatedFiles
+//        generatedFiles = []
+//        for file in originalGeneratedFiles {
+//
+//            let filename = file.path.lastComponentWithoutExtension
+//            if generatedFiles.contains(where: { $0.path.lastComponentWithoutExtension == filename }) {
+//                let newFilename = filename + "2"
+//                let newPath = file.path.parent() + "\(newFilename)\(file.path.extension.flatMap { ".\($0)" } ?? "")"
+//                generatedFiles.append(GeneratedFile(path: newPath, content: file.content, destination: ))
+//            } else {
+//                generatedFiles.append(file)
+//            }
+//        }
+
         generatedFiles = generatedFiles.sorted{$0.state == $1.state ? $0.path < $1.path : $0.state.rawValue > $1.state.rawValue}
 
         // clean

@@ -1,7 +1,7 @@
 {
    "swagger":"2.0",
    "info":{
-      "version":"v1",
+      "version":"1",
       "title":"Transport for London Unified API"
    },
    "host":"api.tfl.gov.uk",

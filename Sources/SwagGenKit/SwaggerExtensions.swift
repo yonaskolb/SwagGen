@@ -92,7 +92,6 @@ extension Swagger {
 
         try self.init(JSON: json)
     }
-    
 }
 
 extension Swagger {
@@ -104,23 +103,23 @@ extension Swagger {
 
                 var responses: [ResponseFormatter] = operation.responses.map {
                     switch $0.1 {
-                    case .a(let response): return ResponseFormatter(response: response, successful: $0.key.description.hasPrefix("2"), name: nil, statusCode: $0.key)
-                    case .b(let structure): return ResponseFormatter(response: structure.structure, successful: $0.key.description.hasPrefix("2"), name: structure.name, statusCode: $0.0)
+                    case let .a(response): return ResponseFormatter(response: response, successful: $0.key.description.hasPrefix("2"), name: nil, statusCode: $0.key)
+                    case let .b(structure): return ResponseFormatter(response: structure.structure, successful: $0.key.description.hasPrefix("2"), name: structure.name, statusCode: $0.0)
                     }
                 }
 
                 let parameters: [ParameterFormatter] = operation.parameters.map {
                     switch $0 {
-                    case .a(let parameter): return ParameterFormatter(parameter: parameter, name: nil)
-                    case .b(let structure): return ParameterFormatter(parameter: structure.structure, name: structure.name)
+                    case let .a(parameter): return ParameterFormatter(parameter: parameter, name: nil)
+                    case let .b(structure): return ParameterFormatter(parameter: structure.structure, name: structure.name)
                     }
                 }
 
                 var defaultResponseFormatter: ResponseFormatter?
                 if let defaultResponse = operation.defaultResponse {
                     switch defaultResponse {
-                    case .a(let response): defaultResponseFormatter = ResponseFormatter(response: response, successful: false, name: nil, statusCode: nil)
-                    case .b(let structure): defaultResponseFormatter = ResponseFormatter(response: structure.structure, successful: false, name: structure.name, statusCode: nil)
+                    case let .a(response): defaultResponseFormatter = ResponseFormatter(response: response, successful: false, name: nil, statusCode: nil)
+                    case let .b(structure): defaultResponseFormatter = ResponseFormatter(response: structure.structure, successful: false, name: structure.name, statusCode: nil)
                     }
                 }
 
@@ -128,7 +127,7 @@ extension Swagger {
                     let code1 = $0.statusCode
                     let code2 = $1.statusCode
                     switch (code1, code2) {
-                    case (.some(let code1), .some(let code2)): return code1 < code2
+                    case let (.some(code1), .some(code2)): return code1 < code2
                     case (.some, .none): return true
                     case (.none, .some): return false
                     default: return false
@@ -165,7 +164,7 @@ extension Swagger {
     }
 
     var enums: [Enum] {
-        return parameters.flatMap { $0.structure.getEnum(name: $0.name, description: $0.structure.fields.description)}
+        return parameters.flatMap { $0.structure.getEnum(name: $0.name, description: $0.structure.fields.description) }
     }
 }
 
@@ -173,7 +172,7 @@ extension Metadata {
 
     func getEnum(name: String, description: String?) -> Enum? {
         if let enumValues = enumeratedValues {
-            return Enum(name: name, cases: enumValues.flatMap{$0}, description: description)
+            return Enum(name: name, cases: enumValues.flatMap { $0 }, description: description)
         }
         return nil
     }
@@ -191,32 +190,32 @@ extension Schema {
 
     var metadata: Metadata {
         switch self {
-        case .allOf(let schema): return schema.metadata
-        case .any(let metadata): return metadata
-        case .array(let array): return array.metadata
-        case .boolean(let metadata): return metadata
-        case .enumeration(let metadata): return metadata
-        case .file(let metadata): return metadata
-        case .integer(let metadata, _): return metadata
-        case .number(let metadata, _): return metadata
-        case .object(let object): return object.metadata
-        case .string(let metadata, _): return metadata
-        case .structure(let metadata, _): return metadata
+        case let .allOf(schema): return schema.metadata
+        case let .any(metadata): return metadata
+        case let .array(array): return array.metadata
+        case let .boolean(metadata): return metadata
+        case let .enumeration(metadata): return metadata
+        case let .file(metadata): return metadata
+        case let .integer(metadata, _): return metadata
+        case let .number(metadata, _): return metadata
+        case let .object(object): return object.metadata
+        case let .string(metadata, _): return metadata
+        case let .structure(metadata, _): return metadata
         case .resolvingReference: fatalError()
         }
     }
 
     var objectSchema: ObjectSchema? {
-        if case .object(let object) = self {
+        if case let .object(object) = self {
             return object
         }
         return nil
     }
 
     var parent: Structure<Schema>? {
-        if case .allOf(let object) = self {
+        if case let .allOf(object) = self {
             for schema in object.subschemas {
-                if case .structure(_, let schema) = schema {
+                if case let .structure(_, schema) = schema {
                     return schema
                 }
             }
@@ -230,10 +229,10 @@ extension Schema {
 
     var requiredProperties: [PropertyFormatter] {
         switch self {
-        case .object(let objectSchema): return objectSchema.requiredProperties
-        case .allOf(let allOffSchema):
+        case let .object(objectSchema): return objectSchema.requiredProperties
+        case let .allOf(allOffSchema):
             for schema in allOffSchema.subschemas {
-                if case .object(let objectSchema) = schema {
+                if case let .object(objectSchema) = schema {
                     return objectSchema.requiredProperties
                 }
             }
@@ -244,10 +243,10 @@ extension Schema {
 
     var optionalProperties: [PropertyFormatter] {
         switch self {
-        case .object(let objectSchema): return objectSchema.optionalProperties
-        case .allOf(let allOffSchema):
+        case let .object(objectSchema): return objectSchema.optionalProperties
+        case let .allOf(allOffSchema):
             for schema in allOffSchema.subschemas {
-                if case .object(let objectSchema) = schema {
+                if case let .object(objectSchema) = schema {
                     return objectSchema.optionalProperties
                 }
             }
@@ -270,14 +269,14 @@ extension Schema {
 
     func getEnum(name: String, description: String?) -> Enum? {
         switch self {
-        case .object(let objectSchema):
-            if case .b(let schema) = objectSchema.additionalProperties {
+        case let .object(objectSchema):
+            if case let .b(schema) = objectSchema.additionalProperties {
                 return schema.getEnum(name: name, description: description)
             }
-        case .string(let metadata, _): return metadata.getEnum(name: name, description: description ?? metadata.description)
-            //TODO: support enums other than string
-        case .array(let array):
-            if case .one(let schema) = array.items {
+        case let .string(metadata, _): return metadata.getEnum(name: name, description: description ?? metadata.description)
+            // TODO: support enums other than string
+        case let .array(array):
+            if case let .one(schema) = array.items {
                 return schema.getEnum(name: name, description: description)
             }
         default: break
@@ -286,7 +285,7 @@ extension Schema {
     }
 
     var enums: [Enum] {
-        return properties.flatMap { $0.schema.getEnum(name: $0.name, description: $0.schema.metadata.description)}
+        return properties.flatMap { $0.schema.getEnum(name: $0.name, description: $0.schema.metadata.description) }
     }
 }
 
@@ -303,7 +302,7 @@ extension ObjectSchema {
         return properties
             .filter { !required.contains($0.0) }
             .map { PropertyFormatter(name: $0.0, required: false, schema: $0.1) }
-            .sorted{$0.name < $1.name}
+            .sorted { $0.name < $1.name }
     }
 
     var allProperties: [PropertyFormatter] {
@@ -317,7 +316,7 @@ extension ObjectSchema {
                 enums.append(enumValue)
             }
         }
-        if case .b(let schema) = additionalProperties {
+        if case let .b(schema) = additionalProperties {
             if let enumValue = schema.getEnum(name: schema.metadata.title ?? "UNNKNOWN_ENUM", description: schema.metadata.description) {
                 enums.append(enumValue)
             }
@@ -330,7 +329,7 @@ extension Version: CustomStringConvertible {
 
     public var description: String {
         return [major, minor, patch].flatMap { $0?.description }
-        .joined(separator: ".")
+            .joined(separator: ".")
     }
 }
 
@@ -338,23 +337,23 @@ extension Parameter {
 
     var metadata: Metadata {
         switch self {
-        case .body(_, let schema): return schema.metadata
-        case .other(_, let items): return items.metadata
+        case let .body(_, schema): return schema.metadata
+        case let .other(_, items): return items.metadata
         }
     }
 
     var fields: FixedParameterFields {
         switch self {
-        case .body(let fields, _): return fields
-        case .other(let fields, _): return fields
+        case let .body(fields, _): return fields
+        case let .other(fields, _): return fields
         }
     }
 
     func getEnum(name: String, description: String?) -> Enum? {
 
         switch self {
-        case.body(let fields, let schema): return schema.getEnum(name: name, description: description)
-        case .other(_, let items): return items.getEnum(name: name, description: description)
+        case let .body(fields, schema): return schema.getEnum(name: name, description: description)
+        case let .other(_, items): return items.getEnum(name: name, description: description)
         }
     }
 }
@@ -363,24 +362,24 @@ extension Items {
 
     var metadata: Metadata {
         switch self {
-        case .array(let item): return item.metadata
-        case .boolean(let item): return item
-        case .integer(let item): return item.metadata
-        case .number(let item): return item.metadata
-        case .string(let item): return item.metadata
+        case let .array(item): return item.metadata
+        case let .boolean(item): return item
+        case let .integer(item): return item.metadata
+        case let .number(item): return item.metadata
+        case let .string(item): return item.metadata
         }
     }
 
     func getEnum(name: String, description: String?) -> Enum? {
 
         switch self {
-        case .array(let array):
-            if case .string(let item) = array.items {
+        case let .array(array):
+            if case let .string(item) = array.items {
                 if let enumValue = item.metadata.getEnum(name: name, description: description) {
                     return enumValue
                 }
             }
-        case .string(let item):
+        case let .string(item):
             return item.metadata.getEnum(name: name, description: description)
         default: break
         }

@@ -25,7 +25,7 @@ func generate(templatePath: String, destinationPath: PathKit.Path, specPath: Str
 
     var optionsDictionary: [String: String] = [:]
     for option in options {
-        let parts = option.components(separatedBy: ":").map{$0.trimmingCharacters(in: .whitespaces)}
+        let parts = option.components(separatedBy: ":").map { $0.trimmingCharacters(in: .whitespaces) }
         if parts.count >= 2 {
             let key = parts.first!
             let value = Array(parts.dropFirst()).joined(separator: ":")
@@ -40,25 +40,24 @@ func generate(templatePath: String, destinationPath: PathKit.Path, specPath: Str
         }
 
         spec = try Swagger(path: Path(specPath).normalize())
-    }
-    catch let error {
+    } catch let error {
         writeError("Error loading Swagger Spec: \(error)")
         exit(EXIT_FAILURE)
     }
 
-    let specCounts  = getCountString(counts: [
-        ("operation", spec.paths.values.reduce(0){$0 + $1.operations.count}),
+    let specCounts = getCountString(counts: [
+        ("operation", spec.paths.values.reduce(0) { $0 + $1.operations.count }),
         ("definition", spec.definitions.count),
-        //("tag", spec.tags.count),
+        // ("tag", spec.tags.count),
         ("parameter", spec.parameters.count),
         ("security definition", spec.securityDefinitions.count),
-        ], pluralise: true)
+    ], pluralise: true)
     writeMessage("Loaded spec: \"\(spec.information.title)\" - \(specCounts)")
 
-//    let invalidReferences = Array(Set(spec.invalidReferences)).sorted()
-//    for reference in invalidReferences {
-//        writeError("Couldn't find reference: \(reference)")
-//    }
+    //    let invalidReferences = Array(Set(spec.invalidReferences)).sorted()
+    //    for reference in invalidReferences {
+    //        writeError("Couldn't find reference: \(reference)")
+    //    }
 
     let templateConfig: TemplateConfig
     do {
@@ -68,11 +67,11 @@ func generate(templatePath: String, destinationPath: PathKit.Path, specPath: Str
         exit(EXIT_FAILURE)
     }
 
-    let templateCounts  = getCountString(counts: [
+    let templateCounts = getCountString(counts: [
         ("template file", templateConfig.templateFiles.count),
         ("copied file", templateConfig.copiedFiles.count),
         ("option", templateConfig.options.keys.count),
-        ], pluralise: true)
+    ], pluralise: true)
     writeMessage("Loaded template: \(templateCounts)")
     if !templateConfig.options.isEmpty {
         writeMessage("Options:\n  \(templateConfig.options.prettyPrinted.replacingOccurrences(of: "\n", with: "\n  "))")
@@ -88,19 +87,18 @@ func generate(templatePath: String, destinationPath: PathKit.Path, specPath: Str
             writeMessage("Unrecognized formatter \(formatter). Using default")
             return
         }
-    }
-    else {
+    } else {
         codeFormatter = CodeFormatter(spec: spec)
     }
 
     let context = codeFormatter.getContext()
 
-//    for schema in codeFormatter.schemaTypeErrors {
-//        writeError("Couldn't calculate type for: \(schema)\(schema.metadata.description.flatMap{" \"\($0)\""} ?? "")")
-//    }
-//    for value in codeFormatter.valueTypeErrors {
-//        writeError("Couldn't calculate type for: \(value.name)\(value.description.flatMap{" \"\($0)\""} ?? "")")
-//    }
+    //    for schema in codeFormatter.schemaTypeErrors {
+    //        writeError("Couldn't calculate type for: \(schema)\(schema.metadata.description.flatMap{" \"\($0)\""} ?? "")")
+    //    }
+    //    for value in codeFormatter.valueTypeErrors {
+    //        writeError("Couldn't calculate type for: \(value.name)\(value.description.flatMap{" \"\($0)\""} ?? "")")
+    //    }
 
     let generator = Generator(context: context, destination: destinationPath.normalize(), templateConfig: templateConfig)
 
@@ -109,17 +107,17 @@ func generate(templatePath: String, destinationPath: PathKit.Path, specPath: Str
     do {
         let generationResult = try generator.generate(clean: clean) { change in
             switch change {
-            case .generated(let file):
+            case let .generated(file):
                 switch file.state {
                 case .unchanged:
                     break
-                    //writeMessage("Unchanged \(file.path)".lightBlack)
+                    // writeMessage("Unchanged \(file.path)".lightBlack)
                 case .modified:
                     writeMessage("Modified \(file.path)".yellow)
                 case .created:
                     writeMessage("Created \(file.path)".green)
                 }
-            case .removed(let path):
+            case let .removed(path):
                 let relativePath = path.absolute().string.replacingOccurrences(of: destinationPath.normalize().absolute().string + "/", with: "")
                 writeMessage("Removed \(relativePath)".red)
             }

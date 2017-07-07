@@ -73,7 +73,7 @@ public class SwiftFormatter: CodeFormatter {
     var inbuiltTypes: [String] = [
         "Error",
         "Data",
-        ]
+    ]
 
     override var disallowedNames: [String] { return disallowedKeywords + inbuiltTypes }
     override var disallowedTypes: [String] { return disallowedKeywords + inbuiltTypes }
@@ -83,11 +83,11 @@ public class SwiftFormatter: CodeFormatter {
         let enumValue = item.metadata.getEnum(name: name, description: "").flatMap { getEnumContext($0)["enumName"] as? String }
 
         switch item {
-        case .array(let item): return "[\(enumValue ?? getItemType(name: name, item: item.items))]"
+        case let .array(item): return "[\(enumValue ?? getItemType(name: name, item: item.items))]"
         case .boolean: return "Bool"
-        case .integer(let item): return enumValue ?? "Int"
-        case .number(let item): return enumValue ?? getNumberFormatType(item.format)
-        case .string(let item): return enumValue ?? getStringFormatType(item.format)
+        case let .integer(item): return enumValue ?? "Int"
+        case let .number(item): return enumValue ?? getNumberFormatType(item.format)
+        case let .string(item): return enumValue ?? getStringFormatType(item.format)
         }
     }
 
@@ -106,7 +106,7 @@ public class SwiftFormatter: CodeFormatter {
             return "String"
         }
         switch format {
-        case .binary, .byte: return "String" //TODO: Data
+        case .binary, .byte: return "String" // TODO: Data
         case .dateTime, .date: return "Date"
         case .email, .hostname, .ipv4, .ipv6, .password: return "String"
         case .other: return "String"
@@ -119,26 +119,25 @@ public class SwiftFormatter: CodeFormatter {
         let enumValue = schema.getEnum(name: name, description: "").flatMap { getEnumContext($0)["enumName"] as? String }
 
         switch schema {
-        case .string(_, let format): return enumValue ?? getStringFormatType(format)
-        case .number(_, let format): return getNumberFormatType(format)
+        case let .string(_, format): return enumValue ?? getStringFormatType(format)
+        case let .number(_, format): return getNumberFormatType(format)
         case .integer: return "Int"
-        case .array(let arraySchema):
+        case let .array(arraySchema):
             switch arraySchema.items {
-            case .one(let type): return "[\(enumValue ?? getSchemaType(name: name, schema: type))]"
-            case .many(let types): return "[\(enumValue ?? getSchemaType(name: name, schema: types.first!))]"
+            case let .one(type): return "[\(enumValue ?? getSchemaType(name: name, schema: type))]"
+            case let .many(types): return "[\(enumValue ?? getSchemaType(name: name, schema: types.first!))]"
             }
         case .boolean: return "Bool"
-        case .enumeration(let metadata): return metadata.title ?? "UKNOWN_ENUM"
+        case let .enumeration(metadata): return metadata.title ?? "UKNOWN_ENUM"
         case .file: return "URL"
-        case .object(let schema):
+        case let .object(schema):
             switch schema.additionalProperties {
-            case.a(let bool): return "[String: Any]"
-            case .b(let schema): return "[String: \(enumValue ?? getSchemaType(name: name, schema: schema))]"
+            case let .a(bool): return "[String: Any]"
+            case let .b(schema): return "[String: \(enumValue ?? getSchemaType(name: name, schema: schema))]"
             }
-            return escapeType(schema.metadata.title ?? "UKNOWN_OBJECT")
-        case .structure(_, let structure): return escapeType(structure.name.upperCamelCased())
+        case let .structure(_, structure): return escapeType(structure.name.upperCamelCased())
         case .allOf: return "UKNOWN_ALL_OFF"
-        case .any(let metadata): return "UKNOWN_ANY"
+        case .any: return "UKNOWN_ANY"
         case .resolvingReference: fatalError()
         }
     }
@@ -152,8 +151,8 @@ public class SwiftFormatter: CodeFormatter {
         context["optionalType"] = type + (parameter.parameter.fields.required ? "" : "?")
         var encodedValue = getEncodedValue(name: getName(name), type: type)
 
-        if case .other(_, let items) = parameter.parameter,
-            case .array(let item) = items {
+        if case let .other(_, items) = parameter.parameter,
+            case let .array(item) = items {
             if type != "[String]" {
                 encodedValue += ".map { String(describing: $0) }"
             }
@@ -166,12 +165,12 @@ public class SwiftFormatter: CodeFormatter {
         return context
     }
 
-    func getEncodedValue(name:String, type: String) -> String {
+    func getEncodedValue(name: String, type: String) -> String {
         var encodedValue = name
 
         let jsonTypes = ["Any", "[String: Any]", "Int", "String", "Float", "Double", "Bool"]
 
-        if !jsonTypes.contains(type) && !jsonTypes.map({"[\($0)]"}).contains(type) && !jsonTypes.map({"[String: \($0)]"}).contains(type) {
+        if !jsonTypes.contains(type) && !jsonTypes.map({ "[\($0)]" }).contains(type) && !jsonTypes.map({ "[String: \($0)]" }).contains(type) {
             encodedValue += ".encode()"
         }
 
@@ -194,7 +193,6 @@ public class SwiftFormatter: CodeFormatter {
         context["encodedValue"] = encodedValue
 
         return context
-
     }
 
     override func getEscapedType(_ name: String) -> String {
@@ -203,7 +201,7 @@ public class SwiftFormatter: CodeFormatter {
         }
         return "`\(name)`"
     }
-    
+
     override func getEscapedName(_ name: String) -> String {
         return "`\(name)`"
     }

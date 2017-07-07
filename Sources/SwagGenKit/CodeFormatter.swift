@@ -40,7 +40,7 @@ public class CodeFormatter {
 
     func getSpecContext() -> Context {
         var context: Context = [:]
-        //context["raw"] = spec.json
+        // context["raw"] = spec.json
         enums = spec.enums
         context["enums"] = enums.map(getEnumContext)
         context["operations"] = spec.operationFormatters.map(getOperationContext)
@@ -57,9 +57,9 @@ public class CodeFormatter {
     }
 
     func getSecurityDefinitionContext(name: String, securityDefinition: SecuritySchema) -> Context {
-        var context: Context = [:]//securityDefinition.jsonDictionary
+        var context: Context = [:] // securityDefinition.jsonDictionary
         context["name"] = name
-        //TODO: fill out
+        // TODO: fill out
         return context
     }
 
@@ -97,19 +97,19 @@ public class CodeFormatter {
 
         context["enums"] = schema.enums.map(getEnumContext)
 
-        //TODO: context["isGlobal"] = value.isGlobal
-        //TODO: if value.schema?.anonymous == true {
+        // TODO: context["isGlobal"] = value.isGlobal
+        // TODO: if value.schema?.anonymous == true {
         //       context["anonymousSchema"] = value.schema.flatMap(getSchemaContext)
         //    }
         return context
     }
 
-//    func getEndpointContext(endpoint: Endpoint) -> Context {
-//        var context: Context = [:]
-//        context["path"] = endpoint.path
-//        context["methods"] = endpoint.operations.map(getOperationContext)
-//        return context
-//    }
+    //    func getEndpointContext(endpoint: Endpoint) -> Context {
+    //        var context: Context = [:]
+    //        context["path"] = endpoint.path
+    //        context["methods"] = endpoint.operations.map(getOperationContext)
+    //        return context
+    //    }
 
     func getOperationContext(operation: OperationFormatter) -> Context {
         let successResponse = operation.responses.filter { $0.successful }.first
@@ -130,14 +130,14 @@ public class CodeFormatter {
             context["filename"] = getFilename(operationId)
         } else {
             let pathParts = operation.path.components(separatedBy: "/")
-            var pathName = pathParts.map{$0.upperCamelCased()}.joined(separator: "")
+            var pathName = pathParts.map { $0.upperCamelCased() }.joined(separator: "")
             pathName = pathName.replacingOccurrences(of: "\\{(.*?)\\}", with: "By_$1", options: .regularExpression, range: nil)
             let generatedOperationId = operation.method.rawValue.lowercased() + pathName.upperCamelCased()
             context["operationId"] = generatedOperationId
             context["filename"] = getFilename(generatedOperationId)
         }
 
-        //context["raw"] = operation.json
+        // context["raw"] = operation.json
         context["method"] = operation.method.rawValue.uppercased()
         context["path"] = operation.path
         context["description"] = operation.operation.description
@@ -145,8 +145,8 @@ public class CodeFormatter {
         context["tags"] = operation.operation.tags
         context["params"] = operation.parameters.map(getParameterContext)
         context["hasBody"] = operation.parameters.contains { $0.parameter.fields.location == .body || $0.parameter.fields.location == .formData }
-        context["nonBodyParams"] = operation.parameters.filter { $0.parameter.fields.location != .body}.map(getParameterContext)
-        context["encodedParams"] = operation.parameters.filter { $0.parameter.fields.location == .formData || $0.parameter.fields.location == .query}.map(getParameterContext)
+        context["nonBodyParams"] = operation.parameters.filter { $0.parameter.fields.location != .body }.map(getParameterContext)
+        context["encodedParams"] = operation.parameters.filter { $0.parameter.fields.location == .formData || $0.parameter.fields.location == .query }.map(getParameterContext)
         context["bodyParam"] = operation.getParameters(type: .body).first.flatMap(getParameterContext)
         context["pathParams"] = operation.getParameters(type: .path).map(getParameterContext)
         context["queryParams"] = operation.getParameters(type: .query).map(getParameterContext)
@@ -212,8 +212,8 @@ public class CodeFormatter {
         context["description"] = parameter.parameter.fields.description
 
         switch parameter.parameter {
-        case .body(_, let schema): context["type"] = getSchemaType(name: parameter.name ?? parameter.parameter.fields.name, schema: schema)
-        case .other(_, let item): context["type"] = getItemType(name: parameter.name ?? parameter.parameter.fields.name, item: item)
+        case let .body(_, schema): context["type"] = getSchemaType(name: parameter.name ?? parameter.parameter.fields.name, schema: schema)
+        case let .other(_, item): context["type"] = getItemType(name: parameter.name ?? parameter.parameter.fields.name, item: item)
         }
 
         return context
@@ -240,7 +240,7 @@ public class CodeFormatter {
         var context: Context = [:]
 
         var specEnum: Enum?
-        for globalEnum in self.enums {
+        for globalEnum in enums {
             if String(describing: globalEnum.cases) == String(describing: enumFormatter.cases) {
                 specEnum = globalEnum
                 break
@@ -321,9 +321,9 @@ public class CodeFormatter {
 
     func getFilename(_ name: String) -> String {
         let filename = escapeString(name.upperCamelCased())
-//        if filenames.contains(filename) {
-//            filename += "2"
-//        }
+        //        if filenames.contains(filename) {
+        //            filename += "2"
+        //        }
         filenames.append(filename)
         return filename
     }
@@ -336,5 +336,4 @@ public class CodeFormatter {
     func getSchemaType(name: String, schema: Schema) -> String {
         return "UKNOWN_TYPE"
     }
-
 }

@@ -24,8 +24,7 @@ public struct TemplateConfig {
         if path.isDirectory {
             basePath = path
             templatePath = path + "template.yml"
-        }
-        else {
+        } else {
             basePath = path.parent()
             templatePath = path
         }

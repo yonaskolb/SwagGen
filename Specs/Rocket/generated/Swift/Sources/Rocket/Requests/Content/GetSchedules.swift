@@ -43,7 +43,7 @@ which would be unfriendly for clients presenting these channel schedules.
 
 The base hour requested will belong to this date.
  */
-              public var date: String
+              public var date: Date
 
               /** The base hour in the day, defined by the `date` parameter, you wish to load schedules for.
 
@@ -86,7 +86,7 @@ See the `feature-flags.md` for available flag details.
  */
               public var ff: [FeatureFlags]?
 
-              public init(channels: [String], date: String, hour: Int, duration: Int, device: String? = nil, sub: String? = nil, segments: [String]? = nil, ff: [FeatureFlags]? = nil) {
+              public init(channels: [String], date: Date, hour: Int, duration: Int, device: String? = nil, sub: String? = nil, segments: [String]? = nil, ff: [FeatureFlags]? = nil) {
                   self.channels = channels
                   self.date = date
                   self.hour = hour
@@ -106,7 +106,7 @@ See the `feature-flags.md` for available flag details.
           }
 
           /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(channels: [String], date: String, hour: Int, duration: Int, device: String? = nil, sub: String? = nil, segments: [String]? = nil, ff: [FeatureFlags]? = nil) {
+          public convenience init(channels: [String], date: Date, hour: Int, duration: Int, device: String? = nil, sub: String? = nil, segments: [String]? = nil, ff: [FeatureFlags]? = nil) {
               let options = Options(channels: channels, date: date, hour: hour, duration: duration, device: device, sub: sub, segments: segments, ff: ff)
               self.init(options: options)
           }
@@ -114,7 +114,7 @@ See the `feature-flags.md` for available flag details.
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
               params["channels"] = options.channels.joined(separator: ",")
-              params["date"] = options.date
+              params["date"] = options.date.encode()
               params["hour"] = options.hour
               params["duration"] = options.duration
               if let device = options.device {
@@ -126,7 +126,7 @@ See the `feature-flags.md` for available flag details.
               if let segments = options.segments?.joined(separator: ",") {
                 params["segments"] = segments
               }
-              if let ff = options.ff?.encode().map({ "\($0)" }).joined(separator: ",") {
+              if let ff = options.ff?.encode().map { String(describing: $0) }.joined(separator: ",") {
                 params["ff"] = ff
               }
               return params

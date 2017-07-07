@@ -10,7 +10,7 @@ import JSONUtilities
 /// Manages and sends APIRequests
 public class APIClient {
 
-    public static var `default` = APIClient(baseURL: "https://api.tfl.gov.uk")
+    public static var `default` = APIClient(baseURL: "http://api.tfl.gov.uk")
 
     /// A list of RequestBehaviours that can be used to monitor and alter all requests
     public var behaviours: [RequestBehaviour] = []

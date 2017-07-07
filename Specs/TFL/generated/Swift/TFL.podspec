@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
     s.name = 'TFL'
     s.authors = 'Yonas Kolb'
     s.summary = 'A generated API'
-    s.version = 'v1'
+    s.version = '1'
     s.homepage = 'https://github.com/yonaskolb/SwagGen'
     s.source = { :git => 'git@github.com:https://github.com/yonaskolb/SwagGen.git' }
     s.ios.deployment_target = '9.0'

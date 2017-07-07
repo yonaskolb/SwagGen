@@ -43,7 +43,7 @@ extension TFL.Place {
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "types" + "}", with: "\(self.options.types)")
+              return super.path.replacingOccurrences(of: "{" + "types" + "}", with: "\(self.options.types.joined(separator: ","))")
           }
 
           public override var parameters: [String: Any] {

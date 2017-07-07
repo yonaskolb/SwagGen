@@ -42,7 +42,7 @@ extension TFL.StopPoint {
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "modes" + "}", with: "\(self.options.modes)")
+              return super.path.replacingOccurrences(of: "{" + "modes" + "}", with: "\(self.options.modes.joined(separator: ","))")
           }
 
           public override var parameters: [String: Any] {

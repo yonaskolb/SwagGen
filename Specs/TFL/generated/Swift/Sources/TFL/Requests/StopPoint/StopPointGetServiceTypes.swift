@@ -48,10 +48,10 @@ extension TFL.StopPoint {
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
               params["id"] = options.id
-              if let lineIds = options.lineIds {
+              if let lineIds = options.lineIds?.joined(separator: ",") {
                 params["lineIds"] = lineIds
               }
-              if let modes = options.modes {
+              if let modes = options.modes?.joined(separator: ",") {
                 params["modes"] = modes
               }
               return params

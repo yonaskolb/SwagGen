@@ -34,7 +34,7 @@ extension PetstoreTest.Fake {
               public var number: Double
 
               /** None */
-              public var float: Double?
+              public var float: Float?
 
               /** None */
               public var double: Double
@@ -52,7 +52,7 @@ extension PetstoreTest.Fake {
               public var binary: String?
 
               /** None */
-              public var date: String?
+              public var date: Date?
 
               /** None */
               public var dateTime: Date?
@@ -63,7 +63,7 @@ extension PetstoreTest.Fake {
               /** None */
               public var callback: String?
 
-              public init(integer: Int? = nil, int32: Int? = nil, int64: Int? = nil, number: Double, float: Double? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: String, binary: String? = nil, date: String? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) {
+              public init(integer: Int? = nil, int32: Int? = nil, int64: Int? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: String, binary: String? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) {
                   self.integer = integer
                   self.int32 = int32
                   self.int64 = int64
@@ -89,7 +89,7 @@ extension PetstoreTest.Fake {
           }
 
           /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(integer: Int? = nil, int32: Int? = nil, int64: Int? = nil, number: Double, float: Double? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: String, binary: String? = nil, date: String? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) {
+          public convenience init(integer: Int? = nil, int32: Int? = nil, int64: Int? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: String, binary: String? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) {
               let options = Options(integer: integer, int32: int32, int64: int64, number: number, float: float, double: double, string: string, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback)
               self.init(options: options)
           }
@@ -118,7 +118,7 @@ extension PetstoreTest.Fake {
               if let binary = options.binary {
                 params["binary"] = binary
               }
-              if let date = options.date {
+              if let date = options.date?.encode() {
                 params["date"] = date
               }
               if let dateTime = options.dateTime?.encode() {

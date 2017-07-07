@@ -83,7 +83,6 @@ extension String {
     }
 }
 
-
 extension Dictionary {
 
     public var prettyPrinted: String {
@@ -127,5 +126,5 @@ extension Dictionary {
 }
 
 public func getCountString(counts: [(type: String, count: Int)], pluralise: Bool) -> String {
-    return counts.filter{ $0.count > 0 }.map{"\($0.count) \($0.count == 1 || !pluralise ? $0.type : "\($0.type)s")"}.joined(separator: ", ")
+    return counts.filter { $0.count > 0 }.map { "\($0.count) \($0.count == 1 || !pluralise ? $0.type : "\($0.type)s")" }.joined(separator: ", ")
 }

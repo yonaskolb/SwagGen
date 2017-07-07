@@ -38,7 +38,7 @@ extension TFL.Road {
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids)")
+              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids.joined(separator: ","))")
           }
         }
 

@@ -12,7 +12,7 @@ public class FormatTest: JSONDecodable, JSONEncodable, PrettyPrintable {
 
     public var byte: String
 
-    public var date: String
+    public var date: Date
 
     public var password: String
 
@@ -22,7 +22,7 @@ public class FormatTest: JSONDecodable, JSONEncodable, PrettyPrintable {
 
     public var double: Double?
 
-    public var float: Double?
+    public var float: Float?
 
     public var int32: Int?
 
@@ -34,7 +34,7 @@ public class FormatTest: JSONDecodable, JSONEncodable, PrettyPrintable {
 
     public var uuid: String?
 
-    public init(number: Double, byte: String, date: String, password: String, binary: String? = nil, dateTime: Date? = nil, double: Double? = nil, float: Double? = nil, int32: Int? = nil, int64: Int? = nil, integer: Int? = nil, string: String? = nil, uuid: String? = nil) {
+    public init(number: Double, byte: String, date: Date, password: String, binary: String? = nil, dateTime: Date? = nil, double: Double? = nil, float: Float? = nil, int32: Int? = nil, int64: Int? = nil, integer: Int? = nil, string: String? = nil, uuid: String? = nil) {
         self.number = number
         self.byte = byte
         self.date = date
@@ -70,7 +70,7 @@ public class FormatTest: JSONDecodable, JSONEncodable, PrettyPrintable {
         var dictionary: JSONDictionary = [:]
         dictionary["number"] = number
         dictionary["byte"] = byte
-        dictionary["date"] = date
+        dictionary["date"] = date.encode()
         dictionary["password"] = password
         if let binary = binary {
             dictionary["binary"] = binary

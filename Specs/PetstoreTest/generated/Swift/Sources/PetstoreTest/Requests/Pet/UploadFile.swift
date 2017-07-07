@@ -10,54 +10,12 @@ extension PetstoreTest.Pet {
 
     public enum UploadFile {
 
-      public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
+      public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: false, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
 
       public class Request: APIRequest<Response> {
 
-          public struct Options {
-
-              /** ID of pet to update */
-              public var petId: Int
-
-              /** Additional data to pass to server */
-              public var additionalMetadata: String?
-
-              /** file to upload */
-              public var file: URL?
-
-              public init(petId: Int, additionalMetadata: String? = nil, file: URL? = nil) {
-                  self.petId = petId
-                  self.additionalMetadata = additionalMetadata
-                  self.file = file
-              }
-          }
-
-          public var options: Options
-
-          public init(options: Options) {
-              self.options = options
+          public init() {
               super.init(service: UploadFile.service)
-          }
-
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(petId: Int, additionalMetadata: String? = nil, file: URL? = nil) {
-              let options = Options(petId: petId, additionalMetadata: additionalMetadata, file: file)
-              self.init(options: options)
-          }
-
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "petId" + "}", with: "\(self.options.petId)")
-          }
-
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let additionalMetadata = options.additionalMetadata {
-                params["additionalMetadata"] = additionalMetadata
-              }
-              if let file = options.file?.encode() {
-                params["file"] = file
-              }
-              return params
           }
         }
 

@@ -4,10 +4,10 @@ let package = Package(
     name: "SwagGen",
     targets: [
         Target(name: "SwagGen", dependencies: ["SwagGenKit"]),
-        Target(name: "SwagGenKit", dependencies: ["Swagger"]),
-        Target(name: "Swagger"),
+        Target(name: "SwagGenKit"),
     ],
     dependencies: [
+        .Package(url: "https://github.com/AttilaTheFun/SwaggerParser.git", majorVersion: 0),
         .Package(url: "https://github.com/kylef/PathKit.git", majorVersion: 0, minor: 8),
         .Package(url: "https://github.com/kylef/Commander.git", majorVersion: 0, minor: 6),
         .Package(url: "https://github.com/yonaskolb/Stencil.git", majorVersion: 0, minor: 9),

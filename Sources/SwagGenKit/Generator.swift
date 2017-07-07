@@ -14,7 +14,6 @@ import Rainbow
 
 public class Generator {
 
-
     var destination: Path
     var templateConfig: TemplateConfig
     let context: JSONDictionary
@@ -45,7 +44,7 @@ public class Generator {
         public var removed: [Path]
 
         public func generatedByState(_ state: GeneratedFile.State) -> [GeneratedFile] {
-            return generated.filter { $0.state == state}
+            return generated.filter { $0.state == state }
         }
 
         public var description: String {
@@ -54,7 +53,7 @@ public class Generator {
                 ("modified", generatedByState(.modified).count),
                 ("unchanged", generatedByState(.unchanged).count),
                 ("removed", removed.count),
-                ]
+            ]
             return getCountString(counts: counts, pluralise: false)
         }
     }
@@ -87,12 +86,10 @@ public class Generator {
             if outputPath.exists, let existingContent: String = try? outputPath.read() {
                 if existingContent == content {
                     state = .unchanged
-                }
-                else {
+                } else {
                     state = .modified
                 }
-            }
-            else {
+            } else {
                 state = .created
             }
             self.init(path: path, content: content, state: state)
@@ -144,7 +141,7 @@ public class Generator {
 
         for file in templateConfig.copiedFiles {
             let sourcePath = templateConfig.basePath + file
-            let children = sourcePath.isFile ? [sourcePath] : try sourcePath.recursiveChildren().filter{ $0.isFile }
+            let children = sourcePath.isFile ? [sourcePath] : try sourcePath.recursiveChildren().filter { $0.isFile }
             for child in children {
                 let content: String = try child.read()
                 let path = Path(child.normalize().string.replacingOccurrences(of: templateConfig.basePath.normalize().string + "/", with: ""))
@@ -153,22 +150,37 @@ public class Generator {
             }
         }
 
-        generatedFiles = generatedFiles.sorted{$0.state == $1.state ? $0.path < $1.path : $0.state.rawValue > $1.state.rawValue}
+        //        //remove duplicate filenames
+        //        let originalGeneratedFiles = generatedFiles
+        //        generatedFiles = []
+        //        for file in originalGeneratedFiles {
+        //
+        //            let filename = file.path.lastComponentWithoutExtension
+        //            if generatedFiles.contains(where: { $0.path.lastComponentWithoutExtension == filename }) {
+        //                let newFilename = filename + "2"
+        //                let newPath = file.path.parent() + "\(newFilename)\(file.path.extension.flatMap { ".\($0)" } ?? "")"
+        //                generatedFiles.append(GeneratedFile(path: newPath, content: file.content, destination: ))
+        //            } else {
+        //                generatedFiles.append(file)
+        //            }
+        //        }
+
+        generatedFiles = generatedFiles.sorted { $0.state == $1.state ? $0.path < $1.path : $0.state.rawValue > $1.state.rawValue }
 
         // clean
         var cleanFiles: [Path] = []
         switch clean {
         case .all:
-            cleanFiles = try destination.recursiveChildren().filter{ $0.isFile }
+            cleanFiles = try destination.recursiveChildren().filter { $0.isFile }
         case .leaveDotFiles:
-            let nonDotFiles = try destination.children().filter{!$0.lastComponentWithoutExtension.hasPrefix(".")}
-            cleanFiles = nonDotFiles.filter{ $0.isFile }
-            cleanFiles += try nonDotFiles.reduce([]) { $0 + (try $1.recursiveChildren().filter{ $0.isFile}) }
-        case .none: break;
+            let nonDotFiles = try destination.children().filter { !$0.lastComponentWithoutExtension.hasPrefix(".") }
+            cleanFiles = nonDotFiles.filter { $0.isFile }
+            cleanFiles += try nonDotFiles.reduce([]) { $0 + (try $1.recursiveChildren().filter { $0.isFile }) }
+        case .none: break
         }
 
         let cleanFilesSet = Set(cleanFiles)
-        let generatedFilesSet = Set(generatedFiles.map{ destination + $0.path})
+        let generatedFilesSet = Set(generatedFiles.map { destination + $0.path })
         let removedFiles = Array(cleanFilesSet.subtracting(generatedFilesSet)).sorted()
 
         for file in generatedFiles {

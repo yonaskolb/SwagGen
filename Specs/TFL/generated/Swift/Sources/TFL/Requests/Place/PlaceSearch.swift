@@ -44,7 +44,7 @@ extension TFL.Place {
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
               params["name"] = options.name
-              if let types = options.types {
+              if let types = options.types?.joined(separator: ",") {
                 params["types"] = types
               }
               return params

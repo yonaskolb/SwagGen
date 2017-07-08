@@ -1,15 +1,31 @@
-//
-//  Operation.swift
-//  SwagGen
-//
-//  Created by Yonas Kolb on 18/2/17.
-//
-//
-
-import Foundation
 import JSONUtilities
 
-public class Operation {
+public struct Operation {
+
+    public let json: [String: Any]
+    public let path: String
+    public let method: Method
+    public let summary: String?
+    public let description: String?
+    public let pathParameters: [PossibleReference<Parameter>]
+    public let operationParameters: [PossibleReference<Parameter>]
+
+    public var parameters: [PossibleReference<Parameter>] {
+        return operationParameters + pathParameters.filter { pathParam in
+                operationParameters.contains { $0.value.name == pathParam.name }
+        }
+    }
+
+    public var bodyParam: PossibleReference<Parameter>? {
+        return parameters.first { $0.value.location == .body }
+    }
+
+    public let responses: [StatusCodeResponse]
+    public let defaultResponse: PossibleReference<Response>?
+    public let deprecated: Bool
+    public let identifier: String?
+    public let tags: [String]
+    public let security: [SecurityRequirement]?
 
     public enum Method: String {
         case get
@@ -20,95 +36,34 @@ public class Operation {
         case head
         case patch
     }
+}
 
-    public let operationId: String?
-    public let description: String?
-    public let tags: [String]
-    public var parameters: [Parameter]
-    public let method: Method
-    public let path: String
-    public let responses: [Response]
-    public var securityRequirements: [SecurityRequirement]
-    public let json: JSONDictionary
+extension Operation {
 
-    public init(path: String, pathParameters: [Parameter], method: Method, jsonDictionary: JSONDictionary) throws {
-        self.json = jsonDictionary
-        self.method = method
+    public init(path: String, method: Method, pathParameters: [PossibleReference<Parameter>], jsonDictionary: JSONDictionary) throws {
+        json = jsonDictionary
         self.path = path
-        operationId = jsonDictionary.json(atKeyPath: "operationId")
+        self.method = method
+        self.pathParameters = pathParameters
+        operationParameters = (jsonDictionary.json(atKeyPath: "parameters")) ?? []
+        summary = jsonDictionary.json(atKeyPath: "summary")
         description = jsonDictionary.json(atKeyPath: "description")
-        tags = jsonDictionary.json(atKeyPath: "tags") ?? []
-        parameters = jsonDictionary.json(atKeyPath: "parameters") ?? []
-        parameters.append(contentsOf: pathParameters)
-        securityRequirements = jsonDictionary.json(atKeyPath: "security") ?? []
-        let responseDictionary: JSONDictionary = try jsonDictionary.json(atKeyPath: "responses")
-        var responses: [Response] = []
-        for (key, value) in responseDictionary {
-            if let jsonDictionary = value as? JSONDictionary {
-                responses.append(Response(statusCode: key, jsonDictionary: jsonDictionary))
+
+        identifier = jsonDictionary.json(atKeyPath: "operationId")
+        tags = (jsonDictionary.json(atKeyPath: "tags")) ?? []
+        security = jsonDictionary.json(atKeyPath: "security")
+
+        let allResponses: [String: PossibleReference<Response>] = try jsonDictionary.json(atKeyPath: "responses")
+        var mappedResponses: [StatusCodeResponse] = []
+        for (key, response) in allResponses {
+            if let statusCode = Int(key) {
+                let response = StatusCodeResponse(statusCode: statusCode, response: response)
+                mappedResponses.append(response)
             }
         }
-        self.responses = responses.sorted {
-            let code1 = $0.statusCode
-            let code2 = $1.statusCode
-            switch (code1, code2) {
-            case (.some(let code1), .some(let code2)): return code1 < code2
-            case (.some, .none): return true
-            case (.none, .some): return false
-            default: return false
-            }
-        }
-    }
 
-    public func getParameters(type: Parameter.ParamaterType) -> [Parameter] {
-        return parameters.filter { $0.parameterType == type }
-    }
-
-    public var enums: [Parameter] {
-        return parameters.filter { $0.enumValues != nil || $0.arrayValue?.enumValues != nil }
-    }
-}
-
-public class Response {
-
-    public let statusCode: Int?
-    public let description: String?
-    public var schema: Value?
-    public var success: Bool
-
-    init(statusCode: String, jsonDictionary: JSONDictionary) {
-        self.statusCode = Int(statusCode)
-        description = jsonDictionary.json(atKeyPath: "description")
-        schema = jsonDictionary.json(atKeyPath: "schema")
-        success = statusCode.hasPrefix("2")
-    }
-}
-
-public struct SecurityRequirement: JSONObjectConvertible {
-    public let name: String
-    public let scopes: [String]
-
-    public init(jsonDictionary: JSONDictionary) throws {
-        name = jsonDictionary.keys.first ?? ""
-        scopes = try jsonDictionary.json(atKeyPath: .key(name))
-    }
-}
-
-public class Parameter: Value {
-
-    public var parameterType: ParamaterType?
-    public var isFile: Bool { return type == "file" }
-
-    public enum ParamaterType: String {
-        case body
-        case path
-        case query
-        case form = "formData"
-        case header
-    }
-
-    required public init(jsonDictionary: JSONDictionary) throws {
-        parameterType = (try? jsonDictionary.json(atKeyPath: "in") as String).flatMap { ParamaterType(rawValue: $0) }
-        try super.init(jsonDictionary: jsonDictionary)
+        responses = mappedResponses.sorted { $0.statusCode < $1.statusCode }
+        defaultResponse = allResponses["default"]
+        deprecated = (jsonDictionary.json(atKeyPath: "deprecated")) ?? false
     }
 }

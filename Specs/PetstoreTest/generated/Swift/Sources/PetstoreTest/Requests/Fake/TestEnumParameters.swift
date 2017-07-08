@@ -85,20 +85,6 @@ extension PetstoreTest.Fake {
           ]
       }
 
-      /** Query parameter enum test (double) */
-      public enum EnumQueryInteger: String {
-
-          public static let cases: [EnumQueryInteger] = [
-          ]
-      }
-
-      /** Query parameter enum test (double) */
-      public enum EnumQueryDouble: String {
-
-          public static let cases: [EnumQueryDouble] = [
-          ]
-      }
-
       public class Request: APIRequest<Response> {
 
           public struct Options {
@@ -154,13 +140,13 @@ extension PetstoreTest.Fake {
 
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
-              if let enumFormStringArray = options.enumFormStringArray?.encode() {
+              if let enumFormStringArray = options.enumFormStringArray?.encode().map({ String(describing: $0) }).joined(separator: ",") {
                 params["enum_form_string_array"] = enumFormStringArray
               }
               if let enumFormString = options.enumFormString?.encode() {
                 params["enum_form_string"] = enumFormString
               }
-              if let enumQueryStringArray = options.enumQueryStringArray?.encode() {
+              if let enumQueryStringArray = options.enumQueryStringArray?.encode().map({ String(describing: $0) }).joined(separator: ",") {
                 params["enum_query_string_array"] = enumQueryStringArray
               }
               if let enumQueryString = options.enumQueryString?.encode() {

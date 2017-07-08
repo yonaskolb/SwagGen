@@ -1,5 +1,4 @@
 
-@testable import SwagGenKit
 @testable import Swagger
 import PathKit
 import Spectre
@@ -31,7 +30,7 @@ public func specTests() {
 
         $0.describe("/pets path") {
 
-            let path = spec.paths["/pets"]
+            let path = spec.paths.first{ $0.path == "/pets" }
 
             $0.it("has correct path") {
                 try expect(path?.path) == "/pets"
@@ -46,14 +45,14 @@ public func specTests() {
             }
 
             $0.it("has a listPets operation") {
-                try expect(path?.operations.filter{$0.operationId == "listPets"}.count) == 1
+                try expect(path?.operations.filter{$0.identifier == "listPets"}.count) == 1
             }
 
             $0.describe("listPets operation") {
 
-                let operation = path?.operations.filter{$0.operationId == "listPets"}.first
+                let operation = path?.operations.filter{$0.identifier == "listPets"}.first
                 $0.it("has get operation id") {
-                    try expect(operation?.operationId) == "listPets"
+                    try expect(operation?.identifier) == "listPets"
                 }
                 $0.it("has a path") {
                     try expect(operation?.path) == "/pets"
@@ -64,8 +63,11 @@ public func specTests() {
                 $0.it("has parameters") {
                     try expect(operation?.parameters.count) == 1
                 }
-                $0.it("has responses") {
-                    try expect(operation?.responses.count) == 2
+                $0.it("has one status responses") {
+                    try expect(operation?.responses.count) == 1
+                }
+                $0.it("has a default responses") {
+                    try expect(operation?.defaultResponse?.value.description) == "unexpected error"
                 }
             }
         }
@@ -83,7 +85,7 @@ public func specTests() {
         }
 
         $0.it("has Pet definition") {
-            let petDefinition = spec.definitions["Pet"]
+            let petDefinition = spec.definitions.first { $0.name == "Pet" }
             try expect(petDefinition?.name) == "Pet"
         }
 

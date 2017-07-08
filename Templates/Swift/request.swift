@@ -17,10 +17,6 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
       {% include "Includes/enum.stencil" using enum %}
       {% endif %}
       {% endfor %}
-      {% if bodyParam.anonymousSchema %}
-
-      {% include "Includes/Model.stencil" using bodyParam %}
-      {% endif %}
 
       public class Request: APIRequest<Response> {
           {% if nonBodyParams %}

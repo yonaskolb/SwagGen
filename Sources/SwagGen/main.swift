@@ -40,7 +40,6 @@ extension Generator.Clean: ArgumentConvertible {
         case "leave-dot-files", "leaveDotFiles", "leave.files": self = .leaveDotFiles
         default: throw ArgumentError.invalidType(value: clean, type: "Generator.Clean", argument: "clean")
         }
-
     }
 
     public var description: String {

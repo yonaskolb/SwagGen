@@ -50,7 +50,7 @@ extension TFL.Line {
 
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
-              if let serviceTypes = options.serviceTypes?.encode() {
+              if let serviceTypes = options.serviceTypes?.encode().map({ String(describing: $0) }).joined(separator: ",") {
                 params["serviceTypes"] = serviceTypes
               }
               return params

@@ -12,37 +12,17 @@ extension TestSpec.TestTag {
 
       public static let service = APIService<Response>(id: "createItem", tag: "TestTag", method: "POST", path: "/items", hasBody: true)
 
-      /** An inline item */
-      public class Item: JSONDecodable, JSONEncodable, PrettyPrintable {
-
-          public init() {
-          }
-
-          public required init(jsonDictionary: JSONDictionary) throws {
-          }
-
-          public func encode() -> JSONDictionary {
-              var dictionary: JSONDictionary = [:]
-              return dictionary
-          }
-
-          /// pretty prints all properties including nested models
-          public var prettyPrinted: String {
-              return "\(type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
-          }
-      }
-
       public class Request: APIRequest<Response> {
 
-          public var item: Item
+          public var item: [String: Any]
 
-          public init(item: Item) {
+          public init(item: [String: Any]) {
               self.item = item
               super.init(service: CreateItem.service)
           }
 
           public override var jsonBody: Any? {
-              return item.encode()
+              return item
           }
         }
 

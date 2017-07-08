@@ -53,12 +53,12 @@ extension TFL.Line {
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids)")
+              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids.joined(separator: ","))")
           }
 
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
-              if let serviceTypes = options.serviceTypes?.encode() {
+              if let serviceTypes = options.serviceTypes?.encode().map({ String(describing: $0) }).joined(separator: ",") {
                 params["serviceTypes"] = serviceTypes
               }
               return params

@@ -1,0 +1,39 @@
+swagger: "2.0"
+info:
+  title: Test Spec
+paths:
+  /items:
+    post:
+      summary: Create an Item
+      operationId: createItem
+      tags:
+        - TestTag
+      parameters:
+        - name: item
+          in: body
+          description: An inline item
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+      responses:
+        201:
+          description: Empty response
+        # default:
+        #   description: unexpected error
+        #   schema:
+        #     properties:
+        #       code:
+        #         type: integer
+        #       message:
+        #         type: string
+definitions:
+  ModelWithAdditionalProperties:
+    additionalProperties: true
+    properties:
+      name:
+        type: string

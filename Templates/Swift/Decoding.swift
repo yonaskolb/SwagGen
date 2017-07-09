@@ -43,7 +43,7 @@ struct JSONDecoder {
         let jsonDictionary: JSONDictionary = try decodeJSON(data: data)
         var dictionary: [String: T] = [:]
         for key in jsonDictionary.keys {
-            dictionary[key] = try jsonDictionary.json(atKeyPath: key) as T
+            dictionary[key] = try jsonDictionary.json(atKeyPath: .key(key)) as T
         }
         return dictionary
     }
@@ -52,7 +52,7 @@ struct JSONDecoder {
         let jsonDictionary: JSONDictionary = try decodeJSON(data: data)
         var dictionary: [String: T] = [:]
         for key in jsonDictionary.keys {
-            dictionary[key] = try jsonDictionary.json(atKeyPath: key) as T
+            dictionary[key] = try jsonDictionary.json(atKeyPath: .key(key)) as T
         }
         return dictionary
     }
@@ -61,7 +61,7 @@ struct JSONDecoder {
         let jsonDictionary: JSONDictionary = try decodeJSON(data: data)
         var dictionary: [String: T] = [:]
         for key in jsonDictionary.keys {
-            dictionary[key] = try jsonDictionary.json(atKeyPath: key) as T
+            dictionary[key] = try jsonDictionary.json(atKeyPath: .key(key)) as T
         }
         return dictionary
     }

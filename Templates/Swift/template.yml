@@ -3,8 +3,8 @@ options:
   name: API
   dependencies:
     - pod: JSONUtilities
-      github: lucianomarisi/JSONUtilities
-      version: 3.2.0
+      github: yonaskolb/JSONUtilities
+      version: 3.3.8
     - pod: Alamofire
       github: Alamofire/Alamofire
       version: 4.4.0

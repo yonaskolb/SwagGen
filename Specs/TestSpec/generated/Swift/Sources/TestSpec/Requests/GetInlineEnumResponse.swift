@@ -23,47 +23,47 @@ extension TestSpec {
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
 
             /** enum response */
-            public enum Success200: String {
+            public enum Status200: String {
                 case one = "one"
                 case two = "two"
 
-                public static let cases: [Success200] = [
+                public static let cases: [Status200] = [
                   .one,
                   .two,
                 ]
             }
-            public typealias SuccessType = [String: Success200]
+            public typealias SuccessType = [String: Status200]
 
             /** enum response */
-            case success200([String: Success200])
+            case status200([String: Status200])
 
-            public var success: [String: Success200]? {
+            public var success: [String: Status200]? {
                 switch self {
-                case .success200(let response): return response
+                case .status200(let response): return response
                 }
             }
 
             public var response: Any {
                 switch self {
-                case .success200(let response): return response
+                case .status200(let response): return response
                 }
             }
 
             public var statusCode: Int {
               switch self {
-              case .success200: return 200
+              case .status200: return 200
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .success200: return true
+              case .status200: return true
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 200: self = try .success200(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(JSONDecoder.decode(data: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

@@ -30,13 +30,13 @@ extension PetstoreTest.Pet {
             public typealias SuccessType = Void
 
             /** Invalid ID supplied */
-            case failure400
+            case status400
 
             /** Pet not found */
-            case failure404
+            case status404
 
             /** Validation exception */
-            case failure405
+            case status405
 
             public var success: Void? {
                 switch self {
@@ -52,25 +52,25 @@ extension PetstoreTest.Pet {
 
             public var statusCode: Int {
               switch self {
-              case .failure400: return 400
-              case .failure404: return 404
-              case .failure405: return 405
+              case .status400: return 400
+              case .status404: return 404
+              case .status405: return 405
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .failure400: return false
-              case .failure404: return false
-              case .failure405: return false
+              case .status400: return false
+              case .status404: return false
+              case .status405: return false
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 400: self = .failure400
-                case 404: self = .failure404
-                case 405: self = .failure405
+                case 400: self = .status400
+                case 404: self = .status404
+                case 405: self = .status405
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

@@ -31,11 +31,11 @@ extension TestSpec.TestTag {
             public typealias SuccessType = Void
 
             /** Empty response */
-            case success201
+            case status201
 
             public var success: Void? {
                 switch self {
-                case .success201(let response): return response
+                case .status201(let response): return response
                 }
             }
 
@@ -47,19 +47,19 @@ extension TestSpec.TestTag {
 
             public var statusCode: Int {
               switch self {
-              case .success201: return 201
+              case .status201: return 201
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .success201: return true
+              case .status201: return true
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 201: self = .success201
+                case 201: self = .status201
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

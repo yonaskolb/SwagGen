@@ -65,7 +65,7 @@ extension PetstoreTest.Pet {
             public typealias SuccessType = Void
 
             /** Invalid input */
-            case failure405
+            case status405
 
             public var success: Void? {
                 switch self {
@@ -81,19 +81,19 @@ extension PetstoreTest.Pet {
 
             public var statusCode: Int {
               switch self {
-              case .failure405: return 405
+              case .status405: return 405
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .failure405: return false
+              case .status405: return false
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 405: self = .failure405
+                case 405: self = .status405
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

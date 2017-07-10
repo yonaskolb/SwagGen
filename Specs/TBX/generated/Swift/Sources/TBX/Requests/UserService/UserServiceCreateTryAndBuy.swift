@@ -63,33 +63,33 @@ extension TBX.UserService {
             public typealias SuccessType = TryAndBuyObject
 
             /** Request was successful */
-            case success200(TryAndBuyObject)
+            case status200(TryAndBuyObject)
 
             /** Bad Request  */
-            case failure400(ResponseError)
+            case status400(ResponseError)
 
             /** Unauthorized  */
-            case failure401(ResponseError)
+            case status401(ResponseError)
 
             /** Customer or Device not Found */
-            case failure404(ResponseError)
+            case status404(ResponseError)
 
             /** Device was Logged Out or the customer not longer exists */
-            case failure410(ResponseError)
+            case status410(ResponseError)
 
             public var success: TryAndBuyObject? {
                 switch self {
-                case .success200(let response): return response
+                case .status200(let response): return response
                 default: return nil
                 }
             }
 
             public var failure: ResponseError? {
                 switch self {
-                case .failure400(let response): return response
-                case .failure401(let response): return response
-                case .failure404(let response): return response
-                case .failure410(let response): return response
+                case .status400(let response): return response
+                case .status401(let response): return response
+                case .status404(let response): return response
+                case .status410(let response): return response
                 default: return nil
                 }
             }
@@ -107,41 +107,41 @@ extension TBX.UserService {
 
             public var response: Any {
                 switch self {
-                case .success200(let response): return response
-                case .failure400(let response): return response
-                case .failure401(let response): return response
-                case .failure404(let response): return response
-                case .failure410(let response): return response
+                case .status200(let response): return response
+                case .status400(let response): return response
+                case .status401(let response): return response
+                case .status404(let response): return response
+                case .status410(let response): return response
                 }
             }
 
             public var statusCode: Int {
               switch self {
-              case .success200: return 200
-              case .failure400: return 400
-              case .failure401: return 401
-              case .failure404: return 404
-              case .failure410: return 410
+              case .status200: return 200
+              case .status400: return 400
+              case .status401: return 401
+              case .status404: return 404
+              case .status410: return 410
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .success200: return true
-              case .failure400: return false
-              case .failure401: return false
-              case .failure404: return false
-              case .failure410: return false
+              case .status200: return true
+              case .status400: return false
+              case .status401: return false
+              case .status404: return false
+              case .status410: return false
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 200: self = try .success200(JSONDecoder.decode(data: data))
-                case 400: self = try .failure400(JSONDecoder.decode(data: data))
-                case 401: self = try .failure401(JSONDecoder.decode(data: data))
-                case 404: self = try .failure404(JSONDecoder.decode(data: data))
-                case 410: self = try .failure410(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 400: self = try .status400(JSONDecoder.decode(data: data))
+                case 401: self = try .status401(JSONDecoder.decode(data: data))
+                case 404: self = try .status404(JSONDecoder.decode(data: data))
+                case 410: self = try .status410(JSONDecoder.decode(data: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

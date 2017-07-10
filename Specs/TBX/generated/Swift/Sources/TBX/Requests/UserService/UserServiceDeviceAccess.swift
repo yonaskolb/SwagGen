@@ -66,41 +66,41 @@ extension TBX.UserService {
             public typealias SuccessType = MultiHasAccessToObject
 
             /** Request was successful */
-            case success200(MultiHasAccessToObject)
+            case status200(MultiHasAccessToObject)
 
             /** Bad Request  */
-            case failure400(ResponseError)
+            case status400(ResponseError)
 
             /** Unauthorized  */
-            case failure401(ResponseError)
+            case status401(ResponseError)
 
             /** Customer or Device not Found */
-            case failure404(ResponseError)
+            case status404(ResponseError)
 
             /** The IDP took too long to respond */
-            case failure408(ResponseError)
+            case status408(ResponseError)
 
             /** Device was Logged Out or the customer not longer exists */
-            case failure410(ResponseError)
+            case status410(ResponseError)
 
             /** The IDP return an error or the received response from IDP is invalid */
-            case failure424(ResponseError)
+            case status424(ResponseError)
 
             public var success: MultiHasAccessToObject? {
                 switch self {
-                case .success200(let response): return response
+                case .status200(let response): return response
                 default: return nil
                 }
             }
 
             public var failure: ResponseError? {
                 switch self {
-                case .failure400(let response): return response
-                case .failure401(let response): return response
-                case .failure404(let response): return response
-                case .failure408(let response): return response
-                case .failure410(let response): return response
-                case .failure424(let response): return response
+                case .status400(let response): return response
+                case .status401(let response): return response
+                case .status404(let response): return response
+                case .status408(let response): return response
+                case .status410(let response): return response
+                case .status424(let response): return response
                 default: return nil
                 }
             }
@@ -118,49 +118,49 @@ extension TBX.UserService {
 
             public var response: Any {
                 switch self {
-                case .success200(let response): return response
-                case .failure400(let response): return response
-                case .failure401(let response): return response
-                case .failure404(let response): return response
-                case .failure408(let response): return response
-                case .failure410(let response): return response
-                case .failure424(let response): return response
+                case .status200(let response): return response
+                case .status400(let response): return response
+                case .status401(let response): return response
+                case .status404(let response): return response
+                case .status408(let response): return response
+                case .status410(let response): return response
+                case .status424(let response): return response
                 }
             }
 
             public var statusCode: Int {
               switch self {
-              case .success200: return 200
-              case .failure400: return 400
-              case .failure401: return 401
-              case .failure404: return 404
-              case .failure408: return 408
-              case .failure410: return 410
-              case .failure424: return 424
+              case .status200: return 200
+              case .status400: return 400
+              case .status401: return 401
+              case .status404: return 404
+              case .status408: return 408
+              case .status410: return 410
+              case .status424: return 424
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .success200: return true
-              case .failure400: return false
-              case .failure401: return false
-              case .failure404: return false
-              case .failure408: return false
-              case .failure410: return false
-              case .failure424: return false
+              case .status200: return true
+              case .status400: return false
+              case .status401: return false
+              case .status404: return false
+              case .status408: return false
+              case .status410: return false
+              case .status424: return false
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 200: self = try .success200(JSONDecoder.decode(data: data))
-                case 400: self = try .failure400(JSONDecoder.decode(data: data))
-                case 401: self = try .failure401(JSONDecoder.decode(data: data))
-                case 404: self = try .failure404(JSONDecoder.decode(data: data))
-                case 408: self = try .failure408(JSONDecoder.decode(data: data))
-                case 410: self = try .failure410(JSONDecoder.decode(data: data))
-                case 424: self = try .failure424(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 400: self = try .status400(JSONDecoder.decode(data: data))
+                case 401: self = try .status401(JSONDecoder.decode(data: data))
+                case 404: self = try .status404(JSONDecoder.decode(data: data))
+                case 408: self = try .status408(JSONDecoder.decode(data: data))
+                case 410: self = try .status410(JSONDecoder.decode(data: data))
+                case 424: self = try .status424(JSONDecoder.decode(data: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

@@ -31,7 +31,7 @@ extension TestSpec {
             public typealias SuccessType = Void
 
             /** successful operation */
-            case failureDefault(statusCode: Int)
+            case defaultResponse(statusCode: Int)
 
             public var success: Void? {
                 switch self {
@@ -47,19 +47,19 @@ extension TestSpec {
 
             public var statusCode: Int {
               switch self {
-              case .failureDefault(let statusCode): return statusCode
+              case .defaultResponse(let statusCode): return statusCode
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .failureDefault: return false
+              case .defaultResponse: return false
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                default: self = .failureDefault(statusCode: statusCode)
+                default: self = .defaultResponse(statusCode: statusCode)
                 }
             }
 

@@ -44,7 +44,7 @@ extension Metadata {
 
     func getEnum(name: String, description: String?) -> Enum? {
         if let enumValues = enumeratedValues {
-            return Enum(name: name, cases: enumValues.flatMap { $0 }, description: description)
+            return Enum(name: name, cases: enumValues.flatMap { $0 }, description: description ?? self.description)
         }
         return nil
     }
@@ -113,7 +113,7 @@ extension Schema {
             if case let .schema(schema) = objectSchema.additionalProperties {
                 return schema.getEnum(name: name, description: description)
             }
-        case .string: return metadata.getEnum(name: name, description: description ?? metadata.description)
+        case .string: return metadata.getEnum(name: name, description: description)
             // TODO: support enums other than string
         case let .array(array):
             if case let .single(schema) = array.items {
@@ -178,9 +178,9 @@ extension OperationResponse {
 
     public var name: String {
         if let statusCode = statusCode {
-            return "\(successful ? "success":"failure")\(statusCode.description)"
+            return "Status\(statusCode.description)"
         } else {
-            return "failureDefault"
+            return "DefaultResponse"
         }
     }
 

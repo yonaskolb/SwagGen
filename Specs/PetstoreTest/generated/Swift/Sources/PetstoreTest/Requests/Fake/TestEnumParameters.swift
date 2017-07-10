@@ -166,10 +166,10 @@ extension PetstoreTest.Fake {
             public typealias SuccessType = Void
 
             /** Invalid request */
-            case failure400
+            case status400
 
             /** Not found */
-            case failure404
+            case status404
 
             public var success: Void? {
                 switch self {
@@ -185,22 +185,22 @@ extension PetstoreTest.Fake {
 
             public var statusCode: Int {
               switch self {
-              case .failure400: return 400
-              case .failure404: return 404
+              case .status400: return 400
+              case .status404: return 404
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .failure400: return false
-              case .failure404: return false
+              case .status400: return false
+              case .status404: return false
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 400: self = .failure400
-                case 404: self = .failure404
+                case 400: self = .status400
+                case 404: self = .status404
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

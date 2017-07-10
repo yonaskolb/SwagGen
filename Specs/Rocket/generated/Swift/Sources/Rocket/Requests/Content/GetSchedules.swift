@@ -140,33 +140,33 @@ See the `feature-flags.md` for available flag details.
 
 The order of the channels will match the order of channel ids passed during the request.
  */
-            case success200([ItemScheduleList])
+            case status200([ItemScheduleList])
 
             /** Bad request. */
-            case failure400(ServiceError)
+            case status400(ServiceError)
 
             /** Not found. */
-            case failure404(ServiceError)
+            case status404(ServiceError)
 
             /** Internal server error. */
-            case failure500(ServiceError)
+            case status500(ServiceError)
 
             /** Service error. */
-            case failureDefault(statusCode: Int, ServiceError)
+            case defaultResponse(statusCode: Int, ServiceError)
 
             public var success: [ItemScheduleList]? {
                 switch self {
-                case .success200(let response): return response
+                case .status200(let response): return response
                 default: return nil
                 }
             }
 
             public var failure: ServiceError? {
                 switch self {
-                case .failure400(let response): return response
-                case .failure404(let response): return response
-                case .failure500(let response): return response
-                case .failureDefault(_, let response): return response
+                case .status400(let response): return response
+                case .status404(let response): return response
+                case .status500(let response): return response
+                case .defaultResponse(_, let response): return response
                 default: return nil
                 }
             }
@@ -184,41 +184,41 @@ The order of the channels will match the order of channel ids passed during the 
 
             public var response: Any {
                 switch self {
-                case .success200(let response): return response
-                case .failure400(let response): return response
-                case .failure404(let response): return response
-                case .failure500(let response): return response
-                case .failureDefault(_, let response): return response
+                case .status200(let response): return response
+                case .status400(let response): return response
+                case .status404(let response): return response
+                case .status500(let response): return response
+                case .defaultResponse(_, let response): return response
                 }
             }
 
             public var statusCode: Int {
               switch self {
-              case .success200: return 200
-              case .failure400: return 400
-              case .failure404: return 404
-              case .failure500: return 500
-              case .failureDefault(let statusCode, _): return statusCode
+              case .status200: return 200
+              case .status400: return 400
+              case .status404: return 404
+              case .status500: return 500
+              case .defaultResponse(let statusCode, _): return statusCode
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .success200: return true
-              case .failure400: return false
-              case .failure404: return false
-              case .failure500: return false
-              case .failureDefault: return false
+              case .status200: return true
+              case .status400: return false
+              case .status404: return false
+              case .status500: return false
+              case .defaultResponse: return false
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 200: self = try .success200(JSONDecoder.decode(data: data))
-                case 400: self = try .failure400(JSONDecoder.decode(data: data))
-                case 404: self = try .failure404(JSONDecoder.decode(data: data))
-                case 500: self = try .failure500(JSONDecoder.decode(data: data))
-                default: self = try .failureDefault(statusCode: statusCode, JSONDecoder.decode(data: data))
+                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 400: self = try .status400(JSONDecoder.decode(data: data))
+                case 404: self = try .status404(JSONDecoder.decode(data: data))
+                case 500: self = try .status500(JSONDecoder.decode(data: data))
+                default: self = try .defaultResponse(statusCode: statusCode, JSONDecoder.decode(data: data))
                 }
             }
 

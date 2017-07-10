@@ -47,49 +47,49 @@ extension PetstoreTest.Pet {
             public typealias SuccessType = Pet
 
             /** successful operation */
-            case success200(Pet)
+            case status200(Pet)
 
             /** Invalid ID supplied */
-            case failure400
+            case status400
 
             /** Pet not found */
-            case failure404
+            case status404
 
             public var success: Pet? {
                 switch self {
-                case .success200(let response): return response
+                case .status200(let response): return response
                 default: return nil
                 }
             }
 
             public var response: Any {
                 switch self {
-                case .success200(let response): return response
+                case .status200(let response): return response
                 default: return ()
                 }
             }
 
             public var statusCode: Int {
               switch self {
-              case .success200: return 200
-              case .failure400: return 400
-              case .failure404: return 404
+              case .status200: return 200
+              case .status400: return 400
+              case .status404: return 404
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .success200: return true
-              case .failure400: return false
-              case .failure404: return false
+              case .status200: return true
+              case .status400: return false
+              case .status404: return false
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 200: self = try .success200(JSONDecoder.decode(data: data))
-                case 400: self = .failure400
-                case 404: self = .failure404
+                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 400: self = .status400
+                case 404: self = .status404
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

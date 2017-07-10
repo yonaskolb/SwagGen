@@ -79,35 +79,35 @@ extension TFL.Place {
             public typealias SuccessType = Object
 
             /** OK */
-            case success200(Object)
+            case status200(Object)
 
             public var success: Object? {
                 switch self {
-                case .success200(let response): return response
+                case .status200(let response): return response
                 }
             }
 
             public var response: Any {
                 switch self {
-                case .success200(let response): return response
+                case .status200(let response): return response
                 }
             }
 
             public var statusCode: Int {
               switch self {
-              case .success200: return 200
+              case .status200: return 200
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .success200: return true
+              case .status200: return true
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 200: self = try .success200(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(JSONDecoder.decode(data: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

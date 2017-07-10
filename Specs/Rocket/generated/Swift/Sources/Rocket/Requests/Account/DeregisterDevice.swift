@@ -47,41 +47,41 @@ extension Rocket.Account {
             public typealias SuccessType = Void
 
             /** Device deregistered. */
-            case success204
+            case status204
 
             /** Bad request. */
-            case failure400(ServiceError)
+            case status400(ServiceError)
 
             /** Invalid access token. */
-            case failure401(ServiceError)
+            case status401(ServiceError)
 
             /** Forbidden. */
-            case failure403(ServiceError)
+            case status403(ServiceError)
 
             /** Not found. */
-            case failure404(ServiceError)
+            case status404(ServiceError)
 
             /** Internal server error. */
-            case failure500(ServiceError)
+            case status500(ServiceError)
 
             /** Service error. */
-            case failureDefault(statusCode: Int, ServiceError)
+            case defaultResponse(statusCode: Int, ServiceError)
 
             public var success: Void? {
                 switch self {
-                case .success204(let response): return response
+                case .status204(let response): return response
                 default: return nil
                 }
             }
 
             public var failure: ServiceError? {
                 switch self {
-                case .failure400(let response): return response
-                case .failure401(let response): return response
-                case .failure403(let response): return response
-                case .failure404(let response): return response
-                case .failure500(let response): return response
-                case .failureDefault(_, let response): return response
+                case .status400(let response): return response
+                case .status401(let response): return response
+                case .status403(let response): return response
+                case .status404(let response): return response
+                case .status500(let response): return response
+                case .defaultResponse(_, let response): return response
                 default: return nil
                 }
             }
@@ -99,49 +99,49 @@ extension Rocket.Account {
 
             public var response: Any {
                 switch self {
-                case .failure400(let response): return response
-                case .failure401(let response): return response
-                case .failure403(let response): return response
-                case .failure404(let response): return response
-                case .failure500(let response): return response
-                case .failureDefault(_, let response): return response
+                case .status400(let response): return response
+                case .status401(let response): return response
+                case .status403(let response): return response
+                case .status404(let response): return response
+                case .status500(let response): return response
+                case .defaultResponse(_, let response): return response
                 default: return ()
                 }
             }
 
             public var statusCode: Int {
               switch self {
-              case .success204: return 204
-              case .failure400: return 400
-              case .failure401: return 401
-              case .failure403: return 403
-              case .failure404: return 404
-              case .failure500: return 500
-              case .failureDefault(let statusCode, _): return statusCode
+              case .status204: return 204
+              case .status400: return 400
+              case .status401: return 401
+              case .status403: return 403
+              case .status404: return 404
+              case .status500: return 500
+              case .defaultResponse(let statusCode, _): return statusCode
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .success204: return true
-              case .failure400: return false
-              case .failure401: return false
-              case .failure403: return false
-              case .failure404: return false
-              case .failure500: return false
-              case .failureDefault: return false
+              case .status204: return true
+              case .status400: return false
+              case .status401: return false
+              case .status403: return false
+              case .status404: return false
+              case .status500: return false
+              case .defaultResponse: return false
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 204: self = .success204
-                case 400: self = try .failure400(JSONDecoder.decode(data: data))
-                case 401: self = try .failure401(JSONDecoder.decode(data: data))
-                case 403: self = try .failure403(JSONDecoder.decode(data: data))
-                case 404: self = try .failure404(JSONDecoder.decode(data: data))
-                case 500: self = try .failure500(JSONDecoder.decode(data: data))
-                default: self = try .failureDefault(statusCode: statusCode, JSONDecoder.decode(data: data))
+                case 204: self = .status204
+                case 400: self = try .status400(JSONDecoder.decode(data: data))
+                case 401: self = try .status401(JSONDecoder.decode(data: data))
+                case 403: self = try .status403(JSONDecoder.decode(data: data))
+                case 404: self = try .status404(JSONDecoder.decode(data: data))
+                case 500: self = try .status500(JSONDecoder.decode(data: data))
+                default: self = try .defaultResponse(statusCode: statusCode, JSONDecoder.decode(data: data))
                 }
             }
 

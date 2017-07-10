@@ -23,21 +23,21 @@ extension Petstore.Pets {
             public typealias SuccessType = Void
 
             /** Null response */
-            case success201
+            case status201
 
             /** unexpected error */
-            case failureDefault(statusCode: Int, ErrorType)
+            case defaultResponse(statusCode: Int, ErrorType)
 
             public var success: Void? {
                 switch self {
-                case .success201(let response): return response
+                case .status201(let response): return response
                 default: return nil
                 }
             }
 
             public var failure: ErrorType? {
                 switch self {
-                case .failureDefault(_, let response): return response
+                case .defaultResponse(_, let response): return response
                 default: return nil
                 }
             }
@@ -55,29 +55,29 @@ extension Petstore.Pets {
 
             public var response: Any {
                 switch self {
-                case .failureDefault(_, let response): return response
+                case .defaultResponse(_, let response): return response
                 default: return ()
                 }
             }
 
             public var statusCode: Int {
               switch self {
-              case .success201: return 201
-              case .failureDefault(let statusCode, _): return statusCode
+              case .status201: return 201
+              case .defaultResponse(let statusCode, _): return statusCode
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .success201: return true
-              case .failureDefault: return false
+              case .status201: return true
+              case .defaultResponse: return false
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 201: self = .success201
-                default: self = try .failureDefault(statusCode: statusCode, JSONDecoder.decode(data: data))
+                case 201: self = .status201
+                default: self = try .defaultResponse(statusCode: statusCode, JSONDecoder.decode(data: data))
                 }
             }
 

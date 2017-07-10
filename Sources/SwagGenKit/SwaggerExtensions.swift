@@ -158,6 +158,21 @@ extension ObjectSchema {
     }
 }
 
+extension OperationResponse {
+
+    public var successful: Bool {
+        return statusCode?.description.hasPrefix("2") ?? false
+    }
+
+    public var name: String {
+        if let statusCode = statusCode {
+            return "\(successful ? "success":"failure")\(statusCode.description)"
+        } else {
+            return "failureDefault"
+        }
+    }
+}
+
 extension Property {
 
     var isEnum: Bool {

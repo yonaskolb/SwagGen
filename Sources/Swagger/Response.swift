@@ -1,12 +1,8 @@
 import JSONUtilities
 
-public struct StatusCodeResponse {
-    public let statusCode: Int
+public struct OperationResponse {
+    public let statusCode: Int?
     public let response: PossibleReference<Response>
-
-    public var successful: Bool {
-        return statusCode.description.hasPrefix("2")
-    }
 }
 
 public struct Response {

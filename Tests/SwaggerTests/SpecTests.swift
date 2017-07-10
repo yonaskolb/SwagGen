@@ -63,8 +63,8 @@ public func specTests() {
                 $0.it("has parameters") {
                     try expect(operation?.parameters.count) == 1
                 }
-                $0.it("has one status responses") {
-                    try expect(operation?.responses.count) == 1
+                $0.it("has 2 responses") {
+                    try expect(operation?.responses.count) == 2
                 }
                 $0.it("has a default responses") {
                     try expect(operation?.defaultResponse?.value.description) == "unexpected error"

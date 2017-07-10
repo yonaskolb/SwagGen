@@ -124,21 +124,6 @@ public class CodeFormatter {
     func getOperationContext(_ operation: Swagger.Operation) -> Context {
         var context: Context = [:]
 
-        var responses = operation.responses.map(getStatusCodeResponseContext)
-        let successResponse = operation.responses.filter { $0.successful }.first
-        let successResponses = operation.responses.filter { $0.successful }.map(getStatusCodeResponseContext)
-        var failureResponses = operation.responses.filter { !$0.successful }.map(getStatusCodeResponseContext)
-
-        if let defaultResponse = operation.defaultResponse {
-            var defaultContext = getResponseContext(defaultResponse)
-            defaultContext["name"] = "failureDefault"
-            defaultContext["success"] = false
-            context["defaultResponse"] = defaultContext
-
-            responses.append(defaultContext)
-            failureResponses.append(defaultContext)
-        }
-
         if let operationId = operation.identifier {
             context["operationId"] = operationId
             context["filename"] = getFilename(operationId)
@@ -172,16 +157,22 @@ public class CodeFormatter {
         context["formParams"] = operation.getParameters(type: .formData).map(getParameterContext)
         context["headerParams"] = operation.getParameters(type: .header).map(getParameterContext)
         context["hasFileParam"] = params.contains { $0.metadata.type == .file }
-        context["enums"] = operation.enums.map(getEnumContext)
         context["securityRequirement"] = operation.security?.first.flatMap(getSecurityRequirementContext)
         context["securityRequirements"] = operation.security?.map(getSecurityRequirementContext)
-        context["responses"] = responses
+
+        // Responses
+
+        let responses = operation.responses
+        let successResponse = responses.first { $0.successful }
+        let successResponses = responses.filter { $0.successful }.map(getResponseContext)
+        let failureResponses = responses.filter { !$0.successful }.map(getResponseContext)
+
+        context["responses"] = responses.map(getResponseContext)
         context["successResponse"] = successResponses.first
-        context["successType"] = successResponse.flatMap(getStatusCodeResponseContext)?["type"]
-
+        context["successType"] = successResponse.flatMap(getResponseContext)?["type"]
+        context["defaultResponse"] = responses.first { $0.statusCode == nil }.flatMap(getResponseContext)
         context["onlySuccessReponses"] = successResponses.count == responses.count
-
-        context["alwaysHasResponseType"] = responses.filter { $0["type"] != nil }.count == responses.count
+        context["alwaysHasResponseType"] = responses.filter { $0.response.value.schema != nil }.count == responses.count
 
         let successTypes = successResponses.flatMap { $0["type"] as? String }
         let failureTypes = failureResponses.flatMap { $0["type"] as? String }
@@ -193,27 +184,21 @@ public class CodeFormatter {
             context["singleFailureType"] = failureTypes.first
         }
 
+        context["enums"] = operation.enums.map(getEnumContext)
+        context["requestEnums"] = operation.requestEnums.map(getEnumContext)
         return context
     }
 
-    func getStatusCodeResponseContext(_ response: StatusCodeResponse) -> Context {
-        var context = getResponseContext(response.response)
-
-        context["statusCode"] = response.statusCode
-        let name = (response.successful ? "success" : "failure") + response.statusCode.description
-        context["name"] = name
-        context["success"] = response.successful
-        context["type"] = response.response.value.schema.flatMap { getSchemaType(name: name, schema: $0) }
-
-        return context
-    }
-
-    func getResponseContext(_ response: PossibleReference<Response>) -> Context {
+    func getResponseContext(_ response: OperationResponse) -> Context {
         var context: Context = [:]
 
-        context["schema"] = response.value.schema.flatMap(getSchemaContext)
-        context["description"] = response.value.description
-        context["type"] = response.value.schema.flatMap { getSchemaType(name: "DefaultResponse", schema: $0) }
+        context["success"] = response.successful
+        context["name"] = response.name.lowerCamelCased()
+        context["statusCode"] = response.statusCode
+        context["success"] = response.successful
+        context["schema"] = response.response.value.schema.flatMap(getSchemaContext)
+        context["description"] = response.response.value.description.description
+        context["type"] = response.response.value.schema.flatMap { getSchemaType(name: response.name, schema: $0) }
 
         return context
     }

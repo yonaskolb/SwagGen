@@ -11,7 +11,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
     public enum {{ operationId|upperCamelCase }} {
 
       public static let service = APIService<Response>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if securityRequirement %}, authorization: Authorization(type: "{{ securityRequirement.name }}", scope: "{{ securityRequirement.scope }}"){% endif %})
-      {% for enum in enums %}
+      {% for enum in requestEnums %}
       {% if not enum.isGlobal %}
 
       {% include "Includes/enum.stencil" using enum %}

@@ -20,7 +20,7 @@ public struct Operation {
         return parameters.first { $0.value.location == .body }
     }
 
-    public let responses: [StatusCodeResponse]
+    public let responses: [OperationResponse]
     public let defaultResponse: PossibleReference<Response>?
     public let deprecated: Bool
     public let identifier: String?
@@ -54,16 +54,32 @@ extension Operation {
         security = jsonDictionary.json(atKeyPath: "security")
 
         let allResponses: [String: PossibleReference<Response>] = try jsonDictionary.json(atKeyPath: "responses")
-        var mappedResponses: [StatusCodeResponse] = []
+        var mappedResponses: [OperationResponse] = []
         for (key, response) in allResponses {
             if let statusCode = Int(key) {
-                let response = StatusCodeResponse(statusCode: statusCode, response: response)
+                let response = OperationResponse(statusCode: statusCode, response: response)
                 mappedResponses.append(response)
             }
         }
 
-        responses = mappedResponses.sorted { $0.statusCode < $1.statusCode }
-        defaultResponse = allResponses["default"]
+        if let defaultResponse = allResponses["default"] {
+            self.defaultResponse = defaultResponse
+            mappedResponses.append(OperationResponse(statusCode: nil, response: defaultResponse))
+        } else {
+            self.defaultResponse = nil
+        }
+
+        responses = mappedResponses.sorted {
+            let code1 = $0.statusCode
+            let code2 = $1.statusCode
+            switch (code1, code2) {
+            case (.some(let code1), .some(let code2)): return code1 < code2
+            case (.some, .none): return true
+            case (.none, .some): return false
+            default: return false
+            }
+        }
+
         deprecated = (jsonDictionary.json(atKeyPath: "deprecated")) ?? false
     }
 }

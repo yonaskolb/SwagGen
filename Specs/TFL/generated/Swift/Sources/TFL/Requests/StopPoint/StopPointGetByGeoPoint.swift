@@ -96,7 +96,6 @@ extension TFL.StopPoint {
             public var success: StopPointsResponse? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

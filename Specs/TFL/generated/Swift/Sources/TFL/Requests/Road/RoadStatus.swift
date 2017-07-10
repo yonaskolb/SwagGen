@@ -68,7 +68,6 @@ extension TFL.Road {
             public var success: [RoadCorridor]? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

@@ -84,7 +84,6 @@ extension TFL.Place {
             public var success: Object? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

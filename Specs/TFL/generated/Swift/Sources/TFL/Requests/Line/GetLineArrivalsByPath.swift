@@ -78,7 +78,6 @@ extension TFL.Line {
             public var success: [Prediction]? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

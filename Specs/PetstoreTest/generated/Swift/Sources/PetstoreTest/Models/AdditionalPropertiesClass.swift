@@ -24,7 +24,7 @@ public class AdditionalPropertiesClass: JSONDecodable, JSONEncodable, PrettyPrin
 
     public func encode() -> JSONDictionary {
         var dictionary: JSONDictionary = [:]
-        if let mapOfMapProperty = mapOfMapProperty?.encode() {
+        if let mapOfMapProperty = mapOfMapProperty?.mapValues({ $0.encode() }) {
             dictionary["map_of_map_property"] = mapOfMapProperty
         }
         if let mapProperty = mapProperty {

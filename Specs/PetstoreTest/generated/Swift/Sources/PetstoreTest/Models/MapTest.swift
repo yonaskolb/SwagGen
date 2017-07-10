@@ -34,7 +34,7 @@ public class MapTest: JSONDecodable, JSONEncodable, PrettyPrintable {
 
     public func encode() -> JSONDictionary {
         var dictionary: JSONDictionary = [:]
-        if let mapMapOfString = mapMapOfString?.encode() {
+        if let mapMapOfString = mapMapOfString?.mapValues({ $0.encode() }) {
             dictionary["map_map_of_string"] = mapMapOfString
         }
         if let mapOfEnumString = mapOfEnumString?.encode() {

@@ -35,7 +35,6 @@ extension TestSpec.TestTag {
             public var success: Void? {
                 switch self {
                 case .success201(let response): return response
-                default: return nil
                 }
             }
 

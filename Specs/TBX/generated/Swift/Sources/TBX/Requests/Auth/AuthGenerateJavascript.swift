@@ -51,7 +51,6 @@ extension TBX.Auth {
             public var success: String? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

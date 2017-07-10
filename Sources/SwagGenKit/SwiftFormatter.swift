@@ -81,22 +81,12 @@ public class SwiftFormatter: CodeFormatter {
     override func getItemType(name: String, item: Item) -> String {
 
         let enumValue = item.metadata.getEnum(name: name, description: "").flatMap { getEnumContext($0)["enumName"] as? String }
-
+        //TODO: support nonstring enums
         switch item.type {
         case let .array(item): return "[\(enumValue ?? getItemType(name: name, item: item.items))]"
         case .boolean: return "Bool"
-            // Just use Int here
-            //      case let .integer(item):
-            //            case let .integer(item):
-            //            if let format = item.format {
-            //                switch format {
-            //                case .int32: return enumValue ?? "Int32"
-            //                case .int64: return enumValue ?? "int64"
-            //                }
-            //            }
-        //            return enumValue ?? "Int"
-        case .integer: return enumValue ?? "Int"
-        case let .number(item): return enumValue ?? getNumberFormatType(item.format)
+        case .integer: return "Int"
+        case let .number(item): return getNumberFormatType(item.format)
         case let .string(item): return enumValue ?? getStringFormatType(item.format)
         }
     }
@@ -130,7 +120,7 @@ public class SwiftFormatter: CodeFormatter {
     override func getSchemaType(name: String, schema: Schema) -> String {
 
         let enumValue = schema.getEnum(name: name, description: "").flatMap { getEnumContext($0)["enumName"] as? String }
-
+        //TODO: support nonstring enums
         switch schema.type {
         case let .string(format): return enumValue ?? getStringFormatType(format)
         case let .number(format): return getNumberFormatType(format)
@@ -204,7 +194,13 @@ public class SwiftFormatter: CodeFormatter {
         let jsonTypes = ["Any", "[String: Any]", "Int", "String", "Float", "Double", "Bool"]
 
         if !jsonTypes.contains(type) && !jsonTypes.map({ "[\($0)]" }).contains(type) && !jsonTypes.map({ "[String: \($0)]" }).contains(type) {
-            encodedValue += ".encode()"
+            if type.hasPrefix("[[") {
+                encodedValue += ".map({ $0.encode() })"
+            } else if type.hasPrefix("[String: [") {
+                encodedValue += ".mapValues({ $0.encode() })"
+            } else {
+                encodedValue += ".encode()"
+            }
         }
 
         return encodedValue

@@ -53,7 +53,6 @@ extension TFL.Vehicle {
             public var success: EmissionsSurchargeVehicle? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

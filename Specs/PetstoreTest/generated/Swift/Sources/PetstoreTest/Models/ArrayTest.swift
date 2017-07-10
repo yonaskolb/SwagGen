@@ -28,10 +28,10 @@ public class ArrayTest: JSONDecodable, JSONEncodable, PrettyPrintable {
 
     public func encode() -> JSONDictionary {
         var dictionary: JSONDictionary = [:]
-        if let arrayArrayOfInteger = arrayArrayOfInteger?.encode() {
+        if let arrayArrayOfInteger = arrayArrayOfInteger?.map({ $0.encode() }) {
             dictionary["array_array_of_integer"] = arrayArrayOfInteger
         }
-        if let arrayArrayOfModel = arrayArrayOfModel?.encode() {
+        if let arrayArrayOfModel = arrayArrayOfModel?.map({ $0.encode() }) {
             dictionary["array_array_of_model"] = arrayArrayOfModel
         }
         if let arrayOfString = arrayOfString {

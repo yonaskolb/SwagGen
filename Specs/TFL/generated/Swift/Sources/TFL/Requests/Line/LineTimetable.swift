@@ -55,7 +55,6 @@ extension TFL.Line {
             public var success: TimetableResponse? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

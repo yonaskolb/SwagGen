@@ -42,7 +42,7 @@ extension TFL.Road {
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "disruptionIds" + "}", with: "\(self.options.disruptionIds)")
+              return super.path.replacingOccurrences(of: "{" + "disruptionIds" + "}", with: "\(self.options.disruptionIds.joined(separator: ","))")
           }
 
           public override var parameters: [String: Any] {
@@ -63,7 +63,6 @@ extension TFL.Road {
             public var success: RoadDisruption? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

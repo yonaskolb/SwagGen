@@ -44,7 +44,7 @@ extension TFL.Place {
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
               params["name"] = options.name
-              if let types = options.types {
+              if let types = options.types?.joined(separator: ",") {
                 params["types"] = types
               }
               return params
@@ -60,7 +60,6 @@ extension TFL.Place {
             public var success: [Place]? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

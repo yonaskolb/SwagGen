@@ -1,5 +1,4 @@
 
-@testable import SwagGenKit
 @testable import Swagger
 import PathKit
 import Spectre

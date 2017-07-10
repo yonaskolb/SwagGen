@@ -6,21 +6,14 @@
 import Foundation
 import JSONUtilities
 
-public class OuterEnum: JSONDecodable, JSONEncodable, PrettyPrintable {
+public enum OuterEnum: String {
+    case placed = "placed"
+    case approved = "approved"
+    case delivered = "delivered"
 
-    public init() {
-    }
-
-    public required init(jsonDictionary: JSONDictionary) throws {
-    }
-
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        return dictionary
-    }
-
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
-    }
+    public static let cases: [OuterEnum] = [
+      .placed,
+      .approved,
+      .delivered,
+    ]
 }

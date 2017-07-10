@@ -39,7 +39,7 @@ Use `SwagGen -help` to see the list of options:
 - **spec** (required): This is the path to the Swagger spec. It can either be a file path or a web url to a YAML or JSON file
 - **template**: (required): This is the path to the template config yaml file. It can either be a direct path to the file, or a path to the parent directory which will by default look for `/template.yml`
 - **destination**: The directory that the generated files will be added to.
-- **option**: An option that will be merged with the template config options with those in this argument taking precedence, meaning any existing options of the same name will be overwritten. This argument can be repeated to pass in multiple options. Options must specify the option name and option value seperated by a colon, with any spaces contained in quotes. The following formats are allowed: 
+- **option**: An option that will be merged with the template config options with those in this argument taking precedence, meaning any existing options of the same name will be overwritten. This argument can be repeated to pass in multiple options. Options must specify the option name and option value seperated by a colon, with any spaces contained in quotes. The following formats are allowed:
 	- `-- option myOption:myValue`
 	- `-- option "myOption: my value"`
 	- `-- option myOption:" my value"`
@@ -48,14 +48,14 @@ Use `SwagGen -help` to see the list of options:
 	- `none`: no files are removed (default)
 	- `all`: all other files are removed
 	- `leave.files`: all files and directories except those that start with `.` in the destination directory are removed. This is useful for keeping configuration files and directories such as `.git` around, while still making sure that items removed from the spec are removed from the generated API.
- 
+
 Example:
 
 ```
 SwagGen --template Templates/Swift --spec http://myapi.com/spec --destination generated --option name:MyAPI --option "customProperty: custom value --clean leave.files"
 ```
 
-For the Swift template, a handy option is `name`, which changes the name of the generated framework from the default of `API`. This can be set in the template or by passing in `--option name:MyCoolAPI`. 
+For the Swift template, a handy option is `name`, which changes the name of the generated framework from the default of `API`. This can be set in the template or by passing in `--option name:MyCoolAPI`.
 
 ## Templates
 Templates are made up of a template config file, a bunch of **Stencil** files, and other files that will be copied over during generation
@@ -86,15 +86,16 @@ SwagGen can be used to generate code for any language. At the moment there is on
 
 ## Attributions
 
-This tool is powered by
+This tool is powered by:
 
+- custom fork of [JSONUtilities](https://github.com/yonaskolb/JSONUtilities) by [Luciano Marisi](https://github.com/lucianomarisi)
 - custom fork of [Stencil](https://github.com/yonaskolb/Stencil) by [Kyle Fuller](https://github.com/kylef)
 - [Spectre](https://github.com/kylef/Spectre) by [Kyle Fuller](https://github.com/kylef)
 - [PathKit](https://github.com/kylef/PathKit) by [Kyle Fuller](https://github.com/kylef)
 - [Commander](https://github.com/kylef/Commander) by [Kyle Fuller](https://github.com/kylef)
 - [Yams](https://github.com/jpsim/Yams) by [JP Simard](https://github.com/jpsim)
-- [JSONUtilities](https://github.com/lucianomarisi/JSONUtilities) by [Luciano Marisi](https://github.com/lucianomarisi)
-- [Yams](https://github.com/jpsim/Yams) by [JP Simard](https://github.com/jpsim)
+
+Thanks also to [Logan Shire](https://github.com/AttilaTheFun) and his work on [Swagger Parser](https://github.com/AttilaTheFun/SwaggerParser)
 
 ## Contributions
 Pull requests and issues are welcome

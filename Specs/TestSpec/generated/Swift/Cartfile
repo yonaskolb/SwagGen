@@ -1,3 +1,3 @@
-github "lucianomarisi/JSONUtilities" ~> 3.2.0
+github "yonaskolb/JSONUtilities" ~> 3.3.8
 github "Alamofire/Alamofire" ~> 4.4.0
 github "antitypical/Result" ~> 3.2.1

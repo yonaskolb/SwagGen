@@ -181,7 +181,7 @@ See the `feature-flags.md` for available flag details.
               if let segments = options.segments?.joined(separator: ",") {
                 params["segments"] = segments
               }
-              if let ff = options.ff?.encode().map({ "\($0)" }).joined(separator: ",") {
+              if let ff = options.ff?.encode().map({ String(describing: $0) }).joined(separator: ",") {
                 params["ff"] = ff
               }
               return params

@@ -1,6 +1,11 @@
 {% if description %}
 /** {{ description }} */
 {% endif %}
+{% if enum %}
+{% include "Includes/enum.stencil" using enum %}
+{% elif simpleType %}
+public typealias {{ type }} = {{ simpleType }}
+{% else %}
 public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable, JSONEncodable, PrettyPrintable{% endif %} {
     {% for enum in enums %}
     {% if not enum.isGlobal %}
@@ -98,3 +103,4 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
     }
     {% endif %}
 }
+{% endif %}

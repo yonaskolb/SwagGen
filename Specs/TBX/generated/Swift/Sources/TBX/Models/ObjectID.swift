@@ -6,21 +6,4 @@
 import Foundation
 import JSONUtilities
 
-public class ObjectID: JSONDecodable, JSONEncodable, PrettyPrintable {
-
-    public init() {
-    }
-
-    public required init(jsonDictionary: JSONDictionary) throws {
-    }
-
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        return dictionary
-    }
-
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
-    }
-}
+public typealias ObjectID = String

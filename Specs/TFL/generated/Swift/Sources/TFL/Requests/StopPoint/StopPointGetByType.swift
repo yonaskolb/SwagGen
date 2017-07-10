@@ -39,7 +39,7 @@ extension TFL.StopPoint {
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "types" + "}", with: "\(self.options.types)")
+              return super.path.replacingOccurrences(of: "{" + "types" + "}", with: "\(self.options.types.joined(separator: ","))")
           }
         }
 
@@ -52,7 +52,6 @@ extension TFL.StopPoint {
             public var success: [StopPoint]? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

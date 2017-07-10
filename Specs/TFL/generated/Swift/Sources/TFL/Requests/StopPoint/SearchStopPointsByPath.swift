@@ -64,7 +64,7 @@ extension TFL.StopPoint {
 
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
-              if let modes = options.modes {
+              if let modes = options.modes?.joined(separator: ",") {
                 params["modes"] = modes
               }
               if let faresOnly = options.faresOnly {
@@ -73,7 +73,7 @@ extension TFL.StopPoint {
               if let maxResults = options.maxResults {
                 params["maxResults"] = maxResults
               }
-              if let lines = options.lines {
+              if let lines = options.lines?.joined(separator: ",") {
                 params["lines"] = lines
               }
               if let includeHubs = options.includeHubs {
@@ -92,7 +92,6 @@ extension TFL.StopPoint {
             public var success: SearchResponse? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

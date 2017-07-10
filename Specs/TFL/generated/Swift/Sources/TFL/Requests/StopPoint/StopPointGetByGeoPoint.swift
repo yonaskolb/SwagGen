@@ -65,17 +65,17 @@ extension TFL.StopPoint {
 
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
-              params["stopTypes"] = options.stopTypes
+              params["stopTypes"] = options.stopTypes.joined(separator: ",")
               if let radius = options.radius {
                 params["radius"] = radius
               }
               if let useStopPointHierarchy = options.useStopPointHierarchy {
                 params["useStopPointHierarchy"] = useStopPointHierarchy
               }
-              if let modes = options.modes {
+              if let modes = options.modes?.joined(separator: ",") {
                 params["modes"] = modes
               }
-              if let categories = options.categories {
+              if let categories = options.categories?.joined(separator: ",") {
                 params["categories"] = categories
               }
               if let returnLines = options.returnLines {
@@ -96,7 +96,6 @@ extension TFL.StopPoint {
             public var success: StopPointsResponse? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

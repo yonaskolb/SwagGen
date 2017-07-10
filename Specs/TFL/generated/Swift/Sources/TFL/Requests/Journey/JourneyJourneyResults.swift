@@ -239,10 +239,10 @@ extension TFL.Journey {
               if let journeyPreference = options.journeyPreference?.encode() {
                 params["journeyPreference"] = journeyPreference
               }
-              if let mode = options.mode {
+              if let mode = options.mode?.joined(separator: ",") {
                 params["mode"] = mode
               }
-              if let accessibilityPreference = options.accessibilityPreference?.encode() {
+              if let accessibilityPreference = options.accessibilityPreference?.encode().map({ String(describing: $0) }).joined(separator: ",") {
                 params["accessibilityPreference"] = accessibilityPreference
               }
               if let fromName = options.fromName {
@@ -269,7 +269,7 @@ extension TFL.Journey {
               if let adjustment = options.adjustment {
                 params["adjustment"] = adjustment
               }
-              if let bikeProficiency = options.bikeProficiency?.encode() {
+              if let bikeProficiency = options.bikeProficiency?.encode().map({ String(describing: $0) }).joined(separator: ",") {
                 params["bikeProficiency"] = bikeProficiency
               }
               if let alternativeCycle = options.alternativeCycle {
@@ -300,7 +300,6 @@ extension TFL.Journey {
             public var success: ItineraryResult? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

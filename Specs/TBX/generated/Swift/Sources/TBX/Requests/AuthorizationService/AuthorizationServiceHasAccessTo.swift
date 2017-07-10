@@ -68,7 +68,6 @@ extension TBX.AuthorizationService {
             public var success: [String: Any]? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

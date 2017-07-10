@@ -20,7 +20,7 @@ public class ArrayOfArrayOfNumberOnly: JSONDecodable, JSONEncodable, PrettyPrint
 
     public func encode() -> JSONDictionary {
         var dictionary: JSONDictionary = [:]
-        if let arrayArrayNumber = arrayArrayNumber?.encode() {
+        if let arrayArrayNumber = arrayArrayNumber?.map({ $0.encode() }) {
             dictionary["ArrayArrayNumber"] = arrayArrayNumber
         }
         return dictionary

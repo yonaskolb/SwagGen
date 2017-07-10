@@ -50,7 +50,7 @@ extension TFL.Place {
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "type" + "}", with: "\(self.options.type)")
+              return super.path.replacingOccurrences(of: "{" + "type" + "}", with: "\(self.options.type.joined(separator: ","))")
           }
 
           public override var parameters: [String: Any] {
@@ -72,7 +72,6 @@ extension TFL.Place {
             public var success: Object? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

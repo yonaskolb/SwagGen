@@ -63,13 +63,13 @@ extension TFL.Place {
 
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
-              if let categories = options.categories {
+              if let categories = options.categories?.joined(separator: ",") {
                 params["categories"] = categories
               }
               if let includeChildren = options.includeChildren {
                 params["includeChildren"] = includeChildren
               }
-              if let type = options.type {
+              if let type = options.type?.joined(separator: ",") {
                 params["type"] = type
               }
               if let activeOnly = options.activeOnly {
@@ -92,7 +92,6 @@ extension TFL.Place {
             public var success: [StopPoint]? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

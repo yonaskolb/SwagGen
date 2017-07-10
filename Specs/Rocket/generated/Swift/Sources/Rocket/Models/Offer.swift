@@ -18,7 +18,7 @@ public class Offer: OfferRights {
         ]
     }
 
-    public var price: Double
+    public var price: Float
 
     public var availability: Availability
 
@@ -31,7 +31,7 @@ public class Offer: OfferRights {
     /** The code of the subscription this offer is offered under, if any. */
     public var subscriptionCode: String?
 
-    public init(deliveryType: DeliveryType, scopes: [String], resolution: Resolution, ownership: Ownership, price: Double, availability: Availability, exclusionRules: [ExclusionRule]? = nil, maxDownloads: Int? = nil, maxPlays: Int? = nil, playPeriod: Int? = nil, rentalPeriod: Int? = nil, endDate: Date? = nil, name: String? = nil, startDate: Date? = nil, subscriptionCode: String? = nil) {
+    public init(deliveryType: DeliveryType, scopes: [String], resolution: Resolution, ownership: Ownership, price: Float, availability: Availability, exclusionRules: [ExclusionRule]? = nil, maxDownloads: Int? = nil, maxPlays: Int? = nil, playPeriod: Int? = nil, rentalPeriod: Int? = nil, endDate: Date? = nil, name: String? = nil, startDate: Date? = nil, subscriptionCode: String? = nil) {
         self.price = price
         self.availability = availability
         self.endDate = endDate

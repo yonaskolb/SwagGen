@@ -22,13 +22,9 @@ extension PetstoreTest.Pet {
               /** Additional data to pass to server */
               public var additionalMetadata: String?
 
-              /** file to upload */
-              public var file: URL?
-
-              public init(petId: Int, additionalMetadata: String? = nil, file: URL? = nil) {
+              public init(petId: Int, additionalMetadata: String? = nil) {
                   self.petId = petId
                   self.additionalMetadata = additionalMetadata
-                  self.file = file
               }
           }
 
@@ -40,8 +36,8 @@ extension PetstoreTest.Pet {
           }
 
           /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(petId: Int, additionalMetadata: String? = nil, file: URL? = nil) {
-              let options = Options(petId: petId, additionalMetadata: additionalMetadata, file: file)
+          public convenience init(petId: Int, additionalMetadata: String? = nil) {
+              let options = Options(petId: petId, additionalMetadata: additionalMetadata)
               self.init(options: options)
           }
 
@@ -53,9 +49,6 @@ extension PetstoreTest.Pet {
               var params: JSONDictionary = [:]
               if let additionalMetadata = options.additionalMetadata {
                 params["additionalMetadata"] = additionalMetadata
-              }
-              if let file = options.file?.encode() {
-                params["file"] = file
               }
               return params
           }
@@ -70,7 +63,6 @@ extension PetstoreTest.Pet {
             public var success: ApiResponse? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

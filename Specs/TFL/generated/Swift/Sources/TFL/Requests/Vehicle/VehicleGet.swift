@@ -38,7 +38,7 @@ extension TFL.Vehicle {
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids)")
+              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids.joined(separator: ","))")
           }
         }
 
@@ -51,7 +51,6 @@ extension TFL.Vehicle {
             public var success: [Prediction]? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

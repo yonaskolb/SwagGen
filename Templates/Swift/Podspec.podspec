@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
     s.name = '{{ options.name }}'
     s.authors = '{{ options.authors|default:"Yonas Kolb" }}'
     s.summary = '{{ info.description|default:"A generated API" }}'
-    s.version = '{{ info.version|default:"0.0.1" }}'
+    s.version = '{{ info.version }}'
     s.homepage = '{{ options.homepage|default:"https://github.com/yonaskolb/SwagGen" }}'
     s.source = { :git => 'git@github.com:https://github.com/yonaskolb/SwagGen.git' }
     s.ios.deployment_target = '9.0'

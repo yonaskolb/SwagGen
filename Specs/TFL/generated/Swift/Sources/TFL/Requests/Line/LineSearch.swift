@@ -62,10 +62,10 @@ extension TFL.Line {
 
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
-              if let modes = options.modes {
+              if let modes = options.modes?.joined(separator: ",") {
                 params["modes"] = modes
               }
-              if let serviceTypes = options.serviceTypes?.encode() {
+              if let serviceTypes = options.serviceTypes?.encode().map({ String(describing: $0) }).joined(separator: ",") {
                 params["serviceTypes"] = serviceTypes
               }
               return params
@@ -81,7 +81,6 @@ extension TFL.Line {
             public var success: RouteSearchResponse? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

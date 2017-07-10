@@ -46,7 +46,7 @@ struct JSONDecoder {
         let jsonDictionary: JSONDictionary = try decodeJSON(data: data)
         var dictionary: [String: T] = [:]
         for key in jsonDictionary.keys {
-            dictionary[key] = try jsonDictionary.json(atKeyPath: key) as T
+            dictionary[key] = try jsonDictionary.json(atKeyPath: .key(key)) as T
         }
         return dictionary
     }
@@ -55,7 +55,7 @@ struct JSONDecoder {
         let jsonDictionary: JSONDictionary = try decodeJSON(data: data)
         var dictionary: [String: T] = [:]
         for key in jsonDictionary.keys {
-            dictionary[key] = try jsonDictionary.json(atKeyPath: key) as T
+            dictionary[key] = try jsonDictionary.json(atKeyPath: .key(key)) as T
         }
         return dictionary
     }
@@ -64,7 +64,7 @@ struct JSONDecoder {
         let jsonDictionary: JSONDictionary = try decodeJSON(data: data)
         var dictionary: [String: T] = [:]
         for key in jsonDictionary.keys {
-            dictionary[key] = try jsonDictionary.json(atKeyPath: key) as T
+            dictionary[key] = try jsonDictionary.json(atKeyPath: .key(key)) as T
         }
         return dictionary
     }
@@ -132,7 +132,7 @@ extension RawRepresentable where RawValue: JSONRawType {
     }
 }
 
-extension Array where Element: RawRepresentable, Element.RawValue == String {
+extension Array where Element: RawRepresentable, Element.RawValue: JSONRawType {
     func encode() -> [Any] {
         return map{$0.encode()}
     }
@@ -153,6 +153,16 @@ extension Array where Element: JSONEncodable {
 extension Array where Element: JSONValueEncodable {
     func encode() -> [Any] {
         return map{$0.encode()}
+    }
+}
+
+extension Dictionary where Value: RawRepresentable, Value.RawValue: JSONRawType {
+    func encode() -> Any {
+        var dictionary: [Key: Any] = [:]
+        for (key, value) in self {
+            dictionary[key] = value.encode()
+        }
+        return dictionary
     }
 }
 
@@ -181,6 +191,16 @@ extension Dictionary where Value: JSONValueEncodable {
         var dictionary: [Key: Any] = [:]
         for (key, value) in self {
             dictionary[key] = value.encode()
+        }
+        return dictionary
+    }
+}
+
+extension Dictionary {
+    func mapValues<T>(_ closure: (Value) -> T) -> [Key: T] {
+        var dictionary: [Key: T] = [:]
+        for (key, value) in self {
+            dictionary[key] = closure(value)
         }
         return dictionary
     }

@@ -62,7 +62,7 @@ extension TFL.StopPoint {
 
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
-              if let serviceTypes = options.serviceTypes?.encode() {
+              if let serviceTypes = options.serviceTypes?.encode().map({ String(describing: $0) }).joined(separator: ",") {
                 params["serviceTypes"] = serviceTypes
               }
               return params
@@ -78,7 +78,6 @@ extension TFL.StopPoint {
             public var success: [StopPoint]? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

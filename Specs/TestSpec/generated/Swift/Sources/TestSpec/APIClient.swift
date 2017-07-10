@@ -10,7 +10,7 @@ import JSONUtilities
 /// Manages and sends APIRequests
 public class APIClient {
 
-    public static var `default` = APIClient(baseURL: "http://")
+    public static var `default` = APIClient(baseURL: "")
 
     /// A list of RequestBehaviours that can be used to monitor and alter all requests
     public var behaviours: [RequestBehaviour] = []

@@ -62,7 +62,7 @@ extension TFL.Place {
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "z" + "}", with: "\(self.options.z)").replacingOccurrences(of: "{" + "type" + "}", with: "\(self.options.type)").replacingOccurrences(of: "{" + "width" + "}", with: "\(self.options.width)").replacingOccurrences(of: "{" + "height" + "}", with: "\(self.options.height)")
+              return super.path.replacingOccurrences(of: "{" + "z" + "}", with: "\(self.options.z)").replacingOccurrences(of: "{" + "type" + "}", with: "\(self.options.type.joined(separator: ","))").replacingOccurrences(of: "{" + "width" + "}", with: "\(self.options.width)").replacingOccurrences(of: "{" + "height" + "}", with: "\(self.options.height)")
           }
 
           public override var parameters: [String: Any] {
@@ -84,7 +84,6 @@ extension TFL.Place {
             public var success: Object? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

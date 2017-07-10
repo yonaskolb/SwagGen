@@ -38,7 +38,7 @@ extension TFL.Line {
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "modes" + "}", with: "\(self.options.modes)")
+              return super.path.replacingOccurrences(of: "{" + "modes" + "}", with: "\(self.options.modes.joined(separator: ","))")
           }
         }
 
@@ -51,7 +51,6 @@ extension TFL.Line {
             public var success: [Line]? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

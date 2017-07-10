@@ -28,7 +28,6 @@ extension TFL.Mode {
             public var success: [ActiveServiceType]? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

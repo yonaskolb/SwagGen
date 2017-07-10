@@ -53,7 +53,7 @@ extension PetstoreTest.Pet {
 
           public override var parameters: [String: Any] {
               var params: JSONDictionary = [:]
-              params["status"] = options.status.encode().map({ "\($0)" }).joined(separator: ",")
+              params["status"] = options.status.encode().map({ String(describing: $0) }).joined(separator: ",")
               return params
           }
         }

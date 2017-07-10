@@ -41,7 +41,7 @@ extension TFL.StopPoint {
           }
 
           public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "modes" + "}", with: "\(self.options.modes)")
+              return super.path.replacingOccurrences(of: "{" + "modes" + "}", with: "\(self.options.modes.joined(separator: ","))")
           }
 
           public override var parameters: [String: Any] {
@@ -62,7 +62,6 @@ extension TFL.StopPoint {
             public var success: [DisruptedPoint]? {
                 switch self {
                 case .success200(let response): return response
-                default: return nil
                 }
             }
 

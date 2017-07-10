@@ -46,7 +46,7 @@ extension PetstoreTest.User {
 
             public var statusCode: Int {
               switch self {
-              case .failureDefault(let statusCode, _): return statusCode
+              case .failureDefault(let statusCode): return statusCode
               }
             }
 

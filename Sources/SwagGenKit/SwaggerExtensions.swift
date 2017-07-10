@@ -125,7 +125,11 @@ extension Schema {
     }
 
     var enums: [Enum] {
-        return properties.flatMap { $0.schema.getEnum(name: $0.name, description: $0.schema.metadata.description) }
+        var enums = properties.flatMap { $0.schema.getEnum(name: $0.name, description: $0.schema.metadata.description) }
+        if case let .object(objectSchema) = type, case let .schema(schema) = objectSchema.additionalProperties {
+            enums += schema.enums
+        }
+        return enums
     }
 }
 
@@ -136,7 +140,15 @@ extension Swagger.Operation {
     }
 
     var enums: [Enum] {
+        return requestEnums + responseEnums
+    }
+
+    var requestEnums: [Enum] {
         return parameters.flatMap { $0.value.enumValue }
+    }
+
+    var responseEnums: [Enum] {
+        return responses.flatMap { $0.enumValue }
     }
 }
 
@@ -171,6 +183,14 @@ extension OperationResponse {
             return "failureDefault"
         }
     }
+
+    var isEnum: Bool {
+        return enumValue != nil
+    }
+
+    var enumValue: Enum? {
+        return response.value.schema?.getEnum(name: name, description: response.value.description)
+    }
 }
 
 extension Property {
@@ -201,6 +221,7 @@ extension Parameter {
         return getEnum(name: name, description: description)
     }
 }
+
 
 extension Item {
 

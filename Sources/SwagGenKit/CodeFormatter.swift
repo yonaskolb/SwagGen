@@ -186,6 +186,8 @@ public class CodeFormatter {
 
         context["enums"] = operation.enums.map(getEnumContext)
         context["requestEnums"] = operation.requestEnums.map(getEnumContext)
+        context["responseEnums"] = operation.responseEnums.map(getEnumContext)
+
         return context
     }
 

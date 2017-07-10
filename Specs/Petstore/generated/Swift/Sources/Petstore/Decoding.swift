@@ -13,7 +13,7 @@ struct JSONDecoder {
             throw JSONUtilsError.fileDeserializationFailed
         }
         guard let jsonType = json as? T else {
-            throw JSONUtilsError.fileNotAJSONDictionary
+            throw JSONUtilsError.fileDeserializationFailed
         }
         return jsonType
     }
@@ -42,6 +42,16 @@ struct JSONDecoder {
         }
     }
 
+    static func decode<T: RawRepresentable>(data: Data) throws -> [T] where T.RawValue: JSONRawType {
+        let jsonArray: [T.RawValue] = try decodeJSON(data: data)
+        return try jsonArray.map { rawValue in
+            guard let value = T(rawValue: rawValue) else {
+                throw JSONUtilsError.fileDeserializationFailed
+            }
+            return value
+        }
+    }
+
     static func decode<T: JSONRawType>(data: Data) throws -> [String: T] {
         let jsonDictionary: JSONDictionary = try decodeJSON(data: data)
         var dictionary: [String: T] = [:]
@@ -61,6 +71,15 @@ struct JSONDecoder {
     }
 
     static func decode<T: JSONPrimitiveConvertible>(data: Data) throws -> [String: T] {
+        let jsonDictionary: JSONDictionary = try decodeJSON(data: data)
+        var dictionary: [String: T] = [:]
+        for key in jsonDictionary.keys {
+            dictionary[key] = try jsonDictionary.json(atKeyPath: .key(key)) as T
+        }
+        return dictionary
+    }
+
+    static func decode<T: RawRepresentable>(data: Data) throws -> [String: T] where T.RawValue: JSONRawType {
         let jsonDictionary: JSONDictionary = try decodeJSON(data: data)
         var dictionary: [String: T] = [:]
         for key in jsonDictionary.keys {

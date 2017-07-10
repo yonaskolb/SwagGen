@@ -21,12 +21,23 @@ extension TestSpec {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = [Success200]
 
             /** enum response */
-            case success200([Success200])
+            public enum Success200: String {
+                case one = "one"
+                case two = "two"
 
-            public var success: [Success200]? {
+                public static let cases: [Success200] = [
+                  .one,
+                  .two,
+                ]
+            }
+            public typealias SuccessType = [String: Success200]
+
+            /** enum response */
+            case success200([String: Success200])
+
+            public var success: [String: Success200]? {
                 switch self {
                 case .success200(let response): return response
                 }

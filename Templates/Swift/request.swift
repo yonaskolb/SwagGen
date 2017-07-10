@@ -94,6 +94,12 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
+            {% for enum in responseEnums %}
+            {% if not enum.isGlobal %}
+
+            {% include "Includes/enum.stencil" using enum %}
+            {% endif %}
+            {% endfor %}
             public typealias SuccessType = {{ successType|default:"Void"}}
             {% for response in responses %}
             {% if response.description %}

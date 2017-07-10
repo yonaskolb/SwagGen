@@ -39,8 +39,8 @@ paths:
         200:
           description: enum response
           schema:
-            type: array
-            items:
+            type: object
+            additionalProperties:
               type: string
               enum:
                 - one

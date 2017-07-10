@@ -8,51 +8,51 @@ import JSONUtilities
 
 extension TestSpec {
 
-    /** operation without a tag */
-    public enum GetUntagged {
+    /** operation with string response */
+    public enum GetString {
 
-      public static let service = APIService<Response>(id: "getUntagged", tag: "", method: "GET", path: "/untagged", hasBody: false)
+      public static let service = APIService<Response>(id: "getString", tag: "", method: "GET", path: "/string", hasBody: false)
 
       public class Request: APIRequest<Response> {
 
           public init() {
-              super.init(service: GetUntagged.service)
+              super.init(service: GetString.service)
           }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = Void
+            public typealias SuccessType = String
 
-            /** Empty response */
-            case success201
+            /** string response */
+            case success200(String)
 
-            public var success: Void? {
+            public var success: String? {
                 switch self {
-                case .success201(let response): return response
+                case .success200(let response): return response
                 }
             }
 
             public var response: Any {
                 switch self {
-                default: return ()
+                case .success200(let response): return response
                 }
             }
 
             public var statusCode: Int {
               switch self {
-              case .success201: return 201
+              case .success200: return 200
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .success201: return true
+              case .success200: return true
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 201: self = .success201
+                case 200: self = try .success200(JSONDecoder.decode(data: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

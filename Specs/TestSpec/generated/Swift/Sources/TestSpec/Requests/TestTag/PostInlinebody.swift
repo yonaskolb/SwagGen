@@ -6,17 +6,24 @@
 import Foundation
 import JSONUtilities
 
-extension TestSpec {
+extension TestSpec.TestTag {
 
-    /** operation without a tag */
-    public enum GetUntagged {
+    /** operation with an inline body */
+    public enum PostInlinebody {
 
-      public static let service = APIService<Response>(id: "getUntagged", tag: "", method: "GET", path: "/untagged", hasBody: false)
+      public static let service = APIService<Response>(id: "postInlinebody", tag: "TestTag", method: "POST", path: "/inlinebody", hasBody: true)
 
       public class Request: APIRequest<Response> {
 
-          public init() {
-              super.init(service: GetUntagged.service)
+          public var item: [String: Any]
+
+          public init(item: [String: Any]) {
+              self.item = item
+              super.init(service: PostInlinebody.service)
+          }
+
+          public override var jsonBody: Any? {
+              return item
           }
         }
 

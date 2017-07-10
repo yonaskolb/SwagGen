@@ -47,7 +47,7 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
         {% if additionalPropertiesType != "Any" %}
         var decodedAdditionalProperties: [String: {{ additionalPropertiesType }}] = [:]
         for key in additionalProperties.keys {
-            decodedAdditionalProperties[key] = additionalProperties.json(atKeyPath: key)
+            decodedAdditionalProperties[key] = additionalProperties.json(atKeyPath: .key(key))
         }
         self.additionalProperties = decodedAdditionalProperties
         {% else %}

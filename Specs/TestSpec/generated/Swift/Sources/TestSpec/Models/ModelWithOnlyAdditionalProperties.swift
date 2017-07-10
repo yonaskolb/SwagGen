@@ -6,30 +6,22 @@
 import Foundation
 import JSONUtilities
 
-/** definition with additional properties */
-public class ModelWithAdditionalProperties: JSONDecodable, JSONEncodable, PrettyPrintable {
-
-    public var name: String?
+/** definition with only additional properties */
+public class ModelWithOnlyAdditionalProperties: JSONDecodable, JSONEncodable, PrettyPrintable {
 
     public var additionalProperties: [String: Any] = [:]
 
-    public init(name: String? = nil) {
-        self.name = name
+    public init() {
     }
 
     public required init(jsonDictionary: JSONDictionary) throws {
-        name = jsonDictionary.json(atKeyPath: "name")
 
         var additionalProperties = jsonDictionary
-        additionalProperties.removeValue(forKey: "name")
         self.additionalProperties = additionalProperties
     }
 
     public func encode() -> JSONDictionary {
         var dictionary: JSONDictionary = [:]
-        if let name = name {
-            dictionary["name"] = name
-        }
 
         for (key, value) in additionalProperties {
           dictionary[key] = value

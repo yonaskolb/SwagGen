@@ -6,35 +6,36 @@
 import Foundation
 import JSONUtilities
 
-extension TestSpec.TestTag {
+extension TestSpec {
 
-    public enum CreateItem {
+    /** operation with string body */
+    public enum PostString {
 
-      public static let service = APIService<Response>(id: "createItem", tag: "TestTag", method: "POST", path: "/items", hasBody: true)
+      public static let service = APIService<Response>(id: "postString", tag: "", method: "POST", path: "/string", hasBody: true)
 
       public class Request: APIRequest<Response> {
 
-          public var item: [String: Any]
+          public var body: String?
 
-          public init(item: [String: Any]) {
-              self.item = item
-              super.init(service: CreateItem.service)
+          public init(body: String?) {
+              self.body = body
+              super.init(service: PostString.service)
           }
 
           public override var jsonBody: Any? {
-              return item
+              return body
           }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
             public typealias SuccessType = Void
 
-            /** Empty response */
-            case success201
+            /** successful operation */
+            case failureDefault(statusCode: Int)
 
             public var success: Void? {
                 switch self {
-                case .success201(let response): return response
+                default: return nil
                 }
             }
 
@@ -46,20 +47,19 @@ extension TestSpec.TestTag {
 
             public var statusCode: Int {
               switch self {
-              case .success201: return 201
+              case .failureDefault(let statusCode): return statusCode
               }
             }
 
             public var successful: Bool {
               switch self {
-              case .success201: return true
+              case .failureDefault: return false
               }
             }
 
             public init(statusCode: Int, data: Data) throws {
                 switch statusCode {
-                case 201: self = .success201
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: self = .failureDefault(statusCode: statusCode)
                 }
             }
 

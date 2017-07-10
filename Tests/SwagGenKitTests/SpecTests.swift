@@ -35,7 +35,7 @@ public func specTests() {
                 let generator = Generator(context: context, destination: destinationPath.normalize(), templateConfig: templateConfig)
                 let result = try generator.generate(clean: .all, fileChanged: {_ in})
                 if result.changed {
-                    throw failure("Generated spec has changed:\n\(result.description)")
+                    throw failure("Generated spec has changed: \(result.description)")
                 }
             }
         }

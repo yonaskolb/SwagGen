@@ -79,6 +79,15 @@ public class CodeFormatter {
         context["filename"] = getFilename(schema.name)
         context["type"] = getModelType(schema.name)
 
+        switch schema.value.type {
+        case .boolean, .file, .integer, .number, .string:
+            context["simpleType"] = getSchemaType(name: schema.name, schema: schema.value)
+            if let enumValue = schema.value.getEnum(name: schema.name, description: schema.value.metadata.description) {
+                context["enum"] = getEnumContext(enumValue)
+            }
+        default: break
+        }
+
         return context
     }
 

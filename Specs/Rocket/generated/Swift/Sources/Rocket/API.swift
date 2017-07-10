@@ -17,12 +17,12 @@ public struct Rocket {
     public static var dateEncodingFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     public static let version = "1.0.0"
 
-    public enum Content {}
-    public enum Authorization {}
-    public enum App {}
-    public enum Support {}
     public enum Account {}
+    public enum App {}
+    public enum Authorization {}
+    public enum Content {}
     public enum Profile {}
     public enum Registration {}
+    public enum Support {}
 
 }

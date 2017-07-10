@@ -41,7 +41,8 @@ public class CodeFormatter {
         context["enums"] = enums.map(getEnumContext)
         context["paths"] = spec.paths.map(getPathContext)
         context["operations"] = spec.operations.map(getOperationContext)
-        context["tags"] = spec.operationsByTag.map { ["name": $0, "operations": $1.map(getOperationContext)] }
+        context["tags"] = spec.tags
+        context["operationsByTag"] = spec.operationsByTag.map { ["name": $0, "operations": $1.map(getOperationContext)] }
         context["definitions"] = spec.definitions.map(getDefinitionContext)
         context["info"] = getSpecInformationContext(spec.info)
         context["host"] = spec.host
@@ -358,16 +359,16 @@ public class CodeFormatter {
         let string = escapeString(name)
         return disallowedNames.contains(string) ? getEscapedName(string) : string
     }
-    
+
     func escapeType(_ type: String) -> String {
         let string = escapeString(type)
         return disallowedTypes.contains(string) ? getEscapedType(string) : string
     }
-    
+
     func getEscapedType(_ type: String) -> String {
         return "_\(type)"
     }
-    
+
     func getEscapedName(_ name: String) -> String {
         return "_\(name)"
     }

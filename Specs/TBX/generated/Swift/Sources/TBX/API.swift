@@ -11,9 +11,9 @@ public struct TBX {
     public static var dateEncodingFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     public static let version = "2.4.1"
 
-    public enum Auth {}
     public enum AuthorizationService {}
     public enum DeviceService {}
     public enum UserService {}
+    public enum Auth {}
 
 }

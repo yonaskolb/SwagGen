@@ -29,17 +29,9 @@ extension SwaggerSpec {
 
     var operationsByTag: [String: [Swagger.Operation]] {
         var dictionary: [String: [Swagger.Operation]] = [:]
-
-        let operationsWithoutTag = operations.filter { $0.tags.isEmpty }
-
-        if !operationsWithoutTag.isEmpty {
-            dictionary[""] = operationsWithoutTag
-        }
-
         for tag in tags {
             dictionary[tag] = operations.filter { $0.tags.contains(tag) }
         }
-
         return dictionary
     }
 

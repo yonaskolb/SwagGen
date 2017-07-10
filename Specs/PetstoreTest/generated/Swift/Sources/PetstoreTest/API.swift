@@ -12,9 +12,9 @@ public struct PetstoreTest {
     public static var dateEncodingFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     public static let version = "1.0.0"
 
-    public enum Store {}
-    public enum User {}
     public enum Fake {}
     public enum Pet {}
+    public enum Store {}
+    public enum User {}
 
 }

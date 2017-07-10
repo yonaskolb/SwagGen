@@ -3,6 +3,14 @@ info:
   version: "1.0"
   title: Test Spec
 paths:
+  /untagged:
+    get:
+      parameters:
+        - id: string
+          in: query
+      responses:
+        201:
+          description: Empty response
   /items:
     post:
       summary: Create an Item

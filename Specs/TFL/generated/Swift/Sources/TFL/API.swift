@@ -11,19 +11,19 @@ public struct TFL {
     public static var dateEncodingFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     public static let version = "v1"
 
-    public enum Line {}
-    public enum AirQuality {}
-    public enum Road {}
-    public enum Mode {}
-    public enum Vehicle {}
-    public enum StopPoint {}
-    public enum BikePoint {}
-    public enum TravelTime {}
     public enum AccidentStats {}
-    public enum Place {}
-    public enum Search {}
+    public enum AirQuality {}
+    public enum BikePoint {}
     public enum Cabwise {}
     public enum Journey {}
+    public enum Line {}
+    public enum Mode {}
     public enum Occupancy {}
+    public enum Place {}
+    public enum Road {}
+    public enum Search {}
+    public enum StopPoint {}
+    public enum TravelTime {}
+    public enum Vehicle {}
 
 }

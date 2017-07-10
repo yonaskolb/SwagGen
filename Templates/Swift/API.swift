@@ -15,7 +15,7 @@ public struct {{ options.name }} {
     {% if tags %}
 
     {% for tag in tags %}
-    public enum {{ options.tagPrefix }}{{ tag.name|upperCamelCase }}{{ options.tagSuffix }} {}
+    public enum {{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }} {}
     {% endfor %}
 
     {% endif %}

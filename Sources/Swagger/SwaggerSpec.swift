@@ -147,12 +147,19 @@ extension SwaggerSpec: JSONObjectConvertible {
         func resolveSchema(_ schema: Schema) {
             switch schema.type {
             case let .reference(reference): resolveDefinitionReference(reference)
-            case let .object(object): object.properties.forEach { resolveSchema($0.schema) }
+            case let .object(object):
+                object.properties.forEach { resolveSchema($0.schema) }
+                if case let .schema(schema) = object.additionalProperties {
+                    resolveSchema(schema)
+                }
             case let .allOf(allOf): allOf.subschemas.forEach(resolveSchema)
             case let .array(array):
                 switch array.items {
                 case let .single(schema): resolveSchema(schema)
                 case let .multiple(schemas): schemas.forEach(resolveSchema)
+                }
+                if case let .schema(schema) = array.additionalItems {
+                    resolveSchema(schema)
                 }
             default: break
             }

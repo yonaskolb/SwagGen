@@ -5,7 +5,8 @@ This includes a large rewrite with a lot more test cases so many more specs shou
 
 ### Added
 - Integer, Double and Float enums are now generated
-- operation now has `hasFileParam` and `isFile` #27 Thanks @dangthaison91 `spec.operationsByTag` now also includes operations without tags with an empty string name #28 Thanks @dangthaison91
+- operation now has `hasFileParam` and `isFile` #27 Thanks @dangthaison91
+- `spec.operationsByTag` now also includes operations without tags with an empty string name #28 Thanks @dangthaison91
 - Operations now include common parameters defined in the path #29 Thanks @dangthaison91
 - Added a bunch of test specs which are now validated against
 - Added a script that generates and then compiles all test specs

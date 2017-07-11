@@ -1,6 +1,33 @@
 # Change Log
 
-## [0.5.3] - 2017-05-22
+## [0.6.0]
+This includes a large rewrite with a lot more test cases so many more specs should be supported
+
+### Added
+- Integer, Double and Float enums are now generated
+- operation now has `hasFileParam` and `isFile` #27 Thanks @dangthaison91 `spec.operationsByTag` now also includes operations without tags with an empty string name #28 Thanks @dangthaison91
+- Operations now include common parameters defined in the path #29 Thanks @dangthaison91
+- Added a bunch of test specs which are now validated against
+- Added a script that generates and then compiles all test specs
+
+### Fixed
+- Removed symbols from generated filenames
+- Generate Floats as `Float` not `Double`
+- Fixed some array query parameters not joining their contents with the collectionFormat seperator (uses comma delimeted by default now if none is provided)
+- Arrays and dictionaries of enums are now encoded
+- Arrays of models are now encoded
+- Support for a default response with no schema
+- Support for `[String: Any]` responses
+- Simple type definitions including enums are generated properly
+- Fixed generation of operations without tags
+- Enums in responses are now generated
+- Overall more solid spec support. For example the whole [fake petstore example](https://github.com/swagger-api/swagger-codegen/issues/5419) now generates and compiles properly
+
+### Changed
+- Within templates `tags` is now just a list of all tag names. The previous tag dictionary which contains `name` and `operations` has been moved to `operationsByTag` 
+- request response enum cases have been renamed
+
+## [0.5.3]
 ### Swift template fixes
 - fixed not building with Swift Package Manager in certain situations
 - fixed array bodies being generated as inline classes
@@ -18,7 +45,7 @@
 ### Added
 Added suite of tests for parsing, generating and compiling templates from a list of specs. Will improve stability and help prevent regressions. Still some work to do in this area
 
-## [0.5.2] - 2017-05-16
+## [0.5.2]
 ### Added
 - added SuccessType typealias to APIResponseValue. This lets you map from a response to successful value
 
@@ -27,7 +54,7 @@ Added suite of tests for parsing, generating and compiling templates from a list
 - Moved generated request enums and anonymous schema from APIRequest.Request to one level higher in scope
 
 
-## [0.5.1] - 2017-05-16
+## [0.5.1]
 ### Added
 - A request's response now has a responseResult with either `.success(SuccessValue)` or `.failure(FailureValue)`. This is only generated if there is a single schema type for successes responses and a single schema type for failure responses
 
@@ -38,7 +65,8 @@ Added suite of tests for parsing, generating and compiling templates from a list
 ### Fixed
 - Fixed api name not being replaced in `Decoding.swift` anymore
 
-## [0.5.0] - 2017-05-16
+## [0.5.0]
+
 ### Added
 - `APIClient.makeRequest` now returns an Alamofire `Request` if one was created, so requests can now be cancelled
 - All operation responses are now generated, not just the successful one, meaning you get access to typed errors
@@ -74,7 +102,7 @@ Models, Requests, Errors and Responses now have CustomStringConvertible and/or C
 - Path parameters are no longer also encoded as url parameters in the request template
 
 
-## [0.4.1] - 2017-05-11
+## [0.4.1]
 ### Fixed
 Improved the generation of complicated specs:
 
@@ -84,7 +112,7 @@ Improved the generation of complicated specs:
 - better support for deeply nested arrays and dictionaries
 - fixed nested enums
 
-## [0.4.0] - 2017-05-10
+## [0.4.0]
 ### Added
 - Added generated API Client in Swift template #16
 	- monitoring and modification of requests via request behaviours
@@ -101,13 +129,13 @@ Improved the generation of complicated specs:
 ### Fixed
 - Swift names and types are now escaped with a greater range of swift keywords
 
-## [0.3.0] - 2017-05-04
+## [0.3.0]
 
 ### Fixed
 - Operations with multiple path variables now properly generate an operationId. #11  Thanks @HSchultjan
 - Operation parameters that contain anonymous schemas (those that don't reference a definition schema but define a schema inline) are now genererated properly as nested structs within the APIRequest #13
 
-## [0.2.0] - 2017-05-03
+## [0.2.0]
 ### Added
 - `Operation`, `Definition`, `Property` and `Parameter`, now have a `raw` property that can be accessed from templates. This represents the raw data that was in the original spec. This lets you access any custom properties you have in your spec
 
@@ -118,6 +146,7 @@ Improved the generation of complicated specs:
 ## 0.1.0 - 2017-04-27
 - First official release
 
+[0.6.0]: https://github.com/yonaskolb/SwagGen/compare/0.5.3...0.6.0
 [0.5.3]: https://github.com/yonaskolb/SwagGen/compare/0.5.2...0.5.3
 [0.5.2]: https://github.com/yonaskolb/SwagGen/compare/0.5.1...0.5.2
 [0.5.1]: https://github.com/yonaskolb/SwagGen/compare/0.5.0...0.5.1

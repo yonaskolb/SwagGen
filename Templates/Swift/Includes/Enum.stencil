@@ -1,9 +1,9 @@
 {% if description %}
 /** {{ description }} */
 {% endif %}
-public enum {{ enumName }}: String {
+public enum {{ enumName }}: {{ type }} {
     {% for enumCase in enums %}
-    case {{ enumCase.name }} = "{{enumCase.value}}"
+    case {{ enumCase.name }} = {% if type == "String" %}"{% endif %}{{enumCase.value}}{% if type == "String" %}"{% endif %}
     {% endfor %}
 
     public static let cases: [{{ enumName }}] = [

@@ -8,6 +8,26 @@ import JSONUtilities
 
 public class EnumTest: JSONDecodable, JSONEncodable, PrettyPrintable {
 
+    public enum EnumInteger: Int {
+        case _1 = 1
+        case negative1 = -1
+
+        public static let cases: [EnumInteger] = [
+          ._1,
+          .negative1,
+        ]
+    }
+
+    public enum EnumNumber: Double {
+        case _11 = 1.1
+        case negative12 = -1.2
+
+        public static let cases: [EnumNumber] = [
+          ._11,
+          .negative12,
+        ]
+    }
+
     public enum EnumString: String {
         case upper = "UPPER"
         case lower = "lower"
@@ -20,15 +40,15 @@ public class EnumTest: JSONDecodable, JSONEncodable, PrettyPrintable {
         ]
     }
 
-    public var enumInteger: Int?
+    public var enumInteger: EnumInteger?
 
-    public var enumNumber: Double?
+    public var enumNumber: EnumNumber?
 
     public var enumString: EnumString?
 
     public var outerEnum: OuterEnum?
 
-    public init(enumInteger: Int? = nil, enumNumber: Double? = nil, enumString: EnumString? = nil, outerEnum: OuterEnum? = nil) {
+    public init(enumInteger: EnumInteger? = nil, enumNumber: EnumNumber? = nil, enumString: EnumString? = nil, outerEnum: OuterEnum? = nil) {
         self.enumInteger = enumInteger
         self.enumNumber = enumNumber
         self.enumString = enumString
@@ -44,10 +64,10 @@ public class EnumTest: JSONDecodable, JSONEncodable, PrettyPrintable {
 
     public func encode() -> JSONDictionary {
         var dictionary: JSONDictionary = [:]
-        if let enumInteger = enumInteger {
+        if let enumInteger = enumInteger?.encode() {
             dictionary["enum_integer"] = enumInteger
         }
-        if let enumNumber = enumNumber {
+        if let enumNumber = enumNumber?.encode() {
             dictionary["enum_number"] = enumNumber
         }
         if let enumString = enumString?.encode() {

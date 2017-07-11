@@ -15,7 +15,13 @@ import PathKit
 struct Enum {
     let name: String
     let cases: [Any]
+    let type: EnumType
     let description: String?
+
+    enum EnumType {
+        case schema(Schema)
+        case item(Item)
+    }
 }
 
 struct ResponseFormatter {
@@ -49,9 +55,9 @@ extension SwaggerSpec {
 
 extension Metadata {
 
-    func getEnum(name: String, description: String?) -> Enum? {
+    func getEnum(name: String, type: Enum.EnumType, description: String?) -> Enum? {
         if let enumValues = enumeratedValues {
-            return Enum(name: name, cases: enumValues.flatMap { $0 }, description: description ?? self.description)
+            return Enum(name: name, cases: enumValues.flatMap { $0 }, type: type, description: description ?? self.description)
         }
         return nil
     }
@@ -120,8 +126,7 @@ extension Schema {
             if case let .schema(schema) = objectSchema.additionalProperties {
                 return schema.getEnum(name: name, description: description)
             }
-        case .string: return metadata.getEnum(name: name, description: description)
-            // TODO: support enums other than string
+        case .string, .number, .integer: return metadata.getEnum(name: name, type: .schema(self), description: description)
         case let .array(array):
             if case let .single(schema) = array.items {
                 return schema.getEnum(name: name, description: description)
@@ -237,12 +242,12 @@ extension Item {
         switch type {
         case let .array(array):
             if case .string = array.items.type {
-                if let enumValue = array.items.metadata.getEnum(name: name, description: description) {
+                if let enumValue = array.items.metadata.getEnum(name: name, type: .item(self), description: description) {
                     return enumValue
                 }
             }
-        case .string:
-            return metadata.getEnum(name: name, description: description)
+        case .string, .integer, .number:
+            return metadata.getEnum(name: name, type: .item(self), description: description)
         default: break
         }
         return nil

@@ -258,29 +258,33 @@ public class CodeFormatter {
         return context
     }
 
-    func getEnumContext(_ enumFormatter: Enum) -> Context {
+    func getEnumContext(_ enumValue: Enum) -> Context {
         var context: Context = [:]
 
         var specEnum: Enum?
         for globalEnum in enums {
-            if String(describing: globalEnum.cases) == String(describing: enumFormatter.cases) {
+            if String(describing: globalEnum.cases) == String(describing: enumValue.cases) {
                 specEnum = globalEnum
                 break
             }
         }
-        context["enumName"] = getEnumTypeType(enumFormatter.name)
+        context["enumName"] = getEnumTypeType(enumValue.name)
 
         if let specEnum = specEnum {
             context["enumName"] = getEnumTypeType(specEnum.name)
             context["isGlobal"] = true
         }
-        context["enums"] = enumFormatter.cases.map { ["name": getName("\($0)"), "value": $0] }
-        context["description"] = specEnum?.description ?? enumFormatter.description
+        context["enums"] = enumValue.cases.map { ["name": getName("\($0)"), "value": $0] }
+        context["description"] = specEnum?.description ?? enumValue.description
+
+        switch enumValue.type {
+        case let .schema(schema): context["type"] = getSchemaType(name: "", schema: schema, checkEnum: false)
+        case let .item(item): context["type"] = getItemType(name: "", item: item, checkEnum: false)
+        }
         return context
     }
 
     func escapeString(_ string: String) -> String {
-        let allowedCharacters = CharacterSet.alphanumerics
         let replacements: [String: String] = [
             ">=": "greaterThanOrEqualTo",
             "<=": "lessThanOrEqualTo",
@@ -296,7 +300,7 @@ public class CodeFormatter {
         for (symbol, replacement) in replacements {
             escapedString = escapedString.replacingOccurrences(of: symbol, with: replacement)
         }
-        escapedString = String(String.UnicodeScalarView(escapedString.unicodeScalars.filter { allowedCharacters.contains($0) }))
+        escapedString = String(String.UnicodeScalarView(escapedString.unicodeScalars.filter { CharacterSet.alphanumerics.contains($0) }))
 
         // prepend _ strings starting with numbers
         if let firstCharacter = escapedString.unicodeScalars.first,
@@ -305,7 +309,7 @@ public class CodeFormatter {
         }
 
         if escapedString.isEmpty || escapedString == "_" {
-            escapedString = "UNKNOWN"
+            escapedString = "UNKNOWN234"
         }
         return escapedString
     }
@@ -313,7 +317,8 @@ public class CodeFormatter {
     // MARK: name and types
 
     func getName(_ name: String) -> String {
-        let name = name.lowerCamelCased()
+        var name = name.replacingOccurrences(of: "^-(\\d)", with: "_negative$1", options: .regularExpression)
+        name = name.lowerCamelCased()
         return escapeName(name)
     }
 
@@ -327,7 +332,7 @@ public class CodeFormatter {
         return escapeType(name.upperCamelCased())
     }
 
-    func getItemType(name: String, item: Item) -> String {
+    func getItemType(name: String, item: Item, checkEnum: Bool = true) -> String {
         return item.metadata.type.rawValue
     }
 
@@ -336,7 +341,7 @@ public class CodeFormatter {
         return escapeType(type)
     }
 
-    func getSchemaType(name: String, schema: Schema) -> String {
+    func getSchemaType(name: String, schema: Schema, checkEnum: Bool = true) -> String {
         return schema.metadata.type.rawValue
     }
 

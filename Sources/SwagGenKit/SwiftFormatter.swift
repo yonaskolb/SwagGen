@@ -78,15 +78,21 @@ public class SwiftFormatter: CodeFormatter {
     override var disallowedNames: [String] { return disallowedKeywords + inbuiltTypes }
     override var disallowedTypes: [String] { return disallowedKeywords + inbuiltTypes }
 
-    override func getItemType(name: String, item: Item) -> String {
+    override func getItemType(name: String, item: Item, checkEnum: Bool = true) -> String {
 
-        let enumValue = item.metadata.getEnum(name: name, description: "").flatMap { getEnumContext($0)["enumName"] as? String }
+        var enumValue: String?
+        if checkEnum {
+            enumValue = item.metadata.getEnum(name: name, type: .item(item), description: "").flatMap { getEnumContext($0)["enumName"] as? String }
+        }
         //TODO: support nonstring enums
+
         switch item.type {
-        case let .array(item): return "[\(enumValue ?? getItemType(name: name, item: item.items))]"
-        case .boolean: return "Bool"
-        case .integer: return "Int"
-        case let .number(item): return getNumberFormatType(item.format)
+        case let .array(item):
+            let type = getItemType(name: name, item: item.items, checkEnum: checkEnum)
+            return checkEnum ? "[\(enumValue ?? type )]" : type
+        case .boolean: return enumValue ?? "Bool"
+        case .integer: return enumValue ?? "Int"
+        case let .number(item): return enumValue ?? getNumberFormatType(item.format)
         case let .string(item): return enumValue ?? getStringFormatType(item.format)
         }
     }
@@ -117,18 +123,24 @@ public class SwiftFormatter: CodeFormatter {
         }
     }
 
-    override func getSchemaType(name: String, schema: Schema) -> String {
-
-        let enumValue = schema.getEnum(name: name, description: "").flatMap { getEnumContext($0)["enumName"] as? String }
+    override func getSchemaType(name: String, schema: Schema, checkEnum: Bool = true) -> String {
+        var enumValue: String?
+        if checkEnum {
+            enumValue = schema.getEnum(name: name, description: "").flatMap { getEnumContext($0)["enumName"] as? String }
+        }
         //TODO: support nonstring enums
         switch schema.type {
         case let .string(format): return enumValue ?? getStringFormatType(format)
-        case let .number(format): return getNumberFormatType(format)
-        case .integer: return "Int"
+        case let .number(format): return enumValue ?? getNumberFormatType(format)
+        case .integer: return enumValue ?? "Int"
         case let .array(arraySchema):
             switch arraySchema.items {
-            case let .single(type): return "[\(enumValue ?? getSchemaType(name: name, schema: type))]"
-            case let .multiple(types): return "[\(enumValue ?? getSchemaType(name: name, schema: types.first!))]"
+            case let .single(type):
+                let typeString = getSchemaType(name: name, schema: type, checkEnum: checkEnum)
+                return checkEnum ? "[\(enumValue ?? typeString)]" : typeString
+            case let .multiple(types):
+                let typeString = getSchemaType(name: name, schema: types.first!, checkEnum: checkEnum)
+                return checkEnum ? "[\(enumValue ?? typeString)]" : typeString
             }
         case .boolean: return "Bool"
         case .file: return "URL"
@@ -136,7 +148,9 @@ public class SwiftFormatter: CodeFormatter {
 //            if schema.properties.isEmpty {
                 switch schema.additionalProperties {
                 case .bool: return "[String: Any]"
-                case let .schema(schema): return "[String: \(enumValue ?? getSchemaType(name: name, schema: schema))]"
+                case let .schema(schema):
+                    let typeString = getSchemaType(name: name, schema: schema, checkEnum: checkEnum)
+                    return checkEnum ? "[String: \(enumValue ?? typeString)]" : typeString
                 }
 //            } else {
 //                return getModelType(name)

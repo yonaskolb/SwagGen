@@ -85,6 +85,28 @@ extension PetstoreTest.Fake {
           ]
       }
 
+      /** Query parameter enum test (double) */
+      public enum EnumQueryInteger: Int {
+          case _1 = 1
+          case negative2 = -2
+
+          public static let cases: [EnumQueryInteger] = [
+            ._1,
+            .negative2,
+          ]
+      }
+
+      /** Query parameter enum test (double) */
+      public enum EnumQueryDouble: Double {
+          case _11 = 1.1
+          case negative12 = -1.2
+
+          public static let cases: [EnumQueryDouble] = [
+            ._11,
+            .negative12,
+          ]
+      }
+
       public class Request: APIRequest<Response> {
 
           public struct Options {
@@ -108,12 +130,12 @@ extension PetstoreTest.Fake {
               public var enumQueryString: EnumQueryString?
 
               /** Query parameter enum test (double) */
-              public var enumQueryInteger: Int?
+              public var enumQueryInteger: EnumQueryInteger?
 
               /** Query parameter enum test (double) */
-              public var enumQueryDouble: Double?
+              public var enumQueryDouble: EnumQueryDouble?
 
-              public init(enumFormStringArray: [EnumFormStringArray]? = nil, enumFormString: EnumFormString? = nil, enumHeaderStringArray: [EnumHeaderStringArray]? = nil, enumHeaderString: EnumHeaderString? = nil, enumQueryStringArray: [EnumQueryStringArray]? = nil, enumQueryString: EnumQueryString? = nil, enumQueryInteger: Int? = nil, enumQueryDouble: Double? = nil) {
+              public init(enumFormStringArray: [EnumFormStringArray]? = nil, enumFormString: EnumFormString? = nil, enumHeaderStringArray: [EnumHeaderStringArray]? = nil, enumHeaderString: EnumHeaderString? = nil, enumQueryStringArray: [EnumQueryStringArray]? = nil, enumQueryString: EnumQueryString? = nil, enumQueryInteger: EnumQueryInteger? = nil, enumQueryDouble: EnumQueryDouble? = nil) {
                   self.enumFormStringArray = enumFormStringArray
                   self.enumFormString = enumFormString
                   self.enumHeaderStringArray = enumHeaderStringArray
@@ -133,7 +155,7 @@ extension PetstoreTest.Fake {
           }
 
           /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(enumFormStringArray: [EnumFormStringArray]? = nil, enumFormString: EnumFormString? = nil, enumHeaderStringArray: [EnumHeaderStringArray]? = nil, enumHeaderString: EnumHeaderString? = nil, enumQueryStringArray: [EnumQueryStringArray]? = nil, enumQueryString: EnumQueryString? = nil, enumQueryInteger: Int? = nil, enumQueryDouble: Double? = nil) {
+          public convenience init(enumFormStringArray: [EnumFormStringArray]? = nil, enumFormString: EnumFormString? = nil, enumHeaderStringArray: [EnumHeaderStringArray]? = nil, enumHeaderString: EnumHeaderString? = nil, enumQueryStringArray: [EnumQueryStringArray]? = nil, enumQueryString: EnumQueryString? = nil, enumQueryInteger: EnumQueryInteger? = nil, enumQueryDouble: EnumQueryDouble? = nil) {
               let options = Options(enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble)
               self.init(options: options)
           }
@@ -152,10 +174,10 @@ extension PetstoreTest.Fake {
               if let enumQueryString = options.enumQueryString?.encode() {
                 params["enum_query_string"] = enumQueryString
               }
-              if let enumQueryInteger = options.enumQueryInteger {
+              if let enumQueryInteger = options.enumQueryInteger?.encode() {
                 params["enum_query_integer"] = enumQueryInteger
               }
-              if let enumQueryDouble = options.enumQueryDouble {
+              if let enumQueryDouble = options.enumQueryDouble?.encode() {
                 params["enum_query_double"] = enumQueryDouble
               }
               return params

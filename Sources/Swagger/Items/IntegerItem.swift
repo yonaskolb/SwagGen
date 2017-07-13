@@ -9,9 +9,14 @@ public struct IntegerItem {
     public let multipleOf: Int?
 }
 
-extension IntegerItem: JSONObjectConvertible {
+public enum IntegerFormat: String {
+    case int32
+    case int64
+}
 
-    public init(jsonDictionary: JSONDictionary) throws {
+extension IntegerItem {
+
+    public init(jsonDictionary: JSONDictionary) {
         format = jsonDictionary.json(atKeyPath: "format")
 
         minimum = jsonDictionary.json(atKeyPath: "minimum")

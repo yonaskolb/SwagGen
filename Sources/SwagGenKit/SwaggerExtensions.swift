@@ -126,7 +126,10 @@ extension Schema {
             if case let .schema(schema) = objectSchema.additionalProperties {
                 return schema.getEnum(name: name, description: description)
             }
-        case .string, .number, .integer: return metadata.getEnum(name: name, type: .schema(self), description: description)
+        case let .simple(simpleType):
+            if simpleType.canBeEnum {
+                return metadata.getEnum(name: name, type: .schema(self), description: description)
+            }
         case let .array(array):
             if case let .single(schema) = array.items {
                 return schema.getEnum(name: name, description: description)
@@ -234,6 +237,17 @@ extension Parameter {
     }
 }
 
+extension SimpleType {
+
+    var canBeEnum: Bool {
+        switch self {
+        case .string, .integer, .number:
+            return true
+        case .boolean: return false
+        }
+    }
+}
+
 
 extension Item {
 
@@ -241,14 +255,15 @@ extension Item {
 
         switch type {
         case let .array(array):
-            if case .string = array.items.type {
-                if let enumValue = array.items.metadata.getEnum(name: name, type: .item(self), description: description) {
+            if case let .simpleType(simpleType) = array.items.type {
+                if simpleType.canBeEnum, let enumValue = array.items.metadata.getEnum(name: name, type: .item(self), description: description) {
                     return enumValue
                 }
             }
-        case .string, .integer, .number:
-            return metadata.getEnum(name: name, type: .item(self), description: description)
-        default: break
+        case let .simpleType(simpleType):
+            if simpleType.canBeEnum {
+                return metadata.getEnum(name: name, type: .item(self), description: description)
+            }
         }
         return nil
     }

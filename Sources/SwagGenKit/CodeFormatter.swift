@@ -80,13 +80,11 @@ public class CodeFormatter {
         context["filename"] = getFilename(schema.name)
         context["type"] = getModelType(schema.name)
 
-        switch schema.value.type {
-        case .boolean, .file, .integer, .number, .string:
+        if case .simple = schema.value.type {
             context["simpleType"] = getSchemaType(name: schema.name, schema: schema.value)
             if let enumValue = schema.value.getEnum(name: schema.name, description: schema.value.metadata.description) {
                 context["enum"] = getEnumContext(enumValue)
             }
-        default: break
         }
 
         return context
@@ -220,7 +218,7 @@ public class CodeFormatter {
 
         context["raw"] = [
             "name": parameter.name,
-            "type": parameter.metadata.type.rawValue,
+            "type": parameter.metadata.type?.rawValue,
         ]
 
         context["name"] = getName(parameter.name)
@@ -333,7 +331,7 @@ public class CodeFormatter {
     }
 
     func getItemType(name: String, item: Item, checkEnum: Bool = true) -> String {
-        return item.metadata.type.rawValue
+        return "UNKNOWN_ITEM_TYPE"
     }
 
     func getModelType(_ name: String) -> String {
@@ -342,7 +340,7 @@ public class CodeFormatter {
     }
 
     func getSchemaType(name: String, schema: Schema, checkEnum: Bool = true) -> String {
-        return schema.metadata.type.rawValue
+        return "UNKNOWN_SCHEMA_TYPE"
     }
 
     // MARK: escaping

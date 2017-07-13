@@ -1,4 +1,3 @@
-import Foundation
 import JSONUtilities
 
 public enum DataType: String {
@@ -9,29 +8,22 @@ public enum DataType: String {
     case integer
     case boolean
     case file
-    case allOf
-    case reference
-    case any
 }
 
-extension DataType: JSONObjectConvertible {
+extension DataType {
 
-    public init(jsonDictionary: JSONDictionary) {
+    public init?(jsonDictionary: JSONDictionary) {
         if let typeString: String = jsonDictionary.json(atKeyPath: "type"),
             let dataType = DataType(rawValue: typeString) {
             self = dataType
-        } else if jsonDictionary["$ref"] != nil {
-            self = .reference
         } else if jsonDictionary["items"] != nil {
             // Implicit array
             self = .array
         } else if jsonDictionary["properties"] != nil {
             // Implicit object
             self = .object
-        } else if jsonDictionary["allOf"] != nil {
-            self = .allOf
         } else {
-            self = .any
+            return nil
         }
     }
 }

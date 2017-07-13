@@ -3,6 +3,7 @@ import JSONUtilities
 public enum SwaggerError: Error {
 
     case incorrectVersion(String)
-    case incorrectArrayDataType(DataType)
+    case incorrectItemType(JSONDictionary)
+    case incorrectSchemaType(JSONDictionary)
     case incorrectArraySchema([String: Any])
 }

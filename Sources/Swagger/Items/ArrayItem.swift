@@ -4,7 +4,7 @@ public struct ArrayItem {
 
     public let items: Item
     public let collectionFormat: CollectionFormat
-    public let minItems: Int
+    public let minItems: Int?
     public let maxItems: Int?
     public let uniqueItems: Bool
 }
@@ -32,7 +32,7 @@ extension ArrayItem: JSONObjectConvertible {
         collectionFormat = (jsonDictionary.json(atKeyPath: "collectionFormat")) ?? .csv
 
         maxItems = jsonDictionary.json(atKeyPath: "maxItems")
-        minItems = (jsonDictionary.json(atKeyPath: "minItems")) ?? 0
+        minItems = (jsonDictionary.json(atKeyPath: "minItems"))
         uniqueItems = (jsonDictionary.json(atKeyPath: "uniqueItems")) ?? false
     }
 }

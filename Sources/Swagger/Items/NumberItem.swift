@@ -9,9 +9,14 @@ public struct NumberItem {
     public let multipleOf: Double?
 }
 
-extension NumberItem: JSONObjectConvertible {
+public enum NumberFormat: String {
+    case float
+    case double
+}
 
-    public init(jsonDictionary: JSONDictionary) throws {
+extension NumberItem {
+
+    public init(jsonDictionary: JSONDictionary) {
         format = jsonDictionary.json(atKeyPath: "format")
         maximum = jsonDictionary.json(atKeyPath: "maximum")
         exclusiveMaximum = jsonDictionary.json(atKeyPath: "exclusiveMaximum")

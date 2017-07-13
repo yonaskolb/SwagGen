@@ -11,10 +11,7 @@ public enum SchemaType {
     indirect case object(ObjectSchema)
     indirect case array(ArraySchema)
     indirect case allOf(AllOfSchema)
-    case string(StringFormat?)
-    case number(NumberFormat?)
-    case integer(IntegerFormat?)
-    case boolean
+    case simple(SimpleType)
     case file
     case any
 }
@@ -31,27 +28,24 @@ extension Schema: JSONObjectConvertible {
 extension SchemaType: JSONObjectConvertible {
 
     public init(jsonDictionary: JSONDictionary) throws {
-        let dataType = DataType(jsonDictionary: jsonDictionary )
-        switch dataType {
-        case .reference:
-            self = .reference(try Reference(jsonDictionary: jsonDictionary ))
-        case .object:
-            self = .object(try ObjectSchema(jsonDictionary: jsonDictionary ))
-        case .array:
-            self = .array(try ArraySchema(jsonDictionary: jsonDictionary ))
-        case .allOf:
-            self = .allOf(try AllOfSchema(jsonDictionary: jsonDictionary ))
-        case .string:
-            self = .string(jsonDictionary.json(atKeyPath: "format"))
-        case .number:
-            self = .number(jsonDictionary.json(atKeyPath: "format"))
-        case .integer:
-            self = .integer(jsonDictionary.json(atKeyPath: "format"))
-        case .boolean:
-            self = .boolean
-        case .file:
-            self = .file
-        case .any:
+        if let simpleType = SimpleType(jsonDictionary: jsonDictionary) {
+            self = .simple(simpleType)
+        } else if let dataType = DataType(jsonDictionary: jsonDictionary) {
+            switch dataType {
+            case .array:
+                self = .array(try ArraySchema(jsonDictionary: jsonDictionary))
+            case .object:
+                self = .object(try ObjectSchema(jsonDictionary: jsonDictionary))
+            case .file:
+                self = .file
+            default:
+                throw SwaggerError.incorrectSchemaType(jsonDictionary)
+            }
+        } else if jsonDictionary["$ref"] != nil {
+            self = .reference(try Reference(jsonDictionary: jsonDictionary))
+        } else if jsonDictionary["allOf"] != nil {
+            self = .allOf(try AllOfSchema(jsonDictionary: jsonDictionary))
+        } else {
             self = .any
         }
     }

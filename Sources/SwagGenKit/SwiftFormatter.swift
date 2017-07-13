@@ -90,36 +90,43 @@ public class SwiftFormatter: CodeFormatter {
         case let .array(item):
             let type = getItemType(name: name, item: item.items, checkEnum: checkEnum)
             return checkEnum ? "[\(enumValue ?? type )]" : type
-        case .boolean: return enumValue ?? "Bool"
-        case .integer: return enumValue ?? "Int"
-        case let .number(item): return enumValue ?? getNumberFormatType(item.format)
-        case let .string(item): return enumValue ?? getStringFormatType(item.format)
-        }
-    }
-
-    func getNumberFormatType(_ format: NumberFormat?) -> String {
-        guard let format = format else {
-            return "Double"
-        }
-        switch format {
-        case .double: return "Double"
-        case .float: return "Float"
-        }
-    }
-
-    func getStringFormatType(_ format: StringFormat?) -> String {
-        guard let format = format else {
-            return "String"
-        }
-        switch format {
-        case let .format(format):
-            switch format {
-            case .binary, .byte: return "String" // TODO: Data
-            case .dateTime, .date: return "Date"
-            case .email, .hostname, .ipv4, .ipv6, .password: return "String"
-            case .uri: return "URL"
+        case let .simpleType(simpleType):
+            if simpleType.canBeEnum, let enumValue = enumValue {
+                return enumValue
+            } else {
+                return getSimpleType(simpleType)
             }
-        case .other: return "String"
+        }
+    }
+
+    func getSimpleType(_ simpleType: SimpleType) -> String {
+        switch simpleType {
+        case let .string(item):
+            guard let format = item.format else {
+                return "String"
+            }
+            switch format {
+            case let .format(format):
+                switch format {
+                case .binary, .byte: return "String" // TODO: Data
+                case .dateTime, .date: return "Date"
+                case .email, .hostname, .ipv4, .ipv6, .password: return "String"
+                case .uri: return "URL"
+                }
+            case .other: return "String"
+            }
+        case let .number(item):
+            guard let format = item.format else {
+                return "Double"
+            }
+            switch format {
+            case .double: return "Double"
+            case .float: return "Float"
+            }
+        case .integer:
+            return "Int"
+        case .boolean:
+            return "Bool"
         }
     }
 
@@ -128,11 +135,14 @@ public class SwiftFormatter: CodeFormatter {
         if checkEnum {
             enumValue = schema.getEnum(name: name, description: "").flatMap { getEnumContext($0)["enumName"] as? String }
         }
-        //TODO: support nonstring enums
+
         switch schema.type {
-        case let .string(format): return enumValue ?? getStringFormatType(format)
-        case let .number(format): return enumValue ?? getNumberFormatType(format)
-        case .integer: return enumValue ?? "Int"
+        case let .simple(simpleType):
+            if simpleType.canBeEnum, let enumValue = enumValue {
+                return enumValue
+            } else {
+                return getSimpleType(simpleType)
+            }
         case let .array(arraySchema):
             switch arraySchema.items {
             case let .single(type):
@@ -142,7 +152,6 @@ public class SwiftFormatter: CodeFormatter {
                 let typeString = getSchemaType(name: name, schema: types.first!, checkEnum: checkEnum)
                 return checkEnum ? "[\(enumValue ?? typeString)]" : typeString
             }
-        case .boolean: return "Bool"
         case .file: return "URL"
         case let .object(schema):
 //            if schema.properties.isEmpty {

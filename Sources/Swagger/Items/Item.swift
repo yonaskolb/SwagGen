@@ -6,10 +6,7 @@ public struct Item {
 }
 
 public indirect enum ItemType {
-    case boolean
-    case string(StringItem)
-    case number(NumberItem)
-    case integer(IntegerItem)
+    case simpleType(SimpleType)
     case array(ArrayItem)
 }
 
@@ -24,20 +21,12 @@ extension Item: JSONObjectConvertible {
 extension ItemType: JSONObjectConvertible {
 
     public init(jsonDictionary: JSONDictionary) throws {
-        let dataType = DataType(jsonDictionary: jsonDictionary )
-        switch dataType {
-        case .string:
-            self = .string(try StringItem(jsonDictionary: jsonDictionary ))
-        case .number:
-            self = .number(try NumberItem(jsonDictionary: jsonDictionary ))
-        case .integer:
-            self = .integer(try IntegerItem(jsonDictionary: jsonDictionary ))
-        case .array:
+        if let simpleType = SimpleType(jsonDictionary: jsonDictionary) {
+            self = .simpleType(simpleType)
+        } else if let dataType = DataType(jsonDictionary: jsonDictionary), dataType == .array {
             self = .array(try ArrayItem(jsonDictionary: jsonDictionary ))
-        case .boolean:
-            self = .boolean
-        case .object, .allOf, .reference, .file, .any:
-            throw SwaggerError.incorrectArrayDataType(dataType)
+        } else {
+            throw SwaggerError.incorrectItemType(jsonDictionary)
         }
     }
 }

@@ -1,8 +1,7 @@
 import JSONUtilities
 
 public struct Metadata {
-
-    public let type: DataType
+    public let type: DataType?
     public let title: String?
     public let description: String?
     public let defaultValue: Any?

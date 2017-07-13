@@ -2,6 +2,7 @@ import JSONUtilities
 
 public enum SimpleType {
     case boolean
+    case file
     case string(StringItem)
     case number(NumberItem)
     case integer(IntegerItem)
@@ -21,6 +22,8 @@ extension SimpleType {
                 self = .integer(IntegerItem(jsonDictionary: jsonDictionary))
             case .boolean:
                 self = .boolean
+            case .file:
+                self = .file
             default:
                 return nil
             }

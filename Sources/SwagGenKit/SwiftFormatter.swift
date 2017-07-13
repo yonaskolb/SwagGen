@@ -127,6 +127,7 @@ public class SwiftFormatter: CodeFormatter {
             return "Int"
         case .boolean:
             return "Bool"
+        case .file: return "URL"
         }
     }
 
@@ -152,7 +153,6 @@ public class SwiftFormatter: CodeFormatter {
                 let typeString = getSchemaType(name: name, schema: types.first!, checkEnum: checkEnum)
                 return checkEnum ? "[\(enumValue ?? typeString)]" : typeString
             }
-        case .file: return "URL"
         case let .object(schema):
 //            if schema.properties.isEmpty {
                 switch schema.additionalProperties {

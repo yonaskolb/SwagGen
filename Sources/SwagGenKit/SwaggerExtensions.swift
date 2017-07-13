@@ -243,7 +243,7 @@ extension SimpleType {
         switch self {
         case .string, .integer, .number:
             return true
-        case .boolean: return false
+        case .boolean, .file: return false
         }
     }
 }

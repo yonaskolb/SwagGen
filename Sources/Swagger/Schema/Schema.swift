@@ -12,7 +12,6 @@ public enum SchemaType {
     indirect case array(ArraySchema)
     indirect case allOf(AllOfSchema)
     case simple(SimpleType)
-    case file
     case any
 }
 
@@ -36,8 +35,6 @@ extension SchemaType: JSONObjectConvertible {
                 self = .array(try ArraySchema(jsonDictionary: jsonDictionary))
             case .object:
                 self = .object(try ObjectSchema(jsonDictionary: jsonDictionary))
-            case .file:
-                self = .file
             default:
                 throw SwaggerError.incorrectSchemaType(jsonDictionary)
             }

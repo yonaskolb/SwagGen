@@ -195,6 +195,7 @@ public class SwiftFormatter: CodeFormatter {
         let name = context["name"] as! String
 
         context["optionalType"] = type + (parameter.required ? "" : "?")
+        context["typeOfArrayObject"] = type.trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
         var encodedValue = getEncodedValue(name: getName(name), type: type)
 
         if case let .other(items) = parameter.type,
@@ -236,6 +237,7 @@ public class SwiftFormatter: CodeFormatter {
         let name = context["name"] as! String
 
         context["optionalType"] = type + (property.required ? "" : "?")
+        context["typeOfArrayObject"] = type.trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
         var encodedValue = getEncodedValue(name: getName(name), type: type)
 
         if !property.required, let range = encodedValue.range(of: ".") {

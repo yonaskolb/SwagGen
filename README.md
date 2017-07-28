@@ -12,26 +12,31 @@ It has many advantages over the official [swagger-codegen](https://github.com/sw
 
 The default Swift templates it generates are also much improved with support for model inheritance, shared enums, mutable parameter structs, convenience initialisers and many more improvements.
 
-## Install
-Make sure Xcode 8 is installed and run the following commands in the same directory as this repo. You can either build via the Swift Package Manager on the command line or Xcode
+## Installing
+Make sure Xcode 8.3 is installed first.
 
-### 1. Command Line
-```
-swift build
-```
-This compiles a release build via the Swift Package Manager. You can find the output in the build directory which by default is at `.build/debug/SwagGen`. You can move it out of there or simply run it:
+**Make**:
 
 ```
-.build/debug/SwagGen ..arguments
+$ git clone https://github.com/yonaskolb/SwagGen.git
+$ cd SwagGen
+$ make
 ```
 
-### 2. Xcode
-```
-swift package generate-xcodeproj
-```
-will create an `xcodeproj` file that you can open, edit and run in Xcode, which also makes editing any code easier.
+**Swift Package Manager**:
 
-If you want to pass the required arguments when running in XCode, you can edit the scheme to include launch arguments.
+Add the following to your Package.swift file's dependencies:
+
+```
+.Package(url: "https://github.com/yonaskolb/SwagGen.git", majorVersion: 0)
+```
+
+And then import wherever needed:
+
+```
+import SwagGenKit
+```
+
 
 ## Usage
 Use `SwagGen -help` to see the list of options:
@@ -56,6 +61,16 @@ SwagGen --template Templates/Swift --spec http://myapi.com/spec --destination ge
 ```
 
 For the Swift template, a handy option is `name`, which changes the name of the generated framework from the default of `API`. This can be set in the template or by passing in `--option name:MyCoolAPI`.
+
+## Editing
+```
+$ git clone https://github.com/yonaskolb/SwagGen.git
+$ cd SwagGen
+$ swift package generate-xcodeproj
+```
+This use Swift Project Manager to create an `xcodeproj` file that you can open, edit and run in Xcode, which makes editing any code easier.
+
+If you want to pass any required arguments when running in XCode, you can edit the scheme to include launch arguments.
 
 ## Templates
 Templates are made up of a template config file, a bunch of **Stencil** files, and other files that will be copied over during generation

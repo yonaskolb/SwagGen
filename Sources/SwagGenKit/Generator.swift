@@ -40,25 +40,52 @@ public class Generator {
     }
 
     public struct Result: CustomStringConvertible {
-        public var generated: [GeneratedFile]
-        public var removed: [Path]
+        public var generatedFiles: [GeneratedFile]
+
+        public var removedFiles: [Path]
 
         public func generatedByState(_ state: GeneratedFile.State) -> [GeneratedFile] {
-            return generated.filter { $0.state == state }
+            return generatedFiles.filter { $0.state == state }
         }
 
-        public var changed: Bool {
-            return generated.contains { $0.state != .unchanged } || !removed.isEmpty
+        public var hasChanged: Bool {
+            return generatedFiles.contains { $0.state != .unchanged } || !removedFiles.isEmpty
+        }
+
+        public var createdFiles: [GeneratedFile] {
+            return generatedByState(.created)
+        }
+
+        public var modifiedFiles: [GeneratedFile] {
+            return generatedByState(.modified)
+        }
+
+        public var unchangedFiles: [GeneratedFile] {
+            return generatedByState(.unchanged)
         }
 
         public var description: String {
             let counts: [(String, Int)] = [
-                ("created", generatedByState(.created).count),
-                ("modified", generatedByState(.modified).count),
-                ("unchanged", generatedByState(.unchanged).count),
-                ("removed", removed.count),
+                ("created", createdFiles.count),
+                ("modified", modifiedFiles.count),
+                ("unchanged", unchangedFiles.count),
+                ("removed", removedFiles.count),
             ]
             return getCountString(counts: counts, pluralise: false)
+        }
+
+        public var changedFilesDescription: String {
+            var string = ""
+            if !createdFiles.isEmpty {
+                string += "Created:\n  " + createdFiles.map { $0.path.description }.joined(separator: "\n  ")
+            }
+            if !modifiedFiles.isEmpty {
+                string += "Modified:\n  " + modifiedFiles.map { $0.path.description }.joined(separator: "\n  ")
+            }
+            if !removedFiles.isEmpty {
+                string += "Removed:\n  " + removedFiles.map { $0.description }.joined(separator: "\n  ")
+            }
+            return string
         }
     }
 
@@ -191,6 +218,6 @@ public class Generator {
             fileChanged(.removed(removedFile))
         }
 
-        return Result(generated: generatedFiles, removed: removedFiles)
+        return Result(generatedFiles: generatedFiles, removedFiles: removedFiles)
     }
 }

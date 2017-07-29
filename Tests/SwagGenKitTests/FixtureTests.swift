@@ -35,7 +35,7 @@ public func testFixtures() {
                 let generator = Generator(context: context, destination: destinationPath.normalize(), templateConfig: templateConfig)
                 let result = try generator.generate(clean: .all, fileChanged: {_ in})
                 if result.hasChanged {
-                    throw failure("Generated spec has changed: \(result.description)\n\n\(result.changedFilesDescription)")
+                    throw failure("Generated spec has changed: \(result.description)\n\n\(result.changedFilesDescription(includeModifiedContent: true))")
                 }
             }
         }

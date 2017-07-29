@@ -74,13 +74,19 @@ public class Generator {
             return getCountString(counts: counts, pluralise: false)
         }
 
-        public var changedFilesDescription: String {
+        public func changedFilesDescription(includeModifiedContent: Bool) -> String {
             var string = ""
             if !createdFiles.isEmpty {
                 string += "Created:\n  " + createdFiles.map { $0.path.description }.joined(separator: "\n  ")
             }
             if !modifiedFiles.isEmpty {
-                string += "Modified:\n  " + modifiedFiles.map { $0.path.description }.joined(separator: "\n  ")
+                string += "Modified:\n  " + modifiedFiles.map { file in
+                    var string = file.path.description
+                    if let previousContent = file.previousContent, includeModifiedContent, let diff = String.getFirstDifferentLine(previousContent, file.content) {
+                        string += "\n  Diff at line \(diff.line):\n  \"\(diff.string1)\"\n  \"\(diff.string2)\"\n"
+                    }
+                    return string
+                    }.joined(separator: "\n  ")
             }
             if !removedFiles.isEmpty {
                 string += "Removed:\n  " + removedFiles.map { $0.description }.joined(separator: "\n  ")
@@ -98,6 +104,7 @@ public class Generator {
         public let path: Path
         public let content: String
         public let state: State
+        public let previousContent: String?
 
         public enum State: String {
             case unchanged
@@ -105,25 +112,28 @@ public class Generator {
             case created
         }
 
-        public init(path: Path, content: String, state: State) {
+        public init(path: Path, content: String, state: State, previousContent: String?) {
             self.path = path
             self.content = content
             self.state = state
+            self.previousContent = previousContent
         }
 
         public init(path: Path, content: String, destination: Path) {
             let outputPath = (destination + path).normalize()
             let state: State
+            var previousContent: String?
             if outputPath.exists, let existingContent: String = try? outputPath.read() {
                 if existingContent == content {
                     state = .unchanged
                 } else {
                     state = .modified
                 }
+                previousContent = existingContent
             } else {
                 state = .created
             }
-            self.init(path: path, content: content, state: state)
+            self.init(path: path, content: content, state: state, previousContent: previousContent)
         }
     }
 

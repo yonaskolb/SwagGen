@@ -16,7 +16,7 @@ extension Petstore.Pets {
 
           public struct Options {
 
-              /** ID of pet that needs to be updated */
+              /** The id of the pet */
               public var petId: String
 
               /** Updated name of the pet */

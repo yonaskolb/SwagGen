@@ -72,6 +72,51 @@ public func specTests() {
             }
         }
 
+        $0.describe("/pets/{petId} path") {
+
+            let path = spec.paths.first { $0.path == "/pets/{petId}" }
+
+            $0.it("has correct path") {
+                try expect(path?.path) == "/pets/{petId}"
+            }
+
+            $0.it("has 1 operations") {
+                try expect(path?.operations.count) == 1
+            }
+
+            $0.it("has a get operation") {
+                try expect(path?.operations.filter{$0.method == .get}.count) == 1
+            }
+
+            $0.it("has a showPetById operation") {
+                try expect(path?.operations.filter{$0.identifier == "showPetById"}.count) == 1
+            }
+
+            $0.describe("showPetById operation") {
+
+                let operation = path?.operations.filter{$0.identifier == "showPetById"}.first
+                $0.it("has get operation id") {
+                    try expect(operation?.identifier) == "showPetById"
+                }
+                $0.it("has a path") {
+                    try expect(operation?.path) == "/pets/{petId}"
+                }
+                $0.it("has tags") {
+                    try expect(operation?.tags) == ["pets"]
+                }
+                $0.it("has parameters") {
+                    try expect(operation?.parameters.count) == 1
+                }
+                $0.it("has 2 responses") {
+                    try expect(operation?.responses.count) == 2
+                }
+                $0.it("has a default responses") {
+                    try expect(operation?.defaultResponse?.value.description) == "unexpected error"
+                }
+            }
+
+        }
+
         $0.it("has metadata") {
             try expect(spec.info.title) == "Swagger Petstore"
         }

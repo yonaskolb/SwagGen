@@ -144,6 +144,8 @@ definitions:
         type: string
       tag:
         type: string
+  SoldPet:
+    $ref: '#/definitions/Pet'
   Error:
     required:
       - code

@@ -102,7 +102,7 @@ public class APIClient {
                         let apiError: APIError
                         if let error = error as? JSONUtilsError {
                             apiError = APIError.jsonDeserializationError(error)
-                        } else if let error = error as? DecodingError {
+                        } else if let error = error as? JSONUtilities.DecodingError {
                             apiError = APIError.decodingError(error)
                         } else {
                             apiError = APIError.unknownError(error)

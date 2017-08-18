@@ -6,7 +6,7 @@ import JSONUtilities
 public enum APIError: Error {
     case unexpectedStatusCode(statusCode: Int, data: Data)
     case jsonDeserializationError(JSONUtilsError)
-    case decodingError(DecodingError)
+    case decodingError(JSONUtilities.DecodingError)
     case invalidBaseURL(String)
     case authorizationError(AuthorizationError)
     case networkError(Error)

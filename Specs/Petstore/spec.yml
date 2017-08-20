@@ -73,6 +73,12 @@ paths:
           - write:pets
           - read:pets
   /pets/{petId}:
+    parameters:
+      - name: petId
+        in: path
+        required: true
+        description: The id of the pet
+        type: string
     get:
       summary: Info for a specific pet
       operationId: showPetById
@@ -95,6 +101,36 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
+    post:
+      tags:
+        - pets
+      summary: Updates a pet in the store with form data
+      description: ''
+      operationId: updatePetWithForm
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: name
+          in: formData
+          description: Updated name of the pet
+          required: false
+          type: string
+        - name: status
+          in: formData
+          description: Updated status of the pet
+          required: false
+          type: string
+      responses:
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+
 definitions:
   Pet:
     required:

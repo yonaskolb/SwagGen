@@ -11,9 +11,9 @@ public struct Operation {
     public let operationParameters: [PossibleReference<Parameter>]
 
     public var parameters: [PossibleReference<Parameter>] {
-        return operationParameters + pathParameters.filter { pathParam in
-                operationParameters.contains { $0.value.name == pathParam.name }
-        }
+        return pathParameters.filter { pathParam in
+            !operationParameters.contains { $0.value.name == pathParam.value.name }
+        } + operationParameters
     }
 
     public var bodyParam: PossibleReference<Parameter>? {

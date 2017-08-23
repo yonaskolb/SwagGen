@@ -15,7 +15,7 @@ The default Swift templates it generates are also much improved with support for
 ## Installing
 Make sure Xcode 8.3 is installed first.
 
-**Make**:
+### Make
 
 ```
 $ git clone https://github.com/yonaskolb/SwagGen.git
@@ -23,7 +23,14 @@ $ cd SwagGen
 $ make
 ```
 
-**Swift Package Manager**:
+### Homebrew
+
+```
+$ brew tap yonaskolb/SwagGen https://github.com/yonaskolb/SwagGen.git
+$ brew install SwagGen
+```
+
+### Swift Package Manager
 
 Add the following to your Package.swift file's dependencies:
 

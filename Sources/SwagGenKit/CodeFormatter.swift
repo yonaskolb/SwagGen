@@ -93,7 +93,7 @@ public class CodeFormatter {
     func getSchemaContext(_ schema: Schema) -> Context {
         var context: Context = [:]
 
-        context["raw"] = schema.json
+        context["raw"] = schema.metadata.json
 
         if let parent = schema.parent {
             context["parent"] = getDefinitionContext(parent)
@@ -216,11 +216,7 @@ public class CodeFormatter {
     func getParameterContext(_ parameter: Parameter) -> Context {
         var context: Context = [:]
 
-        context["raw"] = [
-            "name": parameter.name,
-            "type": parameter.metadata.type?.rawValue,
-        ]
-
+        context["raw"] = parameter.metadata.json
         context["name"] = getName(parameter.name)
         context["value"] = parameter.name
         context["example"] = parameter.example

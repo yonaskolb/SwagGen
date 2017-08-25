@@ -1,7 +1,6 @@
 import JSONUtilities
 
 public struct Schema {
-    public let json: [String: Any]
     public let metadata: Metadata
     public let type: SchemaType
 }
@@ -18,7 +17,6 @@ public enum SchemaType {
 extension Schema: JSONObjectConvertible {
 
     public init(jsonDictionary: JSONDictionary) throws {
-        json = jsonDictionary
         metadata = try Metadata(jsonDictionary: jsonDictionary )
         type = try SchemaType(jsonDictionary: jsonDictionary )
     }

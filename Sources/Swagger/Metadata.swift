@@ -8,6 +8,7 @@ public struct Metadata {
     public let enumeratedValues: [Any]?
     public let nullable: Bool
     public let example: Any?
+    public var json: JSONDictionary
 }
 
 extension Metadata: JSONObjectConvertible {
@@ -20,5 +21,6 @@ extension Metadata: JSONObjectConvertible {
         enumeratedValues = jsonDictionary["enum"] as? [Any]
         nullable = (jsonDictionary.json(atKeyPath: "x-nullable")) ?? false
         example = jsonDictionary.json(atKeyPath: "example")
+        json = jsonDictionary
     }
 }

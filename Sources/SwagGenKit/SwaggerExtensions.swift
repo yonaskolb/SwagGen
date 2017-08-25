@@ -17,6 +17,7 @@ struct Enum {
     let cases: [Any]
     let type: EnumType
     let description: String?
+    let metadata: Metadata
 
     enum EnumType {
         case schema(Schema)
@@ -57,7 +58,7 @@ extension Metadata {
 
     func getEnum(name: String, type: Enum.EnumType, description: String?) -> Enum? {
         if let enumValues = enumeratedValues {
-            return Enum(name: name, cases: enumValues.flatMap { $0 }, type: type, description: description ?? self.description)
+            return Enum(name: name, cases: enumValues.flatMap { $0 }, type: type, description: description ?? self.description, metadata: self)
         }
         return nil
     }

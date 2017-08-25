@@ -270,6 +270,7 @@ public class CodeFormatter {
         }
         context["enums"] = enumValue.cases.map { ["name": getName("\($0)"), "value": $0] }
         context["description"] = specEnum?.description ?? enumValue.description
+        context["raw"] = enumValue.metadata.json
 
         switch enumValue.type {
         case let .schema(schema): context["type"] = getSchemaType(name: "", schema: schema, checkEnum: false)

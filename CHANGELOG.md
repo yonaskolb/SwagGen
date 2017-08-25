@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.6.1]
+### Added
+- Homebrew and Make installations
+- Enums now also have a raw property to access original json
+
+### Changed
+- Requests in Swift template are final
+
+### Fixed
+- Fixed parameters with a file type not being generated
+
 ## [0.6.0]
 This includes a large rewrite with a lot more test cases so many more specs should be supported
 
@@ -147,6 +158,7 @@ Improved the generation of complicated specs:
 ## 0.1.0 - 2017-04-27
 - First official release
 
+[0.6.1]: https://github.com/yonaskolb/SwagGen/compare/0.6.0...0.6.1
 [0.6.0]: https://github.com/yonaskolb/SwagGen/compare/0.5.3...0.6.0
 [0.5.3]: https://github.com/yonaskolb/SwagGen/compare/0.5.2...0.5.3
 [0.5.2]: https://github.com/yonaskolb/SwagGen/compare/0.5.1...0.5.2

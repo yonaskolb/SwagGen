@@ -13,7 +13,7 @@ extension TestSpec {
 
       public static let service = APIService<Response>(id: "getString", tag: "", method: "GET", path: "/string", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: GetString.service)

@@ -12,7 +12,7 @@ extension TBX.AuthorizationService {
 
       public static let service = APIService<Response>(id: "AuthorizationService.deleteRuleToOverrideResponse", tag: "AuthorizationService", method: "DELETE", path: "/AuthorizationServices/overrideRule/{ruleId}", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

@@ -12,7 +12,7 @@ extension TBX.UserService {
 
       public static let service = APIService<Response>(id: "UserService.logout", tag: "UserService", method: "DELETE", path: "/UserServices/device/{device}", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

@@ -32,7 +32,7 @@ which would be unfriendly for clients presenting these channel schedules.
 
       public static let service = APIService<Response>(id: "getSchedules", tag: "content", method: "GET", path: "/schedules", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

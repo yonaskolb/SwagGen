@@ -12,7 +12,7 @@ extension TFL.Vehicle {
 
       public static let service = APIService<Response>(id: "Vehicle_Get", tag: "Vehicle", method: "GET", path: "/Vehicle/{ids}/Arrivals", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

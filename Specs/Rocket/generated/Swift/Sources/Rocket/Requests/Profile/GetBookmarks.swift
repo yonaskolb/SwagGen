@@ -13,7 +13,7 @@ extension Rocket.Profile {
 
       public static let service = APIService<Response>(id: "getBookmarks", tag: "profile", method: "GET", path: "/account/profile/bookmarks", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: GetBookmarks.service)

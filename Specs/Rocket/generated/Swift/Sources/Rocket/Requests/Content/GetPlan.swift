@@ -13,7 +13,7 @@ extension Rocket.Content {
 
       public static let service = APIService<Response>(id: "getPlan", tag: "content", method: "GET", path: "/plans/{id}", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

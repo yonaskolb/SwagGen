@@ -13,7 +13,7 @@ extension TestSpec.TestTag {
 
       public static let service = APIService<Response>(id: "postInlinebody", tag: "TestTag", method: "POST", path: "/inlinebody", hasBody: true)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public var item: [String: Any]
 

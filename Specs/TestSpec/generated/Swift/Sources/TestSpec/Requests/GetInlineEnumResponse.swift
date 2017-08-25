@@ -13,7 +13,7 @@ extension TestSpec {
 
       public static let service = APIService<Response>(id: "getInlineEnumResponse", tag: "", method: "GET", path: "/inlineEnumResponse", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: GetInlineEnumResponse.service)

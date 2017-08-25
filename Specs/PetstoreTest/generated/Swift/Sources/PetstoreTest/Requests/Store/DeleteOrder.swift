@@ -13,7 +13,7 @@ extension PetstoreTest.Store {
 
       public static let service = APIService<Response>(id: "deleteOrder", tag: "store", method: "DELETE", path: "/store/order/{order_id}", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

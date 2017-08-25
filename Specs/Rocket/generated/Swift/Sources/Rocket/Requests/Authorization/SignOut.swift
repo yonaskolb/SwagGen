@@ -15,7 +15,7 @@ basic cookies we assigned them during token authorization.
 
       public static let service = APIService<Response>(id: "signOut", tag: "authorization", method: "DELETE", path: "/authorization", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: SignOut.service)

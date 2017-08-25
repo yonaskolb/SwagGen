@@ -16,7 +16,7 @@ Note that you cannot delete the primary profile.
 
       public static let service = APIService<Response>(id: "deleteProfileWithId", tag: "account", method: "DELETE", path: "/account/profiles/{id}", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

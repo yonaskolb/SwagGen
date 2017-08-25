@@ -13,7 +13,7 @@ extension PetstoreTest.Store {
 
       public static let service = APIService<Response>(id: "getInventory", tag: "store", method: "GET", path: "/store/inventory", hasBody: false, authorization: Authorization(type: "api_key", scope: ""))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: GetInventory.service)

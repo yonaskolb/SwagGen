@@ -12,7 +12,7 @@ extension TBX.DeviceService {
 
       public static let service = APIService<Response>(id: "DeviceService.validateCode", tag: "DeviceService", method: "POST", path: "/DeviceServices/validateCode", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

@@ -13,7 +13,7 @@ extension Rocket.Account {
 
       public static let service = APIService<Response>(id: "createProfile", tag: "account", method: "POST", path: "/account/profiles", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public var body: ProfileCreationRequest
 

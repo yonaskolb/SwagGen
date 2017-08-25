@@ -12,7 +12,7 @@ extension TFL.AirQuality {
 
       public static let service = APIService<Response>(id: "AirQuality_Get", tag: "AirQuality", method: "GET", path: "/AirQuality", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: AirQualityGet.service)

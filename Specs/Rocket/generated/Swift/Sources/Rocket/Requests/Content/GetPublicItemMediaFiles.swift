@@ -28,7 +28,7 @@ If no files are found a 404 is returned.
 
       public static let service = APIService<Response>(id: "getPublicItemMediaFiles", tag: "content", method: "GET", path: "/items/{id}/videos", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

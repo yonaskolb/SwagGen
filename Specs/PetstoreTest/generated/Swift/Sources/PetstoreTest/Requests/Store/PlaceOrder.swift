@@ -12,7 +12,7 @@ extension PetstoreTest.Store {
 
       public static let service = APIService<Response>(id: "placeOrder", tag: "store", method: "POST", path: "/store/order", hasBody: true)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public var body: Order
 

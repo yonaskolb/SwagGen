@@ -12,7 +12,7 @@ extension TFL.Line {
 
       public static let service = APIService<Response>(id: "Line_MetaDisruptionCategories", tag: "Line", method: "GET", path: "/Line/Meta/DisruptionCategories", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: LineMetaDisruptionCategories.service)

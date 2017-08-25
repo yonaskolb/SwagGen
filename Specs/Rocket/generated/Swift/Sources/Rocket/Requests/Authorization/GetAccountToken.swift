@@ -35,7 +35,7 @@ If neither a pin or password are supplied an http 400 error will be returned.
 
       public static let service = APIService<Response>(id: "getAccountToken", tag: "authorization", method: "POST", path: "/authorization", hasBody: true)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public var body: AccountTokenRequest
 

@@ -12,7 +12,7 @@ extension TFL.Place {
 
       public static let service = APIService<Response>(id: "Place_GetOverlay", tag: "Place", method: "GET", path: "/Place/{type}/overlay/{z}/{Lat}/{Lon}/{width}/{height}", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

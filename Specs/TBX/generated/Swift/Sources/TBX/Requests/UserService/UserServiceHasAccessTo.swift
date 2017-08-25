@@ -12,7 +12,7 @@ extension TBX.UserService {
 
       public static let service = APIService<Response>(id: "UserService.hasAccessTo", tag: "UserService", method: "GET", path: "/UserServices/{customer}/hasAccessTo", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

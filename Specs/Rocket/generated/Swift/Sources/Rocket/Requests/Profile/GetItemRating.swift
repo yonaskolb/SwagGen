@@ -13,7 +13,7 @@ extension Rocket.Profile {
 
       public static let service = APIService<Response>(id: "getItemRating", tag: "profile", method: "GET", path: "/account/profile/ratings/{itemId}", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

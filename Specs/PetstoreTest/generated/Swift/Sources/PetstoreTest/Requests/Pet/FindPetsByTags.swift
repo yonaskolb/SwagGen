@@ -13,7 +13,7 @@ extension PetstoreTest.Pet {
 
       public static let service = APIService<Response>(id: "findPetsByTags", tag: "pet", method: "GET", path: "/pet/findByTags", hasBody: false, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

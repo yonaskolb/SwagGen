@@ -12,7 +12,7 @@ extension TFL.Journey {
 
       public static let service = APIService<Response>(id: "Journey_Meta", tag: "Journey", method: "GET", path: "/Journey/Meta/Modes", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: JourneyMeta.service)

@@ -12,7 +12,7 @@ extension TBX.AuthorizationService {
 
       public static let service = APIService<Response>(id: "AuthorizationService.getRulesToOverrideResponse", tag: "AuthorizationService", method: "GET", path: "/AuthorizationServices/overrideRules", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: AuthorizationServiceGetRulesToOverrideResponse.service)

@@ -22,7 +22,7 @@ may need to request a new verification email be sent. This can be done via the e
 
       public static let service = APIService<Response>(id: "verifyEmail", tag: "support", method: "POST", path: "/verify-email", hasBody: false, authorization: Authorization(type: "verifyEmailAuth", scope: ""))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: VerifyEmail.service)

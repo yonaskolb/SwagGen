@@ -12,7 +12,7 @@ extension TFL.Search {
 
       public static let service = APIService<Response>(id: "Search_MetaCategories", tag: "Search", method: "GET", path: "/Search/Meta/Categories", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: SearchMetaCategories.service)

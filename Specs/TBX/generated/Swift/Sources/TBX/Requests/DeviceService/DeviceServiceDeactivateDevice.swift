@@ -12,7 +12,7 @@ extension TBX.DeviceService {
 
       public static let service = APIService<Response>(id: "DeviceService.deactivateDevice", tag: "DeviceService", method: "POST", path: "/DeviceServices/deactivateDevice", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

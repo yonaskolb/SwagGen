@@ -12,7 +12,7 @@ extension TFL.StopPoint {
 
       public static let service = APIService<Response>(id: "StopPoint_MetaStopTypes", tag: "StopPoint", method: "GET", path: "/StopPoint/Meta/StopTypes", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: StopPointMetaStopTypes.service)

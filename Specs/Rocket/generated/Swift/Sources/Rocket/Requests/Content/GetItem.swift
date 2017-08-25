@@ -57,7 +57,7 @@ extension Rocket.Content {
           ]
       }
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

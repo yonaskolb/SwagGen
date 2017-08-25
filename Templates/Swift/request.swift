@@ -18,7 +18,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
       {% endif %}
       {% endfor %}
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
           {% if nonBodyParams %}
 
           public struct Options {

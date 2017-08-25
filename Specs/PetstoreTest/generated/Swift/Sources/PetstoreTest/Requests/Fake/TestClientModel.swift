@@ -13,7 +13,7 @@ extension PetstoreTest.Fake {
 
       public static let service = APIService<Response>(id: "testClientModel", tag: "fake", method: "PATCH", path: "/fake", hasBody: true)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public var body: Client
 

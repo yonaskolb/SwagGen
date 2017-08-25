@@ -12,7 +12,7 @@ extension TFL.StopPoint {
 
       public static let service = APIService<Response>(id: "StopPoint_Disruption", tag: "StopPoint", method: "GET", path: "/StopPoint/{ids}/Disruption", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

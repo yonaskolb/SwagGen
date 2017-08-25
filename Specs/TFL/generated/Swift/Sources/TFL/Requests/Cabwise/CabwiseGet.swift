@@ -12,7 +12,7 @@ extension TFL.Cabwise {
 
       public static let service = APIService<Response>(id: "Cabwise_Get", tag: "Cabwise", method: "GET", path: "/Cabwise/search", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

@@ -12,7 +12,7 @@ extension TFL.Place {
 
       public static let service = APIService<Response>(id: "Place_GetByType", tag: "Place", method: "GET", path: "/Place/Type/{types}", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

@@ -12,7 +12,7 @@ extension TBX.Auth {
 
       public static let service = APIService<Response>(id: "auth.oauth2Assert", tag: "auth", method: "GET", path: "/auth/oauth2/assert", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

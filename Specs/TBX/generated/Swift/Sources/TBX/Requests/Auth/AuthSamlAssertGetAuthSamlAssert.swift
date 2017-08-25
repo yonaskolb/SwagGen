@@ -12,7 +12,7 @@ extension TBX.Auth {
 
       public static let service = APIService<Response>(id: "auth.samlAssert__get_auth_saml_assert", tag: "auth", method: "GET", path: "/auth/saml/assert", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

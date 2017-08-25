@@ -25,7 +25,7 @@ email address. This confirmation is done via the /verify-email endpoint.
 
       public static let service = APIService<Response>(id: "register", tag: "registration", method: "POST", path: "/register", hasBody: true)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public var body: RegistrationRequest
 

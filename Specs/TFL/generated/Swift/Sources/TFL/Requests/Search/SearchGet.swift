@@ -12,7 +12,7 @@ extension TFL.Search {
 
       public static let service = APIService<Response>(id: "Search_Get", tag: "Search", method: "GET", path: "/Search", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

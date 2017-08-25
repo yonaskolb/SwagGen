@@ -12,7 +12,7 @@ extension TBX.AuthorizationService {
 
       public static let service = APIService<Response>(id: "AuthorizationService.hasLogged", tag: "AuthorizationService", method: "GET", path: "/AuthorizationServices/hasLogged", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

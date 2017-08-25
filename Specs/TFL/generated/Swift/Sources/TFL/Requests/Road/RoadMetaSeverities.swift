@@ -12,7 +12,7 @@ extension TFL.Road {
 
       public static let service = APIService<Response>(id: "Road_MetaSeverities", tag: "Road", method: "GET", path: "/Road/Meta/Severities", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: RoadMetaSeverities.service)

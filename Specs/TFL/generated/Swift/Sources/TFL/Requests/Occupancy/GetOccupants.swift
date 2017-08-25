@@ -12,7 +12,7 @@ extension TFL.Occupancy {
 
       public static let service = APIService<Response>(id: "getOccupants", tag: "Occupancy", method: "GET", path: "/Occupancy/CarPark", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: GetOccupants.service)

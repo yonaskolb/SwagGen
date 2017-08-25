@@ -12,7 +12,7 @@ extension TBX.AuthorizationService {
 
       public static let service = APIService<Response>(id: "AuthorizationService.createTryAndBuy", tag: "AuthorizationService", method: "POST", path: "/AuthorizationServices/createTryAndBuy", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

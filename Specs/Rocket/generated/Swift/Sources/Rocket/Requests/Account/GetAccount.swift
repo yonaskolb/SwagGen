@@ -13,7 +13,7 @@ extension Rocket.Account {
 
       public static let service = APIService<Response>(id: "getAccount", tag: "account", method: "GET", path: "/account", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: GetAccount.service)

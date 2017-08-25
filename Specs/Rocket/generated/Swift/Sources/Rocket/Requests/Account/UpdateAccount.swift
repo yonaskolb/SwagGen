@@ -16,7 +16,7 @@ This supports partial updates so you can send just the properties you wish to up
 
       public static let service = APIService<Response>(id: "updateAccount", tag: "account", method: "PATCH", path: "/account", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Settings"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public var body: AccountUpdateRequest
 

@@ -12,7 +12,7 @@ extension TFL.Mode {
 
       public static let service = APIService<Response>(id: "Mode_Arrivals", tag: "Mode", method: "GET", path: "/Mode/{mode}/Arrivals", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

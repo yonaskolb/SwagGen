@@ -12,7 +12,7 @@ extension TFL.Road {
 
       public static let service = APIService<Response>(id: "Road_Disruption", tag: "Road", method: "GET", path: "/Road/{ids}/Disruption", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

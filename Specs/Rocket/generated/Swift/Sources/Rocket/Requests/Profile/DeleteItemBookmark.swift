@@ -13,7 +13,7 @@ extension Rocket.Profile {
 
       public static let service = APIService<Response>(id: "deleteItemBookmark", tag: "profile", method: "DELETE", path: "/account/profile/bookmarks/{itemId}", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

@@ -12,7 +12,7 @@ extension Petstore.Pets {
 
       public static let service = APIService<Response>(id: "updatePetWithForm", tag: "pets", method: "POST", path: "/pets/{petId}", hasBody: true, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

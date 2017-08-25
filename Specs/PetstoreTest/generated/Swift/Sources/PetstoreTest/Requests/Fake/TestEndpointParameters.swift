@@ -17,7 +17,7 @@ extension PetstoreTest.Fake {
 
       public static let service = APIService<Response>(id: "testEndpointParameters", tag: "fake", method: "POST", path: "/fake", hasBody: true, authorization: Authorization(type: "http_basic_test", scope: ""))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

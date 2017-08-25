@@ -13,7 +13,7 @@ extension Rocket.Account {
 
       public static let service = APIService<Response>(id: "changePin", tag: "account", method: "PUT", path: "/account/pin", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Settings"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public var body: ChangePinRequest
 

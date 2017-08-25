@@ -12,7 +12,7 @@ extension TFL.Occupancy {
 
       public static let service = APIService<Response>(id: "getOccupant", tag: "Occupancy", method: "GET", path: "/Occupancy/CarPark/{id}", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

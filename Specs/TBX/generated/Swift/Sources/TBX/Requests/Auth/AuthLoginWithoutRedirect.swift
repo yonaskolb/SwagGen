@@ -12,7 +12,7 @@ extension TBX.Auth {
 
       public static let service = APIService<Response>(id: "auth.loginWithoutRedirect", tag: "auth", method: "GET", path: "/auth/{cp}/loginWithoutRedirect.html", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

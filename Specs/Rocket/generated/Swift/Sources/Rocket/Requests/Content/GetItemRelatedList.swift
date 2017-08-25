@@ -16,7 +16,7 @@ Note for now, due to the size of the list being unknown, only a single page will
 
       public static let service = APIService<Response>(id: "getItemRelatedList", tag: "content", method: "GET", path: "/items/{id}/related", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

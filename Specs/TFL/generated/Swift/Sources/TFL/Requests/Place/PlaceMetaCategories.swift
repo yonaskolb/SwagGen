@@ -12,7 +12,7 @@ extension TFL.Place {
 
       public static let service = APIService<Response>(id: "Place_MetaCategories", tag: "Place", method: "GET", path: "/Place/Meta/Categories", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: PlaceMetaCategories.service)

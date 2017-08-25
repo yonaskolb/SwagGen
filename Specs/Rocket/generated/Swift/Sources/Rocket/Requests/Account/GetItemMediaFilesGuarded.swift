@@ -33,7 +33,7 @@ If no files are found a 404 is returned.
 
       public static let service = APIService<Response>(id: "getItemMediaFilesGuarded", tag: "account", method: "GET", path: "/account/items/{id}/videos-guarded", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Playback"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

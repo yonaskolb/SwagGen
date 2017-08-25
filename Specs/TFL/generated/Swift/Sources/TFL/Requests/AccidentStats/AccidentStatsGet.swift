@@ -12,7 +12,7 @@ extension TFL.AccidentStats {
 
       public static let service = APIService<Response>(id: "AccidentStats_Get", tag: "AccidentStats", method: "GET", path: "/AccidentStats/{year}", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

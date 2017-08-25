@@ -18,7 +18,7 @@ Creates one if it doesn't exist, overwrites one if it does.
 
       public static let service = APIService<Response>(id: "setItemWatchedStatus", tag: "profile", method: "PUT", path: "/account/profile/watched/{itemId}", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

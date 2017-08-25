@@ -12,7 +12,7 @@ extension TFL.BikePoint {
 
       public static let service = APIService<Response>(id: "BikePoint_Get", tag: "BikePoint", method: "GET", path: "/BikePoint/{id}", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

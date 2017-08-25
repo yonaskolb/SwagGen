@@ -12,7 +12,7 @@ extension TFL.Line {
 
       public static let service = APIService<Response>(id: "Line_StatusBySeverity", tag: "Line", method: "GET", path: "/Line/Status/{severity}", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

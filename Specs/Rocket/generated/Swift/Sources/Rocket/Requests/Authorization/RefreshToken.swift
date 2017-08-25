@@ -13,7 +13,7 @@ extension Rocket.Authorization {
 
       public static let service = APIService<Response>(id: "refreshToken", tag: "authorization", method: "POST", path: "/authorization/refresh", hasBody: true)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public var body: TokenRefreshRequest
 

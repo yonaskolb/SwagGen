@@ -12,7 +12,7 @@ extension Petstore.Pets {
 
       public static let service = APIService<Response>(id: "showPetById", tag: "pets", method: "GET", path: "/pets/{petId}", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

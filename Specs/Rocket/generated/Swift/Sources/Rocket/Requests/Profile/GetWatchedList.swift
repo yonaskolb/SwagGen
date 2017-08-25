@@ -27,7 +27,7 @@ extension Rocket.Profile {
           ]
       }
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

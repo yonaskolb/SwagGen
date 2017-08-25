@@ -12,7 +12,7 @@ extension TFL.Mode {
 
       public static let service = APIService<Response>(id: "Mode_GetActiveServiceTypes", tag: "Mode", method: "GET", path: "/Mode/ActiveServiceTypes", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: ModeGetActiveServiceTypes.service)

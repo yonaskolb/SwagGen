@@ -12,7 +12,7 @@ extension PetstoreTest.User {
 
       public static let service = APIService<Response>(id: "getUserByName", tag: "user", method: "GET", path: "/user/{username}", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

@@ -79,7 +79,7 @@ then what you pass to this endpoint would look like `/page?path=/search%3Fq%3Dth
           ]
       }
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

@@ -12,7 +12,7 @@ extension PetstoreTest.Pet {
 
       public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

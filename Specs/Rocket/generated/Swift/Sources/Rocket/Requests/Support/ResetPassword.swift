@@ -22,7 +22,7 @@ header as a bearer token.
 
       public static let service = APIService<Response>(id: "resetPassword", tag: "support", method: "POST", path: "/reset-password", hasBody: true, authorization: Authorization(type: "resetPasswordAuth", scope: ""))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public var body: PasswordResetRequest
 

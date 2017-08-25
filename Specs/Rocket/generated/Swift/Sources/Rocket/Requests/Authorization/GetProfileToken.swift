@@ -18,7 +18,7 @@ before access is granted.
 
       public static let service = APIService<Response>(id: "getProfileToken", tag: "authorization", method: "POST", path: "/authorization/profile", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public var body: ProfileTokenRequest
 

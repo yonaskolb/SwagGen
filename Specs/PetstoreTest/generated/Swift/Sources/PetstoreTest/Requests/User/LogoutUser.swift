@@ -12,7 +12,7 @@ extension PetstoreTest.User {
 
       public static let service = APIService<Response>(id: "logoutUser", tag: "user", method: "GET", path: "/user/logout", hasBody: false)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: LogoutUser.service)

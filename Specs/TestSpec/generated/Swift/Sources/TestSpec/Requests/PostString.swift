@@ -13,7 +13,7 @@ extension TestSpec {
 
       public static let service = APIService<Response>(id: "postString", tag: "", method: "POST", path: "/string", hasBody: true)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public var body: String?
 

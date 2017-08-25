@@ -23,7 +23,7 @@ endpoint here, along with the password reset token provided in the original link
 
       public static let service = APIService<Response>(id: "forgotPassword", tag: "support", method: "POST", path: "/request-password-reset", hasBody: true)
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public var body: PasswordResetEmailRequest
 

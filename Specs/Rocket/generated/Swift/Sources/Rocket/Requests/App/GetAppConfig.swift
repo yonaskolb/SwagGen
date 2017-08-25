@@ -41,7 +41,7 @@ parameter, or if unspecified, getting all configuration.
           ]
       }
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public struct Options {
 

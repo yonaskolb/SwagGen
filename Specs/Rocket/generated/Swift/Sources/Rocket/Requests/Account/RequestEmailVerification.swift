@@ -24,7 +24,7 @@ for changing an account email address.
 
       public static let service = APIService<Response>(id: "requestEmailVerification", tag: "account", method: "POST", path: "/account/request-email-verification", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
 
-      public class Request: APIRequest<Response> {
+      public final class Request: APIRequest<Response> {
 
           public init() {
               super.init(service: RequestEmailVerification.service)

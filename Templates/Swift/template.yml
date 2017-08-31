@@ -21,7 +21,7 @@ templateFiles:
     destination: "Sources/{{ options.name }}/Enums/{{ enumName }}.swift"
   - path: model.swift
     context: definitions
-    destination: "Sources/{{ options.name }}/Models/{{ filename }}.swift"
+    destination: "Sources/{{ options.name }}/Models/{{ filename }}Model.swift"
   - path: request.swift
     context: operations
     destination: "Sources/{{ options.name }}/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ filename }}Request.swift"

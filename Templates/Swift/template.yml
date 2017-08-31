@@ -24,7 +24,7 @@ templateFiles:
     destination: "Sources/{{ options.name }}/Models/{{ filename }}.swift"
   - path: request.swift
     context: operations
-    destination: "Sources/{{ options.name }}/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ filename }}.swift"
+    destination: "Sources/{{ options.name }}/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ filename }}Request.swift"
   - path: API.swift
     destination: "Sources/{{ options.name }}/API.swift"
   - path: Decoding.swift

@@ -10,37 +10,37 @@ extension TFL.StopPoint {
 
     public enum StopPointGetByType {
 
-      public static let service = APIService<Response>(id: "StopPoint_GetByType", tag: "StopPoint", method: "GET", path: "/StopPoint/Type/{types}", hasBody: false)
+        public static let service = APIService<Response>(id: "StopPoint_GetByType", tag: "StopPoint", method: "GET", path: "/StopPoint/Type/{types}", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** A comma-separated list of the types to return. Max. approx. 12 types. 
+                /** A comma-separated list of the types to return. Max. approx. 12 types. 
             A list of valid stop types can be obtained from the StopPoint/meta/stoptypes endpoint. */
-              public var types: [String]
+                public var types: [String]
 
-              public init(types: [String]) {
-                  self.types = types
-              }
-          }
+                public init(types: [String]) {
+                    self.types = types
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: StopPointGetByType.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: StopPointGetByType.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(types: [String]) {
-              let options = Options(types: types)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(types: [String]) {
+                let options = Options(types: types)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "types" + "}", with: "\(self.options.types.joined(separator: ","))")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "types" + "}", with: "\(self.options.types.joined(separator: ","))")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -62,15 +62,15 @@ extension TFL.StopPoint {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

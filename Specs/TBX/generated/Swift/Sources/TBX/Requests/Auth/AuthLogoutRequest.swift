@@ -10,55 +10,55 @@ extension TBX.Auth {
 
     public enum AuthLogout {
 
-      public static let service = APIService<Response>(id: "auth.logout", tag: "auth", method: "GET", path: "/auth/{cp}/logout.json", hasBody: false)
+        public static let service = APIService<Response>(id: "auth.logout", tag: "auth", method: "GET", path: "/auth/{cp}/logout.json", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** ShortName of Content Provider */
-              public var cp: String
+                /** ShortName of Content Provider */
+                public var cp: String
 
-              /** URL to send the client after logout, if this parameter is blank the response will be a json */
-              public var url: String?
+                /** URL to send the client after logout, if this parameter is blank the response will be a json */
+                public var url: String?
 
-              /** *deprecated* if this parameter is sent the response will be a JSONP */
-              public var callback: String?
+                /** *deprecated* if this parameter is sent the response will be a JSONP */
+                public var callback: String?
 
-              public init(cp: String, url: String? = nil, callback: String? = nil) {
-                  self.cp = cp
-                  self.url = url
-                  self.callback = callback
-              }
-          }
+                public init(cp: String, url: String? = nil, callback: String? = nil) {
+                    self.cp = cp
+                    self.url = url
+                    self.callback = callback
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: AuthLogout.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: AuthLogout.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(cp: String, url: String? = nil, callback: String? = nil) {
-              let options = Options(cp: cp, url: url, callback: callback)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(cp: String, url: String? = nil, callback: String? = nil) {
+                let options = Options(cp: cp, url: url, callback: callback)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "cp" + "}", with: "\(self.options.cp)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "cp" + "}", with: "\(self.options.cp)")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let url = options.url {
-                params["url"] = url
-              }
-              if let callback = options.callback {
-                params["callback"] = callback
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let url = options.url {
+                  params["url"] = url
+                }
+                if let callback = options.callback {
+                  params["callback"] = callback
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -80,15 +80,15 @@ extension TBX.Auth {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

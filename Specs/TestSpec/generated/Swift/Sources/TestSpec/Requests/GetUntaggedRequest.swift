@@ -11,13 +11,13 @@ extension TestSpec {
     /** operation without a tag */
     public enum GetUntagged {
 
-      public static let service = APIService<Response>(id: "getUntagged", tag: "", method: "GET", path: "/untagged", hasBody: false)
+        public static let service = APIService<Response>(id: "getUntagged", tag: "", method: "GET", path: "/untagged", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public init() {
-              super.init(service: GetUntagged.service)
-          }
+            public init() {
+                super.init(service: GetUntagged.service)
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -39,15 +39,15 @@ extension TestSpec {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status201: return 201
-              }
+                switch self {
+                case .status201: return 201
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status201: return true
-              }
+                switch self {
+                case .status201: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

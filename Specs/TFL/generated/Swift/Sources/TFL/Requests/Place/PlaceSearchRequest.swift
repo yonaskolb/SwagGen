@@ -10,45 +10,45 @@ extension TFL.Place {
 
     public enum PlaceSearch {
 
-      public static let service = APIService<Response>(id: "Place_Search", tag: "Place", method: "GET", path: "/Place/Search", hasBody: false)
+        public static let service = APIService<Response>(id: "Place_Search", tag: "Place", method: "GET", path: "/Place/Search", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The name of the place, you can use the /Place/Types/{types} endpoint to get a list of places for a given type including their names. */
-              public var name: String
+                /** The name of the place, you can use the /Place/Types/{types} endpoint to get a list of places for a given type including their names. */
+                public var name: String
 
-              /** A comma-separated list of the types to return. Max. approx 12 types. */
-              public var types: [String]?
+                /** A comma-separated list of the types to return. Max. approx 12 types. */
+                public var types: [String]?
 
-              public init(name: String, types: [String]? = nil) {
-                  self.name = name
-                  self.types = types
-              }
-          }
+                public init(name: String, types: [String]? = nil) {
+                    self.name = name
+                    self.types = types
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: PlaceSearch.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: PlaceSearch.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(name: String, types: [String]? = nil) {
-              let options = Options(name: name, types: types)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(name: String, types: [String]? = nil) {
+                let options = Options(name: name, types: types)
+                self.init(options: options)
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["name"] = options.name
-              if let types = options.types?.joined(separator: ",") {
-                params["types"] = types
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["name"] = options.name
+                if let types = options.types?.joined(separator: ",") {
+                  params["types"] = types
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -70,15 +70,15 @@ extension TFL.Place {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

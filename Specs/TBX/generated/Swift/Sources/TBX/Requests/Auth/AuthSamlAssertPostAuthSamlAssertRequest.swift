@@ -10,45 +10,45 @@ extension TBX.Auth {
 
     public enum AuthSamlAssertPostAuthSamlAssert {
 
-      public static let service = APIService<Response>(id: "auth.samlAssert__post_auth_saml_assert", tag: "auth", method: "POST", path: "/auth/saml/assert", hasBody: true)
+        public static let service = APIService<Response>(id: "auth.samlAssert__post_auth_saml_assert", tag: "auth", method: "POST", path: "/auth/saml/assert", hasBody: true)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              public var sAMLResponse: String?
+                public var sAMLResponse: String?
 
-              public var relayState: String?
+                public var relayState: String?
 
-              public init(sAMLResponse: String? = nil, relayState: String? = nil) {
-                  self.sAMLResponse = sAMLResponse
-                  self.relayState = relayState
-              }
-          }
+                public init(sAMLResponse: String? = nil, relayState: String? = nil) {
+                    self.sAMLResponse = sAMLResponse
+                    self.relayState = relayState
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: AuthSamlAssertPostAuthSamlAssert.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: AuthSamlAssertPostAuthSamlAssert.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(sAMLResponse: String? = nil, relayState: String? = nil) {
-              let options = Options(sAMLResponse: sAMLResponse, relayState: relayState)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(sAMLResponse: String? = nil, relayState: String? = nil) {
+                let options = Options(sAMLResponse: sAMLResponse, relayState: relayState)
+                self.init(options: options)
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let sAMLResponse = options.sAMLResponse {
-                params["SAMLResponse"] = sAMLResponse
-              }
-              if let relayState = options.relayState {
-                params["RelayState"] = relayState
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let sAMLResponse = options.sAMLResponse {
+                  params["SAMLResponse"] = sAMLResponse
+                }
+                if let relayState = options.relayState {
+                  params["RelayState"] = relayState
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -70,15 +70,15 @@ extension TBX.Auth {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

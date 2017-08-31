@@ -10,13 +10,13 @@ extension PetstoreTest.User {
 
     public enum LogoutUser {
 
-      public static let service = APIService<Response>(id: "logoutUser", tag: "user", method: "GET", path: "/user/logout", hasBody: false)
+        public static let service = APIService<Response>(id: "logoutUser", tag: "user", method: "GET", path: "/user/logout", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public init() {
-              super.init(service: LogoutUser.service)
-          }
+            public init() {
+                super.init(service: LogoutUser.service)
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -38,15 +38,15 @@ extension PetstoreTest.User {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .defaultResponse(let statusCode): return statusCode
-              }
+                switch self {
+                case .defaultResponse(let statusCode): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

@@ -11,20 +11,20 @@ extension Rocket.Account {
     /** Create a new profile under the active account. */
     public enum CreateProfile {
 
-      public static let service = APIService<Response>(id: "createProfile", tag: "account", method: "POST", path: "/account/profiles", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "createProfile", tag: "account", method: "POST", path: "/account/profiles", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public var body: ProfileCreationRequest
+            public var body: ProfileCreationRequest
 
-          public init(body: ProfileCreationRequest) {
-              self.body = body
-              super.init(service: CreateProfile.service)
-          }
+            public init(body: ProfileCreationRequest) {
+                self.body = body
+                super.init(service: CreateProfile.service)
+            }
 
-          public override var jsonBody: Any? {
-              return body.encode()
-          }
+            public override var jsonBody: Any? {
+                return body.encode()
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -94,27 +94,27 @@ extension Rocket.Account {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status201: return 201
-              case .status400: return 400
-              case .status401: return 401
-              case .status403: return 403
-              case .status404: return 404
-              case .status500: return 500
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status201: return 201
+                case .status400: return 400
+                case .status401: return 401
+                case .status403: return 403
+                case .status404: return 404
+                case .status500: return 500
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status201: return true
-              case .status400: return false
-              case .status401: return false
-              case .status403: return false
-              case .status404: return false
-              case .status500: return false
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status201: return true
+                case .status400: return false
+                case .status401: return false
+                case .status403: return false
+                case .status404: return false
+                case .status500: return false
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

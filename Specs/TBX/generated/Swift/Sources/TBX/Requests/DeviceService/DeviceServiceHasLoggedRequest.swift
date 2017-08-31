@@ -10,45 +10,45 @@ extension TBX.DeviceService {
 
     public enum DeviceServiceHasLogged {
 
-      public static let service = APIService<Response>(id: "DeviceService.hasLogged", tag: "DeviceService", method: "GET", path: "/DeviceServices/hasLogged", hasBody: false)
+        public static let service = APIService<Response>(id: "DeviceService.hasLogged", tag: "DeviceService", method: "GET", path: "/DeviceServices/hasLogged", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              public var apiKey: String
+                public var apiKey: String
 
-              public var deviceId: String
+                public var deviceId: String
 
-              public var deviceType: String
+                public var deviceType: String
 
-              public init(apiKey: String, deviceId: String, deviceType: String) {
-                  self.apiKey = apiKey
-                  self.deviceId = deviceId
-                  self.deviceType = deviceType
-              }
-          }
+                public init(apiKey: String, deviceId: String, deviceType: String) {
+                    self.apiKey = apiKey
+                    self.deviceId = deviceId
+                    self.deviceType = deviceType
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: DeviceServiceHasLogged.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: DeviceServiceHasLogged.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(apiKey: String, deviceId: String, deviceType: String) {
-              let options = Options(apiKey: apiKey, deviceId: deviceId, deviceType: deviceType)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(apiKey: String, deviceId: String, deviceType: String) {
+                let options = Options(apiKey: apiKey, deviceId: deviceId, deviceType: deviceType)
+                self.init(options: options)
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["api_key"] = options.apiKey
-              params["device_id"] = options.deviceId
-              params["deviceType"] = options.deviceType
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["api_key"] = options.apiKey
+                params["device_id"] = options.deviceId
+                params["deviceType"] = options.deviceType
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -70,15 +70,15 @@ extension TBX.DeviceService {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

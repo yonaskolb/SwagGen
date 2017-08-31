@@ -10,13 +10,13 @@ extension TFL.Search {
 
     public enum SearchMetaSearchProviders {
 
-      public static let service = APIService<Response>(id: "Search_MetaSearchProviders", tag: "Search", method: "GET", path: "/Search/Meta/SearchProviders", hasBody: false)
+        public static let service = APIService<Response>(id: "Search_MetaSearchProviders", tag: "Search", method: "GET", path: "/Search/Meta/SearchProviders", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public init() {
-              super.init(service: SearchMetaSearchProviders.service)
-          }
+            public init() {
+                super.init(service: SearchMetaSearchProviders.service)
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -38,15 +38,15 @@ extension TFL.Search {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

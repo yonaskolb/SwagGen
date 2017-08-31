@@ -10,56 +10,56 @@ extension TBX.UserService {
 
     public enum UserServiceDeviceHasAccessTo {
 
-      public static let service = APIService<Response>(id: "UserService.deviceHasAccessTo", tag: "UserService", method: "GET", path: "/UserServices/device/{device}/hasAccessTo", hasBody: false)
+        public static let service = APIService<Response>(id: "UserService.deviceHasAccessTo", tag: "UserService", method: "GET", path: "/UserServices/device/{device}/hasAccessTo", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The device token */
-              public var device: String
+                /** The device token */
+                public var device: String
 
-              /** This must start with 'urn:' */
-              public var urn: String
+                /** This must start with 'urn:' */
+                public var urn: String
 
-              /** Value that identifies what type of action the CP user is executing. */
-              public var action: String
+                /** Value that identifies what type of action the CP user is executing. */
+                public var action: String
 
-              /** The client IP, is necessary to prevent many user use the same token */
-              public var ip: String
+                /** The client IP, is necessary to prevent many user use the same token */
+                public var ip: String
 
-              public init(device: String, urn: String, action: String, ip: String) {
-                  self.device = device
-                  self.urn = urn
-                  self.action = action
-                  self.ip = ip
-              }
-          }
+                public init(device: String, urn: String, action: String, ip: String) {
+                    self.device = device
+                    self.urn = urn
+                    self.action = action
+                    self.ip = ip
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: UserServiceDeviceHasAccessTo.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: UserServiceDeviceHasAccessTo.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(device: String, urn: String, action: String, ip: String) {
-              let options = Options(device: device, urn: urn, action: action, ip: ip)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(device: String, urn: String, action: String, ip: String) {
+                let options = Options(device: device, urn: urn, action: action, ip: ip)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "device" + "}", with: "\(self.options.device)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "device" + "}", with: "\(self.options.device)")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["urn"] = options.urn
-              params["action"] = options.action
-              params["ip"] = options.ip
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["urn"] = options.urn
+                params["action"] = options.action
+                params["ip"] = options.ip
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -129,27 +129,27 @@ extension TBX.UserService {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status401: return 401
-              case .status404: return 404
-              case .status408: return 408
-              case .status410: return 410
-              case .status424: return 424
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status401: return 401
+                case .status404: return 404
+                case .status408: return 408
+                case .status410: return 410
+                case .status424: return 424
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status401: return false
-              case .status404: return false
-              case .status408: return false
-              case .status410: return false
-              case .status424: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status401: return false
+                case .status404: return false
+                case .status408: return false
+                case .status410: return false
+                case .status424: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

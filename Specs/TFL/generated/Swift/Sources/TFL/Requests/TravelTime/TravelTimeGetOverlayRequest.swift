@@ -10,103 +10,103 @@ extension TFL.TravelTime {
 
     public enum TravelTimeGetOverlay {
 
-      public static let service = APIService<Response>(id: "TravelTime_GetOverlay", tag: "TravelTime", method: "GET", path: "/TravelTimes/overlay/{z}/mapcenter/{mapCenterLat}/{mapCenterLon}/pinlocation/{pinLat}/{pinLon}/dimensions/{width}/{height}", hasBody: false)
+        public static let service = APIService<Response>(id: "TravelTime_GetOverlay", tag: "TravelTime", method: "GET", path: "/TravelTimes/overlay/{z}/mapcenter/{mapCenterLat}/{mapCenterLon}/pinlocation/{pinLat}/{pinLon}/dimensions/{width}/{height}", hasBody: false)
 
-      /** The direction of travel. */
-      public enum Direction: String {
-          case average = "Average"
-          case from = "From"
-          case to = "To"
+        /** The direction of travel. */
+        public enum Direction: String {
+            case average = "Average"
+            case from = "From"
+            case to = "To"
 
-          public static let cases: [Direction] = [
-            .average,
-            .from,
-            .to,
-          ]
-      }
+            public static let cases: [Direction] = [
+              .average,
+              .from,
+              .to,
+            ]
+        }
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The zoom level. */
-              public var z: Int
+                /** The zoom level. */
+                public var z: Int
 
-              /** The latitude of the pin. */
-              public var pinLat: Double
+                /** The latitude of the pin. */
+                public var pinLat: Double
 
-              /** The longitude of the pin. */
-              public var pinLon: Double
+                /** The longitude of the pin. */
+                public var pinLon: Double
 
-              /** The map center latitude. */
-              public var mapCenterLat: Double
+                /** The map center latitude. */
+                public var mapCenterLat: Double
 
-              /** The map center longitude. */
-              public var mapCenterLon: Double
+                /** The map center longitude. */
+                public var mapCenterLon: Double
 
-              /** The title of the scenario. */
-              public var scenarioTitle: String
+                /** The title of the scenario. */
+                public var scenarioTitle: String
 
-              /** The id for the time of day (AM/INTER/PM) */
-              public var timeOfDayId: String
+                /** The id for the time of day (AM/INTER/PM) */
+                public var timeOfDayId: String
 
-              /** The id of the mode. */
-              public var modeId: String
+                /** The id of the mode. */
+                public var modeId: String
 
-              /** The width of the requested overlay. */
-              public var width: Int
+                /** The width of the requested overlay. */
+                public var width: Int
 
-              /** The height of the requested overlay. */
-              public var height: Int
+                /** The height of the requested overlay. */
+                public var height: Int
 
-              /** The direction of travel. */
-              public var direction: Direction
+                /** The direction of travel. */
+                public var direction: Direction
 
-              /** The total minutes between the travel time bands */
-              public var travelTimeInterval: Int
+                /** The total minutes between the travel time bands */
+                public var travelTimeInterval: Int
 
-              public init(z: Int, pinLat: Double, pinLon: Double, mapCenterLat: Double, mapCenterLon: Double, scenarioTitle: String, timeOfDayId: String, modeId: String, width: Int, height: Int, direction: Direction, travelTimeInterval: Int) {
-                  self.z = z
-                  self.pinLat = pinLat
-                  self.pinLon = pinLon
-                  self.mapCenterLat = mapCenterLat
-                  self.mapCenterLon = mapCenterLon
-                  self.scenarioTitle = scenarioTitle
-                  self.timeOfDayId = timeOfDayId
-                  self.modeId = modeId
-                  self.width = width
-                  self.height = height
-                  self.direction = direction
-                  self.travelTimeInterval = travelTimeInterval
-              }
-          }
+                public init(z: Int, pinLat: Double, pinLon: Double, mapCenterLat: Double, mapCenterLon: Double, scenarioTitle: String, timeOfDayId: String, modeId: String, width: Int, height: Int, direction: Direction, travelTimeInterval: Int) {
+                    self.z = z
+                    self.pinLat = pinLat
+                    self.pinLon = pinLon
+                    self.mapCenterLat = mapCenterLat
+                    self.mapCenterLon = mapCenterLon
+                    self.scenarioTitle = scenarioTitle
+                    self.timeOfDayId = timeOfDayId
+                    self.modeId = modeId
+                    self.width = width
+                    self.height = height
+                    self.direction = direction
+                    self.travelTimeInterval = travelTimeInterval
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: TravelTimeGetOverlay.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: TravelTimeGetOverlay.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(z: Int, pinLat: Double, pinLon: Double, mapCenterLat: Double, mapCenterLon: Double, scenarioTitle: String, timeOfDayId: String, modeId: String, width: Int, height: Int, direction: Direction, travelTimeInterval: Int) {
-              let options = Options(z: z, pinLat: pinLat, pinLon: pinLon, mapCenterLat: mapCenterLat, mapCenterLon: mapCenterLon, scenarioTitle: scenarioTitle, timeOfDayId: timeOfDayId, modeId: modeId, width: width, height: height, direction: direction, travelTimeInterval: travelTimeInterval)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(z: Int, pinLat: Double, pinLon: Double, mapCenterLat: Double, mapCenterLon: Double, scenarioTitle: String, timeOfDayId: String, modeId: String, width: Int, height: Int, direction: Direction, travelTimeInterval: Int) {
+                let options = Options(z: z, pinLat: pinLat, pinLon: pinLon, mapCenterLat: mapCenterLat, mapCenterLon: mapCenterLon, scenarioTitle: scenarioTitle, timeOfDayId: timeOfDayId, modeId: modeId, width: width, height: height, direction: direction, travelTimeInterval: travelTimeInterval)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "z" + "}", with: "\(self.options.z)").replacingOccurrences(of: "{" + "pinLat" + "}", with: "\(self.options.pinLat)").replacingOccurrences(of: "{" + "pinLon" + "}", with: "\(self.options.pinLon)").replacingOccurrences(of: "{" + "mapCenterLat" + "}", with: "\(self.options.mapCenterLat)").replacingOccurrences(of: "{" + "mapCenterLon" + "}", with: "\(self.options.mapCenterLon)").replacingOccurrences(of: "{" + "width" + "}", with: "\(self.options.width)").replacingOccurrences(of: "{" + "height" + "}", with: "\(self.options.height)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "z" + "}", with: "\(self.options.z)").replacingOccurrences(of: "{" + "pinLat" + "}", with: "\(self.options.pinLat)").replacingOccurrences(of: "{" + "pinLon" + "}", with: "\(self.options.pinLon)").replacingOccurrences(of: "{" + "mapCenterLat" + "}", with: "\(self.options.mapCenterLat)").replacingOccurrences(of: "{" + "mapCenterLon" + "}", with: "\(self.options.mapCenterLon)").replacingOccurrences(of: "{" + "width" + "}", with: "\(self.options.width)").replacingOccurrences(of: "{" + "height" + "}", with: "\(self.options.height)")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["scenarioTitle"] = options.scenarioTitle
-              params["timeOfDayId"] = options.timeOfDayId
-              params["modeId"] = options.modeId
-              params["direction"] = options.direction.encode()
-              params["travelTimeInterval"] = options.travelTimeInterval
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["scenarioTitle"] = options.scenarioTitle
+                params["timeOfDayId"] = options.timeOfDayId
+                params["modeId"] = options.modeId
+                params["direction"] = options.direction.encode()
+                params["travelTimeInterval"] = options.travelTimeInterval
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -128,15 +128,15 @@ extension TFL.TravelTime {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

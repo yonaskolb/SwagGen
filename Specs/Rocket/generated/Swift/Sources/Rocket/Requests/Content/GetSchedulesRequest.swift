@@ -30,45 +30,45 @@ which would be unfriendly for clients presenting these channel schedules.
  */
     public enum GetSchedules {
 
-      public static let service = APIService<Response>(id: "getSchedules", tag: "content", method: "GET", path: "/schedules", hasBody: false)
+        public static let service = APIService<Response>(id: "getSchedules", tag: "content", method: "GET", path: "/schedules", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The list of channel ids to get schedules for. */
-              public var channels: [String]
+                /** The list of channel ids to get schedules for. */
+                public var channels: [String]
 
-              /** The date to target in ISO format, e.g. `2017-05-23`.
+                /** The date to target in ISO format, e.g. `2017-05-23`.
 
 The base hour requested will belong to this date.
  */
-              public var date: Date
+                public var date: Date
 
-              /** The base hour in the day, defined by the `date` parameter, you wish to load schedules for.
+                /** The base hour in the day, defined by the `date` parameter, you wish to load schedules for.
 
 From 0 to 23, where 0 is midnight.
  */
-              public var hour: Int
+                public var hour: Int
 
-              /** The number of hours of schedules to load from the base `hour` parameter.
+                /** The number of hours of schedules to load from the base `hour` parameter.
 
 This may be negative or positive depending on whether you want to load past or future schedules.
 
 A value of zero is invalid.
  */
-              public var duration: Int
+                public var duration: Int
 
-              /** The type of device the content is targeting. */
-              public var device: String?
+                /** The type of device the content is targeting. */
+                public var device: String?
 
-              /** The active subscription code. */
-              public var sub: String?
+                /** The active subscription code. */
+                public var sub: String?
 
-              /** The list of segments to filter the response by. */
-              public var segments: [String]?
+                /** The list of segments to filter the response by. */
+                public var segments: [String]?
 
-              /** The set of opt in feature flags which cause breaking changes to responses.
+                /** The set of opt in feature flags which cause breaking changes to responses.
 
 While Rocket APIs look to avoid breaking changes under the active major version, the formats of responses
 may need to evolve over this time.
@@ -84,53 +84,53 @@ clients as these formats evolve under the current major version.
 
 See the `feature-flags.md` for available flag details.
  */
-              public var ff: [FeatureFlags]?
+                public var ff: [FeatureFlags]?
 
-              public init(channels: [String], date: Date, hour: Int, duration: Int, device: String? = nil, sub: String? = nil, segments: [String]? = nil, ff: [FeatureFlags]? = nil) {
-                  self.channels = channels
-                  self.date = date
-                  self.hour = hour
-                  self.duration = duration
-                  self.device = device
-                  self.sub = sub
-                  self.segments = segments
-                  self.ff = ff
-              }
-          }
+                public init(channels: [String], date: Date, hour: Int, duration: Int, device: String? = nil, sub: String? = nil, segments: [String]? = nil, ff: [FeatureFlags]? = nil) {
+                    self.channels = channels
+                    self.date = date
+                    self.hour = hour
+                    self.duration = duration
+                    self.device = device
+                    self.sub = sub
+                    self.segments = segments
+                    self.ff = ff
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: GetSchedules.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: GetSchedules.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(channels: [String], date: Date, hour: Int, duration: Int, device: String? = nil, sub: String? = nil, segments: [String]? = nil, ff: [FeatureFlags]? = nil) {
-              let options = Options(channels: channels, date: date, hour: hour, duration: duration, device: device, sub: sub, segments: segments, ff: ff)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(channels: [String], date: Date, hour: Int, duration: Int, device: String? = nil, sub: String? = nil, segments: [String]? = nil, ff: [FeatureFlags]? = nil) {
+                let options = Options(channels: channels, date: date, hour: hour, duration: duration, device: device, sub: sub, segments: segments, ff: ff)
+                self.init(options: options)
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["channels"] = options.channels.joined(separator: ",")
-              params["date"] = options.date.encode()
-              params["hour"] = options.hour
-              params["duration"] = options.duration
-              if let device = options.device {
-                params["device"] = device
-              }
-              if let sub = options.sub {
-                params["sub"] = sub
-              }
-              if let segments = options.segments?.joined(separator: ",") {
-                params["segments"] = segments
-              }
-              if let ff = options.ff?.encode().map({ String(describing: $0) }).joined(separator: ",") {
-                params["ff"] = ff
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["channels"] = options.channels.joined(separator: ",")
+                params["date"] = options.date.encode()
+                params["hour"] = options.hour
+                params["duration"] = options.duration
+                if let device = options.device {
+                  params["device"] = device
+                }
+                if let sub = options.sub {
+                  params["sub"] = sub
+                }
+                if let segments = options.segments?.joined(separator: ",") {
+                  params["segments"] = segments
+                }
+                if let ff = options.ff?.encode().map({ String(describing: $0) }).joined(separator: ",") {
+                  params["ff"] = ff
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -193,23 +193,23 @@ The order of the channels will match the order of channel ids passed during the 
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status404: return 404
-              case .status500: return 500
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status404: return 404
+                case .status500: return 500
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status404: return false
-              case .status500: return false
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status404: return false
+                case .status500: return false
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

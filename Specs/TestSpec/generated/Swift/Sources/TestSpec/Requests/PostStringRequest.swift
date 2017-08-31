@@ -11,20 +11,20 @@ extension TestSpec {
     /** operation with string body */
     public enum PostString {
 
-      public static let service = APIService<Response>(id: "postString", tag: "", method: "POST", path: "/string", hasBody: true)
+        public static let service = APIService<Response>(id: "postString", tag: "", method: "POST", path: "/string", hasBody: true)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public var body: String?
+            public var body: String?
 
-          public init(body: String?) {
-              self.body = body
-              super.init(service: PostString.service)
-          }
+            public init(body: String?) {
+                self.body = body
+                super.init(service: PostString.service)
+            }
 
-          public override var jsonBody: Any? {
-              return body
-          }
+            public override var jsonBody: Any? {
+                return body
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -46,15 +46,15 @@ extension TestSpec {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .defaultResponse(let statusCode): return statusCode
-              }
+                switch self {
+                case .defaultResponse(let statusCode): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

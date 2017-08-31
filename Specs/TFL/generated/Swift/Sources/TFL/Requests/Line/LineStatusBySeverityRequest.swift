@@ -10,36 +10,36 @@ extension TFL.Line {
 
     public enum LineStatusBySeverity {
 
-      public static let service = APIService<Response>(id: "Line_StatusBySeverity", tag: "Line", method: "GET", path: "/Line/Status/{severity}", hasBody: false)
+        public static let service = APIService<Response>(id: "Line_StatusBySeverity", tag: "Line", method: "GET", path: "/Line/Status/{severity}", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The level of severity (eg: a number from 0 to 14) */
-              public var severity: Int
+                /** The level of severity (eg: a number from 0 to 14) */
+                public var severity: Int
 
-              public init(severity: Int) {
-                  self.severity = severity
-              }
-          }
+                public init(severity: Int) {
+                    self.severity = severity
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: LineStatusBySeverity.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: LineStatusBySeverity.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(severity: Int) {
-              let options = Options(severity: severity)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(severity: Int) {
+                let options = Options(severity: severity)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "severity" + "}", with: "\(self.options.severity)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "severity" + "}", with: "\(self.options.severity)")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -61,15 +61,15 @@ extension TFL.Line {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

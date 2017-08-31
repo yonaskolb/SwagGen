@@ -11,36 +11,36 @@ extension Rocket.Profile {
     /** Unbookmark an item under the active profile. */
     public enum DeleteItemBookmark {
 
-      public static let service = APIService<Response>(id: "deleteItemBookmark", tag: "profile", method: "DELETE", path: "/account/profile/bookmarks/{itemId}", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "deleteItemBookmark", tag: "profile", method: "DELETE", path: "/account/profile/bookmarks/{itemId}", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The identifier of the bookmark to delete. */
-              public var itemId: String
+                /** The identifier of the bookmark to delete. */
+                public var itemId: String
 
-              public init(itemId: String) {
-                  self.itemId = itemId
-              }
-          }
+                public init(itemId: String) {
+                    self.itemId = itemId
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: DeleteItemBookmark.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: DeleteItemBookmark.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(itemId: String) {
-              let options = Options(itemId: itemId)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(itemId: String) {
+                let options = Options(itemId: itemId)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "itemId" + "}", with: "\(self.options.itemId)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "itemId" + "}", with: "\(self.options.itemId)")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -110,27 +110,27 @@ extension Rocket.Profile {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status204: return 204
-              case .status400: return 400
-              case .status401: return 401
-              case .status403: return 403
-              case .status404: return 404
-              case .status500: return 500
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status204: return 204
+                case .status400: return 400
+                case .status401: return 401
+                case .status403: return 403
+                case .status404: return 404
+                case .status500: return 500
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status204: return true
-              case .status400: return false
-              case .status401: return false
-              case .status403: return false
-              case .status404: return false
-              case .status500: return false
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status204: return true
+                case .status400: return false
+                case .status401: return false
+                case .status403: return false
+                case .status404: return false
+                case .status500: return false
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

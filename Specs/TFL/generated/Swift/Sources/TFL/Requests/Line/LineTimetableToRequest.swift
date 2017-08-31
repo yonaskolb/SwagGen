@@ -10,44 +10,44 @@ extension TFL.Line {
 
     public enum LineTimetableTo {
 
-      public static let service = APIService<Response>(id: "Line_TimetableTo", tag: "Line", method: "GET", path: "/Line/{id}/Timetable/{fromStopPointId}/to/{toStopPointId}", hasBody: false)
+        public static let service = APIService<Response>(id: "Line_TimetableTo", tag: "Line", method: "GET", path: "/Line/{id}/Timetable/{fromStopPointId}/to/{toStopPointId}", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The originating station's stop point id (station naptan code e.g. 940GZZLUASL, you can use /StopPoint/Search/{query} endpoint to find a stop point id from a station name) */
-              public var fromStopPointId: String
+                /** The originating station's stop point id (station naptan code e.g. 940GZZLUASL, you can use /StopPoint/Search/{query} endpoint to find a stop point id from a station name) */
+                public var fromStopPointId: String
 
-              /** A single line id e.g. victoria */
-              public var id: String
+                /** A single line id e.g. victoria */
+                public var id: String
 
-              /** The destination stations's Naptan code */
-              public var toStopPointId: String
+                /** The destination stations's Naptan code */
+                public var toStopPointId: String
 
-              public init(fromStopPointId: String, id: String, toStopPointId: String) {
-                  self.fromStopPointId = fromStopPointId
-                  self.id = id
-                  self.toStopPointId = toStopPointId
-              }
-          }
+                public init(fromStopPointId: String, id: String, toStopPointId: String) {
+                    self.fromStopPointId = fromStopPointId
+                    self.id = id
+                    self.toStopPointId = toStopPointId
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: LineTimetableTo.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: LineTimetableTo.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(fromStopPointId: String, id: String, toStopPointId: String) {
-              let options = Options(fromStopPointId: fromStopPointId, id: id, toStopPointId: toStopPointId)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(fromStopPointId: String, id: String, toStopPointId: String) {
+                let options = Options(fromStopPointId: fromStopPointId, id: id, toStopPointId: toStopPointId)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "fromStopPointId" + "}", with: "\(self.options.fromStopPointId)").replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)").replacingOccurrences(of: "{" + "toStopPointId" + "}", with: "\(self.options.toStopPointId)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "fromStopPointId" + "}", with: "\(self.options.fromStopPointId)").replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)").replacingOccurrences(of: "{" + "toStopPointId" + "}", with: "\(self.options.toStopPointId)")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -69,15 +69,15 @@ extension TFL.Line {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

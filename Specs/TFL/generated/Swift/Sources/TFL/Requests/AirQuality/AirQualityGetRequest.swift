@@ -10,13 +10,13 @@ extension TFL.AirQuality {
 
     public enum AirQualityGet {
 
-      public static let service = APIService<Response>(id: "AirQuality_Get", tag: "AirQuality", method: "GET", path: "/AirQuality", hasBody: false)
+        public static let service = APIService<Response>(id: "AirQuality_Get", tag: "AirQuality", method: "GET", path: "/AirQuality", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public init() {
-              super.init(service: AirQualityGet.service)
-          }
+            public init() {
+                super.init(service: AirQualityGet.service)
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -38,15 +38,15 @@ extension TFL.AirQuality {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

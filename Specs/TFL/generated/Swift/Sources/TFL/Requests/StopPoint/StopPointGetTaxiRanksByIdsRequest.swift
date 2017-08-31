@@ -10,36 +10,36 @@ extension TFL.StopPoint {
 
     public enum StopPointGetTaxiRanksByIds {
 
-      public static let service = APIService<Response>(id: "StopPoint_GetTaxiRanksByIds", tag: "StopPoint", method: "GET", path: "/StopPoint/{stopPointId}/TaxiRanks", hasBody: false)
+        public static let service = APIService<Response>(id: "StopPoint_GetTaxiRanksByIds", tag: "StopPoint", method: "GET", path: "/StopPoint/{stopPointId}/TaxiRanks", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** stopPointId is required to get the taxi ranks. */
-              public var stopPointId: String
+                /** stopPointId is required to get the taxi ranks. */
+                public var stopPointId: String
 
-              public init(stopPointId: String) {
-                  self.stopPointId = stopPointId
-              }
-          }
+                public init(stopPointId: String) {
+                    self.stopPointId = stopPointId
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: StopPointGetTaxiRanksByIds.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: StopPointGetTaxiRanksByIds.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(stopPointId: String) {
-              let options = Options(stopPointId: stopPointId)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(stopPointId: String) {
+                let options = Options(stopPointId: stopPointId)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "stopPointId" + "}", with: "\(self.options.stopPointId)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "stopPointId" + "}", with: "\(self.options.stopPointId)")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -61,15 +61,15 @@ extension TFL.StopPoint {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

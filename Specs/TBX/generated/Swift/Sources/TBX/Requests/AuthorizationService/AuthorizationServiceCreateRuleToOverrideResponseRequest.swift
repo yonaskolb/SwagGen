@@ -10,85 +10,85 @@ extension TBX.AuthorizationService {
 
     public enum AuthorizationServiceCreateRuleToOverrideResponse {
 
-      public static let service = APIService<Response>(id: "AuthorizationService.createRuleToOverrideResponse", tag: "AuthorizationService", method: "POST", path: "/AuthorizationServices/overrideRule", hasBody: true)
+        public static let service = APIService<Response>(id: "AuthorizationService.createRuleToOverrideResponse", tag: "AuthorizationService", method: "POST", path: "/AuthorizationServices/overrideRule", hasBody: true)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** List of URNs to override */
-              public var urn: String
+                /** List of URNs to override */
+                public var urn: String
 
-              /** Token credits */
-              public var response: Bool
+                /** Token credits */
+                public var response: Bool
 
-              /** List of countries to override */
-              public var country: String?
+                /** List of countries to override */
+                public var country: String?
 
-              /** List of IDPs to override */
-              public var idp: String?
+                /** List of IDPs to override */
+                public var idp: String?
 
-              /** List of actions to override */
-              public var action: String?
+                /** List of actions to override */
+                public var action: String?
 
-              /** Start date */
-              public var dateFrom: Date?
+                /** Start date */
+                public var dateFrom: Date?
 
-              /** until date */
-              public var dateUntil: Date?
+                /** until date */
+                public var dateUntil: Date?
 
-              /** Priority Order */
-              public var priority: Double?
+                /** Priority Order */
+                public var priority: Double?
 
-              public init(urn: String, response: Bool, country: String? = nil, idp: String? = nil, action: String? = nil, dateFrom: Date? = nil, dateUntil: Date? = nil, priority: Double? = nil) {
-                  self.urn = urn
-                  self.response = response
-                  self.country = country
-                  self.idp = idp
-                  self.action = action
-                  self.dateFrom = dateFrom
-                  self.dateUntil = dateUntil
-                  self.priority = priority
-              }
-          }
+                public init(urn: String, response: Bool, country: String? = nil, idp: String? = nil, action: String? = nil, dateFrom: Date? = nil, dateUntil: Date? = nil, priority: Double? = nil) {
+                    self.urn = urn
+                    self.response = response
+                    self.country = country
+                    self.idp = idp
+                    self.action = action
+                    self.dateFrom = dateFrom
+                    self.dateUntil = dateUntil
+                    self.priority = priority
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: AuthorizationServiceCreateRuleToOverrideResponse.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: AuthorizationServiceCreateRuleToOverrideResponse.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(urn: String, response: Bool, country: String? = nil, idp: String? = nil, action: String? = nil, dateFrom: Date? = nil, dateUntil: Date? = nil, priority: Double? = nil) {
-              let options = Options(urn: urn, response: response, country: country, idp: idp, action: action, dateFrom: dateFrom, dateUntil: dateUntil, priority: priority)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(urn: String, response: Bool, country: String? = nil, idp: String? = nil, action: String? = nil, dateFrom: Date? = nil, dateUntil: Date? = nil, priority: Double? = nil) {
+                let options = Options(urn: urn, response: response, country: country, idp: idp, action: action, dateFrom: dateFrom, dateUntil: dateUntil, priority: priority)
+                self.init(options: options)
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["urn"] = options.urn
-              params["response"] = options.response
-              if let country = options.country {
-                params["country"] = country
-              }
-              if let idp = options.idp {
-                params["idp"] = idp
-              }
-              if let action = options.action {
-                params["action"] = action
-              }
-              if let dateFrom = options.dateFrom?.encode() {
-                params["dateFrom"] = dateFrom
-              }
-              if let dateUntil = options.dateUntil?.encode() {
-                params["dateUntil"] = dateUntil
-              }
-              if let priority = options.priority {
-                params["priority"] = priority
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["urn"] = options.urn
+                params["response"] = options.response
+                if let country = options.country {
+                  params["country"] = country
+                }
+                if let idp = options.idp {
+                  params["idp"] = idp
+                }
+                if let action = options.action {
+                  params["action"] = action
+                }
+                if let dateFrom = options.dateFrom?.encode() {
+                  params["dateFrom"] = dateFrom
+                }
+                if let dateUntil = options.dateUntil?.encode() {
+                  params["dateUntil"] = dateUntil
+                }
+                if let priority = options.priority {
+                  params["priority"] = priority
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -148,23 +148,23 @@ extension TBX.AuthorizationService {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status401: return 401
-              case .status404: return 404
-              case .status410: return 410
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status401: return 401
+                case .status404: return 404
+                case .status410: return 410
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status401: return false
-              case .status404: return false
-              case .status410: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status401: return false
+                case .status404: return false
+                case .status410: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

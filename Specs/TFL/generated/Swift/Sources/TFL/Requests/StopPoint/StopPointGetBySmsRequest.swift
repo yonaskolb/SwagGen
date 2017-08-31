@@ -10,48 +10,48 @@ extension TFL.StopPoint {
 
     public enum StopPointGetBySms {
 
-      public static let service = APIService<Response>(id: "StopPoint_GetBySms", tag: "StopPoint", method: "GET", path: "/StopPoint/Sms/{id}", hasBody: false)
+        public static let service = APIService<Response>(id: "StopPoint_GetBySms", tag: "StopPoint", method: "GET", path: "/StopPoint/Sms/{id}", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** A 5-digit Countdown Bus Stop Code e.g. 73241, 50435, 56334. */
-              public var id: String
+                /** A 5-digit Countdown Bus Stop Code e.g. 73241, 50435, 56334. */
+                public var id: String
 
-              /** If set to "web", a 302 redirect to relevant website bus stop page is returned. Valid values are : web. All other values are ignored. */
-              public var output: String?
+                /** If set to "web", a 302 redirect to relevant website bus stop page is returned. Valid values are : web. All other values are ignored. */
+                public var output: String?
 
-              public init(id: String, output: String? = nil) {
-                  self.id = id
-                  self.output = output
-              }
-          }
+                public init(id: String, output: String? = nil) {
+                    self.id = id
+                    self.output = output
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: StopPointGetBySms.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: StopPointGetBySms.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(id: String, output: String? = nil) {
-              let options = Options(id: id, output: output)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(id: String, output: String? = nil) {
+                let options = Options(id: id, output: output)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let output = options.output {
-                params["output"] = output
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let output = options.output {
+                  params["output"] = output
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -73,15 +73,15 @@ extension TFL.StopPoint {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

@@ -10,74 +10,74 @@ extension TFL.StopPoint {
 
     public enum SearchStopPoints {
 
-      public static let service = APIService<Response>(id: "searchStopPoints", tag: "StopPoint", method: "GET", path: "/StopPoint/Search", hasBody: false)
+        public static let service = APIService<Response>(id: "searchStopPoints", tag: "StopPoint", method: "GET", path: "/StopPoint/Search", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The query string, case-insensitive. Leading and trailing wildcards are applied automatically. */
-              public var query: String
+                /** The query string, case-insensitive. Leading and trailing wildcards are applied automatically. */
+                public var query: String
 
-              /** An optional, parameter separated list of the modes to filter by */
-              public var modes: [String]?
+                /** An optional, parameter separated list of the modes to filter by */
+                public var modes: [String]?
 
-              /** True to only return stations in that have Fares data available for single fares to another station. */
-              public var faresOnly: Bool?
+                /** True to only return stations in that have Fares data available for single fares to another station. */
+                public var faresOnly: Bool?
 
-              /** An optional result limit, defaulting to and with a maximum of 50. Since children of the stop point heirarchy are returned for matches,
+                /** An optional result limit, defaulting to and with a maximum of 50. Since children of the stop point heirarchy are returned for matches,
             it is possible that the flattened result set will contain more than 50 items. */
-              public var maxResults: Int?
+                public var maxResults: Int?
 
-              /** An optional, parameter separated list of the lines to filter by */
-              public var lines: [String]?
+                /** An optional, parameter separated list of the lines to filter by */
+                public var lines: [String]?
 
-              /** If true, returns results including HUBs. */
-              public var includeHubs: Bool?
+                /** If true, returns results including HUBs. */
+                public var includeHubs: Bool?
 
-              public init(query: String, modes: [String]? = nil, faresOnly: Bool? = nil, maxResults: Int? = nil, lines: [String]? = nil, includeHubs: Bool? = nil) {
-                  self.query = query
-                  self.modes = modes
-                  self.faresOnly = faresOnly
-                  self.maxResults = maxResults
-                  self.lines = lines
-                  self.includeHubs = includeHubs
-              }
-          }
+                public init(query: String, modes: [String]? = nil, faresOnly: Bool? = nil, maxResults: Int? = nil, lines: [String]? = nil, includeHubs: Bool? = nil) {
+                    self.query = query
+                    self.modes = modes
+                    self.faresOnly = faresOnly
+                    self.maxResults = maxResults
+                    self.lines = lines
+                    self.includeHubs = includeHubs
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: SearchStopPoints.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: SearchStopPoints.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(query: String, modes: [String]? = nil, faresOnly: Bool? = nil, maxResults: Int? = nil, lines: [String]? = nil, includeHubs: Bool? = nil) {
-              let options = Options(query: query, modes: modes, faresOnly: faresOnly, maxResults: maxResults, lines: lines, includeHubs: includeHubs)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(query: String, modes: [String]? = nil, faresOnly: Bool? = nil, maxResults: Int? = nil, lines: [String]? = nil, includeHubs: Bool? = nil) {
+                let options = Options(query: query, modes: modes, faresOnly: faresOnly, maxResults: maxResults, lines: lines, includeHubs: includeHubs)
+                self.init(options: options)
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["query"] = options.query
-              if let modes = options.modes?.joined(separator: ",") {
-                params["modes"] = modes
-              }
-              if let faresOnly = options.faresOnly {
-                params["faresOnly"] = faresOnly
-              }
-              if let maxResults = options.maxResults {
-                params["maxResults"] = maxResults
-              }
-              if let lines = options.lines?.joined(separator: ",") {
-                params["lines"] = lines
-              }
-              if let includeHubs = options.includeHubs {
-                params["includeHubs"] = includeHubs
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["query"] = options.query
+                if let modes = options.modes?.joined(separator: ",") {
+                  params["modes"] = modes
+                }
+                if let faresOnly = options.faresOnly {
+                  params["faresOnly"] = faresOnly
+                }
+                if let maxResults = options.maxResults {
+                  params["maxResults"] = maxResults
+                }
+                if let lines = options.lines?.joined(separator: ",") {
+                  params["lines"] = lines
+                }
+                if let includeHubs = options.includeHubs {
+                  params["includeHubs"] = includeHubs
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -99,15 +99,15 @@ extension TFL.StopPoint {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

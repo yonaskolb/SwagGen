@@ -10,68 +10,68 @@ extension TFL.Line {
 
     public enum LineStatus {
 
-      public static let service = APIService<Response>(id: "Line_Status", tag: "Line", method: "GET", path: "/Line/{ids}/Status/{StartDate}/to/{EndDate}", hasBody: false)
+        public static let service = APIService<Response>(id: "Line_Status", tag: "Line", method: "GET", path: "/Line/{ids}/Status/{StartDate}/to/{EndDate}", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** A comma-separated list of line ids e.g. victoria,circle,N133. Max. approx. 20 ids. */
-              public var ids: [String]
+                /** A comma-separated list of line ids e.g. victoria,circle,N133. Max. approx. 20 ids. */
+                public var ids: [String]
 
-              /** Include details of the disruptions that are causing the line status including the affected stops and routes */
-              public var detail: Bool?
+                /** Include details of the disruptions that are causing the line status including the affected stops and routes */
+                public var detail: Bool?
 
-              public var startDate: String
+                public var startDate: String
 
-              public var endDate: String
+                public var endDate: String
 
-              public var dateRangeStartDate: Date?
+                public var dateRangeStartDate: Date?
 
-              public var dateRangeEndDate: Date?
+                public var dateRangeEndDate: Date?
 
-              public init(ids: [String], detail: Bool? = nil, startDate: String, endDate: String, dateRangeStartDate: Date? = nil, dateRangeEndDate: Date? = nil) {
-                  self.ids = ids
-                  self.detail = detail
-                  self.startDate = startDate
-                  self.endDate = endDate
-                  self.dateRangeStartDate = dateRangeStartDate
-                  self.dateRangeEndDate = dateRangeEndDate
-              }
-          }
+                public init(ids: [String], detail: Bool? = nil, startDate: String, endDate: String, dateRangeStartDate: Date? = nil, dateRangeEndDate: Date? = nil) {
+                    self.ids = ids
+                    self.detail = detail
+                    self.startDate = startDate
+                    self.endDate = endDate
+                    self.dateRangeStartDate = dateRangeStartDate
+                    self.dateRangeEndDate = dateRangeEndDate
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: LineStatus.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: LineStatus.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(ids: [String], detail: Bool? = nil, startDate: String, endDate: String, dateRangeStartDate: Date? = nil, dateRangeEndDate: Date? = nil) {
-              let options = Options(ids: ids, detail: detail, startDate: startDate, endDate: endDate, dateRangeStartDate: dateRangeStartDate, dateRangeEndDate: dateRangeEndDate)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(ids: [String], detail: Bool? = nil, startDate: String, endDate: String, dateRangeStartDate: Date? = nil, dateRangeEndDate: Date? = nil) {
+                let options = Options(ids: ids, detail: detail, startDate: startDate, endDate: endDate, dateRangeStartDate: dateRangeStartDate, dateRangeEndDate: dateRangeEndDate)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids.joined(separator: ","))")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids.joined(separator: ","))")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let detail = options.detail {
-                params["detail"] = detail
-              }
-              params["startDate"] = options.startDate
-              params["endDate"] = options.endDate
-              if let dateRangeStartDate = options.dateRangeStartDate?.encode() {
-                params["dateRange.startDate"] = dateRangeStartDate
-              }
-              if let dateRangeEndDate = options.dateRangeEndDate?.encode() {
-                params["dateRange.endDate"] = dateRangeEndDate
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let detail = options.detail {
+                  params["detail"] = detail
+                }
+                params["startDate"] = options.startDate
+                params["endDate"] = options.endDate
+                if let dateRangeStartDate = options.dateRangeStartDate?.encode() {
+                  params["dateRange.startDate"] = dateRangeStartDate
+                }
+                if let dateRangeEndDate = options.dateRangeEndDate?.encode() {
+                  params["dateRange.endDate"] = dateRangeEndDate
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -93,15 +93,15 @@ extension TFL.Line {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

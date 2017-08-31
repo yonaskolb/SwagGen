@@ -21,20 +21,20 @@ endpoint here, along with the password reset token provided in the original link
  */
     public enum ForgotPassword {
 
-      public static let service = APIService<Response>(id: "forgotPassword", tag: "support", method: "POST", path: "/request-password-reset", hasBody: true)
+        public static let service = APIService<Response>(id: "forgotPassword", tag: "support", method: "POST", path: "/request-password-reset", hasBody: true)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public var body: PasswordResetEmailRequest
+            public var body: PasswordResetEmailRequest
 
-          public init(body: PasswordResetEmailRequest) {
-              self.body = body
-              super.init(service: ForgotPassword.service)
-          }
+            public init(body: PasswordResetEmailRequest) {
+                self.body = body
+                super.init(service: ForgotPassword.service)
+            }
 
-          public override var jsonBody: Any? {
-              return body.encode()
-          }
+            public override var jsonBody: Any? {
+                return body.encode()
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -104,27 +104,27 @@ endpoint here, along with the password reset token provided in the original link
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status204: return 204
-              case .status400: return 400
-              case .status401: return 401
-              case .status403: return 403
-              case .status404: return 404
-              case .status500: return 500
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status204: return 204
+                case .status400: return 400
+                case .status401: return 401
+                case .status403: return 403
+                case .status404: return 404
+                case .status500: return 500
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status204: return true
-              case .status400: return false
-              case .status401: return false
-              case .status403: return false
-              case .status404: return false
-              case .status500: return false
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status204: return true
+                case .status400: return false
+                case .status401: return false
+                case .status403: return false
+                case .status404: return false
+                case .status500: return false
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

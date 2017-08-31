@@ -10,66 +10,66 @@ extension TFL.Line {
 
     public enum LineSearch {
 
-      public static let service = APIService<Response>(id: "Line_Search", tag: "Line", method: "GET", path: "/Line/Search/{query}", hasBody: false)
+        public static let service = APIService<Response>(id: "Line_Search", tag: "Line", method: "GET", path: "/Line/Search/{query}", hasBody: false)
 
-      /** A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
-      public enum ServiceTypes: String {
-          case regular = "Regular"
-          case night = "Night"
+        /** A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
+        public enum ServiceTypes: String {
+            case regular = "Regular"
+            case night = "Night"
 
-          public static let cases: [ServiceTypes] = [
-            .regular,
-            .night,
-          ]
-      }
+            public static let cases: [ServiceTypes] = [
+              .regular,
+              .night,
+            ]
+        }
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** Search term e.g victoria */
-              public var query: String
+                /** Search term e.g victoria */
+                public var query: String
 
-              /** Optionally filter by the specified modes */
-              public var modes: [String]?
+                /** Optionally filter by the specified modes */
+                public var modes: [String]?
 
-              /** A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
-              public var serviceTypes: [ServiceTypes]?
+                /** A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
+                public var serviceTypes: [ServiceTypes]?
 
-              public init(query: String, modes: [String]? = nil, serviceTypes: [ServiceTypes]? = nil) {
-                  self.query = query
-                  self.modes = modes
-                  self.serviceTypes = serviceTypes
-              }
-          }
+                public init(query: String, modes: [String]? = nil, serviceTypes: [ServiceTypes]? = nil) {
+                    self.query = query
+                    self.modes = modes
+                    self.serviceTypes = serviceTypes
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: LineSearch.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: LineSearch.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(query: String, modes: [String]? = nil, serviceTypes: [ServiceTypes]? = nil) {
-              let options = Options(query: query, modes: modes, serviceTypes: serviceTypes)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(query: String, modes: [String]? = nil, serviceTypes: [ServiceTypes]? = nil) {
+                let options = Options(query: query, modes: modes, serviceTypes: serviceTypes)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "query" + "}", with: "\(self.options.query)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "query" + "}", with: "\(self.options.query)")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let modes = options.modes?.joined(separator: ",") {
-                params["modes"] = modes
-              }
-              if let serviceTypes = options.serviceTypes?.encode().map({ String(describing: $0) }).joined(separator: ",") {
-                params["serviceTypes"] = serviceTypes
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let modes = options.modes?.joined(separator: ",") {
+                  params["modes"] = modes
+                }
+                if let serviceTypes = options.serviceTypes?.encode().map({ String(describing: $0) }).joined(separator: ",") {
+                  params["serviceTypes"] = serviceTypes
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -91,15 +91,15 @@ extension TFL.Line {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

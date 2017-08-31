@@ -10,36 +10,36 @@ extension TBX.UserService {
 
     public enum UserServiceGetCustomerDevices {
 
-      public static let service = APIService<Response>(id: "UserService.getCustomerDevices", tag: "UserService", method: "GET", path: "/UserServices/{customer}/devices", hasBody: false)
+        public static let service = APIService<Response>(id: "UserService.getCustomerDevices", tag: "UserService", method: "GET", path: "/UserServices/{customer}/devices", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The customer ID */
-              public var customer: String
+                /** The customer ID */
+                public var customer: String
 
-              public init(customer: String) {
-                  self.customer = customer
-              }
-          }
+                public init(customer: String) {
+                    self.customer = customer
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: UserServiceGetCustomerDevices.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: UserServiceGetCustomerDevices.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(customer: String) {
-              let options = Options(customer: customer)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(customer: String) {
+                let options = Options(customer: customer)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "customer" + "}", with: "\(self.options.customer)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "customer" + "}", with: "\(self.options.customer)")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -99,23 +99,23 @@ extension TBX.UserService {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status401: return 401
-              case .status404: return 404
-              case .status410: return 410
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status401: return 401
+                case .status404: return 404
+                case .status410: return 410
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status401: return false
-              case .status404: return false
-              case .status410: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status401: return false
+                case .status404: return false
+                case .status410: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

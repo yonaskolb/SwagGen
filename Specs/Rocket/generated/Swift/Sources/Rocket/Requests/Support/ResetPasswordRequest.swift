@@ -20,20 +20,20 @@ header as a bearer token.
  */
     public enum ResetPassword {
 
-      public static let service = APIService<Response>(id: "resetPassword", tag: "support", method: "POST", path: "/reset-password", hasBody: true, authorization: Authorization(type: "resetPasswordAuth", scope: ""))
+        public static let service = APIService<Response>(id: "resetPassword", tag: "support", method: "POST", path: "/reset-password", hasBody: true, authorization: Authorization(type: "resetPasswordAuth", scope: ""))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public var body: PasswordResetRequest
+            public var body: PasswordResetRequest
 
-          public init(body: PasswordResetRequest) {
-              self.body = body
-              super.init(service: ResetPassword.service)
-          }
+            public init(body: PasswordResetRequest) {
+                self.body = body
+                super.init(service: ResetPassword.service)
+            }
 
-          public override var jsonBody: Any? {
-              return body.encode()
-          }
+            public override var jsonBody: Any? {
+                return body.encode()
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -103,27 +103,27 @@ header as a bearer token.
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status204: return 204
-              case .status400: return 400
-              case .status401: return 401
-              case .status403: return 403
-              case .status404: return 404
-              case .status500: return 500
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status204: return 204
+                case .status400: return 400
+                case .status401: return 401
+                case .status403: return 403
+                case .status404: return 404
+                case .status500: return 500
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status204: return true
-              case .status400: return false
-              case .status401: return false
-              case .status403: return false
-              case .status404: return false
-              case .status500: return false
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status204: return true
+                case .status400: return false
+                case .status401: return false
+                case .status403: return false
+                case .status404: return false
+                case .status500: return false
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

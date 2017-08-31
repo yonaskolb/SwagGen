@@ -10,13 +10,13 @@ extension TFL.Occupancy {
 
     public enum GetOccupants {
 
-      public static let service = APIService<Response>(id: "getOccupants", tag: "Occupancy", method: "GET", path: "/Occupancy/CarPark", hasBody: false)
+        public static let service = APIService<Response>(id: "getOccupants", tag: "Occupancy", method: "GET", path: "/Occupancy/CarPark", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public init() {
-              super.init(service: GetOccupants.service)
-          }
+            public init() {
+                super.init(service: GetOccupants.service)
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -38,15 +38,15 @@ extension TFL.Occupancy {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

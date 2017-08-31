@@ -10,58 +10,58 @@ extension TBX.UserService {
 
     public enum UserServiceUseToken {
 
-      public static let service = APIService<Response>(id: "UserService.useToken", tag: "UserService", method: "PUT", path: "/UserServices/token/{token}", hasBody: true)
+        public static let service = APIService<Response>(id: "UserService.useToken", tag: "UserService", method: "PUT", path: "/UserServices/token/{token}", hasBody: true)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The token id */
-              public var token: String
+                /** The token id */
+                public var token: String
 
-              /** Device Type */
-              public var deviceType: String
+                /** Device Type */
+                public var deviceType: String
 
-              /** Description to device for example the user agent */
-              public var description: String
+                /** Description to device for example the user agent */
+                public var description: String
 
-              /** Only for activatable devices type * DEPRECATED * */
-              public var identifier: String?
+                /** Only for activatable devices type * DEPRECATED * */
+                public var identifier: String?
 
-              public init(token: String, deviceType: String, description: String, identifier: String? = nil) {
-                  self.token = token
-                  self.deviceType = deviceType
-                  self.description = description
-                  self.identifier = identifier
-              }
-          }
+                public init(token: String, deviceType: String, description: String, identifier: String? = nil) {
+                    self.token = token
+                    self.deviceType = deviceType
+                    self.description = description
+                    self.identifier = identifier
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: UserServiceUseToken.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: UserServiceUseToken.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(token: String, deviceType: String, description: String, identifier: String? = nil) {
-              let options = Options(token: token, deviceType: deviceType, description: description, identifier: identifier)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(token: String, deviceType: String, description: String, identifier: String? = nil) {
+                let options = Options(token: token, deviceType: deviceType, description: description, identifier: identifier)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "token" + "}", with: "\(self.options.token)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "token" + "}", with: "\(self.options.token)")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["deviceType"] = options.deviceType
-              params["description"] = options.description
-              if let identifier = options.identifier {
-                params["identifier"] = identifier
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["deviceType"] = options.deviceType
+                params["description"] = options.description
+                if let identifier = options.identifier {
+                  params["identifier"] = identifier
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -121,23 +121,23 @@ extension TBX.UserService {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status401: return 401
-              case .status404: return 404
-              case .status410: return 410
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status401: return 401
+                case .status404: return 404
+                case .status410: return 410
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status401: return false
-              case .status404: return false
-              case .status410: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status401: return false
+                case .status404: return false
+                case .status410: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

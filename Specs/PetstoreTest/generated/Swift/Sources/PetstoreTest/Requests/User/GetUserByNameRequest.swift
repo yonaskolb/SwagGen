@@ -10,36 +10,36 @@ extension PetstoreTest.User {
 
     public enum GetUserByName {
 
-      public static let service = APIService<Response>(id: "getUserByName", tag: "user", method: "GET", path: "/user/{username}", hasBody: false)
+        public static let service = APIService<Response>(id: "getUserByName", tag: "user", method: "GET", path: "/user/{username}", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The name that needs to be fetched. Use user1 for testing.  */
-              public var username: String
+                /** The name that needs to be fetched. Use user1 for testing.  */
+                public var username: String
 
-              public init(username: String) {
-                  self.username = username
-              }
-          }
+                public init(username: String) {
+                    self.username = username
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: GetUserByName.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: GetUserByName.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(username: String) {
-              let options = Options(username: username)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(username: String) {
+                let options = Options(username: username)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "username" + "}", with: "\(self.options.username)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "username" + "}", with: "\(self.options.username)")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -69,19 +69,19 @@ extension PetstoreTest.User {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status404: return 404
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status404: return 404
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status404: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status404: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

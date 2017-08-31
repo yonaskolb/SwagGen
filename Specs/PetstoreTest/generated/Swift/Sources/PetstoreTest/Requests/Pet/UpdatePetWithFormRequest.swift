@@ -10,55 +10,55 @@ extension PetstoreTest.Pet {
 
     public enum UpdatePetWithForm {
 
-      public static let service = APIService<Response>(id: "updatePetWithForm", tag: "pet", method: "POST", path: "/pet/{petId}", hasBody: true, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
+        public static let service = APIService<Response>(id: "updatePetWithForm", tag: "pet", method: "POST", path: "/pet/{petId}", hasBody: true, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** ID of pet that needs to be updated */
-              public var petId: Int
+                /** ID of pet that needs to be updated */
+                public var petId: Int
 
-              /** Updated name of the pet */
-              public var name: String?
+                /** Updated name of the pet */
+                public var name: String?
 
-              /** Updated status of the pet */
-              public var status: String?
+                /** Updated status of the pet */
+                public var status: String?
 
-              public init(petId: Int, name: String? = nil, status: String? = nil) {
-                  self.petId = petId
-                  self.name = name
-                  self.status = status
-              }
-          }
+                public init(petId: Int, name: String? = nil, status: String? = nil) {
+                    self.petId = petId
+                    self.name = name
+                    self.status = status
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: UpdatePetWithForm.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: UpdatePetWithForm.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(petId: Int, name: String? = nil, status: String? = nil) {
-              let options = Options(petId: petId, name: name, status: status)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(petId: Int, name: String? = nil, status: String? = nil) {
+                let options = Options(petId: petId, name: name, status: status)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "petId" + "}", with: "\(self.options.petId)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "petId" + "}", with: "\(self.options.petId)")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let name = options.name {
-                params["name"] = name
-              }
-              if let status = options.status {
-                params["status"] = status
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let name = options.name {
+                  params["name"] = name
+                }
+                if let status = options.status {
+                  params["status"] = status
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -80,15 +80,15 @@ extension PetstoreTest.Pet {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status405: return 405
-              }
+                switch self {
+                case .status405: return 405
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status405: return false
-              }
+                switch self {
+                case .status405: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

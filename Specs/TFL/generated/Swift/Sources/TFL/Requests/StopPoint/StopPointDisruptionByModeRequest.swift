@@ -10,47 +10,47 @@ extension TFL.StopPoint {
 
     public enum StopPointDisruptionByMode {
 
-      public static let service = APIService<Response>(id: "StopPoint_DisruptionByMode", tag: "StopPoint", method: "GET", path: "/StopPoint/Mode/{modes}/Disruption", hasBody: false)
+        public static let service = APIService<Response>(id: "StopPoint_DisruptionByMode", tag: "StopPoint", method: "GET", path: "/StopPoint/Mode/{modes}/Disruption", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** A comma-seperated list of modes e.g. tube,dlr */
-              public var modes: [String]
+                /** A comma-seperated list of modes e.g. tube,dlr */
+                public var modes: [String]
 
-              public var includeRouteBlockedStops: Bool?
+                public var includeRouteBlockedStops: Bool?
 
-              public init(modes: [String], includeRouteBlockedStops: Bool? = nil) {
-                  self.modes = modes
-                  self.includeRouteBlockedStops = includeRouteBlockedStops
-              }
-          }
+                public init(modes: [String], includeRouteBlockedStops: Bool? = nil) {
+                    self.modes = modes
+                    self.includeRouteBlockedStops = includeRouteBlockedStops
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: StopPointDisruptionByMode.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: StopPointDisruptionByMode.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(modes: [String], includeRouteBlockedStops: Bool? = nil) {
-              let options = Options(modes: modes, includeRouteBlockedStops: includeRouteBlockedStops)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(modes: [String], includeRouteBlockedStops: Bool? = nil) {
+                let options = Options(modes: modes, includeRouteBlockedStops: includeRouteBlockedStops)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "modes" + "}", with: "\(self.options.modes.joined(separator: ","))")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "modes" + "}", with: "\(self.options.modes.joined(separator: ","))")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let includeRouteBlockedStops = options.includeRouteBlockedStops {
-                params["includeRouteBlockedStops"] = includeRouteBlockedStops
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let includeRouteBlockedStops = options.includeRouteBlockedStops {
+                  params["includeRouteBlockedStops"] = includeRouteBlockedStops
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -72,15 +72,15 @@ extension TFL.StopPoint {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

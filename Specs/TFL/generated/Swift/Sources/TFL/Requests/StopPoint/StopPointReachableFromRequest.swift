@@ -10,63 +10,63 @@ extension TFL.StopPoint {
 
     public enum StopPointReachableFrom {
 
-      public static let service = APIService<Response>(id: "StopPoint_ReachableFrom", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/CanReachOnLine/{lineId}", hasBody: false)
+        public static let service = APIService<Response>(id: "StopPoint_ReachableFrom", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/CanReachOnLine/{lineId}", hasBody: false)
 
-      /** A comma-separated list of service types to filter on. If not specified. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
-      public enum ServiceTypes: String {
-          case regular = "Regular"
-          case night = "Night"
+        /** A comma-separated list of service types to filter on. If not specified. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
+        public enum ServiceTypes: String {
+            case regular = "Regular"
+            case night = "Night"
 
-          public static let cases: [ServiceTypes] = [
-            .regular,
-            .night,
-          ]
-      }
+            public static let cases: [ServiceTypes] = [
+              .regular,
+              .night,
+            ]
+        }
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The id (station naptan code e.g. 940GZZLUASL, you can use /StopPoint/Search/{query} endpoint to find a stop point id from a station name) of the stop point to filter by */
-              public var id: String
+                /** The id (station naptan code e.g. 940GZZLUASL, you can use /StopPoint/Search/{query} endpoint to find a stop point id from a station name) of the stop point to filter by */
+                public var id: String
 
-              /** Line id of the line to filter by (e.g. victoria) */
-              public var lineId: String
+                /** Line id of the line to filter by (e.g. victoria) */
+                public var lineId: String
 
-              /** A comma-separated list of service types to filter on. If not specified. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
-              public var serviceTypes: [ServiceTypes]?
+                /** A comma-separated list of service types to filter on. If not specified. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
+                public var serviceTypes: [ServiceTypes]?
 
-              public init(id: String, lineId: String, serviceTypes: [ServiceTypes]? = nil) {
-                  self.id = id
-                  self.lineId = lineId
-                  self.serviceTypes = serviceTypes
-              }
-          }
+                public init(id: String, lineId: String, serviceTypes: [ServiceTypes]? = nil) {
+                    self.id = id
+                    self.lineId = lineId
+                    self.serviceTypes = serviceTypes
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: StopPointReachableFrom.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: StopPointReachableFrom.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(id: String, lineId: String, serviceTypes: [ServiceTypes]? = nil) {
-              let options = Options(id: id, lineId: lineId, serviceTypes: serviceTypes)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(id: String, lineId: String, serviceTypes: [ServiceTypes]? = nil) {
+                let options = Options(id: id, lineId: lineId, serviceTypes: serviceTypes)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)").replacingOccurrences(of: "{" + "lineId" + "}", with: "\(self.options.lineId)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)").replacingOccurrences(of: "{" + "lineId" + "}", with: "\(self.options.lineId)")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let serviceTypes = options.serviceTypes?.encode().map({ String(describing: $0) }).joined(separator: ",") {
-                params["serviceTypes"] = serviceTypes
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let serviceTypes = options.serviceTypes?.encode().map({ String(describing: $0) }).joined(separator: ",") {
+                  params["serviceTypes"] = serviceTypes
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -88,15 +88,15 @@ extension TFL.StopPoint {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

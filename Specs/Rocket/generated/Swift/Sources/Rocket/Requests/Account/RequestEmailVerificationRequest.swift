@@ -22,13 +22,13 @@ for changing an account email address.
  */
     public enum RequestEmailVerification {
 
-      public static let service = APIService<Response>(id: "requestEmailVerification", tag: "account", method: "POST", path: "/account/request-email-verification", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "requestEmailVerification", tag: "account", method: "POST", path: "/account/request-email-verification", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public init() {
-              super.init(service: RequestEmailVerification.service)
-          }
+            public init() {
+                super.init(service: RequestEmailVerification.service)
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -98,27 +98,27 @@ for changing an account email address.
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status204: return 204
-              case .status400: return 400
-              case .status401: return 401
-              case .status403: return 403
-              case .status404: return 404
-              case .status500: return 500
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status204: return 204
+                case .status400: return 400
+                case .status401: return 401
+                case .status403: return 403
+                case .status404: return 404
+                case .status500: return 500
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status204: return true
-              case .status400: return false
-              case .status401: return false
-              case .status403: return false
-              case .status404: return false
-              case .status500: return false
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status204: return true
+                case .status400: return false
+                case .status401: return false
+                case .status403: return false
+                case .status404: return false
+                case .status500: return false
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

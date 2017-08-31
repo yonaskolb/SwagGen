@@ -10,38 +10,38 @@ extension TFL.Vehicle {
 
     public enum VehicleGetVehicle {
 
-      public static let service = APIService<Response>(id: "Vehicle_GetVehicle", tag: "Vehicle", method: "GET", path: "/Vehicle/EmissionSurcharge", hasBody: false)
+        public static let service = APIService<Response>(id: "Vehicle_GetVehicle", tag: "Vehicle", method: "GET", path: "/Vehicle/EmissionSurcharge", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The Vehicle Registration Mark */
-              public var vrm: String
+                /** The Vehicle Registration Mark */
+                public var vrm: String
 
-              public init(vrm: String) {
-                  self.vrm = vrm
-              }
-          }
+                public init(vrm: String) {
+                    self.vrm = vrm
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: VehicleGetVehicle.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: VehicleGetVehicle.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(vrm: String) {
-              let options = Options(vrm: vrm)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(vrm: String) {
+                let options = Options(vrm: vrm)
+                self.init(options: options)
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["vrm"] = options.vrm
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["vrm"] = options.vrm
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -63,15 +63,15 @@ extension TFL.Vehicle {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

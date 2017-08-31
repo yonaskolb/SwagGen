@@ -10,13 +10,13 @@ extension TBX.AuthorizationService {
 
     public enum AuthorizationServiceGetRulesToOverrideResponse {
 
-      public static let service = APIService<Response>(id: "AuthorizationService.getRulesToOverrideResponse", tag: "AuthorizationService", method: "GET", path: "/AuthorizationServices/overrideRules", hasBody: false)
+        public static let service = APIService<Response>(id: "AuthorizationService.getRulesToOverrideResponse", tag: "AuthorizationService", method: "GET", path: "/AuthorizationServices/overrideRules", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public init() {
-              super.init(service: AuthorizationServiceGetRulesToOverrideResponse.service)
-          }
+            public init() {
+                super.init(service: AuthorizationServiceGetRulesToOverrideResponse.service)
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -76,23 +76,23 @@ extension TBX.AuthorizationService {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status401: return 401
-              case .status404: return 404
-              case .status410: return 410
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status401: return 401
+                case .status404: return 404
+                case .status410: return 410
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status401: return false
-              case .status404: return false
-              case .status410: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status401: return false
+                case .status404: return false
+                case .status410: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

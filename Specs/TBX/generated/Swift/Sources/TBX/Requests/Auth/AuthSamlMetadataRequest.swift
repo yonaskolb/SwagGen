@@ -10,13 +10,13 @@ extension TBX.Auth {
 
     public enum AuthSamlMetadata {
 
-      public static let service = APIService<Response>(id: "auth.samlMetadata", tag: "auth", method: "GET", path: "/auth/saml/metadata.xml", hasBody: false)
+        public static let service = APIService<Response>(id: "auth.samlMetadata", tag: "auth", method: "GET", path: "/auth/saml/metadata.xml", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public init() {
-              super.init(service: AuthSamlMetadata.service)
-          }
+            public init() {
+                super.init(service: AuthSamlMetadata.service)
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -38,15 +38,15 @@ extension TBX.Auth {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

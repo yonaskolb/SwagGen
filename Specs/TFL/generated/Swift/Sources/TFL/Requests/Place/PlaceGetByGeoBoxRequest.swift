@@ -10,77 +10,77 @@ extension TFL.Place {
 
     public enum PlaceGetByGeoBox {
 
-      public static let service = APIService<Response>(id: "Place_GetByGeoBox", tag: "Place", method: "GET", path: "/Place", hasBody: false)
+        public static let service = APIService<Response>(id: "Place_GetByGeoBox", tag: "Place", method: "GET", path: "/Place", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** an optional list of comma separated property categories to return in the Place's property bag. If null or empty, all categories of property are returned. Pass the keyword "none" to return no properties (a valid list of categories can be obtained from the /Place/Meta/categories endpoint) */
-              public var categories: [String]?
+                /** an optional list of comma separated property categories to return in the Place's property bag. If null or empty, all categories of property are returned. Pass the keyword "none" to return no properties (a valid list of categories can be obtained from the /Place/Meta/categories endpoint) */
+                public var categories: [String]?
 
-              /** Defaults to false. If true child places e.g. individual charging stations at a charge point while be included, otherwise just the URLs of any child places will be returned */
-              public var includeChildren: Bool?
+                /** Defaults to false. If true child places e.g. individual charging stations at a charge point while be included, otherwise just the URLs of any child places will be returned */
+                public var includeChildren: Bool?
 
-              /** place types to filter on, or null to return all types */
-              public var type: [String]?
+                /** place types to filter on, or null to return all types */
+                public var type: [String]?
 
-              /** An optional parameter to limit the results to active records only (Currently only the 'VariableMessageSign' place type is supported) */
-              public var activeOnly: Bool?
+                /** An optional parameter to limit the results to active records only (Currently only the 'VariableMessageSign' place type is supported) */
+                public var activeOnly: Bool?
 
-              public var bbBoxpointsSwLat: Double
+                public var bbBoxpointsSwLat: Double
 
-              public var bbBoxpointsSwLon: Double
+                public var bbBoxpointsSwLon: Double
 
-              public var bbBoxpointsNeLat: Double
+                public var bbBoxpointsNeLat: Double
 
-              public var bbBoxpointsNeLon: Double
+                public var bbBoxpointsNeLon: Double
 
-              public init(categories: [String]? = nil, includeChildren: Bool? = nil, type: [String]? = nil, activeOnly: Bool? = nil, bbBoxpointsSwLat: Double, bbBoxpointsSwLon: Double, bbBoxpointsNeLat: Double, bbBoxpointsNeLon: Double) {
-                  self.categories = categories
-                  self.includeChildren = includeChildren
-                  self.type = type
-                  self.activeOnly = activeOnly
-                  self.bbBoxpointsSwLat = bbBoxpointsSwLat
-                  self.bbBoxpointsSwLon = bbBoxpointsSwLon
-                  self.bbBoxpointsNeLat = bbBoxpointsNeLat
-                  self.bbBoxpointsNeLon = bbBoxpointsNeLon
-              }
-          }
+                public init(categories: [String]? = nil, includeChildren: Bool? = nil, type: [String]? = nil, activeOnly: Bool? = nil, bbBoxpointsSwLat: Double, bbBoxpointsSwLon: Double, bbBoxpointsNeLat: Double, bbBoxpointsNeLon: Double) {
+                    self.categories = categories
+                    self.includeChildren = includeChildren
+                    self.type = type
+                    self.activeOnly = activeOnly
+                    self.bbBoxpointsSwLat = bbBoxpointsSwLat
+                    self.bbBoxpointsSwLon = bbBoxpointsSwLon
+                    self.bbBoxpointsNeLat = bbBoxpointsNeLat
+                    self.bbBoxpointsNeLon = bbBoxpointsNeLon
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: PlaceGetByGeoBox.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: PlaceGetByGeoBox.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(categories: [String]? = nil, includeChildren: Bool? = nil, type: [String]? = nil, activeOnly: Bool? = nil, bbBoxpointsSwLat: Double, bbBoxpointsSwLon: Double, bbBoxpointsNeLat: Double, bbBoxpointsNeLon: Double) {
-              let options = Options(categories: categories, includeChildren: includeChildren, type: type, activeOnly: activeOnly, bbBoxpointsSwLat: bbBoxpointsSwLat, bbBoxpointsSwLon: bbBoxpointsSwLon, bbBoxpointsNeLat: bbBoxpointsNeLat, bbBoxpointsNeLon: bbBoxpointsNeLon)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(categories: [String]? = nil, includeChildren: Bool? = nil, type: [String]? = nil, activeOnly: Bool? = nil, bbBoxpointsSwLat: Double, bbBoxpointsSwLon: Double, bbBoxpointsNeLat: Double, bbBoxpointsNeLon: Double) {
+                let options = Options(categories: categories, includeChildren: includeChildren, type: type, activeOnly: activeOnly, bbBoxpointsSwLat: bbBoxpointsSwLat, bbBoxpointsSwLon: bbBoxpointsSwLon, bbBoxpointsNeLat: bbBoxpointsNeLat, bbBoxpointsNeLon: bbBoxpointsNeLon)
+                self.init(options: options)
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let categories = options.categories?.joined(separator: ",") {
-                params["categories"] = categories
-              }
-              if let includeChildren = options.includeChildren {
-                params["includeChildren"] = includeChildren
-              }
-              if let type = options.type?.joined(separator: ",") {
-                params["type"] = type
-              }
-              if let activeOnly = options.activeOnly {
-                params["activeOnly"] = activeOnly
-              }
-              params["bbBoxpoints.swLat"] = options.bbBoxpointsSwLat
-              params["bbBoxpoints.swLon"] = options.bbBoxpointsSwLon
-              params["bbBoxpoints.neLat"] = options.bbBoxpointsNeLat
-              params["bbBoxpoints.neLon"] = options.bbBoxpointsNeLon
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let categories = options.categories?.joined(separator: ",") {
+                  params["categories"] = categories
+                }
+                if let includeChildren = options.includeChildren {
+                  params["includeChildren"] = includeChildren
+                }
+                if let type = options.type?.joined(separator: ",") {
+                  params["type"] = type
+                }
+                if let activeOnly = options.activeOnly {
+                  params["activeOnly"] = activeOnly
+                }
+                params["bbBoxpoints.swLat"] = options.bbBoxpointsSwLat
+                params["bbBoxpoints.swLon"] = options.bbBoxpointsSwLon
+                params["bbBoxpoints.neLat"] = options.bbBoxpointsNeLat
+                params["bbBoxpoints.neLon"] = options.bbBoxpointsNeLon
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -102,15 +102,15 @@ extension TFL.Place {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

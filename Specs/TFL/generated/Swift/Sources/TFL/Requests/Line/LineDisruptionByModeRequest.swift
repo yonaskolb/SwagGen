@@ -10,36 +10,36 @@ extension TFL.Line {
 
     public enum LineDisruptionByMode {
 
-      public static let service = APIService<Response>(id: "Line_DisruptionByMode", tag: "Line", method: "GET", path: "/Line/Mode/{modes}/Disruption", hasBody: false)
+        public static let service = APIService<Response>(id: "Line_DisruptionByMode", tag: "Line", method: "GET", path: "/Line/Mode/{modes}/Disruption", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** A comma-separated list of modes e.g. tube,dlr */
-              public var modes: [String]
+                /** A comma-separated list of modes e.g. tube,dlr */
+                public var modes: [String]
 
-              public init(modes: [String]) {
-                  self.modes = modes
-              }
-          }
+                public init(modes: [String]) {
+                    self.modes = modes
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: LineDisruptionByMode.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: LineDisruptionByMode.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(modes: [String]) {
-              let options = Options(modes: modes)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(modes: [String]) {
+                let options = Options(modes: modes)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "modes" + "}", with: "\(self.options.modes.joined(separator: ","))")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "modes" + "}", with: "\(self.options.modes.joined(separator: ","))")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -61,15 +61,15 @@ extension TFL.Line {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

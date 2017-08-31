@@ -11,25 +11,25 @@ extension Rocket.Content {
     /** Returns the details of a Plan with the specified id. */
     public enum GetPlan {
 
-      public static let service = APIService<Response>(id: "getPlan", tag: "content", method: "GET", path: "/plans/{id}", hasBody: false)
+        public static let service = APIService<Response>(id: "getPlan", tag: "content", method: "GET", path: "/plans/{id}", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The identifier of the Plan to load. */
-              public var id: String
+                /** The identifier of the Plan to load. */
+                public var id: String
 
-              /** The type of device the content is targeting. */
-              public var device: String?
+                /** The type of device the content is targeting. */
+                public var device: String?
 
-              /** The active subscription code. */
-              public var sub: String?
+                /** The active subscription code. */
+                public var sub: String?
 
-              /** The list of segments to filter the response by. */
-              public var segments: [String]?
+                /** The list of segments to filter the response by. */
+                public var segments: [String]?
 
-              /** The set of opt in feature flags which cause breaking changes to responses.
+                /** The set of opt in feature flags which cause breaking changes to responses.
 
 While Rocket APIs look to avoid breaking changes under the active major version, the formats of responses
 may need to evolve over this time.
@@ -45,50 +45,50 @@ clients as these formats evolve under the current major version.
 
 See the `feature-flags.md` for available flag details.
  */
-              public var ff: [FeatureFlags]?
+                public var ff: [FeatureFlags]?
 
-              public init(id: String, device: String? = nil, sub: String? = nil, segments: [String]? = nil, ff: [FeatureFlags]? = nil) {
-                  self.id = id
-                  self.device = device
-                  self.sub = sub
-                  self.segments = segments
-                  self.ff = ff
-              }
-          }
+                public init(id: String, device: String? = nil, sub: String? = nil, segments: [String]? = nil, ff: [FeatureFlags]? = nil) {
+                    self.id = id
+                    self.device = device
+                    self.sub = sub
+                    self.segments = segments
+                    self.ff = ff
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: GetPlan.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: GetPlan.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(id: String, device: String? = nil, sub: String? = nil, segments: [String]? = nil, ff: [FeatureFlags]? = nil) {
-              let options = Options(id: id, device: device, sub: sub, segments: segments, ff: ff)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(id: String, device: String? = nil, sub: String? = nil, segments: [String]? = nil, ff: [FeatureFlags]? = nil) {
+                let options = Options(id: id, device: device, sub: sub, segments: segments, ff: ff)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let device = options.device {
-                params["device"] = device
-              }
-              if let sub = options.sub {
-                params["sub"] = sub
-              }
-              if let segments = options.segments?.joined(separator: ",") {
-                params["segments"] = segments
-              }
-              if let ff = options.ff?.encode().map({ String(describing: $0) }).joined(separator: ",") {
-                params["ff"] = ff
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let device = options.device {
+                  params["device"] = device
+                }
+                if let sub = options.sub {
+                  params["sub"] = sub
+                }
+                if let segments = options.segments?.joined(separator: ",") {
+                  params["segments"] = segments
+                }
+                if let ff = options.ff?.encode().map({ String(describing: $0) }).joined(separator: ",") {
+                  params["ff"] = ff
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -148,23 +148,23 @@ See the `feature-flags.md` for available flag details.
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status404: return 404
-              case .status500: return 500
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status404: return 404
+                case .status500: return 500
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status404: return false
-              case .status500: return false
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status404: return false
+                case .status500: return false
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

@@ -23,20 +23,20 @@ email address. This confirmation is done via the /verify-email endpoint.
  */
     public enum Register {
 
-      public static let service = APIService<Response>(id: "register", tag: "registration", method: "POST", path: "/register", hasBody: true)
+        public static let service = APIService<Response>(id: "register", tag: "registration", method: "POST", path: "/register", hasBody: true)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public var body: RegistrationRequest
+            public var body: RegistrationRequest
 
-          public init(body: RegistrationRequest) {
-              self.body = body
-              super.init(service: Register.service)
-          }
+            public init(body: RegistrationRequest) {
+                self.body = body
+                super.init(service: Register.service)
+            }
 
-          public override var jsonBody: Any? {
-              return body.encode()
-          }
+            public override var jsonBody: Any? {
+                return body.encode()
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -106,27 +106,27 @@ email address. This confirmation is done via the /verify-email endpoint.
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status401: return 401
-              case .status403: return 403
-              case .status404: return 404
-              case .status500: return 500
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status401: return 401
+                case .status403: return 403
+                case .status404: return 404
+                case .status500: return 500
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status401: return false
-              case .status403: return false
-              case .status404: return false
-              case .status500: return false
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status401: return false
+                case .status403: return false
+                case .status404: return false
+                case .status500: return false
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

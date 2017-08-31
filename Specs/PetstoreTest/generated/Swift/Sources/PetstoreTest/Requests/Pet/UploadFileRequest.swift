@@ -10,55 +10,55 @@ extension PetstoreTest.Pet {
 
     public enum UploadFile {
 
-      public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
+        public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** ID of pet to update */
-              public var petId: Int
+                /** ID of pet to update */
+                public var petId: Int
 
-              /** Additional data to pass to server */
-              public var additionalMetadata: String?
+                /** Additional data to pass to server */
+                public var additionalMetadata: String?
 
-              /** file to upload */
-              public var file: URL?
+                /** file to upload */
+                public var file: URL?
 
-              public init(petId: Int, additionalMetadata: String? = nil, file: URL? = nil) {
-                  self.petId = petId
-                  self.additionalMetadata = additionalMetadata
-                  self.file = file
-              }
-          }
+                public init(petId: Int, additionalMetadata: String? = nil, file: URL? = nil) {
+                    self.petId = petId
+                    self.additionalMetadata = additionalMetadata
+                    self.file = file
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: UploadFile.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: UploadFile.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(petId: Int, additionalMetadata: String? = nil, file: URL? = nil) {
-              let options = Options(petId: petId, additionalMetadata: additionalMetadata, file: file)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(petId: Int, additionalMetadata: String? = nil, file: URL? = nil) {
+                let options = Options(petId: petId, additionalMetadata: additionalMetadata, file: file)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "petId" + "}", with: "\(self.options.petId)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "petId" + "}", with: "\(self.options.petId)")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let additionalMetadata = options.additionalMetadata {
-                params["additionalMetadata"] = additionalMetadata
-              }
-              if let file = options.file?.encode() {
-                params["file"] = file
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let additionalMetadata = options.additionalMetadata {
+                  params["additionalMetadata"] = additionalMetadata
+                }
+                if let file = options.file?.encode() {
+                  params["file"] = file
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -80,15 +80,15 @@ extension PetstoreTest.Pet {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

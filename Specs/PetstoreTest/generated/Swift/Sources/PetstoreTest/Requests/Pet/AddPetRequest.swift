@@ -10,20 +10,20 @@ extension PetstoreTest.Pet {
 
     public enum AddPet {
 
-      public static let service = APIService<Response>(id: "addPet", tag: "pet", method: "POST", path: "/pet", hasBody: true, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
+        public static let service = APIService<Response>(id: "addPet", tag: "pet", method: "POST", path: "/pet", hasBody: true, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public var body: Pet
+            public var body: Pet
 
-          public init(body: Pet) {
-              self.body = body
-              super.init(service: AddPet.service)
-          }
+            public init(body: Pet) {
+                self.body = body
+                super.init(service: AddPet.service)
+            }
 
-          public override var jsonBody: Any? {
-              return body.encode()
-          }
+            public override var jsonBody: Any? {
+                return body.encode()
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -45,15 +45,15 @@ extension PetstoreTest.Pet {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status405: return 405
-              }
+                switch self {
+                case .status405: return 405
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status405: return false
-              }
+                switch self {
+                case .status405: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

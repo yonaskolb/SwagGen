@@ -10,36 +10,36 @@ extension TFL.Vehicle {
 
     public enum VehicleGet {
 
-      public static let service = APIService<Response>(id: "Vehicle_Get", tag: "Vehicle", method: "GET", path: "/Vehicle/{ids}/Arrivals", hasBody: false)
+        public static let service = APIService<Response>(id: "Vehicle_Get", tag: "Vehicle", method: "GET", path: "/Vehicle/{ids}/Arrivals", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** A comma-separated list of vehicle ids e.g. LX58CFV,LX11AZB,LX58CFE. Max approx. 25 ids. */
-              public var ids: [String]
+                /** A comma-separated list of vehicle ids e.g. LX58CFV,LX11AZB,LX58CFE. Max approx. 25 ids. */
+                public var ids: [String]
 
-              public init(ids: [String]) {
-                  self.ids = ids
-              }
-          }
+                public init(ids: [String]) {
+                    self.ids = ids
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: VehicleGet.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: VehicleGet.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(ids: [String]) {
-              let options = Options(ids: ids)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(ids: [String]) {
+                let options = Options(ids: ids)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids.joined(separator: ","))")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids.joined(separator: ","))")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -61,15 +61,15 @@ extension TFL.Vehicle {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

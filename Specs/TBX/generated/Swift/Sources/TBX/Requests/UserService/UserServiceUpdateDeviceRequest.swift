@@ -10,46 +10,46 @@ extension TBX.UserService {
 
     public enum UserServiceUpdateDevice {
 
-      public static let service = APIService<Response>(id: "UserService.updateDevice", tag: "UserService", method: "PUT", path: "/UserServices/device/{device}", hasBody: true)
+        public static let service = APIService<Response>(id: "UserService.updateDevice", tag: "UserService", method: "PUT", path: "/UserServices/device/{device}", hasBody: true)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The device token */
-              public var device: String
+                /** The device token */
+                public var device: String
 
-              /** Device Description */
-              public var description: String
+                /** Device Description */
+                public var description: String
 
-              public init(device: String, description: String) {
-                  self.device = device
-                  self.description = description
-              }
-          }
+                public init(device: String, description: String) {
+                    self.device = device
+                    self.description = description
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: UserServiceUpdateDevice.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: UserServiceUpdateDevice.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(device: String, description: String) {
-              let options = Options(device: device, description: description)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(device: String, description: String) {
+                let options = Options(device: device, description: description)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "device" + "}", with: "\(self.options.device)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "device" + "}", with: "\(self.options.device)")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["description"] = options.description
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["description"] = options.description
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -109,23 +109,23 @@ extension TBX.UserService {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status401: return 401
-              case .status404: return 404
-              case .status410: return 410
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status401: return 401
+                case .status404: return 404
+                case .status410: return 410
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status401: return false
-              case .status404: return false
-              case .status410: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status401: return false
+                case .status404: return false
+                case .status410: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

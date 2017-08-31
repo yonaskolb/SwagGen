@@ -10,13 +10,13 @@ extension Petstore.Pets {
 
     public enum CreatePets {
 
-      public static let service = APIService<Response>(id: "createPets", tag: "pets", method: "POST", path: "/pets", hasBody: false, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
+        public static let service = APIService<Response>(id: "createPets", tag: "pets", method: "POST", path: "/pets", hasBody: false, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public init() {
-              super.init(service: CreatePets.service)
-          }
+            public init() {
+                super.init(service: CreatePets.service)
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -61,17 +61,17 @@ extension Petstore.Pets {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status201: return 201
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status201: return 201
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status201: return true
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status201: return true
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

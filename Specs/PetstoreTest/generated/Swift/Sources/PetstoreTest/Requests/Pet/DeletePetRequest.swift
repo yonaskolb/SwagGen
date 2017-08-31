@@ -10,39 +10,39 @@ extension PetstoreTest.Pet {
 
     public enum DeletePet {
 
-      public static let service = APIService<Response>(id: "deletePet", tag: "pet", method: "DELETE", path: "/pet/{petId}", hasBody: false, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
+        public static let service = APIService<Response>(id: "deletePet", tag: "pet", method: "DELETE", path: "/pet/{petId}", hasBody: false, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              public var apiKey: String?
+                public var apiKey: String?
 
-              /** Pet id to delete */
-              public var petId: Int
+                /** Pet id to delete */
+                public var petId: Int
 
-              public init(apiKey: String? = nil, petId: Int) {
-                  self.apiKey = apiKey
-                  self.petId = petId
-              }
-          }
+                public init(apiKey: String? = nil, petId: Int) {
+                    self.apiKey = apiKey
+                    self.petId = petId
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: DeletePet.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: DeletePet.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(apiKey: String? = nil, petId: Int) {
-              let options = Options(apiKey: apiKey, petId: petId)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(apiKey: String? = nil, petId: Int) {
+                let options = Options(apiKey: apiKey, petId: petId)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "petId" + "}", with: "\(self.options.petId)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "petId" + "}", with: "\(self.options.petId)")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -64,15 +64,15 @@ extension PetstoreTest.Pet {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status400: return 400
-              }
+                switch self {
+                case .status400: return 400
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status400: return false
-              }
+                switch self {
+                case .status400: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

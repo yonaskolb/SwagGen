@@ -11,36 +11,36 @@ extension PetstoreTest.Pet {
     /** Returns a single pet */
     public enum GetPetById {
 
-      public static let service = APIService<Response>(id: "getPetById", tag: "pet", method: "GET", path: "/pet/{petId}", hasBody: false, authorization: Authorization(type: "api_key", scope: ""))
+        public static let service = APIService<Response>(id: "getPetById", tag: "pet", method: "GET", path: "/pet/{petId}", hasBody: false, authorization: Authorization(type: "api_key", scope: ""))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** ID of pet to return */
-              public var petId: Int
+                /** ID of pet to return */
+                public var petId: Int
 
-              public init(petId: Int) {
-                  self.petId = petId
-              }
-          }
+                public init(petId: Int) {
+                    self.petId = petId
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: GetPetById.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: GetPetById.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(petId: Int) {
-              let options = Options(petId: petId)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(petId: Int) {
+                let options = Options(petId: petId)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "petId" + "}", with: "\(self.options.petId)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "petId" + "}", with: "\(self.options.petId)")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -70,19 +70,19 @@ extension PetstoreTest.Pet {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status404: return 404
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status404: return 404
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status404: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status404: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

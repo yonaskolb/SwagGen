@@ -14,20 +14,20 @@ This supports partial updates so you can send just the properties you wish to up
  */
     public enum UpdateAccount {
 
-      public static let service = APIService<Response>(id: "updateAccount", tag: "account", method: "PATCH", path: "/account", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Settings"))
+        public static let service = APIService<Response>(id: "updateAccount", tag: "account", method: "PATCH", path: "/account", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Settings"))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public var body: AccountUpdateRequest
+            public var body: AccountUpdateRequest
 
-          public init(body: AccountUpdateRequest) {
-              self.body = body
-              super.init(service: UpdateAccount.service)
-          }
+            public init(body: AccountUpdateRequest) {
+                self.body = body
+                super.init(service: UpdateAccount.service)
+            }
 
-          public override var jsonBody: Any? {
-              return body.encode()
-          }
+            public override var jsonBody: Any? {
+                return body.encode()
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -97,27 +97,27 @@ This supports partial updates so you can send just the properties you wish to up
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status204: return 204
-              case .status400: return 400
-              case .status401: return 401
-              case .status403: return 403
-              case .status404: return 404
-              case .status500: return 500
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status204: return 204
+                case .status400: return 400
+                case .status401: return 401
+                case .status403: return 403
+                case .status404: return 404
+                case .status500: return 500
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status204: return true
-              case .status400: return false
-              case .status401: return false
-              case .status403: return false
-              case .status404: return false
-              case .status500: return false
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status204: return true
+                case .status400: return false
+                case .status401: return false
+                case .status403: return false
+                case .status404: return false
+                case .status500: return false
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

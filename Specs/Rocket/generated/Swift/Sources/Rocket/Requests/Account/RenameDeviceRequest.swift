@@ -11,46 +11,46 @@ extension Rocket.Account {
     /** Rename a device */
     public enum RenameDevice {
 
-      public static let service = APIService<Response>(id: "renameDevice", tag: "account", method: "PUT", path: "/account/devices/{id}/name", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "renameDevice", tag: "account", method: "PUT", path: "/account/devices/{id}/name", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The unique identifier for this registered device e.g. serial number. */
-              public var id: String
+                /** The unique identifier for this registered device e.g. serial number. */
+                public var id: String
 
-              /** The new name for the device. */
-              public var name: String
+                /** The new name for the device. */
+                public var name: String
 
-              public init(id: String, name: String) {
-                  self.id = id
-                  self.name = name
-              }
-          }
+                public init(id: String, name: String) {
+                    self.id = id
+                    self.name = name
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: RenameDevice.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: RenameDevice.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(id: String, name: String) {
-              let options = Options(id: id, name: name)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(id: String, name: String) {
+                let options = Options(id: id, name: name)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["name"] = options.name
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["name"] = options.name
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -120,27 +120,27 @@ extension Rocket.Account {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status204: return 204
-              case .status400: return 400
-              case .status401: return 401
-              case .status403: return 403
-              case .status404: return 404
-              case .status500: return 500
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status204: return 204
+                case .status400: return 400
+                case .status401: return 401
+                case .status403: return 403
+                case .status404: return 404
+                case .status500: return 500
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status204: return true
-              case .status400: return false
-              case .status401: return false
-              case .status403: return false
-              case .status404: return false
-              case .status500: return false
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status204: return true
+                case .status400: return false
+                case .status401: return false
+                case .status403: return false
+                case .status404: return false
+                case .status500: return false
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

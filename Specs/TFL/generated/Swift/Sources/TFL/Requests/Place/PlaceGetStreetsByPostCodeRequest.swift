@@ -10,43 +10,43 @@ extension TFL.Place {
 
     public enum PlaceGetStreetsByPostCode {
 
-      public static let service = APIService<Response>(id: "Place_GetStreetsByPostCode", tag: "Place", method: "GET", path: "/Place/Address/Streets/{Postcode}", hasBody: false)
+        public static let service = APIService<Response>(id: "Place_GetStreetsByPostCode", tag: "Place", method: "GET", path: "/Place/Address/Streets/{Postcode}", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              public var postcode: String
+                public var postcode: String
 
-              public var postcodeInputPostcode: String?
+                public var postcodeInputPostcode: String?
 
-              public init(postcode: String, postcodeInputPostcode: String? = nil) {
-                  self.postcode = postcode
-                  self.postcodeInputPostcode = postcodeInputPostcode
-              }
-          }
+                public init(postcode: String, postcodeInputPostcode: String? = nil) {
+                    self.postcode = postcode
+                    self.postcodeInputPostcode = postcodeInputPostcode
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: PlaceGetStreetsByPostCode.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: PlaceGetStreetsByPostCode.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(postcode: String, postcodeInputPostcode: String? = nil) {
-              let options = Options(postcode: postcode, postcodeInputPostcode: postcodeInputPostcode)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(postcode: String, postcodeInputPostcode: String? = nil) {
+                let options = Options(postcode: postcode, postcodeInputPostcode: postcodeInputPostcode)
+                self.init(options: options)
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["postcode"] = options.postcode
-              if let postcodeInputPostcode = options.postcodeInputPostcode {
-                params["postcodeInput.postcode"] = postcodeInputPostcode
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["postcode"] = options.postcode
+                if let postcodeInputPostcode = options.postcodeInputPostcode {
+                  params["postcodeInput.postcode"] = postcodeInputPostcode
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -68,15 +68,15 @@ extension TFL.Place {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

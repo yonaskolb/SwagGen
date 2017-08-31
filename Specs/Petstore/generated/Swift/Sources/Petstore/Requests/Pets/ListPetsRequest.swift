@@ -10,40 +10,40 @@ extension Petstore.Pets {
 
     public enum ListPets {
 
-      public static let service = APIService<Response>(id: "listPets", tag: "pets", method: "GET", path: "/pets", hasBody: false)
+        public static let service = APIService<Response>(id: "listPets", tag: "pets", method: "GET", path: "/pets", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** How many items to return at one time (max 100) */
-              public var limit: Int?
+                /** How many items to return at one time (max 100) */
+                public var limit: Int?
 
-              public init(limit: Int? = nil) {
-                  self.limit = limit
-              }
-          }
+                public init(limit: Int? = nil) {
+                    self.limit = limit
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: ListPets.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: ListPets.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(limit: Int? = nil) {
-              let options = Options(limit: limit)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(limit: Int? = nil) {
+                let options = Options(limit: limit)
+                self.init(options: options)
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let limit = options.limit {
-                params["limit"] = limit
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let limit = options.limit {
+                  params["limit"] = limit
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -88,17 +88,17 @@ extension Petstore.Pets {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status200: return 200
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status200: return true
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

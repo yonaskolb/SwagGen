@@ -11,20 +11,20 @@ extension PetstoreTest.Fake {
     /** To test "client" model */
     public enum TestClientModel {
 
-      public static let service = APIService<Response>(id: "testClientModel", tag: "fake", method: "PATCH", path: "/fake", hasBody: true)
+        public static let service = APIService<Response>(id: "testClientModel", tag: "fake", method: "PATCH", path: "/fake", hasBody: true)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public var body: Client
+            public var body: Client
 
-          public init(body: Client) {
-              self.body = body
-              super.init(service: TestClientModel.service)
-          }
+            public init(body: Client) {
+                self.body = body
+                super.init(service: TestClientModel.service)
+            }
 
-          public override var jsonBody: Any? {
-              return body.encode()
-          }
+            public override var jsonBody: Any? {
+                return body.encode()
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -46,15 +46,15 @@ extension PetstoreTest.Fake {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

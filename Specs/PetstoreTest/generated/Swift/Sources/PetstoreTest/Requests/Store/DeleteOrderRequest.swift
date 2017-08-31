@@ -11,36 +11,36 @@ extension PetstoreTest.Store {
     /** For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors */
     public enum DeleteOrder {
 
-      public static let service = APIService<Response>(id: "deleteOrder", tag: "store", method: "DELETE", path: "/store/order/{order_id}", hasBody: false)
+        public static let service = APIService<Response>(id: "deleteOrder", tag: "store", method: "DELETE", path: "/store/order/{order_id}", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** ID of the order that needs to be deleted */
-              public var orderId: String
+                /** ID of the order that needs to be deleted */
+                public var orderId: String
 
-              public init(orderId: String) {
-                  self.orderId = orderId
-              }
-          }
+                public init(orderId: String) {
+                    self.orderId = orderId
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: DeleteOrder.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: DeleteOrder.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(orderId: String) {
-              let options = Options(orderId: orderId)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(orderId: String) {
+                let options = Options(orderId: orderId)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "orderId" + "}", with: "\(self.options.orderId)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "orderId" + "}", with: "\(self.options.orderId)")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -65,17 +65,17 @@ extension PetstoreTest.Store {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status400: return 400
-              case .status404: return 404
-              }
+                switch self {
+                case .status400: return 400
+                case .status404: return 404
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status400: return false
-              case .status404: return false
-              }
+                switch self {
+                case .status400: return false
+                case .status404: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

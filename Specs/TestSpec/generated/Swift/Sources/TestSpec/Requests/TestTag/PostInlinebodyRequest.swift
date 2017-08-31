@@ -11,20 +11,20 @@ extension TestSpec.TestTag {
     /** operation with an inline body */
     public enum PostInlinebody {
 
-      public static let service = APIService<Response>(id: "postInlinebody", tag: "TestTag", method: "POST", path: "/inlinebody", hasBody: true)
+        public static let service = APIService<Response>(id: "postInlinebody", tag: "TestTag", method: "POST", path: "/inlinebody", hasBody: true)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public var item: [String: Any]
+            public var item: [String: Any]
 
-          public init(item: [String: Any]) {
-              self.item = item
-              super.init(service: PostInlinebody.service)
-          }
+            public init(item: [String: Any]) {
+                self.item = item
+                super.init(service: PostInlinebody.service)
+            }
 
-          public override var jsonBody: Any? {
-              return item
-          }
+            public override var jsonBody: Any? {
+                return item
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -46,15 +46,15 @@ extension TestSpec.TestTag {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status201: return 201
-              }
+                switch self {
+                case .status201: return 201
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status201: return true
-              }
+                switch self {
+                case .status201: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

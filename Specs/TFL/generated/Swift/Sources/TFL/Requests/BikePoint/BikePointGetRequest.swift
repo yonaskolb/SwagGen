@@ -10,36 +10,36 @@ extension TFL.BikePoint {
 
     public enum BikePointGet {
 
-      public static let service = APIService<Response>(id: "BikePoint_Get", tag: "BikePoint", method: "GET", path: "/BikePoint/{id}", hasBody: false)
+        public static let service = APIService<Response>(id: "BikePoint_Get", tag: "BikePoint", method: "GET", path: "/BikePoint/{id}", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** A bike point id (a list of ids can be obtained from the above BikePoint call) */
-              public var id: String
+                /** A bike point id (a list of ids can be obtained from the above BikePoint call) */
+                public var id: String
 
-              public init(id: String) {
-                  self.id = id
-              }
-          }
+                public init(id: String) {
+                    self.id = id
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: BikePointGet.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: BikePointGet.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(id: String) {
-              let options = Options(id: id)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(id: String) {
+                let options = Options(id: id)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -61,15 +61,15 @@ extension TFL.BikePoint {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

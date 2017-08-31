@@ -16,46 +16,46 @@ Creates one if it doesn't exist, overwrites one if it does.
  */
     public enum SetItemWatchedStatus {
 
-      public static let service = APIService<Response>(id: "setItemWatchedStatus", tag: "profile", method: "PUT", path: "/account/profile/watched/{itemId}", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "setItemWatchedStatus", tag: "profile", method: "PUT", path: "/account/profile/watched/{itemId}", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The id of the item being watched. */
-              public var itemId: String
+                /** The id of the item being watched. */
+                public var itemId: String
 
-              /** The playhead position to record. */
-              public var position: Int
+                /** The playhead position to record. */
+                public var position: Int
 
-              public init(itemId: String, position: Int) {
-                  self.itemId = itemId
-                  self.position = position
-              }
-          }
+                public init(itemId: String, position: Int) {
+                    self.itemId = itemId
+                    self.position = position
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: SetItemWatchedStatus.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: SetItemWatchedStatus.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(itemId: String, position: Int) {
-              let options = Options(itemId: itemId, position: position)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(itemId: String, position: Int) {
+                let options = Options(itemId: itemId, position: position)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "itemId" + "}", with: "\(self.options.itemId)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "itemId" + "}", with: "\(self.options.itemId)")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["position"] = options.position
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["position"] = options.position
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -125,27 +125,27 @@ Creates one if it doesn't exist, overwrites one if it does.
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status401: return 401
-              case .status403: return 403
-              case .status404: return 404
-              case .status500: return 500
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status401: return 401
+                case .status403: return 403
+                case .status404: return 404
+                case .status500: return 500
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status401: return false
-              case .status403: return false
-              case .status404: return false
-              case .status500: return false
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status401: return false
+                case .status403: return false
+                case .status404: return false
+                case .status500: return false
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

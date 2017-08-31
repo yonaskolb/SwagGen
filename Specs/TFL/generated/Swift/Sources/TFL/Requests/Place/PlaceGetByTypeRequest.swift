@@ -10,49 +10,49 @@ extension TFL.Place {
 
     public enum PlaceGetByType {
 
-      public static let service = APIService<Response>(id: "Place_GetByType", tag: "Place", method: "GET", path: "/Place/Type/{types}", hasBody: false)
+        public static let service = APIService<Response>(id: "Place_GetByType", tag: "Place", method: "GET", path: "/Place/Type/{types}", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** A comma-separated list of the types to return. Max. approx 12 types.
+                /** A comma-separated list of the types to return. Max. approx 12 types.
             A valid list of place types can be obtained from the /Place/Meta/placeTypes endpoint. */
-              public var types: [String]
+                public var types: [String]
 
-              /** An optional parameter to limit the results to active records only (Currently only the 'VariableMessageSign' place type is supported) */
-              public var activeOnly: Bool?
+                /** An optional parameter to limit the results to active records only (Currently only the 'VariableMessageSign' place type is supported) */
+                public var activeOnly: Bool?
 
-              public init(types: [String], activeOnly: Bool? = nil) {
-                  self.types = types
-                  self.activeOnly = activeOnly
-              }
-          }
+                public init(types: [String], activeOnly: Bool? = nil) {
+                    self.types = types
+                    self.activeOnly = activeOnly
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: PlaceGetByType.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: PlaceGetByType.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(types: [String], activeOnly: Bool? = nil) {
-              let options = Options(types: types, activeOnly: activeOnly)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(types: [String], activeOnly: Bool? = nil) {
+                let options = Options(types: types, activeOnly: activeOnly)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "types" + "}", with: "\(self.options.types.joined(separator: ","))")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "types" + "}", with: "\(self.options.types.joined(separator: ","))")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let activeOnly = options.activeOnly {
-                params["activeOnly"] = activeOnly
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let activeOnly = options.activeOnly {
+                  params["activeOnly"] = activeOnly
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -74,15 +74,15 @@ extension TFL.Place {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

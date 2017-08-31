@@ -10,60 +10,60 @@ extension TBX.UserService {
 
     public enum UserServiceCreateDevice {
 
-      public static let service = APIService<Response>(id: "UserService.createDevice", tag: "UserService", method: "POST", path: "/UserServices/device", hasBody: true)
+        public static let service = APIService<Response>(id: "UserService.createDevice", tag: "UserService", method: "POST", path: "/UserServices/device", hasBody: true)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The customer subscriber id */
-              public var subscriberId: String
+                /** The customer subscriber id */
+                public var subscriberId: String
 
-              /** The customer country code */
-              public var country: String
+                /** The customer country code */
+                public var country: String
 
-              /** Device Type */
-              public var type: String
+                /** Device Type */
+                public var type: String
 
-              /** Description to device for example the user agent */
-              public var description: String
+                /** Description to device for example the user agent */
+                public var description: String
 
-              /** Extra data to device */
-              public var attributes: String?
+                /** Extra data to device */
+                public var attributes: String?
 
-              public init(subscriberId: String, country: String, type: String, description: String, attributes: String? = nil) {
-                  self.subscriberId = subscriberId
-                  self.country = country
-                  self.type = type
-                  self.description = description
-                  self.attributes = attributes
-              }
-          }
+                public init(subscriberId: String, country: String, type: String, description: String, attributes: String? = nil) {
+                    self.subscriberId = subscriberId
+                    self.country = country
+                    self.type = type
+                    self.description = description
+                    self.attributes = attributes
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: UserServiceCreateDevice.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: UserServiceCreateDevice.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(subscriberId: String, country: String, type: String, description: String, attributes: String? = nil) {
-              let options = Options(subscriberId: subscriberId, country: country, type: type, description: description, attributes: attributes)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(subscriberId: String, country: String, type: String, description: String, attributes: String? = nil) {
+                let options = Options(subscriberId: subscriberId, country: country, type: type, description: description, attributes: attributes)
+                self.init(options: options)
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["subscriberId"] = options.subscriberId
-              params["country"] = options.country
-              params["type"] = options.type
-              params["description"] = options.description
-              if let attributes = options.attributes {
-                params["attributes"] = attributes
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["subscriberId"] = options.subscriberId
+                params["country"] = options.country
+                params["type"] = options.type
+                params["description"] = options.description
+                if let attributes = options.attributes {
+                  params["attributes"] = attributes
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -123,23 +123,23 @@ extension TBX.UserService {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status401: return 401
-              case .status404: return 404
-              case .status410: return 410
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status401: return 401
+                case .status404: return 404
+                case .status410: return 410
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status401: return false
-              case .status404: return false
-              case .status410: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status401: return false
+                case .status404: return false
+                case .status410: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

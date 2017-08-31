@@ -10,45 +10,45 @@ extension TBX.Auth {
 
     public enum AuthOauth2Assert {
 
-      public static let service = APIService<Response>(id: "auth.oauth2Assert", tag: "auth", method: "GET", path: "/auth/oauth2/assert", hasBody: false)
+        public static let service = APIService<Response>(id: "auth.oauth2Assert", tag: "auth", method: "GET", path: "/auth/oauth2/assert", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              public var code: String?
+                public var code: String?
 
-              public var state: String?
+                public var state: String?
 
-              public init(code: String? = nil, state: String? = nil) {
-                  self.code = code
-                  self.state = state
-              }
-          }
+                public init(code: String? = nil, state: String? = nil) {
+                    self.code = code
+                    self.state = state
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: AuthOauth2Assert.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: AuthOauth2Assert.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(code: String? = nil, state: String? = nil) {
-              let options = Options(code: code, state: state)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(code: String? = nil, state: String? = nil) {
+                let options = Options(code: code, state: state)
+                self.init(options: options)
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let code = options.code {
-                params["code"] = code
-              }
-              if let state = options.state {
-                params["state"] = state
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let code = options.code {
+                  params["code"] = code
+                }
+                if let state = options.state {
+                  params["state"] = state
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -70,15 +70,15 @@ extension TBX.Auth {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

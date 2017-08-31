@@ -10,46 +10,46 @@ extension TFL.Line {
 
     public enum GetLineArrivals {
 
-      public static let service = APIService<Response>(id: "getLineArrivals", tag: "Line", method: "GET", path: "/Line/{ids}/Arrivals", hasBody: false)
+        public static let service = APIService<Response>(id: "getLineArrivals", tag: "Line", method: "GET", path: "/Line/{ids}/Arrivals", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** Id of stop to get arrival predictions for (station naptan code e.g. 940GZZLUASL, you can use /StopPoint/Search/{query} endpoint to find a stop point id from a station name) */
-              public var stopPointId: String
+                /** Id of stop to get arrival predictions for (station naptan code e.g. 940GZZLUASL, you can use /StopPoint/Search/{query} endpoint to find a stop point id from a station name) */
+                public var stopPointId: String
 
-              /** A comma-separated list of line ids e.g. victoria,circle,N133. Max. approx. 20 ids. */
-              public var ids: [String]
+                /** A comma-separated list of line ids e.g. victoria,circle,N133. Max. approx. 20 ids. */
+                public var ids: [String]
 
-              public init(stopPointId: String, ids: [String]) {
-                  self.stopPointId = stopPointId
-                  self.ids = ids
-              }
-          }
+                public init(stopPointId: String, ids: [String]) {
+                    self.stopPointId = stopPointId
+                    self.ids = ids
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: GetLineArrivals.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: GetLineArrivals.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(stopPointId: String, ids: [String]) {
-              let options = Options(stopPointId: stopPointId, ids: ids)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(stopPointId: String, ids: [String]) {
+                let options = Options(stopPointId: stopPointId, ids: ids)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids.joined(separator: ","))")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids.joined(separator: ","))")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["stopPointId"] = options.stopPointId
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["stopPointId"] = options.stopPointId
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -71,15 +71,15 @@ extension TFL.Line {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

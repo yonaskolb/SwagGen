@@ -10,36 +10,36 @@ extension TBX.AuthorizationService {
 
     public enum AuthorizationServiceDeleteRuleToOverrideResponse {
 
-      public static let service = APIService<Response>(id: "AuthorizationService.deleteRuleToOverrideResponse", tag: "AuthorizationService", method: "DELETE", path: "/AuthorizationServices/overrideRule/{ruleId}", hasBody: false)
+        public static let service = APIService<Response>(id: "AuthorizationService.deleteRuleToOverrideResponse", tag: "AuthorizationService", method: "DELETE", path: "/AuthorizationServices/overrideRule/{ruleId}", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The Rule ID */
-              public var ruleId: String
+                /** The Rule ID */
+                public var ruleId: String
 
-              public init(ruleId: String) {
-                  self.ruleId = ruleId
-              }
-          }
+                public init(ruleId: String) {
+                    self.ruleId = ruleId
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: AuthorizationServiceDeleteRuleToOverrideResponse.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: AuthorizationServiceDeleteRuleToOverrideResponse.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(ruleId: String) {
-              let options = Options(ruleId: ruleId)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(ruleId: String) {
+                let options = Options(ruleId: ruleId)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "ruleId" + "}", with: "\(self.options.ruleId)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "ruleId" + "}", with: "\(self.options.ruleId)")
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -99,23 +99,23 @@ extension TBX.AuthorizationService {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              case .status400: return 400
-              case .status401: return 401
-              case .status404: return 404
-              case .status410: return 410
-              }
+                switch self {
+                case .status200: return 200
+                case .status400: return 400
+                case .status401: return 401
+                case .status404: return 404
+                case .status410: return 410
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              case .status400: return false
-              case .status401: return false
-              case .status404: return false
-              case .status410: return false
-              }
+                switch self {
+                case .status200: return true
+                case .status400: return false
+                case .status401: return false
+                case .status404: return false
+                case .status410: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

@@ -10,13 +10,13 @@ extension TFL.StopPoint {
 
     public enum StopPointMetaCategories {
 
-      public static let service = APIService<Response>(id: "StopPoint_MetaCategories", tag: "StopPoint", method: "GET", path: "/StopPoint/Meta/Categories", hasBody: false)
+        public static let service = APIService<Response>(id: "StopPoint_MetaCategories", tag: "StopPoint", method: "GET", path: "/StopPoint/Meta/Categories", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public init() {
-              super.init(service: StopPointMetaCategories.service)
-          }
+            public init() {
+                super.init(service: StopPointMetaCategories.service)
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -38,15 +38,15 @@ extension TFL.StopPoint {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

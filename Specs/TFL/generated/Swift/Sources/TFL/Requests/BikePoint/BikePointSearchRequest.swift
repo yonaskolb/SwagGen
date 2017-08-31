@@ -10,38 +10,38 @@ extension TFL.BikePoint {
 
     public enum BikePointSearch {
 
-      public static let service = APIService<Response>(id: "BikePoint_Search", tag: "BikePoint", method: "GET", path: "/BikePoint/Search", hasBody: false)
+        public static let service = APIService<Response>(id: "BikePoint_Search", tag: "BikePoint", method: "GET", path: "/BikePoint/Search", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The search term e.g. "St. James" */
-              public var query: String
+                /** The search term e.g. "St. James" */
+                public var query: String
 
-              public init(query: String) {
-                  self.query = query
-              }
-          }
+                public init(query: String) {
+                    self.query = query
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: BikePointSearch.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: BikePointSearch.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(query: String) {
-              let options = Options(query: query)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(query: String) {
+                let options = Options(query: query)
+                self.init(options: options)
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              params["query"] = options.query
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                params["query"] = options.query
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -63,15 +63,15 @@ extension TFL.BikePoint {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

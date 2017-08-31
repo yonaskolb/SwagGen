@@ -14,43 +14,43 @@ This supports partial updates so you can send just the properties you wish to up
  */
     public enum UpdateProfileWithId {
 
-      public static let service = APIService<Response>(id: "updateProfileWithId", tag: "account", method: "PATCH", path: "/account/profiles/{id}", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "updateProfileWithId", tag: "account", method: "PATCH", path: "/account/profiles/{id}", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** The identifier of the profile to update. */
-              public var id: String
+                /** The identifier of the profile to update. */
+                public var id: String
 
-              public init(id: String) {
-                  self.id = id
-              }
-          }
+                public init(id: String) {
+                    self.id = id
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public var body: ProfileUpdateRequest
+            public var body: ProfileUpdateRequest
 
-          public init(body: ProfileUpdateRequest, options: Options) {
-              self.body = body
-              self.options = options
-              super.init(service: UpdateProfileWithId.service)
-          }
+            public init(body: ProfileUpdateRequest, options: Options) {
+                self.body = body
+                self.options = options
+                super.init(service: UpdateProfileWithId.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(id: String, body: ProfileUpdateRequest) {
-              let options = Options(id: id)
-              self.init(body: body, options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(id: String, body: ProfileUpdateRequest) {
+                let options = Options(id: id)
+                self.init(body: body, options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)")
+            }
 
-          public override var jsonBody: Any? {
-              return body.encode()
-          }
+            public override var jsonBody: Any? {
+                return body.encode()
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -120,27 +120,27 @@ This supports partial updates so you can send just the properties you wish to up
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status204: return 204
-              case .status400: return 400
-              case .status401: return 401
-              case .status403: return 403
-              case .status404: return 404
-              case .status500: return 500
-              case .defaultResponse(let statusCode, _): return statusCode
-              }
+                switch self {
+                case .status204: return 204
+                case .status400: return 400
+                case .status401: return 401
+                case .status403: return 403
+                case .status404: return 404
+                case .status500: return 500
+                case .defaultResponse(let statusCode, _): return statusCode
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status204: return true
-              case .status400: return false
-              case .status401: return false
-              case .status403: return false
-              case .status404: return false
-              case .status500: return false
-              case .defaultResponse: return false
-              }
+                switch self {
+                case .status204: return true
+                case .status400: return false
+                case .status401: return false
+                case .status403: return false
+                case .status404: return false
+                case .status500: return false
+                case .defaultResponse: return false
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

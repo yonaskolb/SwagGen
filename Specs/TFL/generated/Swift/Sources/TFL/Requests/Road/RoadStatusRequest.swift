@@ -10,53 +10,53 @@ extension TFL.Road {
 
     public enum RoadStatus {
 
-      public static let service = APIService<Response>(id: "Road_Status", tag: "Road", method: "GET", path: "/Road/{ids}/Status", hasBody: false)
+        public static let service = APIService<Response>(id: "Road_Status", tag: "Road", method: "GET", path: "/Road/{ids}/Status", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public struct Options {
+            public struct Options {
 
-              /** Comma-separated list of road identifiers e.g. "A406, A2" or use "all" to ignore id filter (a full list of supported road identifiers can be found at the /Road/ endpoint) */
-              public var ids: [String]
+                /** Comma-separated list of road identifiers e.g. "A406, A2" or use "all" to ignore id filter (a full list of supported road identifiers can be found at the /Road/ endpoint) */
+                public var ids: [String]
 
-              public var dateRangeNullableStartDate: Date?
+                public var dateRangeNullableStartDate: Date?
 
-              public var dateRangeNullableEndDate: Date?
+                public var dateRangeNullableEndDate: Date?
 
-              public init(ids: [String], dateRangeNullableStartDate: Date? = nil, dateRangeNullableEndDate: Date? = nil) {
-                  self.ids = ids
-                  self.dateRangeNullableStartDate = dateRangeNullableStartDate
-                  self.dateRangeNullableEndDate = dateRangeNullableEndDate
-              }
-          }
+                public init(ids: [String], dateRangeNullableStartDate: Date? = nil, dateRangeNullableEndDate: Date? = nil) {
+                    self.ids = ids
+                    self.dateRangeNullableStartDate = dateRangeNullableStartDate
+                    self.dateRangeNullableEndDate = dateRangeNullableEndDate
+                }
+            }
 
-          public var options: Options
+            public var options: Options
 
-          public init(options: Options) {
-              self.options = options
-              super.init(service: RoadStatus.service)
-          }
+            public init(options: Options) {
+                self.options = options
+                super.init(service: RoadStatus.service)
+            }
 
-          /// convenience initialiser so an Option doesn't have to be created
-          public convenience init(ids: [String], dateRangeNullableStartDate: Date? = nil, dateRangeNullableEndDate: Date? = nil) {
-              let options = Options(ids: ids, dateRangeNullableStartDate: dateRangeNullableStartDate, dateRangeNullableEndDate: dateRangeNullableEndDate)
-              self.init(options: options)
-          }
+            /// convenience initialiser so an Option doesn't have to be created
+            public convenience init(ids: [String], dateRangeNullableStartDate: Date? = nil, dateRangeNullableEndDate: Date? = nil) {
+                let options = Options(ids: ids, dateRangeNullableStartDate: dateRangeNullableStartDate, dateRangeNullableEndDate: dateRangeNullableEndDate)
+                self.init(options: options)
+            }
 
-          public override var path: String {
-              return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids.joined(separator: ","))")
-          }
+            public override var path: String {
+                return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids.joined(separator: ","))")
+            }
 
-          public override var parameters: [String: Any] {
-              var params: JSONDictionary = [:]
-              if let dateRangeNullableStartDate = options.dateRangeNullableStartDate?.encode() {
-                params["dateRangeNullable.startDate"] = dateRangeNullableStartDate
-              }
-              if let dateRangeNullableEndDate = options.dateRangeNullableEndDate?.encode() {
-                params["dateRangeNullable.endDate"] = dateRangeNullableEndDate
-              }
-              return params
-          }
+            public override var parameters: [String: Any] {
+                var params: JSONDictionary = [:]
+                if let dateRangeNullableStartDate = options.dateRangeNullableStartDate?.encode() {
+                  params["dateRangeNullable.startDate"] = dateRangeNullableStartDate
+                }
+                if let dateRangeNullableEndDate = options.dateRangeNullableEndDate?.encode() {
+                  params["dateRangeNullable.endDate"] = dateRangeNullableEndDate
+                }
+                return params
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -78,15 +78,15 @@ extension TFL.Road {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

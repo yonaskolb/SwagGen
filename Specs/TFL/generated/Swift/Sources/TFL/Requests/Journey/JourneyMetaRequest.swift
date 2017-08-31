@@ -10,13 +10,13 @@ extension TFL.Journey {
 
     public enum JourneyMeta {
 
-      public static let service = APIService<Response>(id: "Journey_Meta", tag: "Journey", method: "GET", path: "/Journey/Meta/Modes", hasBody: false)
+        public static let service = APIService<Response>(id: "Journey_Meta", tag: "Journey", method: "GET", path: "/Journey/Meta/Modes", hasBody: false)
 
-      public final class Request: APIRequest<Response> {
+        public final class Request: APIRequest<Response> {
 
-          public init() {
-              super.init(service: JourneyMeta.service)
-          }
+            public init() {
+                super.init(service: JourneyMeta.service)
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
@@ -38,15 +38,15 @@ extension TFL.Journey {
             }
 
             public var statusCode: Int {
-              switch self {
-              case .status200: return 200
-              }
+                switch self {
+                case .status200: return 200
+                }
             }
 
             public var successful: Bool {
-              switch self {
-              case .status200: return true
-              }
+                switch self {
+                case .status200: return true
+                }
             }
 
             public init(statusCode: Int, data: Data) throws {

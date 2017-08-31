@@ -75,23 +75,26 @@ public class Generator {
         }
 
         public func changedFilesDescription(includeModifiedContent: Bool) -> String {
-            var string = ""
+            var changes: [String] = []
             if !createdFiles.isEmpty {
-                string += "Created:\n  " + createdFiles.map { $0.path.description }.joined(separator: "\n  ")
+                let string = "Created:\n  " + createdFiles.map { $0.path.description }.joined(separator: "\n  ")
+                changes.append(string)
             }
             if !modifiedFiles.isEmpty {
-                string += "Modified:\n  " + modifiedFiles.map { file in
+                let string = "Modified:\n  " + modifiedFiles.map { file in
                     var string = file.path.description
                     if let previousContent = file.previousContent, includeModifiedContent, let diff = String.getFirstDifferentLine(previousContent, file.content) {
                         string += "\n  Diff at line \(diff.line):\n  \"\(diff.string1)\"\n  \"\(diff.string2)\"\n"
                     }
                     return string
                     }.joined(separator: "\n  ")
+                changes.append(string)
             }
             if !removedFiles.isEmpty {
-                string += "Removed:\n  " + removedFiles.map { $0.description }.joined(separator: "\n  ")
+                let string = "Removed:\n  " + removedFiles.map { $0.description }.joined(separator: "\n  ")
+                changes.append(string)
             }
-            return string
+            return changes.joined(separator: "\n\n")
         }
     }
 

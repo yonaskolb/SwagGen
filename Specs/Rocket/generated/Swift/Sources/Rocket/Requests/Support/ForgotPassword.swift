@@ -63,7 +63,7 @@ endpoint here, along with the password reset token provided in the original link
 
             public var success: Void? {
                 switch self {
-                case .status204(let response): return response
+                case .status204: return ()
                 default: return nil
                 }
             }

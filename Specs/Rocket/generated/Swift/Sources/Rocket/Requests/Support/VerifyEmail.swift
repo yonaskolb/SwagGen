@@ -55,7 +55,7 @@ may need to request a new verification email be sent. This can be done via the e
 
             public var success: Void? {
                 switch self {
-                case .status204(let response): return response
+                case .status204: return ()
                 default: return nil
                 }
             }

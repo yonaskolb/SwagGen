@@ -53,7 +53,7 @@ extension Rocket.Account {
 
             public var success: Void? {
                 switch self {
-                case .status204(let response): return response
+                case .status204: return ()
                 default: return nil
                 }
             }

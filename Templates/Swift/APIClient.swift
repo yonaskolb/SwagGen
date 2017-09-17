@@ -82,7 +82,7 @@ public class APIClient {
     }
 
     @discardableResult
-    private func makeNetworkRequest<T: APIResponseValue>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: RequestBehaviourGroup, complete: @escaping (APIResponse<T>) -> Void) -> Request {
+    private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: RequestBehaviourGroup, complete: @escaping (APIResponse<T>) -> Void) -> Request {
         requestBehaviour.beforeSend()
         return sessionManager.request(urlRequest)
             .responseData { dataResponse in

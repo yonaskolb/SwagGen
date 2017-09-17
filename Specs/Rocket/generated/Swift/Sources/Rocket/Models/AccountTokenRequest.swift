@@ -109,6 +109,6 @@ Either a pin or password should be supplied. If both are supplied the password w
 
     /// pretty prints all properties including nested models
     public var prettyPrinted: String {
-        return "\(type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
     }
 }

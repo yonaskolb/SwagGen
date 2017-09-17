@@ -35,6 +35,6 @@ public class DateRange: JSONDecodable, JSONEncodable, PrettyPrintable {
 
     /// pretty prints all properties including nested models
     public var prettyPrinted: String {
-        return "\(type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
     }
 }

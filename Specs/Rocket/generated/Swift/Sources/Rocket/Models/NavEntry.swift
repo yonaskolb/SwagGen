@@ -75,6 +75,6 @@ If the value begins with `http` then it's an external url.
 
     /// pretty prints all properties including nested models
     public var prettyPrinted: String {
-        return "\(type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
     }
 }

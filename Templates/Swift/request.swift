@@ -116,7 +116,11 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             public var success: {{ successType|default:"Void"}}? {
                 switch self {
                 {% for response in responses where response.type == successType and response.success %}
+                {% if response.type %}
                 case .{{ response.name }}({% if not response.statusCode %}_, {% endif %}let response): return response
+                {% else %}
+                case .{{ response.name }}: return ()
+                {% endif %}
                 {% endfor %}
                 {% if not onlySuccessReponses %}
                 default: return nil

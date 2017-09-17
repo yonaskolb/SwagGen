@@ -116,6 +116,6 @@ For example the Movies Genre list will take a parameter `genre` with a given val
 
     /// pretty prints all properties including nested models
     public var prettyPrinted: String {
-        return "\(type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
     }
 }

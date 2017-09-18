@@ -24,6 +24,8 @@ public class APIClient {
     /// Used to authorise requests
     public var authorizer: RequestAuthorizer?
 
+    public var decodingQueue = DispatchQueue(label: "apiClient", qos: .utility, attributes: .concurrent)
+
     public init(baseURL: String, sessionManager: SessionManager = .default, defaultHeaders: [String: String] = [:], behaviours: [RequestBehaviour] = [], authorizer: RequestAuthorizer? = nil) {
         self.baseURL = baseURL
         self.authorizer = authorizer
@@ -34,7 +36,7 @@ public class APIClient {
 
     /// Any request behaviours will be run in addition to the client behaviours
     @discardableResult
-    public func makeRequest<T>(_ request: APIRequest<T>, behaviours: [RequestBehaviour] = [], complete: @escaping (APIResponse<T>) -> Void) -> Request? {
+    public func makeRequest<T>(_ request: APIRequest<T>, behaviours: [RequestBehaviour] = [], queue: DispatchQueue = DispatchQueue.main, complete: @escaping (APIResponse<T>) -> Void) -> Request? {
         // create composite behaviour to make it easy to call functions on array of behaviours
         let requestBehaviour = RequestBehaviourGroup(request: request, behaviours: self.behaviours + behaviours)
 
@@ -67,7 +69,7 @@ public class APIClient {
 
                 switch result {
                 case .success(let urlRequest):
-                    self.makeNetworkRequest(request: request, urlRequest: urlRequest, requestBehaviour: requestBehaviour, complete: complete)
+                    self.makeNetworkRequest(request: request, urlRequest: urlRequest, requestBehaviour: requestBehaviour, queue: queue, complete: complete)
                 case .failure(let reason):
                     let error = APIError.authorizationError(AuthorizationError(authorization: authorization, reason: reason))
                     let response = APIResponse<T>(request: request, result: .failure(error), urlRequest: urlRequest)
@@ -77,15 +79,15 @@ public class APIClient {
             }
             return nil
         } else {
-            return self.makeNetworkRequest(request: request, urlRequest: urlRequest, requestBehaviour: requestBehaviour, complete: complete)
+            return self.makeNetworkRequest(request: request, urlRequest: urlRequest, requestBehaviour: requestBehaviour, queue: queue, complete: complete)
         }
     }
 
     @discardableResult
-    private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: RequestBehaviourGroup, complete: @escaping (APIResponse<T>) -> Void) -> Request {
+    private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: RequestBehaviourGroup, queue: DispatchQueue, complete: @escaping (APIResponse<T>) -> Void) -> Request {
         requestBehaviour.beforeSend()
         return sessionManager.request(urlRequest)
-            .responseData { dataResponse in
+            .responseData(queue: decodingQueue) { dataResponse in
 
                 let result: APIResult<T>
 
@@ -118,7 +120,10 @@ public class APIClient {
                 }
                 let response = APIResponse<T>(request: request, result: result, urlRequest: dataResponse.request, urlResponse: dataResponse.response, data: dataResponse.data, timeline: dataResponse.timeline)
                 requestBehaviour.onResponse(response: response.asAny())
-                complete(response)
+
+                queue.async {
+                    complete(response)
+                }
         }
     }
 }

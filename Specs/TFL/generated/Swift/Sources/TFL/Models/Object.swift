@@ -15,8 +15,7 @@ public class Object: JSONDecodable, JSONEncodable, PrettyPrintable {
     }
 
     public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        return dictionary
+        return [:]
     }
 
     /// pretty prints all properties including nested models

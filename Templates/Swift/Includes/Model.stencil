@@ -60,6 +60,7 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
     }
 
     public {% if parent %}override {% endif %}func encode() -> JSONDictionary {
+        {% if properties or additionalPropertiesType %}
         var dictionary: JSONDictionary = [:]
         {% for property in properties %}
         {% if property.optional %}
@@ -83,6 +84,9 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
         }
         {% endif %}
         return dictionary
+        {% else %}
+        return [:]
+        {% endif %}
     }
     {% if additionalPropertiesType %}
 

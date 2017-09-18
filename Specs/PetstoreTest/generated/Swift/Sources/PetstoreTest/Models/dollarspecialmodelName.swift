@@ -15,8 +15,7 @@ public class dollarspecialmodelName: JSONDecodable, JSONEncodable, PrettyPrintab
     }
 
     public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        return dictionary
+        return [:]
     }
 
     /// pretty prints all properties including nested models

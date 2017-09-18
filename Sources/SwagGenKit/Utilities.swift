@@ -32,8 +32,8 @@ extension String {
         let endOfLine1 = string1.range(of: "\n", options: [], range: commonPrefix.endIndex..<string1.endIndex, locale: nil)?.lowerBound ?? string1.endIndex
         let endOfLine2 = string2.range(of: "\n", options: [], range: commonPrefix.endIndex..<string2.endIndex, locale: nil)?.lowerBound ?? string2.endIndex
 
-        let diff1 = string1.substring(with: startIndex..<endOfLine1)
-        let diff2 = string2.substring(with: startIndex..<endOfLine2)
+        let diff1 = String(string1[startIndex ..< endOfLine1])
+        let diff2 = String(string2[startIndex ..< endOfLine2])
 
         let line = commonPrefix.components(separatedBy: "\n").count + 1
         return (diff1,diff2, line)

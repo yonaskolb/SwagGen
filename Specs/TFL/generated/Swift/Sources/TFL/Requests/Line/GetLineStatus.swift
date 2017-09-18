@@ -8,9 +8,9 @@ import JSONUtilities
 
 extension TFL.Line {
 
-    public enum LineStatus {
+    public enum GetLineStatus {
 
-        public static let service = APIService<Response>(id: "Line_Status", tag: "Line", method: "GET", path: "/Line/{ids}/Status/{StartDate}/to/{EndDate}", hasBody: false)
+        public static let service = APIService<Response>(id: "Get_Line_Status", tag: "Line", method: "GET", path: "/Line/{ids}/Status/{StartDate}/to/{EndDate}", hasBody: false)
 
         public final class Request: APIRequest<Response> {
 
@@ -44,7 +44,7 @@ extension TFL.Line {
 
             public init(options: Options) {
                 self.options = options
-                super.init(service: LineStatus.service)
+                super.init(service: GetLineStatus.service)
             }
 
             /// convenience initialiser so an Option doesn't have to be created

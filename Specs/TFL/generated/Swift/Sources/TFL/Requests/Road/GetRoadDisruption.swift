@@ -8,9 +8,9 @@ import JSONUtilities
 
 extension TFL.Road {
 
-    public enum RoadDisruption {
+    public enum GetRoadDisruption {
 
-        public static let service = APIService<Response>(id: "Road_Disruption", tag: "Road", method: "GET", path: "/Road/{ids}/Disruption", hasBody: false)
+        public static let service = APIService<Response>(id: "Get_Road_Disruption", tag: "Road", method: "GET", path: "/Road/{ids}/Disruption", hasBody: false)
 
         public final class Request: APIRequest<Response> {
 
@@ -44,7 +44,7 @@ extension TFL.Road {
 
             public init(options: Options) {
                 self.options = options
-                super.init(service: RoadDisruption.service)
+                super.init(service: GetRoadDisruption.service)
             }
 
             /// convenience initialiser so an Option doesn't have to be created

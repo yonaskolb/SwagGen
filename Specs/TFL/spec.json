@@ -998,7 +998,7 @@
                "Line"
             ],
             "summary":"Gets the line status for given line ids during the provided dates e.g Minor Delays",
-            "operationId":"Line_Status",
+            "operationId":"Get_Line_Status",
             "consumes":[
 
             ],
@@ -2367,7 +2367,7 @@
                "Road"
             ],
             "summary":"Get active disruptions, filtered by road ids",
-            "operationId":"Road_Disruption",
+            "operationId":"Get_Road_Disruption",
             "consumes":[
 
             ],

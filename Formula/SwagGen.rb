@@ -8,12 +8,9 @@ class Swaggen < Formula
   depends_on :xcode
 
   def install
-    yaml_lib_path = "#{buildpath}/.build/release/libCYaml.dylib"
     build_path = "#{buildpath}/.build/release/SwagGen"
     ohai "Building SwagGen"
-    system("swift build -c release -Xlinker -rpath -Xlinker @executable_path -Xswiftc -static-stdlib")
-    system("install_name_tool -change #{yaml_lib_path} #{frameworks}/libCYaml.dylib #{build_path}")
-    frameworks.install yaml_lib_path
+    system("swift build -c release -Xswiftc -static-stdlib")
     bin.install build_path
   end
 end

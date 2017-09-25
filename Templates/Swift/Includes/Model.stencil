@@ -3,8 +3,8 @@
 {% endif %}
 {% if enum %}
 {% include "Includes/Enum.stencil" using enum %}
-{% elif simpleType %}
-public typealias {{ type }} = {{ simpleType }}
+{% elif aliasType %}
+public typealias {{ type }} = {{ aliasType }}
 {% else %}
 public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable, JSONEncodable, PrettyPrintable{% endif %} {
     {% for enum in enums %}

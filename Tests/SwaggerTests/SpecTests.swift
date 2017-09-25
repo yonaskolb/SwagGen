@@ -158,7 +158,7 @@ public func testSpecs() {
         }
 
         $0.it("has definitions") {
-            try expect(spec.definitions.count) == 2
+            try expect(spec.definitions.count) == 3
         }
 
         $0.it("has Pet definition") {

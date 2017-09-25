@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.0.0]
+### Added
+- Swift template: decode response on background queue and then call completion on main thread or new `queue` parameter
+
+### Changed
+- Updated project to Swift 4 #42
+- Updated Swift templates to Swift 4 #42
+
 ## [0.6.1]
 ### Added
 - Homebrew and Make installations
@@ -36,7 +44,7 @@ This includes a large rewrite with a lot more test cases so many more specs shou
 - Overall more solid spec support. For example the whole [fake petstore example](https://github.com/swagger-api/swagger-codegen/issues/5419) now generates and compiles properly
 
 ### Changed
-- Within templates `tags` is now just a list of all tag names. The previous tag dictionary which contains `name` and `operations` has been moved to `operationsByTag` 
+- Within templates `tags` is now just a list of all tag names. The previous tag dictionary which contains `name` and `operations` has been moved to `operationsByTag`
 - request response enum cases have been renamed
 
 ## [0.5.3]
@@ -158,6 +166,7 @@ Improved the generation of complicated specs:
 ## 0.1.0 - 2017-04-27
 - First official release
 
+[1.0.0]: https://github.com/yonaskolb/SwagGen/compare/0.6.1...1.0.0
 [0.6.1]: https://github.com/yonaskolb/SwagGen/compare/0.6.0...0.6.1
 [0.6.0]: https://github.com/yonaskolb/SwagGen/compare/0.5.3...0.6.0
 [0.5.3]: https://github.com/yonaskolb/SwagGen/compare/0.5.2...0.5.3

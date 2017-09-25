@@ -92,6 +92,10 @@ public class CodeFormatter {
         case .reference:
             context["referenceType"] = schemaType
             context["aliasType"] = schemaType
+        case .array:
+            let schemaType = getSchemaType(name: schema.name, schema: schema.value)
+            context["arrayType"] = schemaType
+            context["aliasType"] = schemaType
         default: break
         }
 

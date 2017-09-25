@@ -6,20 +6,4 @@
 import Foundation
 import JSONUtilities
 
-public class AnimalFarm: JSONDecodable, JSONEncodable, PrettyPrintable {
-
-    public init() {
-    }
-
-    public required init(jsonDictionary: JSONDictionary) throws {
-    }
-
-    public func encode() -> JSONDictionary {
-        return [:]
-    }
-
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
-    }
-}
+public typealias AnimalFarm = [Animal]

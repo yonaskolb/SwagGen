@@ -82,14 +82,16 @@ public class CodeFormatter {
 
         switch schema.value.type {
         case .simple:
-            context["simpleType"] = getSchemaType(name: schema.name, schema: schema.value)
+            let schemaType = getSchemaType(name: schema.name, schema: schema.value)
+            context["simpleType"] = schemaType
+            context["aliasType"] = schemaType
             if let enumValue = schema.value.getEnum(name: schema.name, description: schema.value.metadata.description) {
                 context["enum"] = getEnumContext(enumValue)
             }
         case .reference:
             let schemaType = getSchemaType(name: schema.name, schema: schema.value)
-            context["simpleType"] = schemaType
             context["referenceType"] = schemaType
+            context["aliasType"] = schemaType
         default: break
         }
 

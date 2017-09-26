@@ -2,10 +2,8 @@
 
 ## [1.1.0]
 ### Added
-- Generate typealias models for non schema definitions #42 thanks @Liquidsoul
-	- references to other types
-	- arrays
-	- dictionaries
+- Generate typealias for models with reference and array types #42 thanks @Liquidsoul
+- generate typealias for models that only have additional properties
 
 ### Fixed
 - fixed SPM installation issue

@@ -7,39 +7,4 @@ import Foundation
 import JSONUtilities
 
 /** definition with only additional properties */
-public class ModelWithOnlyAdditionalProperties: JSONDecodable, JSONEncodable, PrettyPrintable {
-
-    public var additionalProperties: [String: Any] = [:]
-
-    public init() {
-    }
-
-    public required init(jsonDictionary: JSONDictionary) throws {
-
-        var additionalProperties = jsonDictionary
-        self.additionalProperties = additionalProperties
-    }
-
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-
-        for (key, value) in additionalProperties {
-          dictionary[key] = value
-        }
-        return dictionary
-    }
-
-    public subscript(key: String) -> Any? {
-        get {
-            return additionalProperties[key]
-        }
-        set {
-            additionalProperties[key] = newValue
-        }
-    }
-
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
-    }
-}
+public typealias ModelWithOnlyAdditionalProperties = [String: Any]

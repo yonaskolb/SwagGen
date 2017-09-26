@@ -5,6 +5,8 @@
 {% include "Includes/Enum.stencil" using enum %}
 {% elif aliasType %}
 public typealias {{ type }} = {{ aliasType }}
+{% elif additionalPropertiesType and allProperties.count == 0 %}
+public typealias {{ type }} = [String: {{ additionalPropertiesType }}]
 {% else %}
 public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable, JSONEncodable, PrettyPrintable{% endif %} {
     {% for enum in enums %}

@@ -33,6 +33,7 @@ let package = Package(
         .target(name: "Swagger", dependencies: [
           "JSONUtilities",
           "Yams",
+          "PathKit",
         ]),
         .testTarget(name: "SwagGenKitTests", dependencies: [
           "SwagGenKit",

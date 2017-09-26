@@ -1,5 +1,15 @@
 # Change Log
 
+## [1.1.0]
+### Added
+- Generate typealias models for non schema definitions #42 thanks @Liquidsoul
+	- references to other types
+	- arrays
+	- dictionaries
+
+### Fixed
+- fixed SPM installation issue
+
 ## [1.0.0]
 ### Added
 - Swift template: decode response on background queue and then call completion on main thread or new `queue` parameter
@@ -166,6 +176,7 @@ Improved the generation of complicated specs:
 ## 0.1.0 - 2017-04-27
 - First official release
 
+[1.1.0]: https://github.com/yonaskolb/SwagGen/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/yonaskolb/SwagGen/compare/0.6.1...1.0.0
 [0.6.1]: https://github.com/yonaskolb/SwagGen/compare/0.6.0...0.6.1
 [0.6.0]: https://github.com/yonaskolb/SwagGen/compare/0.5.3...0.6.0

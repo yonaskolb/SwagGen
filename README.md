@@ -1,7 +1,7 @@
 # SwagGen
 
 ![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20macOS-blue.svg)
-![Package Managers](https://img.shields.io/badge/package%20managers-SwiftPM-yellow.svg)
+[![SPM](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
 [![Git Version](https://img.shields.io/github/release/yonaskolb/swaggen.svg)](https://github.com/yonaskolb/SwagGen/releases)
 [![Build Status](https://img.shields.io/travis/yonaskolb/SwagGen/master.svg?style=flat)](https://travis-ci.org/yonaskolb/SwagGen)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/yonaskolb/SwagGen/blob/master/LICENSE)

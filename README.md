@@ -19,6 +19,12 @@ Make sure Xcode 9 is installed first.
 ```sh
 $ mint run yonaskolb/SwagGen
 ```
+### Homebrew
+
+```
+$ brew tap yonaskolb/SwagGen https://github.com/yonaskolb/SwagGen.git
+$ brew install SwagGen
+```
 
 ### Make
 
@@ -28,19 +34,22 @@ $ cd SwagGen
 $ make
 ```
 
-### Homebrew
-
-```
-$ brew tap yonaskolb/SwagGen https://github.com/yonaskolb/SwagGen.git
-$ brew install SwagGen
-```
-
 ### Swift Package Manager
+
+#### Use as CLI
+
+```sh
+$ git clone https://github.com/yonaskolb/XcodeGen.git
+$ cd XcodeGen
+$ swift run
+```
+
+#### Use as dependency
 
 Add the following to your Package.swift file's dependencies:
 
 ```
-.Package(url: "https://github.com/yonaskolb/SwagGen.git", majorVersion: 0)
+.package(url: "https://github.com/yonaskolb/SwagGen.git", from: "1.1.0"),
 ```
 
 And then import wherever needed:
@@ -48,7 +57,6 @@ And then import wherever needed:
 ```
 import SwagGenKit
 ```
-
 
 ## Usage
 Use `SwagGen -help` to see the list of options:

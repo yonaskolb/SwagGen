@@ -15,7 +15,7 @@ The default Swift templates it generates are also much improved with support for
 ## Installing
 Make sure Xcode 9 is installed first.
 
-###🌱 [Mint](https://github.com/yonaskolb/mint)
+### [Mint](https://github.com/yonaskolb/mint)
 ```sh
 $ mint run yonaskolb/SwagGen
 ```

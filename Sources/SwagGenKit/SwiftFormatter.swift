@@ -165,8 +165,8 @@ public class SwiftFormatter: CodeFormatter {
 //                return getModelType(name)
 //            }
         case let .reference(reference): return escapeType(reference.name.upperCamelCased())
-        case .allOf: return "UKNOWN_ALL_OFF"
-        case .any: return "UKNOWN_ANY"
+        case .allOf: return "UNKNOWN_ALL_OFF"
+        case .any: return "UNKNOWN_ANY"
         }
     }
 

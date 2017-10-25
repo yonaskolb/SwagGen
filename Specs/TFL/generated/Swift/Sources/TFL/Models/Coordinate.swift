@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Coordinate: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Coordinate: Codable {
 
     public var easting: Double?
 
@@ -29,40 +28,34 @@ public class Coordinate: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.yCoord = yCoord
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        easting = jsonDictionary.json(atKeyPath: "easting")
-        latitude = jsonDictionary.json(atKeyPath: "latitude")
-        longitude = jsonDictionary.json(atKeyPath: "longitude")
-        northing = jsonDictionary.json(atKeyPath: "northing")
-        xCoord = jsonDictionary.json(atKeyPath: "xCoord")
-        yCoord = jsonDictionary.json(atKeyPath: "yCoord")
+    private enum CodingKeys: String, CodingKey {
+        case easting
+        case latitude
+        case longitude
+        case northing
+        case xCoord
+        case yCoord
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let easting = easting {
-            dictionary["easting"] = easting
-        }
-        if let latitude = latitude {
-            dictionary["latitude"] = latitude
-        }
-        if let longitude = longitude {
-            dictionary["longitude"] = longitude
-        }
-        if let northing = northing {
-            dictionary["northing"] = northing
-        }
-        if let xCoord = xCoord {
-            dictionary["xCoord"] = xCoord
-        }
-        if let yCoord = yCoord {
-            dictionary["yCoord"] = yCoord
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        easting = try container.decodeIfPresent(.easting)
+        latitude = try container.decodeIfPresent(.latitude)
+        longitude = try container.decodeIfPresent(.longitude)
+        northing = try container.decodeIfPresent(.northing)
+        xCoord = try container.decodeIfPresent(.xCoord)
+        yCoord = try container.decodeIfPresent(.yCoord)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(easting, forKey: .easting)
+        try container.encode(latitude, forKey: .latitude)
+        try container.encode(longitude, forKey: .longitude)
+        try container.encode(northing, forKey: .northing)
+        try container.encode(xCoord, forKey: .xCoord)
+        try container.encode(yCoord, forKey: .yCoord)
     }
 }

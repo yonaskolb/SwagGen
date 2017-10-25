@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Instruction: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Instruction: Codable {
 
     public var detailed: String?
 
@@ -20,28 +19,25 @@ public class Instruction: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.summary = summary
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        detailed = jsonDictionary.json(atKeyPath: "detailed")
-        steps = jsonDictionary.json(atKeyPath: "steps")
-        summary = jsonDictionary.json(atKeyPath: "summary")
+    private enum CodingKeys: String, CodingKey {
+        case detailed
+        case steps
+        case summary
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let detailed = detailed {
-            dictionary["detailed"] = detailed
-        }
-        if let steps = steps?.encode() {
-            dictionary["steps"] = steps
-        }
-        if let summary = summary {
-            dictionary["summary"] = summary
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        detailed = try container.decodeIfPresent(.detailed)
+        steps = try container.decodeIfPresent(.steps)
+        summary = try container.decodeIfPresent(.summary)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(detailed, forKey: .detailed)
+        try container.encode(steps, forKey: .steps)
+        try container.encode(summary, forKey: .summary)
     }
 }

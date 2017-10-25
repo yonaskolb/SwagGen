@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Animal: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Animal: Codable {
 
     public var className: String
 
@@ -17,22 +16,22 @@ public class Animal: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.color = color
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        className = try jsonDictionary.json(atKeyPath: "className")
-        color = jsonDictionary.json(atKeyPath: "color")
+    private enum CodingKeys: String, CodingKey {
+        case className
+        case color
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["className"] = className
-        if let color = color {
-            dictionary["color"] = color
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        className = try container.decode(.className)
+        color = try container.decodeIfPresent(.color)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(className, forKey: .className)
+        try container.encode(color, forKey: .color)
     }
 }

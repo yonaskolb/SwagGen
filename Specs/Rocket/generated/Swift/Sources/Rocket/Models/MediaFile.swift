@@ -4,12 +4,11 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class MediaFile: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class MediaFile: Codable {
 
     /** The way in which the media file is delivered. */
-    public enum DeliveryType: String {
+    public enum DeliveryType: String, Codable {
         case stream = "Stream"
         case progressive = "Progressive"
         case download = "Download"
@@ -22,7 +21,7 @@ public class MediaFile: JSONDecodable, JSONEncodable, PrettyPrintable {
     }
 
     /** The resolution of the video media. */
-    public enum Resolution: String {
+    public enum Resolution: String, Codable {
         case sd = "SD"
         case hd720 = "HD-720"
         case hd1080 = "HD-1080"
@@ -79,38 +78,46 @@ public class MediaFile: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.channels = channels
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        name = try jsonDictionary.json(atKeyPath: "name")
-        deliveryType = try jsonDictionary.json(atKeyPath: "deliveryType")
-        url = try jsonDictionary.json(atKeyPath: "url")
-        drm = try jsonDictionary.json(atKeyPath: "drm")
-        format = try jsonDictionary.json(atKeyPath: "format")
-        resolution = try jsonDictionary.json(atKeyPath: "resolution")
-        width = try jsonDictionary.json(atKeyPath: "width")
-        height = try jsonDictionary.json(atKeyPath: "height")
-        language = try jsonDictionary.json(atKeyPath: "language")
-        channels = jsonDictionary.json(atKeyPath: "channels")
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case deliveryType
+        case url
+        case drm
+        case format
+        case resolution
+        case width
+        case height
+        case language
+        case channels
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["name"] = name
-        dictionary["deliveryType"] = deliveryType.encode()
-        dictionary["url"] = url.encode()
-        dictionary["drm"] = drm
-        dictionary["format"] = format
-        dictionary["resolution"] = resolution.encode()
-        dictionary["width"] = width
-        dictionary["height"] = height
-        dictionary["language"] = language
-        if let channels = channels {
-            dictionary["channels"] = channels
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        name = try container.decode(.name)
+        deliveryType = try container.decode(.deliveryType)
+        url = try container.decode(.url)
+        drm = try container.decode(.drm)
+        format = try container.decode(.format)
+        resolution = try container.decode(.resolution)
+        width = try container.decode(.width)
+        height = try container.decode(.height)
+        language = try container.decode(.language)
+        channels = try container.decodeIfPresent(.channels)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(name, forKey: .name)
+        try container.encode(deliveryType, forKey: .deliveryType)
+        try container.encode(url, forKey: .url)
+        try container.encode(drm, forKey: .drm)
+        try container.encode(format, forKey: .format)
+        try container.encode(resolution, forKey: .resolution)
+        try container.encode(width, forKey: .width)
+        try container.encode(height, forKey: .height)
+        try container.encode(language, forKey: .language)
+        try container.encode(channels, forKey: .channels)
     }
 }

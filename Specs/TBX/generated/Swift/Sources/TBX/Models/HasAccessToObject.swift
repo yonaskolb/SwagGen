@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class HasAccessToObject: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class HasAccessToObject: Codable {
 
     /** Target urn */
     public var urn: String
@@ -39,36 +38,37 @@ Options: CACHE_ACCESS / IDP_ACCESS / ACTIVITY_ACCESS / PERMISSION_ACCESS / ETIME
         self.idpAccess = idpAccess
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        urn = try jsonDictionary.json(atKeyPath: "urn")
-        access = try jsonDictionary.json(atKeyPath: "access")
-        isTryandbuy = try jsonDictionary.json(atKeyPath: "is_tryandbuy")
-        reason = try jsonDictionary.json(atKeyPath: "reason")
-        error = jsonDictionary.json(atKeyPath: "error")
-        expiration = jsonDictionary.json(atKeyPath: "expiration")
-        idpAccess = jsonDictionary.json(atKeyPath: "idp_access")
+    private enum CodingKeys: String, CodingKey {
+        case urn
+        case access
+        case isTryandbuy = "is_tryandbuy"
+        case reason
+        case error
+        case expiration
+        case idpAccess = "idp_access"
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["urn"] = urn
-        dictionary["access"] = access
-        dictionary["is_tryandbuy"] = isTryandbuy
-        dictionary["reason"] = reason
-        if let error = error?.encode() {
-            dictionary["error"] = error
-        }
-        if let expiration = expiration?.encode() {
-            dictionary["expiration"] = expiration
-        }
-        if let idpAccess = idpAccess {
-            dictionary["idp_access"] = idpAccess
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        urn = try container.decode(.urn)
+        access = try container.decode(.access)
+        isTryandbuy = try container.decode(.isTryandbuy)
+        reason = try container.decode(.reason)
+        error = try container.decodeIfPresent(.error)
+        expiration = try container.decodeIfPresent(.expiration)
+        idpAccess = try container.decodeIfPresent(.idpAccess)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(urn, forKey: .urn)
+        try container.encode(access, forKey: .access)
+        try container.encode(isTryandbuy, forKey: .isTryandbuy)
+        try container.encode(reason, forKey: .reason)
+        try container.encode(error, forKey: .error)
+        try container.encode(expiration, forKey: .expiration)
+        try container.encode(idpAccess, forKey: .idpAccess)
     }
 }

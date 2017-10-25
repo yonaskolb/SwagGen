@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class RouteSearchResponse: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class RouteSearchResponse: Codable {
 
     public var input: String?
 
@@ -17,24 +16,22 @@ public class RouteSearchResponse: JSONDecodable, JSONEncodable, PrettyPrintable 
         self.searchMatches = searchMatches
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        input = jsonDictionary.json(atKeyPath: "input")
-        searchMatches = jsonDictionary.json(atKeyPath: "searchMatches")
+    private enum CodingKeys: String, CodingKey {
+        case input
+        case searchMatches
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let input = input {
-            dictionary["input"] = input
-        }
-        if let searchMatches = searchMatches?.encode() {
-            dictionary["searchMatches"] = searchMatches
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        input = try container.decodeIfPresent(.input)
+        searchMatches = try container.decodeIfPresent(.searchMatches)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(input, forKey: .input)
+        try container.encode(searchMatches, forKey: .searchMatches)
     }
 }

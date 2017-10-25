@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class RoadCorridor: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class RoadCorridor: Codable {
 
     /** The Bounds of the Corridor, given by the south-east followed by the north-west co-ordinate
             pair in geoJSON format e.g. "[[-1.241531,51.242151],[1.641223,53.765721]]" */
@@ -54,56 +53,46 @@ public class RoadCorridor: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.url = url
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        bounds = jsonDictionary.json(atKeyPath: "bounds")
-        displayName = jsonDictionary.json(atKeyPath: "displayName")
-        envelope = jsonDictionary.json(atKeyPath: "envelope")
-        group = jsonDictionary.json(atKeyPath: "group")
-        id = jsonDictionary.json(atKeyPath: "id")
-        statusAggregationEndDate = jsonDictionary.json(atKeyPath: "statusAggregationEndDate")
-        statusAggregationStartDate = jsonDictionary.json(atKeyPath: "statusAggregationStartDate")
-        statusSeverity = jsonDictionary.json(atKeyPath: "statusSeverity")
-        statusSeverityDescription = jsonDictionary.json(atKeyPath: "statusSeverityDescription")
-        url = jsonDictionary.json(atKeyPath: "url")
+    private enum CodingKeys: String, CodingKey {
+        case bounds
+        case displayName
+        case envelope
+        case group
+        case id
+        case statusAggregationEndDate
+        case statusAggregationStartDate
+        case statusSeverity
+        case statusSeverityDescription
+        case url
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let bounds = bounds {
-            dictionary["bounds"] = bounds
-        }
-        if let displayName = displayName {
-            dictionary["displayName"] = displayName
-        }
-        if let envelope = envelope {
-            dictionary["envelope"] = envelope
-        }
-        if let group = group {
-            dictionary["group"] = group
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let statusAggregationEndDate = statusAggregationEndDate?.encode() {
-            dictionary["statusAggregationEndDate"] = statusAggregationEndDate
-        }
-        if let statusAggregationStartDate = statusAggregationStartDate?.encode() {
-            dictionary["statusAggregationStartDate"] = statusAggregationStartDate
-        }
-        if let statusSeverity = statusSeverity {
-            dictionary["statusSeverity"] = statusSeverity
-        }
-        if let statusSeverityDescription = statusSeverityDescription {
-            dictionary["statusSeverityDescription"] = statusSeverityDescription
-        }
-        if let url = url {
-            dictionary["url"] = url
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        bounds = try container.decodeIfPresent(.bounds)
+        displayName = try container.decodeIfPresent(.displayName)
+        envelope = try container.decodeIfPresent(.envelope)
+        group = try container.decodeIfPresent(.group)
+        id = try container.decodeIfPresent(.id)
+        statusAggregationEndDate = try container.decodeIfPresent(.statusAggregationEndDate)
+        statusAggregationStartDate = try container.decodeIfPresent(.statusAggregationStartDate)
+        statusSeverity = try container.decodeIfPresent(.statusSeverity)
+        statusSeverityDescription = try container.decodeIfPresent(.statusSeverityDescription)
+        url = try container.decodeIfPresent(.url)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(bounds, forKey: .bounds)
+        try container.encode(displayName, forKey: .displayName)
+        try container.encode(envelope, forKey: .envelope)
+        try container.encode(group, forKey: .group)
+        try container.encode(id, forKey: .id)
+        try container.encode(statusAggregationEndDate, forKey: .statusAggregationEndDate)
+        try container.encode(statusAggregationStartDate, forKey: .statusAggregationStartDate)
+        try container.encode(statusSeverity, forKey: .statusSeverity)
+        try container.encode(statusSeverityDescription, forKey: .statusSeverityDescription)
+        try container.encode(url, forKey: .url)
     }
 }

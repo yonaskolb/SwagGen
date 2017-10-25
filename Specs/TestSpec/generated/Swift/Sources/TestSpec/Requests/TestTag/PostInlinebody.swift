@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension TestSpec.TestTag {
 
@@ -22,8 +21,8 @@ extension TestSpec.TestTag {
                 super.init(service: PostInlinebody.service)
             }
 
-            public override var jsonBody: Any? {
-                return item
+            public override var jsonBody: Encodable? {
+                return AnyCodable(item)
             }
         }
 
@@ -57,7 +56,7 @@ extension TestSpec.TestTag {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 case 201: self = .status201
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

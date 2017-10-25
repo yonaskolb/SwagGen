@@ -4,11 +4,10 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class EmissionsSurchargeVehicle: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class EmissionsSurchargeVehicle: Codable {
 
-    public enum Compliance: String {
+    public enum Compliance: String, Codable {
         case notCompliant = "NotCompliant"
         case compliant = "Compliant"
         case exempt = "Exempt"
@@ -41,40 +40,34 @@ public class EmissionsSurchargeVehicle: JSONDecodable, JSONEncodable, PrettyPrin
         self.vrm = vrm
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        colour = jsonDictionary.json(atKeyPath: "colour")
-        compliance = jsonDictionary.json(atKeyPath: "compliance")
-        make = jsonDictionary.json(atKeyPath: "make")
-        model = jsonDictionary.json(atKeyPath: "model")
-        type = jsonDictionary.json(atKeyPath: "type")
-        vrm = jsonDictionary.json(atKeyPath: "vrm")
+    private enum CodingKeys: String, CodingKey {
+        case colour
+        case compliance
+        case make
+        case model
+        case type
+        case vrm
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let colour = colour {
-            dictionary["colour"] = colour
-        }
-        if let compliance = compliance?.encode() {
-            dictionary["compliance"] = compliance
-        }
-        if let make = make {
-            dictionary["make"] = make
-        }
-        if let model = model {
-            dictionary["model"] = model
-        }
-        if let type = type {
-            dictionary["type"] = type
-        }
-        if let vrm = vrm {
-            dictionary["vrm"] = vrm
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        colour = try container.decodeIfPresent(.colour)
+        compliance = try container.decodeIfPresent(.compliance)
+        make = try container.decodeIfPresent(.make)
+        model = try container.decodeIfPresent(.model)
+        type = try container.decodeIfPresent(.type)
+        vrm = try container.decodeIfPresent(.vrm)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(colour, forKey: .colour)
+        try container.encode(compliance, forKey: .compliance)
+        try container.encode(make, forKey: .make)
+        try container.encode(model, forKey: .model)
+        try container.encode(type, forKey: .type)
+        try container.encode(vrm, forKey: .vrm)
     }
 }

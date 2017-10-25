@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ServiceFrequency: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ServiceFrequency: Codable {
 
     public var highestFrequency: Double?
 
@@ -17,24 +16,22 @@ public class ServiceFrequency: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.lowestFrequency = lowestFrequency
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        highestFrequency = jsonDictionary.json(atKeyPath: "highestFrequency")
-        lowestFrequency = jsonDictionary.json(atKeyPath: "lowestFrequency")
+    private enum CodingKeys: String, CodingKey {
+        case highestFrequency
+        case lowestFrequency
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let highestFrequency = highestFrequency {
-            dictionary["highestFrequency"] = highestFrequency
-        }
-        if let lowestFrequency = lowestFrequency {
-            dictionary["lowestFrequency"] = lowestFrequency
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        highestFrequency = try container.decodeIfPresent(.highestFrequency)
+        lowestFrequency = try container.decodeIfPresent(.lowestFrequency)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(highestFrequency, forKey: .highestFrequency)
+        try container.encode(lowestFrequency, forKey: .lowestFrequency)
     }
 }

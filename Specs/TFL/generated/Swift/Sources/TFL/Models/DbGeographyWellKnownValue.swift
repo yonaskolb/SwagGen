@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class DbGeographyWellKnownValue: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class DbGeographyWellKnownValue: Codable {
 
     public var coordinateSystemId: Int?
 
@@ -20,28 +19,25 @@ public class DbGeographyWellKnownValue: JSONDecodable, JSONEncodable, PrettyPrin
         self.wellKnownText = wellKnownText
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        coordinateSystemId = jsonDictionary.json(atKeyPath: "coordinateSystemId")
-        wellKnownBinary = jsonDictionary.json(atKeyPath: "wellKnownBinary")
-        wellKnownText = jsonDictionary.json(atKeyPath: "wellKnownText")
+    private enum CodingKeys: String, CodingKey {
+        case coordinateSystemId
+        case wellKnownBinary
+        case wellKnownText
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let coordinateSystemId = coordinateSystemId {
-            dictionary["coordinateSystemId"] = coordinateSystemId
-        }
-        if let wellKnownBinary = wellKnownBinary {
-            dictionary["wellKnownBinary"] = wellKnownBinary
-        }
-        if let wellKnownText = wellKnownText {
-            dictionary["wellKnownText"] = wellKnownText
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        coordinateSystemId = try container.decodeIfPresent(.coordinateSystemId)
+        wellKnownBinary = try container.decodeIfPresent(.wellKnownBinary)
+        wellKnownText = try container.decodeIfPresent(.wellKnownText)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(coordinateSystemId, forKey: .coordinateSystemId)
+        try container.encode(wellKnownBinary, forKey: .wellKnownBinary)
+        try container.encode(wellKnownText, forKey: .wellKnownText)
     }
 }

@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension PetstoreTest.Pet {
 
@@ -21,8 +20,8 @@ extension PetstoreTest.Pet {
                 super.init(service: AddPet.service)
             }
 
-            public override var jsonBody: Any? {
-                return body.encode()
+            public override var jsonBody: Encodable? {
+                return body
             }
         }
 
@@ -56,7 +55,7 @@ extension PetstoreTest.Pet {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 case 405: self = .status405
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

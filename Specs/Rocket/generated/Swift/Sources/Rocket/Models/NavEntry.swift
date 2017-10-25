@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class NavEntry: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class NavEntry: Codable {
 
     /** Child nav entries. */
     public var children: [NavEntry]?
@@ -41,40 +40,34 @@ If the value begins with `http` then it's an external url.
         self.path = path
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        children = jsonDictionary.json(atKeyPath: "children")
-        content = jsonDictionary.json(atKeyPath: "content")
-        customFields = jsonDictionary.json(atKeyPath: "customFields")
-        featured = jsonDictionary.json(atKeyPath: "featured")
-        label = jsonDictionary.json(atKeyPath: "label")
-        path = jsonDictionary.json(atKeyPath: "path")
+    private enum CodingKeys: String, CodingKey {
+        case children
+        case content
+        case customFields
+        case featured
+        case label
+        case path
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let children = children?.encode() {
-            dictionary["children"] = children
-        }
-        if let content = content?.encode() {
-            dictionary["content"] = content
-        }
-        if let customFields = customFields {
-            dictionary["customFields"] = customFields
-        }
-        if let featured = featured {
-            dictionary["featured"] = featured
-        }
-        if let label = label {
-            dictionary["label"] = label
-        }
-        if let path = path {
-            dictionary["path"] = path
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        children = try container.decodeIfPresent(.children)
+        content = try container.decodeIfPresent(.content)
+        customFields = try container.decodeAnyIfPresent(.customFields)
+        featured = try container.decodeIfPresent(.featured)
+        label = try container.decodeIfPresent(.label)
+        path = try container.decodeIfPresent(.path)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(children, forKey: .children)
+        try container.encode(content, forKey: .content)
+        try container.encodeAny(customFields, forKey: .customFields)
+        try container.encode(featured, forKey: .featured)
+        try container.encode(label, forKey: .label)
+        try container.encode(path, forKey: .path)
     }
 }

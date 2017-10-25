@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 public class Cat: Animal {
 
@@ -15,20 +14,21 @@ public class Cat: Animal {
         super.init(className: className, color: color)
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        declawed = jsonDictionary.json(atKeyPath: "declawed")
-        try super.init(jsonDictionary: jsonDictionary)
+    private enum CodingKeys: String, CodingKey {
+        case declawed
     }
 
-    public override func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let declawed = declawed {
-            dictionary["declawed"] = declawed
-        }
-        let superDictionary = super.encode()
-        for (key, value) in superDictionary {
-            dictionary[key] = value
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        declawed = try container.decodeIfPresent(.declawed)
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(declawed, forKey: .declawed)
+        try super.encode(to: encoder)
     }
 }

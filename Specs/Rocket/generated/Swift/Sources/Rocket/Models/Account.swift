@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Account: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Account: Codable {
 
     /** The id of the account. */
     public var id: String
@@ -81,60 +80,61 @@ If you want to disable this guard pass an empty string or `null`.
         self.usedFreeTrial = usedFreeTrial
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        id = try jsonDictionary.json(atKeyPath: "id")
-        email = try jsonDictionary.json(atKeyPath: "email")
-        trackingEnabled = try jsonDictionary.json(atKeyPath: "trackingEnabled")
-        pinEnabled = try jsonDictionary.json(atKeyPath: "pinEnabled")
-        marketingEnabled = try jsonDictionary.json(atKeyPath: "marketingEnabled")
-        primaryProfileId = try jsonDictionary.json(atKeyPath: "primaryProfileId")
-        subscriptionCode = try jsonDictionary.json(atKeyPath: "subscriptionCode")
-        profiles = try jsonDictionary.json(atKeyPath: "profiles")
-        defaultPaymentInstrumentId = jsonDictionary.json(atKeyPath: "defaultPaymentInstrumentId")
-        entitlements = jsonDictionary.json(atKeyPath: "entitlements")
-        firstName = jsonDictionary.json(atKeyPath: "firstName")
-        lastName = jsonDictionary.json(atKeyPath: "lastName")
-        minRatingPlaybackGuard = jsonDictionary.json(atKeyPath: "minRatingPlaybackGuard")
-        subscriptions = jsonDictionary.json(atKeyPath: "subscriptions")
-        usedFreeTrial = jsonDictionary.json(atKeyPath: "usedFreeTrial")
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case email
+        case trackingEnabled
+        case pinEnabled
+        case marketingEnabled
+        case primaryProfileId
+        case subscriptionCode
+        case profiles
+        case defaultPaymentInstrumentId
+        case entitlements
+        case firstName
+        case lastName
+        case minRatingPlaybackGuard
+        case subscriptions
+        case usedFreeTrial
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["id"] = id
-        dictionary["email"] = email
-        dictionary["trackingEnabled"] = trackingEnabled
-        dictionary["pinEnabled"] = pinEnabled
-        dictionary["marketingEnabled"] = marketingEnabled
-        dictionary["primaryProfileId"] = primaryProfileId
-        dictionary["subscriptionCode"] = subscriptionCode
-        dictionary["profiles"] = profiles.encode()
-        if let defaultPaymentInstrumentId = defaultPaymentInstrumentId {
-            dictionary["defaultPaymentInstrumentId"] = defaultPaymentInstrumentId
-        }
-        if let entitlements = entitlements?.encode() {
-            dictionary["entitlements"] = entitlements
-        }
-        if let firstName = firstName {
-            dictionary["firstName"] = firstName
-        }
-        if let lastName = lastName {
-            dictionary["lastName"] = lastName
-        }
-        if let minRatingPlaybackGuard = minRatingPlaybackGuard {
-            dictionary["minRatingPlaybackGuard"] = minRatingPlaybackGuard
-        }
-        if let subscriptions = subscriptions?.encode() {
-            dictionary["subscriptions"] = subscriptions
-        }
-        if let usedFreeTrial = usedFreeTrial {
-            dictionary["usedFreeTrial"] = usedFreeTrial
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(.id)
+        email = try container.decode(.email)
+        trackingEnabled = try container.decode(.trackingEnabled)
+        pinEnabled = try container.decode(.pinEnabled)
+        marketingEnabled = try container.decode(.marketingEnabled)
+        primaryProfileId = try container.decode(.primaryProfileId)
+        subscriptionCode = try container.decode(.subscriptionCode)
+        profiles = try container.decode(.profiles)
+        defaultPaymentInstrumentId = try container.decodeIfPresent(.defaultPaymentInstrumentId)
+        entitlements = try container.decodeIfPresent(.entitlements)
+        firstName = try container.decodeIfPresent(.firstName)
+        lastName = try container.decodeIfPresent(.lastName)
+        minRatingPlaybackGuard = try container.decodeIfPresent(.minRatingPlaybackGuard)
+        subscriptions = try container.decodeIfPresent(.subscriptions)
+        usedFreeTrial = try container.decodeIfPresent(.usedFreeTrial)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(email, forKey: .email)
+        try container.encode(trackingEnabled, forKey: .trackingEnabled)
+        try container.encode(pinEnabled, forKey: .pinEnabled)
+        try container.encode(marketingEnabled, forKey: .marketingEnabled)
+        try container.encode(primaryProfileId, forKey: .primaryProfileId)
+        try container.encode(subscriptionCode, forKey: .subscriptionCode)
+        try container.encode(profiles, forKey: .profiles)
+        try container.encode(defaultPaymentInstrumentId, forKey: .defaultPaymentInstrumentId)
+        try container.encode(entitlements, forKey: .entitlements)
+        try container.encode(firstName, forKey: .firstName)
+        try container.encode(lastName, forKey: .lastName)
+        try container.encode(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
+        try container.encode(subscriptions, forKey: .subscriptions)
+        try container.encode(usedFreeTrial, forKey: .usedFreeTrial)
     }
 }

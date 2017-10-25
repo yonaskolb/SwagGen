@@ -4,12 +4,11 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class AccessToken: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class AccessToken: Codable {
 
     /** The type of the token. */
-    public enum `Type`: String {
+    public enum `Type`: String, Codable {
         case userAccount = "UserAccount"
         case userProfile = "UserProfile"
 
@@ -38,24 +37,28 @@ public class AccessToken: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.type = type
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        value = try jsonDictionary.json(atKeyPath: "value")
-        refreshable = try jsonDictionary.json(atKeyPath: "refreshable")
-        expirationDate = try jsonDictionary.json(atKeyPath: "expirationDate")
-        type = try jsonDictionary.json(atKeyPath: "type")
+    private enum CodingKeys: String, CodingKey {
+        case value
+        case refreshable
+        case expirationDate
+        case type
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["value"] = value
-        dictionary["refreshable"] = refreshable
-        dictionary["expirationDate"] = expirationDate.encode()
-        dictionary["type"] = type.encode()
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        value = try container.decode(.value)
+        refreshable = try container.decode(.refreshable)
+        expirationDate = try container.decode(.expirationDate)
+        type = try container.decode(.type)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(value, forKey: .value)
+        try container.encode(refreshable, forKey: .refreshable)
+        try container.encode(expirationDate, forKey: .expirationDate)
+        try container.encode(type, forKey: .type)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class TrainLoading: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class TrainLoading: Codable {
 
     /** Direction in regards to Journey Planner i.e. inbound or outbound */
     public var direction: String?
@@ -40,44 +39,37 @@ public class TrainLoading: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.value = value
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        direction = jsonDictionary.json(atKeyPath: "direction")
-        line = jsonDictionary.json(atKeyPath: "line")
-        lineDirection = jsonDictionary.json(atKeyPath: "lineDirection")
-        naptanTo = jsonDictionary.json(atKeyPath: "naptanTo")
-        platformDirection = jsonDictionary.json(atKeyPath: "platformDirection")
-        timeSlice = jsonDictionary.json(atKeyPath: "timeSlice")
-        value = jsonDictionary.json(atKeyPath: "value")
+    private enum CodingKeys: String, CodingKey {
+        case direction
+        case line
+        case lineDirection
+        case naptanTo
+        case platformDirection
+        case timeSlice
+        case value
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let direction = direction {
-            dictionary["direction"] = direction
-        }
-        if let line = line {
-            dictionary["line"] = line
-        }
-        if let lineDirection = lineDirection {
-            dictionary["lineDirection"] = lineDirection
-        }
-        if let naptanTo = naptanTo {
-            dictionary["naptanTo"] = naptanTo
-        }
-        if let platformDirection = platformDirection {
-            dictionary["platformDirection"] = platformDirection
-        }
-        if let timeSlice = timeSlice {
-            dictionary["timeSlice"] = timeSlice
-        }
-        if let value = value {
-            dictionary["value"] = value
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        direction = try container.decodeIfPresent(.direction)
+        line = try container.decodeIfPresent(.line)
+        lineDirection = try container.decodeIfPresent(.lineDirection)
+        naptanTo = try container.decodeIfPresent(.naptanTo)
+        platformDirection = try container.decodeIfPresent(.platformDirection)
+        timeSlice = try container.decodeIfPresent(.timeSlice)
+        value = try container.decodeIfPresent(.value)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(direction, forKey: .direction)
+        try container.encode(line, forKey: .line)
+        try container.encode(lineDirection, forKey: .lineDirection)
+        try container.encode(naptanTo, forKey: .naptanTo)
+        try container.encode(platformDirection, forKey: .platformDirection)
+        try container.encode(timeSlice, forKey: .timeSlice)
+        try container.encode(value, forKey: .value)
     }
 }

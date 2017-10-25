@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class AdditionalProperties: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class AdditionalProperties: Codable {
 
     public var category: String?
 
@@ -26,36 +25,31 @@ public class AdditionalProperties: JSONDecodable, JSONEncodable, PrettyPrintable
         self.value = value
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        category = jsonDictionary.json(atKeyPath: "category")
-        key = jsonDictionary.json(atKeyPath: "key")
-        modified = jsonDictionary.json(atKeyPath: "modified")
-        sourceSystemKey = jsonDictionary.json(atKeyPath: "sourceSystemKey")
-        value = jsonDictionary.json(atKeyPath: "value")
+    private enum CodingKeys: String, CodingKey {
+        case category
+        case key
+        case modified
+        case sourceSystemKey
+        case value
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let category = category {
-            dictionary["category"] = category
-        }
-        if let key = key {
-            dictionary["key"] = key
-        }
-        if let modified = modified?.encode() {
-            dictionary["modified"] = modified
-        }
-        if let sourceSystemKey = sourceSystemKey {
-            dictionary["sourceSystemKey"] = sourceSystemKey
-        }
-        if let value = value {
-            dictionary["value"] = value
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        category = try container.decodeIfPresent(.category)
+        key = try container.decodeIfPresent(.key)
+        modified = try container.decodeIfPresent(.modified)
+        sourceSystemKey = try container.decodeIfPresent(.sourceSystemKey)
+        value = try container.decodeIfPresent(.value)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(category, forKey: .category)
+        try container.encode(key, forKey: .key)
+        try container.encode(modified, forKey: .modified)
+        try container.encode(sourceSystemKey, forKey: .sourceSystemKey)
+        try container.encode(value, forKey: .value)
     }
 }

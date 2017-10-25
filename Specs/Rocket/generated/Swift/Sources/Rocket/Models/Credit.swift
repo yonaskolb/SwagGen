@@ -4,12 +4,11 @@
 //
 
 import Foundation
-import JSONUtilities
 
 public class Credit: Person {
 
     /** The type of role the credit performed, e.g. actor. */
-    public enum Role: String {
+    public enum Role: String, Codable {
         case actor = "actor"
         case associateproducer = "associateproducer"
         case coactor = "coactor"
@@ -57,22 +56,24 @@ public class Credit: Person {
         super.init(name: name, path: path)
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        role = try jsonDictionary.json(atKeyPath: "role")
-        character = jsonDictionary.json(atKeyPath: "character")
-        try super.init(jsonDictionary: jsonDictionary)
+    private enum CodingKeys: String, CodingKey {
+        case role
+        case character
     }
 
-    public override func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["role"] = role.encode()
-        if let character = character {
-            dictionary["character"] = character
-        }
-        let superDictionary = super.encode()
-        for (key, value) in superDictionary {
-            dictionary[key] = value
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        role = try container.decode(.role)
+        character = try container.decodeIfPresent(.character)
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(role, forKey: .role)
+        try container.encode(character, forKey: .character)
+        try super.encode(to: encoder)
     }
 }

@@ -4,10 +4,9 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** definition with additional properties */
-public class ModelWithAdditionalProperties: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ModelWithAdditionalProperties: Codable {
 
     public var name: String?
 
@@ -17,24 +16,30 @@ public class ModelWithAdditionalProperties: JSONDecodable, JSONEncodable, Pretty
         self.name = name
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        name = jsonDictionary.json(atKeyPath: "name")
+    private enum CodingKeys: String, CodingKey {
+        case name
+    }
 
-        var additionalProperties = jsonDictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        name = try container.decodeIfPresent(.name)
+
+        let additionalPropertiesContainer = try decoder.container(keyedBy: StringCodingKey.self)
+        var additionalProperties = try additionalPropertiesContainer.toDictionary()
         additionalProperties.removeValue(forKey: "name")
         self.additionalProperties = additionalProperties
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let name = name {
-            dictionary["name"] = name
-        }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
 
+        try container.encode(name, forKey: .name)
+
+        var additionalPropertiesContainer = encoder.container(keyedBy: StringCodingKey.self)
         for (key, value) in additionalProperties {
-          dictionary[key] = value
+            try additionalPropertiesContainer.encodeAny(value, forKey: StringCodingKey(string: key))
         }
-        return dictionary
     }
 
     public subscript(key: String) -> Any? {
@@ -44,10 +49,5 @@ public class ModelWithAdditionalProperties: JSONDecodable, JSONEncodable, Pretty
         set {
             additionalProperties[key] = newValue
         }
-    }
-
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
     }
 }

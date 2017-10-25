@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension TFL.TravelTime {
 
@@ -13,7 +12,7 @@ extension TFL.TravelTime {
         public static let service = APIService<Response>(id: "TravelTime_GetOverlay", tag: "TravelTime", method: "GET", path: "/TravelTimes/overlay/{z}/mapcenter/{mapCenterLat}/{mapCenterLon}/pinlocation/{pinLat}/{pinLon}/dimensions/{width}/{height}", hasBody: false)
 
         /** The direction of travel. */
-        public enum Direction: String {
+        public enum Direction: String, Codable {
             case average = "Average"
             case from = "From"
             case to = "To"
@@ -99,7 +98,7 @@ extension TFL.TravelTime {
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 params["scenarioTitle"] = options.scenarioTitle
                 params["timeOfDayId"] = options.timeOfDayId
                 params["modeId"] = options.modeId
@@ -139,9 +138,9 @@ extension TFL.TravelTime {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decode(Object.self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

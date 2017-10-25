@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class MatchedStop: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class MatchedStop: Codable {
 
     public var accessibilitySummary: String?
 
@@ -71,96 +70,76 @@ public class MatchedStop: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.zone = zone
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        accessibilitySummary = jsonDictionary.json(atKeyPath: "accessibilitySummary")
-        direction = jsonDictionary.json(atKeyPath: "direction")
-        hasDisruption = jsonDictionary.json(atKeyPath: "hasDisruption")
-        icsId = jsonDictionary.json(atKeyPath: "icsId")
-        id = jsonDictionary.json(atKeyPath: "id")
-        lat = jsonDictionary.json(atKeyPath: "lat")
-        lines = jsonDictionary.json(atKeyPath: "lines")
-        lon = jsonDictionary.json(atKeyPath: "lon")
-        modes = jsonDictionary.json(atKeyPath: "modes")
-        name = jsonDictionary.json(atKeyPath: "name")
-        parentId = jsonDictionary.json(atKeyPath: "parentId")
-        routeId = jsonDictionary.json(atKeyPath: "routeId")
-        stationId = jsonDictionary.json(atKeyPath: "stationId")
-        status = jsonDictionary.json(atKeyPath: "status")
-        stopLetter = jsonDictionary.json(atKeyPath: "stopLetter")
-        stopType = jsonDictionary.json(atKeyPath: "stopType")
-        topMostParentId = jsonDictionary.json(atKeyPath: "topMostParentId")
-        towards = jsonDictionary.json(atKeyPath: "towards")
-        url = jsonDictionary.json(atKeyPath: "url")
-        zone = jsonDictionary.json(atKeyPath: "zone")
+    private enum CodingKeys: String, CodingKey {
+        case accessibilitySummary
+        case direction
+        case hasDisruption
+        case icsId
+        case id
+        case lat
+        case lines
+        case lon
+        case modes
+        case name
+        case parentId
+        case routeId
+        case stationId
+        case status
+        case stopLetter
+        case stopType
+        case topMostParentId
+        case towards
+        case url
+        case zone
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let accessibilitySummary = accessibilitySummary {
-            dictionary["accessibilitySummary"] = accessibilitySummary
-        }
-        if let direction = direction {
-            dictionary["direction"] = direction
-        }
-        if let hasDisruption = hasDisruption {
-            dictionary["hasDisruption"] = hasDisruption
-        }
-        if let icsId = icsId {
-            dictionary["icsId"] = icsId
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let lat = lat {
-            dictionary["lat"] = lat
-        }
-        if let lines = lines?.encode() {
-            dictionary["lines"] = lines
-        }
-        if let lon = lon {
-            dictionary["lon"] = lon
-        }
-        if let modes = modes {
-            dictionary["modes"] = modes
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let parentId = parentId {
-            dictionary["parentId"] = parentId
-        }
-        if let routeId = routeId {
-            dictionary["routeId"] = routeId
-        }
-        if let stationId = stationId {
-            dictionary["stationId"] = stationId
-        }
-        if let status = status {
-            dictionary["status"] = status
-        }
-        if let stopLetter = stopLetter {
-            dictionary["stopLetter"] = stopLetter
-        }
-        if let stopType = stopType {
-            dictionary["stopType"] = stopType
-        }
-        if let topMostParentId = topMostParentId {
-            dictionary["topMostParentId"] = topMostParentId
-        }
-        if let towards = towards {
-            dictionary["towards"] = towards
-        }
-        if let url = url {
-            dictionary["url"] = url
-        }
-        if let zone = zone {
-            dictionary["zone"] = zone
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        accessibilitySummary = try container.decodeIfPresent(.accessibilitySummary)
+        direction = try container.decodeIfPresent(.direction)
+        hasDisruption = try container.decodeIfPresent(.hasDisruption)
+        icsId = try container.decodeIfPresent(.icsId)
+        id = try container.decodeIfPresent(.id)
+        lat = try container.decodeIfPresent(.lat)
+        lines = try container.decodeIfPresent(.lines)
+        lon = try container.decodeIfPresent(.lon)
+        modes = try container.decodeIfPresent(.modes)
+        name = try container.decodeIfPresent(.name)
+        parentId = try container.decodeIfPresent(.parentId)
+        routeId = try container.decodeIfPresent(.routeId)
+        stationId = try container.decodeIfPresent(.stationId)
+        status = try container.decodeIfPresent(.status)
+        stopLetter = try container.decodeIfPresent(.stopLetter)
+        stopType = try container.decodeIfPresent(.stopType)
+        topMostParentId = try container.decodeIfPresent(.topMostParentId)
+        towards = try container.decodeIfPresent(.towards)
+        url = try container.decodeIfPresent(.url)
+        zone = try container.decodeIfPresent(.zone)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(accessibilitySummary, forKey: .accessibilitySummary)
+        try container.encode(direction, forKey: .direction)
+        try container.encode(hasDisruption, forKey: .hasDisruption)
+        try container.encode(icsId, forKey: .icsId)
+        try container.encode(id, forKey: .id)
+        try container.encode(lat, forKey: .lat)
+        try container.encode(lines, forKey: .lines)
+        try container.encode(lon, forKey: .lon)
+        try container.encode(modes, forKey: .modes)
+        try container.encode(name, forKey: .name)
+        try container.encode(parentId, forKey: .parentId)
+        try container.encode(routeId, forKey: .routeId)
+        try container.encode(stationId, forKey: .stationId)
+        try container.encode(status, forKey: .status)
+        try container.encode(stopLetter, forKey: .stopLetter)
+        try container.encode(stopType, forKey: .stopType)
+        try container.encode(topMostParentId, forKey: .topMostParentId)
+        try container.encode(towards, forKey: .towards)
+        try container.encode(url, forKey: .url)
+        try container.encode(zone, forKey: .zone)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class DisambiguationOption: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class DisambiguationOption: Codable {
 
     public var description: String?
 
@@ -17,24 +16,22 @@ public class DisambiguationOption: JSONDecodable, JSONEncodable, PrettyPrintable
         self.uri = uri
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        description = jsonDictionary.json(atKeyPath: "description")
-        uri = jsonDictionary.json(atKeyPath: "uri")
+    private enum CodingKeys: String, CodingKey {
+        case description
+        case uri
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let description = description {
-            dictionary["description"] = description
-        }
-        if let uri = uri {
-            dictionary["uri"] = uri
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        description = try container.decodeIfPresent(.description)
+        uri = try container.decodeIfPresent(.uri)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(description, forKey: .description)
+        try container.encode(uri, forKey: .uri)
     }
 }

@@ -4,11 +4,10 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class StopPointSequence: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class StopPointSequence: Codable {
 
-    public enum ServiceType: String {
+    public enum ServiceType: String, Codable {
         case regular = "Regular"
         case night = "Night"
 
@@ -50,48 +49,40 @@ public class StopPointSequence: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.stopPoint = stopPoint
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        branchId = jsonDictionary.json(atKeyPath: "branchId")
-        direction = jsonDictionary.json(atKeyPath: "direction")
-        lineId = jsonDictionary.json(atKeyPath: "lineId")
-        lineName = jsonDictionary.json(atKeyPath: "lineName")
-        nextBranchIds = jsonDictionary.json(atKeyPath: "nextBranchIds")
-        prevBranchIds = jsonDictionary.json(atKeyPath: "prevBranchIds")
-        serviceType = jsonDictionary.json(atKeyPath: "serviceType")
-        stopPoint = jsonDictionary.json(atKeyPath: "stopPoint")
+    private enum CodingKeys: String, CodingKey {
+        case branchId
+        case direction
+        case lineId
+        case lineName
+        case nextBranchIds
+        case prevBranchIds
+        case serviceType
+        case stopPoint
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let branchId = branchId {
-            dictionary["branchId"] = branchId
-        }
-        if let direction = direction {
-            dictionary["direction"] = direction
-        }
-        if let lineId = lineId {
-            dictionary["lineId"] = lineId
-        }
-        if let lineName = lineName {
-            dictionary["lineName"] = lineName
-        }
-        if let nextBranchIds = nextBranchIds {
-            dictionary["nextBranchIds"] = nextBranchIds
-        }
-        if let prevBranchIds = prevBranchIds {
-            dictionary["prevBranchIds"] = prevBranchIds
-        }
-        if let serviceType = serviceType?.encode() {
-            dictionary["serviceType"] = serviceType
-        }
-        if let stopPoint = stopPoint?.encode() {
-            dictionary["stopPoint"] = stopPoint
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        branchId = try container.decodeIfPresent(.branchId)
+        direction = try container.decodeIfPresent(.direction)
+        lineId = try container.decodeIfPresent(.lineId)
+        lineName = try container.decodeIfPresent(.lineName)
+        nextBranchIds = try container.decodeIfPresent(.nextBranchIds)
+        prevBranchIds = try container.decodeIfPresent(.prevBranchIds)
+        serviceType = try container.decodeIfPresent(.serviceType)
+        stopPoint = try container.decodeIfPresent(.stopPoint)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(branchId, forKey: .branchId)
+        try container.encode(direction, forKey: .direction)
+        try container.encode(lineId, forKey: .lineId)
+        try container.encode(lineName, forKey: .lineName)
+        try container.encode(nextBranchIds, forKey: .nextBranchIds)
+        try container.encode(prevBranchIds, forKey: .prevBranchIds)
+        try container.encode(serviceType, forKey: .serviceType)
+        try container.encode(stopPoint, forKey: .stopPoint)
     }
 }

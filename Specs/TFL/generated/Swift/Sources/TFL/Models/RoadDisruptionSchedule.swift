@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class RoadDisruptionSchedule: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class RoadDisruptionSchedule: Codable {
 
     public var endTime: Date?
 
@@ -17,24 +16,22 @@ public class RoadDisruptionSchedule: JSONDecodable, JSONEncodable, PrettyPrintab
         self.startTime = startTime
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        endTime = jsonDictionary.json(atKeyPath: "endTime")
-        startTime = jsonDictionary.json(atKeyPath: "startTime")
+    private enum CodingKeys: String, CodingKey {
+        case endTime
+        case startTime
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let endTime = endTime?.encode() {
-            dictionary["endTime"] = endTime
-        }
-        if let startTime = startTime?.encode() {
-            dictionary["startTime"] = startTime
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        endTime = try container.decodeIfPresent(.endTime)
+        startTime = try container.decodeIfPresent(.startTime)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(endTime, forKey: .endTime)
+        try container.encode(startTime, forKey: .startTime)
     }
 }

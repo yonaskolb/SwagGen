@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class TwentyFourHourClockTime: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class TwentyFourHourClockTime: Codable {
 
     public var hour: String?
 
@@ -17,24 +16,22 @@ public class TwentyFourHourClockTime: JSONDecodable, JSONEncodable, PrettyPrinta
         self.minute = minute
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        hour = jsonDictionary.json(atKeyPath: "hour")
-        minute = jsonDictionary.json(atKeyPath: "minute")
+    private enum CodingKeys: String, CodingKey {
+        case hour
+        case minute
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let hour = hour {
-            dictionary["hour"] = hour
-        }
-        if let minute = minute {
-            dictionary["minute"] = minute
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        hour = try container.decodeIfPresent(.hour)
+        minute = try container.decodeIfPresent(.minute)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(hour, forKey: .hour)
+        try container.encode(minute, forKey: .minute)
     }
 }

@@ -8,7 +8,7 @@ public typealias {{ type }} = {{ aliasType }}
 {% elif additionalPropertiesType and allProperties.count == 0 %}
 public typealias {{ type }} = [String: {{ additionalPropertiesType }}]
 {% else %}
-public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable, JSONEncodable, PrettyPrintable{% endif %} {
+public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}Codable{% endif %} {
     {% for enum in enums %}
     {% if not enum.isGlobal %}
 
@@ -36,20 +36,33 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
         {% endif %}
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
+    {% if properties.count > 0 %}
+    private enum CodingKeys: String, CodingKey {
         {% for property in properties %}
-        {{ property.name }} = {% if property.required %}try {% endif %}jsonDictionary.json(atKeyPath: "{{property.value}}")
+        case {{ property.name }}{% if property.name != property.value %} = "{{ property.value }}"{% endif %}
         {% endfor %}
+    }
+    {% endif %}
+
+    public required init(from decoder: Decoder) throws {
+        {% if properties.count > 0 %}
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        {% for property in properties %}
+        {{ property.name }} = try container.decode{% if property.isAnyType %}Any{% endif %}{% if property.optional %}IfPresent{% endif %}(.{{ property.name }})
+        {% endfor %}
+        {% endif %}
         {% if additionalPropertiesType %}
 
-        var additionalProperties = jsonDictionary
+        let additionalPropertiesContainer = try decoder.container(keyedBy: StringCodingKey.self)
+        var additionalProperties = try additionalPropertiesContainer.toDictionary()
         {% for property in properties %}
         additionalProperties.removeValue(forKey: "{{ property.value }}")
         {% endfor %}
         {% if additionalPropertiesType != "Any" %}
         var decodedAdditionalProperties: [String: {{ additionalPropertiesType }}] = [:]
         for key in additionalProperties.keys {
-            decodedAdditionalProperties[key] = additionalProperties.json(atKeyPath: .key(key))
+            decodedAdditionalProperties[key] = try additionalPropertiesContainer.decode(StringCodingKey(string: key))
         }
         self.additionalProperties = decodedAdditionalProperties
         {% else %}
@@ -57,37 +70,27 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
         {% endif %}
         {% endif %}
         {% if parent %}
-        try super.init(jsonDictionary: jsonDictionary)
+        try super.init(from: decoder)
         {% endif %}
     }
 
-    public {% if parent %}override {% endif %}func encode() -> JSONDictionary {
-        {% if properties or additionalPropertiesType %}
-        var dictionary: JSONDictionary = [:]
+    public {% if parent %}override {% endif %}func encode(to encoder: Encoder) throws {
+        {% if properties.count > 0 %}
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
         {% for property in properties %}
-        {% if property.optional %}
-        if let {{ property.name }} = {{ property.encodedValue }} {
-            dictionary["{{ property.value }}"] = {{ property.name }}
-        }
-        {% else %}
-        dictionary["{{ property.value }}"] = {{ property.encodedValue }}
-        {% endif %}
+        try container.encode{% if property.isAnyType %}Any{% endif %}({{ property.name }}, forKey: .{{ property.name }})
         {% endfor %}
+        {% endif %}
         {% if additionalPropertiesType %}
 
+        var additionalPropertiesContainer = encoder.container(keyedBy: StringCodingKey.self)
         for (key, value) in additionalProperties {
-          dictionary[key] = value
+            try additionalPropertiesContainer.encode{% if additionalPropertiesType == "Any" %}Any{% endif %}(value, forKey: StringCodingKey(string: key))
         }
         {% endif %}
         {% if parent %}
-        let superDictionary = super.encode()
-        for (key, value) in superDictionary {
-            dictionary[key] = value
-        }
-        {% endif %}
-        return dictionary
-        {% else %}
-        return [:]
+        try super.encode(to: encoder)
         {% endif %}
     }
     {% if additionalPropertiesType %}
@@ -99,13 +102,6 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}JSONDecodable
         set {
             additionalProperties[key] = newValue
         }
-    }
-    {% endif %}
-    {% if not parent %}
-
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
     }
     {% endif %}
 }

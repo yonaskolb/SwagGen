@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class SearchMatch: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class SearchMatch: Codable {
 
     public var id: String?
 
@@ -26,36 +25,31 @@ public class SearchMatch: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.url = url
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        id = jsonDictionary.json(atKeyPath: "id")
-        lat = jsonDictionary.json(atKeyPath: "lat")
-        lon = jsonDictionary.json(atKeyPath: "lon")
-        name = jsonDictionary.json(atKeyPath: "name")
-        url = jsonDictionary.json(atKeyPath: "url")
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case lat
+        case lon
+        case name
+        case url
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let lat = lat {
-            dictionary["lat"] = lat
-        }
-        if let lon = lon {
-            dictionary["lon"] = lon
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let url = url {
-            dictionary["url"] = url
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decodeIfPresent(.id)
+        lat = try container.decodeIfPresent(.lat)
+        lon = try container.decodeIfPresent(.lon)
+        name = try container.decodeIfPresent(.name)
+        url = try container.decodeIfPresent(.url)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(lat, forKey: .lat)
+        try container.encode(lon, forKey: .lon)
+        try container.encode(name, forKey: .name)
+        try container.encode(url, forKey: .url)
     }
 }

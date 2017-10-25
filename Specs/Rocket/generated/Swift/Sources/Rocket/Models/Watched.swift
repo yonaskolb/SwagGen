@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Watched: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Watched: Codable {
 
     /** The last playhead position watched for the item. */
     public var position: Int
@@ -25,26 +24,28 @@ public class Watched: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.itemId = itemId
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        position = try jsonDictionary.json(atKeyPath: "position")
-        firstWatchedDate = try jsonDictionary.json(atKeyPath: "firstWatchedDate")
-        lastWatchedDate = try jsonDictionary.json(atKeyPath: "lastWatchedDate")
-        itemId = jsonDictionary.json(atKeyPath: "itemId")
+    private enum CodingKeys: String, CodingKey {
+        case position
+        case firstWatchedDate
+        case lastWatchedDate
+        case itemId
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["position"] = position
-        dictionary["firstWatchedDate"] = firstWatchedDate.encode()
-        dictionary["lastWatchedDate"] = lastWatchedDate.encode()
-        if let itemId = itemId {
-            dictionary["itemId"] = itemId
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        position = try container.decode(.position)
+        firstWatchedDate = try container.decode(.firstWatchedDate)
+        lastWatchedDate = try container.decode(.lastWatchedDate)
+        itemId = try container.decodeIfPresent(.itemId)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(position, forKey: .position)
+        try container.encode(firstWatchedDate, forKey: .firstWatchedDate)
+        try container.encode(lastWatchedDate, forKey: .lastWatchedDate)
+        try container.encode(itemId, forKey: .itemId)
     }
 }

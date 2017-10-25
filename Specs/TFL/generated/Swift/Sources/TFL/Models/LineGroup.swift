@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class LineGroup: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class LineGroup: Codable {
 
     public var lineIdentifier: [String]?
 
@@ -20,28 +19,25 @@ public class LineGroup: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.stationAtcoCode = stationAtcoCode
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        lineIdentifier = jsonDictionary.json(atKeyPath: "lineIdentifier")
-        naptanIdReference = jsonDictionary.json(atKeyPath: "naptanIdReference")
-        stationAtcoCode = jsonDictionary.json(atKeyPath: "stationAtcoCode")
+    private enum CodingKeys: String, CodingKey {
+        case lineIdentifier
+        case naptanIdReference
+        case stationAtcoCode
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let lineIdentifier = lineIdentifier {
-            dictionary["lineIdentifier"] = lineIdentifier
-        }
-        if let naptanIdReference = naptanIdReference {
-            dictionary["naptanIdReference"] = naptanIdReference
-        }
-        if let stationAtcoCode = stationAtcoCode {
-            dictionary["stationAtcoCode"] = stationAtcoCode
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        lineIdentifier = try container.decodeIfPresent(.lineIdentifier)
+        naptanIdReference = try container.decodeIfPresent(.naptanIdReference)
+        stationAtcoCode = try container.decodeIfPresent(.stationAtcoCode)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(lineIdentifier, forKey: .lineIdentifier)
+        try container.encode(naptanIdReference, forKey: .naptanIdReference)
+        try container.encode(stationAtcoCode, forKey: .stationAtcoCode)
     }
 }

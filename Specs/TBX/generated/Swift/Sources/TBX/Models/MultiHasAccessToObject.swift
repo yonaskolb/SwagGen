@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class MultiHasAccessToObject: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class MultiHasAccessToObject: Codable {
 
     public var granted: [String]
 
@@ -23,24 +22,28 @@ public class MultiHasAccessToObject: JSONDecodable, JSONEncodable, PrettyPrintab
         self.details = details
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        granted = try jsonDictionary.json(atKeyPath: "granted")
-        denied = try jsonDictionary.json(atKeyPath: "denied")
-        failed = try jsonDictionary.json(atKeyPath: "failed")
-        details = try jsonDictionary.json(atKeyPath: "details")
+    private enum CodingKeys: String, CodingKey {
+        case granted
+        case denied
+        case failed
+        case details
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["granted"] = granted
-        dictionary["denied"] = denied
-        dictionary["failed"] = failed
-        dictionary["details"] = details.encode()
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        granted = try container.decode(.granted)
+        denied = try container.decode(.denied)
+        failed = try container.decode(.failed)
+        details = try container.decode(.details)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(granted, forKey: .granted)
+        try container.encode(denied, forKey: .denied)
+        try container.encode(failed, forKey: .failed)
+        try container.encode(details, forKey: .details)
     }
 }

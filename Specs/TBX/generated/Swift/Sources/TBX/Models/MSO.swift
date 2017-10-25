@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class MSO: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class MSO: Codable {
 
     public var countryCode: String
 
@@ -20,22 +19,25 @@ public class MSO: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.idp = idp
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        countryCode = try jsonDictionary.json(atKeyPath: "countryCode")
-        country = try jsonDictionary.json(atKeyPath: "country")
-        idp = try jsonDictionary.json(atKeyPath: "idp")
+    private enum CodingKeys: String, CodingKey {
+        case countryCode
+        case country
+        case idp
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["countryCode"] = countryCode
-        dictionary["country"] = country
-        dictionary["idp"] = idp.encode()
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        countryCode = try container.decode(.countryCode)
+        country = try container.decode(.country)
+        idp = try container.decodeAny(.idp)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(countryCode, forKey: .countryCode)
+        try container.encode(country, forKey: .country)
+        try container.encodeAny(idp, forKey: .idp)
     }
 }

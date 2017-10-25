@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension PetstoreTest.Store {
 
@@ -78,7 +77,7 @@ extension PetstoreTest.Store {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 case 400: self = .status400
                 case 404: self = .status404

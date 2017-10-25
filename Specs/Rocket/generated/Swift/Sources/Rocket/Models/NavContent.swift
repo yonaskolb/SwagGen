@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class NavContent: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class NavContent: Codable {
 
     /** The image type to target when rendering items of the list.
 
@@ -26,28 +25,25 @@ e.g wallpaper, poster, hero3x1, logo.
         self.title = title
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        imageType = jsonDictionary.json(atKeyPath: "imageType")
-        list = jsonDictionary.json(atKeyPath: "list")
-        title = jsonDictionary.json(atKeyPath: "title")
+    private enum CodingKeys: String, CodingKey {
+        case imageType
+        case list
+        case title
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let imageType = imageType {
-            dictionary["imageType"] = imageType
-        }
-        if let list = list?.encode() {
-            dictionary["list"] = list
-        }
-        if let title = title {
-            dictionary["title"] = title
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        imageType = try container.decodeIfPresent(.imageType)
+        list = try container.decodeIfPresent(.list)
+        title = try container.decodeIfPresent(.title)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(imageType, forKey: .imageType)
+        try container.encode(list, forKey: .list)
+        try container.encode(title, forKey: .title)
     }
 }

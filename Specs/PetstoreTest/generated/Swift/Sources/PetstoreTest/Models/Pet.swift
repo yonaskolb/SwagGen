@@ -4,12 +4,11 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Pet: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Pet: Codable {
 
     /** pet status in the store */
-    public enum Status: String {
+    public enum Status: String, Codable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"
@@ -43,36 +42,34 @@ public class Pet: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.tags = tags
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        name = try jsonDictionary.json(atKeyPath: "name")
-        photoUrls = try jsonDictionary.json(atKeyPath: "photoUrls")
-        category = jsonDictionary.json(atKeyPath: "category")
-        id = jsonDictionary.json(atKeyPath: "id")
-        status = jsonDictionary.json(atKeyPath: "status")
-        tags = jsonDictionary.json(atKeyPath: "tags")
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case photoUrls
+        case category
+        case id
+        case status
+        case tags
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["name"] = name
-        dictionary["photoUrls"] = photoUrls
-        if let category = category?.encode() {
-            dictionary["category"] = category
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let status = status?.encode() {
-            dictionary["status"] = status
-        }
-        if let tags = tags?.encode() {
-            dictionary["tags"] = tags
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        name = try container.decode(.name)
+        photoUrls = try container.decode(.photoUrls)
+        category = try container.decodeIfPresent(.category)
+        id = try container.decodeIfPresent(.id)
+        status = try container.decodeIfPresent(.status)
+        tags = try container.decodeIfPresent(.tags)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(name, forKey: .name)
+        try container.encode(photoUrls, forKey: .photoUrls)
+        try container.encode(category, forKey: .category)
+        try container.encode(id, forKey: .id)
+        try container.encode(status, forKey: .status)
+        try container.encode(tags, forKey: .tags)
     }
 }

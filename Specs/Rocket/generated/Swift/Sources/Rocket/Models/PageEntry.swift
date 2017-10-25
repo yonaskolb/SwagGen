@@ -4,16 +4,15 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** Represents an entry of a Page.
 Defines what specific piece of content should be presented e.g. an Item or ItemList.
 Also defines what visual template should be used to render that content.
  */
-public class PageEntry: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class PageEntry: Codable {
 
     /** The type of PageEntry. Used to help identify what type of content will be presented. */
-    public enum `Type`: String {
+    public enum `Type`: String, Codable {
         case itemEntry = "ItemEntry"
         case itemDetailEntry = "ItemDetailEntry"
         case listEntry = "ListEntry"
@@ -83,48 +82,46 @@ For example the images of an `ImageEntry`.
         self.text = text
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        id = try jsonDictionary.json(atKeyPath: "id")
-        type = try jsonDictionary.json(atKeyPath: "type")
-        title = try jsonDictionary.json(atKeyPath: "title")
-        template = try jsonDictionary.json(atKeyPath: "template")
-        customFields = jsonDictionary.json(atKeyPath: "customFields")
-        images = jsonDictionary.json(atKeyPath: "images")
-        item = jsonDictionary.json(atKeyPath: "item")
-        list = jsonDictionary.json(atKeyPath: "list")
-        people = jsonDictionary.json(atKeyPath: "people")
-        text = jsonDictionary.json(atKeyPath: "text")
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case type
+        case title
+        case template
+        case customFields
+        case images
+        case item
+        case list
+        case people
+        case text
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["id"] = id
-        dictionary["type"] = type.encode()
-        dictionary["title"] = title
-        dictionary["template"] = template
-        if let customFields = customFields {
-            dictionary["customFields"] = customFields
-        }
-        if let images = images?.encode() {
-            dictionary["images"] = images
-        }
-        if let item = item?.encode() {
-            dictionary["item"] = item
-        }
-        if let list = list?.encode() {
-            dictionary["list"] = list
-        }
-        if let people = people?.encode() {
-            dictionary["people"] = people
-        }
-        if let text = text {
-            dictionary["text"] = text
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(.id)
+        type = try container.decode(.type)
+        title = try container.decode(.title)
+        template = try container.decode(.template)
+        customFields = try container.decodeAnyIfPresent(.customFields)
+        images = try container.decodeIfPresent(.images)
+        item = try container.decodeIfPresent(.item)
+        list = try container.decodeIfPresent(.list)
+        people = try container.decodeIfPresent(.people)
+        text = try container.decodeIfPresent(.text)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(type, forKey: .type)
+        try container.encode(title, forKey: .title)
+        try container.encode(template, forKey: .template)
+        try container.encodeAny(customFields, forKey: .customFields)
+        try container.encode(images, forKey: .images)
+        try container.encode(item, forKey: .item)
+        try container.encode(list, forKey: .list)
+        try container.encode(people, forKey: .people)
+        try container.encode(text, forKey: .text)
     }
 }

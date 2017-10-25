@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class AppConfigPlayback: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class AppConfigPlayback: Codable {
 
     /** How often a heartbeat should be renewed during playback. */
     public var heartbeatFrequency: Int
@@ -23,20 +22,22 @@ Often known as quartiles when four equaly spread event points.
         self.viewEventPoints = viewEventPoints
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        heartbeatFrequency = try jsonDictionary.json(atKeyPath: "heartbeatFrequency")
-        viewEventPoints = try jsonDictionary.json(atKeyPath: "viewEventPoints")
+    private enum CodingKeys: String, CodingKey {
+        case heartbeatFrequency
+        case viewEventPoints
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["heartbeatFrequency"] = heartbeatFrequency
-        dictionary["viewEventPoints"] = viewEventPoints
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        heartbeatFrequency = try container.decode(.heartbeatFrequency)
+        viewEventPoints = try container.decode(.viewEventPoints)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(heartbeatFrequency, forKey: .heartbeatFrequency)
+        try container.encode(viewEventPoints, forKey: .viewEventPoints)
     }
 }

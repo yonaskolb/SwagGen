@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class PasswordResetEmailRequest: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class PasswordResetEmailRequest: Codable {
 
     /** The email address of the primary account profile to reset the password for. */
     public var email: String
@@ -15,18 +14,19 @@ public class PasswordResetEmailRequest: JSONDecodable, JSONEncodable, PrettyPrin
         self.email = email
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        email = try jsonDictionary.json(atKeyPath: "email")
+    private enum CodingKeys: String, CodingKey {
+        case email
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["email"] = email
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        email = try container.decode(.email)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(email, forKey: .email)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class TryAndBuyObject: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class TryAndBuyObject: Codable {
 
     public var active: Bool
 
@@ -32,30 +31,34 @@ public class TryAndBuyObject: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.lastFinishedTryAndBuy = lastFinishedTryAndBuy
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        active = try jsonDictionary.json(atKeyPath: "active")
-        createdAt = try jsonDictionary.json(atKeyPath: "createdAt")
-        expiration = try jsonDictionary.json(atKeyPath: "expiration")
-        daysWithTryAndBuy = try jsonDictionary.json(atKeyPath: "daysWithTryAndBuy")
-        numTryAndBuyExpired = try jsonDictionary.json(atKeyPath: "numTryAndBuyExpired")
-        lastFinishedTryAndBuy = jsonDictionary.json(atKeyPath: "lastFinishedTryAndBuy")
+    private enum CodingKeys: String, CodingKey {
+        case active
+        case createdAt
+        case expiration
+        case daysWithTryAndBuy
+        case numTryAndBuyExpired
+        case lastFinishedTryAndBuy
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["active"] = active
-        dictionary["createdAt"] = createdAt.encode()
-        dictionary["expiration"] = expiration.encode()
-        dictionary["daysWithTryAndBuy"] = daysWithTryAndBuy
-        dictionary["numTryAndBuyExpired"] = numTryAndBuyExpired
-        if let lastFinishedTryAndBuy = lastFinishedTryAndBuy?.encode() {
-            dictionary["lastFinishedTryAndBuy"] = lastFinishedTryAndBuy
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        active = try container.decode(.active)
+        createdAt = try container.decode(.createdAt)
+        expiration = try container.decode(.expiration)
+        daysWithTryAndBuy = try container.decode(.daysWithTryAndBuy)
+        numTryAndBuyExpired = try container.decode(.numTryAndBuyExpired)
+        lastFinishedTryAndBuy = try container.decodeIfPresent(.lastFinishedTryAndBuy)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(active, forKey: .active)
+        try container.encode(createdAt, forKey: .createdAt)
+        try container.encode(expiration, forKey: .expiration)
+        try container.encode(daysWithTryAndBuy, forKey: .daysWithTryAndBuy)
+        try container.encode(numTryAndBuyExpired, forKey: .numTryAndBuyExpired)
+        try container.encode(lastFinishedTryAndBuy, forKey: .lastFinishedTryAndBuy)
     }
 }

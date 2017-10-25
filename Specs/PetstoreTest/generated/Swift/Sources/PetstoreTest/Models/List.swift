@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class List: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class List: Codable {
 
     public var _123List: String?
 
@@ -14,20 +13,19 @@ public class List: JSONDecodable, JSONEncodable, PrettyPrintable {
         self._123List = _123List
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        _123List = jsonDictionary.json(atKeyPath: "123-list")
+    private enum CodingKeys: String, CodingKey {
+        case _123List = "123-list"
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let _123List = _123List {
-            dictionary["123-list"] = _123List
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        _123List = try container.decodeIfPresent(._123List)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(_123List, forKey: ._123List)
     }
 }

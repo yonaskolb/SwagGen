@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Customer: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Customer: Codable {
 
     public var subscriberID: String
 
@@ -41,54 +40,46 @@ public class Customer: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.updated = updated
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        subscriberID = try jsonDictionary.json(atKeyPath: "subscriberID")
-        banReason = jsonDictionary.json(atKeyPath: "banReason")
-        banned = jsonDictionary.json(atKeyPath: "banned")
-        country = jsonDictionary.json(atKeyPath: "country")
-        created = jsonDictionary.json(atKeyPath: "created")
-        hasNotDeviceLimit = jsonDictionary.json(atKeyPath: "hasNotDeviceLimit")
-        id = jsonDictionary.json(atKeyPath: "id")
-        identityProvider = jsonDictionary.json(atKeyPath: "identityProvider")
-        lastLogin = jsonDictionary.json(atKeyPath: "lastLogin")
-        updated = jsonDictionary.json(atKeyPath: "updated")
+    private enum CodingKeys: String, CodingKey {
+        case subscriberID
+        case banReason
+        case banned
+        case country
+        case created
+        case hasNotDeviceLimit
+        case id
+        case identityProvider
+        case lastLogin
+        case updated
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["subscriberID"] = subscriberID
-        if let banReason = banReason {
-            dictionary["banReason"] = banReason
-        }
-        if let banned = banned {
-            dictionary["banned"] = banned
-        }
-        if let country = country?.encode() {
-            dictionary["country"] = country
-        }
-        if let created = created?.encode() {
-            dictionary["created"] = created
-        }
-        if let hasNotDeviceLimit = hasNotDeviceLimit {
-            dictionary["hasNotDeviceLimit"] = hasNotDeviceLimit
-        }
-        if let id = id?.encode() {
-            dictionary["id"] = id
-        }
-        if let identityProvider = identityProvider?.encode() {
-            dictionary["identityProvider"] = identityProvider
-        }
-        if let lastLogin = lastLogin?.encode() {
-            dictionary["lastLogin"] = lastLogin
-        }
-        if let updated = updated?.encode() {
-            dictionary["updated"] = updated
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        subscriberID = try container.decode(.subscriberID)
+        banReason = try container.decodeIfPresent(.banReason)
+        banned = try container.decodeIfPresent(.banned)
+        country = try container.decodeIfPresent(.country)
+        created = try container.decodeIfPresent(.created)
+        hasNotDeviceLimit = try container.decodeIfPresent(.hasNotDeviceLimit)
+        id = try container.decodeIfPresent(.id)
+        identityProvider = try container.decodeIfPresent(.identityProvider)
+        lastLogin = try container.decodeIfPresent(.lastLogin)
+        updated = try container.decodeIfPresent(.updated)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(subscriberID, forKey: .subscriberID)
+        try container.encode(banReason, forKey: .banReason)
+        try container.encode(banned, forKey: .banned)
+        try container.encode(country, forKey: .country)
+        try container.encode(created, forKey: .created)
+        try container.encode(hasNotDeviceLimit, forKey: .hasNotDeviceLimit)
+        try container.encode(id, forKey: .id)
+        try container.encode(identityProvider, forKey: .identityProvider)
+        try container.encode(lastLogin, forKey: .lastLogin)
+        try container.encode(updated, forKey: .updated)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Navigation: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Navigation: Codable {
 
     /** The header navigation. */
     public var header: [NavEntry]
@@ -31,34 +30,31 @@ public class Navigation: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.footer = footer
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        header = try jsonDictionary.json(atKeyPath: "header")
-        account = jsonDictionary.json(atKeyPath: "account")
-        copyright = jsonDictionary.json(atKeyPath: "copyright")
-        customFields = jsonDictionary.json(atKeyPath: "customFields")
-        footer = jsonDictionary.json(atKeyPath: "footer")
+    private enum CodingKeys: String, CodingKey {
+        case header
+        case account
+        case copyright
+        case customFields
+        case footer
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["header"] = header.encode()
-        if let account = account?.encode() {
-            dictionary["account"] = account
-        }
-        if let copyright = copyright {
-            dictionary["copyright"] = copyright
-        }
-        if let customFields = customFields {
-            dictionary["customFields"] = customFields
-        }
-        if let footer = footer?.encode() {
-            dictionary["footer"] = footer
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        header = try container.decode(.header)
+        account = try container.decodeIfPresent(.account)
+        copyright = try container.decodeIfPresent(.copyright)
+        customFields = try container.decodeAnyIfPresent(.customFields)
+        footer = try container.decodeIfPresent(.footer)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(header, forKey: .header)
+        try container.encode(account, forKey: .account)
+        try container.encode(copyright, forKey: .copyright)
+        try container.encodeAny(customFields, forKey: .customFields)
+        try container.encode(footer, forKey: .footer)
     }
 }

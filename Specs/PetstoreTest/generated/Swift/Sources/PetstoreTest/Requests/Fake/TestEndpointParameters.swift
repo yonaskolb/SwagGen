@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension PetstoreTest.Fake {
 
@@ -95,7 +94,7 @@ extension PetstoreTest.Fake {
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 if let integer = options.integer {
                   params["integer"] = integer
                 }
@@ -169,7 +168,7 @@ extension PetstoreTest.Fake {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 case 400: self = .status400
                 case 404: self = .status404

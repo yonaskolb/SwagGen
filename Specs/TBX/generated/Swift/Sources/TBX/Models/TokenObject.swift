@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class TokenObject: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class TokenObject: Codable {
 
     /** The Token ID */
     public var token: String
@@ -31,34 +30,34 @@ public class TokenObject: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.uses = uses
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        token = try jsonDictionary.json(atKeyPath: "token")
-        idp = try jsonDictionary.json(atKeyPath: "idp")
-        type = try jsonDictionary.json(atKeyPath: "type")
-        expiration = jsonDictionary.json(atKeyPath: "expiration")
-        remainingCredits = jsonDictionary.json(atKeyPath: "remainingCredits")
-        uses = jsonDictionary.json(atKeyPath: "uses")
+    private enum CodingKeys: String, CodingKey {
+        case token
+        case idp
+        case type
+        case expiration
+        case remainingCredits
+        case uses
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["token"] = token
-        dictionary["idp"] = idp
-        dictionary["type"] = type
-        if let expiration = expiration?.encode() {
-            dictionary["expiration"] = expiration
-        }
-        if let remainingCredits = remainingCredits {
-            dictionary["remainingCredits"] = remainingCredits
-        }
-        if let uses = uses {
-            dictionary["uses"] = uses
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        token = try container.decode(.token)
+        idp = try container.decodeAny(.idp)
+        type = try container.decode(.type)
+        expiration = try container.decodeIfPresent(.expiration)
+        remainingCredits = try container.decodeIfPresent(.remainingCredits)
+        uses = try container.decodeIfPresent(.uses)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(token, forKey: .token)
+        try container.encodeAny(idp, forKey: .idp)
+        try container.encode(type, forKey: .type)
+        try container.encode(expiration, forKey: .expiration)
+        try container.encode(remainingCredits, forKey: .remainingCredits)
+        try container.encode(uses, forKey: .uses)
     }
 }

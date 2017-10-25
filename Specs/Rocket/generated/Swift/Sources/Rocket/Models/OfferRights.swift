@@ -4,13 +4,12 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** The base type for both Offer and Entitlement. */
-public class OfferRights: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class OfferRights: Codable {
 
     /** The base type for both Offer and Entitlement. */
-    public enum DeliveryType: String {
+    public enum DeliveryType: String, Codable {
         case stream = "Stream"
         case download = "Download"
         case streamOrDownload = "StreamOrDownload"
@@ -27,7 +26,7 @@ public class OfferRights: JSONDecodable, JSONEncodable, PrettyPrintable {
     }
 
     /** The base type for both Offer and Entitlement. */
-    public enum Resolution: String {
+    public enum Resolution: String, Codable {
         case sd = "SD"
         case hd720 = "HD-720"
         case hd1080 = "HD-1080"
@@ -42,7 +41,7 @@ public class OfferRights: JSONDecodable, JSONEncodable, PrettyPrintable {
     }
 
     /** The base type for both Offer and Entitlement. */
-    public enum Ownership: String {
+    public enum Ownership: String, Codable {
         case subscription = "Subscription"
         case free = "Free"
         case rent = "Rent"
@@ -93,44 +92,43 @@ public class OfferRights: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.rentalPeriod = rentalPeriod
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        deliveryType = try jsonDictionary.json(atKeyPath: "deliveryType")
-        scopes = try jsonDictionary.json(atKeyPath: "scopes")
-        resolution = try jsonDictionary.json(atKeyPath: "resolution")
-        ownership = try jsonDictionary.json(atKeyPath: "ownership")
-        exclusionRules = jsonDictionary.json(atKeyPath: "exclusionRules")
-        maxDownloads = jsonDictionary.json(atKeyPath: "maxDownloads")
-        maxPlays = jsonDictionary.json(atKeyPath: "maxPlays")
-        playPeriod = jsonDictionary.json(atKeyPath: "playPeriod")
-        rentalPeriod = jsonDictionary.json(atKeyPath: "rentalPeriod")
+    private enum CodingKeys: String, CodingKey {
+        case deliveryType
+        case scopes
+        case resolution
+        case ownership
+        case exclusionRules
+        case maxDownloads
+        case maxPlays
+        case playPeriod
+        case rentalPeriod
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["deliveryType"] = deliveryType.encode()
-        dictionary["scopes"] = scopes
-        dictionary["resolution"] = resolution.encode()
-        dictionary["ownership"] = ownership.encode()
-        if let exclusionRules = exclusionRules?.encode() {
-            dictionary["exclusionRules"] = exclusionRules
-        }
-        if let maxDownloads = maxDownloads {
-            dictionary["maxDownloads"] = maxDownloads
-        }
-        if let maxPlays = maxPlays {
-            dictionary["maxPlays"] = maxPlays
-        }
-        if let playPeriod = playPeriod {
-            dictionary["playPeriod"] = playPeriod
-        }
-        if let rentalPeriod = rentalPeriod {
-            dictionary["rentalPeriod"] = rentalPeriod
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        deliveryType = try container.decode(.deliveryType)
+        scopes = try container.decode(.scopes)
+        resolution = try container.decode(.resolution)
+        ownership = try container.decode(.ownership)
+        exclusionRules = try container.decodeIfPresent(.exclusionRules)
+        maxDownloads = try container.decodeIfPresent(.maxDownloads)
+        maxPlays = try container.decodeIfPresent(.maxPlays)
+        playPeriod = try container.decodeIfPresent(.playPeriod)
+        rentalPeriod = try container.decodeIfPresent(.rentalPeriod)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(deliveryType, forKey: .deliveryType)
+        try container.encode(scopes, forKey: .scopes)
+        try container.encode(resolution, forKey: .resolution)
+        try container.encode(ownership, forKey: .ownership)
+        try container.encode(exclusionRules, forKey: .exclusionRules)
+        try container.encode(maxDownloads, forKey: .maxDownloads)
+        try container.encode(maxPlays, forKey: .maxPlays)
+        try container.encode(playPeriod, forKey: .playPeriod)
+        try container.encode(rentalPeriod, forKey: .rentalPeriod)
     }
 }

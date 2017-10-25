@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ChangePinRequest: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ChangePinRequest: Codable {
 
     /** The new pin to set. */
     public var pin: String
@@ -15,18 +14,19 @@ public class ChangePinRequest: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.pin = pin
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        pin = try jsonDictionary.json(atKeyPath: "pin")
+    private enum CodingKeys: String, CodingKey {
+        case pin
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["pin"] = pin
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        pin = try container.decode(.pin)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(pin, forKey: .pin)
     }
 }

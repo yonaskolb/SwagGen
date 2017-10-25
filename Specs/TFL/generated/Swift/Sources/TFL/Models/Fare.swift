@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Fare: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Fare: Codable {
 
     public var cap: Double?
 
@@ -44,60 +43,49 @@ public class Fare: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.zone = zone
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        cap = jsonDictionary.json(atKeyPath: "cap")
-        cost = jsonDictionary.json(atKeyPath: "cost")
-        description = jsonDictionary.json(atKeyPath: "description")
-        id = jsonDictionary.json(atKeyPath: "id")
-        mode = jsonDictionary.json(atKeyPath: "mode")
-        passengerType = jsonDictionary.json(atKeyPath: "passengerType")
-        ticketTime = jsonDictionary.json(atKeyPath: "ticketTime")
-        ticketType = jsonDictionary.json(atKeyPath: "ticketType")
-        validFrom = jsonDictionary.json(atKeyPath: "validFrom")
-        validUntil = jsonDictionary.json(atKeyPath: "validUntil")
-        zone = jsonDictionary.json(atKeyPath: "zone")
+    private enum CodingKeys: String, CodingKey {
+        case cap
+        case cost
+        case description
+        case id
+        case mode
+        case passengerType
+        case ticketTime
+        case ticketType
+        case validFrom
+        case validUntil
+        case zone
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let cap = cap {
-            dictionary["cap"] = cap
-        }
-        if let cost = cost {
-            dictionary["cost"] = cost
-        }
-        if let description = description {
-            dictionary["description"] = description
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let mode = mode {
-            dictionary["mode"] = mode
-        }
-        if let passengerType = passengerType {
-            dictionary["passengerType"] = passengerType
-        }
-        if let ticketTime = ticketTime {
-            dictionary["ticketTime"] = ticketTime
-        }
-        if let ticketType = ticketType {
-            dictionary["ticketType"] = ticketType
-        }
-        if let validFrom = validFrom?.encode() {
-            dictionary["validFrom"] = validFrom
-        }
-        if let validUntil = validUntil?.encode() {
-            dictionary["validUntil"] = validUntil
-        }
-        if let zone = zone {
-            dictionary["zone"] = zone
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        cap = try container.decodeIfPresent(.cap)
+        cost = try container.decodeIfPresent(.cost)
+        description = try container.decodeIfPresent(.description)
+        id = try container.decodeIfPresent(.id)
+        mode = try container.decodeIfPresent(.mode)
+        passengerType = try container.decodeIfPresent(.passengerType)
+        ticketTime = try container.decodeIfPresent(.ticketTime)
+        ticketType = try container.decodeIfPresent(.ticketType)
+        validFrom = try container.decodeIfPresent(.validFrom)
+        validUntil = try container.decodeIfPresent(.validUntil)
+        zone = try container.decodeIfPresent(.zone)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(cap, forKey: .cap)
+        try container.encode(cost, forKey: .cost)
+        try container.encode(description, forKey: .description)
+        try container.encode(id, forKey: .id)
+        try container.encode(mode, forKey: .mode)
+        try container.encode(passengerType, forKey: .passengerType)
+        try container.encode(ticketTime, forKey: .ticketTime)
+        try container.encode(ticketType, forKey: .ticketType)
+        try container.encode(validFrom, forKey: .validFrom)
+        try container.encode(validUntil, forKey: .validUntil)
+        try container.encode(zone, forKey: .zone)
     }
 }

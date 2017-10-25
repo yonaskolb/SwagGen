@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Mode: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Mode: Codable {
 
     public var isFarePaying: Bool?
 
@@ -23,32 +22,28 @@ public class Mode: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.modeName = modeName
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        isFarePaying = jsonDictionary.json(atKeyPath: "isFarePaying")
-        isScheduledService = jsonDictionary.json(atKeyPath: "isScheduledService")
-        isTflService = jsonDictionary.json(atKeyPath: "isTflService")
-        modeName = jsonDictionary.json(atKeyPath: "modeName")
+    private enum CodingKeys: String, CodingKey {
+        case isFarePaying
+        case isScheduledService
+        case isTflService
+        case modeName
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let isFarePaying = isFarePaying {
-            dictionary["isFarePaying"] = isFarePaying
-        }
-        if let isScheduledService = isScheduledService {
-            dictionary["isScheduledService"] = isScheduledService
-        }
-        if let isTflService = isTflService {
-            dictionary["isTflService"] = isTflService
-        }
-        if let modeName = modeName {
-            dictionary["modeName"] = modeName
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        isFarePaying = try container.decodeIfPresent(.isFarePaying)
+        isScheduledService = try container.decodeIfPresent(.isScheduledService)
+        isTflService = try container.decodeIfPresent(.isTflService)
+        modeName = try container.decodeIfPresent(.modeName)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(isFarePaying, forKey: .isFarePaying)
+        try container.encode(isScheduledService, forKey: .isScheduledService)
+        try container.encode(isTflService, forKey: .isTflService)
+        try container.encode(modeName, forKey: .modeName)
     }
 }

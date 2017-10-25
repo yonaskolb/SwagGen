@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class FaresSection: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class FaresSection: Codable {
 
     public var header: String?
 
@@ -23,32 +22,28 @@ public class FaresSection: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.rows = rows
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        header = jsonDictionary.json(atKeyPath: "header")
-        index = jsonDictionary.json(atKeyPath: "index")
-        messages = jsonDictionary.json(atKeyPath: "messages")
-        rows = jsonDictionary.json(atKeyPath: "rows")
+    private enum CodingKeys: String, CodingKey {
+        case header
+        case index
+        case messages
+        case rows
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let header = header {
-            dictionary["header"] = header
-        }
-        if let index = index {
-            dictionary["index"] = index
-        }
-        if let messages = messages?.encode() {
-            dictionary["messages"] = messages
-        }
-        if let rows = rows?.encode() {
-            dictionary["rows"] = rows
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        header = try container.decodeIfPresent(.header)
+        index = try container.decodeIfPresent(.index)
+        messages = try container.decodeIfPresent(.messages)
+        rows = try container.decodeIfPresent(.rows)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(header, forKey: .header)
+        try container.encode(index, forKey: .index)
+        try container.encode(messages, forKey: .messages)
+        try container.encode(rows, forKey: .rows)
     }
 }

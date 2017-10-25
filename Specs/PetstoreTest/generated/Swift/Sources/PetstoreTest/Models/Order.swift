@@ -4,12 +4,11 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Order: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Order: Codable {
 
     /** Order Status */
-    public enum Status: String {
+    public enum Status: String, Codable {
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"
@@ -43,40 +42,34 @@ public class Order: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.status = status
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        complete = jsonDictionary.json(atKeyPath: "complete")
-        id = jsonDictionary.json(atKeyPath: "id")
-        petId = jsonDictionary.json(atKeyPath: "petId")
-        quantity = jsonDictionary.json(atKeyPath: "quantity")
-        shipDate = jsonDictionary.json(atKeyPath: "shipDate")
-        status = jsonDictionary.json(atKeyPath: "status")
+    private enum CodingKeys: String, CodingKey {
+        case complete
+        case id
+        case petId
+        case quantity
+        case shipDate
+        case status
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let complete = complete {
-            dictionary["complete"] = complete
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let petId = petId {
-            dictionary["petId"] = petId
-        }
-        if let quantity = quantity {
-            dictionary["quantity"] = quantity
-        }
-        if let shipDate = shipDate?.encode() {
-            dictionary["shipDate"] = shipDate
-        }
-        if let status = status?.encode() {
-            dictionary["status"] = status
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        complete = try container.decodeIfPresent(.complete)
+        id = try container.decodeIfPresent(.id)
+        petId = try container.decodeIfPresent(.petId)
+        quantity = try container.decodeIfPresent(.quantity)
+        shipDate = try container.decodeIfPresent(.shipDate)
+        status = try container.decodeIfPresent(.status)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(complete, forKey: .complete)
+        try container.encode(id, forKey: .id)
+        try container.encode(petId, forKey: .petId)
+        try container.encode(quantity, forKey: .quantity)
+        try container.encode(shipDate, forKey: .shipDate)
+        try container.encode(status, forKey: .status)
     }
 }

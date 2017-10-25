@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension Rocket.App {
 
@@ -23,7 +22,7 @@ parameter, or if unspecified, getting all configuration.
         /** A comma delimited list of config objects to return.
         If none specified then all configuration is returned.
          */
-        public enum Include: String {
+        public enum Include: String, Codable {
             case classification = "classification"
             case playback = "playback"
             case sitemap = "sitemap"
@@ -100,7 +99,7 @@ See the `feature-flags.md` for available flag details.
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 if let include = options.include?.encode().map({ String(describing: $0) }).joined(separator: ",") {
                   params["include"] = include
                 }
@@ -196,13 +195,13 @@ See the `feature-flags.md` for available flag details.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
-                case 400: self = try .status400(JSONDecoder.decode(data: data))
-                case 404: self = try .status404(JSONDecoder.decode(data: data))
-                case 500: self = try .status500(JSONDecoder.decode(data: data))
-                default: self = try .defaultResponse(statusCode: statusCode, JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decode(AppConfig.self, from: data))
+                case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))
+                case 404: self = try .status404(decoder.decode(ServiceError.self, from: data))
+                case 500: self = try .status500(decoder.decode(ServiceError.self, from: data))
+                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ServiceError.self, from: data))
                 }
             }
 

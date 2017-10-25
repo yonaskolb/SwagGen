@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class PlacePolygon: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class PlacePolygon: Codable {
 
     public var commonName: String?
 
@@ -17,24 +16,22 @@ public class PlacePolygon: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.geoPoints = geoPoints
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        commonName = jsonDictionary.json(atKeyPath: "commonName")
-        geoPoints = jsonDictionary.json(atKeyPath: "geoPoints")
+    private enum CodingKeys: String, CodingKey {
+        case commonName
+        case geoPoints
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let commonName = commonName {
-            dictionary["commonName"] = commonName
-        }
-        if let geoPoints = geoPoints?.encode() {
-            dictionary["geoPoints"] = geoPoints
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        commonName = try container.decodeIfPresent(.commonName)
+        geoPoints = try container.decodeIfPresent(.geoPoints)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(commonName, forKey: .commonName)
+        try container.encode(geoPoints, forKey: .geoPoints)
     }
 }

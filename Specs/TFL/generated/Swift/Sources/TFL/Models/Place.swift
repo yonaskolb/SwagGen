@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Place: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Place: Codable {
 
     /** A bag of additional key/value pairs with extra information about this place. */
     public var additionalProperties: [AdditionalProperties]?
@@ -50,56 +49,46 @@ public class Place: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.url = url
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        additionalProperties = jsonDictionary.json(atKeyPath: "additionalProperties")
-        children = jsonDictionary.json(atKeyPath: "children")
-        childrenUrls = jsonDictionary.json(atKeyPath: "childrenUrls")
-        commonName = jsonDictionary.json(atKeyPath: "commonName")
-        distance = jsonDictionary.json(atKeyPath: "distance")
-        id = jsonDictionary.json(atKeyPath: "id")
-        lat = jsonDictionary.json(atKeyPath: "lat")
-        lon = jsonDictionary.json(atKeyPath: "lon")
-        placeType = jsonDictionary.json(atKeyPath: "placeType")
-        url = jsonDictionary.json(atKeyPath: "url")
+    private enum CodingKeys: String, CodingKey {
+        case additionalProperties
+        case children
+        case childrenUrls
+        case commonName
+        case distance
+        case id
+        case lat
+        case lon
+        case placeType
+        case url
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let additionalProperties = additionalProperties?.encode() {
-            dictionary["additionalProperties"] = additionalProperties
-        }
-        if let children = children?.encode() {
-            dictionary["children"] = children
-        }
-        if let childrenUrls = childrenUrls {
-            dictionary["childrenUrls"] = childrenUrls
-        }
-        if let commonName = commonName {
-            dictionary["commonName"] = commonName
-        }
-        if let distance = distance {
-            dictionary["distance"] = distance
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let lat = lat {
-            dictionary["lat"] = lat
-        }
-        if let lon = lon {
-            dictionary["lon"] = lon
-        }
-        if let placeType = placeType {
-            dictionary["placeType"] = placeType
-        }
-        if let url = url {
-            dictionary["url"] = url
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        additionalProperties = try container.decodeIfPresent(.additionalProperties)
+        children = try container.decodeIfPresent(.children)
+        childrenUrls = try container.decodeIfPresent(.childrenUrls)
+        commonName = try container.decodeIfPresent(.commonName)
+        distance = try container.decodeIfPresent(.distance)
+        id = try container.decodeIfPresent(.id)
+        lat = try container.decodeIfPresent(.lat)
+        lon = try container.decodeIfPresent(.lon)
+        placeType = try container.decodeIfPresent(.placeType)
+        url = try container.decodeIfPresent(.url)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(additionalProperties, forKey: .additionalProperties)
+        try container.encode(children, forKey: .children)
+        try container.encode(childrenUrls, forKey: .childrenUrls)
+        try container.encode(commonName, forKey: .commonName)
+        try container.encode(distance, forKey: .distance)
+        try container.encode(id, forKey: .id)
+        try container.encode(lat, forKey: .lat)
+        try container.encode(lon, forKey: .lon)
+        try container.encode(placeType, forKey: .placeType)
+        try container.encode(url, forKey: .url)
     }
 }

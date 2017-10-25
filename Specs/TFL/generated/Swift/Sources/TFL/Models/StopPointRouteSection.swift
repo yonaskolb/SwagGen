@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class StopPointRouteSection: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class StopPointRouteSection: Codable {
 
     public var destinationName: String?
 
@@ -47,64 +46,52 @@ public class StopPointRouteSection: JSONDecodable, JSONEncodable, PrettyPrintabl
         self.vehicleDestinationText = vehicleDestinationText
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        destinationName = jsonDictionary.json(atKeyPath: "destinationName")
-        direction = jsonDictionary.json(atKeyPath: "direction")
-        isActive = jsonDictionary.json(atKeyPath: "isActive")
-        lineId = jsonDictionary.json(atKeyPath: "lineId")
-        lineString = jsonDictionary.json(atKeyPath: "lineString")
-        mode = jsonDictionary.json(atKeyPath: "mode")
-        naptanId = jsonDictionary.json(atKeyPath: "naptanId")
-        routeSectionName = jsonDictionary.json(atKeyPath: "routeSectionName")
-        serviceType = jsonDictionary.json(atKeyPath: "serviceType")
-        validFrom = jsonDictionary.json(atKeyPath: "validFrom")
-        validTo = jsonDictionary.json(atKeyPath: "validTo")
-        vehicleDestinationText = jsonDictionary.json(atKeyPath: "vehicleDestinationText")
+    private enum CodingKeys: String, CodingKey {
+        case destinationName
+        case direction
+        case isActive
+        case lineId
+        case lineString
+        case mode
+        case naptanId
+        case routeSectionName
+        case serviceType
+        case validFrom
+        case validTo
+        case vehicleDestinationText
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let destinationName = destinationName {
-            dictionary["destinationName"] = destinationName
-        }
-        if let direction = direction {
-            dictionary["direction"] = direction
-        }
-        if let isActive = isActive {
-            dictionary["isActive"] = isActive
-        }
-        if let lineId = lineId {
-            dictionary["lineId"] = lineId
-        }
-        if let lineString = lineString {
-            dictionary["lineString"] = lineString
-        }
-        if let mode = mode {
-            dictionary["mode"] = mode
-        }
-        if let naptanId = naptanId {
-            dictionary["naptanId"] = naptanId
-        }
-        if let routeSectionName = routeSectionName {
-            dictionary["routeSectionName"] = routeSectionName
-        }
-        if let serviceType = serviceType {
-            dictionary["serviceType"] = serviceType
-        }
-        if let validFrom = validFrom?.encode() {
-            dictionary["validFrom"] = validFrom
-        }
-        if let validTo = validTo?.encode() {
-            dictionary["validTo"] = validTo
-        }
-        if let vehicleDestinationText = vehicleDestinationText {
-            dictionary["vehicleDestinationText"] = vehicleDestinationText
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        destinationName = try container.decodeIfPresent(.destinationName)
+        direction = try container.decodeIfPresent(.direction)
+        isActive = try container.decodeIfPresent(.isActive)
+        lineId = try container.decodeIfPresent(.lineId)
+        lineString = try container.decodeIfPresent(.lineString)
+        mode = try container.decodeIfPresent(.mode)
+        naptanId = try container.decodeIfPresent(.naptanId)
+        routeSectionName = try container.decodeIfPresent(.routeSectionName)
+        serviceType = try container.decodeIfPresent(.serviceType)
+        validFrom = try container.decodeIfPresent(.validFrom)
+        validTo = try container.decodeIfPresent(.validTo)
+        vehicleDestinationText = try container.decodeIfPresent(.vehicleDestinationText)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(destinationName, forKey: .destinationName)
+        try container.encode(direction, forKey: .direction)
+        try container.encode(isActive, forKey: .isActive)
+        try container.encode(lineId, forKey: .lineId)
+        try container.encode(lineString, forKey: .lineString)
+        try container.encode(mode, forKey: .mode)
+        try container.encode(naptanId, forKey: .naptanId)
+        try container.encode(routeSectionName, forKey: .routeSectionName)
+        try container.encode(serviceType, forKey: .serviceType)
+        try container.encode(validFrom, forKey: .validFrom)
+        try container.encode(validTo, forKey: .validTo)
+        try container.encode(vehicleDestinationText, forKey: .vehicleDestinationText)
     }
 }

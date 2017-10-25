@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension PetstoreTest.Fake {
 
@@ -14,7 +13,7 @@ extension PetstoreTest.Fake {
         public static let service = APIService<Response>(id: "testEnumParameters", tag: "fake", method: "GET", path: "/fake", hasBody: true)
 
         /** Form parameter enum test (string array) */
-        public enum EnumFormStringArray: String {
+        public enum EnumFormStringArray: String, Codable {
             case greaterThan = ">"
             case dollar = "$"
 
@@ -25,7 +24,7 @@ extension PetstoreTest.Fake {
         }
 
         /** Form parameter enum test (string) */
-        public enum EnumFormString: String {
+        public enum EnumFormString: String, Codable {
             case abc = "_abc"
             case efg = "-efg"
             case xyz = "(xyz)"
@@ -38,7 +37,7 @@ extension PetstoreTest.Fake {
         }
 
         /** Header parameter enum test (string array) */
-        public enum EnumHeaderStringArray: String {
+        public enum EnumHeaderStringArray: String, Codable {
             case greaterThan = ">"
             case dollar = "$"
 
@@ -49,7 +48,7 @@ extension PetstoreTest.Fake {
         }
 
         /** Header parameter enum test (string) */
-        public enum EnumHeaderString: String {
+        public enum EnumHeaderString: String, Codable {
             case abc = "_abc"
             case efg = "-efg"
             case xyz = "(xyz)"
@@ -62,7 +61,7 @@ extension PetstoreTest.Fake {
         }
 
         /** Query parameter enum test (string array) */
-        public enum EnumQueryStringArray: String {
+        public enum EnumQueryStringArray: String, Codable {
             case greaterThan = ">"
             case dollar = "$"
 
@@ -73,7 +72,7 @@ extension PetstoreTest.Fake {
         }
 
         /** Query parameter enum test (string) */
-        public enum EnumQueryString: String {
+        public enum EnumQueryString: String, Codable {
             case abc = "_abc"
             case efg = "-efg"
             case xyz = "(xyz)"
@@ -86,7 +85,7 @@ extension PetstoreTest.Fake {
         }
 
         /** Query parameter enum test (double) */
-        public enum EnumQueryInteger: Int {
+        public enum EnumQueryInteger: Int, Codable {
             case _1 = 1
             case negative2 = -2
 
@@ -97,7 +96,7 @@ extension PetstoreTest.Fake {
         }
 
         /** Query parameter enum test (double) */
-        public enum EnumQueryDouble: Double {
+        public enum EnumQueryDouble: Double, Codable {
             case _11 = 1.1
             case negative12 = -1.2
 
@@ -161,7 +160,7 @@ extension PetstoreTest.Fake {
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 if let enumFormStringArray = options.enumFormStringArray?.encode().map({ String(describing: $0) }).joined(separator: ",") {
                   params["enum_form_string_array"] = enumFormStringArray
                 }
@@ -219,7 +218,7 @@ extension PetstoreTest.Fake {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 case 400: self = .status400
                 case 404: self = .status404

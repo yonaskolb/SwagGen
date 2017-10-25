@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class DeviceObject: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class DeviceObject: Codable {
 
     public var token: String
 
@@ -27,28 +26,31 @@ public class DeviceObject: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.description = description
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        token = try jsonDictionary.json(atKeyPath: "token")
-        createdAt = try jsonDictionary.json(atKeyPath: "createdAt")
-        type = try jsonDictionary.json(atKeyPath: "type")
-        customer = try jsonDictionary.json(atKeyPath: "customer")
-        description = jsonDictionary.json(atKeyPath: "description")
+    private enum CodingKeys: String, CodingKey {
+        case token
+        case createdAt
+        case type
+        case customer
+        case description
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["token"] = token
-        dictionary["createdAt"] = createdAt.encode()
-        dictionary["type"] = type
-        dictionary["customer"] = customer
-        if let description = description {
-            dictionary["description"] = description
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        token = try container.decode(.token)
+        createdAt = try container.decode(.createdAt)
+        type = try container.decodeAny(.type)
+        customer = try container.decodeAny(.customer)
+        description = try container.decodeIfPresent(.description)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(token, forKey: .token)
+        try container.encode(createdAt, forKey: .createdAt)
+        try container.encodeAny(type, forKey: .type)
+        try container.encodeAny(customer, forKey: .customer)
+        try container.encode(description, forKey: .description)
     }
 }

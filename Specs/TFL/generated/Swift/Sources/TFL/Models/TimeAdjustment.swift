@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class TimeAdjustment: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class TimeAdjustment: Codable {
 
     public var date: String?
 
@@ -23,32 +22,28 @@ public class TimeAdjustment: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.uri = uri
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        date = jsonDictionary.json(atKeyPath: "date")
-        time = jsonDictionary.json(atKeyPath: "time")
-        timeIs = jsonDictionary.json(atKeyPath: "timeIs")
-        uri = jsonDictionary.json(atKeyPath: "uri")
+    private enum CodingKeys: String, CodingKey {
+        case date
+        case time
+        case timeIs
+        case uri
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let date = date {
-            dictionary["date"] = date
-        }
-        if let time = time {
-            dictionary["time"] = time
-        }
-        if let timeIs = timeIs {
-            dictionary["timeIs"] = timeIs
-        }
-        if let uri = uri {
-            dictionary["uri"] = uri
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        date = try container.decodeIfPresent(.date)
+        time = try container.decodeIfPresent(.time)
+        timeIs = try container.decodeIfPresent(.timeIs)
+        uri = try container.decodeIfPresent(.uri)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(date, forKey: .date)
+        try container.encode(time, forKey: .time)
+        try container.encode(timeIs, forKey: .timeIs)
+        try container.encode(uri, forKey: .uri)
     }
 }

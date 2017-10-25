@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ActiveServiceType: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ActiveServiceType: Codable {
 
     public var mode: String?
 
@@ -17,24 +16,22 @@ public class ActiveServiceType: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.serviceType = serviceType
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        mode = jsonDictionary.json(atKeyPath: "mode")
-        serviceType = jsonDictionary.json(atKeyPath: "serviceType")
+    private enum CodingKeys: String, CodingKey {
+        case mode
+        case serviceType
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let mode = mode {
-            dictionary["mode"] = mode
-        }
-        if let serviceType = serviceType {
-            dictionary["serviceType"] = serviceType
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        mode = try container.decodeIfPresent(.mode)
+        serviceType = try container.decodeIfPresent(.serviceType)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(mode, forKey: .mode)
+        try container.encode(serviceType, forKey: .serviceType)
     }
 }

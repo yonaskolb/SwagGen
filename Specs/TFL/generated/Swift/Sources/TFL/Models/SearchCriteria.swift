@@ -4,11 +4,10 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class SearchCriteria: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class SearchCriteria: Codable {
 
-    public enum DateTimeType: String {
+    public enum DateTimeType: String, Codable {
         case arriving = "Arriving"
         case departing = "Departing"
 
@@ -30,28 +29,25 @@ public class SearchCriteria: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.timeAdjustments = timeAdjustments
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        dateTime = jsonDictionary.json(atKeyPath: "dateTime")
-        dateTimeType = jsonDictionary.json(atKeyPath: "dateTimeType")
-        timeAdjustments = jsonDictionary.json(atKeyPath: "timeAdjustments")
+    private enum CodingKeys: String, CodingKey {
+        case dateTime
+        case dateTimeType
+        case timeAdjustments
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let dateTime = dateTime?.encode() {
-            dictionary["dateTime"] = dateTime
-        }
-        if let dateTimeType = dateTimeType?.encode() {
-            dictionary["dateTimeType"] = dateTimeType
-        }
-        if let timeAdjustments = timeAdjustments?.encode() {
-            dictionary["timeAdjustments"] = timeAdjustments
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        dateTime = try container.decodeIfPresent(.dateTime)
+        dateTimeType = try container.decodeIfPresent(.dateTimeType)
+        timeAdjustments = try container.decodeIfPresent(.timeAdjustments)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(dateTime, forKey: .dateTime)
+        try container.encode(dateTimeType, forKey: .dateTimeType)
+        try container.encode(timeAdjustments, forKey: .timeAdjustments)
     }
 }

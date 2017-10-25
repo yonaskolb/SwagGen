@@ -4,10 +4,9 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** Model for testing model name starting with number */
-public class _200Response: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class _200Response: Codable {
 
     public var `class`: String?
 
@@ -18,24 +17,22 @@ public class _200Response: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.name = name
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        `class` = jsonDictionary.json(atKeyPath: "class")
-        name = jsonDictionary.json(atKeyPath: "name")
+    private enum CodingKeys: String, CodingKey {
+        case `class` = "class"
+        case name
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let `class` = `class` {
-            dictionary["class"] = `class`
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        `class` = try container.decodeIfPresent(.`class`)
+        name = try container.decodeIfPresent(.name)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(`class`, forKey: .`class`)
+        try container.encode(name, forKey: .name)
     }
 }

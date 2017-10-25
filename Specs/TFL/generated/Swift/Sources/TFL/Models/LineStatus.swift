@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class LineStatus: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class LineStatus: Codable {
 
     public var created: Date?
 
@@ -38,52 +37,43 @@ public class LineStatus: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.validityPeriods = validityPeriods
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        created = jsonDictionary.json(atKeyPath: "created")
-        disruption = jsonDictionary.json(atKeyPath: "disruption")
-        id = jsonDictionary.json(atKeyPath: "id")
-        lineId = jsonDictionary.json(atKeyPath: "lineId")
-        modified = jsonDictionary.json(atKeyPath: "modified")
-        reason = jsonDictionary.json(atKeyPath: "reason")
-        statusSeverity = jsonDictionary.json(atKeyPath: "statusSeverity")
-        statusSeverityDescription = jsonDictionary.json(atKeyPath: "statusSeverityDescription")
-        validityPeriods = jsonDictionary.json(atKeyPath: "validityPeriods")
+    private enum CodingKeys: String, CodingKey {
+        case created
+        case disruption
+        case id
+        case lineId
+        case modified
+        case reason
+        case statusSeverity
+        case statusSeverityDescription
+        case validityPeriods
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let created = created?.encode() {
-            dictionary["created"] = created
-        }
-        if let disruption = disruption?.encode() {
-            dictionary["disruption"] = disruption
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let lineId = lineId {
-            dictionary["lineId"] = lineId
-        }
-        if let modified = modified?.encode() {
-            dictionary["modified"] = modified
-        }
-        if let reason = reason {
-            dictionary["reason"] = reason
-        }
-        if let statusSeverity = statusSeverity {
-            dictionary["statusSeverity"] = statusSeverity
-        }
-        if let statusSeverityDescription = statusSeverityDescription {
-            dictionary["statusSeverityDescription"] = statusSeverityDescription
-        }
-        if let validityPeriods = validityPeriods?.encode() {
-            dictionary["validityPeriods"] = validityPeriods
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        created = try container.decodeIfPresent(.created)
+        disruption = try container.decodeIfPresent(.disruption)
+        id = try container.decodeIfPresent(.id)
+        lineId = try container.decodeIfPresent(.lineId)
+        modified = try container.decodeIfPresent(.modified)
+        reason = try container.decodeIfPresent(.reason)
+        statusSeverity = try container.decodeIfPresent(.statusSeverity)
+        statusSeverityDescription = try container.decodeIfPresent(.statusSeverityDescription)
+        validityPeriods = try container.decodeIfPresent(.validityPeriods)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(created, forKey: .created)
+        try container.encode(disruption, forKey: .disruption)
+        try container.encode(id, forKey: .id)
+        try container.encode(lineId, forKey: .lineId)
+        try container.encode(modified, forKey: .modified)
+        try container.encode(reason, forKey: .reason)
+        try container.encode(statusSeverity, forKey: .statusSeverity)
+        try container.encode(statusSeverityDescription, forKey: .statusSeverityDescription)
+        try container.encode(validityPeriods, forKey: .validityPeriods)
     }
 }

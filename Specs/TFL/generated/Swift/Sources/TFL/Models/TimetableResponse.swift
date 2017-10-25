@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class TimetableResponse: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class TimetableResponse: Codable {
 
     public var direction: String?
 
@@ -38,52 +37,43 @@ public class TimetableResponse: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.timetable = timetable
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        direction = jsonDictionary.json(atKeyPath: "direction")
-        disambiguation = jsonDictionary.json(atKeyPath: "disambiguation")
-        lineId = jsonDictionary.json(atKeyPath: "lineId")
-        lineName = jsonDictionary.json(atKeyPath: "lineName")
-        pdfUrl = jsonDictionary.json(atKeyPath: "pdfUrl")
-        stations = jsonDictionary.json(atKeyPath: "stations")
-        statusErrorMessage = jsonDictionary.json(atKeyPath: "statusErrorMessage")
-        stops = jsonDictionary.json(atKeyPath: "stops")
-        timetable = jsonDictionary.json(atKeyPath: "timetable")
+    private enum CodingKeys: String, CodingKey {
+        case direction
+        case disambiguation
+        case lineId
+        case lineName
+        case pdfUrl
+        case stations
+        case statusErrorMessage
+        case stops
+        case timetable
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let direction = direction {
-            dictionary["direction"] = direction
-        }
-        if let disambiguation = disambiguation?.encode() {
-            dictionary["disambiguation"] = disambiguation
-        }
-        if let lineId = lineId {
-            dictionary["lineId"] = lineId
-        }
-        if let lineName = lineName {
-            dictionary["lineName"] = lineName
-        }
-        if let pdfUrl = pdfUrl {
-            dictionary["pdfUrl"] = pdfUrl
-        }
-        if let stations = stations?.encode() {
-            dictionary["stations"] = stations
-        }
-        if let statusErrorMessage = statusErrorMessage {
-            dictionary["statusErrorMessage"] = statusErrorMessage
-        }
-        if let stops = stops?.encode() {
-            dictionary["stops"] = stops
-        }
-        if let timetable = timetable?.encode() {
-            dictionary["timetable"] = timetable
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        direction = try container.decodeIfPresent(.direction)
+        disambiguation = try container.decodeIfPresent(.disambiguation)
+        lineId = try container.decodeIfPresent(.lineId)
+        lineName = try container.decodeIfPresent(.lineName)
+        pdfUrl = try container.decodeIfPresent(.pdfUrl)
+        stations = try container.decodeIfPresent(.stations)
+        statusErrorMessage = try container.decodeIfPresent(.statusErrorMessage)
+        stops = try container.decodeIfPresent(.stops)
+        timetable = try container.decodeIfPresent(.timetable)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(direction, forKey: .direction)
+        try container.encode(disambiguation, forKey: .disambiguation)
+        try container.encode(lineId, forKey: .lineId)
+        try container.encode(lineName, forKey: .lineName)
+        try container.encode(pdfUrl, forKey: .pdfUrl)
+        try container.encode(stations, forKey: .stations)
+        try container.encode(statusErrorMessage, forKey: .statusErrorMessage)
+        try container.encode(stops, forKey: .stops)
+        try container.encode(timetable, forKey: .timetable)
     }
 }

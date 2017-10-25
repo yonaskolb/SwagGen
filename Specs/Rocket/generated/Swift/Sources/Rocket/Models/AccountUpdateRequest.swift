@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class AccountUpdateRequest: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class AccountUpdateRequest: Codable {
 
     /** The id of the payment instrument to use by default for account transactions. */
     public var defaultPaymentInstrumentId: String?
@@ -38,36 +37,31 @@ If you want to disable this guard pass an empty string or `null`.
         self.trackingEnabled = trackingEnabled
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        defaultPaymentInstrumentId = jsonDictionary.json(atKeyPath: "defaultPaymentInstrumentId")
-        firstName = jsonDictionary.json(atKeyPath: "firstName")
-        lastName = jsonDictionary.json(atKeyPath: "lastName")
-        minRatingPlaybackGuard = jsonDictionary.json(atKeyPath: "minRatingPlaybackGuard")
-        trackingEnabled = jsonDictionary.json(atKeyPath: "trackingEnabled")
+    private enum CodingKeys: String, CodingKey {
+        case defaultPaymentInstrumentId
+        case firstName
+        case lastName
+        case minRatingPlaybackGuard
+        case trackingEnabled
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let defaultPaymentInstrumentId = defaultPaymentInstrumentId {
-            dictionary["defaultPaymentInstrumentId"] = defaultPaymentInstrumentId
-        }
-        if let firstName = firstName {
-            dictionary["firstName"] = firstName
-        }
-        if let lastName = lastName {
-            dictionary["lastName"] = lastName
-        }
-        if let minRatingPlaybackGuard = minRatingPlaybackGuard {
-            dictionary["minRatingPlaybackGuard"] = minRatingPlaybackGuard
-        }
-        if let trackingEnabled = trackingEnabled {
-            dictionary["trackingEnabled"] = trackingEnabled
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        defaultPaymentInstrumentId = try container.decodeIfPresent(.defaultPaymentInstrumentId)
+        firstName = try container.decodeIfPresent(.firstName)
+        lastName = try container.decodeIfPresent(.lastName)
+        minRatingPlaybackGuard = try container.decodeIfPresent(.minRatingPlaybackGuard)
+        trackingEnabled = try container.decodeIfPresent(.trackingEnabled)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(defaultPaymentInstrumentId, forKey: .defaultPaymentInstrumentId)
+        try container.encode(firstName, forKey: .firstName)
+        try container.encode(lastName, forKey: .lastName)
+        try container.encode(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
+        try container.encode(trackingEnabled, forKey: .trackingEnabled)
     }
 }

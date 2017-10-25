@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Line: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Line: Codable {
 
     public var created: Date?
 
@@ -41,56 +40,46 @@ public class Line: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.serviceTypes = serviceTypes
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        created = jsonDictionary.json(atKeyPath: "created")
-        crowding = jsonDictionary.json(atKeyPath: "crowding")
-        disruptions = jsonDictionary.json(atKeyPath: "disruptions")
-        id = jsonDictionary.json(atKeyPath: "id")
-        lineStatuses = jsonDictionary.json(atKeyPath: "lineStatuses")
-        modeName = jsonDictionary.json(atKeyPath: "modeName")
-        modified = jsonDictionary.json(atKeyPath: "modified")
-        name = jsonDictionary.json(atKeyPath: "name")
-        routeSections = jsonDictionary.json(atKeyPath: "routeSections")
-        serviceTypes = jsonDictionary.json(atKeyPath: "serviceTypes")
+    private enum CodingKeys: String, CodingKey {
+        case created
+        case crowding
+        case disruptions
+        case id
+        case lineStatuses
+        case modeName
+        case modified
+        case name
+        case routeSections
+        case serviceTypes
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let created = created?.encode() {
-            dictionary["created"] = created
-        }
-        if let crowding = crowding?.encode() {
-            dictionary["crowding"] = crowding
-        }
-        if let disruptions = disruptions?.encode() {
-            dictionary["disruptions"] = disruptions
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let lineStatuses = lineStatuses?.encode() {
-            dictionary["lineStatuses"] = lineStatuses
-        }
-        if let modeName = modeName {
-            dictionary["modeName"] = modeName
-        }
-        if let modified = modified?.encode() {
-            dictionary["modified"] = modified
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let routeSections = routeSections?.encode() {
-            dictionary["routeSections"] = routeSections
-        }
-        if let serviceTypes = serviceTypes?.encode() {
-            dictionary["serviceTypes"] = serviceTypes
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        created = try container.decodeIfPresent(.created)
+        crowding = try container.decodeIfPresent(.crowding)
+        disruptions = try container.decodeIfPresent(.disruptions)
+        id = try container.decodeIfPresent(.id)
+        lineStatuses = try container.decodeIfPresent(.lineStatuses)
+        modeName = try container.decodeIfPresent(.modeName)
+        modified = try container.decodeIfPresent(.modified)
+        name = try container.decodeIfPresent(.name)
+        routeSections = try container.decodeIfPresent(.routeSections)
+        serviceTypes = try container.decodeIfPresent(.serviceTypes)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(created, forKey: .created)
+        try container.encode(crowding, forKey: .crowding)
+        try container.encode(disruptions, forKey: .disruptions)
+        try container.encode(id, forKey: .id)
+        try container.encode(lineStatuses, forKey: .lineStatuses)
+        try container.encode(modeName, forKey: .modeName)
+        try container.encode(modified, forKey: .modified)
+        try container.encode(name, forKey: .name)
+        try container.encode(routeSections, forKey: .routeSections)
+        try container.encode(serviceTypes, forKey: .serviceTypes)
     }
 }

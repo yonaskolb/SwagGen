@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class MixedPropertiesAndAdditionalPropertiesClass: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class MixedPropertiesAndAdditionalPropertiesClass: Codable {
 
     public var dateTime: Date?
 
@@ -20,28 +19,25 @@ public class MixedPropertiesAndAdditionalPropertiesClass: JSONDecodable, JSONEnc
         self.uuid = uuid
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        dateTime = jsonDictionary.json(atKeyPath: "dateTime")
-        map = jsonDictionary.json(atKeyPath: "map")
-        uuid = jsonDictionary.json(atKeyPath: "uuid")
+    private enum CodingKeys: String, CodingKey {
+        case dateTime
+        case map
+        case uuid
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let dateTime = dateTime?.encode() {
-            dictionary["dateTime"] = dateTime
-        }
-        if let map = map?.encode() {
-            dictionary["map"] = map
-        }
-        if let uuid = uuid {
-            dictionary["uuid"] = uuid
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        dateTime = try container.decodeIfPresent(.dateTime)
+        map = try container.decodeIfPresent(.map)
+        uuid = try container.decodeIfPresent(.uuid)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(dateTime, forKey: .dateTime)
+        try container.encode(map, forKey: .map)
+        try container.encode(uuid, forKey: .uuid)
     }
 }

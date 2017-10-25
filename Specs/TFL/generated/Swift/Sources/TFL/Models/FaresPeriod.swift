@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class FaresPeriod: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class FaresPeriod: Codable {
 
     public var endDate: Date?
 
@@ -26,36 +25,31 @@ public class FaresPeriod: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.viewableDate = viewableDate
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        endDate = jsonDictionary.json(atKeyPath: "endDate")
-        id = jsonDictionary.json(atKeyPath: "id")
-        isFuture = jsonDictionary.json(atKeyPath: "isFuture")
-        startDate = jsonDictionary.json(atKeyPath: "startDate")
-        viewableDate = jsonDictionary.json(atKeyPath: "viewableDate")
+    private enum CodingKeys: String, CodingKey {
+        case endDate
+        case id
+        case isFuture
+        case startDate
+        case viewableDate
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let endDate = endDate?.encode() {
-            dictionary["endDate"] = endDate
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let isFuture = isFuture {
-            dictionary["isFuture"] = isFuture
-        }
-        if let startDate = startDate?.encode() {
-            dictionary["startDate"] = startDate
-        }
-        if let viewableDate = viewableDate?.encode() {
-            dictionary["viewableDate"] = viewableDate
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        endDate = try container.decodeIfPresent(.endDate)
+        id = try container.decodeIfPresent(.id)
+        isFuture = try container.decodeIfPresent(.isFuture)
+        startDate = try container.decodeIfPresent(.startDate)
+        viewableDate = try container.decodeIfPresent(.viewableDate)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(endDate, forKey: .endDate)
+        try container.encode(id, forKey: .id)
+        try container.encode(isFuture, forKey: .isFuture)
+        try container.encode(startDate, forKey: .startDate)
+        try container.encode(viewableDate, forKey: .viewableDate)
     }
 }

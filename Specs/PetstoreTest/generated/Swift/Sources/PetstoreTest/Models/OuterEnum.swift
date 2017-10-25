@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public enum OuterEnum: String {
+public enum OuterEnum: String, Codable {
     case placed = "placed"
     case approved = "approved"
     case delivered = "delivered"

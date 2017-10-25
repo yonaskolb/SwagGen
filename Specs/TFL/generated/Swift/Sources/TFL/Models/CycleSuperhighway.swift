@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class CycleSuperhighway: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class CycleSuperhighway: Codable {
 
     /** A LineString or MultiLineString that forms the route of the highway */
     public var geography: DbGeography?
@@ -35,40 +34,34 @@ public class CycleSuperhighway: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.segmented = segmented
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        geography = jsonDictionary.json(atKeyPath: "geography")
-        id = jsonDictionary.json(atKeyPath: "id")
-        label = jsonDictionary.json(atKeyPath: "label")
-        labelShort = jsonDictionary.json(atKeyPath: "labelShort")
-        modified = jsonDictionary.json(atKeyPath: "modified")
-        segmented = jsonDictionary.json(atKeyPath: "segmented")
+    private enum CodingKeys: String, CodingKey {
+        case geography
+        case id
+        case label
+        case labelShort
+        case modified
+        case segmented
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let geography = geography?.encode() {
-            dictionary["geography"] = geography
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let label = label {
-            dictionary["label"] = label
-        }
-        if let labelShort = labelShort {
-            dictionary["labelShort"] = labelShort
-        }
-        if let modified = modified?.encode() {
-            dictionary["modified"] = modified
-        }
-        if let segmented = segmented {
-            dictionary["segmented"] = segmented
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        geography = try container.decodeIfPresent(.geography)
+        id = try container.decodeIfPresent(.id)
+        label = try container.decodeIfPresent(.label)
+        labelShort = try container.decodeIfPresent(.labelShort)
+        modified = try container.decodeIfPresent(.modified)
+        segmented = try container.decodeIfPresent(.segmented)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(geography, forKey: .geography)
+        try container.encode(id, forKey: .id)
+        try container.encode(label, forKey: .label)
+        try container.encode(labelShort, forKey: .labelShort)
+        try container.encode(modified, forKey: .modified)
+        try container.encode(segmented, forKey: .segmented)
     }
 }

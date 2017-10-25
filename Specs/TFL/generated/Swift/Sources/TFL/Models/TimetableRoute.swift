@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class TimetableRoute: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class TimetableRoute: Codable {
 
     public var schedules: [Schedule]?
 
@@ -17,24 +16,22 @@ public class TimetableRoute: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.stationIntervals = stationIntervals
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        schedules = jsonDictionary.json(atKeyPath: "schedules")
-        stationIntervals = jsonDictionary.json(atKeyPath: "stationIntervals")
+    private enum CodingKeys: String, CodingKey {
+        case schedules
+        case stationIntervals
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let schedules = schedules?.encode() {
-            dictionary["schedules"] = schedules
-        }
-        if let stationIntervals = stationIntervals?.encode() {
-            dictionary["stationIntervals"] = stationIntervals
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        schedules = try container.decodeIfPresent(.schedules)
+        stationIntervals = try container.decodeIfPresent(.stationIntervals)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(schedules, forKey: .schedules)
+        try container.encode(stationIntervals, forKey: .stationIntervals)
     }
 }

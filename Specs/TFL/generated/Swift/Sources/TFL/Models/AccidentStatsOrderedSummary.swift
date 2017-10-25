@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class AccidentStatsOrderedSummary: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class AccidentStatsOrderedSummary: Codable {
 
     public var accidents: Int?
 
@@ -20,28 +19,25 @@ public class AccidentStatsOrderedSummary: JSONDecodable, JSONEncodable, PrettyPr
         self.year = year
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        accidents = jsonDictionary.json(atKeyPath: "accidents")
-        borough = jsonDictionary.json(atKeyPath: "borough")
-        year = jsonDictionary.json(atKeyPath: "year")
+    private enum CodingKeys: String, CodingKey {
+        case accidents
+        case borough
+        case year
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let accidents = accidents {
-            dictionary["accidents"] = accidents
-        }
-        if let borough = borough {
-            dictionary["borough"] = borough
-        }
-        if let year = year {
-            dictionary["year"] = year
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        accidents = try container.decodeIfPresent(.accidents)
+        borough = try container.decodeIfPresent(.borough)
+        year = try container.decodeIfPresent(.year)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(accidents, forKey: .accidents)
+        try container.encode(borough, forKey: .borough)
+        try container.encode(year, forKey: .year)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ContentProvider: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ContentProvider: Codable {
 
     public var description: String
 
@@ -50,56 +49,55 @@ public class ContentProvider: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.whitelistDomains = whitelistDomains
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        description = try jsonDictionary.json(atKeyPath: "description")
-        shortName = try jsonDictionary.json(atKeyPath: "shortName")
-        active = try jsonDictionary.json(atKeyPath: "active")
-        apiKey = try jsonDictionary.json(atKeyPath: "apiKey")
-        devicesLimit = try jsonDictionary.json(atKeyPath: "devicesLimit")
-        canLogoutDevice = try jsonDictionary.json(atKeyPath: "canLogoutDevice")
-        canCreateTryAndBuy = jsonDictionary.json(atKeyPath: "canCreateTryAndBuy")
-        hasSocialID = jsonDictionary.json(atKeyPath: "hasSocialID")
-        id = jsonDictionary.json(atKeyPath: "id")
-        overrideRules = jsonDictionary.json(atKeyPath: "overrideRules")
-        permittedURN = jsonDictionary.json(atKeyPath: "permittedURN")
-        urlMaintenance = jsonDictionary.json(atKeyPath: "urlMaintenance")
-        whitelistDomains = jsonDictionary.json(atKeyPath: "whitelistDomains")
+    private enum CodingKeys: String, CodingKey {
+        case description
+        case shortName
+        case active
+        case apiKey
+        case devicesLimit
+        case canLogoutDevice
+        case canCreateTryAndBuy
+        case hasSocialID
+        case id
+        case overrideRules
+        case permittedURN
+        case urlMaintenance
+        case whitelistDomains
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["description"] = description
-        dictionary["shortName"] = shortName
-        dictionary["active"] = active
-        dictionary["apiKey"] = apiKey
-        dictionary["devicesLimit"] = devicesLimit
-        dictionary["canLogoutDevice"] = canLogoutDevice
-        if let canCreateTryAndBuy = canCreateTryAndBuy {
-            dictionary["canCreateTryAndBuy"] = canCreateTryAndBuy
-        }
-        if let hasSocialID = hasSocialID {
-            dictionary["hasSocialID"] = hasSocialID
-        }
-        if let id = id?.encode() {
-            dictionary["id"] = id
-        }
-        if let overrideRules = overrideRules?.encode() {
-            dictionary["overrideRules"] = overrideRules
-        }
-        if let permittedURN = permittedURN {
-            dictionary["permittedURN"] = permittedURN
-        }
-        if let urlMaintenance = urlMaintenance {
-            dictionary["urlMaintenance"] = urlMaintenance
-        }
-        if let whitelistDomains = whitelistDomains {
-            dictionary["whitelistDomains"] = whitelistDomains
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        description = try container.decode(.description)
+        shortName = try container.decode(.shortName)
+        active = try container.decode(.active)
+        apiKey = try container.decode(.apiKey)
+        devicesLimit = try container.decode(.devicesLimit)
+        canLogoutDevice = try container.decode(.canLogoutDevice)
+        canCreateTryAndBuy = try container.decodeIfPresent(.canCreateTryAndBuy)
+        hasSocialID = try container.decodeIfPresent(.hasSocialID)
+        id = try container.decodeIfPresent(.id)
+        overrideRules = try container.decodeIfPresent(.overrideRules)
+        permittedURN = try container.decodeIfPresent(.permittedURN)
+        urlMaintenance = try container.decodeIfPresent(.urlMaintenance)
+        whitelistDomains = try container.decodeIfPresent(.whitelistDomains)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(description, forKey: .description)
+        try container.encode(shortName, forKey: .shortName)
+        try container.encode(active, forKey: .active)
+        try container.encode(apiKey, forKey: .apiKey)
+        try container.encode(devicesLimit, forKey: .devicesLimit)
+        try container.encode(canLogoutDevice, forKey: .canLogoutDevice)
+        try container.encode(canCreateTryAndBuy, forKey: .canCreateTryAndBuy)
+        try container.encode(hasSocialID, forKey: .hasSocialID)
+        try container.encode(id, forKey: .id)
+        try container.encode(overrideRules, forKey: .overrideRules)
+        try container.encode(permittedURN, forKey: .permittedURN)
+        try container.encode(urlMaintenance, forKey: .urlMaintenance)
+        try container.encode(whitelistDomains, forKey: .whitelistDomains)
     }
 }

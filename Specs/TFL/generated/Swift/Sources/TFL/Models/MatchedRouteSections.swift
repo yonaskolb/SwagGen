@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class MatchedRouteSections: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class MatchedRouteSections: Codable {
 
     public var id: Int?
 
@@ -14,20 +13,19 @@ public class MatchedRouteSections: JSONDecodable, JSONEncodable, PrettyPrintable
         self.id = id
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        id = jsonDictionary.json(atKeyPath: "id")
+    private enum CodingKeys: String, CodingKey {
+        case id
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let id = id {
-            dictionary["id"] = id
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decodeIfPresent(.id)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
     }
 }

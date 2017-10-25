@@ -4,7 +4,7 @@
 //
 
 /** The list sort order, either 'asc' or 'desc'. */
-public enum ListOrder: String {
+public enum ListOrder: String, Codable {
     case asc = "asc"
     case desc = "desc"
 

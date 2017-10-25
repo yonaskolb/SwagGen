@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class FareBounds: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class FareBounds: Codable {
 
     public var description: String?
 
@@ -50,68 +49,55 @@ public class FareBounds: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.via = via
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        description = jsonDictionary.json(atKeyPath: "description")
-        displayName = jsonDictionary.json(atKeyPath: "displayName")
-        displayOrder = jsonDictionary.json(atKeyPath: "displayOrder")
-        from = jsonDictionary.json(atKeyPath: "from")
-        id = jsonDictionary.json(atKeyPath: "id")
-        isPopularFare = jsonDictionary.json(atKeyPath: "isPopularFare")
-        isPopularTravelCard = jsonDictionary.json(atKeyPath: "isPopularTravelCard")
-        isTour = jsonDictionary.json(atKeyPath: "isTour")
-        messages = jsonDictionary.json(atKeyPath: "messages")
-        `operator` = jsonDictionary.json(atKeyPath: "operator")
-        routeCode = jsonDictionary.json(atKeyPath: "routeCode")
-        to = jsonDictionary.json(atKeyPath: "to")
-        via = jsonDictionary.json(atKeyPath: "via")
+    private enum CodingKeys: String, CodingKey {
+        case description
+        case displayName
+        case displayOrder
+        case from
+        case id
+        case isPopularFare
+        case isPopularTravelCard
+        case isTour
+        case messages
+        case `operator` = "operator"
+        case routeCode
+        case to
+        case via
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let description = description {
-            dictionary["description"] = description
-        }
-        if let displayName = displayName {
-            dictionary["displayName"] = displayName
-        }
-        if let displayOrder = displayOrder {
-            dictionary["displayOrder"] = displayOrder
-        }
-        if let from = from {
-            dictionary["from"] = from
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let isPopularFare = isPopularFare {
-            dictionary["isPopularFare"] = isPopularFare
-        }
-        if let isPopularTravelCard = isPopularTravelCard {
-            dictionary["isPopularTravelCard"] = isPopularTravelCard
-        }
-        if let isTour = isTour {
-            dictionary["isTour"] = isTour
-        }
-        if let messages = messages?.encode() {
-            dictionary["messages"] = messages
-        }
-        if let `operator` = `operator` {
-            dictionary["operator"] = `operator`
-        }
-        if let routeCode = routeCode {
-            dictionary["routeCode"] = routeCode
-        }
-        if let to = to {
-            dictionary["to"] = to
-        }
-        if let via = via {
-            dictionary["via"] = via
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        description = try container.decodeIfPresent(.description)
+        displayName = try container.decodeIfPresent(.displayName)
+        displayOrder = try container.decodeIfPresent(.displayOrder)
+        from = try container.decodeIfPresent(.from)
+        id = try container.decodeIfPresent(.id)
+        isPopularFare = try container.decodeIfPresent(.isPopularFare)
+        isPopularTravelCard = try container.decodeIfPresent(.isPopularTravelCard)
+        isTour = try container.decodeIfPresent(.isTour)
+        messages = try container.decodeIfPresent(.messages)
+        `operator` = try container.decodeIfPresent(.`operator`)
+        routeCode = try container.decodeIfPresent(.routeCode)
+        to = try container.decodeIfPresent(.to)
+        via = try container.decodeIfPresent(.via)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(description, forKey: .description)
+        try container.encode(displayName, forKey: .displayName)
+        try container.encode(displayOrder, forKey: .displayOrder)
+        try container.encode(from, forKey: .from)
+        try container.encode(id, forKey: .id)
+        try container.encode(isPopularFare, forKey: .isPopularFare)
+        try container.encode(isPopularTravelCard, forKey: .isPopularTravelCard)
+        try container.encode(isTour, forKey: .isTour)
+        try container.encode(messages, forKey: .messages)
+        try container.encode(`operator`, forKey: .`operator`)
+        try container.encode(routeCode, forKey: .routeCode)
+        try container.encode(to, forKey: .to)
+        try container.encode(via, forKey: .via)
     }
 }

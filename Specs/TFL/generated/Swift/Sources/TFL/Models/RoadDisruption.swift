@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class RoadDisruption: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class RoadDisruption: Codable {
 
     /** Describes the nature of disruption e.g. Traffic Incidents, Works */
     public var category: String?
@@ -148,140 +147,109 @@ public class RoadDisruption: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.url = url
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        category = jsonDictionary.json(atKeyPath: "category")
-        comments = jsonDictionary.json(atKeyPath: "comments")
-        corridorIds = jsonDictionary.json(atKeyPath: "corridorIds")
-        currentUpdate = jsonDictionary.json(atKeyPath: "currentUpdate")
-        currentUpdateDateTime = jsonDictionary.json(atKeyPath: "currentUpdateDateTime")
-        endDateTime = jsonDictionary.json(atKeyPath: "endDateTime")
-        geography = jsonDictionary.json(atKeyPath: "geography")
-        geometry = jsonDictionary.json(atKeyPath: "geometry")
-        hasClosures = jsonDictionary.json(atKeyPath: "hasClosures")
-        id = jsonDictionary.json(atKeyPath: "id")
-        isProvisional = jsonDictionary.json(atKeyPath: "isProvisional")
-        lastModifiedTime = jsonDictionary.json(atKeyPath: "lastModifiedTime")
-        levelOfInterest = jsonDictionary.json(atKeyPath: "levelOfInterest")
-        linkText = jsonDictionary.json(atKeyPath: "linkText")
-        linkUrl = jsonDictionary.json(atKeyPath: "linkUrl")
-        location = jsonDictionary.json(atKeyPath: "location")
-        ordinal = jsonDictionary.json(atKeyPath: "ordinal")
-        point = jsonDictionary.json(atKeyPath: "point")
-        publishEndDate = jsonDictionary.json(atKeyPath: "publishEndDate")
-        publishStartDate = jsonDictionary.json(atKeyPath: "publishStartDate")
-        recurringSchedules = jsonDictionary.json(atKeyPath: "recurringSchedules")
-        roadDisruptionImpactAreas = jsonDictionary.json(atKeyPath: "roadDisruptionImpactAreas")
-        roadDisruptionLines = jsonDictionary.json(atKeyPath: "roadDisruptionLines")
-        roadProject = jsonDictionary.json(atKeyPath: "roadProject")
-        severity = jsonDictionary.json(atKeyPath: "severity")
-        startDateTime = jsonDictionary.json(atKeyPath: "startDateTime")
-        status = jsonDictionary.json(atKeyPath: "status")
-        streets = jsonDictionary.json(atKeyPath: "streets")
-        subCategory = jsonDictionary.json(atKeyPath: "subCategory")
-        timeFrame = jsonDictionary.json(atKeyPath: "timeFrame")
-        url = jsonDictionary.json(atKeyPath: "url")
+    private enum CodingKeys: String, CodingKey {
+        case category
+        case comments
+        case corridorIds
+        case currentUpdate
+        case currentUpdateDateTime
+        case endDateTime
+        case geography
+        case geometry
+        case hasClosures
+        case id
+        case isProvisional
+        case lastModifiedTime
+        case levelOfInterest
+        case linkText
+        case linkUrl
+        case location
+        case ordinal
+        case point
+        case publishEndDate
+        case publishStartDate
+        case recurringSchedules
+        case roadDisruptionImpactAreas
+        case roadDisruptionLines
+        case roadProject
+        case severity
+        case startDateTime
+        case status
+        case streets
+        case subCategory
+        case timeFrame
+        case url
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let category = category {
-            dictionary["category"] = category
-        }
-        if let comments = comments {
-            dictionary["comments"] = comments
-        }
-        if let corridorIds = corridorIds {
-            dictionary["corridorIds"] = corridorIds
-        }
-        if let currentUpdate = currentUpdate {
-            dictionary["currentUpdate"] = currentUpdate
-        }
-        if let currentUpdateDateTime = currentUpdateDateTime?.encode() {
-            dictionary["currentUpdateDateTime"] = currentUpdateDateTime
-        }
-        if let endDateTime = endDateTime?.encode() {
-            dictionary["endDateTime"] = endDateTime
-        }
-        if let geography = geography?.encode() {
-            dictionary["geography"] = geography
-        }
-        if let geometry = geometry?.encode() {
-            dictionary["geometry"] = geometry
-        }
-        if let hasClosures = hasClosures {
-            dictionary["hasClosures"] = hasClosures
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let isProvisional = isProvisional {
-            dictionary["isProvisional"] = isProvisional
-        }
-        if let lastModifiedTime = lastModifiedTime?.encode() {
-            dictionary["lastModifiedTime"] = lastModifiedTime
-        }
-        if let levelOfInterest = levelOfInterest {
-            dictionary["levelOfInterest"] = levelOfInterest
-        }
-        if let linkText = linkText {
-            dictionary["linkText"] = linkText
-        }
-        if let linkUrl = linkUrl {
-            dictionary["linkUrl"] = linkUrl
-        }
-        if let location = location {
-            dictionary["location"] = location
-        }
-        if let ordinal = ordinal {
-            dictionary["ordinal"] = ordinal
-        }
-        if let point = point {
-            dictionary["point"] = point
-        }
-        if let publishEndDate = publishEndDate?.encode() {
-            dictionary["publishEndDate"] = publishEndDate
-        }
-        if let publishStartDate = publishStartDate?.encode() {
-            dictionary["publishStartDate"] = publishStartDate
-        }
-        if let recurringSchedules = recurringSchedules?.encode() {
-            dictionary["recurringSchedules"] = recurringSchedules
-        }
-        if let roadDisruptionImpactAreas = roadDisruptionImpactAreas?.encode() {
-            dictionary["roadDisruptionImpactAreas"] = roadDisruptionImpactAreas
-        }
-        if let roadDisruptionLines = roadDisruptionLines?.encode() {
-            dictionary["roadDisruptionLines"] = roadDisruptionLines
-        }
-        if let roadProject = roadProject?.encode() {
-            dictionary["roadProject"] = roadProject
-        }
-        if let severity = severity {
-            dictionary["severity"] = severity
-        }
-        if let startDateTime = startDateTime?.encode() {
-            dictionary["startDateTime"] = startDateTime
-        }
-        if let status = status {
-            dictionary["status"] = status
-        }
-        if let streets = streets?.encode() {
-            dictionary["streets"] = streets
-        }
-        if let subCategory = subCategory {
-            dictionary["subCategory"] = subCategory
-        }
-        if let timeFrame = timeFrame {
-            dictionary["timeFrame"] = timeFrame
-        }
-        if let url = url {
-            dictionary["url"] = url
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        category = try container.decodeIfPresent(.category)
+        comments = try container.decodeIfPresent(.comments)
+        corridorIds = try container.decodeIfPresent(.corridorIds)
+        currentUpdate = try container.decodeIfPresent(.currentUpdate)
+        currentUpdateDateTime = try container.decodeIfPresent(.currentUpdateDateTime)
+        endDateTime = try container.decodeIfPresent(.endDateTime)
+        geography = try container.decodeIfPresent(.geography)
+        geometry = try container.decodeIfPresent(.geometry)
+        hasClosures = try container.decodeIfPresent(.hasClosures)
+        id = try container.decodeIfPresent(.id)
+        isProvisional = try container.decodeIfPresent(.isProvisional)
+        lastModifiedTime = try container.decodeIfPresent(.lastModifiedTime)
+        levelOfInterest = try container.decodeIfPresent(.levelOfInterest)
+        linkText = try container.decodeIfPresent(.linkText)
+        linkUrl = try container.decodeIfPresent(.linkUrl)
+        location = try container.decodeIfPresent(.location)
+        ordinal = try container.decodeIfPresent(.ordinal)
+        point = try container.decodeIfPresent(.point)
+        publishEndDate = try container.decodeIfPresent(.publishEndDate)
+        publishStartDate = try container.decodeIfPresent(.publishStartDate)
+        recurringSchedules = try container.decodeIfPresent(.recurringSchedules)
+        roadDisruptionImpactAreas = try container.decodeIfPresent(.roadDisruptionImpactAreas)
+        roadDisruptionLines = try container.decodeIfPresent(.roadDisruptionLines)
+        roadProject = try container.decodeIfPresent(.roadProject)
+        severity = try container.decodeIfPresent(.severity)
+        startDateTime = try container.decodeIfPresent(.startDateTime)
+        status = try container.decodeIfPresent(.status)
+        streets = try container.decodeIfPresent(.streets)
+        subCategory = try container.decodeIfPresent(.subCategory)
+        timeFrame = try container.decodeIfPresent(.timeFrame)
+        url = try container.decodeIfPresent(.url)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(category, forKey: .category)
+        try container.encode(comments, forKey: .comments)
+        try container.encode(corridorIds, forKey: .corridorIds)
+        try container.encode(currentUpdate, forKey: .currentUpdate)
+        try container.encode(currentUpdateDateTime, forKey: .currentUpdateDateTime)
+        try container.encode(endDateTime, forKey: .endDateTime)
+        try container.encode(geography, forKey: .geography)
+        try container.encode(geometry, forKey: .geometry)
+        try container.encode(hasClosures, forKey: .hasClosures)
+        try container.encode(id, forKey: .id)
+        try container.encode(isProvisional, forKey: .isProvisional)
+        try container.encode(lastModifiedTime, forKey: .lastModifiedTime)
+        try container.encode(levelOfInterest, forKey: .levelOfInterest)
+        try container.encode(linkText, forKey: .linkText)
+        try container.encode(linkUrl, forKey: .linkUrl)
+        try container.encode(location, forKey: .location)
+        try container.encode(ordinal, forKey: .ordinal)
+        try container.encode(point, forKey: .point)
+        try container.encode(publishEndDate, forKey: .publishEndDate)
+        try container.encode(publishStartDate, forKey: .publishStartDate)
+        try container.encode(recurringSchedules, forKey: .recurringSchedules)
+        try container.encode(roadDisruptionImpactAreas, forKey: .roadDisruptionImpactAreas)
+        try container.encode(roadDisruptionLines, forKey: .roadDisruptionLines)
+        try container.encode(roadProject, forKey: .roadProject)
+        try container.encode(severity, forKey: .severity)
+        try container.encode(startDateTime, forKey: .startDateTime)
+        try container.encode(status, forKey: .status)
+        try container.encode(streets, forKey: .streets)
+        try container.encode(subCategory, forKey: .subCategory)
+        try container.encode(timeFrame, forKey: .timeFrame)
+        try container.encode(url, forKey: .url)
     }
 }

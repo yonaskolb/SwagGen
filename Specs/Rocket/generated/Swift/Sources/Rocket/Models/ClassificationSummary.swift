@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ClassificationSummary: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ClassificationSummary: Codable {
 
     /** The unique code for a classification. */
     public var code: String
@@ -19,20 +18,22 @@ public class ClassificationSummary: JSONDecodable, JSONEncodable, PrettyPrintabl
         self.name = name
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        code = try jsonDictionary.json(atKeyPath: "code")
-        name = try jsonDictionary.json(atKeyPath: "name")
+    private enum CodingKeys: String, CodingKey {
+        case code
+        case name
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["code"] = code
-        dictionary["name"] = name
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        code = try container.decode(.code)
+        name = try container.decode(.name)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(code, forKey: .code)
+        try container.encode(name, forKey: .name)
     }
 }

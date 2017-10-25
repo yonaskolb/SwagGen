@@ -1,7 +1,6 @@
 {% include "Includes/Header.stencil" %}
 
 import Foundation
-import JSONUtilities
 
 extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }}{% endif %} {
 
@@ -72,7 +71,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             {% if encodedParams %}
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 {% for param in encodedParams %}
                 {% if param.optional %}
                 if let {{ param.name }} = options.{{ param.encodedValue }} {
@@ -87,8 +86,8 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             {% endif %}
             {% if bodyParam %}
 
-            public override var jsonBody: Any? {
-                return {{ bodyParam.encodedValue }}
+            public override var jsonBody: Encodable? {
+                return {% if bodyParam.isAnyType %}AnyCodable({{ bodyParam.name }}){% else %}{{ bodyParam.name }}{% endif %}
             }
             {% endif %}
         }
@@ -181,18 +180,18 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 {% for response in responses where response.statusCode %}
                 {% if response.type %}
-                case {{ response.statusCode }}: self = try .{{ response.name }}(JSONDecoder.decode(data: data))
+                case {{ response.statusCode }}: self = try .{{ response.name }}(decoder.decode{% if response.isAnyType %}Any{% endif %}({{ response.type }}.self, from: data))
                 {% else %}
                 case {{ response.statusCode }}: self = .{{ response.name }}
                 {% endif %}
                 {% endfor %}
                 {% if defaultResponse %}
                 {% if defaultResponse.type %}
-                default: self = try .{{ defaultResponse.name }}(statusCode: statusCode, JSONDecoder.decode(data: data))
+                default: self = try .{{ defaultResponse.name }}(statusCode: statusCode, decoder.decode{% if response.isAnyType %}Any{% endif %}({{ defaultResponse.type }}.self, from: data))
                 {% else %}
                 default: self = .{{ defaultResponse.name }}(statusCode: statusCode)
                 {% endif %}

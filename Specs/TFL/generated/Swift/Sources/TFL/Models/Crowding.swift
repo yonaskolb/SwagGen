@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Crowding: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Crowding: Codable {
 
     /** Busiest times at a station (static information) */
     public var passengerFlows: [PassengerFlow]?
@@ -19,24 +18,22 @@ public class Crowding: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.trainLoadings = trainLoadings
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        passengerFlows = jsonDictionary.json(atKeyPath: "passengerFlows")
-        trainLoadings = jsonDictionary.json(atKeyPath: "trainLoadings")
+    private enum CodingKeys: String, CodingKey {
+        case passengerFlows
+        case trainLoadings
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let passengerFlows = passengerFlows?.encode() {
-            dictionary["passengerFlows"] = passengerFlows
-        }
-        if let trainLoadings = trainLoadings?.encode() {
-            dictionary["trainLoadings"] = trainLoadings
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        passengerFlows = try container.decodeIfPresent(.passengerFlows)
+        trainLoadings = try container.decodeIfPresent(.trainLoadings)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(passengerFlows, forKey: .passengerFlows)
+        try container.encode(trainLoadings, forKey: .trainLoadings)
     }
 }

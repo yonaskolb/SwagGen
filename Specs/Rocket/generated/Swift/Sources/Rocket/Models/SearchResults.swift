@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class SearchResults: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class SearchResults: Codable {
 
     /** The search term. */
     public var term: String
@@ -44,36 +43,34 @@ If this is present then the `items` list won't be.
         self.tv = tv
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        term = try jsonDictionary.json(atKeyPath: "term")
-        total = try jsonDictionary.json(atKeyPath: "total")
-        items = jsonDictionary.json(atKeyPath: "items")
-        movies = jsonDictionary.json(atKeyPath: "movies")
-        people = jsonDictionary.json(atKeyPath: "people")
-        tv = jsonDictionary.json(atKeyPath: "tv")
+    private enum CodingKeys: String, CodingKey {
+        case term
+        case total
+        case items
+        case movies
+        case people
+        case tv
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["term"] = term
-        dictionary["total"] = total
-        if let items = items?.encode() {
-            dictionary["items"] = items
-        }
-        if let movies = movies?.encode() {
-            dictionary["movies"] = movies
-        }
-        if let people = people?.encode() {
-            dictionary["people"] = people
-        }
-        if let tv = tv?.encode() {
-            dictionary["tv"] = tv
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        term = try container.decode(.term)
+        total = try container.decode(.total)
+        items = try container.decodeIfPresent(.items)
+        movies = try container.decodeIfPresent(.movies)
+        people = try container.decodeIfPresent(.people)
+        tv = try container.decodeIfPresent(.tv)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(term, forKey: .term)
+        try container.encode(total, forKey: .total)
+        try container.encode(items, forKey: .items)
+        try container.encode(movies, forKey: .movies)
+        try container.encode(people, forKey: .people)
+        try container.encode(tv, forKey: .tv)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ChangePasswordRequest: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ChangePasswordRequest: Codable {
 
     /** The new password for the account. */
     public var password: String
@@ -15,18 +14,19 @@ public class ChangePasswordRequest: JSONDecodable, JSONEncodable, PrettyPrintabl
         self.password = password
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        password = try jsonDictionary.json(atKeyPath: "password")
+    private enum CodingKeys: String, CodingKey {
+        case password
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["password"] = password
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        password = try container.decode(.password)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(password, forKey: .password)
     }
 }

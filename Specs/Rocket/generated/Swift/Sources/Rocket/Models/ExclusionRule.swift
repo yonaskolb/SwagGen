@@ -4,13 +4,12 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** Defines playback exclusion rules for an Offer or Entitlement. */
-public class ExclusionRule: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ExclusionRule: Codable {
 
     /** Defines playback exclusion rules for an Offer or Entitlement. */
-    public enum ExcludeDelivery: String {
+    public enum ExcludeDelivery: String, Codable {
         case stream = "Stream"
         case download = "Download"
         case streamOrDownload = "StreamOrDownload"
@@ -27,7 +26,7 @@ public class ExclusionRule: JSONDecodable, JSONEncodable, PrettyPrintable {
     }
 
     /** Defines playback exclusion rules for an Offer or Entitlement. */
-    public enum ExcludeMinResolution: String {
+    public enum ExcludeMinResolution: String, Codable {
         case sd = "SD"
         case hd720 = "HD-720"
         case hd1080 = "HD-1080"
@@ -65,40 +64,34 @@ public class ExclusionRule: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.excludeMinResolution = excludeMinResolution
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        description = jsonDictionary.json(atKeyPath: "description")
-        device = jsonDictionary.json(atKeyPath: "device")
-        excludeAirplay = jsonDictionary.json(atKeyPath: "excludeAirplay")
-        excludeChromecast = jsonDictionary.json(atKeyPath: "excludeChromecast")
-        excludeDelivery = jsonDictionary.json(atKeyPath: "excludeDelivery")
-        excludeMinResolution = jsonDictionary.json(atKeyPath: "excludeMinResolution")
+    private enum CodingKeys: String, CodingKey {
+        case description
+        case device
+        case excludeAirplay
+        case excludeChromecast
+        case excludeDelivery
+        case excludeMinResolution
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let description = description {
-            dictionary["description"] = description
-        }
-        if let device = device {
-            dictionary["device"] = device
-        }
-        if let excludeAirplay = excludeAirplay {
-            dictionary["excludeAirplay"] = excludeAirplay
-        }
-        if let excludeChromecast = excludeChromecast {
-            dictionary["excludeChromecast"] = excludeChromecast
-        }
-        if let excludeDelivery = excludeDelivery?.encode() {
-            dictionary["excludeDelivery"] = excludeDelivery
-        }
-        if let excludeMinResolution = excludeMinResolution?.encode() {
-            dictionary["excludeMinResolution"] = excludeMinResolution
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        description = try container.decodeIfPresent(.description)
+        device = try container.decodeIfPresent(.device)
+        excludeAirplay = try container.decodeIfPresent(.excludeAirplay)
+        excludeChromecast = try container.decodeIfPresent(.excludeChromecast)
+        excludeDelivery = try container.decodeIfPresent(.excludeDelivery)
+        excludeMinResolution = try container.decodeIfPresent(.excludeMinResolution)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(description, forKey: .description)
+        try container.encode(device, forKey: .device)
+        try container.encode(excludeAirplay, forKey: .excludeAirplay)
+        try container.encode(excludeChromecast, forKey: .excludeChromecast)
+        try container.encode(excludeDelivery, forKey: .excludeDelivery)
+        try container.encode(excludeMinResolution, forKey: .excludeMinResolution)
     }
 }

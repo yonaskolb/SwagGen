@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class SearchResponse: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class SearchResponse: Codable {
 
     public var from: Int?
 
@@ -35,48 +34,40 @@ public class SearchResponse: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.total = total
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        from = jsonDictionary.json(atKeyPath: "from")
-        matches = jsonDictionary.json(atKeyPath: "matches")
-        maxScore = jsonDictionary.json(atKeyPath: "maxScore")
-        page = jsonDictionary.json(atKeyPath: "page")
-        pageSize = jsonDictionary.json(atKeyPath: "pageSize")
-        provider = jsonDictionary.json(atKeyPath: "provider")
-        query = jsonDictionary.json(atKeyPath: "query")
-        total = jsonDictionary.json(atKeyPath: "total")
+    private enum CodingKeys: String, CodingKey {
+        case from
+        case matches
+        case maxScore
+        case page
+        case pageSize
+        case provider
+        case query
+        case total
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let from = from {
-            dictionary["from"] = from
-        }
-        if let matches = matches?.encode() {
-            dictionary["matches"] = matches
-        }
-        if let maxScore = maxScore {
-            dictionary["maxScore"] = maxScore
-        }
-        if let page = page {
-            dictionary["page"] = page
-        }
-        if let pageSize = pageSize {
-            dictionary["pageSize"] = pageSize
-        }
-        if let provider = provider {
-            dictionary["provider"] = provider
-        }
-        if let query = query {
-            dictionary["query"] = query
-        }
-        if let total = total {
-            dictionary["total"] = total
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        from = try container.decodeIfPresent(.from)
+        matches = try container.decodeIfPresent(.matches)
+        maxScore = try container.decodeIfPresent(.maxScore)
+        page = try container.decodeIfPresent(.page)
+        pageSize = try container.decodeIfPresent(.pageSize)
+        provider = try container.decodeIfPresent(.provider)
+        query = try container.decodeIfPresent(.query)
+        total = try container.decodeIfPresent(.total)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(from, forKey: .from)
+        try container.encode(matches, forKey: .matches)
+        try container.encode(maxScore, forKey: .maxScore)
+        try container.encode(page, forKey: .page)
+        try container.encode(pageSize, forKey: .pageSize)
+        try container.encode(provider, forKey: .provider)
+        try container.encode(query, forKey: .query)
+        try container.encode(total, forKey: .total)
     }
 }

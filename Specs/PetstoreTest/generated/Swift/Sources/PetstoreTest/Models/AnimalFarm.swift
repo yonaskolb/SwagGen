@@ -4,6 +4,5 @@
 //
 
 import Foundation
-import JSONUtilities
 
 public typealias AnimalFarm = [Animal]

@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension TestSpec {
 
@@ -23,7 +22,7 @@ extension TestSpec {
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
 
             /** enum response */
-            public enum Status200: String {
+            public enum Status200: String, Codable {
                 case one = "one"
                 case two = "two"
 
@@ -61,9 +60,9 @@ extension TestSpec {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decode([String: Status200].self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension PetstoreTest.User {
 
@@ -49,7 +48,7 @@ extension PetstoreTest.User {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 default: self = .defaultResponse(statusCode: statusCode)
                 }

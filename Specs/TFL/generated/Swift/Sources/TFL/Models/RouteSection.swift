@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class RouteSection: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class RouteSection: Codable {
 
     /** eg: Destination Name */
     public var destinationName: String?
@@ -46,52 +45,43 @@ public class RouteSection: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.routeSectionNaptanEntrySequence = routeSectionNaptanEntrySequence
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        destinationName = jsonDictionary.json(atKeyPath: "destinationName")
-        direction = jsonDictionary.json(atKeyPath: "direction")
-        id = jsonDictionary.json(atKeyPath: "id")
-        lineId = jsonDictionary.json(atKeyPath: "lineId")
-        lineString = jsonDictionary.json(atKeyPath: "lineString")
-        name = jsonDictionary.json(atKeyPath: "name")
-        originationName = jsonDictionary.json(atKeyPath: "originationName")
-        routeCode = jsonDictionary.json(atKeyPath: "routeCode")
-        routeSectionNaptanEntrySequence = jsonDictionary.json(atKeyPath: "routeSectionNaptanEntrySequence")
+    private enum CodingKeys: String, CodingKey {
+        case destinationName
+        case direction
+        case id
+        case lineId
+        case lineString
+        case name
+        case originationName
+        case routeCode
+        case routeSectionNaptanEntrySequence
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let destinationName = destinationName {
-            dictionary["destinationName"] = destinationName
-        }
-        if let direction = direction {
-            dictionary["direction"] = direction
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let lineId = lineId {
-            dictionary["lineId"] = lineId
-        }
-        if let lineString = lineString {
-            dictionary["lineString"] = lineString
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let originationName = originationName {
-            dictionary["originationName"] = originationName
-        }
-        if let routeCode = routeCode {
-            dictionary["routeCode"] = routeCode
-        }
-        if let routeSectionNaptanEntrySequence = routeSectionNaptanEntrySequence?.encode() {
-            dictionary["routeSectionNaptanEntrySequence"] = routeSectionNaptanEntrySequence
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        destinationName = try container.decodeIfPresent(.destinationName)
+        direction = try container.decodeIfPresent(.direction)
+        id = try container.decodeIfPresent(.id)
+        lineId = try container.decodeIfPresent(.lineId)
+        lineString = try container.decodeIfPresent(.lineString)
+        name = try container.decodeIfPresent(.name)
+        originationName = try container.decodeIfPresent(.originationName)
+        routeCode = try container.decodeIfPresent(.routeCode)
+        routeSectionNaptanEntrySequence = try container.decodeIfPresent(.routeSectionNaptanEntrySequence)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(destinationName, forKey: .destinationName)
+        try container.encode(direction, forKey: .direction)
+        try container.encode(id, forKey: .id)
+        try container.encode(lineId, forKey: .lineId)
+        try container.encode(lineString, forKey: .lineString)
+        try container.encode(name, forKey: .name)
+        try container.encode(originationName, forKey: .originationName)
+        try container.encode(routeCode, forKey: .routeCode)
+        try container.encode(routeSectionNaptanEntrySequence, forKey: .routeSectionNaptanEntrySequence)
     }
 }

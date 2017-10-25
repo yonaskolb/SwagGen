@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ProfileUpdateRequest: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ProfileUpdateRequest: Codable {
 
     /** The unique name of the profile. */
     public var name: String?
@@ -30,32 +29,28 @@ If no account pin is defined this has no impact.
         self.segments = segments
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        name = jsonDictionary.json(atKeyPath: "name")
-        pinEnabled = jsonDictionary.json(atKeyPath: "pinEnabled")
-        purchaseEnabled = jsonDictionary.json(atKeyPath: "purchaseEnabled")
-        segments = jsonDictionary.json(atKeyPath: "segments")
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case pinEnabled
+        case purchaseEnabled
+        case segments
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let pinEnabled = pinEnabled {
-            dictionary["pinEnabled"] = pinEnabled
-        }
-        if let purchaseEnabled = purchaseEnabled {
-            dictionary["purchaseEnabled"] = purchaseEnabled
-        }
-        if let segments = segments {
-            dictionary["segments"] = segments
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        name = try container.decodeIfPresent(.name)
+        pinEnabled = try container.decodeIfPresent(.pinEnabled)
+        purchaseEnabled = try container.decodeIfPresent(.purchaseEnabled)
+        segments = try container.decodeIfPresent(.segments)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(name, forKey: .name)
+        try container.encode(pinEnabled, forKey: .pinEnabled)
+        try container.encode(purchaseEnabled, forKey: .purchaseEnabled)
+        try container.encode(segments, forKey: .segments)
     }
 }

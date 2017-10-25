@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 public class ProfileDetail: ProfileSummary {
 
@@ -24,22 +23,27 @@ public class ProfileDetail: ProfileSummary {
         super.init(id: id, name: name, isActive: isActive, pinEnabled: pinEnabled, purchaseEnabled: purchaseEnabled, marketingEnabled: marketingEnabled, segments: segments, maxRatingContentFilter: maxRatingContentFilter, minRatingPlaybackGuard: minRatingPlaybackGuard)
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        watched = try jsonDictionary.json(atKeyPath: "watched")
-        rated = try jsonDictionary.json(atKeyPath: "rated")
-        bookmarked = try jsonDictionary.json(atKeyPath: "bookmarked")
-        try super.init(jsonDictionary: jsonDictionary)
+    private enum CodingKeys: String, CodingKey {
+        case watched
+        case rated
+        case bookmarked
     }
 
-    public override func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["watched"] = watched.encode()
-        dictionary["rated"] = rated
-        dictionary["bookmarked"] = bookmarked.encode()
-        let superDictionary = super.encode()
-        for (key, value) in superDictionary {
-            dictionary[key] = value
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        watched = try container.decode(.watched)
+        rated = try container.decode(.rated)
+        bookmarked = try container.decode(.bookmarked)
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(watched, forKey: .watched)
+        try container.encode(rated, forKey: .rated)
+        try container.encode(bookmarked, forKey: .bookmarked)
+        try super.encode(to: encoder)
     }
 }

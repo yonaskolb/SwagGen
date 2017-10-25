@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Recommendation: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Recommendation: Codable {
 
     public var cost: String?
 
@@ -65,88 +64,70 @@ public class Recommendation: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.zones = zones
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        cost = jsonDictionary.json(atKeyPath: "cost")
-        discountCard = jsonDictionary.json(atKeyPath: "discountCard")
-        fareType = jsonDictionary.json(atKeyPath: "fareType")
-        gettingYourTicket = jsonDictionary.json(atKeyPath: "gettingYourTicket")
-        id = jsonDictionary.json(atKeyPath: "id")
-        keyFeatures = jsonDictionary.json(atKeyPath: "keyFeatures")
-        notes = jsonDictionary.json(atKeyPath: "notes")
-        priceComparison = jsonDictionary.json(atKeyPath: "priceComparison")
-        priceDescription = jsonDictionary.json(atKeyPath: "priceDescription")
-        product = jsonDictionary.json(atKeyPath: "product")
-        productType = jsonDictionary.json(atKeyPath: "productType")
-        rank = jsonDictionary.json(atKeyPath: "rank")
-        recommendedTopUp = jsonDictionary.json(atKeyPath: "recommendedTopUp")
-        rule = jsonDictionary.json(atKeyPath: "rule")
-        singleFare = jsonDictionary.json(atKeyPath: "singleFare")
-        ticketTime = jsonDictionary.json(atKeyPath: "ticketTime")
-        ticketType = jsonDictionary.json(atKeyPath: "ticketType")
-        zones = jsonDictionary.json(atKeyPath: "zones")
+    private enum CodingKeys: String, CodingKey {
+        case cost
+        case discountCard
+        case fareType
+        case gettingYourTicket
+        case id
+        case keyFeatures
+        case notes
+        case priceComparison
+        case priceDescription
+        case product
+        case productType
+        case rank
+        case recommendedTopUp
+        case rule
+        case singleFare
+        case ticketTime
+        case ticketType
+        case zones
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let cost = cost {
-            dictionary["cost"] = cost
-        }
-        if let discountCard = discountCard {
-            dictionary["discountCard"] = discountCard
-        }
-        if let fareType = fareType {
-            dictionary["fareType"] = fareType
-        }
-        if let gettingYourTicket = gettingYourTicket?.encode() {
-            dictionary["gettingYourTicket"] = gettingYourTicket
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let keyFeatures = keyFeatures?.encode() {
-            dictionary["keyFeatures"] = keyFeatures
-        }
-        if let notes = notes?.encode() {
-            dictionary["notes"] = notes
-        }
-        if let priceComparison = priceComparison {
-            dictionary["priceComparison"] = priceComparison
-        }
-        if let priceDescription = priceDescription {
-            dictionary["priceDescription"] = priceDescription
-        }
-        if let product = product {
-            dictionary["product"] = product
-        }
-        if let productType = productType {
-            dictionary["productType"] = productType
-        }
-        if let rank = rank {
-            dictionary["rank"] = rank
-        }
-        if let recommendedTopUp = recommendedTopUp {
-            dictionary["recommendedTopUp"] = recommendedTopUp
-        }
-        if let rule = rule {
-            dictionary["rule"] = rule
-        }
-        if let singleFare = singleFare {
-            dictionary["singleFare"] = singleFare
-        }
-        if let ticketTime = ticketTime {
-            dictionary["ticketTime"] = ticketTime
-        }
-        if let ticketType = ticketType {
-            dictionary["ticketType"] = ticketType
-        }
-        if let zones = zones {
-            dictionary["zones"] = zones
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        cost = try container.decodeIfPresent(.cost)
+        discountCard = try container.decodeIfPresent(.discountCard)
+        fareType = try container.decodeIfPresent(.fareType)
+        gettingYourTicket = try container.decodeIfPresent(.gettingYourTicket)
+        id = try container.decodeIfPresent(.id)
+        keyFeatures = try container.decodeIfPresent(.keyFeatures)
+        notes = try container.decodeIfPresent(.notes)
+        priceComparison = try container.decodeIfPresent(.priceComparison)
+        priceDescription = try container.decodeIfPresent(.priceDescription)
+        product = try container.decodeIfPresent(.product)
+        productType = try container.decodeIfPresent(.productType)
+        rank = try container.decodeIfPresent(.rank)
+        recommendedTopUp = try container.decodeIfPresent(.recommendedTopUp)
+        rule = try container.decodeIfPresent(.rule)
+        singleFare = try container.decodeIfPresent(.singleFare)
+        ticketTime = try container.decodeIfPresent(.ticketTime)
+        ticketType = try container.decodeIfPresent(.ticketType)
+        zones = try container.decodeIfPresent(.zones)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(cost, forKey: .cost)
+        try container.encode(discountCard, forKey: .discountCard)
+        try container.encode(fareType, forKey: .fareType)
+        try container.encode(gettingYourTicket, forKey: .gettingYourTicket)
+        try container.encode(id, forKey: .id)
+        try container.encode(keyFeatures, forKey: .keyFeatures)
+        try container.encode(notes, forKey: .notes)
+        try container.encode(priceComparison, forKey: .priceComparison)
+        try container.encode(priceDescription, forKey: .priceDescription)
+        try container.encode(product, forKey: .product)
+        try container.encode(productType, forKey: .productType)
+        try container.encode(rank, forKey: .rank)
+        try container.encode(recommendedTopUp, forKey: .recommendedTopUp)
+        try container.encode(rule, forKey: .rule)
+        try container.encode(singleFare, forKey: .singleFare)
+        try container.encode(ticketTime, forKey: .ticketTime)
+        try container.encode(ticketType, forKey: .ticketType)
+        try container.encode(zones, forKey: .zones)
     }
 }

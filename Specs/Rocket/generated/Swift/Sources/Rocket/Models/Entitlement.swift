@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 public class Entitlement: OfferRights {
 
@@ -48,52 +47,45 @@ public class Entitlement: OfferRights {
         super.init(deliveryType: deliveryType, scopes: scopes, resolution: resolution, ownership: ownership, exclusionRules: exclusionRules, maxDownloads: maxDownloads, maxPlays: maxPlays, playPeriod: playPeriod, rentalPeriod: rentalPeriod)
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        activationDate = jsonDictionary.json(atKeyPath: "activationDate")
-        classification = jsonDictionary.json(atKeyPath: "classification")
-        creationDate = jsonDictionary.json(atKeyPath: "creationDate")
-        expirationDate = jsonDictionary.json(atKeyPath: "expirationDate")
-        itemId = jsonDictionary.json(atKeyPath: "itemId")
-        itemType = jsonDictionary.json(atKeyPath: "itemType")
-        mediaDuration = jsonDictionary.json(atKeyPath: "mediaDuration")
-        playCount = jsonDictionary.json(atKeyPath: "playCount")
-        remainingDownloads = jsonDictionary.json(atKeyPath: "remainingDownloads")
-        try super.init(jsonDictionary: jsonDictionary)
+    private enum CodingKeys: String, CodingKey {
+        case activationDate
+        case classification
+        case creationDate
+        case expirationDate
+        case itemId
+        case itemType
+        case mediaDuration
+        case playCount
+        case remainingDownloads
     }
 
-    public override func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let activationDate = activationDate?.encode() {
-            dictionary["activationDate"] = activationDate
-        }
-        if let classification = classification?.encode() {
-            dictionary["classification"] = classification
-        }
-        if let creationDate = creationDate?.encode() {
-            dictionary["creationDate"] = creationDate
-        }
-        if let expirationDate = expirationDate?.encode() {
-            dictionary["expirationDate"] = expirationDate
-        }
-        if let itemId = itemId {
-            dictionary["itemId"] = itemId
-        }
-        if let itemType = itemType?.encode() {
-            dictionary["itemType"] = itemType
-        }
-        if let mediaDuration = mediaDuration {
-            dictionary["mediaDuration"] = mediaDuration
-        }
-        if let playCount = playCount {
-            dictionary["playCount"] = playCount
-        }
-        if let remainingDownloads = remainingDownloads {
-            dictionary["remainingDownloads"] = remainingDownloads
-        }
-        let superDictionary = super.encode()
-        for (key, value) in superDictionary {
-            dictionary[key] = value
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        activationDate = try container.decodeIfPresent(.activationDate)
+        classification = try container.decodeIfPresent(.classification)
+        creationDate = try container.decodeIfPresent(.creationDate)
+        expirationDate = try container.decodeIfPresent(.expirationDate)
+        itemId = try container.decodeIfPresent(.itemId)
+        itemType = try container.decodeIfPresent(.itemType)
+        mediaDuration = try container.decodeIfPresent(.mediaDuration)
+        playCount = try container.decodeIfPresent(.playCount)
+        remainingDownloads = try container.decodeIfPresent(.remainingDownloads)
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(activationDate, forKey: .activationDate)
+        try container.encode(classification, forKey: .classification)
+        try container.encode(creationDate, forKey: .creationDate)
+        try container.encode(expirationDate, forKey: .expirationDate)
+        try container.encode(itemId, forKey: .itemId)
+        try container.encode(itemType, forKey: .itemType)
+        try container.encode(mediaDuration, forKey: .mediaDuration)
+        try container.encode(playCount, forKey: .playCount)
+        try container.encode(remainingDownloads, forKey: .remainingDownloads)
+        try super.encode(to: encoder)
     }
 }

@@ -4,10 +4,9 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** Object that represents an end to end journey (see schematic). */
-public class Journey: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Journey: Codable {
 
     public var arrivalDateTime: Date?
 
@@ -24,32 +23,28 @@ public class Journey: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.startDateTime = startDateTime
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        arrivalDateTime = jsonDictionary.json(atKeyPath: "arrivalDateTime")
-        duration = jsonDictionary.json(atKeyPath: "duration")
-        legs = jsonDictionary.json(atKeyPath: "legs")
-        startDateTime = jsonDictionary.json(atKeyPath: "startDateTime")
+    private enum CodingKeys: String, CodingKey {
+        case arrivalDateTime
+        case duration
+        case legs
+        case startDateTime
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let arrivalDateTime = arrivalDateTime?.encode() {
-            dictionary["arrivalDateTime"] = arrivalDateTime
-        }
-        if let duration = duration {
-            dictionary["duration"] = duration
-        }
-        if let legs = legs?.encode() {
-            dictionary["legs"] = legs
-        }
-        if let startDateTime = startDateTime?.encode() {
-            dictionary["startDateTime"] = startDateTime
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        arrivalDateTime = try container.decodeIfPresent(.arrivalDateTime)
+        duration = try container.decodeIfPresent(.duration)
+        legs = try container.decodeIfPresent(.legs)
+        startDateTime = try container.decodeIfPresent(.startDateTime)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(arrivalDateTime, forKey: .arrivalDateTime)
+        try container.encode(duration, forKey: .duration)
+        try container.encode(legs, forKey: .legs)
+        try container.encode(startDateTime, forKey: .startDateTime)
     }
 }

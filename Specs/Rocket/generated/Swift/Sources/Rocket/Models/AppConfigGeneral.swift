@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class AppConfigGeneral: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class AppConfigGeneral: Codable {
 
     /** The currency code to target. */
     public var currencyCode: String?
@@ -35,40 +34,34 @@ public class AppConfigGeneral: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.websiteUrl = websiteUrl
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        currencyCode = jsonDictionary.json(atKeyPath: "currencyCode")
-        customFields = jsonDictionary.json(atKeyPath: "customFields")
-        gaToken = jsonDictionary.json(atKeyPath: "gaToken")
-        itemImageTypes = jsonDictionary.json(atKeyPath: "itemImageTypes")
-        stripeKey = jsonDictionary.json(atKeyPath: "stripeKey")
-        websiteUrl = jsonDictionary.json(atKeyPath: "websiteUrl")
+    private enum CodingKeys: String, CodingKey {
+        case currencyCode
+        case customFields
+        case gaToken
+        case itemImageTypes
+        case stripeKey
+        case websiteUrl
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let currencyCode = currencyCode {
-            dictionary["currencyCode"] = currencyCode
-        }
-        if let customFields = customFields {
-            dictionary["customFields"] = customFields
-        }
-        if let gaToken = gaToken {
-            dictionary["gaToken"] = gaToken
-        }
-        if let itemImageTypes = itemImageTypes {
-            dictionary["itemImageTypes"] = itemImageTypes
-        }
-        if let stripeKey = stripeKey {
-            dictionary["stripeKey"] = stripeKey
-        }
-        if let websiteUrl = websiteUrl?.encode() {
-            dictionary["websiteUrl"] = websiteUrl
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        currencyCode = try container.decodeIfPresent(.currencyCode)
+        customFields = try container.decodeAnyIfPresent(.customFields)
+        gaToken = try container.decodeIfPresent(.gaToken)
+        itemImageTypes = try container.decodeIfPresent(.itemImageTypes)
+        stripeKey = try container.decodeIfPresent(.stripeKey)
+        websiteUrl = try container.decodeIfPresent(.websiteUrl)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(currencyCode, forKey: .currencyCode)
+        try container.encodeAny(customFields, forKey: .customFields)
+        try container.encode(gaToken, forKey: .gaToken)
+        try container.encode(itemImageTypes, forKey: .itemImageTypes)
+        try container.encode(stripeKey, forKey: .stripeKey)
+        try container.encode(websiteUrl, forKey: .websiteUrl)
     }
 }

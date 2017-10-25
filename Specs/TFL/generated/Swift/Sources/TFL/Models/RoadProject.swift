@@ -4,11 +4,10 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class RoadProject: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class RoadProject: Codable {
 
-    public enum Phase: String {
+    public enum Phase: String, Codable {
         case unscoped = "Unscoped"
         case concept = "Concept"
         case consultationEnded = "ConsultationEnded"
@@ -80,84 +79,67 @@ public class RoadProject: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.schemeName = schemeName
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        boroughsBenefited = jsonDictionary.json(atKeyPath: "boroughsBenefited")
-        constructionEndDate = jsonDictionary.json(atKeyPath: "constructionEndDate")
-        constructionStartDate = jsonDictionary.json(atKeyPath: "constructionStartDate")
-        consultationEndDate = jsonDictionary.json(atKeyPath: "consultationEndDate")
-        consultationPageUrl = jsonDictionary.json(atKeyPath: "consultationPageUrl")
-        consultationStartDate = jsonDictionary.json(atKeyPath: "consultationStartDate")
-        contactEmail = jsonDictionary.json(atKeyPath: "contactEmail")
-        contactName = jsonDictionary.json(atKeyPath: "contactName")
-        cycleSuperhighwayId = jsonDictionary.json(atKeyPath: "cycleSuperhighwayId")
-        externalPageUrl = jsonDictionary.json(atKeyPath: "externalPageUrl")
-        phase = jsonDictionary.json(atKeyPath: "phase")
-        projectDescription = jsonDictionary.json(atKeyPath: "projectDescription")
-        projectId = jsonDictionary.json(atKeyPath: "projectId")
-        projectName = jsonDictionary.json(atKeyPath: "projectName")
-        projectPageUrl = jsonDictionary.json(atKeyPath: "projectPageUrl")
-        projectSummaryPageUrl = jsonDictionary.json(atKeyPath: "projectSummaryPageUrl")
-        schemeName = jsonDictionary.json(atKeyPath: "schemeName")
+    private enum CodingKeys: String, CodingKey {
+        case boroughsBenefited
+        case constructionEndDate
+        case constructionStartDate
+        case consultationEndDate
+        case consultationPageUrl
+        case consultationStartDate
+        case contactEmail
+        case contactName
+        case cycleSuperhighwayId
+        case externalPageUrl
+        case phase
+        case projectDescription
+        case projectId
+        case projectName
+        case projectPageUrl
+        case projectSummaryPageUrl
+        case schemeName
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let boroughsBenefited = boroughsBenefited {
-            dictionary["boroughsBenefited"] = boroughsBenefited
-        }
-        if let constructionEndDate = constructionEndDate?.encode() {
-            dictionary["constructionEndDate"] = constructionEndDate
-        }
-        if let constructionStartDate = constructionStartDate?.encode() {
-            dictionary["constructionStartDate"] = constructionStartDate
-        }
-        if let consultationEndDate = consultationEndDate?.encode() {
-            dictionary["consultationEndDate"] = consultationEndDate
-        }
-        if let consultationPageUrl = consultationPageUrl {
-            dictionary["consultationPageUrl"] = consultationPageUrl
-        }
-        if let consultationStartDate = consultationStartDate?.encode() {
-            dictionary["consultationStartDate"] = consultationStartDate
-        }
-        if let contactEmail = contactEmail {
-            dictionary["contactEmail"] = contactEmail
-        }
-        if let contactName = contactName {
-            dictionary["contactName"] = contactName
-        }
-        if let cycleSuperhighwayId = cycleSuperhighwayId {
-            dictionary["cycleSuperhighwayId"] = cycleSuperhighwayId
-        }
-        if let externalPageUrl = externalPageUrl {
-            dictionary["externalPageUrl"] = externalPageUrl
-        }
-        if let phase = phase?.encode() {
-            dictionary["phase"] = phase
-        }
-        if let projectDescription = projectDescription {
-            dictionary["projectDescription"] = projectDescription
-        }
-        if let projectId = projectId {
-            dictionary["projectId"] = projectId
-        }
-        if let projectName = projectName {
-            dictionary["projectName"] = projectName
-        }
-        if let projectPageUrl = projectPageUrl {
-            dictionary["projectPageUrl"] = projectPageUrl
-        }
-        if let projectSummaryPageUrl = projectSummaryPageUrl {
-            dictionary["projectSummaryPageUrl"] = projectSummaryPageUrl
-        }
-        if let schemeName = schemeName {
-            dictionary["schemeName"] = schemeName
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        boroughsBenefited = try container.decodeIfPresent(.boroughsBenefited)
+        constructionEndDate = try container.decodeIfPresent(.constructionEndDate)
+        constructionStartDate = try container.decodeIfPresent(.constructionStartDate)
+        consultationEndDate = try container.decodeIfPresent(.consultationEndDate)
+        consultationPageUrl = try container.decodeIfPresent(.consultationPageUrl)
+        consultationStartDate = try container.decodeIfPresent(.consultationStartDate)
+        contactEmail = try container.decodeIfPresent(.contactEmail)
+        contactName = try container.decodeIfPresent(.contactName)
+        cycleSuperhighwayId = try container.decodeIfPresent(.cycleSuperhighwayId)
+        externalPageUrl = try container.decodeIfPresent(.externalPageUrl)
+        phase = try container.decodeIfPresent(.phase)
+        projectDescription = try container.decodeIfPresent(.projectDescription)
+        projectId = try container.decodeIfPresent(.projectId)
+        projectName = try container.decodeIfPresent(.projectName)
+        projectPageUrl = try container.decodeIfPresent(.projectPageUrl)
+        projectSummaryPageUrl = try container.decodeIfPresent(.projectSummaryPageUrl)
+        schemeName = try container.decodeIfPresent(.schemeName)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(boroughsBenefited, forKey: .boroughsBenefited)
+        try container.encode(constructionEndDate, forKey: .constructionEndDate)
+        try container.encode(constructionStartDate, forKey: .constructionStartDate)
+        try container.encode(consultationEndDate, forKey: .consultationEndDate)
+        try container.encode(consultationPageUrl, forKey: .consultationPageUrl)
+        try container.encode(consultationStartDate, forKey: .consultationStartDate)
+        try container.encode(contactEmail, forKey: .contactEmail)
+        try container.encode(contactName, forKey: .contactName)
+        try container.encode(cycleSuperhighwayId, forKey: .cycleSuperhighwayId)
+        try container.encode(externalPageUrl, forKey: .externalPageUrl)
+        try container.encode(phase, forKey: .phase)
+        try container.encode(projectDescription, forKey: .projectDescription)
+        try container.encode(projectId, forKey: .projectId)
+        try container.encode(projectName, forKey: .projectName)
+        try container.encode(projectPageUrl, forKey: .projectPageUrl)
+        try container.encode(projectSummaryPageUrl, forKey: .projectSummaryPageUrl)
+        try container.encode(schemeName, forKey: .schemeName)
     }
 }

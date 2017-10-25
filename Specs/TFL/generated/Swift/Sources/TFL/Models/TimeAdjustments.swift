@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class TimeAdjustments: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class TimeAdjustments: Codable {
 
     public var earlier: TimeAdjustment?
 
@@ -23,32 +22,28 @@ public class TimeAdjustments: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.latest = latest
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        earlier = jsonDictionary.json(atKeyPath: "earlier")
-        earliest = jsonDictionary.json(atKeyPath: "earliest")
-        later = jsonDictionary.json(atKeyPath: "later")
-        latest = jsonDictionary.json(atKeyPath: "latest")
+    private enum CodingKeys: String, CodingKey {
+        case earlier
+        case earliest
+        case later
+        case latest
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let earlier = earlier?.encode() {
-            dictionary["earlier"] = earlier
-        }
-        if let earliest = earliest?.encode() {
-            dictionary["earliest"] = earliest
-        }
-        if let later = later?.encode() {
-            dictionary["later"] = later
-        }
-        if let latest = latest?.encode() {
-            dictionary["latest"] = latest
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        earlier = try container.decodeIfPresent(.earlier)
+        earliest = try container.decodeIfPresent(.earliest)
+        later = try container.decodeIfPresent(.later)
+        latest = try container.decodeIfPresent(.latest)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(earlier, forKey: .earlier)
+        try container.encode(earliest, forKey: .earliest)
+        try container.encode(later, forKey: .later)
+        try container.encode(latest, forKey: .latest)
     }
 }

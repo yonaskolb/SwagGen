@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class PlaceCategory: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class PlaceCategory: Codable {
 
     public var availableKeys: [String]?
 
@@ -17,24 +16,22 @@ public class PlaceCategory: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.category = category
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        availableKeys = jsonDictionary.json(atKeyPath: "availableKeys")
-        category = jsonDictionary.json(atKeyPath: "category")
+    private enum CodingKeys: String, CodingKey {
+        case availableKeys
+        case category
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let availableKeys = availableKeys {
-            dictionary["availableKeys"] = availableKeys
-        }
-        if let category = category {
-            dictionary["category"] = category
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        availableKeys = try container.decodeIfPresent(.availableKeys)
+        category = try container.decodeIfPresent(.category)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(availableKeys, forKey: .availableKeys)
+        try container.encode(category, forKey: .category)
     }
 }

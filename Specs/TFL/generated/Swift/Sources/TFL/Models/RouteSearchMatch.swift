@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class RouteSearchMatch: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class RouteSearchMatch: Codable {
 
     public var id: String?
 
@@ -44,60 +43,49 @@ public class RouteSearchMatch: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.url = url
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        id = jsonDictionary.json(atKeyPath: "id")
-        lat = jsonDictionary.json(atKeyPath: "lat")
-        lineId = jsonDictionary.json(atKeyPath: "lineId")
-        lineName = jsonDictionary.json(atKeyPath: "lineName")
-        lineRouteSection = jsonDictionary.json(atKeyPath: "lineRouteSection")
-        lon = jsonDictionary.json(atKeyPath: "lon")
-        matchedRouteSections = jsonDictionary.json(atKeyPath: "matchedRouteSections")
-        matchedStops = jsonDictionary.json(atKeyPath: "matchedStops")
-        mode = jsonDictionary.json(atKeyPath: "mode")
-        name = jsonDictionary.json(atKeyPath: "name")
-        url = jsonDictionary.json(atKeyPath: "url")
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case lat
+        case lineId
+        case lineName
+        case lineRouteSection
+        case lon
+        case matchedRouteSections
+        case matchedStops
+        case mode
+        case name
+        case url
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let lat = lat {
-            dictionary["lat"] = lat
-        }
-        if let lineId = lineId {
-            dictionary["lineId"] = lineId
-        }
-        if let lineName = lineName {
-            dictionary["lineName"] = lineName
-        }
-        if let lineRouteSection = lineRouteSection?.encode() {
-            dictionary["lineRouteSection"] = lineRouteSection
-        }
-        if let lon = lon {
-            dictionary["lon"] = lon
-        }
-        if let matchedRouteSections = matchedRouteSections?.encode() {
-            dictionary["matchedRouteSections"] = matchedRouteSections
-        }
-        if let matchedStops = matchedStops?.encode() {
-            dictionary["matchedStops"] = matchedStops
-        }
-        if let mode = mode {
-            dictionary["mode"] = mode
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let url = url {
-            dictionary["url"] = url
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decodeIfPresent(.id)
+        lat = try container.decodeIfPresent(.lat)
+        lineId = try container.decodeIfPresent(.lineId)
+        lineName = try container.decodeIfPresent(.lineName)
+        lineRouteSection = try container.decodeIfPresent(.lineRouteSection)
+        lon = try container.decodeIfPresent(.lon)
+        matchedRouteSections = try container.decodeIfPresent(.matchedRouteSections)
+        matchedStops = try container.decodeIfPresent(.matchedStops)
+        mode = try container.decodeIfPresent(.mode)
+        name = try container.decodeIfPresent(.name)
+        url = try container.decodeIfPresent(.url)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(lat, forKey: .lat)
+        try container.encode(lineId, forKey: .lineId)
+        try container.encode(lineName, forKey: .lineName)
+        try container.encode(lineRouteSection, forKey: .lineRouteSection)
+        try container.encode(lon, forKey: .lon)
+        try container.encode(matchedRouteSections, forKey: .matchedRouteSections)
+        try container.encode(matchedStops, forKey: .matchedStops)
+        try container.encode(mode, forKey: .mode)
+        try container.encode(name, forKey: .name)
+        try container.encode(url, forKey: .url)
     }
 }

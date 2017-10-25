@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class OrderedRoute: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class OrderedRoute: Codable {
 
     public var name: String?
 
@@ -20,28 +19,25 @@ public class OrderedRoute: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.serviceType = serviceType
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        name = jsonDictionary.json(atKeyPath: "name")
-        naptanIds = jsonDictionary.json(atKeyPath: "naptanIds")
-        serviceType = jsonDictionary.json(atKeyPath: "serviceType")
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case naptanIds
+        case serviceType
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let naptanIds = naptanIds {
-            dictionary["naptanIds"] = naptanIds
-        }
-        if let serviceType = serviceType {
-            dictionary["serviceType"] = serviceType
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        name = try container.decodeIfPresent(.name)
+        naptanIds = try container.decodeIfPresent(.naptanIds)
+        serviceType = try container.decodeIfPresent(.serviceType)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(name, forKey: .name)
+        try container.encode(naptanIds, forKey: .naptanIds)
+        try container.encode(serviceType, forKey: .serviceType)
     }
 }

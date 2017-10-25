@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ErrorObject: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ErrorObject: Codable {
 
     /** CloudPass error code */
     public var errorCode: String
@@ -27,28 +26,28 @@ public class ErrorObject: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.externalMessage = externalMessage
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        errorCode = try jsonDictionary.json(atKeyPath: "errorCode")
-        message = try jsonDictionary.json(atKeyPath: "message")
-        externalCode = jsonDictionary.json(atKeyPath: "externalCode")
-        externalMessage = jsonDictionary.json(atKeyPath: "externalMessage")
+    private enum CodingKeys: String, CodingKey {
+        case errorCode
+        case message
+        case externalCode
+        case externalMessage
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["errorCode"] = errorCode
-        dictionary["message"] = message
-        if let externalCode = externalCode {
-            dictionary["externalCode"] = externalCode
-        }
-        if let externalMessage = externalMessage {
-            dictionary["externalMessage"] = externalMessage
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        errorCode = try container.decode(.errorCode)
+        message = try container.decode(.message)
+        externalCode = try container.decodeIfPresent(.externalCode)
+        externalMessage = try container.decodeIfPresent(.externalMessage)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(errorCode, forKey: .errorCode)
+        try container.encode(message, forKey: .message)
+        try container.encode(externalCode, forKey: .externalCode)
+        try container.encode(externalMessage, forKey: .externalMessage)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Auth: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Auth: Codable {
 
     public var status: Bool
 
@@ -18,22 +17,22 @@ public class Auth: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.userToken = userToken
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        status = try jsonDictionary.json(atKeyPath: "status")
-        userToken = jsonDictionary.json(atKeyPath: "user_token")
+    private enum CodingKeys: String, CodingKey {
+        case status
+        case userToken = "user_token"
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["status"] = status
-        if let userToken = userToken {
-            dictionary["user_token"] = userToken
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        status = try container.decode(.status)
+        userToken = try container.decodeIfPresent(.userToken)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(status, forKey: .status)
+        try container.encode(userToken, forKey: .userToken)
     }
 }

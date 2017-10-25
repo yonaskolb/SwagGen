@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Message: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Message: Codable {
 
     public var bulletOrder: Int?
 
@@ -26,36 +25,31 @@ public class Message: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.url = url
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        bulletOrder = jsonDictionary.json(atKeyPath: "bulletOrder")
-        header = jsonDictionary.json(atKeyPath: "header")
-        linkText = jsonDictionary.json(atKeyPath: "linkText")
-        messageText = jsonDictionary.json(atKeyPath: "messageText")
-        url = jsonDictionary.json(atKeyPath: "url")
+    private enum CodingKeys: String, CodingKey {
+        case bulletOrder
+        case header
+        case linkText
+        case messageText
+        case url
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let bulletOrder = bulletOrder {
-            dictionary["bulletOrder"] = bulletOrder
-        }
-        if let header = header {
-            dictionary["header"] = header
-        }
-        if let linkText = linkText {
-            dictionary["linkText"] = linkText
-        }
-        if let messageText = messageText {
-            dictionary["messageText"] = messageText
-        }
-        if let url = url {
-            dictionary["url"] = url
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        bulletOrder = try container.decodeIfPresent(.bulletOrder)
+        header = try container.decodeIfPresent(.header)
+        linkText = try container.decodeIfPresent(.linkText)
+        messageText = try container.decodeIfPresent(.messageText)
+        url = try container.decodeIfPresent(.url)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(bulletOrder, forKey: .bulletOrder)
+        try container.encode(header, forKey: .header)
+        try container.encode(linkText, forKey: .linkText)
+        try container.encode(messageText, forKey: .messageText)
+        try container.encode(url, forKey: .url)
     }
 }

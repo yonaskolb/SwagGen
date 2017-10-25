@@ -4,10 +4,9 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** Custom metadata associated with an item. */
-public class ItemCustomMetadata: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ItemCustomMetadata: Codable {
 
     /** The name of the custom metadata. */
     public var name: String
@@ -20,20 +19,22 @@ public class ItemCustomMetadata: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.value = value
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        name = try jsonDictionary.json(atKeyPath: "name")
-        value = try jsonDictionary.json(atKeyPath: "value")
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case value
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["name"] = name
-        dictionary["value"] = value
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        name = try container.decode(.name)
+        value = try container.decode(.value)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(name, forKey: .name)
+        try container.encode(value, forKey: .value)
     }
 }

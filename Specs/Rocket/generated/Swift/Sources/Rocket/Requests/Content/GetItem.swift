@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension Rocket.Content {
 
@@ -28,7 +27,7 @@ extension Rocket.Content {
 
         If an expand is specified which is not relevant to the item type, it will be ignored.
          */
-        public enum Expand: String {
+        public enum Expand: String, Codable {
             case all = "all"
             case children = "children"
 
@@ -47,7 +46,7 @@ extension Rocket.Content {
 
         Note the `id` parameter must be a show id for this parameter to work correctly.
          */
-        public enum SelectSeason: String {
+        public enum SelectSeason: String, Codable {
             case first = "first"
             case latest = "latest"
 
@@ -159,7 +158,7 @@ See the `feature-flags.md` for available flag details.
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 if let maxRating = options.maxRating {
                   params["max_rating"] = maxRating
                 }
@@ -264,13 +263,13 @@ See the `feature-flags.md` for available flag details.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
-                case 400: self = try .status400(JSONDecoder.decode(data: data))
-                case 404: self = try .status404(JSONDecoder.decode(data: data))
-                case 500: self = try .status500(JSONDecoder.decode(data: data))
-                default: self = try .defaultResponse(statusCode: statusCode, JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decode(ItemDetail.self, from: data))
+                case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))
+                case 404: self = try .status404(decoder.decode(ServiceError.self, from: data))
+                case 500: self = try .status500(decoder.decode(ServiceError.self, from: data))
+                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ServiceError.self, from: data))
                 }
             }
 

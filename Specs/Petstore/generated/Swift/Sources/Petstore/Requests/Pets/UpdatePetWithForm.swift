@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension Petstore.Pets {
 
@@ -50,7 +49,7 @@ extension Petstore.Pets {
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 if let name = options.name {
                   params["name"] = name
                 }
@@ -91,7 +90,7 @@ extension Petstore.Pets {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 case 405: self = .status405
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

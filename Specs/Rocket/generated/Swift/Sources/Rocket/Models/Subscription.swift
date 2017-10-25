@@ -4,12 +4,11 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Subscription: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Subscription: Codable {
 
     /** The status of a subscription. */
-    public enum Status: String {
+    public enum Status: String, Codable {
         case active = "Active"
         case cancelled = "Cancelled"
         case lapsed = "Lapsed"
@@ -56,30 +55,34 @@ property will not exist.
         self.endDate = endDate
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        code = try jsonDictionary.json(atKeyPath: "code")
-        startDate = try jsonDictionary.json(atKeyPath: "startDate")
-        isTrialPeriod = try jsonDictionary.json(atKeyPath: "isTrialPeriod")
-        planId = try jsonDictionary.json(atKeyPath: "planId")
-        status = try jsonDictionary.json(atKeyPath: "status")
-        endDate = jsonDictionary.json(atKeyPath: "endDate")
+    private enum CodingKeys: String, CodingKey {
+        case code
+        case startDate
+        case isTrialPeriod
+        case planId
+        case status
+        case endDate
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["code"] = code
-        dictionary["startDate"] = startDate.encode()
-        dictionary["isTrialPeriod"] = isTrialPeriod
-        dictionary["planId"] = planId
-        dictionary["status"] = status.encode()
-        if let endDate = endDate?.encode() {
-            dictionary["endDate"] = endDate
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        code = try container.decode(.code)
+        startDate = try container.decode(.startDate)
+        isTrialPeriod = try container.decode(.isTrialPeriod)
+        planId = try container.decode(.planId)
+        status = try container.decode(.status)
+        endDate = try container.decodeIfPresent(.endDate)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(code, forKey: .code)
+        try container.encode(startDate, forKey: .startDate)
+        try container.encode(isTrialPeriod, forKey: .isTrialPeriod)
+        try container.encode(planId, forKey: .planId)
+        try container.encode(status, forKey: .status)
+        try container.encode(endDate, forKey: .endDate)
     }
 }

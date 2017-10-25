@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class StreetSegment: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class StreetSegment: Codable {
 
     /** geoJSON formatted LineString containing two latitude/longitude (WGS84) pairs that identify the start and end points of the street segment. */
     public var lineString: String?
@@ -27,32 +26,28 @@ public class StreetSegment: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.toid = toid
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        lineString = jsonDictionary.json(atKeyPath: "lineString")
-        sourceSystemId = jsonDictionary.json(atKeyPath: "sourceSystemId")
-        sourceSystemKey = jsonDictionary.json(atKeyPath: "sourceSystemKey")
-        toid = jsonDictionary.json(atKeyPath: "toid")
+    private enum CodingKeys: String, CodingKey {
+        case lineString
+        case sourceSystemId
+        case sourceSystemKey
+        case toid
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let lineString = lineString {
-            dictionary["lineString"] = lineString
-        }
-        if let sourceSystemId = sourceSystemId {
-            dictionary["sourceSystemId"] = sourceSystemId
-        }
-        if let sourceSystemKey = sourceSystemKey {
-            dictionary["sourceSystemKey"] = sourceSystemKey
-        }
-        if let toid = toid {
-            dictionary["toid"] = toid
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        lineString = try container.decodeIfPresent(.lineString)
+        sourceSystemId = try container.decodeIfPresent(.sourceSystemId)
+        sourceSystemKey = try container.decodeIfPresent(.sourceSystemKey)
+        toid = try container.decodeIfPresent(.toid)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(lineString, forKey: .lineString)
+        try container.encode(sourceSystemId, forKey: .sourceSystemId)
+        try container.encode(sourceSystemKey, forKey: .sourceSystemKey)
+        try container.encode(toid, forKey: .toid)
     }
 }

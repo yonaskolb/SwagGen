@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class AccountDevices: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class AccountDevices: Codable {
 
     /** The array of registered playack devices. */
     public var devices: [Device]
@@ -55,28 +54,28 @@ days old.
         self.registrationWindow = registrationWindow
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        devices = try jsonDictionary.json(atKeyPath: "devices")
-        maxRegistered = try jsonDictionary.json(atKeyPath: "maxRegistered")
-        deregistrationWindow = jsonDictionary.json(atKeyPath: "deregistrationWindow")
-        registrationWindow = jsonDictionary.json(atKeyPath: "registrationWindow")
+    private enum CodingKeys: String, CodingKey {
+        case devices
+        case maxRegistered
+        case deregistrationWindow
+        case registrationWindow
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["devices"] = devices.encode()
-        dictionary["maxRegistered"] = maxRegistered
-        if let deregistrationWindow = deregistrationWindow?.encode() {
-            dictionary["deregistrationWindow"] = deregistrationWindow
-        }
-        if let registrationWindow = registrationWindow?.encode() {
-            dictionary["registrationWindow"] = registrationWindow
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        devices = try container.decode(.devices)
+        maxRegistered = try container.decode(.maxRegistered)
+        deregistrationWindow = try container.decodeIfPresent(.deregistrationWindow)
+        registrationWindow = try container.decodeIfPresent(.registrationWindow)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(devices, forKey: .devices)
+        try container.encode(maxRegistered, forKey: .maxRegistered)
+        try container.encode(deregistrationWindow, forKey: .deregistrationWindow)
+        try container.encode(registrationWindow, forKey: .registrationWindow)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Bay: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Bay: Codable {
 
     public var bayCount: Int?
 
@@ -23,32 +22,28 @@ public class Bay: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.occupied = occupied
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        bayCount = jsonDictionary.json(atKeyPath: "bayCount")
-        bayType = jsonDictionary.json(atKeyPath: "bayType")
-        free = jsonDictionary.json(atKeyPath: "free")
-        occupied = jsonDictionary.json(atKeyPath: "occupied")
+    private enum CodingKeys: String, CodingKey {
+        case bayCount
+        case bayType
+        case free
+        case occupied
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let bayCount = bayCount {
-            dictionary["bayCount"] = bayCount
-        }
-        if let bayType = bayType {
-            dictionary["bayType"] = bayType
-        }
-        if let free = free {
-            dictionary["free"] = free
-        }
-        if let occupied = occupied {
-            dictionary["occupied"] = occupied
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        bayCount = try container.decodeIfPresent(.bayCount)
+        bayType = try container.decodeIfPresent(.bayType)
+        free = try container.decodeIfPresent(.free)
+        occupied = try container.decodeIfPresent(.occupied)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(bayCount, forKey: .bayCount)
+        try container.encode(bayType, forKey: .bayType)
+        try container.encode(free, forKey: .free)
+        try container.encode(occupied, forKey: .occupied)
     }
 }

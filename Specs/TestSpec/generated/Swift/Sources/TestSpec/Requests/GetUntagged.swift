@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension TestSpec {
 
@@ -50,7 +49,7 @@ extension TestSpec {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 case 201: self = .status201
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

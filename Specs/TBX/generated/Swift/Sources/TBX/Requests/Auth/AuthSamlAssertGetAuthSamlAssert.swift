@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension TBX.Auth {
 
@@ -40,7 +39,7 @@ extension TBX.Auth {
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 if let sAMLResponse = options.sAMLResponse {
                   params["SAMLResponse"] = sAMLResponse
                 }
@@ -81,9 +80,9 @@ extension TBX.Auth {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decodeAny([String: Any].self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

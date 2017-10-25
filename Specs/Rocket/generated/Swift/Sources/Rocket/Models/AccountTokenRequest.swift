@@ -4,14 +4,13 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class AccountTokenRequest: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class AccountTokenRequest: Codable {
 
     /** The scope(s) of the tokens required.
     For each scope listed an Account and Profile token of that scope will be returned
      */
-    public enum Scopes: String {
+    public enum Scopes: String, Codable {
         case catalog = "Catalog"
         case commerce = "Commerce"
         case settings = "Settings"
@@ -34,7 +33,7 @@ public class AccountTokenRequest: JSONDecodable, JSONEncodable, PrettyPrintable 
     If type `Persistent` the cookie will have a medium term lifespan.
     If undefined no cookies will be set.
      */
-    public enum CookieType: String {
+    public enum CookieType: String, Codable {
         case session = "Session"
         case persistent = "Persistent"
 
@@ -83,32 +82,31 @@ Either a pin or password should be supplied. If both are supplied the password w
         self.pin = pin
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        email = try jsonDictionary.json(atKeyPath: "email")
-        scopes = try jsonDictionary.json(atKeyPath: "scopes")
-        cookieType = jsonDictionary.json(atKeyPath: "cookieType")
-        password = jsonDictionary.json(atKeyPath: "password")
-        pin = jsonDictionary.json(atKeyPath: "pin")
+    private enum CodingKeys: String, CodingKey {
+        case email
+        case scopes
+        case cookieType
+        case password
+        case pin
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["email"] = email
-        dictionary["scopes"] = scopes.encode()
-        if let cookieType = cookieType?.encode() {
-            dictionary["cookieType"] = cookieType
-        }
-        if let password = password {
-            dictionary["password"] = password
-        }
-        if let pin = pin {
-            dictionary["pin"] = pin
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        email = try container.decode(.email)
+        scopes = try container.decode(.scopes)
+        cookieType = try container.decodeIfPresent(.cookieType)
+        password = try container.decodeIfPresent(.password)
+        pin = try container.decodeIfPresent(.pin)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(email, forKey: .email)
+        try container.encode(scopes, forKey: .scopes)
+        try container.encode(cookieType, forKey: .cookieType)
+        try container.encode(password, forKey: .password)
+        try container.encode(pin, forKey: .pin)
     }
 }

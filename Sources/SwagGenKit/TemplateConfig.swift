@@ -17,6 +17,10 @@ public struct TemplateConfig {
     public let copiedFiles: [Path]
     public let basePath: Path
     public let formatter: String?
+
+    /// Indicates if formatter should use fixed width integer types, like `Int32` and `Int64` in Swift.
+    /// Default value is `false`.
+    public let useFixedWidthIntegerTypes: Bool
     public let options: [String: Any]
 
     public init(path: Path, options: [String: String]) throws {
@@ -35,6 +39,7 @@ public struct TemplateConfig {
         templateFiles = json.json(atKeyPath: "templateFiles") ?? []
         copiedFiles = json.json(atKeyPath: "copiedFiles") ?? []
         formatter = json.json(atKeyPath: "formatter")
+        useFixedWidthIntegerTypes = json.json(atKeyPath: "useFixedWidthIntegerTypes") ?? false
 
         let templateOptions = json["options"] as? JSONDictionary ?? [:]
         self.options = templateOptions + options

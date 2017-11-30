@@ -16,9 +16,11 @@ public class CodeFormatter {
     var spec: SwaggerSpec
     var filenames: [String] = []
     var enums: [Enum] = []
+    let useFixedWidthIntegerTypes: Bool
 
-    public init(spec: SwaggerSpec) {
+    public init(spec: SwaggerSpec, useFixedWidthIntegerTypes: Bool = false) {
         self.spec = spec
+        self.useFixedWidthIntegerTypes = useFixedWidthIntegerTypes
     }
 
     var disallowedNames: [String] {

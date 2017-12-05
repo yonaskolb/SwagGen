@@ -124,7 +124,7 @@ public class SwiftFormatter: CodeFormatter {
             case .float: return "Float"
             }
         case let .integer(item):
-            guard useFixedWidthIntegerTypes, let format = item.format else {
+            guard templateConfig.options["useFixedWidthIntegerTypes"] as? Bool ?? false, let format = item.format else {
                 return "Int"
             }
             switch format {

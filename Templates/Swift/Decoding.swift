@@ -287,3 +287,9 @@ extension Dictionary {
         return lines.map { "\(indent)\($0)" }.joined(separator: newline)
     }
 }
+
+@available(swift 4.0)
+extension Int64: JSONRawType {}
+
+@available(swift 4.0)
+extension Int32: JSONRawType {}

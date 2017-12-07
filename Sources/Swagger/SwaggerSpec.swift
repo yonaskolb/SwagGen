@@ -88,7 +88,7 @@ extension SwaggerSpec: JSONObjectConvertible {
             if let dictionary = jsonDictionary[key] as? [String: Any] {
                 for (key, value) in dictionary {
                     if let dictionary = value as? [String: Any] {
-                        let value = try T(jsonDictionary: dictionary )
+                        let value = try T(jsonDictionary: dictionary)
                         values.append(SwaggerObject<T>(name: key, value: value))
                     }
                 }
@@ -101,7 +101,7 @@ extension SwaggerSpec: JSONObjectConvertible {
             if let dictionary = jsonDictionary[key] as? [String: Any] {
                 for (key, value) in dictionary {
                     if let dictionary = value as? [String: Any] {
-                        let value = try T(name: key, jsonDictionary: dictionary )
+                        let value = try T(name: key, jsonDictionary: dictionary)
                         values.append(value)
                     }
                 }
@@ -109,11 +109,11 @@ extension SwaggerSpec: JSONObjectConvertible {
             return values
         }
 
-        paths = try decodeNamed(jsonDictionary: jsonDictionary , key: "paths")
-        securityDefinitions = try decodeNamed(jsonDictionary: jsonDictionary , key: "securityDefinitions")
-        definitions = try decodeObject(jsonDictionary: jsonDictionary , key: "definitions")
-        parameters = try decodeObject(jsonDictionary: jsonDictionary , key: "parameters")
-        responses = try decodeObject(jsonDictionary: jsonDictionary , key: "responses")
+        paths = try decodeNamed(jsonDictionary: jsonDictionary, key: "paths")
+        securityDefinitions = try decodeNamed(jsonDictionary: jsonDictionary, key: "securityDefinitions")
+        definitions = try decodeObject(jsonDictionary: jsonDictionary, key: "definitions")
+        parameters = try decodeObject(jsonDictionary: jsonDictionary, key: "parameters")
+        responses = try decodeObject(jsonDictionary: jsonDictionary, key: "responses")
 
         operations = paths.reduce([]) { $0 + $1.operations }
 

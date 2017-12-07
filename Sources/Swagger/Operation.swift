@@ -66,14 +66,14 @@ extension Operation {
             self.defaultResponse = defaultResponse
             mappedResponses.append(OperationResponse(statusCode: nil, response: defaultResponse))
         } else {
-            self.defaultResponse = nil
+            defaultResponse = nil
         }
 
         responses = mappedResponses.sorted {
             let code1 = $0.statusCode
             let code2 = $1.statusCode
             switch (code1, code2) {
-            case (.some(let code1), .some(let code2)): return code1 < code2
+            case let (.some(code1), .some(code2)): return code1 < code2
             case (.some, .none): return true
             case (.none, .some): return false
             default: return false

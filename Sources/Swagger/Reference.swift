@@ -63,7 +63,7 @@ public enum PossibleReference<T: JSONObjectConvertible>: JSONObjectConvertible {
         if let reference: String = jsonDictionary.json(atKeyPath: "$ref") {
             self = .reference(Reference<T>(reference))
         } else {
-            self = .value(try T(jsonDictionary: jsonDictionary ))
+            self = .value(try T(jsonDictionary: jsonDictionary))
         }
     }
 }

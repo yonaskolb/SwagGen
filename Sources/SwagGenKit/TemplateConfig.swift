@@ -1,11 +1,3 @@
-//
-//  Template.swift
-//  SwagGen
-//
-//  Created by Yonas Kolb on 21/12/16.
-//
-//
-
 import Foundation
 import PathKit
 import Yams

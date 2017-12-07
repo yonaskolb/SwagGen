@@ -1,11 +1,3 @@
-//
-//  CodeFormatter.swift
-//  SwagGen
-//
-//  Created by Yonas Kolb on 3/12/2016.
-//  Copyright © 2016 Yonas Kolb. All rights reserved.
-//
-
 import Foundation
 import Swagger
 
@@ -303,7 +295,7 @@ public class CodeFormatter {
             "#": "hash",
             "@": "alpha",
             "&": "and",
-            ]
+        ]
         var escapedString = string
         for (symbol, replacement) in replacements {
             escapedString = escapedString.replacingOccurrences(of: symbol, with: replacement)

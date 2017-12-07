@@ -13,8 +13,8 @@ public indirect enum ItemType {
 extension Item: JSONObjectConvertible {
 
     public init(jsonDictionary: JSONDictionary) throws {
-        metadata = try Metadata(jsonDictionary: jsonDictionary )
-        type = try ItemType(jsonDictionary: jsonDictionary )
+        metadata = try Metadata(jsonDictionary: jsonDictionary)
+        type = try ItemType(jsonDictionary: jsonDictionary)
     }
 }
 
@@ -24,7 +24,7 @@ extension ItemType: JSONObjectConvertible {
         if let simpleType = SimpleType(jsonDictionary: jsonDictionary) {
             self = .simpleType(simpleType)
         } else if let dataType = DataType(jsonDictionary: jsonDictionary), dataType == .array {
-            self = .array(try ArrayItem(jsonDictionary: jsonDictionary ))
+            self = .array(try ArrayItem(jsonDictionary: jsonDictionary))
         } else {
             throw SwaggerError.incorrectItemType(jsonDictionary)
         }

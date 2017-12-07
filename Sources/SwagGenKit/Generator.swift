@@ -1,11 +1,3 @@
-//
-//  Codegen.swift
-//  SwagGen
-//
-//  Created by Yonas Kolb on 3/12/2016.
-//  Copyright © 2016 Yonas Kolb. All rights reserved.
-//
-
 import Foundation
 import PathKit
 import Stencil
@@ -87,7 +79,7 @@ public class Generator {
                         string += "\n  Diff at line \(diff.line):\n  \"\(diff.string1)\"\n  \"\(diff.string2)\"\n"
                     }
                     return string
-                    }.joined(separator: "\n  ")
+                }.joined(separator: "\n  ")
                 changes.append(string)
             }
             if !removedFiles.isEmpty {

@@ -1,11 +1,3 @@
-//
-//  SwiftCodegen.swift
-//  SwagGen
-//
-//  Created by Yonas Kolb on 3/12/2016.
-//  Copyright © 2016 Yonas Kolb. All rights reserved.
-//
-
 import Foundation
 import Swagger
 
@@ -73,7 +65,7 @@ public class SwiftFormatter: CodeFormatter {
     var inbuiltTypes: [String] = [
         "Error",
         "Data",
-        ]
+    ]
 
     override var disallowedNames: [String] { return disallowedKeywords + inbuiltTypes }
     override var disallowedTypes: [String] { return disallowedKeywords + inbuiltTypes }
@@ -81,7 +73,7 @@ public class SwiftFormatter: CodeFormatter {
     let fixedWidthIntegers: Bool
 
     public override init(spec: SwaggerSpec, templateConfig: TemplateConfig) {
-        self.fixedWidthIntegers = templateConfig.options["fixedWidthIntegers"] as? Bool ?? false
+        fixedWidthIntegers = templateConfig.options["fixedWidthIntegers"] as? Bool ?? false
         super.init(spec: spec, templateConfig: templateConfig)
     }
 
@@ -91,12 +83,12 @@ public class SwiftFormatter: CodeFormatter {
         if checkEnum {
             enumValue = item.metadata.getEnum(name: name, type: .item(item), description: "").flatMap { getEnumContext($0)["enumName"] as? String }
         }
-        //TODO: support nonstring enums
+        // TODO: support nonstring enums
 
         switch item.type {
         case let .array(item):
             let type = getItemType(name: name, item: item.items, checkEnum: checkEnum)
-            return checkEnum ? "[\(enumValue ?? type )]" : type
+            return checkEnum ? "[\(enumValue ?? type)]" : type
         case let .simpleType(simpleType):
             if simpleType.canBeEnum, let enumValue = enumValue {
                 return enumValue
@@ -172,16 +164,16 @@ public class SwiftFormatter: CodeFormatter {
                 return checkEnum ? "[\(enumValue ?? typeString)]" : typeString
             }
         case let .object(schema):
-//            if schema.properties.isEmpty {
-                switch schema.additionalProperties {
-                case .bool: return "[String: Any]"
-                case let .schema(schema):
-                    let typeString = getSchemaType(name: name, schema: schema, checkEnum: checkEnum)
-                    return checkEnum ? "[String: \(enumValue ?? typeString)]" : typeString
-                }
-//            } else {
-//                return getModelType(name)
-//            }
+            //            if schema.properties.isEmpty {
+            switch schema.additionalProperties {
+            case .bool: return "[String: Any]"
+            case let .schema(schema):
+                let typeString = getSchemaType(name: name, schema: schema, checkEnum: checkEnum)
+                return checkEnum ? "[String: \(enumValue ?? typeString)]" : typeString
+            }
+        //            } else {
+        //                return getModelType(name)
+        //            }
         case let .reference(reference): return escapeType(reference.name.upperCamelCased())
         case .allOf: return "UNKNOWN_ALL_OFF"
         case .any: return "UNKNOWN_ANY"
@@ -271,7 +263,7 @@ public class SwiftFormatter: CodeFormatter {
         }
         return "`\(name)`"
     }
-    
+
     override func getEscapedName(_ name: String) -> String {
         return "`\(name)`"
     }

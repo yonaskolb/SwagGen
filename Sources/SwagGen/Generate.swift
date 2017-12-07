@@ -1,11 +1,3 @@
-//
-//  Generate.swift
-//  SwagGen
-//
-//  Created by Yonas Kolb on 18/2/17.
-//
-//
-
 import Foundation
 import Swagger
 import SwagGenKit
@@ -111,7 +103,7 @@ func generate(templatePath: String, destinationPath: PathKit.Path, specPath: Str
                 switch file.state {
                 case .unchanged:
                     break
-                    // writeMessage("Unchanged \(file.path)".lightBlack)
+                // writeMessage("Unchanged \(file.path)".lightBlack)
                 case .modified:
                     writeMessage("Modified \(file.path)".yellow)
                 case .created:

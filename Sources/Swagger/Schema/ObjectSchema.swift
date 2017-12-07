@@ -35,7 +35,7 @@ extension ObjectSchema: JSONObjectConvertible {
 
         minProperties = jsonDictionary.json(atKeyPath: "minProperties")
         maxProperties = jsonDictionary.json(atKeyPath: "maxProperties")
-        additionalProperties = AdditionalProperties(jsonDictionary: jsonDictionary , key: "additionalProperties")
+        additionalProperties = AdditionalProperties(jsonDictionary: jsonDictionary, key: "additionalProperties")
         discriminator = jsonDictionary.json(atKeyPath: "discriminator")
         abstract = (jsonDictionary.json(atKeyPath: "x-abstract")) ?? false
     }

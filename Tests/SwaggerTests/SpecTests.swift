@@ -15,8 +15,7 @@ public func testSpecs() {
         var spec: SwaggerSpec!
         do {
             spec = try SwaggerSpec(path: Path(path.string))
-        }
-        catch _ {
+        } catch _ {
             return
         }
 
@@ -30,7 +29,7 @@ public func testSpecs() {
 
         $0.describe("/pets path") {
 
-            let path = spec.paths.first{ $0.path == "/pets" }
+            let path = spec.paths.first { $0.path == "/pets" }
 
             $0.it("has correct path") {
                 try expect(path?.path) == "/pets"
@@ -41,16 +40,16 @@ public func testSpecs() {
             }
 
             $0.it("has a get operation") {
-                try expect(path?.operations.filter{$0.method == .get}.count) == 1
+                try expect(path?.operations.filter { $0.method == .get }.count) == 1
             }
 
             $0.it("has a listPets operation") {
-                try expect(path?.operations.filter{$0.identifier == "listPets"}.count) == 1
+                try expect(path?.operations.filter { $0.identifier == "listPets" }.count) == 1
             }
 
             $0.describe("listPets operation") {
 
-                let operation = path?.operations.filter{$0.identifier == "listPets"}.first
+                let operation = path?.operations.filter { $0.identifier == "listPets" }.first
                 $0.it("has get operation id") {
                     try expect(operation?.identifier) == "listPets"
                 }
@@ -85,12 +84,12 @@ public func testSpecs() {
             }
 
             $0.it("has a showPetById operation") {
-                try expect(path?.operations.filter{$0.identifier == "showPetById"}.count) == 1
+                try expect(path?.operations.filter { $0.identifier == "showPetById" }.count) == 1
             }
 
             $0.describe("showPetById operation") {
 
-                let operation = path?.operations.filter{$0.identifier == "showPetById"}.first
+                let operation = path?.operations.filter { $0.identifier == "showPetById" }.first
                 $0.it("has get operation id") {
                     try expect(operation?.identifier) == "showPetById"
                 }
@@ -115,12 +114,12 @@ public func testSpecs() {
             }
 
             $0.it("has a updatePetWithForm operation") {
-                try expect(path?.operations.filter{$0.identifier == "updatePetWithForm"}.count) == 1
+                try expect(path?.operations.filter { $0.identifier == "updatePetWithForm" }.count) == 1
             }
 
             $0.describe("updatePetWithForm operation") {
 
-                let operation = path?.operations.filter{$0.identifier == "updatePetWithForm"}.first
+                let operation = path?.operations.filter { $0.identifier == "updatePetWithForm" }.first
                 $0.it("has operation id") {
                     try expect(operation?.identifier) == "updatePetWithForm"
                 }
@@ -146,7 +145,6 @@ public func testSpecs() {
                     try expect(operation?.method) == .post
                 }
             }
-
         }
 
         $0.it("has metadata") {

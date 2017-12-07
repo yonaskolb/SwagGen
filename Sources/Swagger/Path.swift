@@ -17,7 +17,7 @@ extension Path: NamedMappable {
         for (key, value) in jsonDictionary {
             if let method = Operation.Method(rawValue: key) {
                 if let json = value as? [String: Any] {
-                    let operation = try Operation(path: path, method: method, pathParameters: parameters, jsonDictionary: json )
+                    let operation = try Operation(path: path, method: method, pathParameters: parameters, jsonDictionary: json)
                     mappedOperations.append(operation)
                 }
             }

@@ -27,7 +27,7 @@ extension ArraySchema: JSONObjectConvertible {
 
         minItems = jsonDictionary.json(atKeyPath: "minItems")
         maxItems = jsonDictionary.json(atKeyPath: "maxItems")
-        additionalItems = AdditionalProperties(jsonDictionary: jsonDictionary , key: "additionalItems")
+        additionalItems = AdditionalProperties(jsonDictionary: jsonDictionary, key: "additionalItems")
         uniqueItems = jsonDictionary.json(atKeyPath: "uniqueItems") ?? false
     }
 }

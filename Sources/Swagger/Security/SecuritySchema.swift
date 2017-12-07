@@ -33,9 +33,9 @@ extension SecuritySchema: NamedMappable {
         case .basic:
             type = .basic
         case .apiKey:
-            type = .apiKey(try APIKeySchema(jsonDictionary: jsonDictionary ))
+            type = .apiKey(try APIKeySchema(jsonDictionary: jsonDictionary))
         case .oauth2:
-            type = .oauth2(try OAuth2Schema(jsonDictionary: jsonDictionary ))
+            type = .oauth2(try OAuth2Schema(jsonDictionary: jsonDictionary))
         }
     }
 }

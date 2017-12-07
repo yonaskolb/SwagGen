@@ -48,4 +48,3 @@ extension StringItem {
         minLength = (jsonDictionary.json(atKeyPath: "minLength")) ?? 0
     }
 }
-

@@ -14,7 +14,7 @@ public struct Metadata {
 extension Metadata: JSONObjectConvertible {
 
     public init(jsonDictionary: JSONDictionary) throws {
-        type = DataType(jsonDictionary: jsonDictionary )
+        type = DataType(jsonDictionary: jsonDictionary)
         title = jsonDictionary.json(atKeyPath: "title")
         description = jsonDictionary.json(atKeyPath: "description")
         defaultValue = jsonDictionary.json(atKeyPath: "default")

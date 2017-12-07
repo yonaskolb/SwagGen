@@ -44,7 +44,7 @@ extension Parameter: JSONObjectConvertible {
         case .body:
             type = .body(schema: try jsonDictionary.json(atKeyPath: "schema"))
         case .query, .header, .path, .formData:
-            type = .other(item: try Item(jsonDictionary: jsonDictionary ))
+            type = .other(item: try Item(jsonDictionary: jsonDictionary))
         }
     }
 }

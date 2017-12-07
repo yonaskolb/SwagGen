@@ -7,7 +7,7 @@ import Foundation
 public func testFixtures() {
 
     let specsPath = Path(#file) + "../../../Specs"
-    let specs = (try? specsPath.children().filter { $0.isDirectory && !$0.lastComponent.hasPrefix(".") } ) ?? []
+    let specs = (try? specsPath.children().filter { $0.isDirectory && !$0.lastComponent.hasPrefix(".") }) ?? []
 
     describe("SwagGen") {
         for specFolder in specs {
@@ -33,7 +33,7 @@ public func testFixtures() {
                 let destinationPath = specFolder + "generated/\(templateType)"
                 try destinationPath.mkpath()
                 let generator = Generator(context: context, destination: destinationPath.normalize(), templateConfig: templateConfig)
-                let result = try generator.generate(clean: .all, fileChanged: {_ in})
+                let result = try generator.generate(clean: .all, fileChanged: { _ in })
                 if result.hasChanged {
                     throw failure("Generated spec has changed: \(result.description)\n\n\(result.changedFilesDescription(includeModifiedContent: true))")
                 }

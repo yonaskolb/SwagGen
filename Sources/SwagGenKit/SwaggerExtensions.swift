@@ -1,11 +1,3 @@
-//
-//  SwaggerExtensions.swift
-//  SwagGen
-//
-//  Created by Yonas Kolb on 2/6/17.
-//
-//
-
 import Foundation
 import Swagger
 import Yams
@@ -248,7 +240,6 @@ extension SimpleType {
         }
     }
 }
-
 
 extension Item {
 

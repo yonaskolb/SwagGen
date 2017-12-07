@@ -1,6 +1,7 @@
 formatter: swift
 options:
   name: API
+  fixedWidthIntegers: false
   dependencies:
     - name: JSONUtilities
       pod: JSONUtilities

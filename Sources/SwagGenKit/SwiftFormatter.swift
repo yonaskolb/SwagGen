@@ -78,6 +78,13 @@ public class SwiftFormatter: CodeFormatter {
     override var disallowedNames: [String] { return disallowedKeywords + inbuiltTypes }
     override var disallowedTypes: [String] { return disallowedKeywords + inbuiltTypes }
 
+    let fixedWidthIntegers: Bool
+
+    public override init(spec: SwaggerSpec, templateConfig: TemplateConfig) {
+        self.fixedWidthIntegers = templateConfig.options["fixedWidthIntegers"] as? Bool ?? false
+        super.init(spec: spec, templateConfig: templateConfig)
+    }
+
     override func getItemType(name: String, item: Item, checkEnum: Bool = true) -> String {
 
         var enumValue: String?
@@ -124,12 +131,17 @@ public class SwiftFormatter: CodeFormatter {
             case .float: return "Float"
             }
         case let .integer(item):
-            guard templateConfig.options["useFixedWidthIntegerTypes"] as? Bool ?? false, let format = item.format else {
+            guard let format = item.format else {
                 return "Int"
             }
-            switch format {
-            case .int32: return "Int32"
-            case .int64: return "Int64"
+
+            if fixedWidthIntegers {
+                switch format {
+                case .int32: return "Int32"
+                case .int64: return "Int64"
+                }
+            } else {
+                return "Int"
             }
         case .boolean:
             return "Bool"

@@ -7,3 +7,4 @@
 /Specs/.build/
 /Specs/**/.build/
 /Specs/**/*.xcodeproj
+/Specs/**/Package.resolved

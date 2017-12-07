@@ -256,7 +256,7 @@ extension Dictionary {
         let indent = String(repeating: indentString, count: indentIndex)
         let indentNext = String(repeating: indentString, count: indentIndex + 1)
         let newline: String = "\n"
-        let arrayWhitespace = String(repeating: " ", count: arrayIdentifier.characters.count)
+        let arrayWhitespace = String(repeating: " ", count: arrayIdentifier.count)
         var lines: [String] = []
         for (key, value) in self {
             if let dictionary = value as? [String: Any] {

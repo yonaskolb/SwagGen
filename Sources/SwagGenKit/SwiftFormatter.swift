@@ -123,8 +123,14 @@ public class SwiftFormatter: CodeFormatter {
             case .double: return "Double"
             case .float: return "Float"
             }
-        case .integer:
-            return "Int"
+        case let .integer(item):
+            guard templateConfig.options["useFixedWidthIntegerTypes"] as? Bool ?? false, let format = item.format else {
+                return "Int"
+            }
+            switch format {
+            case .int32: return "Int32"
+            case .int64: return "Int64"
+            }
         case .boolean:
             return "Bool"
         case .file: return "URL"

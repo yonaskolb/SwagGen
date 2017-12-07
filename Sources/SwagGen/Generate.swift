@@ -81,14 +81,14 @@ func generate(templatePath: String, destinationPath: PathKit.Path, specPath: Str
 
         switch formatter {
         case "swift":
-            codeFormatter = SwiftFormatter(spec: spec)
+            codeFormatter = SwiftFormatter(spec: spec, templateConfig: templateConfig)
         default:
-            codeFormatter = CodeFormatter(spec: spec)
+            codeFormatter = CodeFormatter(spec: spec, templateConfig: templateConfig)
             writeMessage("Unrecognized formatter \(formatter). Using default")
             return
         }
     } else {
-        codeFormatter = CodeFormatter(spec: spec)
+        codeFormatter = CodeFormatter(spec: spec, templateConfig: templateConfig)
     }
 
     let context = codeFormatter.getContext()

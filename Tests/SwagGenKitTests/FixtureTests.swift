@@ -27,7 +27,7 @@ public func testFixtures() {
                 let templatePath = Path(#file) + "../../../Templates/\(templateType)"
                 let templateConfig = try TemplateConfig(path: templatePath, options: ["name": specName])
 
-                let codeFormatter = SwiftFormatter(spec: spec)
+                let codeFormatter = SwiftFormatter(spec: spec, templateConfig: templateConfig)
                 let context = codeFormatter.getContext()
 
                 let destinationPath = specFolder + "generated/\(templateType)"

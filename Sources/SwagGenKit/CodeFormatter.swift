@@ -16,9 +16,11 @@ public class CodeFormatter {
     var spec: SwaggerSpec
     var filenames: [String] = []
     var enums: [Enum] = []
+    let templateConfig: TemplateConfig
 
-    public init(spec: SwaggerSpec) {
+    public init(spec: SwaggerSpec, templateConfig: TemplateConfig) {
         self.spec = spec
+        self.templateConfig = templateConfig
     }
 
     var disallowedNames: [String] {

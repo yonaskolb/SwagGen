@@ -6,7 +6,7 @@
 [![Build Status](https://img.shields.io/travis/yonaskolb/SwagGen/master.svg?style=flat)](https://travis-ci.org/yonaskolb/SwagGen)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/yonaskolb/SwagGen/blob/master/LICENSE)
 
-This is a Swift command line tool that generates client code based on a [Swagger/OpenAPI Spec](http://swagger.io)
+This is a Swift command line tool that generates client code based on a [Swagger/OpenAPI](http://swagger.io) 2.0 Spec
 
 It has many advantages over the official [swagger-codegen](https://github.com/swagger-api/swagger-codegen) java tool such as speed, configurability, simplicity, extensibility, and an improved templating language.
 

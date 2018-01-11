@@ -122,26 +122,30 @@ extension SwaggerSpec: JSONObjectConvertible {
 
     func resolveReferences() {
 
-        func resolveDefinitionReference(_ reference: Reference<Schema>) {
-            let components = reference.string.components(separatedBy: "/")
-            if components.count == 3 && components[0] == "#" && components[1] == "definitions" {
-                let name = components[2]
-                if let schema = definitions.first(where: { $0.name == name }) {
-                    reference.resolve(with: schema.value)
-                }
+        func resolvePossibleReference<T>(_ reference: PossibleReference<T>, objects: [SwaggerObject<T>], type: String) {
+            if case let .reference(reference) = reference {
+                resolveReference(reference, objects: objects, type: type)
             }
         }
 
-        func resolveParameterReference(_ reference: PossibleReference<Parameter>) {
-            if case let .reference(reference) = reference {
-                let components = reference.string.components(separatedBy: "/")
-                if components.count == 3 && components[0] == "#" && components[1] == "parameters" {
-                    let name = components[2]
-                    if let param = parameters.first(where: { $0.name == name }) {
-                        reference.resolve(with: param.value)
-                    }
-                }
+        func resolveReference<T>(_ reference: Reference<T>, objects: [SwaggerObject<T>], type: String) {
+            if reference.referenceType == type,
+                let name = reference.referenceName,
+                let object = objects.first(where: { $0.name == name }) {
+                reference.resolve(with: object.value)
             }
+        }
+
+        func resolveDefinitionReference(_ reference: Reference<Schema>) {
+            resolveReference(reference, objects: definitions, type: "definitions")
+        }
+
+        func resolveParameterReference(_ reference: PossibleReference<Parameter>) {
+            resolvePossibleReference(reference, objects: parameters, type: "parameters")
+        }
+
+        func resolveResponseReference(_ reference: PossibleReference<Response>) {
+            resolvePossibleReference(reference, objects: responses, type: "responses")
         }
 
         func resolveSchema(_ schema: Schema) {
@@ -179,6 +183,7 @@ extension SwaggerSpec: JSONObjectConvertible {
             path.operations.forEach {
                 $0.pathParameters.forEach(resolveParameterReference)
                 $0.operationParameters.forEach(resolveParameterReference)
+                $0.responses.map{$0.response}.forEach(resolveResponseReference)
             }
         }
     }

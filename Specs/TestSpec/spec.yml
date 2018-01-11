@@ -70,6 +70,8 @@ paths:
           description: string response
           schema:
             type: string
+        400:
+          $ref: '#/responses/400'
 definitions:
   User:
     type: object
@@ -105,3 +107,8 @@ definitions:
     description: definition with only additional properties
     type: object
     additionalProperties: true
+responses:
+  400:
+    description: 400 response
+    schema:
+      type: string

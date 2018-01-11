@@ -31,6 +31,20 @@ public class Reference<T: JSONObjectConvertible> {
     func resolve(with value: T) {
         _value = value
     }
+
+    func getReferenceComponent(index: Int) -> String? {
+        let components = string.components(separatedBy: "/")
+        guard components.count > index else { return nil }
+        return components[index]
+    }
+
+    public var referenceType: String? {
+        return getReferenceComponent(index: 1)
+    }
+
+    public var referenceName: String? {
+        return getReferenceComponent(index: 2)
+    }
 }
 
 public enum PossibleReference<T: JSONObjectConvertible>: JSONObjectConvertible {

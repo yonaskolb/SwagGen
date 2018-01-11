@@ -6,7 +6,7 @@
 - Added support for response references #58
 
 ### Fixed
-- Fixed Swift 4.1 warnings
+- Fixed Swift 4.0.2 warnings
 - Fixed Brew install
 
 ## [1.1.0]

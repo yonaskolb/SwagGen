@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.2.0]
+### Added
+- Added `fixedWidthIntegers` option to Swift template. Thanks @martinknabbe
+- Added support for response references #58
+
+### Fixed
+- Fixed Swift 4.1 warnings
+- Fixed Brew install
+
 ## [1.1.0]
 ### Added
 - Generate typealias for models with reference and array types #42 thanks @Liquidsoul
@@ -174,6 +183,7 @@ Improved the generation of complicated specs:
 ## 0.1.0 - 2017-04-27
 - First official release
 
+[1.2.0]: https://github.com/yonaskolb/SwagGen/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/yonaskolb/SwagGen/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/yonaskolb/SwagGen/compare/0.6.1...1.0.0
 [0.6.1]: https://github.com/yonaskolb/SwagGen/compare/0.6.0...0.6.1

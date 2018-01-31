@@ -3,7 +3,7 @@
 ![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20macOS-blue.svg)
 [![SPM](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
 [![Git Version](https://img.shields.io/github/release/yonaskolb/swaggen.svg)](https://github.com/yonaskolb/SwagGen/releases)
-[![Build Status](https://img.shields.io/travis/yonaskolb/SwagGen/master.svg?style=flat)](https://travis-ci.org/yonaskolb/SwagGen)
+[![Build Status](https://img.shields.io/circleci/project/github/yonaskolb/SwagGen.svg?style=flat)](https://circleci.com/gh/yonaskolb/SwagGen)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/yonaskolb/SwagGen/blob/master/LICENSE)
 
 This is a Swift command line tool that generates client code based on a [Swagger/OpenAPI](http://swagger.io) 2.0 Spec

@@ -5,6 +5,12 @@ jobs:
       xcode: "9.2.0"
     steps:
       - checkout
-      - run: swift build
-      - run: swift test
-      - run: sh build_generated_specs.sh
+      - run:
+          name: Build
+          command: swift build
+      - run:
+          name: Test
+          command: swift test
+      - run:
+          name: Build Specs
+          command: ./build_generated_specs.sh

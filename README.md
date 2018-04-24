@@ -39,8 +39,8 @@ $ make
 #### Use as CLI
 
 ```sh
-$ git clone https://github.com/yonaskolb/XcodeGen.git
-$ cd XcodeGen
+$ git clone https://github.com/yonaskolb/SwagGen.git
+$ cd SwagGen
 $ swift run
 ```
 

@@ -17,3 +17,4 @@ swift run SwagGen --template Templates/Swift/template.yml --spec ${SWAGGER_SPEC}
 
 echo "📦  Building $SPEC_PATH"
 swift build --package-path ${SPEC_PATH}/generated/Swift --build-path Specs/.build -c release
+rm ${SPEC_PATH}/generated/Swift/Package.resolved

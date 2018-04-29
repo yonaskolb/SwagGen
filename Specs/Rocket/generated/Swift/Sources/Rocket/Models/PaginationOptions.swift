@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class PaginationOptions: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class PaginationOptions: Codable {
 
     /** Specific item type filter. */
     public var itemType: ItemType?
@@ -31,36 +30,31 @@ public class PaginationOptions: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.pageSize = pageSize
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        itemType = jsonDictionary.json(atKeyPath: "itemType")
-        maxRating = jsonDictionary.json(atKeyPath: "maxRating")
-        order = jsonDictionary.json(atKeyPath: "order")
-        orderBy = jsonDictionary.json(atKeyPath: "orderBy")
-        pageSize = jsonDictionary.json(atKeyPath: "pageSize")
+    private enum CodingKeys: String, CodingKey {
+        case itemType
+        case maxRating
+        case order
+        case orderBy
+        case pageSize
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let itemType = itemType?.encode() {
-            dictionary["itemType"] = itemType
-        }
-        if let maxRating = maxRating {
-            dictionary["maxRating"] = maxRating
-        }
-        if let order = order?.encode() {
-            dictionary["order"] = order
-        }
-        if let orderBy = orderBy?.encode() {
-            dictionary["orderBy"] = orderBy
-        }
-        if let pageSize = pageSize {
-            dictionary["pageSize"] = pageSize
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        itemType = try container.decodeIfPresent(.itemType)
+        maxRating = try container.decodeIfPresent(.maxRating)
+        order = try container.decodeIfPresent(.order)
+        orderBy = try container.decodeIfPresent(.orderBy)
+        pageSize = try container.decodeIfPresent(.pageSize)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(itemType, forKey: .itemType)
+        try container.encode(maxRating, forKey: .maxRating)
+        try container.encode(order, forKey: .order)
+        try container.encode(orderBy, forKey: .orderBy)
+        try container.encode(pageSize, forKey: .pageSize)
     }
 }

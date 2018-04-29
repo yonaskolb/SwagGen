@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class FormatTest: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class FormatTest: Codable {
 
     public var number: Double
 
@@ -50,60 +49,55 @@ public class FormatTest: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.uuid = uuid
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        number = try jsonDictionary.json(atKeyPath: "number")
-        byte = try jsonDictionary.json(atKeyPath: "byte")
-        date = try jsonDictionary.json(atKeyPath: "date")
-        password = try jsonDictionary.json(atKeyPath: "password")
-        binary = jsonDictionary.json(atKeyPath: "binary")
-        dateTime = jsonDictionary.json(atKeyPath: "dateTime")
-        double = jsonDictionary.json(atKeyPath: "double")
-        float = jsonDictionary.json(atKeyPath: "float")
-        int32 = jsonDictionary.json(atKeyPath: "int32")
-        int64 = jsonDictionary.json(atKeyPath: "int64")
-        integer = jsonDictionary.json(atKeyPath: "integer")
-        string = jsonDictionary.json(atKeyPath: "string")
-        uuid = jsonDictionary.json(atKeyPath: "uuid")
+    private enum CodingKeys: String, CodingKey {
+        case number
+        case byte
+        case date
+        case password
+        case binary
+        case dateTime
+        case double
+        case float
+        case int32
+        case int64
+        case integer
+        case string
+        case uuid
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["number"] = number
-        dictionary["byte"] = byte
-        dictionary["date"] = date.encode()
-        dictionary["password"] = password
-        if let binary = binary {
-            dictionary["binary"] = binary
-        }
-        if let dateTime = dateTime?.encode() {
-            dictionary["dateTime"] = dateTime
-        }
-        if let double = double {
-            dictionary["double"] = double
-        }
-        if let float = float {
-            dictionary["float"] = float
-        }
-        if let int32 = int32 {
-            dictionary["int32"] = int32
-        }
-        if let int64 = int64 {
-            dictionary["int64"] = int64
-        }
-        if let integer = integer {
-            dictionary["integer"] = integer
-        }
-        if let string = string {
-            dictionary["string"] = string
-        }
-        if let uuid = uuid {
-            dictionary["uuid"] = uuid
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        number = try container.decode(.number)
+        byte = try container.decode(.byte)
+        date = try container.decode(.date)
+        password = try container.decode(.password)
+        binary = try container.decodeIfPresent(.binary)
+        dateTime = try container.decodeIfPresent(.dateTime)
+        double = try container.decodeIfPresent(.double)
+        float = try container.decodeIfPresent(.float)
+        int32 = try container.decodeIfPresent(.int32)
+        int64 = try container.decodeIfPresent(.int64)
+        integer = try container.decodeIfPresent(.integer)
+        string = try container.decodeIfPresent(.string)
+        uuid = try container.decodeIfPresent(.uuid)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(number, forKey: .number)
+        try container.encode(byte, forKey: .byte)
+        try container.encode(date, forKey: .date)
+        try container.encode(password, forKey: .password)
+        try container.encode(binary, forKey: .binary)
+        try container.encode(dateTime, forKey: .dateTime)
+        try container.encode(double, forKey: .double)
+        try container.encode(float, forKey: .float)
+        try container.encode(int32, forKey: .int32)
+        try container.encode(int64, forKey: .int64)
+        try container.encode(integer, forKey: .integer)
+        try container.encode(string, forKey: .string)
+        try container.encode(uuid, forKey: .uuid)
     }
 }

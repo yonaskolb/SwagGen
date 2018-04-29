@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Vehicle: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Vehicle: Codable {
 
     public var type: String?
 
@@ -14,20 +13,19 @@ public class Vehicle: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.type = type
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        type = jsonDictionary.json(atKeyPath: "type")
+    private enum CodingKeys: String, CodingKey {
+        case type
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let type = type {
-            dictionary["type"] = type
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        type = try container.decodeIfPresent(.type)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(type, forKey: .type)
     }
 }

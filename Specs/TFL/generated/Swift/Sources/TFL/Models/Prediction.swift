@@ -4,10 +4,9 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** DTO to capture the prediction details */
-public class Prediction: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Prediction: Codable {
 
     /** Bearing (between 0 to 359) */
     public var bearing: String?
@@ -92,96 +91,76 @@ public class Prediction: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.vehicleId = vehicleId
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        bearing = jsonDictionary.json(atKeyPath: "bearing")
-        currentLocation = jsonDictionary.json(atKeyPath: "currentLocation")
-        destinationName = jsonDictionary.json(atKeyPath: "destinationName")
-        destinationNaptanId = jsonDictionary.json(atKeyPath: "destinationNaptanId")
-        direction = jsonDictionary.json(atKeyPath: "direction")
-        expectedArrival = jsonDictionary.json(atKeyPath: "expectedArrival")
-        id = jsonDictionary.json(atKeyPath: "id")
-        lineId = jsonDictionary.json(atKeyPath: "lineId")
-        lineName = jsonDictionary.json(atKeyPath: "lineName")
-        modeName = jsonDictionary.json(atKeyPath: "modeName")
-        naptanId = jsonDictionary.json(atKeyPath: "naptanId")
-        operationType = jsonDictionary.json(atKeyPath: "operationType")
-        platformName = jsonDictionary.json(atKeyPath: "platformName")
-        stationName = jsonDictionary.json(atKeyPath: "stationName")
-        timeToLive = jsonDictionary.json(atKeyPath: "timeToLive")
-        timeToStation = jsonDictionary.json(atKeyPath: "timeToStation")
-        timestamp = jsonDictionary.json(atKeyPath: "timestamp")
-        timing = jsonDictionary.json(atKeyPath: "timing")
-        towards = jsonDictionary.json(atKeyPath: "towards")
-        vehicleId = jsonDictionary.json(atKeyPath: "vehicleId")
+    private enum CodingKeys: String, CodingKey {
+        case bearing
+        case currentLocation
+        case destinationName
+        case destinationNaptanId
+        case direction
+        case expectedArrival
+        case id
+        case lineId
+        case lineName
+        case modeName
+        case naptanId
+        case operationType
+        case platformName
+        case stationName
+        case timeToLive
+        case timeToStation
+        case timestamp
+        case timing
+        case towards
+        case vehicleId
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let bearing = bearing {
-            dictionary["bearing"] = bearing
-        }
-        if let currentLocation = currentLocation {
-            dictionary["currentLocation"] = currentLocation
-        }
-        if let destinationName = destinationName {
-            dictionary["destinationName"] = destinationName
-        }
-        if let destinationNaptanId = destinationNaptanId {
-            dictionary["destinationNaptanId"] = destinationNaptanId
-        }
-        if let direction = direction {
-            dictionary["direction"] = direction
-        }
-        if let expectedArrival = expectedArrival?.encode() {
-            dictionary["expectedArrival"] = expectedArrival
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let lineId = lineId {
-            dictionary["lineId"] = lineId
-        }
-        if let lineName = lineName {
-            dictionary["lineName"] = lineName
-        }
-        if let modeName = modeName {
-            dictionary["modeName"] = modeName
-        }
-        if let naptanId = naptanId {
-            dictionary["naptanId"] = naptanId
-        }
-        if let operationType = operationType {
-            dictionary["operationType"] = operationType
-        }
-        if let platformName = platformName {
-            dictionary["platformName"] = platformName
-        }
-        if let stationName = stationName {
-            dictionary["stationName"] = stationName
-        }
-        if let timeToLive = timeToLive?.encode() {
-            dictionary["timeToLive"] = timeToLive
-        }
-        if let timeToStation = timeToStation {
-            dictionary["timeToStation"] = timeToStation
-        }
-        if let timestamp = timestamp?.encode() {
-            dictionary["timestamp"] = timestamp
-        }
-        if let timing = timing?.encode() {
-            dictionary["timing"] = timing
-        }
-        if let towards = towards {
-            dictionary["towards"] = towards
-        }
-        if let vehicleId = vehicleId {
-            dictionary["vehicleId"] = vehicleId
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        bearing = try container.decodeIfPresent(.bearing)
+        currentLocation = try container.decodeIfPresent(.currentLocation)
+        destinationName = try container.decodeIfPresent(.destinationName)
+        destinationNaptanId = try container.decodeIfPresent(.destinationNaptanId)
+        direction = try container.decodeIfPresent(.direction)
+        expectedArrival = try container.decodeIfPresent(.expectedArrival)
+        id = try container.decodeIfPresent(.id)
+        lineId = try container.decodeIfPresent(.lineId)
+        lineName = try container.decodeIfPresent(.lineName)
+        modeName = try container.decodeIfPresent(.modeName)
+        naptanId = try container.decodeIfPresent(.naptanId)
+        operationType = try container.decodeIfPresent(.operationType)
+        platformName = try container.decodeIfPresent(.platformName)
+        stationName = try container.decodeIfPresent(.stationName)
+        timeToLive = try container.decodeIfPresent(.timeToLive)
+        timeToStation = try container.decodeIfPresent(.timeToStation)
+        timestamp = try container.decodeIfPresent(.timestamp)
+        timing = try container.decodeIfPresent(.timing)
+        towards = try container.decodeIfPresent(.towards)
+        vehicleId = try container.decodeIfPresent(.vehicleId)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(bearing, forKey: .bearing)
+        try container.encode(currentLocation, forKey: .currentLocation)
+        try container.encode(destinationName, forKey: .destinationName)
+        try container.encode(destinationNaptanId, forKey: .destinationNaptanId)
+        try container.encode(direction, forKey: .direction)
+        try container.encode(expectedArrival, forKey: .expectedArrival)
+        try container.encode(id, forKey: .id)
+        try container.encode(lineId, forKey: .lineId)
+        try container.encode(lineName, forKey: .lineName)
+        try container.encode(modeName, forKey: .modeName)
+        try container.encode(naptanId, forKey: .naptanId)
+        try container.encode(operationType, forKey: .operationType)
+        try container.encode(platformName, forKey: .platformName)
+        try container.encode(stationName, forKey: .stationName)
+        try container.encode(timeToLive, forKey: .timeToLive)
+        try container.encode(timeToStation, forKey: .timeToStation)
+        try container.encode(timestamp, forKey: .timestamp)
+        try container.encode(timing, forKey: .timing)
+        try container.encode(towards, forKey: .towards)
+        try container.encode(vehicleId, forKey: .vehicleId)
     }
 }

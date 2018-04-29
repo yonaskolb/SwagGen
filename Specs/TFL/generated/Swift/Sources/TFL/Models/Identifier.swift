@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Identifier: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Identifier: Codable {
 
     public var crowding: Crowding?
 
@@ -29,40 +28,34 @@ public class Identifier: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.uri = uri
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        crowding = jsonDictionary.json(atKeyPath: "crowding")
-        fullName = jsonDictionary.json(atKeyPath: "fullName")
-        id = jsonDictionary.json(atKeyPath: "id")
-        name = jsonDictionary.json(atKeyPath: "name")
-        type = jsonDictionary.json(atKeyPath: "type")
-        uri = jsonDictionary.json(atKeyPath: "uri")
+    private enum CodingKeys: String, CodingKey {
+        case crowding
+        case fullName
+        case id
+        case name
+        case type
+        case uri
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let crowding = crowding?.encode() {
-            dictionary["crowding"] = crowding
-        }
-        if let fullName = fullName {
-            dictionary["fullName"] = fullName
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let type = type {
-            dictionary["type"] = type
-        }
-        if let uri = uri {
-            dictionary["uri"] = uri
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        crowding = try container.decodeIfPresent(.crowding)
+        fullName = try container.decodeIfPresent(.fullName)
+        id = try container.decodeIfPresent(.id)
+        name = try container.decodeIfPresent(.name)
+        type = try container.decodeIfPresent(.type)
+        uri = try container.decodeIfPresent(.uri)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(crowding, forKey: .crowding)
+        try container.encode(fullName, forKey: .fullName)
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encode(type, forKey: .type)
+        try container.encode(uri, forKey: .uri)
     }
 }

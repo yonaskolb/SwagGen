@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class PassengerFlow: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class PassengerFlow: Codable {
 
     /** Time in 24hr format with 15 minute intervals e.g. 0500-0515, 0515-0530 etc. */
     public var timeSlice: String?
@@ -19,24 +18,22 @@ public class PassengerFlow: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.value = value
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        timeSlice = jsonDictionary.json(atKeyPath: "timeSlice")
-        value = jsonDictionary.json(atKeyPath: "value")
+    private enum CodingKeys: String, CodingKey {
+        case timeSlice
+        case value
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let timeSlice = timeSlice {
-            dictionary["timeSlice"] = timeSlice
-        }
-        if let value = value {
-            dictionary["value"] = value
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        timeSlice = try container.decodeIfPresent(.timeSlice)
+        value = try container.decodeIfPresent(.value)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(timeSlice, forKey: .timeSlice)
+        try container.encode(value, forKey: .value)
     }
 }

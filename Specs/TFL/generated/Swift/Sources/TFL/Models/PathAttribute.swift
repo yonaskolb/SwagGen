@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class PathAttribute: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class PathAttribute: Codable {
 
     public var name: String?
 
@@ -17,24 +16,22 @@ public class PathAttribute: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.value = value
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        name = jsonDictionary.json(atKeyPath: "name")
-        value = jsonDictionary.json(atKeyPath: "value")
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case value
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let value = value {
-            dictionary["value"] = value
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        name = try container.decodeIfPresent(.name)
+        value = try container.decodeIfPresent(.value)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(name, forKey: .name)
+        try container.encode(value, forKey: .value)
     }
 }

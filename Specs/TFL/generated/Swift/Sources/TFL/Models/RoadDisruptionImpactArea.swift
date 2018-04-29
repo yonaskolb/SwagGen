@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class RoadDisruptionImpactArea: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class RoadDisruptionImpactArea: Codable {
 
     public var endDate: Date?
 
@@ -32,44 +31,37 @@ public class RoadDisruptionImpactArea: JSONDecodable, JSONEncodable, PrettyPrint
         self.startTime = startTime
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        endDate = jsonDictionary.json(atKeyPath: "endDate")
-        endTime = jsonDictionary.json(atKeyPath: "endTime")
-        id = jsonDictionary.json(atKeyPath: "id")
-        polygon = jsonDictionary.json(atKeyPath: "polygon")
-        roadDisruptionId = jsonDictionary.json(atKeyPath: "roadDisruptionId")
-        startDate = jsonDictionary.json(atKeyPath: "startDate")
-        startTime = jsonDictionary.json(atKeyPath: "startTime")
+    private enum CodingKeys: String, CodingKey {
+        case endDate
+        case endTime
+        case id
+        case polygon
+        case roadDisruptionId
+        case startDate
+        case startTime
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let endDate = endDate?.encode() {
-            dictionary["endDate"] = endDate
-        }
-        if let endTime = endTime {
-            dictionary["endTime"] = endTime
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let polygon = polygon?.encode() {
-            dictionary["polygon"] = polygon
-        }
-        if let roadDisruptionId = roadDisruptionId {
-            dictionary["roadDisruptionId"] = roadDisruptionId
-        }
-        if let startDate = startDate?.encode() {
-            dictionary["startDate"] = startDate
-        }
-        if let startTime = startTime {
-            dictionary["startTime"] = startTime
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        endDate = try container.decodeIfPresent(.endDate)
+        endTime = try container.decodeIfPresent(.endTime)
+        id = try container.decodeIfPresent(.id)
+        polygon = try container.decodeIfPresent(.polygon)
+        roadDisruptionId = try container.decodeIfPresent(.roadDisruptionId)
+        startDate = try container.decodeIfPresent(.startDate)
+        startTime = try container.decodeIfPresent(.startTime)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(endDate, forKey: .endDate)
+        try container.encode(endTime, forKey: .endTime)
+        try container.encode(id, forKey: .id)
+        try container.encode(polygon, forKey: .polygon)
+        try container.encode(roadDisruptionId, forKey: .roadDisruptionId)
+        try container.encode(startDate, forKey: .startDate)
+        try container.encode(startTime, forKey: .startTime)
     }
 }

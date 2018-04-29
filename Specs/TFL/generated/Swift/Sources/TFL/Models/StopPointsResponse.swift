@@ -4,10 +4,9 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** A paged response containing StopPoints */
-public class StopPointsResponse: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class StopPointsResponse: Codable {
 
     /** The centre latitude/longitude of this list of StopPoints */
     public var centrePoint: [Double]?
@@ -32,36 +31,31 @@ public class StopPointsResponse: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.total = total
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        centrePoint = jsonDictionary.json(atKeyPath: "centrePoint")
-        page = jsonDictionary.json(atKeyPath: "page")
-        pageSize = jsonDictionary.json(atKeyPath: "pageSize")
-        stopPoints = jsonDictionary.json(atKeyPath: "stopPoints")
-        total = jsonDictionary.json(atKeyPath: "total")
+    private enum CodingKeys: String, CodingKey {
+        case centrePoint
+        case page
+        case pageSize
+        case stopPoints
+        case total
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let centrePoint = centrePoint {
-            dictionary["centrePoint"] = centrePoint
-        }
-        if let page = page {
-            dictionary["page"] = page
-        }
-        if let pageSize = pageSize {
-            dictionary["pageSize"] = pageSize
-        }
-        if let stopPoints = stopPoints?.encode() {
-            dictionary["stopPoints"] = stopPoints
-        }
-        if let total = total {
-            dictionary["total"] = total
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        centrePoint = try container.decodeIfPresent(.centrePoint)
+        page = try container.decodeIfPresent(.page)
+        pageSize = try container.decodeIfPresent(.pageSize)
+        stopPoints = try container.decodeIfPresent(.stopPoints)
+        total = try container.decodeIfPresent(.total)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(centrePoint, forKey: .centrePoint)
+        try container.encode(page, forKey: .page)
+        try container.encode(pageSize, forKey: .pageSize)
+        try container.encode(stopPoints, forKey: .stopPoints)
+        try container.encode(total, forKey: .total)
     }
 }

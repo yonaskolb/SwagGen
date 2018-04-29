@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension PetstoreTest.User {
 
@@ -21,8 +20,8 @@ extension PetstoreTest.User {
                 super.init(service: CreateUsersWithListInput.service)
             }
 
-            public override var jsonBody: Any? {
-                return body.encode()
+            public override var jsonBody: Encodable? {
+                return body
             }
         }
 
@@ -56,7 +55,7 @@ extension PetstoreTest.User {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 default: self = .defaultResponse(statusCode: statusCode)
                 }

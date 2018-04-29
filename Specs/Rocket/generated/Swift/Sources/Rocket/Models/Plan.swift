@@ -4,12 +4,11 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Plan: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Plan: Codable {
 
     /** The type of plan. */
-    public enum `Type`: String {
+    public enum `Type`: String, Codable {
         case free = "Free"
         case subscription = "Subscription"
 
@@ -20,7 +19,7 @@ public class Plan: JSONDecodable, JSONEncodable, PrettyPrintable {
     }
 
     /** The revenue type a plan targets. */
-    public enum RevenueType: String {
+    public enum RevenueType: String, Codable {
         case tvod = "TVOD"
         case svod = "SVOD"
 
@@ -31,7 +30,7 @@ public class Plan: JSONDecodable, JSONEncodable, PrettyPrintable {
     }
 
     /** The type of billing period used. */
-    public enum BillingPeriodType: String {
+    public enum BillingPeriodType: String, Codable {
         case week = "week"
         case month = "month"
         case year = "year"
@@ -124,58 +123,73 @@ public class Plan: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.price = price
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        id = try jsonDictionary.json(atKeyPath: "id")
-        title = try jsonDictionary.json(atKeyPath: "title")
-        tagline = try jsonDictionary.json(atKeyPath: "tagline")
-        type = try jsonDictionary.json(atKeyPath: "type")
-        isFeatured = try jsonDictionary.json(atKeyPath: "isFeatured")
-        isActive = try jsonDictionary.json(atKeyPath: "isActive")
-        isPrivate = try jsonDictionary.json(atKeyPath: "isPrivate")
-        revenueType = try jsonDictionary.json(atKeyPath: "revenueType")
-        subscriptionCode = try jsonDictionary.json(atKeyPath: "subscriptionCode")
-        alias = try jsonDictionary.json(atKeyPath: "alias")
-        benefits = try jsonDictionary.json(atKeyPath: "benefits")
-        billingPeriodType = try jsonDictionary.json(atKeyPath: "billingPeriodType")
-        billingPeriodFrequency = try jsonDictionary.json(atKeyPath: "billingPeriodFrequency")
-        hasTrialPeriod = try jsonDictionary.json(atKeyPath: "hasTrialPeriod")
-        trialPeriodDays = try jsonDictionary.json(atKeyPath: "trialPeriodDays")
-        termsAndConditions = try jsonDictionary.json(atKeyPath: "termsAndConditions")
-        currency = try jsonDictionary.json(atKeyPath: "currency")
-        customFields = jsonDictionary.json(atKeyPath: "customFields")
-        price = jsonDictionary.json(atKeyPath: "price")
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case tagline
+        case type
+        case isFeatured
+        case isActive
+        case isPrivate
+        case revenueType
+        case subscriptionCode
+        case alias
+        case benefits
+        case billingPeriodType
+        case billingPeriodFrequency
+        case hasTrialPeriod
+        case trialPeriodDays
+        case termsAndConditions
+        case currency
+        case customFields
+        case price
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["id"] = id
-        dictionary["title"] = title
-        dictionary["tagline"] = tagline
-        dictionary["type"] = type.encode()
-        dictionary["isFeatured"] = isFeatured
-        dictionary["isActive"] = isActive
-        dictionary["isPrivate"] = isPrivate
-        dictionary["revenueType"] = revenueType.encode()
-        dictionary["subscriptionCode"] = subscriptionCode
-        dictionary["alias"] = alias
-        dictionary["benefits"] = benefits
-        dictionary["billingPeriodType"] = billingPeriodType.encode()
-        dictionary["billingPeriodFrequency"] = billingPeriodFrequency
-        dictionary["hasTrialPeriod"] = hasTrialPeriod
-        dictionary["trialPeriodDays"] = trialPeriodDays
-        dictionary["termsAndConditions"] = termsAndConditions
-        dictionary["currency"] = currency
-        if let customFields = customFields {
-            dictionary["customFields"] = customFields
-        }
-        if let price = price {
-            dictionary["price"] = price
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(.id)
+        title = try container.decode(.title)
+        tagline = try container.decode(.tagline)
+        type = try container.decode(.type)
+        isFeatured = try container.decode(.isFeatured)
+        isActive = try container.decode(.isActive)
+        isPrivate = try container.decode(.isPrivate)
+        revenueType = try container.decode(.revenueType)
+        subscriptionCode = try container.decode(.subscriptionCode)
+        alias = try container.decode(.alias)
+        benefits = try container.decode(.benefits)
+        billingPeriodType = try container.decode(.billingPeriodType)
+        billingPeriodFrequency = try container.decode(.billingPeriodFrequency)
+        hasTrialPeriod = try container.decode(.hasTrialPeriod)
+        trialPeriodDays = try container.decode(.trialPeriodDays)
+        termsAndConditions = try container.decode(.termsAndConditions)
+        currency = try container.decode(.currency)
+        customFields = try container.decodeAnyIfPresent(.customFields)
+        price = try container.decodeIfPresent(.price)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(title, forKey: .title)
+        try container.encode(tagline, forKey: .tagline)
+        try container.encode(type, forKey: .type)
+        try container.encode(isFeatured, forKey: .isFeatured)
+        try container.encode(isActive, forKey: .isActive)
+        try container.encode(isPrivate, forKey: .isPrivate)
+        try container.encode(revenueType, forKey: .revenueType)
+        try container.encode(subscriptionCode, forKey: .subscriptionCode)
+        try container.encode(alias, forKey: .alias)
+        try container.encode(benefits, forKey: .benefits)
+        try container.encode(billingPeriodType, forKey: .billingPeriodType)
+        try container.encode(billingPeriodFrequency, forKey: .billingPeriodFrequency)
+        try container.encode(hasTrialPeriod, forKey: .hasTrialPeriod)
+        try container.encode(trialPeriodDays, forKey: .trialPeriodDays)
+        try container.encode(termsAndConditions, forKey: .termsAndConditions)
+        try container.encode(currency, forKey: .currency)
+        try container.encodeAny(customFields, forKey: .customFields)
+        try container.encode(price, forKey: .price)
     }
 }

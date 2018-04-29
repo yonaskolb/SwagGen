@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class OverrideRuleObject: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class OverrideRuleObject: Codable {
 
     /** List of URNs to override */
     public var urn: [String]
@@ -39,42 +38,40 @@ public class OverrideRuleObject: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.idp = idp
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        urn = try jsonDictionary.json(atKeyPath: "urn")
-        response = try jsonDictionary.json(atKeyPath: "response")
-        priority = try jsonDictionary.json(atKeyPath: "priority")
-        action = jsonDictionary.json(atKeyPath: "action")
-        country = jsonDictionary.json(atKeyPath: "country")
-        dateFrom = jsonDictionary.json(atKeyPath: "dateFrom")
-        dateUntil = jsonDictionary.json(atKeyPath: "dateUntil")
-        idp = jsonDictionary.json(atKeyPath: "idp")
+    private enum CodingKeys: String, CodingKey {
+        case urn
+        case response
+        case priority
+        case action
+        case country
+        case dateFrom
+        case dateUntil
+        case idp
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["urn"] = urn
-        dictionary["response"] = response
-        dictionary["priority"] = priority
-        if let action = action {
-            dictionary["action"] = action
-        }
-        if let country = country {
-            dictionary["country"] = country
-        }
-        if let dateFrom = dateFrom?.encode() {
-            dictionary["dateFrom"] = dateFrom
-        }
-        if let dateUntil = dateUntil?.encode() {
-            dictionary["dateUntil"] = dateUntil
-        }
-        if let idp = idp {
-            dictionary["idp"] = idp
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        urn = try container.decode(.urn)
+        response = try container.decode(.response)
+        priority = try container.decode(.priority)
+        action = try container.decodeIfPresent(.action)
+        country = try container.decodeIfPresent(.country)
+        dateFrom = try container.decodeIfPresent(.dateFrom)
+        dateUntil = try container.decodeIfPresent(.dateUntil)
+        idp = try container.decodeIfPresent(.idp)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(urn, forKey: .urn)
+        try container.encode(response, forKey: .response)
+        try container.encode(priority, forKey: .priority)
+        try container.encode(action, forKey: .action)
+        try container.encode(country, forKey: .country)
+        try container.encode(dateFrom, forKey: .dateFrom)
+        try container.encode(dateUntil, forKey: .dateUntil)
+        try container.encode(idp, forKey: .idp)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class LineModeGroup: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class LineModeGroup: Codable {
 
     public var lineIdentifier: [String]?
 
@@ -17,24 +16,22 @@ public class LineModeGroup: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.modeName = modeName
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        lineIdentifier = jsonDictionary.json(atKeyPath: "lineIdentifier")
-        modeName = jsonDictionary.json(atKeyPath: "modeName")
+    private enum CodingKeys: String, CodingKey {
+        case lineIdentifier
+        case modeName
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let lineIdentifier = lineIdentifier {
-            dictionary["lineIdentifier"] = lineIdentifier
-        }
-        if let modeName = modeName {
-            dictionary["modeName"] = modeName
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        lineIdentifier = try container.decodeIfPresent(.lineIdentifier)
+        modeName = try container.decodeIfPresent(.modeName)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(lineIdentifier, forKey: .lineIdentifier)
+        try container.encode(modeName, forKey: .modeName)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ItemSummary: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ItemSummary: Codable {
 
     /** Unique identifier for an Item */
     public var id: String
@@ -122,116 +121,97 @@ For example the id for this item under a different content system.
         self.watchPath = watchPath
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        id = try jsonDictionary.json(atKeyPath: "id")
-        type = try jsonDictionary.json(atKeyPath: "type")
-        path = try jsonDictionary.json(atKeyPath: "path")
-        title = try jsonDictionary.json(atKeyPath: "title")
-        availableEpisodeCount = jsonDictionary.json(atKeyPath: "availableEpisodeCount")
-        availableSeasonCount = jsonDictionary.json(atKeyPath: "availableSeasonCount")
-        averageUserRating = jsonDictionary.json(atKeyPath: "averageUserRating")
-        badge = jsonDictionary.json(atKeyPath: "badge")
-        classification = jsonDictionary.json(atKeyPath: "classification")
-        contextualTitle = jsonDictionary.json(atKeyPath: "contextualTitle")
-        customFields = jsonDictionary.json(atKeyPath: "customFields")
-        customId = jsonDictionary.json(atKeyPath: "customId")
-        duration = jsonDictionary.json(atKeyPath: "duration")
-        episodeCount = jsonDictionary.json(atKeyPath: "episodeCount")
-        episodeNumber = jsonDictionary.json(atKeyPath: "episodeNumber")
-        genres = jsonDictionary.json(atKeyPath: "genres")
-        hasClosedCaptions = jsonDictionary.json(atKeyPath: "hasClosedCaptions")
-        images = jsonDictionary.json(atKeyPath: "images")
-        offers = jsonDictionary.json(atKeyPath: "offers")
-        releaseYear = jsonDictionary.json(atKeyPath: "releaseYear")
-        scopes = jsonDictionary.json(atKeyPath: "scopes")
-        seasonId = jsonDictionary.json(atKeyPath: "seasonId")
-        seasonNumber = jsonDictionary.json(atKeyPath: "seasonNumber")
-        shortDescription = jsonDictionary.json(atKeyPath: "shortDescription")
-        showId = jsonDictionary.json(atKeyPath: "showId")
-        tagline = jsonDictionary.json(atKeyPath: "tagline")
-        watchPath = jsonDictionary.json(atKeyPath: "watchPath")
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case type
+        case path
+        case title
+        case availableEpisodeCount
+        case availableSeasonCount
+        case averageUserRating
+        case badge
+        case classification
+        case contextualTitle
+        case customFields
+        case customId
+        case duration
+        case episodeCount
+        case episodeNumber
+        case genres
+        case hasClosedCaptions
+        case images
+        case offers
+        case releaseYear
+        case scopes
+        case seasonId
+        case seasonNumber
+        case shortDescription
+        case showId
+        case tagline
+        case watchPath
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["id"] = id
-        dictionary["type"] = type.encode()
-        dictionary["path"] = path
-        dictionary["title"] = title
-        if let availableEpisodeCount = availableEpisodeCount {
-            dictionary["availableEpisodeCount"] = availableEpisodeCount
-        }
-        if let availableSeasonCount = availableSeasonCount {
-            dictionary["availableSeasonCount"] = availableSeasonCount
-        }
-        if let averageUserRating = averageUserRating {
-            dictionary["averageUserRating"] = averageUserRating
-        }
-        if let badge = badge {
-            dictionary["badge"] = badge
-        }
-        if let classification = classification?.encode() {
-            dictionary["classification"] = classification
-        }
-        if let contextualTitle = contextualTitle {
-            dictionary["contextualTitle"] = contextualTitle
-        }
-        if let customFields = customFields {
-            dictionary["customFields"] = customFields
-        }
-        if let customId = customId {
-            dictionary["customId"] = customId
-        }
-        if let duration = duration {
-            dictionary["duration"] = duration
-        }
-        if let episodeCount = episodeCount {
-            dictionary["episodeCount"] = episodeCount
-        }
-        if let episodeNumber = episodeNumber {
-            dictionary["episodeNumber"] = episodeNumber
-        }
-        if let genres = genres {
-            dictionary["genres"] = genres
-        }
-        if let hasClosedCaptions = hasClosedCaptions {
-            dictionary["hasClosedCaptions"] = hasClosedCaptions
-        }
-        if let images = images?.encode() {
-            dictionary["images"] = images
-        }
-        if let offers = offers?.encode() {
-            dictionary["offers"] = offers
-        }
-        if let releaseYear = releaseYear {
-            dictionary["releaseYear"] = releaseYear
-        }
-        if let scopes = scopes {
-            dictionary["scopes"] = scopes
-        }
-        if let seasonId = seasonId {
-            dictionary["seasonId"] = seasonId
-        }
-        if let seasonNumber = seasonNumber {
-            dictionary["seasonNumber"] = seasonNumber
-        }
-        if let shortDescription = shortDescription {
-            dictionary["shortDescription"] = shortDescription
-        }
-        if let showId = showId {
-            dictionary["showId"] = showId
-        }
-        if let tagline = tagline {
-            dictionary["tagline"] = tagline
-        }
-        if let watchPath = watchPath {
-            dictionary["watchPath"] = watchPath
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(.id)
+        type = try container.decode(.type)
+        path = try container.decode(.path)
+        title = try container.decode(.title)
+        availableEpisodeCount = try container.decodeIfPresent(.availableEpisodeCount)
+        availableSeasonCount = try container.decodeIfPresent(.availableSeasonCount)
+        averageUserRating = try container.decodeIfPresent(.averageUserRating)
+        badge = try container.decodeIfPresent(.badge)
+        classification = try container.decodeIfPresent(.classification)
+        contextualTitle = try container.decodeIfPresent(.contextualTitle)
+        customFields = try container.decodeAnyIfPresent(.customFields)
+        customId = try container.decodeIfPresent(.customId)
+        duration = try container.decodeIfPresent(.duration)
+        episodeCount = try container.decodeIfPresent(.episodeCount)
+        episodeNumber = try container.decodeIfPresent(.episodeNumber)
+        genres = try container.decodeIfPresent(.genres)
+        hasClosedCaptions = try container.decodeIfPresent(.hasClosedCaptions)
+        images = try container.decodeIfPresent(.images)
+        offers = try container.decodeIfPresent(.offers)
+        releaseYear = try container.decodeIfPresent(.releaseYear)
+        scopes = try container.decodeIfPresent(.scopes)
+        seasonId = try container.decodeIfPresent(.seasonId)
+        seasonNumber = try container.decodeIfPresent(.seasonNumber)
+        shortDescription = try container.decodeIfPresent(.shortDescription)
+        showId = try container.decodeIfPresent(.showId)
+        tagline = try container.decodeIfPresent(.tagline)
+        watchPath = try container.decodeIfPresent(.watchPath)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(type, forKey: .type)
+        try container.encode(path, forKey: .path)
+        try container.encode(title, forKey: .title)
+        try container.encode(availableEpisodeCount, forKey: .availableEpisodeCount)
+        try container.encode(availableSeasonCount, forKey: .availableSeasonCount)
+        try container.encode(averageUserRating, forKey: .averageUserRating)
+        try container.encode(badge, forKey: .badge)
+        try container.encode(classification, forKey: .classification)
+        try container.encode(contextualTitle, forKey: .contextualTitle)
+        try container.encodeAny(customFields, forKey: .customFields)
+        try container.encode(customId, forKey: .customId)
+        try container.encode(duration, forKey: .duration)
+        try container.encode(episodeCount, forKey: .episodeCount)
+        try container.encode(episodeNumber, forKey: .episodeNumber)
+        try container.encode(genres, forKey: .genres)
+        try container.encode(hasClosedCaptions, forKey: .hasClosedCaptions)
+        try container.encode(images, forKey: .images)
+        try container.encode(offers, forKey: .offers)
+        try container.encode(releaseYear, forKey: .releaseYear)
+        try container.encode(scopes, forKey: .scopes)
+        try container.encode(seasonId, forKey: .seasonId)
+        try container.encode(seasonNumber, forKey: .seasonNumber)
+        try container.encode(shortDescription, forKey: .shortDescription)
+        try container.encode(showId, forKey: .showId)
+        try container.encode(tagline, forKey: .tagline)
+        try container.encode(watchPath, forKey: .watchPath)
     }
 }

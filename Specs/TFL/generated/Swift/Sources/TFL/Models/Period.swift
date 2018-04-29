@@ -4,11 +4,10 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Period: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Period: Codable {
 
-    public enum `Type`: String {
+    public enum `Type`: String, Codable {
         case normal = "Normal"
         case frequencyHours = "FrequencyHours"
         case frequencyMinutes = "FrequencyMinutes"
@@ -37,32 +36,28 @@ public class Period: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.type = type
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        frequency = jsonDictionary.json(atKeyPath: "frequency")
-        fromTime = jsonDictionary.json(atKeyPath: "fromTime")
-        toTime = jsonDictionary.json(atKeyPath: "toTime")
-        type = jsonDictionary.json(atKeyPath: "type")
+    private enum CodingKeys: String, CodingKey {
+        case frequency
+        case fromTime
+        case toTime
+        case type
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let frequency = frequency?.encode() {
-            dictionary["frequency"] = frequency
-        }
-        if let fromTime = fromTime?.encode() {
-            dictionary["fromTime"] = fromTime
-        }
-        if let toTime = toTime?.encode() {
-            dictionary["toTime"] = toTime
-        }
-        if let type = type?.encode() {
-            dictionary["type"] = type
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        frequency = try container.decodeIfPresent(.frequency)
+        fromTime = try container.decodeIfPresent(.fromTime)
+        toTime = try container.decodeIfPresent(.toTime)
+        type = try container.decodeIfPresent(.type)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(frequency, forKey: .frequency)
+        try container.encode(fromTime, forKey: .fromTime)
+        try container.encode(toTime, forKey: .toTime)
+        try container.encode(type, forKey: .type)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public enum EnumClass: String {
+public enum EnumClass: String, Codable {
     case abc = "_abc"
     case efg = "-efg"
     case xyz = "(xyz)"

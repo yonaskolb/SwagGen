@@ -4,11 +4,10 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class EnumTest: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class EnumTest: Codable {
 
-    public enum EnumInteger: Int {
+    public enum EnumInteger: Int, Codable {
         case _1 = 1
         case negative1 = -1
 
@@ -18,7 +17,7 @@ public class EnumTest: JSONDecodable, JSONEncodable, PrettyPrintable {
         ]
     }
 
-    public enum EnumNumber: Double {
+    public enum EnumNumber: Double, Codable {
         case _11 = 1.1
         case negative12 = -1.2
 
@@ -28,7 +27,7 @@ public class EnumTest: JSONDecodable, JSONEncodable, PrettyPrintable {
         ]
     }
 
-    public enum EnumString: String {
+    public enum EnumString: String, Codable {
         case upper = "UPPER"
         case lower = "lower"
         case lessThannullgreaterThan = "<null>"
@@ -55,32 +54,28 @@ public class EnumTest: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.outerEnum = outerEnum
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        enumInteger = jsonDictionary.json(atKeyPath: "enum_integer")
-        enumNumber = jsonDictionary.json(atKeyPath: "enum_number")
-        enumString = jsonDictionary.json(atKeyPath: "enum_string")
-        outerEnum = jsonDictionary.json(atKeyPath: "outerEnum")
+    private enum CodingKeys: String, CodingKey {
+        case enumInteger = "enum_integer"
+        case enumNumber = "enum_number"
+        case enumString = "enum_string"
+        case outerEnum
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let enumInteger = enumInteger?.encode() {
-            dictionary["enum_integer"] = enumInteger
-        }
-        if let enumNumber = enumNumber?.encode() {
-            dictionary["enum_number"] = enumNumber
-        }
-        if let enumString = enumString?.encode() {
-            dictionary["enum_string"] = enumString
-        }
-        if let outerEnum = outerEnum?.encode() {
-            dictionary["outerEnum"] = outerEnum
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        enumInteger = try container.decodeIfPresent(.enumInteger)
+        enumNumber = try container.decodeIfPresent(.enumNumber)
+        enumString = try container.decodeIfPresent(.enumString)
+        outerEnum = try container.decodeIfPresent(.outerEnum)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(enumInteger, forKey: .enumInteger)
+        try container.encode(enumNumber, forKey: .enumNumber)
+        try container.encode(enumString, forKey: .enumString)
+        try container.encode(outerEnum, forKey: .outerEnum)
     }
 }

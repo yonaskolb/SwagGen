@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Pagination: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Pagination: Codable {
 
     /** The total number of pages available given the current page size.
 
@@ -61,40 +60,37 @@ by a CDN. For example a Bookmarks list.
         self.size = size
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        total = try jsonDictionary.json(atKeyPath: "total")
-        page = try jsonDictionary.json(atKeyPath: "page")
-        authorization = jsonDictionary.json(atKeyPath: "authorization")
-        next = jsonDictionary.json(atKeyPath: "next")
-        options = jsonDictionary.json(atKeyPath: "options")
-        previous = jsonDictionary.json(atKeyPath: "previous")
-        size = jsonDictionary.json(atKeyPath: "size")
+    private enum CodingKeys: String, CodingKey {
+        case total
+        case page
+        case authorization
+        case next
+        case options
+        case previous
+        case size
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["total"] = total
-        dictionary["page"] = page
-        if let authorization = authorization?.encode() {
-            dictionary["authorization"] = authorization
-        }
-        if let next = next {
-            dictionary["next"] = next
-        }
-        if let options = options?.encode() {
-            dictionary["options"] = options
-        }
-        if let previous = previous {
-            dictionary["previous"] = previous
-        }
-        if let size = size {
-            dictionary["size"] = size
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        total = try container.decode(.total)
+        page = try container.decode(.page)
+        authorization = try container.decodeIfPresent(.authorization)
+        next = try container.decodeIfPresent(.next)
+        options = try container.decodeIfPresent(.options)
+        previous = try container.decodeIfPresent(.previous)
+        size = try container.decodeIfPresent(.size)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(total, forKey: .total)
+        try container.encode(page, forKey: .page)
+        try container.encode(authorization, forKey: .authorization)
+        try container.encode(next, forKey: .next)
+        try container.encode(options, forKey: .options)
+        try container.encode(previous, forKey: .previous)
+        try container.encode(size, forKey: .size)
     }
 }

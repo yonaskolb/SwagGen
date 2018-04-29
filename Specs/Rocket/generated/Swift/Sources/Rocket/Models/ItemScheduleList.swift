@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ItemScheduleList: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ItemScheduleList: Codable {
 
     /** The id of the channel the schedules belong to. */
     public var channelId: String
@@ -27,24 +26,28 @@ public class ItemScheduleList: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.schedules = schedules
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        channelId = try jsonDictionary.json(atKeyPath: "channelId")
-        startDate = try jsonDictionary.json(atKeyPath: "startDate")
-        endDate = try jsonDictionary.json(atKeyPath: "endDate")
-        schedules = try jsonDictionary.json(atKeyPath: "schedules")
+    private enum CodingKeys: String, CodingKey {
+        case channelId
+        case startDate
+        case endDate
+        case schedules
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["channelId"] = channelId
-        dictionary["startDate"] = startDate.encode()
-        dictionary["endDate"] = endDate.encode()
-        dictionary["schedules"] = schedules.encode()
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        channelId = try container.decode(.channelId)
+        startDate = try container.decode(.startDate)
+        endDate = try container.decode(.endDate)
+        schedules = try container.decode(.schedules)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(channelId, forKey: .channelId)
+        try container.encode(startDate, forKey: .startDate)
+        try container.encode(endDate, forKey: .endDate)
+        try container.encode(schedules, forKey: .schedules)
     }
 }

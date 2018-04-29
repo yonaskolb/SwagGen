@@ -4,7 +4,7 @@
 //
 
 /** What to order by. */
-public enum ListOrderBy: String {
+public enum ListOrderBy: String, Codable {
     case az = "a-z"
     case releaseYear = "release-year"
     case dateAdded = "date-added"

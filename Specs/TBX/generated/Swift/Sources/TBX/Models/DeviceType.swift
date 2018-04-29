@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class DeviceType: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class DeviceType: Codable {
 
     public var shortName: String
 
@@ -29,38 +28,34 @@ public class DeviceType: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.needActivation = needActivation
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        shortName = try jsonDictionary.json(atKeyPath: "shortName")
-        contentProvider = jsonDictionary.json(atKeyPath: "contentProvider")
-        defaultExpireDays = jsonDictionary.json(atKeyPath: "defaultExpireDays")
-        deviceType = jsonDictionary.json(atKeyPath: "deviceType")
-        id = jsonDictionary.json(atKeyPath: "id")
-        needActivation = jsonDictionary.json(atKeyPath: "needActivation")
+    private enum CodingKeys: String, CodingKey {
+        case shortName
+        case contentProvider
+        case defaultExpireDays
+        case deviceType
+        case id
+        case needActivation
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["shortName"] = shortName
-        if let contentProvider = contentProvider?.encode() {
-            dictionary["contentProvider"] = contentProvider
-        }
-        if let defaultExpireDays = defaultExpireDays {
-            dictionary["defaultExpireDays"] = defaultExpireDays
-        }
-        if let deviceType = deviceType {
-            dictionary["deviceType"] = deviceType
-        }
-        if let id = id?.encode() {
-            dictionary["id"] = id
-        }
-        if let needActivation = needActivation {
-            dictionary["needActivation"] = needActivation
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        shortName = try container.decode(.shortName)
+        contentProvider = try container.decodeIfPresent(.contentProvider)
+        defaultExpireDays = try container.decodeIfPresent(.defaultExpireDays)
+        deviceType = try container.decodeIfPresent(.deviceType)
+        id = try container.decodeIfPresent(.id)
+        needActivation = try container.decodeIfPresent(.needActivation)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(shortName, forKey: .shortName)
+        try container.encode(contentProvider, forKey: .contentProvider)
+        try container.encode(defaultExpireDays, forKey: .defaultExpireDays)
+        try container.encode(deviceType, forKey: .deviceType)
+        try container.encode(id, forKey: .id)
+        try container.encode(needActivation, forKey: .needActivation)
     }
 }

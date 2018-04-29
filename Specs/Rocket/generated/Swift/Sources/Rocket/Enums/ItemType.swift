@@ -4,7 +4,7 @@
 //
 
 /** The item type to filter by. Defaults to unspecified. */
-public enum ItemType: String {
+public enum ItemType: String, Codable {
     case movie = "movie"
     case show = "show"
     case season = "season"

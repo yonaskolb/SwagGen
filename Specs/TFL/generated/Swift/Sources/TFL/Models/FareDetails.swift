@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class FareDetails: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class FareDetails: Codable {
 
     public var boundsId: Int?
 
@@ -74,100 +73,79 @@ public class FareDetails: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.via = via
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        boundsId = jsonDictionary.json(atKeyPath: "boundsId")
-        displayName = jsonDictionary.json(atKeyPath: "displayName")
-        displayOrder = jsonDictionary.json(atKeyPath: "displayOrder")
-        endDate = jsonDictionary.json(atKeyPath: "endDate")
-        from = jsonDictionary.json(atKeyPath: "from")
-        fromStation = jsonDictionary.json(atKeyPath: "fromStation")
-        isTour = jsonDictionary.json(atKeyPath: "isTour")
-        messages = jsonDictionary.json(atKeyPath: "messages")
-        mode = jsonDictionary.json(atKeyPath: "mode")
-        `operator` = jsonDictionary.json(atKeyPath: "operator")
-        passengerType = jsonDictionary.json(atKeyPath: "passengerType")
-        routeCode = jsonDictionary.json(atKeyPath: "routeCode")
-        routeDescription = jsonDictionary.json(atKeyPath: "routeDescription")
-        specialFare = jsonDictionary.json(atKeyPath: "specialFare")
-        startDate = jsonDictionary.json(atKeyPath: "startDate")
-        throughFare = jsonDictionary.json(atKeyPath: "throughFare")
-        ticketsAvailable = jsonDictionary.json(atKeyPath: "ticketsAvailable")
-        to = jsonDictionary.json(atKeyPath: "to")
-        toStation = jsonDictionary.json(atKeyPath: "toStation")
-        validatorInformation = jsonDictionary.json(atKeyPath: "validatorInformation")
-        via = jsonDictionary.json(atKeyPath: "via")
+    private enum CodingKeys: String, CodingKey {
+        case boundsId
+        case displayName
+        case displayOrder
+        case endDate
+        case from
+        case fromStation
+        case isTour
+        case messages
+        case mode
+        case `operator` = "operator"
+        case passengerType
+        case routeCode
+        case routeDescription
+        case specialFare
+        case startDate
+        case throughFare
+        case ticketsAvailable
+        case to
+        case toStation
+        case validatorInformation
+        case via
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let boundsId = boundsId {
-            dictionary["boundsId"] = boundsId
-        }
-        if let displayName = displayName {
-            dictionary["displayName"] = displayName
-        }
-        if let displayOrder = displayOrder {
-            dictionary["displayOrder"] = displayOrder
-        }
-        if let endDate = endDate?.encode() {
-            dictionary["endDate"] = endDate
-        }
-        if let from = from {
-            dictionary["from"] = from
-        }
-        if let fromStation = fromStation {
-            dictionary["fromStation"] = fromStation
-        }
-        if let isTour = isTour {
-            dictionary["isTour"] = isTour
-        }
-        if let messages = messages?.encode() {
-            dictionary["messages"] = messages
-        }
-        if let mode = mode {
-            dictionary["mode"] = mode
-        }
-        if let `operator` = `operator` {
-            dictionary["operator"] = `operator`
-        }
-        if let passengerType = passengerType {
-            dictionary["passengerType"] = passengerType
-        }
-        if let routeCode = routeCode {
-            dictionary["routeCode"] = routeCode
-        }
-        if let routeDescription = routeDescription {
-            dictionary["routeDescription"] = routeDescription
-        }
-        if let specialFare = specialFare {
-            dictionary["specialFare"] = specialFare
-        }
-        if let startDate = startDate?.encode() {
-            dictionary["startDate"] = startDate
-        }
-        if let throughFare = throughFare {
-            dictionary["throughFare"] = throughFare
-        }
-        if let ticketsAvailable = ticketsAvailable?.encode() {
-            dictionary["ticketsAvailable"] = ticketsAvailable
-        }
-        if let to = to {
-            dictionary["to"] = to
-        }
-        if let toStation = toStation {
-            dictionary["toStation"] = toStation
-        }
-        if let validatorInformation = validatorInformation {
-            dictionary["validatorInformation"] = validatorInformation
-        }
-        if let via = via {
-            dictionary["via"] = via
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        boundsId = try container.decodeIfPresent(.boundsId)
+        displayName = try container.decodeIfPresent(.displayName)
+        displayOrder = try container.decodeIfPresent(.displayOrder)
+        endDate = try container.decodeIfPresent(.endDate)
+        from = try container.decodeIfPresent(.from)
+        fromStation = try container.decodeIfPresent(.fromStation)
+        isTour = try container.decodeIfPresent(.isTour)
+        messages = try container.decodeIfPresent(.messages)
+        mode = try container.decodeIfPresent(.mode)
+        `operator` = try container.decodeIfPresent(.`operator`)
+        passengerType = try container.decodeIfPresent(.passengerType)
+        routeCode = try container.decodeIfPresent(.routeCode)
+        routeDescription = try container.decodeIfPresent(.routeDescription)
+        specialFare = try container.decodeIfPresent(.specialFare)
+        startDate = try container.decodeIfPresent(.startDate)
+        throughFare = try container.decodeIfPresent(.throughFare)
+        ticketsAvailable = try container.decodeIfPresent(.ticketsAvailable)
+        to = try container.decodeIfPresent(.to)
+        toStation = try container.decodeIfPresent(.toStation)
+        validatorInformation = try container.decodeIfPresent(.validatorInformation)
+        via = try container.decodeIfPresent(.via)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(boundsId, forKey: .boundsId)
+        try container.encode(displayName, forKey: .displayName)
+        try container.encode(displayOrder, forKey: .displayOrder)
+        try container.encode(endDate, forKey: .endDate)
+        try container.encode(from, forKey: .from)
+        try container.encode(fromStation, forKey: .fromStation)
+        try container.encode(isTour, forKey: .isTour)
+        try container.encode(messages, forKey: .messages)
+        try container.encode(mode, forKey: .mode)
+        try container.encode(`operator`, forKey: .`operator`)
+        try container.encode(passengerType, forKey: .passengerType)
+        try container.encode(routeCode, forKey: .routeCode)
+        try container.encode(routeDescription, forKey: .routeDescription)
+        try container.encode(specialFare, forKey: .specialFare)
+        try container.encode(startDate, forKey: .startDate)
+        try container.encode(throughFare, forKey: .throughFare)
+        try container.encode(ticketsAvailable, forKey: .ticketsAvailable)
+        try container.encode(to, forKey: .to)
+        try container.encode(toStation, forKey: .toStation)
+        try container.encode(validatorInformation, forKey: .validatorInformation)
+        try container.encode(via, forKey: .via)
     }
 }

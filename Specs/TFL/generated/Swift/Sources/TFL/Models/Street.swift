@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Street: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Street: Codable {
 
     /** Type of road closure. Some example values:
             Open = road is open, not blocked, not closed, not restricted. It maybe that the disruption has been moved out of the carriageway.
@@ -47,40 +46,34 @@ public class Street: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.sourceSystemKey = sourceSystemKey
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        closure = jsonDictionary.json(atKeyPath: "closure")
-        directions = jsonDictionary.json(atKeyPath: "directions")
-        name = jsonDictionary.json(atKeyPath: "name")
-        segments = jsonDictionary.json(atKeyPath: "segments")
-        sourceSystemId = jsonDictionary.json(atKeyPath: "sourceSystemId")
-        sourceSystemKey = jsonDictionary.json(atKeyPath: "sourceSystemKey")
+    private enum CodingKeys: String, CodingKey {
+        case closure
+        case directions
+        case name
+        case segments
+        case sourceSystemId
+        case sourceSystemKey
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let closure = closure {
-            dictionary["closure"] = closure
-        }
-        if let directions = directions {
-            dictionary["directions"] = directions
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let segments = segments?.encode() {
-            dictionary["segments"] = segments
-        }
-        if let sourceSystemId = sourceSystemId {
-            dictionary["sourceSystemId"] = sourceSystemId
-        }
-        if let sourceSystemKey = sourceSystemKey {
-            dictionary["sourceSystemKey"] = sourceSystemKey
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        closure = try container.decodeIfPresent(.closure)
+        directions = try container.decodeIfPresent(.directions)
+        name = try container.decodeIfPresent(.name)
+        segments = try container.decodeIfPresent(.segments)
+        sourceSystemId = try container.decodeIfPresent(.sourceSystemId)
+        sourceSystemKey = try container.decodeIfPresent(.sourceSystemKey)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(closure, forKey: .closure)
+        try container.encode(directions, forKey: .directions)
+        try container.encode(name, forKey: .name)
+        try container.encode(segments, forKey: .segments)
+        try container.encode(sourceSystemId, forKey: .sourceSystemId)
+        try container.encode(sourceSystemKey, forKey: .sourceSystemKey)
     }
 }

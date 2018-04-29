@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class JourneyVector: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class JourneyVector: Codable {
 
     public var from: String?
 
@@ -23,32 +22,28 @@ public class JourneyVector: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.via = via
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        from = jsonDictionary.json(atKeyPath: "from")
-        to = jsonDictionary.json(atKeyPath: "to")
-        uri = jsonDictionary.json(atKeyPath: "uri")
-        via = jsonDictionary.json(atKeyPath: "via")
+    private enum CodingKeys: String, CodingKey {
+        case from
+        case to
+        case uri
+        case via
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let from = from {
-            dictionary["from"] = from
-        }
-        if let to = to {
-            dictionary["to"] = to
-        }
-        if let uri = uri {
-            dictionary["uri"] = uri
-        }
-        if let via = via {
-            dictionary["via"] = via
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        from = try container.decodeIfPresent(.from)
+        to = try container.decodeIfPresent(.to)
+        uri = try container.decodeIfPresent(.uri)
+        via = try container.decodeIfPresent(.via)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(from, forKey: .from)
+        try container.encode(to, forKey: .to)
+        try container.encode(uri, forKey: .uri)
+        try container.encode(via, forKey: .via)
     }
 }

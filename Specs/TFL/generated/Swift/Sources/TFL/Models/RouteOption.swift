@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class RouteOption: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class RouteOption: Codable {
 
     public var directions: [String]?
 
@@ -26,32 +25,28 @@ public class RouteOption: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.name = name
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        directions = jsonDictionary.json(atKeyPath: "directions")
-        id = jsonDictionary.json(atKeyPath: "id")
-        lineIdentifier = jsonDictionary.json(atKeyPath: "lineIdentifier")
-        name = jsonDictionary.json(atKeyPath: "name")
+    private enum CodingKeys: String, CodingKey {
+        case directions
+        case id
+        case lineIdentifier
+        case name
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let directions = directions {
-            dictionary["directions"] = directions
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let lineIdentifier = lineIdentifier?.encode() {
-            dictionary["lineIdentifier"] = lineIdentifier
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        directions = try container.decodeIfPresent(.directions)
+        id = try container.decodeIfPresent(.id)
+        lineIdentifier = try container.decodeIfPresent(.lineIdentifier)
+        name = try container.decodeIfPresent(.name)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(directions, forKey: .directions)
+        try container.encode(id, forKey: .id)
+        try container.encode(lineIdentifier, forKey: .lineIdentifier)
+        try container.encode(name, forKey: .name)
     }
 }

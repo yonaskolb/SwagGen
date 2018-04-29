@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class PageSummary: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class PageSummary: Codable {
 
     /** Unique identifier for the page. */
     public var id: String
@@ -49,32 +48,37 @@ a page is static or not. Use the `isStatic` property instead.
         self.key = key
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        id = try jsonDictionary.json(atKeyPath: "id")
-        path = try jsonDictionary.json(atKeyPath: "path")
-        title = try jsonDictionary.json(atKeyPath: "title")
-        template = try jsonDictionary.json(atKeyPath: "template")
-        isStatic = try jsonDictionary.json(atKeyPath: "isStatic")
-        isSystemPage = try jsonDictionary.json(atKeyPath: "isSystemPage")
-        key = jsonDictionary.json(atKeyPath: "key")
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case path
+        case title
+        case template
+        case isStatic
+        case isSystemPage
+        case key
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["id"] = id
-        dictionary["path"] = path
-        dictionary["title"] = title
-        dictionary["template"] = template
-        dictionary["isStatic"] = isStatic
-        dictionary["isSystemPage"] = isSystemPage
-        if let key = key {
-            dictionary["key"] = key
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(.id)
+        path = try container.decode(.path)
+        title = try container.decode(.title)
+        template = try container.decode(.template)
+        isStatic = try container.decode(.isStatic)
+        isSystemPage = try container.decode(.isSystemPage)
+        key = try container.decodeIfPresent(.key)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(path, forKey: .path)
+        try container.encode(title, forKey: .title)
+        try container.encode(template, forKey: .template)
+        try container.encode(isStatic, forKey: .isStatic)
+        try container.encode(isSystemPage, forKey: .isSystemPage)
+        try container.encode(key, forKey: .key)
     }
 }

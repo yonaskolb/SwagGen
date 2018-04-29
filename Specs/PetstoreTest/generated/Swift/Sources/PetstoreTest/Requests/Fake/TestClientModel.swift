@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension PetstoreTest.Fake {
 
@@ -22,8 +21,8 @@ extension PetstoreTest.Fake {
                 super.init(service: TestClientModel.service)
             }
 
-            public override var jsonBody: Any? {
-                return body.encode()
+            public override var jsonBody: Encodable? {
+                return body
             }
         }
 
@@ -57,9 +56,9 @@ extension PetstoreTest.Fake {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decode(Client.self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

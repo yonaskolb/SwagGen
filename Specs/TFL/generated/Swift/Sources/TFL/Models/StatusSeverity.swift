@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class StatusSeverity: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class StatusSeverity: Codable {
 
     public var description: String?
 
@@ -20,28 +19,25 @@ public class StatusSeverity: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.severityLevel = severityLevel
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        description = jsonDictionary.json(atKeyPath: "description")
-        modeName = jsonDictionary.json(atKeyPath: "modeName")
-        severityLevel = jsonDictionary.json(atKeyPath: "severityLevel")
+    private enum CodingKeys: String, CodingKey {
+        case description
+        case modeName
+        case severityLevel
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let description = description {
-            dictionary["description"] = description
-        }
-        if let modeName = modeName {
-            dictionary["modeName"] = modeName
-        }
-        if let severityLevel = severityLevel {
-            dictionary["severityLevel"] = severityLevel
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        description = try container.decodeIfPresent(.description)
+        modeName = try container.decodeIfPresent(.modeName)
+        severityLevel = try container.decodeIfPresent(.severityLevel)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(description, forKey: .description)
+        try container.encode(modeName, forKey: .modeName)
+        try container.encode(severityLevel, forKey: .severityLevel)
     }
 }

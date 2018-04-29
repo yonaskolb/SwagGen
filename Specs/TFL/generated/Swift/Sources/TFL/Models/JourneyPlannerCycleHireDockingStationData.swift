@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class JourneyPlannerCycleHireDockingStationData: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class JourneyPlannerCycleHireDockingStationData: Codable {
 
     public var destinationId: String?
 
@@ -29,40 +28,34 @@ public class JourneyPlannerCycleHireDockingStationData: JSONDecodable, JSONEncod
         self.originNumberOfEmptySlots = originNumberOfEmptySlots
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        destinationId = jsonDictionary.json(atKeyPath: "destinationId")
-        destinationNumberOfBikes = jsonDictionary.json(atKeyPath: "destinationNumberOfBikes")
-        destinationNumberOfEmptySlots = jsonDictionary.json(atKeyPath: "destinationNumberOfEmptySlots")
-        originId = jsonDictionary.json(atKeyPath: "originId")
-        originNumberOfBikes = jsonDictionary.json(atKeyPath: "originNumberOfBikes")
-        originNumberOfEmptySlots = jsonDictionary.json(atKeyPath: "originNumberOfEmptySlots")
+    private enum CodingKeys: String, CodingKey {
+        case destinationId
+        case destinationNumberOfBikes
+        case destinationNumberOfEmptySlots
+        case originId
+        case originNumberOfBikes
+        case originNumberOfEmptySlots
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let destinationId = destinationId {
-            dictionary["destinationId"] = destinationId
-        }
-        if let destinationNumberOfBikes = destinationNumberOfBikes {
-            dictionary["destinationNumberOfBikes"] = destinationNumberOfBikes
-        }
-        if let destinationNumberOfEmptySlots = destinationNumberOfEmptySlots {
-            dictionary["destinationNumberOfEmptySlots"] = destinationNumberOfEmptySlots
-        }
-        if let originId = originId {
-            dictionary["originId"] = originId
-        }
-        if let originNumberOfBikes = originNumberOfBikes {
-            dictionary["originNumberOfBikes"] = originNumberOfBikes
-        }
-        if let originNumberOfEmptySlots = originNumberOfEmptySlots {
-            dictionary["originNumberOfEmptySlots"] = originNumberOfEmptySlots
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        destinationId = try container.decodeIfPresent(.destinationId)
+        destinationNumberOfBikes = try container.decodeIfPresent(.destinationNumberOfBikes)
+        destinationNumberOfEmptySlots = try container.decodeIfPresent(.destinationNumberOfEmptySlots)
+        originId = try container.decodeIfPresent(.originId)
+        originNumberOfBikes = try container.decodeIfPresent(.originNumberOfBikes)
+        originNumberOfEmptySlots = try container.decodeIfPresent(.originNumberOfEmptySlots)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(destinationId, forKey: .destinationId)
+        try container.encode(destinationNumberOfBikes, forKey: .destinationNumberOfBikes)
+        try container.encode(destinationNumberOfEmptySlots, forKey: .destinationNumberOfEmptySlots)
+        try container.encode(originId, forKey: .originId)
+        try container.encode(originNumberOfBikes, forKey: .originNumberOfBikes)
+        try container.encode(originNumberOfEmptySlots, forKey: .originNumberOfEmptySlots)
     }
 }

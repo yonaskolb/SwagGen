@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class IdentityProvider: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class IdentityProvider: Codable {
 
     public var description: String
 
@@ -77,88 +76,82 @@ public class IdentityProvider: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.wsURL = wsURL
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        description = try jsonDictionary.json(atKeyPath: "description")
-        shortName = try jsonDictionary.json(atKeyPath: "shortName")
-        apiKey = try jsonDictionary.json(atKeyPath: "apiKey")
-        clientType = try jsonDictionary.json(atKeyPath: "clientType")
-        devicesLimit = try jsonDictionary.json(atKeyPath: "devicesLimit")
-        active = try jsonDictionary.json(atKeyPath: "active")
-        canCreateToken = try jsonDictionary.json(atKeyPath: "canCreateToken")
-        canCreateDevice = try jsonDictionary.json(atKeyPath: "canCreateDevice")
-        conector = jsonDictionary.json(atKeyPath: "conector")
-        haveMultipleURNService = jsonDictionary.json(atKeyPath: "haveMultipleURNService")
-        id = jsonDictionary.json(atKeyPath: "id")
-        maintenance = jsonDictionary.json(atKeyPath: "maintenance")
-        oauth2 = jsonDictionary.json(atKeyPath: "oauth2")
-        saml = jsonDictionary.json(atKeyPath: "saml")
-        sendRequestorAuthZ = jsonDictionary.json(atKeyPath: "sendRequestorAuthZ")
-        subscriberIdData = jsonDictionary.json(atKeyPath: "subscriberIdData")
-        whitelistDomains = jsonDictionary.json(atKeyPath: "whitelistDomains")
-        wsAPIKey = jsonDictionary.json(atKeyPath: "wsAPIKey")
-        wsMaintenance = jsonDictionary.json(atKeyPath: "wsMaintenance")
-        wsMaintenanceCountry = jsonDictionary.json(atKeyPath: "wsMaintenanceCountry")
-        wsNameSpace = jsonDictionary.json(atKeyPath: "wsNameSpace")
-        wsURL = jsonDictionary.json(atKeyPath: "wsURL")
+    private enum CodingKeys: String, CodingKey {
+        case description
+        case shortName
+        case apiKey
+        case clientType
+        case devicesLimit
+        case active
+        case canCreateToken
+        case canCreateDevice
+        case conector
+        case haveMultipleURNService
+        case id
+        case maintenance
+        case oauth2
+        case saml
+        case sendRequestorAuthZ
+        case subscriberIdData
+        case whitelistDomains
+        case wsAPIKey
+        case wsMaintenance
+        case wsMaintenanceCountry
+        case wsNameSpace
+        case wsURL
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["description"] = description
-        dictionary["shortName"] = shortName
-        dictionary["apiKey"] = apiKey
-        dictionary["clientType"] = clientType
-        dictionary["devicesLimit"] = devicesLimit
-        dictionary["active"] = active
-        dictionary["canCreateToken"] = canCreateToken
-        dictionary["canCreateDevice"] = canCreateDevice
-        if let conector = conector {
-            dictionary["conector"] = conector
-        }
-        if let haveMultipleURNService = haveMultipleURNService {
-            dictionary["haveMultipleURNService"] = haveMultipleURNService
-        }
-        if let id = id?.encode() {
-            dictionary["id"] = id
-        }
-        if let maintenance = maintenance {
-            dictionary["maintenance"] = maintenance
-        }
-        if let oauth2 = oauth2 {
-            dictionary["oauth2"] = oauth2
-        }
-        if let saml = saml {
-            dictionary["saml"] = saml
-        }
-        if let sendRequestorAuthZ = sendRequestorAuthZ {
-            dictionary["sendRequestorAuthZ"] = sendRequestorAuthZ
-        }
-        if let subscriberIdData = subscriberIdData {
-            dictionary["subscriberIdData"] = subscriberIdData
-        }
-        if let whitelistDomains = whitelistDomains {
-            dictionary["whitelistDomains"] = whitelistDomains
-        }
-        if let wsAPIKey = wsAPIKey {
-            dictionary["wsAPIKey"] = wsAPIKey
-        }
-        if let wsMaintenance = wsMaintenance {
-            dictionary["wsMaintenance"] = wsMaintenance
-        }
-        if let wsMaintenanceCountry = wsMaintenanceCountry {
-            dictionary["wsMaintenanceCountry"] = wsMaintenanceCountry
-        }
-        if let wsNameSpace = wsNameSpace {
-            dictionary["wsNameSpace"] = wsNameSpace
-        }
-        if let wsURL = wsURL {
-            dictionary["wsURL"] = wsURL
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        description = try container.decode(.description)
+        shortName = try container.decode(.shortName)
+        apiKey = try container.decode(.apiKey)
+        clientType = try container.decode(.clientType)
+        devicesLimit = try container.decode(.devicesLimit)
+        active = try container.decode(.active)
+        canCreateToken = try container.decode(.canCreateToken)
+        canCreateDevice = try container.decode(.canCreateDevice)
+        conector = try container.decodeIfPresent(.conector)
+        haveMultipleURNService = try container.decodeIfPresent(.haveMultipleURNService)
+        id = try container.decodeIfPresent(.id)
+        maintenance = try container.decodeIfPresent(.maintenance)
+        oauth2 = try container.decodeAnyIfPresent(.oauth2)
+        saml = try container.decodeAnyIfPresent(.saml)
+        sendRequestorAuthZ = try container.decodeIfPresent(.sendRequestorAuthZ)
+        subscriberIdData = try container.decodeIfPresent(.subscriberIdData)
+        whitelistDomains = try container.decodeIfPresent(.whitelistDomains)
+        wsAPIKey = try container.decodeIfPresent(.wsAPIKey)
+        wsMaintenance = try container.decodeIfPresent(.wsMaintenance)
+        wsMaintenanceCountry = try container.decodeIfPresent(.wsMaintenanceCountry)
+        wsNameSpace = try container.decodeIfPresent(.wsNameSpace)
+        wsURL = try container.decodeIfPresent(.wsURL)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(description, forKey: .description)
+        try container.encode(shortName, forKey: .shortName)
+        try container.encode(apiKey, forKey: .apiKey)
+        try container.encode(clientType, forKey: .clientType)
+        try container.encode(devicesLimit, forKey: .devicesLimit)
+        try container.encode(active, forKey: .active)
+        try container.encode(canCreateToken, forKey: .canCreateToken)
+        try container.encode(canCreateDevice, forKey: .canCreateDevice)
+        try container.encode(conector, forKey: .conector)
+        try container.encode(haveMultipleURNService, forKey: .haveMultipleURNService)
+        try container.encode(id, forKey: .id)
+        try container.encode(maintenance, forKey: .maintenance)
+        try container.encodeAny(oauth2, forKey: .oauth2)
+        try container.encodeAny(saml, forKey: .saml)
+        try container.encode(sendRequestorAuthZ, forKey: .sendRequestorAuthZ)
+        try container.encode(subscriberIdData, forKey: .subscriberIdData)
+        try container.encode(whitelistDomains, forKey: .whitelistDomains)
+        try container.encode(wsAPIKey, forKey: .wsAPIKey)
+        try container.encode(wsMaintenance, forKey: .wsMaintenance)
+        try container.encode(wsMaintenanceCountry, forKey: .wsMaintenanceCountry)
+        try container.encode(wsNameSpace, forKey: .wsNameSpace)
+        try container.encode(wsURL, forKey: .wsURL)
     }
 }

@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension PetstoreTest.Store {
 
@@ -21,8 +20,8 @@ extension PetstoreTest.Store {
                 super.init(service: PlaceOrder.service)
             }
 
-            public override var jsonBody: Any? {
-                return body.encode()
+            public override var jsonBody: Encodable? {
+                return body
             }
         }
 
@@ -63,9 +62,9 @@ extension PetstoreTest.Store {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decode(Order.self, from: data))
                 case 400: self = .status400
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }

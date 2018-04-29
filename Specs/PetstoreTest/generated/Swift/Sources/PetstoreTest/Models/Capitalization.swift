@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Capitalization: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Capitalization: Codable {
 
     /** Name of the pet
  */
@@ -31,40 +30,34 @@ public class Capitalization: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.smallSnake = smallSnake
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        attname = jsonDictionary.json(atKeyPath: "ATT_NAME")
-        capitalCamel = jsonDictionary.json(atKeyPath: "CapitalCamel")
-        capitalSnake = jsonDictionary.json(atKeyPath: "Capital_Snake")
-        sCAETHFlowPoints = jsonDictionary.json(atKeyPath: "SCA_ETH_Flow_Points")
-        smallCamel = jsonDictionary.json(atKeyPath: "smallCamel")
-        smallSnake = jsonDictionary.json(atKeyPath: "small_Snake")
+    private enum CodingKeys: String, CodingKey {
+        case attname = "ATT_NAME"
+        case capitalCamel = "CapitalCamel"
+        case capitalSnake = "Capital_Snake"
+        case sCAETHFlowPoints = "SCA_ETH_Flow_Points"
+        case smallCamel
+        case smallSnake = "small_Snake"
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let attname = attname {
-            dictionary["ATT_NAME"] = attname
-        }
-        if let capitalCamel = capitalCamel {
-            dictionary["CapitalCamel"] = capitalCamel
-        }
-        if let capitalSnake = capitalSnake {
-            dictionary["Capital_Snake"] = capitalSnake
-        }
-        if let sCAETHFlowPoints = sCAETHFlowPoints {
-            dictionary["SCA_ETH_Flow_Points"] = sCAETHFlowPoints
-        }
-        if let smallCamel = smallCamel {
-            dictionary["smallCamel"] = smallCamel
-        }
-        if let smallSnake = smallSnake {
-            dictionary["small_Snake"] = smallSnake
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        attname = try container.decodeIfPresent(.attname)
+        capitalCamel = try container.decodeIfPresent(.capitalCamel)
+        capitalSnake = try container.decodeIfPresent(.capitalSnake)
+        sCAETHFlowPoints = try container.decodeIfPresent(.sCAETHFlowPoints)
+        smallCamel = try container.decodeIfPresent(.smallCamel)
+        smallSnake = try container.decodeIfPresent(.smallSnake)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(attname, forKey: .attname)
+        try container.encode(capitalCamel, forKey: .capitalCamel)
+        try container.encode(capitalSnake, forKey: .capitalSnake)
+        try container.encode(sCAETHFlowPoints, forKey: .sCAETHFlowPoints)
+        try container.encode(smallCamel, forKey: .smallCamel)
+        try container.encode(smallSnake, forKey: .smallSnake)
     }
 }

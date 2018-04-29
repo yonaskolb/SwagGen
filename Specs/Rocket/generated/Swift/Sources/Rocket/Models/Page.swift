@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 public class Page: PageSummary {
 
@@ -45,34 +44,33 @@ on list detail pages. See `feature-flags.md` for further details.*
         super.init(id: id, path: path, title: title, template: template, isStatic: isStatic, isSystemPage: isSystemPage, key: key)
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        entries = try jsonDictionary.json(atKeyPath: "entries")
-        customFields = jsonDictionary.json(atKeyPath: "customFields")
-        item = jsonDictionary.json(atKeyPath: "item")
-        list = jsonDictionary.json(atKeyPath: "list")
-        metadata = jsonDictionary.json(atKeyPath: "metadata")
-        try super.init(jsonDictionary: jsonDictionary)
+    private enum CodingKeys: String, CodingKey {
+        case entries
+        case customFields
+        case item
+        case list
+        case metadata
     }
 
-    public override func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["entries"] = entries.encode()
-        if let customFields = customFields {
-            dictionary["customFields"] = customFields
-        }
-        if let item = item?.encode() {
-            dictionary["item"] = item
-        }
-        if let list = list?.encode() {
-            dictionary["list"] = list
-        }
-        if let metadata = metadata?.encode() {
-            dictionary["metadata"] = metadata
-        }
-        let superDictionary = super.encode()
-        for (key, value) in superDictionary {
-            dictionary[key] = value
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        entries = try container.decode(.entries)
+        customFields = try container.decodeAnyIfPresent(.customFields)
+        item = try container.decodeIfPresent(.item)
+        list = try container.decodeIfPresent(.list)
+        metadata = try container.decodeIfPresent(.metadata)
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(entries, forKey: .entries)
+        try container.encodeAny(customFields, forKey: .customFields)
+        try container.encode(item, forKey: .item)
+        try container.encode(list, forKey: .list)
+        try container.encode(metadata, forKey: .metadata)
+        try super.encode(to: encoder)
     }
 }

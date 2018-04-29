@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 public class ItemDetail: ItemSummary {
 
@@ -90,84 +89,69 @@ Specific to a Program item type.
         super.init(id: id, type: type, path: path, title: title, availableEpisodeCount: availableEpisodeCount, availableSeasonCount: availableSeasonCount, averageUserRating: averageUserRating, badge: badge, classification: classification, contextualTitle: contextualTitle, customFields: customFields, customId: customId, duration: duration, episodeCount: episodeCount, episodeNumber: episodeNumber, genres: genres, hasClosedCaptions: hasClosedCaptions, images: images, offers: offers, releaseYear: releaseYear, scopes: scopes, seasonId: seasonId, seasonNumber: seasonNumber, shortDescription: shortDescription, showId: showId, tagline: tagline, watchPath: watchPath)
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        advisoryText = jsonDictionary.json(atKeyPath: "advisoryText")
-        copyright = jsonDictionary.json(atKeyPath: "copyright")
-        credits = jsonDictionary.json(atKeyPath: "credits")
-        customMetadata = jsonDictionary.json(atKeyPath: "customMetadata")
-        description = jsonDictionary.json(atKeyPath: "description")
-        distributor = jsonDictionary.json(atKeyPath: "distributor")
-        episodeName = jsonDictionary.json(atKeyPath: "episodeName")
-        episodes = jsonDictionary.json(atKeyPath: "episodes")
-        eventDate = jsonDictionary.json(atKeyPath: "eventDate")
-        genrePaths = jsonDictionary.json(atKeyPath: "genrePaths")
-        location = jsonDictionary.json(atKeyPath: "location")
-        season = jsonDictionary.json(atKeyPath: "season")
-        seasons = jsonDictionary.json(atKeyPath: "seasons")
-        show = jsonDictionary.json(atKeyPath: "show")
-        totalUserRatings = jsonDictionary.json(atKeyPath: "totalUserRatings")
-        trailers = jsonDictionary.json(atKeyPath: "trailers")
-        venue = jsonDictionary.json(atKeyPath: "venue")
-        try super.init(jsonDictionary: jsonDictionary)
+    private enum CodingKeys: String, CodingKey {
+        case advisoryText
+        case copyright
+        case credits
+        case customMetadata
+        case description
+        case distributor
+        case episodeName
+        case episodes
+        case eventDate
+        case genrePaths
+        case location
+        case season
+        case seasons
+        case show
+        case totalUserRatings
+        case trailers
+        case venue
     }
 
-    public override func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let advisoryText = advisoryText {
-            dictionary["advisoryText"] = advisoryText
-        }
-        if let copyright = copyright {
-            dictionary["copyright"] = copyright
-        }
-        if let credits = credits?.encode() {
-            dictionary["credits"] = credits
-        }
-        if let customMetadata = customMetadata?.encode() {
-            dictionary["customMetadata"] = customMetadata
-        }
-        if let description = description {
-            dictionary["description"] = description
-        }
-        if let distributor = distributor {
-            dictionary["distributor"] = distributor
-        }
-        if let episodeName = episodeName {
-            dictionary["episodeName"] = episodeName
-        }
-        if let episodes = episodes?.encode() {
-            dictionary["episodes"] = episodes
-        }
-        if let eventDate = eventDate?.encode() {
-            dictionary["eventDate"] = eventDate
-        }
-        if let genrePaths = genrePaths {
-            dictionary["genrePaths"] = genrePaths
-        }
-        if let location = location {
-            dictionary["location"] = location
-        }
-        if let season = season?.encode() {
-            dictionary["season"] = season
-        }
-        if let seasons = seasons?.encode() {
-            dictionary["seasons"] = seasons
-        }
-        if let show = show?.encode() {
-            dictionary["show"] = show
-        }
-        if let totalUserRatings = totalUserRatings {
-            dictionary["totalUserRatings"] = totalUserRatings
-        }
-        if let trailers = trailers?.encode() {
-            dictionary["trailers"] = trailers
-        }
-        if let venue = venue {
-            dictionary["venue"] = venue
-        }
-        let superDictionary = super.encode()
-        for (key, value) in superDictionary {
-            dictionary[key] = value
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        advisoryText = try container.decodeIfPresent(.advisoryText)
+        copyright = try container.decodeIfPresent(.copyright)
+        credits = try container.decodeIfPresent(.credits)
+        customMetadata = try container.decodeIfPresent(.customMetadata)
+        description = try container.decodeIfPresent(.description)
+        distributor = try container.decodeIfPresent(.distributor)
+        episodeName = try container.decodeIfPresent(.episodeName)
+        episodes = try container.decodeIfPresent(.episodes)
+        eventDate = try container.decodeIfPresent(.eventDate)
+        genrePaths = try container.decodeIfPresent(.genrePaths)
+        location = try container.decodeIfPresent(.location)
+        season = try container.decodeIfPresent(.season)
+        seasons = try container.decodeIfPresent(.seasons)
+        show = try container.decodeIfPresent(.show)
+        totalUserRatings = try container.decodeIfPresent(.totalUserRatings)
+        trailers = try container.decodeIfPresent(.trailers)
+        venue = try container.decodeIfPresent(.venue)
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(advisoryText, forKey: .advisoryText)
+        try container.encode(copyright, forKey: .copyright)
+        try container.encode(credits, forKey: .credits)
+        try container.encode(customMetadata, forKey: .customMetadata)
+        try container.encode(description, forKey: .description)
+        try container.encode(distributor, forKey: .distributor)
+        try container.encode(episodeName, forKey: .episodeName)
+        try container.encode(episodes, forKey: .episodes)
+        try container.encode(eventDate, forKey: .eventDate)
+        try container.encode(genrePaths, forKey: .genrePaths)
+        try container.encode(location, forKey: .location)
+        try container.encode(season, forKey: .season)
+        try container.encode(seasons, forKey: .seasons)
+        try container.encode(show, forKey: .show)
+        try container.encode(totalUserRatings, forKey: .totalUserRatings)
+        try container.encode(trailers, forKey: .trailers)
+        try container.encode(venue, forKey: .venue)
+        try super.encode(to: encoder)
     }
 }

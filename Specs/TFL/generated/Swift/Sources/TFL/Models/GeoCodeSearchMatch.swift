@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class GeoCodeSearchMatch: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class GeoCodeSearchMatch: Codable {
 
     /** A string describing the formatted address of the place. Adds additional context to the place's Name. */
     public var address: String?
@@ -34,44 +33,37 @@ public class GeoCodeSearchMatch: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.url = url
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        address = jsonDictionary.json(atKeyPath: "address")
-        id = jsonDictionary.json(atKeyPath: "id")
-        lat = jsonDictionary.json(atKeyPath: "lat")
-        lon = jsonDictionary.json(atKeyPath: "lon")
-        name = jsonDictionary.json(atKeyPath: "name")
-        types = jsonDictionary.json(atKeyPath: "types")
-        url = jsonDictionary.json(atKeyPath: "url")
+    private enum CodingKeys: String, CodingKey {
+        case address
+        case id
+        case lat
+        case lon
+        case name
+        case types
+        case url
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let address = address {
-            dictionary["address"] = address
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let lat = lat {
-            dictionary["lat"] = lat
-        }
-        if let lon = lon {
-            dictionary["lon"] = lon
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let types = types {
-            dictionary["types"] = types
-        }
-        if let url = url {
-            dictionary["url"] = url
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        address = try container.decodeIfPresent(.address)
+        id = try container.decodeIfPresent(.id)
+        lat = try container.decodeIfPresent(.lat)
+        lon = try container.decodeIfPresent(.lon)
+        name = try container.decodeIfPresent(.name)
+        types = try container.decodeIfPresent(.types)
+        url = try container.decodeIfPresent(.url)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(address, forKey: .address)
+        try container.encode(id, forKey: .id)
+        try container.encode(lat, forKey: .lat)
+        try container.encode(lon, forKey: .lon)
+        try container.encode(name, forKey: .name)
+        try container.encode(types, forKey: .types)
+        try container.encode(url, forKey: .url)
     }
 }

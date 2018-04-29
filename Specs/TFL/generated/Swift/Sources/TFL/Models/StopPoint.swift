@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class StopPoint: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class StopPoint: Codable {
 
     public var accessibilitySummary: String?
 
@@ -103,124 +102,97 @@ public class StopPoint: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.url = url
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        accessibilitySummary = jsonDictionary.json(atKeyPath: "accessibilitySummary")
-        additionalProperties = jsonDictionary.json(atKeyPath: "additionalProperties")
-        children = jsonDictionary.json(atKeyPath: "children")
-        childrenUrls = jsonDictionary.json(atKeyPath: "childrenUrls")
-        commonName = jsonDictionary.json(atKeyPath: "commonName")
-        distance = jsonDictionary.json(atKeyPath: "distance")
-        fullName = jsonDictionary.json(atKeyPath: "fullName")
-        hubNaptanCode = jsonDictionary.json(atKeyPath: "hubNaptanCode")
-        icsCode = jsonDictionary.json(atKeyPath: "icsCode")
-        id = jsonDictionary.json(atKeyPath: "id")
-        indicator = jsonDictionary.json(atKeyPath: "indicator")
-        lat = jsonDictionary.json(atKeyPath: "lat")
-        lineGroup = jsonDictionary.json(atKeyPath: "lineGroup")
-        lineModeGroups = jsonDictionary.json(atKeyPath: "lineModeGroups")
-        lines = jsonDictionary.json(atKeyPath: "lines")
-        lon = jsonDictionary.json(atKeyPath: "lon")
-        modes = jsonDictionary.json(atKeyPath: "modes")
-        naptanId = jsonDictionary.json(atKeyPath: "naptanId")
-        naptanMode = jsonDictionary.json(atKeyPath: "naptanMode")
-        placeType = jsonDictionary.json(atKeyPath: "placeType")
-        platformName = jsonDictionary.json(atKeyPath: "platformName")
-        smsCode = jsonDictionary.json(atKeyPath: "smsCode")
-        stationNaptan = jsonDictionary.json(atKeyPath: "stationNaptan")
-        status = jsonDictionary.json(atKeyPath: "status")
-        stopLetter = jsonDictionary.json(atKeyPath: "stopLetter")
-        stopType = jsonDictionary.json(atKeyPath: "stopType")
-        url = jsonDictionary.json(atKeyPath: "url")
+    private enum CodingKeys: String, CodingKey {
+        case accessibilitySummary
+        case additionalProperties
+        case children
+        case childrenUrls
+        case commonName
+        case distance
+        case fullName
+        case hubNaptanCode
+        case icsCode
+        case id
+        case indicator
+        case lat
+        case lineGroup
+        case lineModeGroups
+        case lines
+        case lon
+        case modes
+        case naptanId
+        case naptanMode
+        case placeType
+        case platformName
+        case smsCode
+        case stationNaptan
+        case status
+        case stopLetter
+        case stopType
+        case url
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let accessibilitySummary = accessibilitySummary {
-            dictionary["accessibilitySummary"] = accessibilitySummary
-        }
-        if let additionalProperties = additionalProperties?.encode() {
-            dictionary["additionalProperties"] = additionalProperties
-        }
-        if let children = children?.encode() {
-            dictionary["children"] = children
-        }
-        if let childrenUrls = childrenUrls {
-            dictionary["childrenUrls"] = childrenUrls
-        }
-        if let commonName = commonName {
-            dictionary["commonName"] = commonName
-        }
-        if let distance = distance {
-            dictionary["distance"] = distance
-        }
-        if let fullName = fullName {
-            dictionary["fullName"] = fullName
-        }
-        if let hubNaptanCode = hubNaptanCode {
-            dictionary["hubNaptanCode"] = hubNaptanCode
-        }
-        if let icsCode = icsCode {
-            dictionary["icsCode"] = icsCode
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let indicator = indicator {
-            dictionary["indicator"] = indicator
-        }
-        if let lat = lat {
-            dictionary["lat"] = lat
-        }
-        if let lineGroup = lineGroup?.encode() {
-            dictionary["lineGroup"] = lineGroup
-        }
-        if let lineModeGroups = lineModeGroups?.encode() {
-            dictionary["lineModeGroups"] = lineModeGroups
-        }
-        if let lines = lines?.encode() {
-            dictionary["lines"] = lines
-        }
-        if let lon = lon {
-            dictionary["lon"] = lon
-        }
-        if let modes = modes {
-            dictionary["modes"] = modes
-        }
-        if let naptanId = naptanId {
-            dictionary["naptanId"] = naptanId
-        }
-        if let naptanMode = naptanMode {
-            dictionary["naptanMode"] = naptanMode
-        }
-        if let placeType = placeType {
-            dictionary["placeType"] = placeType
-        }
-        if let platformName = platformName {
-            dictionary["platformName"] = platformName
-        }
-        if let smsCode = smsCode {
-            dictionary["smsCode"] = smsCode
-        }
-        if let stationNaptan = stationNaptan {
-            dictionary["stationNaptan"] = stationNaptan
-        }
-        if let status = status {
-            dictionary["status"] = status
-        }
-        if let stopLetter = stopLetter {
-            dictionary["stopLetter"] = stopLetter
-        }
-        if let stopType = stopType {
-            dictionary["stopType"] = stopType
-        }
-        if let url = url {
-            dictionary["url"] = url
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        accessibilitySummary = try container.decodeIfPresent(.accessibilitySummary)
+        additionalProperties = try container.decodeIfPresent(.additionalProperties)
+        children = try container.decodeIfPresent(.children)
+        childrenUrls = try container.decodeIfPresent(.childrenUrls)
+        commonName = try container.decodeIfPresent(.commonName)
+        distance = try container.decodeIfPresent(.distance)
+        fullName = try container.decodeIfPresent(.fullName)
+        hubNaptanCode = try container.decodeIfPresent(.hubNaptanCode)
+        icsCode = try container.decodeIfPresent(.icsCode)
+        id = try container.decodeIfPresent(.id)
+        indicator = try container.decodeIfPresent(.indicator)
+        lat = try container.decodeIfPresent(.lat)
+        lineGroup = try container.decodeIfPresent(.lineGroup)
+        lineModeGroups = try container.decodeIfPresent(.lineModeGroups)
+        lines = try container.decodeIfPresent(.lines)
+        lon = try container.decodeIfPresent(.lon)
+        modes = try container.decodeIfPresent(.modes)
+        naptanId = try container.decodeIfPresent(.naptanId)
+        naptanMode = try container.decodeIfPresent(.naptanMode)
+        placeType = try container.decodeIfPresent(.placeType)
+        platformName = try container.decodeIfPresent(.platformName)
+        smsCode = try container.decodeIfPresent(.smsCode)
+        stationNaptan = try container.decodeIfPresent(.stationNaptan)
+        status = try container.decodeIfPresent(.status)
+        stopLetter = try container.decodeIfPresent(.stopLetter)
+        stopType = try container.decodeIfPresent(.stopType)
+        url = try container.decodeIfPresent(.url)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(accessibilitySummary, forKey: .accessibilitySummary)
+        try container.encode(additionalProperties, forKey: .additionalProperties)
+        try container.encode(children, forKey: .children)
+        try container.encode(childrenUrls, forKey: .childrenUrls)
+        try container.encode(commonName, forKey: .commonName)
+        try container.encode(distance, forKey: .distance)
+        try container.encode(fullName, forKey: .fullName)
+        try container.encode(hubNaptanCode, forKey: .hubNaptanCode)
+        try container.encode(icsCode, forKey: .icsCode)
+        try container.encode(id, forKey: .id)
+        try container.encode(indicator, forKey: .indicator)
+        try container.encode(lat, forKey: .lat)
+        try container.encode(lineGroup, forKey: .lineGroup)
+        try container.encode(lineModeGroups, forKey: .lineModeGroups)
+        try container.encode(lines, forKey: .lines)
+        try container.encode(lon, forKey: .lon)
+        try container.encode(modes, forKey: .modes)
+        try container.encode(naptanId, forKey: .naptanId)
+        try container.encode(naptanMode, forKey: .naptanMode)
+        try container.encode(placeType, forKey: .placeType)
+        try container.encode(platformName, forKey: .platformName)
+        try container.encode(smsCode, forKey: .smsCode)
+        try container.encode(stationNaptan, forKey: .stationNaptan)
+        try container.encode(status, forKey: .status)
+        try container.encode(stopLetter, forKey: .stopLetter)
+        try container.encode(stopType, forKey: .stopType)
+        try container.encode(url, forKey: .url)
     }
 }

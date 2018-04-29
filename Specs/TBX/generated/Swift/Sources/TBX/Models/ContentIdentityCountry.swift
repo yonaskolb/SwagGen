@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ContentIdentityCountry: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ContentIdentityCountry: Codable {
 
     public var order: Double
 
@@ -29,38 +28,34 @@ public class ContentIdentityCountry: JSONDecodable, JSONEncodable, PrettyPrintab
         self.showInList = showInList
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        order = try jsonDictionary.json(atKeyPath: "order")
-        contentProvider = jsonDictionary.json(atKeyPath: "contentProvider")
-        country = jsonDictionary.json(atKeyPath: "country")
-        id = jsonDictionary.json(atKeyPath: "id")
-        identityProvider = jsonDictionary.json(atKeyPath: "identityProvider")
-        showInList = jsonDictionary.json(atKeyPath: "showInList")
+    private enum CodingKeys: String, CodingKey {
+        case order
+        case contentProvider
+        case country
+        case id
+        case identityProvider
+        case showInList
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["order"] = order
-        if let contentProvider = contentProvider?.encode() {
-            dictionary["contentProvider"] = contentProvider
-        }
-        if let country = country?.encode() {
-            dictionary["country"] = country
-        }
-        if let id = id?.encode() {
-            dictionary["id"] = id
-        }
-        if let identityProvider = identityProvider?.encode() {
-            dictionary["identityProvider"] = identityProvider
-        }
-        if let showInList = showInList {
-            dictionary["showInList"] = showInList
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        order = try container.decode(.order)
+        contentProvider = try container.decodeIfPresent(.contentProvider)
+        country = try container.decodeIfPresent(.country)
+        id = try container.decodeIfPresent(.id)
+        identityProvider = try container.decodeIfPresent(.identityProvider)
+        showInList = try container.decodeIfPresent(.showInList)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(order, forKey: .order)
+        try container.encode(contentProvider, forKey: .contentProvider)
+        try container.encode(country, forKey: .country)
+        try container.encode(id, forKey: .id)
+        try container.encode(identityProvider, forKey: .identityProvider)
+        try container.encode(showInList, forKey: .showInList)
     }
 }

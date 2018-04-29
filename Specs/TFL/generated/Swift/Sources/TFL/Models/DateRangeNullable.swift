@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class DateRangeNullable: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class DateRangeNullable: Codable {
 
     public var endDate: Date?
 
@@ -17,24 +16,22 @@ public class DateRangeNullable: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.startDate = startDate
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        endDate = jsonDictionary.json(atKeyPath: "endDate")
-        startDate = jsonDictionary.json(atKeyPath: "startDate")
+    private enum CodingKeys: String, CodingKey {
+        case endDate
+        case startDate
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let endDate = endDate?.encode() {
-            dictionary["endDate"] = endDate
-        }
-        if let startDate = startDate?.encode() {
-            dictionary["startDate"] = startDate
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        endDate = try container.decodeIfPresent(.endDate)
+        startDate = try container.decodeIfPresent(.startDate)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(endDate, forKey: .endDate)
+        try container.encode(startDate, forKey: .startDate)
     }
 }

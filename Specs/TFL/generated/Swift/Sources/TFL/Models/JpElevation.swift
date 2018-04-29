@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class JpElevation: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class JpElevation: Codable {
 
     public var distance: Int?
 
@@ -32,44 +31,37 @@ public class JpElevation: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.startLon = startLon
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        distance = jsonDictionary.json(atKeyPath: "distance")
-        endLat = jsonDictionary.json(atKeyPath: "endLat")
-        endLon = jsonDictionary.json(atKeyPath: "endLon")
-        gradient = jsonDictionary.json(atKeyPath: "gradient")
-        heightFromPreviousPoint = jsonDictionary.json(atKeyPath: "heightFromPreviousPoint")
-        startLat = jsonDictionary.json(atKeyPath: "startLat")
-        startLon = jsonDictionary.json(atKeyPath: "startLon")
+    private enum CodingKeys: String, CodingKey {
+        case distance
+        case endLat
+        case endLon
+        case gradient
+        case heightFromPreviousPoint
+        case startLat
+        case startLon
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let distance = distance {
-            dictionary["distance"] = distance
-        }
-        if let endLat = endLat {
-            dictionary["endLat"] = endLat
-        }
-        if let endLon = endLon {
-            dictionary["endLon"] = endLon
-        }
-        if let gradient = gradient {
-            dictionary["gradient"] = gradient
-        }
-        if let heightFromPreviousPoint = heightFromPreviousPoint {
-            dictionary["heightFromPreviousPoint"] = heightFromPreviousPoint
-        }
-        if let startLat = startLat {
-            dictionary["startLat"] = startLat
-        }
-        if let startLon = startLon {
-            dictionary["startLon"] = startLon
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        distance = try container.decodeIfPresent(.distance)
+        endLat = try container.decodeIfPresent(.endLat)
+        endLon = try container.decodeIfPresent(.endLon)
+        gradient = try container.decodeIfPresent(.gradient)
+        heightFromPreviousPoint = try container.decodeIfPresent(.heightFromPreviousPoint)
+        startLat = try container.decodeIfPresent(.startLat)
+        startLon = try container.decodeIfPresent(.startLon)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(distance, forKey: .distance)
+        try container.encode(endLat, forKey: .endLat)
+        try container.encode(endLon, forKey: .endLon)
+        try container.encode(gradient, forKey: .gradient)
+        try container.encode(heightFromPreviousPoint, forKey: .heightFromPreviousPoint)
+        try container.encode(startLat, forKey: .startLat)
+        try container.encode(startLon, forKey: .startLon)
     }
 }

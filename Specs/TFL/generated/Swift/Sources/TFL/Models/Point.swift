@@ -4,10 +4,9 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** Represents a point located at a latitude and longitude using the WGS84 co-ordinate system. */
-public class Point: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Point: Codable {
 
     /** WGS84 latitude of the location. */
     public var lat: Double?
@@ -20,24 +19,22 @@ public class Point: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.lon = lon
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        lat = jsonDictionary.json(atKeyPath: "lat")
-        lon = jsonDictionary.json(atKeyPath: "lon")
+    private enum CodingKeys: String, CodingKey {
+        case lat
+        case lon
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let lat = lat {
-            dictionary["lat"] = lat
-        }
-        if let lon = lon {
-            dictionary["lon"] = lon
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        lat = try container.decodeIfPresent(.lat)
+        lon = try container.decodeIfPresent(.lon)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(lat, forKey: .lat)
+        try container.encode(lon, forKey: .lon)
     }
 }

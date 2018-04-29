@@ -3,10 +3,6 @@ options:
   name: API
   fixedWidthIntegers: false
   dependencies:
-    - name: JSONUtilities
-      pod: JSONUtilities
-      github: yonaskolb/JSONUtilities
-      version: 3.3.8
     - name: Alamofire
       pod: Alamofire
       github: Alamofire/Alamofire
@@ -31,8 +27,8 @@ templateFiles:
     destination: "Sources/{{ options.name }}/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ filename }}.swift"
   - path: API.swift
     destination: "Sources/{{ options.name }}/API.swift"
-  - path: Decoding.swift
-    destination: "Sources/{{ options.name }}/Decoding.swift"
+  - path: Coding.swift
+    destination: "Sources/{{ options.name }}/Coding.swift"
   - path: APIRequest.swift
     destination: "Sources/{{ options.name }}/APIRequest.swift"
   - path: APIClient.swift
@@ -49,3 +45,5 @@ templateFiles:
     destination: "Sources/{{ options.name }}/APIResult.swift"
   - path: RequestBehaviour.swift
     destination: "Sources/{{ options.name }}/RequestBehaviour.swift"
+  - path: AnyCodable.swift
+    destination: "Sources/{{ options.name }}/AnyCodable.swift"

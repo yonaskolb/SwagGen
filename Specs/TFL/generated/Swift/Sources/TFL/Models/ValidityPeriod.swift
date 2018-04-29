@@ -4,10 +4,9 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** Represents a period for which a planned works is valid. */
-public class ValidityPeriod: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ValidityPeriod: Codable {
 
     /** Gets or sets the start date. */
     public var fromDate: Date?
@@ -24,28 +23,25 @@ public class ValidityPeriod: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.toDate = toDate
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        fromDate = jsonDictionary.json(atKeyPath: "fromDate")
-        isNow = jsonDictionary.json(atKeyPath: "isNow")
-        toDate = jsonDictionary.json(atKeyPath: "toDate")
+    private enum CodingKeys: String, CodingKey {
+        case fromDate
+        case isNow
+        case toDate
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let fromDate = fromDate?.encode() {
-            dictionary["fromDate"] = fromDate
-        }
-        if let isNow = isNow {
-            dictionary["isNow"] = isNow
-        }
-        if let toDate = toDate?.encode() {
-            dictionary["toDate"] = toDate
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        fromDate = try container.decodeIfPresent(.fromDate)
+        isNow = try container.decodeIfPresent(.isNow)
+        toDate = try container.decodeIfPresent(.toDate)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(fromDate, forKey: .fromDate)
+        try container.encode(isNow, forKey: .isNow)
+        try container.encode(toDate, forKey: .toDate)
     }
 }

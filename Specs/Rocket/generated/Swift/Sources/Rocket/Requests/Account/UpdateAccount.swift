@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension Rocket.Account {
 
@@ -25,8 +24,8 @@ This supports partial updates so you can send just the properties you wish to up
                 super.init(service: UpdateAccount.service)
             }
 
-            public override var jsonBody: Any? {
-                return body.encode()
+            public override var jsonBody: Encodable? {
+                return body
             }
         }
 
@@ -120,15 +119,15 @@ This supports partial updates so you can send just the properties you wish to up
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 case 204: self = .status204
-                case 400: self = try .status400(JSONDecoder.decode(data: data))
-                case 401: self = try .status401(JSONDecoder.decode(data: data))
-                case 403: self = try .status403(JSONDecoder.decode(data: data))
-                case 404: self = try .status404(JSONDecoder.decode(data: data))
-                case 500: self = try .status500(JSONDecoder.decode(data: data))
-                default: self = try .defaultResponse(statusCode: statusCode, JSONDecoder.decode(data: data))
+                case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))
+                case 401: self = try .status401(decoder.decode(ServiceError.self, from: data))
+                case 403: self = try .status403(decoder.decode(ServiceError.self, from: data))
+                case 404: self = try .status404(decoder.decode(ServiceError.self, from: data))
+                case 500: self = try .status500(decoder.decode(ServiceError.self, from: data))
+                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ServiceError.self, from: data))
                 }
             }
 

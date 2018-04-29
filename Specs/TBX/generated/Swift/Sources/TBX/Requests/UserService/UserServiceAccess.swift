@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension TBX.UserService {
 
@@ -54,7 +53,7 @@ extension TBX.UserService {
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 params["urn"] = options.urn
                 params["action"] = options.action
                 params["ip"] = options.ip
@@ -152,15 +151,15 @@ extension TBX.UserService {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
-                case 400: self = try .status400(JSONDecoder.decode(data: data))
-                case 401: self = try .status401(JSONDecoder.decode(data: data))
-                case 404: self = try .status404(JSONDecoder.decode(data: data))
-                case 408: self = try .status408(JSONDecoder.decode(data: data))
-                case 410: self = try .status410(JSONDecoder.decode(data: data))
-                case 424: self = try .status424(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decode(MultiHasAccessToObject.self, from: data))
+                case 400: self = try .status400(decoder.decode(ResponseError.self, from: data))
+                case 401: self = try .status401(decoder.decode(ResponseError.self, from: data))
+                case 404: self = try .status404(decoder.decode(ResponseError.self, from: data))
+                case 408: self = try .status408(decoder.decode(ResponseError.self, from: data))
+                case 410: self = try .status410(decoder.decode(ResponseError.self, from: data))
+                case 424: self = try .status424(decoder.decode(ResponseError.self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

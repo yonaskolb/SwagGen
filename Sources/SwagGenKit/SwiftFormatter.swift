@@ -218,6 +218,7 @@ public class SwiftFormatter: CodeFormatter {
             encodedValue = encodedValue.replacingOccurrences(of: ".", with: "?.", options: [], range: range)
         }
         context["encodedValue"] = encodedValue
+        context["isAnyType"] = type.contains("Any")
         return context
     }
 
@@ -253,7 +254,14 @@ public class SwiftFormatter: CodeFormatter {
         }
 
         context["encodedValue"] = encodedValue
+        context["isAnyType"] = type.contains("Any")
+        return context
+    }
 
+    override func getResponseContext(_ response: OperationResponse) -> Context {
+        var context = super.getResponseContext(response)
+        let type = context["type"] as? String ?? ""
+        context["isAnyType"] = type.contains("Any")
         return context
     }
 

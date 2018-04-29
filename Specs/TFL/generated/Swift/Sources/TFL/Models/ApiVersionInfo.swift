@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ApiVersionInfo: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ApiVersionInfo: Codable {
 
     public var assemblies: [String]?
 
@@ -23,32 +22,28 @@ public class ApiVersionInfo: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.version = version
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        assemblies = jsonDictionary.json(atKeyPath: "assemblies")
-        label = jsonDictionary.json(atKeyPath: "label")
-        timestamp = jsonDictionary.json(atKeyPath: "timestamp")
-        version = jsonDictionary.json(atKeyPath: "version")
+    private enum CodingKeys: String, CodingKey {
+        case assemblies
+        case label
+        case timestamp
+        case version
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let assemblies = assemblies {
-            dictionary["assemblies"] = assemblies
-        }
-        if let label = label {
-            dictionary["label"] = label
-        }
-        if let timestamp = timestamp?.encode() {
-            dictionary["timestamp"] = timestamp
-        }
-        if let version = version {
-            dictionary["version"] = version
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        assemblies = try container.decodeIfPresent(.assemblies)
+        label = try container.decodeIfPresent(.label)
+        timestamp = try container.decodeIfPresent(.timestamp)
+        version = try container.decodeIfPresent(.version)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(assemblies, forKey: .assemblies)
+        try container.encode(label, forKey: .label)
+        try container.encode(timestamp, forKey: .timestamp)
+        try container.encode(version, forKey: .version)
     }
 }

@@ -4,13 +4,12 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** Represents a disruption to a route within the transport network. */
-public class Disruption: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Disruption: Codable {
 
     /** Gets or sets the category of this dispruption. */
-    public enum Category: String {
+    public enum Category: String, Codable {
         case undefined = "Undefined"
         case realTime = "RealTime"
         case plannedWork = "PlannedWork"
@@ -78,64 +77,52 @@ public class Disruption: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.type = type
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        additionalInfo = jsonDictionary.json(atKeyPath: "additionalInfo")
-        affectedRoutes = jsonDictionary.json(atKeyPath: "affectedRoutes")
-        affectedStops = jsonDictionary.json(atKeyPath: "affectedStops")
-        category = jsonDictionary.json(atKeyPath: "category")
-        categoryDescription = jsonDictionary.json(atKeyPath: "categoryDescription")
-        closureText = jsonDictionary.json(atKeyPath: "closureText")
-        created = jsonDictionary.json(atKeyPath: "created")
-        description = jsonDictionary.json(atKeyPath: "description")
-        isBlocking = jsonDictionary.json(atKeyPath: "isBlocking")
-        isWholeLine = jsonDictionary.json(atKeyPath: "isWholeLine")
-        lastUpdate = jsonDictionary.json(atKeyPath: "lastUpdate")
-        type = jsonDictionary.json(atKeyPath: "type")
+    private enum CodingKeys: String, CodingKey {
+        case additionalInfo
+        case affectedRoutes
+        case affectedStops
+        case category
+        case categoryDescription
+        case closureText
+        case created
+        case description
+        case isBlocking
+        case isWholeLine
+        case lastUpdate
+        case type
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let additionalInfo = additionalInfo {
-            dictionary["additionalInfo"] = additionalInfo
-        }
-        if let affectedRoutes = affectedRoutes?.encode() {
-            dictionary["affectedRoutes"] = affectedRoutes
-        }
-        if let affectedStops = affectedStops?.encode() {
-            dictionary["affectedStops"] = affectedStops
-        }
-        if let category = category?.encode() {
-            dictionary["category"] = category
-        }
-        if let categoryDescription = categoryDescription {
-            dictionary["categoryDescription"] = categoryDescription
-        }
-        if let closureText = closureText {
-            dictionary["closureText"] = closureText
-        }
-        if let created = created?.encode() {
-            dictionary["created"] = created
-        }
-        if let description = description {
-            dictionary["description"] = description
-        }
-        if let isBlocking = isBlocking {
-            dictionary["isBlocking"] = isBlocking
-        }
-        if let isWholeLine = isWholeLine {
-            dictionary["isWholeLine"] = isWholeLine
-        }
-        if let lastUpdate = lastUpdate?.encode() {
-            dictionary["lastUpdate"] = lastUpdate
-        }
-        if let type = type {
-            dictionary["type"] = type
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        additionalInfo = try container.decodeIfPresent(.additionalInfo)
+        affectedRoutes = try container.decodeIfPresent(.affectedRoutes)
+        affectedStops = try container.decodeIfPresent(.affectedStops)
+        category = try container.decodeIfPresent(.category)
+        categoryDescription = try container.decodeIfPresent(.categoryDescription)
+        closureText = try container.decodeIfPresent(.closureText)
+        created = try container.decodeIfPresent(.created)
+        description = try container.decodeIfPresent(.description)
+        isBlocking = try container.decodeIfPresent(.isBlocking)
+        isWholeLine = try container.decodeIfPresent(.isWholeLine)
+        lastUpdate = try container.decodeIfPresent(.lastUpdate)
+        type = try container.decodeIfPresent(.type)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(additionalInfo, forKey: .additionalInfo)
+        try container.encode(affectedRoutes, forKey: .affectedRoutes)
+        try container.encode(affectedStops, forKey: .affectedStops)
+        try container.encode(category, forKey: .category)
+        try container.encode(categoryDescription, forKey: .categoryDescription)
+        try container.encode(closureText, forKey: .closureText)
+        try container.encode(created, forKey: .created)
+        try container.encode(description, forKey: .description)
+        try container.encode(isBlocking, forKey: .isBlocking)
+        try container.encode(isWholeLine, forKey: .isWholeLine)
+        try container.encode(lastUpdate, forKey: .lastUpdate)
+        try container.encode(type, forKey: .type)
     }
 }

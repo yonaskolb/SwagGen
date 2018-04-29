@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** definition with only additional properties */
 public typealias ModelWithOnlyAdditionalProperties = [String: Any]

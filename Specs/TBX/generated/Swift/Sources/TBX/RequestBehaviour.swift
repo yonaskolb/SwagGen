@@ -112,7 +112,7 @@ public struct AnyResponseValue: APIResponseValue, CustomDebugStringConvertible, 
         self.success = success
     }
 
-    public init(statusCode: Int, data: Data) throws {
+    public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
         fatalError()
     }
 

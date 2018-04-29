@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class PredictionTiming: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class PredictionTiming: Codable {
 
     public var countdownServerAdjustment: String?
 
@@ -29,40 +28,34 @@ public class PredictionTiming: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.source = source
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        countdownServerAdjustment = jsonDictionary.json(atKeyPath: "countdownServerAdjustment")
-        insert = jsonDictionary.json(atKeyPath: "insert")
-        read = jsonDictionary.json(atKeyPath: "read")
-        received = jsonDictionary.json(atKeyPath: "received")
-        sent = jsonDictionary.json(atKeyPath: "sent")
-        source = jsonDictionary.json(atKeyPath: "source")
+    private enum CodingKeys: String, CodingKey {
+        case countdownServerAdjustment
+        case insert
+        case read
+        case received
+        case sent
+        case source
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let countdownServerAdjustment = countdownServerAdjustment {
-            dictionary["countdownServerAdjustment"] = countdownServerAdjustment
-        }
-        if let insert = insert?.encode() {
-            dictionary["insert"] = insert
-        }
-        if let read = read?.encode() {
-            dictionary["read"] = read
-        }
-        if let received = received?.encode() {
-            dictionary["received"] = received
-        }
-        if let sent = sent?.encode() {
-            dictionary["sent"] = sent
-        }
-        if let source = source?.encode() {
-            dictionary["source"] = source
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        countdownServerAdjustment = try container.decodeIfPresent(.countdownServerAdjustment)
+        insert = try container.decodeIfPresent(.insert)
+        read = try container.decodeIfPresent(.read)
+        received = try container.decodeIfPresent(.received)
+        sent = try container.decodeIfPresent(.sent)
+        source = try container.decodeIfPresent(.source)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(countdownServerAdjustment, forKey: .countdownServerAdjustment)
+        try container.encode(insert, forKey: .insert)
+        try container.encode(read, forKey: .read)
+        try container.encode(received, forKey: .received)
+        try container.encode(sent, forKey: .sent)
+        try container.encode(source, forKey: .source)
     }
 }

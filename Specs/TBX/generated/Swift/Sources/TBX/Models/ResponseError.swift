@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ResponseError: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ResponseError: Codable {
 
     public var error: ErrorObject
 
@@ -14,18 +13,19 @@ public class ResponseError: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.error = error
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        error = try jsonDictionary.json(atKeyPath: "error")
+    private enum CodingKeys: String, CodingKey {
+        case error
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["error"] = error.encode()
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        error = try container.decode(.error)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(error, forKey: .error)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class GeoPoint: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class GeoPoint: Codable {
 
     public var lat: Double
 
@@ -17,20 +16,22 @@ public class GeoPoint: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.lon = lon
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        lat = try jsonDictionary.json(atKeyPath: "lat")
-        lon = try jsonDictionary.json(atKeyPath: "lon")
+    private enum CodingKeys: String, CodingKey {
+        case lat
+        case lon
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["lat"] = lat
-        dictionary["lon"] = lon
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        lat = try container.decode(.lat)
+        lon = try container.decode(.lon)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(lat, forKey: .lat)
+        try container.encode(lon, forKey: .lon)
     }
 }

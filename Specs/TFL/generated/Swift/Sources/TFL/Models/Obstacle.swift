@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Obstacle: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Obstacle: Codable {
 
     public var incline: String?
 
@@ -23,32 +22,28 @@ public class Obstacle: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.type = type
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        incline = jsonDictionary.json(atKeyPath: "incline")
-        position = jsonDictionary.json(atKeyPath: "position")
-        stopId = jsonDictionary.json(atKeyPath: "stopId")
-        type = jsonDictionary.json(atKeyPath: "type")
+    private enum CodingKeys: String, CodingKey {
+        case incline
+        case position
+        case stopId
+        case type
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let incline = incline {
-            dictionary["incline"] = incline
-        }
-        if let position = position {
-            dictionary["position"] = position
-        }
-        if let stopId = stopId {
-            dictionary["stopId"] = stopId
-        }
-        if let type = type {
-            dictionary["type"] = type
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        incline = try container.decodeIfPresent(.incline)
+        position = try container.decodeIfPresent(.position)
+        stopId = try container.decodeIfPresent(.stopId)
+        type = try container.decodeIfPresent(.type)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(incline, forKey: .incline)
+        try container.encode(position, forKey: .position)
+        try container.encode(stopId, forKey: .stopId)
+        try container.encode(type, forKey: .type)
     }
 }

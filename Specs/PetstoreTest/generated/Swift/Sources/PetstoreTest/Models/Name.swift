@@ -4,10 +4,9 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** Model for testing model name same as property name */
-public class Name: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Name: Codable {
 
     public var name: Int
 
@@ -24,30 +23,28 @@ public class Name: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.snakeCase = snakeCase
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        name = try jsonDictionary.json(atKeyPath: "name")
-        _123Number = jsonDictionary.json(atKeyPath: "123Number")
-        property = jsonDictionary.json(atKeyPath: "property")
-        snakeCase = jsonDictionary.json(atKeyPath: "snake_case")
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case _123Number = "123Number"
+        case property
+        case snakeCase = "snake_case"
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["name"] = name
-        if let _123Number = _123Number {
-            dictionary["123Number"] = _123Number
-        }
-        if let property = property {
-            dictionary["property"] = property
-        }
-        if let snakeCase = snakeCase {
-            dictionary["snake_case"] = snakeCase
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        name = try container.decode(.name)
+        _123Number = try container.decodeIfPresent(._123Number)
+        property = try container.decodeIfPresent(.property)
+        snakeCase = try container.decodeIfPresent(.snakeCase)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(name, forKey: .name)
+        try container.encode(_123Number, forKey: ._123Number)
+        try container.encode(property, forKey: .property)
+        try container.encode(snakeCase, forKey: .snakeCase)
     }
 }

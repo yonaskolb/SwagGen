@@ -5,7 +5,6 @@
 
 import Foundation
 import Alamofire
-import JSONUtilities
 
 /// Manages and sends APIRequests
 public class APIClient {
@@ -26,6 +25,12 @@ public class APIClient {
 
     /// Used to authorise requests
     public var authorizer: RequestAuthorizer?
+
+    /// The JSON encoder used
+    public var jsonEncoder = JSONEncoder()
+
+    /// The JSON decoder used
+    public var jsonDecoder = JSONDecoder()
 
     public var decodingQueue = DispatchQueue(label: "apiClient", qos: .utility, attributes: .concurrent)
 
@@ -98,16 +103,14 @@ public class APIClient {
                 case .success(let value):
                     do {
                         let statusCode = dataResponse.response!.statusCode
-                        let decoded = try T(statusCode: statusCode, data: value)
+                        let decoded = try T(statusCode: statusCode, data: value, decoder: self.jsonDecoder)
                         result = .success(decoded)
                         if decoded.successful {
                             requestBehaviour.onSuccess(result: decoded.response as Any)
                         }
                     } catch let error {
                         let apiError: APIError
-                        if let error = error as? JSONUtilsError {
-                            apiError = APIError.jsonDeserializationError(error)
-                        } else if let error = error as? JSONUtilities.DecodingError {
+                        if let error = error as? DecodingError {
                             apiError = APIError.decodingError(error)
                         } else {
                             apiError = APIError.unknownError(error)

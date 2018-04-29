@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Device: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Device: Codable {
 
     /** The unique identifier for this device e.g. serial number. */
     public var id: String
@@ -27,24 +26,28 @@ public class Device: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.type = type
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        id = try jsonDictionary.json(atKeyPath: "id")
-        name = try jsonDictionary.json(atKeyPath: "name")
-        registrationDate = try jsonDictionary.json(atKeyPath: "registrationDate")
-        type = try jsonDictionary.json(atKeyPath: "type")
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case registrationDate
+        case type
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["id"] = id
-        dictionary["name"] = name
-        dictionary["registrationDate"] = registrationDate.encode()
-        dictionary["type"] = type
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(.id)
+        name = try container.decode(.name)
+        registrationDate = try container.decode(.registrationDate)
+        type = try container.decode(.type)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encode(registrationDate, forKey: .registrationDate)
+        try container.encode(type, forKey: .type)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class StationInterval: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class StationInterval: Codable {
 
     public var id: String?
 
@@ -17,24 +16,22 @@ public class StationInterval: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.intervals = intervals
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        id = jsonDictionary.json(atKeyPath: "id")
-        intervals = jsonDictionary.json(atKeyPath: "intervals")
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case intervals
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let intervals = intervals?.encode() {
-            dictionary["intervals"] = intervals
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decodeIfPresent(.id)
+        intervals = try container.decodeIfPresent(.intervals)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(intervals, forKey: .intervals)
     }
 }

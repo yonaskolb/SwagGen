@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension PetstoreTest.Pet {
 
@@ -75,7 +74,7 @@ extension PetstoreTest.Pet {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 case 400: self = .status400
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

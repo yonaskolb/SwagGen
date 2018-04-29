@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Schedule: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Schedule: Codable {
 
     public var firstJourney: KnownJourney?
 
@@ -26,36 +25,31 @@ public class Schedule: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.periods = periods
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        firstJourney = jsonDictionary.json(atKeyPath: "firstJourney")
-        knownJourneys = jsonDictionary.json(atKeyPath: "knownJourneys")
-        lastJourney = jsonDictionary.json(atKeyPath: "lastJourney")
-        name = jsonDictionary.json(atKeyPath: "name")
-        periods = jsonDictionary.json(atKeyPath: "periods")
+    private enum CodingKeys: String, CodingKey {
+        case firstJourney
+        case knownJourneys
+        case lastJourney
+        case name
+        case periods
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let firstJourney = firstJourney?.encode() {
-            dictionary["firstJourney"] = firstJourney
-        }
-        if let knownJourneys = knownJourneys?.encode() {
-            dictionary["knownJourneys"] = knownJourneys
-        }
-        if let lastJourney = lastJourney?.encode() {
-            dictionary["lastJourney"] = lastJourney
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let periods = periods?.encode() {
-            dictionary["periods"] = periods
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        firstJourney = try container.decodeIfPresent(.firstJourney)
+        knownJourneys = try container.decodeIfPresent(.knownJourneys)
+        lastJourney = try container.decodeIfPresent(.lastJourney)
+        name = try container.decodeIfPresent(.name)
+        periods = try container.decodeIfPresent(.periods)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(firstJourney, forKey: .firstJourney)
+        try container.encode(knownJourneys, forKey: .knownJourneys)
+        try container.encode(lastJourney, forKey: .lastJourney)
+        try container.encode(name, forKey: .name)
+        try container.encode(periods, forKey: .periods)
     }
 }

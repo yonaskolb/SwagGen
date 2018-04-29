@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension PetstoreTest.Pet {
 
@@ -14,7 +13,7 @@ extension PetstoreTest.Pet {
         public static let service = APIService<Response>(id: "findPetsByStatus", tag: "pet", method: "GET", path: "/pet/findByStatus", hasBody: false, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
 
         /** Status values that need to be considered for filter */
-        public enum Status: String {
+        public enum Status: String, Codable {
             case available = "available"
             case pending = "pending"
             case sold = "sold"
@@ -52,7 +51,7 @@ extension PetstoreTest.Pet {
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 params["status"] = options.status.encode().map({ String(describing: $0) }).joined(separator: ",")
                 return params
             }
@@ -95,9 +94,9 @@ extension PetstoreTest.Pet {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decode([Pet].self, from: data))
                 case 400: self = .status400
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }

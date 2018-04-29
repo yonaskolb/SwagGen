@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension TFL.Line {
 
@@ -13,7 +12,7 @@ extension TFL.Line {
         public static let service = APIService<Response>(id: "Line_Search", tag: "Line", method: "GET", path: "/Line/Search/{query}", hasBody: false)
 
         /** A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
-        public enum ServiceTypes: String {
+        public enum ServiceTypes: String, Codable {
             case regular = "Regular"
             case night = "Night"
 
@@ -61,7 +60,7 @@ extension TFL.Line {
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 if let modes = options.modes?.joined(separator: ",") {
                   params["modes"] = modes
                 }
@@ -102,9 +101,9 @@ extension TFL.Line {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decode(RouteSearchResponse.self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class LineServiceType: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class LineServiceType: Codable {
 
     public var lineName: String?
 
@@ -17,24 +16,22 @@ public class LineServiceType: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.lineSpecificServiceTypes = lineSpecificServiceTypes
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        lineName = jsonDictionary.json(atKeyPath: "lineName")
-        lineSpecificServiceTypes = jsonDictionary.json(atKeyPath: "lineSpecificServiceTypes")
+    private enum CodingKeys: String, CodingKey {
+        case lineName
+        case lineSpecificServiceTypes
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let lineName = lineName {
-            dictionary["lineName"] = lineName
-        }
-        if let lineSpecificServiceTypes = lineSpecificServiceTypes?.encode() {
-            dictionary["lineSpecificServiceTypes"] = lineSpecificServiceTypes
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        lineName = try container.decodeIfPresent(.lineName)
+        lineSpecificServiceTypes = try container.decodeIfPresent(.lineSpecificServiceTypes)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(lineName, forKey: .lineName)
+        try container.encode(lineSpecificServiceTypes, forKey: .lineSpecificServiceTypes)
     }
 }

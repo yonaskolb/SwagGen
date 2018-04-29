@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ArrayOfArrayOfNumberOnly: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ArrayOfArrayOfNumberOnly: Codable {
 
     public var arrayArrayNumber: [[Double]]?
 
@@ -14,20 +13,19 @@ public class ArrayOfArrayOfNumberOnly: JSONDecodable, JSONEncodable, PrettyPrint
         self.arrayArrayNumber = arrayArrayNumber
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        arrayArrayNumber = jsonDictionary.json(atKeyPath: "ArrayArrayNumber")
+    private enum CodingKeys: String, CodingKey {
+        case arrayArrayNumber = "ArrayArrayNumber"
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let arrayArrayNumber = arrayArrayNumber?.map({ $0.encode() }) {
-            dictionary["ArrayArrayNumber"] = arrayArrayNumber
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        arrayArrayNumber = try container.decodeIfPresent(.arrayArrayNumber)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(arrayArrayNumber, forKey: .arrayArrayNumber)
     }
 }

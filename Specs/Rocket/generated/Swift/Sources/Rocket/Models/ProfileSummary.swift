@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ProfileSummary: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ProfileSummary: Codable {
 
     /** The id of the profile. */
     public var id: String
@@ -62,38 +61,43 @@ pin also exists. This is then applied across all profiles.
         self.minRatingPlaybackGuard = minRatingPlaybackGuard
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        id = try jsonDictionary.json(atKeyPath: "id")
-        name = try jsonDictionary.json(atKeyPath: "name")
-        isActive = try jsonDictionary.json(atKeyPath: "isActive")
-        pinEnabled = try jsonDictionary.json(atKeyPath: "pinEnabled")
-        purchaseEnabled = try jsonDictionary.json(atKeyPath: "purchaseEnabled")
-        marketingEnabled = try jsonDictionary.json(atKeyPath: "marketingEnabled")
-        segments = try jsonDictionary.json(atKeyPath: "segments")
-        maxRatingContentFilter = jsonDictionary.json(atKeyPath: "maxRatingContentFilter")
-        minRatingPlaybackGuard = jsonDictionary.json(atKeyPath: "minRatingPlaybackGuard")
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case isActive
+        case pinEnabled
+        case purchaseEnabled
+        case marketingEnabled
+        case segments
+        case maxRatingContentFilter
+        case minRatingPlaybackGuard
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["id"] = id
-        dictionary["name"] = name
-        dictionary["isActive"] = isActive
-        dictionary["pinEnabled"] = pinEnabled
-        dictionary["purchaseEnabled"] = purchaseEnabled
-        dictionary["marketingEnabled"] = marketingEnabled
-        dictionary["segments"] = segments
-        if let maxRatingContentFilter = maxRatingContentFilter?.encode() {
-            dictionary["maxRatingContentFilter"] = maxRatingContentFilter
-        }
-        if let minRatingPlaybackGuard = minRatingPlaybackGuard?.encode() {
-            dictionary["minRatingPlaybackGuard"] = minRatingPlaybackGuard
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(.id)
+        name = try container.decode(.name)
+        isActive = try container.decode(.isActive)
+        pinEnabled = try container.decode(.pinEnabled)
+        purchaseEnabled = try container.decode(.purchaseEnabled)
+        marketingEnabled = try container.decode(.marketingEnabled)
+        segments = try container.decode(.segments)
+        maxRatingContentFilter = try container.decodeIfPresent(.maxRatingContentFilter)
+        minRatingPlaybackGuard = try container.decodeIfPresent(.minRatingPlaybackGuard)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encode(isActive, forKey: .isActive)
+        try container.encode(pinEnabled, forKey: .pinEnabled)
+        try container.encode(purchaseEnabled, forKey: .purchaseEnabled)
+        try container.encode(marketingEnabled, forKey: .marketingEnabled)
+        try container.encode(segments, forKey: .segments)
+        try container.encode(maxRatingContentFilter, forKey: .maxRatingContentFilter)
+        try container.encode(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
     }
 }

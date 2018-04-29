@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Bookmark: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Bookmark: Codable {
 
     /** The id of the item bookmarked. */
     public var itemId: String
@@ -19,20 +18,22 @@ public class Bookmark: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.creationDate = creationDate
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        itemId = try jsonDictionary.json(atKeyPath: "itemId")
-        creationDate = try jsonDictionary.json(atKeyPath: "creationDate")
+    private enum CodingKeys: String, CodingKey {
+        case itemId
+        case creationDate
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["itemId"] = itemId
-        dictionary["creationDate"] = creationDate.encode()
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        itemId = try container.decode(.itemId)
+        creationDate = try container.decode(.creationDate)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(itemId, forKey: .itemId)
+        try container.encode(creationDate, forKey: .creationDate)
     }
 }

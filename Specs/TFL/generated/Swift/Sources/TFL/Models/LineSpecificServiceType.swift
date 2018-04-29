@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class LineSpecificServiceType: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class LineSpecificServiceType: Codable {
 
     public var serviceType: LineServiceTypeInfo?
 
@@ -17,24 +16,22 @@ public class LineSpecificServiceType: JSONDecodable, JSONEncodable, PrettyPrinta
         self.stopServesServiceType = stopServesServiceType
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        serviceType = jsonDictionary.json(atKeyPath: "serviceType")
-        stopServesServiceType = jsonDictionary.json(atKeyPath: "stopServesServiceType")
+    private enum CodingKeys: String, CodingKey {
+        case serviceType
+        case stopServesServiceType
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let serviceType = serviceType?.encode() {
-            dictionary["serviceType"] = serviceType
-        }
-        if let stopServesServiceType = stopServesServiceType {
-            dictionary["stopServesServiceType"] = stopServesServiceType
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        serviceType = try container.decodeIfPresent(.serviceType)
+        stopServesServiceType = try container.decodeIfPresent(.stopServesServiceType)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(serviceType, forKey: .serviceType)
+        try container.encode(stopServesServiceType, forKey: .stopServesServiceType)
     }
 }

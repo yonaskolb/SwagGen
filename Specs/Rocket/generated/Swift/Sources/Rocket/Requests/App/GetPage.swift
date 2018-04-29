@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension Rocket.App {
 
@@ -35,7 +34,7 @@ then what you pass to this endpoint would look like `/page?path=/search%3Fq%3Dth
 
         If an expand is specified which is not relevant to the item type, it will be ignored.
          */
-        public enum ItemDetailExpand: String {
+        public enum ItemDetailExpand: String, Codable {
             case all = "all"
             case children = "children"
 
@@ -55,7 +54,7 @@ then what you pass to this endpoint would look like `/page?path=/search%3Fq%3Dth
         detail of the latest season with its list of child episode summaries, and also expand
         the detail of the show with its list of seasons summaries.
          */
-        public enum ItemDetailSelectSeason: String {
+        public enum ItemDetailSelectSeason: String, Codable {
             case first = "first"
             case latest = "latest"
 
@@ -69,7 +68,7 @@ then what you pass to this endpoint would look like `/page?path=/search%3Fq%3Dth
 
         Converts the value of a text page entry to the specified format.
          */
-        public enum TextEntryFormat: String {
+        public enum TextEntryFormat: String, Codable {
             case markdown = "markdown"
             case html = "html"
 
@@ -196,7 +195,7 @@ See the `feature-flags.md` for available flag details.
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 params["path"] = options.path
                 if let listPageSize = options.listPageSize {
                   params["list_page_size"] = listPageSize
@@ -311,13 +310,13 @@ See the `feature-flags.md` for available flag details.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
-                case 400: self = try .status400(JSONDecoder.decode(data: data))
-                case 404: self = try .status404(JSONDecoder.decode(data: data))
-                case 500: self = try .status500(JSONDecoder.decode(data: data))
-                default: self = try .defaultResponse(statusCode: statusCode, JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decode(Page.self, from: data))
+                case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))
+                case 404: self = try .status404(decoder.decode(ServiceError.self, from: data))
+                case 500: self = try .status500(decoder.decode(ServiceError.self, from: data))
+                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ServiceError.self, from: data))
                 }
             }
 

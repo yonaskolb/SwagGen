@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Client: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Client: Codable {
 
     public var client: String?
 
@@ -14,20 +13,19 @@ public class Client: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.client = client
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        client = jsonDictionary.json(atKeyPath: "client")
+    private enum CodingKeys: String, CodingKey {
+        case client
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let client = client {
-            dictionary["client"] = client
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        client = try container.decodeIfPresent(.client)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(client, forKey: .client)
     }
 }

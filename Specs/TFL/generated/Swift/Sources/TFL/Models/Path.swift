@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Path: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Path: Codable {
 
     public var elevation: [JpElevation]?
 
@@ -20,28 +19,25 @@ public class Path: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.stopPoints = stopPoints
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        elevation = jsonDictionary.json(atKeyPath: "elevation")
-        lineString = jsonDictionary.json(atKeyPath: "lineString")
-        stopPoints = jsonDictionary.json(atKeyPath: "stopPoints")
+    private enum CodingKeys: String, CodingKey {
+        case elevation
+        case lineString
+        case stopPoints
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let elevation = elevation?.encode() {
-            dictionary["elevation"] = elevation
-        }
-        if let lineString = lineString {
-            dictionary["lineString"] = lineString
-        }
-        if let stopPoints = stopPoints?.encode() {
-            dictionary["stopPoints"] = stopPoints
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        elevation = try container.decodeIfPresent(.elevation)
+        lineString = try container.decodeIfPresent(.lineString)
+        stopPoints = try container.decodeIfPresent(.stopPoints)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(elevation, forKey: .elevation)
+        try container.encode(lineString, forKey: .lineString)
+        try container.encode(stopPoints, forKey: .stopPoints)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class GeoPointBBox: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class GeoPointBBox: Codable {
 
     public var swLat: Double
 
@@ -23,24 +22,28 @@ public class GeoPointBBox: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.neLon = neLon
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        swLat = try jsonDictionary.json(atKeyPath: "swLat")
-        swLon = try jsonDictionary.json(atKeyPath: "swLon")
-        neLat = try jsonDictionary.json(atKeyPath: "neLat")
-        neLon = try jsonDictionary.json(atKeyPath: "neLon")
+    private enum CodingKeys: String, CodingKey {
+        case swLat
+        case swLon
+        case neLat
+        case neLon
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["swLat"] = swLat
-        dictionary["swLon"] = swLon
-        dictionary["neLat"] = neLat
-        dictionary["neLon"] = neLon
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        swLat = try container.decode(.swLat)
+        swLon = try container.decode(.swLon)
+        neLat = try container.decode(.neLat)
+        neLon = try container.decode(.neLon)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(swLat, forKey: .swLat)
+        try container.encode(swLon, forKey: .swLon)
+        try container.encode(neLat, forKey: .neLat)
+        try container.encode(neLon, forKey: .neLon)
     }
 }

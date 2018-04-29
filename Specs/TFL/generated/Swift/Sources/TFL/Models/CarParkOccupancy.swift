@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class CarParkOccupancy: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class CarParkOccupancy: Codable {
 
     public var bays: [Bay]?
 
@@ -23,32 +22,28 @@ public class CarParkOccupancy: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.name = name
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        bays = jsonDictionary.json(atKeyPath: "bays")
-        carParkDetailsUrl = jsonDictionary.json(atKeyPath: "carParkDetailsUrl")
-        id = jsonDictionary.json(atKeyPath: "id")
-        name = jsonDictionary.json(atKeyPath: "name")
+    private enum CodingKeys: String, CodingKey {
+        case bays
+        case carParkDetailsUrl
+        case id
+        case name
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let bays = bays?.encode() {
-            dictionary["bays"] = bays
-        }
-        if let carParkDetailsUrl = carParkDetailsUrl {
-            dictionary["carParkDetailsUrl"] = carParkDetailsUrl
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        bays = try container.decodeIfPresent(.bays)
+        carParkDetailsUrl = try container.decodeIfPresent(.carParkDetailsUrl)
+        id = try container.decodeIfPresent(.id)
+        name = try container.decodeIfPresent(.name)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(bays, forKey: .bays)
+        try container.encode(carParkDetailsUrl, forKey: .carParkDetailsUrl)
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
     }
 }

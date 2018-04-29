@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class DisruptedPoint: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class DisruptedPoint: Codable {
 
     public var additionalInformation: String?
 
@@ -41,56 +40,46 @@ public class DisruptedPoint: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.type = type
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        additionalInformation = jsonDictionary.json(atKeyPath: "additionalInformation")
-        appearance = jsonDictionary.json(atKeyPath: "appearance")
-        atcoCode = jsonDictionary.json(atKeyPath: "atcoCode")
-        commonName = jsonDictionary.json(atKeyPath: "commonName")
-        description = jsonDictionary.json(atKeyPath: "description")
-        fromDate = jsonDictionary.json(atKeyPath: "fromDate")
-        mode = jsonDictionary.json(atKeyPath: "mode")
-        stationAtcoCode = jsonDictionary.json(atKeyPath: "stationAtcoCode")
-        toDate = jsonDictionary.json(atKeyPath: "toDate")
-        type = jsonDictionary.json(atKeyPath: "type")
+    private enum CodingKeys: String, CodingKey {
+        case additionalInformation
+        case appearance
+        case atcoCode
+        case commonName
+        case description
+        case fromDate
+        case mode
+        case stationAtcoCode
+        case toDate
+        case type
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let additionalInformation = additionalInformation {
-            dictionary["additionalInformation"] = additionalInformation
-        }
-        if let appearance = appearance {
-            dictionary["appearance"] = appearance
-        }
-        if let atcoCode = atcoCode {
-            dictionary["atcoCode"] = atcoCode
-        }
-        if let commonName = commonName {
-            dictionary["commonName"] = commonName
-        }
-        if let description = description {
-            dictionary["description"] = description
-        }
-        if let fromDate = fromDate?.encode() {
-            dictionary["fromDate"] = fromDate
-        }
-        if let mode = mode {
-            dictionary["mode"] = mode
-        }
-        if let stationAtcoCode = stationAtcoCode {
-            dictionary["stationAtcoCode"] = stationAtcoCode
-        }
-        if let toDate = toDate?.encode() {
-            dictionary["toDate"] = toDate
-        }
-        if let type = type {
-            dictionary["type"] = type
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        additionalInformation = try container.decodeIfPresent(.additionalInformation)
+        appearance = try container.decodeIfPresent(.appearance)
+        atcoCode = try container.decodeIfPresent(.atcoCode)
+        commonName = try container.decodeIfPresent(.commonName)
+        description = try container.decodeIfPresent(.description)
+        fromDate = try container.decodeIfPresent(.fromDate)
+        mode = try container.decodeIfPresent(.mode)
+        stationAtcoCode = try container.decodeIfPresent(.stationAtcoCode)
+        toDate = try container.decodeIfPresent(.toDate)
+        type = try container.decodeIfPresent(.type)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(additionalInformation, forKey: .additionalInformation)
+        try container.encode(appearance, forKey: .appearance)
+        try container.encode(atcoCode, forKey: .atcoCode)
+        try container.encode(commonName, forKey: .commonName)
+        try container.encode(description, forKey: .description)
+        try container.encode(fromDate, forKey: .fromDate)
+        try container.encode(mode, forKey: .mode)
+        try container.encode(stationAtcoCode, forKey: .stationAtcoCode)
+        try container.encode(toDate, forKey: .toDate)
+        try container.encode(type, forKey: .type)
     }
 }

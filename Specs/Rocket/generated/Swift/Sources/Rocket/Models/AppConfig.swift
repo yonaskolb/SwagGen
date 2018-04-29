@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class AppConfig: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class AppConfig: Codable {
 
     /** The map of classification ratings. */
     public var classification: [String: Classification]?
@@ -30,40 +29,34 @@ public class AppConfig: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.subscription = subscription
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        classification = jsonDictionary.json(atKeyPath: "classification")
-        general = jsonDictionary.json(atKeyPath: "general")
-        navigation = jsonDictionary.json(atKeyPath: "navigation")
-        playback = jsonDictionary.json(atKeyPath: "playback")
-        sitemap = jsonDictionary.json(atKeyPath: "sitemap")
-        subscription = jsonDictionary.json(atKeyPath: "subscription")
+    private enum CodingKeys: String, CodingKey {
+        case classification
+        case general
+        case navigation
+        case playback
+        case sitemap
+        case subscription
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let classification = classification?.encode() {
-            dictionary["classification"] = classification
-        }
-        if let general = general?.encode() {
-            dictionary["general"] = general
-        }
-        if let navigation = navigation?.encode() {
-            dictionary["navigation"] = navigation
-        }
-        if let playback = playback?.encode() {
-            dictionary["playback"] = playback
-        }
-        if let sitemap = sitemap?.encode() {
-            dictionary["sitemap"] = sitemap
-        }
-        if let subscription = subscription?.encode() {
-            dictionary["subscription"] = subscription
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        classification = try container.decodeIfPresent(.classification)
+        general = try container.decodeIfPresent(.general)
+        navigation = try container.decodeIfPresent(.navigation)
+        playback = try container.decodeIfPresent(.playback)
+        sitemap = try container.decodeIfPresent(.sitemap)
+        subscription = try container.decodeIfPresent(.subscription)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(classification, forKey: .classification)
+        try container.encode(general, forKey: .general)
+        try container.encode(navigation, forKey: .navigation)
+        try container.encode(playback, forKey: .playback)
+        try container.encode(sitemap, forKey: .sitemap)
+        try container.encode(subscription, forKey: .subscription)
     }
 }

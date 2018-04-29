@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Redirect: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Redirect: Codable {
 
     public var active: Bool?
 
@@ -20,28 +19,25 @@ public class Redirect: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.shortUrl = shortUrl
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        active = jsonDictionary.json(atKeyPath: "active")
-        longUrl = jsonDictionary.json(atKeyPath: "longUrl")
-        shortUrl = jsonDictionary.json(atKeyPath: "shortUrl")
+    private enum CodingKeys: String, CodingKey {
+        case active
+        case longUrl
+        case shortUrl
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let active = active {
-            dictionary["active"] = active
-        }
-        if let longUrl = longUrl {
-            dictionary["longUrl"] = longUrl
-        }
-        if let shortUrl = shortUrl {
-            dictionary["shortUrl"] = shortUrl
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        active = try container.decodeIfPresent(.active)
+        longUrl = try container.decodeIfPresent(.longUrl)
+        shortUrl = try container.decodeIfPresent(.shortUrl)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(active, forKey: .active)
+        try container.encode(longUrl, forKey: .longUrl)
+        try container.encode(shortUrl, forKey: .shortUrl)
     }
 }

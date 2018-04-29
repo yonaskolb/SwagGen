@@ -4,11 +4,10 @@
 //
 
 import Foundation
-import JSONUtilities
 
 public class Offer: OfferRights {
 
-    public enum Availability: String {
+    public enum Availability: String, Codable {
         case available = "Available"
         case comingSoon = "ComingSoon"
 
@@ -41,36 +40,36 @@ public class Offer: OfferRights {
         super.init(deliveryType: deliveryType, scopes: scopes, resolution: resolution, ownership: ownership, exclusionRules: exclusionRules, maxDownloads: maxDownloads, maxPlays: maxPlays, playPeriod: playPeriod, rentalPeriod: rentalPeriod)
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        price = try jsonDictionary.json(atKeyPath: "price")
-        availability = try jsonDictionary.json(atKeyPath: "availability")
-        endDate = jsonDictionary.json(atKeyPath: "endDate")
-        name = jsonDictionary.json(atKeyPath: "name")
-        startDate = jsonDictionary.json(atKeyPath: "startDate")
-        subscriptionCode = jsonDictionary.json(atKeyPath: "subscriptionCode")
-        try super.init(jsonDictionary: jsonDictionary)
+    private enum CodingKeys: String, CodingKey {
+        case price
+        case availability
+        case endDate
+        case name
+        case startDate
+        case subscriptionCode
     }
 
-    public override func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["price"] = price
-        dictionary["availability"] = availability.encode()
-        if let endDate = endDate?.encode() {
-            dictionary["endDate"] = endDate
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let startDate = startDate?.encode() {
-            dictionary["startDate"] = startDate
-        }
-        if let subscriptionCode = subscriptionCode {
-            dictionary["subscriptionCode"] = subscriptionCode
-        }
-        let superDictionary = super.encode()
-        for (key, value) in superDictionary {
-            dictionary[key] = value
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        price = try container.decode(.price)
+        availability = try container.decode(.availability)
+        endDate = try container.decodeIfPresent(.endDate)
+        name = try container.decodeIfPresent(.name)
+        startDate = try container.decodeIfPresent(.startDate)
+        subscriptionCode = try container.decodeIfPresent(.subscriptionCode)
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(price, forKey: .price)
+        try container.encode(availability, forKey: .availability)
+        try container.encode(endDate, forKey: .endDate)
+        try container.encode(name, forKey: .name)
+        try container.encode(startDate, forKey: .startDate)
+        try container.encode(subscriptionCode, forKey: .subscriptionCode)
+        try super.encode(to: encoder)
     }
 }

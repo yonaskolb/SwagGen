@@ -4,7 +4,7 @@
 //
 
 /** The maximum resolution the device to playback the media can present. */
-public enum MediaFileResolution: String {
+public enum MediaFileResolution: String, Codable {
     case hd1080 = "HD-1080"
     case hd720 = "HD-720"
     case sd = "SD"

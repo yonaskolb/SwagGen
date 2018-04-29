@@ -4,11 +4,10 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class EnumArrays: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class EnumArrays: Codable {
 
-    public enum ArrayEnum: String {
+    public enum ArrayEnum: String, Codable {
         case fish = "fish"
         case crab = "crab"
 
@@ -18,7 +17,7 @@ public class EnumArrays: JSONDecodable, JSONEncodable, PrettyPrintable {
         ]
     }
 
-    public enum JustSymbol: String {
+    public enum JustSymbol: String, Codable {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
 
@@ -37,24 +36,22 @@ public class EnumArrays: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.justSymbol = justSymbol
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        arrayEnum = jsonDictionary.json(atKeyPath: "array_enum")
-        justSymbol = jsonDictionary.json(atKeyPath: "just_symbol")
+    private enum CodingKeys: String, CodingKey {
+        case arrayEnum = "array_enum"
+        case justSymbol = "just_symbol"
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let arrayEnum = arrayEnum?.encode() {
-            dictionary["array_enum"] = arrayEnum
-        }
-        if let justSymbol = justSymbol?.encode() {
-            dictionary["just_symbol"] = justSymbol
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        arrayEnum = try container.decodeIfPresent(.arrayEnum)
+        justSymbol = try container.decodeIfPresent(.justSymbol)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(arrayEnum, forKey: .arrayEnum)
+        try container.encode(justSymbol, forKey: .justSymbol)
     }
 }

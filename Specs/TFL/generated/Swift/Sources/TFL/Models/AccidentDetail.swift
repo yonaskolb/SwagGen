@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class AccidentDetail: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class AccidentDetail: Codable {
 
     public var borough: String?
 
@@ -38,52 +37,43 @@ public class AccidentDetail: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.vehicles = vehicles
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        borough = jsonDictionary.json(atKeyPath: "borough")
-        casualties = jsonDictionary.json(atKeyPath: "casualties")
-        date = jsonDictionary.json(atKeyPath: "date")
-        id = jsonDictionary.json(atKeyPath: "id")
-        lat = jsonDictionary.json(atKeyPath: "lat")
-        location = jsonDictionary.json(atKeyPath: "location")
-        lon = jsonDictionary.json(atKeyPath: "lon")
-        severity = jsonDictionary.json(atKeyPath: "severity")
-        vehicles = jsonDictionary.json(atKeyPath: "vehicles")
+    private enum CodingKeys: String, CodingKey {
+        case borough
+        case casualties
+        case date
+        case id
+        case lat
+        case location
+        case lon
+        case severity
+        case vehicles
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let borough = borough {
-            dictionary["borough"] = borough
-        }
-        if let casualties = casualties?.encode() {
-            dictionary["casualties"] = casualties
-        }
-        if let date = date?.encode() {
-            dictionary["date"] = date
-        }
-        if let id = id {
-            dictionary["id"] = id
-        }
-        if let lat = lat {
-            dictionary["lat"] = lat
-        }
-        if let location = location {
-            dictionary["location"] = location
-        }
-        if let lon = lon {
-            dictionary["lon"] = lon
-        }
-        if let severity = severity {
-            dictionary["severity"] = severity
-        }
-        if let vehicles = vehicles?.encode() {
-            dictionary["vehicles"] = vehicles
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        borough = try container.decodeIfPresent(.borough)
+        casualties = try container.decodeIfPresent(.casualties)
+        date = try container.decodeIfPresent(.date)
+        id = try container.decodeIfPresent(.id)
+        lat = try container.decodeIfPresent(.lat)
+        location = try container.decodeIfPresent(.location)
+        lon = try container.decodeIfPresent(.lon)
+        severity = try container.decodeIfPresent(.severity)
+        vehicles = try container.decodeIfPresent(.vehicles)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(borough, forKey: .borough)
+        try container.encode(casualties, forKey: .casualties)
+        try container.encode(date, forKey: .date)
+        try container.encode(id, forKey: .id)
+        try container.encode(lat, forKey: .lat)
+        try container.encode(location, forKey: .location)
+        try container.encode(lon, forKey: .lon)
+        try container.encode(severity, forKey: .severity)
+        try container.encode(vehicles, forKey: .vehicles)
     }
 }

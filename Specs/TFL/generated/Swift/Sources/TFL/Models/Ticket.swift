@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Ticket: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Ticket: Codable {
 
     public var cost: String?
 
@@ -35,48 +34,40 @@ public class Ticket: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.ticketType = ticketType
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        cost = jsonDictionary.json(atKeyPath: "cost")
-        description = jsonDictionary.json(atKeyPath: "description")
-        displayOrder = jsonDictionary.json(atKeyPath: "displayOrder")
-        messages = jsonDictionary.json(atKeyPath: "messages")
-        mode = jsonDictionary.json(atKeyPath: "mode")
-        passengerType = jsonDictionary.json(atKeyPath: "passengerType")
-        ticketTime = jsonDictionary.json(atKeyPath: "ticketTime")
-        ticketType = jsonDictionary.json(atKeyPath: "ticketType")
+    private enum CodingKeys: String, CodingKey {
+        case cost
+        case description
+        case displayOrder
+        case messages
+        case mode
+        case passengerType
+        case ticketTime
+        case ticketType
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let cost = cost {
-            dictionary["cost"] = cost
-        }
-        if let description = description {
-            dictionary["description"] = description
-        }
-        if let displayOrder = displayOrder {
-            dictionary["displayOrder"] = displayOrder
-        }
-        if let messages = messages?.encode() {
-            dictionary["messages"] = messages
-        }
-        if let mode = mode {
-            dictionary["mode"] = mode
-        }
-        if let passengerType = passengerType {
-            dictionary["passengerType"] = passengerType
-        }
-        if let ticketTime = ticketTime?.encode() {
-            dictionary["ticketTime"] = ticketTime
-        }
-        if let ticketType = ticketType?.encode() {
-            dictionary["ticketType"] = ticketType
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        cost = try container.decodeIfPresent(.cost)
+        description = try container.decodeIfPresent(.description)
+        displayOrder = try container.decodeIfPresent(.displayOrder)
+        messages = try container.decodeIfPresent(.messages)
+        mode = try container.decodeIfPresent(.mode)
+        passengerType = try container.decodeIfPresent(.passengerType)
+        ticketTime = try container.decodeIfPresent(.ticketTime)
+        ticketType = try container.decodeIfPresent(.ticketType)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(cost, forKey: .cost)
+        try container.encode(description, forKey: .description)
+        try container.encode(displayOrder, forKey: .displayOrder)
+        try container.encode(messages, forKey: .messages)
+        try container.encode(mode, forKey: .mode)
+        try container.encode(passengerType, forKey: .passengerType)
+        try container.encode(ticketTime, forKey: .ticketTime)
+        try container.encode(ticketType, forKey: .ticketType)
     }
 }

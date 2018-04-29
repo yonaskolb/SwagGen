@@ -4,10 +4,9 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** A pageable list of items. */
-public class ItemList: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ItemList: Codable {
 
     /** The id of this list */
     public var id: String
@@ -64,58 +63,55 @@ For example the Movies Genre list will take a parameter `genre` with a given val
         self.title = title
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        id = try jsonDictionary.json(atKeyPath: "id")
-        size = try jsonDictionary.json(atKeyPath: "size")
-        items = try jsonDictionary.json(atKeyPath: "items")
-        paging = try jsonDictionary.json(atKeyPath: "paging")
-        path = try jsonDictionary.json(atKeyPath: "path")
-        customFields = jsonDictionary.json(atKeyPath: "customFields")
-        description = jsonDictionary.json(atKeyPath: "description")
-        images = jsonDictionary.json(atKeyPath: "images")
-        itemTypes = jsonDictionary.json(atKeyPath: "itemTypes")
-        parameter = jsonDictionary.json(atKeyPath: "parameter")
-        shortDescription = jsonDictionary.json(atKeyPath: "shortDescription")
-        tagline = jsonDictionary.json(atKeyPath: "tagline")
-        title = jsonDictionary.json(atKeyPath: "title")
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case size
+        case items
+        case paging
+        case path
+        case customFields
+        case description
+        case images
+        case itemTypes
+        case parameter
+        case shortDescription
+        case tagline
+        case title
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["id"] = id
-        dictionary["size"] = size
-        dictionary["items"] = items.encode()
-        dictionary["paging"] = paging.encode()
-        dictionary["path"] = path
-        if let customFields = customFields {
-            dictionary["customFields"] = customFields
-        }
-        if let description = description {
-            dictionary["description"] = description
-        }
-        if let images = images?.encode() {
-            dictionary["images"] = images
-        }
-        if let itemTypes = itemTypes?.encode() {
-            dictionary["itemTypes"] = itemTypes
-        }
-        if let parameter = parameter {
-            dictionary["parameter"] = parameter
-        }
-        if let shortDescription = shortDescription {
-            dictionary["shortDescription"] = shortDescription
-        }
-        if let tagline = tagline {
-            dictionary["tagline"] = tagline
-        }
-        if let title = title {
-            dictionary["title"] = title
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(.id)
+        size = try container.decode(.size)
+        items = try container.decode(.items)
+        paging = try container.decode(.paging)
+        path = try container.decode(.path)
+        customFields = try container.decodeAnyIfPresent(.customFields)
+        description = try container.decodeIfPresent(.description)
+        images = try container.decodeIfPresent(.images)
+        itemTypes = try container.decodeIfPresent(.itemTypes)
+        parameter = try container.decodeIfPresent(.parameter)
+        shortDescription = try container.decodeIfPresent(.shortDescription)
+        tagline = try container.decodeIfPresent(.tagline)
+        title = try container.decodeIfPresent(.title)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(size, forKey: .size)
+        try container.encode(items, forKey: .items)
+        try container.encode(paging, forKey: .paging)
+        try container.encode(path, forKey: .path)
+        try container.encodeAny(customFields, forKey: .customFields)
+        try container.encode(description, forKey: .description)
+        try container.encode(images, forKey: .images)
+        try container.encode(itemTypes, forKey: .itemTypes)
+        try container.encode(parameter, forKey: .parameter)
+        try container.encode(shortDescription, forKey: .shortDescription)
+        try container.encode(tagline, forKey: .tagline)
+        try container.encode(title, forKey: .title)
     }
 }

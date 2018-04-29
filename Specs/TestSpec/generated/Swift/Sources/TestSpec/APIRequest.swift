@@ -7,14 +7,14 @@ public class APIRequest<ResponseType: APIResponseValue> {
 
     public let service: APIService<ResponseType>
     public private(set) var parameters: [String: Any]
-    public private(set) var jsonBody: Any?
+    public private(set) var jsonBody: Encodable?
     public var headers: [String: String] = [:]
 
     public var path: String {
         return service.path
     }
 
-    public init(service: APIService<ResponseType>, parameters: [String: Any] = [:], jsonBody: Any? = nil, headers: [String: String] = [:]) {
+    public init(service: APIService<ResponseType>, parameters: [String: Any] = [:], jsonBody: Encodable? = nil, headers: [String: String] = [:]) {
         self.service = service
         self.parameters = parameters
         self.jsonBody = jsonBody

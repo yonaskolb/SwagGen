@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension TestSpec {
 
@@ -22,7 +21,7 @@ extension TestSpec {
                 super.init(service: PostString.service)
             }
 
-            public override var jsonBody: Any? {
+            public override var jsonBody: Encodable? {
                 return body
             }
         }
@@ -57,7 +56,7 @@ extension TestSpec {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 default: self = .defaultResponse(statusCode: statusCode)
                 }

@@ -4,10 +4,9 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** A DTO representing a list of possible journeys. */
-public class ItineraryResult: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ItineraryResult: Codable {
 
     public var cycleHireDockingStationData: JourneyPlannerCycleHireDockingStationData?
 
@@ -33,44 +32,37 @@ public class ItineraryResult: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.stopMessages = stopMessages
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        cycleHireDockingStationData = jsonDictionary.json(atKeyPath: "cycleHireDockingStationData")
-        journeyVector = jsonDictionary.json(atKeyPath: "journeyVector")
-        journeys = jsonDictionary.json(atKeyPath: "journeys")
-        lines = jsonDictionary.json(atKeyPath: "lines")
-        recommendedMaxAgeMinutes = jsonDictionary.json(atKeyPath: "recommendedMaxAgeMinutes")
-        searchCriteria = jsonDictionary.json(atKeyPath: "searchCriteria")
-        stopMessages = jsonDictionary.json(atKeyPath: "stopMessages")
+    private enum CodingKeys: String, CodingKey {
+        case cycleHireDockingStationData
+        case journeyVector
+        case journeys
+        case lines
+        case recommendedMaxAgeMinutes
+        case searchCriteria
+        case stopMessages
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let cycleHireDockingStationData = cycleHireDockingStationData?.encode() {
-            dictionary["cycleHireDockingStationData"] = cycleHireDockingStationData
-        }
-        if let journeyVector = journeyVector?.encode() {
-            dictionary["journeyVector"] = journeyVector
-        }
-        if let journeys = journeys?.encode() {
-            dictionary["journeys"] = journeys
-        }
-        if let lines = lines?.encode() {
-            dictionary["lines"] = lines
-        }
-        if let recommendedMaxAgeMinutes = recommendedMaxAgeMinutes {
-            dictionary["recommendedMaxAgeMinutes"] = recommendedMaxAgeMinutes
-        }
-        if let searchCriteria = searchCriteria?.encode() {
-            dictionary["searchCriteria"] = searchCriteria
-        }
-        if let stopMessages = stopMessages {
-            dictionary["stopMessages"] = stopMessages
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        cycleHireDockingStationData = try container.decodeIfPresent(.cycleHireDockingStationData)
+        journeyVector = try container.decodeIfPresent(.journeyVector)
+        journeys = try container.decodeIfPresent(.journeys)
+        lines = try container.decodeIfPresent(.lines)
+        recommendedMaxAgeMinutes = try container.decodeIfPresent(.recommendedMaxAgeMinutes)
+        searchCriteria = try container.decodeIfPresent(.searchCriteria)
+        stopMessages = try container.decodeIfPresent(.stopMessages)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(cycleHireDockingStationData, forKey: .cycleHireDockingStationData)
+        try container.encode(journeyVector, forKey: .journeyVector)
+        try container.encode(journeys, forKey: .journeys)
+        try container.encode(lines, forKey: .lines)
+        try container.encode(recommendedMaxAgeMinutes, forKey: .recommendedMaxAgeMinutes)
+        try container.encode(searchCriteria, forKey: .searchCriteria)
+        try container.encode(stopMessages, forKey: .stopMessages)
     }
 }

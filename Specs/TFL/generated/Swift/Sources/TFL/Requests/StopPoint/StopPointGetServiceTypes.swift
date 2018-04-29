@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension TFL.StopPoint {
 
@@ -46,7 +45,7 @@ extension TFL.StopPoint {
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 params["id"] = options.id
                 if let lineIds = options.lineIds?.joined(separator: ",") {
                   params["lineIds"] = lineIds
@@ -88,9 +87,9 @@ extension TFL.StopPoint {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decode([LineServiceType].self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

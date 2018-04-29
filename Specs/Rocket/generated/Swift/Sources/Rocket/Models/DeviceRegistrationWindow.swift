@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class DeviceRegistrationWindow: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class DeviceRegistrationWindow: Codable {
 
     /** The number of days a de/registration period runs for. */
     public var periodDays: Int
@@ -40,26 +39,31 @@ This is based on the value of `startDate` plus the number of days defined by  `p
         self.endDate = endDate
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        periodDays = try jsonDictionary.json(atKeyPath: "periodDays")
-        limit = try jsonDictionary.json(atKeyPath: "limit")
-        remaining = try jsonDictionary.json(atKeyPath: "remaining")
-        startDate = try jsonDictionary.json(atKeyPath: "startDate")
-        endDate = try jsonDictionary.json(atKeyPath: "endDate")
+    private enum CodingKeys: String, CodingKey {
+        case periodDays
+        case limit
+        case remaining
+        case startDate
+        case endDate
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["periodDays"] = periodDays
-        dictionary["limit"] = limit
-        dictionary["remaining"] = remaining
-        dictionary["startDate"] = startDate.encode()
-        dictionary["endDate"] = endDate.encode()
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        periodDays = try container.decode(.periodDays)
+        limit = try container.decode(.limit)
+        remaining = try container.decode(.remaining)
+        startDate = try container.decode(.startDate)
+        endDate = try container.decode(.endDate)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(periodDays, forKey: .periodDays)
+        try container.encode(limit, forKey: .limit)
+        try container.encode(remaining, forKey: .remaining)
+        try container.encode(startDate, forKey: .startDate)
+        try container.encode(endDate, forKey: .endDate)
     }
 }

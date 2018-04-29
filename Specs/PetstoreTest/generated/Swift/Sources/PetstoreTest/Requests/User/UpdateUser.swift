@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension PetstoreTest.User {
 
@@ -45,8 +44,8 @@ extension PetstoreTest.User {
                 return super.path.replacingOccurrences(of: "{" + "username" + "}", with: "\(self.options.username)")
             }
 
-            public override var jsonBody: Any? {
-                return body.encode()
+            public override var jsonBody: Encodable? {
+                return body
             }
         }
 
@@ -85,7 +84,7 @@ extension PetstoreTest.User {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 case 400: self = .status400
                 case 404: self = .status404

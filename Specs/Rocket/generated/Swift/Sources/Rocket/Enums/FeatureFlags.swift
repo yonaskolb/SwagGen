@@ -19,7 +19,7 @@ clients as these formats evolve under the current major version.
 
 See the `feature-flags.md` for available flag details.
  */
-public enum FeatureFlags: String {
+public enum FeatureFlags: String, Codable {
     case all = "all"
     case idp = "idp"
     case ldp = "ldp"

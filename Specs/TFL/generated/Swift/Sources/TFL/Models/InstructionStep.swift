@@ -4,11 +4,10 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class InstructionStep: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class InstructionStep: Codable {
 
-    public enum SkyDirectionDescription: String {
+    public enum SkyDirectionDescription: String, Codable {
         case north = "North"
         case northEast = "NorthEast"
         case east = "East"
@@ -30,7 +29,7 @@ public class InstructionStep: JSONDecodable, JSONEncodable, PrettyPrintable {
         ]
     }
 
-    public enum TrackType: String {
+    public enum TrackType: String, Codable {
         case cycleSuperHighway = "CycleSuperHighway"
         case canalTowpath = "CanalTowpath"
         case quietRoad = "QuietRoad"
@@ -92,68 +91,55 @@ public class InstructionStep: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.turnDirection = turnDirection
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        cumulativeDistance = jsonDictionary.json(atKeyPath: "cumulativeDistance")
-        cumulativeTravelTime = jsonDictionary.json(atKeyPath: "cumulativeTravelTime")
-        description = jsonDictionary.json(atKeyPath: "description")
-        descriptionHeading = jsonDictionary.json(atKeyPath: "descriptionHeading")
-        distance = jsonDictionary.json(atKeyPath: "distance")
-        latitude = jsonDictionary.json(atKeyPath: "latitude")
-        longitude = jsonDictionary.json(atKeyPath: "longitude")
-        pathAttribute = jsonDictionary.json(atKeyPath: "pathAttribute")
-        skyDirection = jsonDictionary.json(atKeyPath: "skyDirection")
-        skyDirectionDescription = jsonDictionary.json(atKeyPath: "skyDirectionDescription")
-        streetName = jsonDictionary.json(atKeyPath: "streetName")
-        trackType = jsonDictionary.json(atKeyPath: "trackType")
-        turnDirection = jsonDictionary.json(atKeyPath: "turnDirection")
+    private enum CodingKeys: String, CodingKey {
+        case cumulativeDistance
+        case cumulativeTravelTime
+        case description
+        case descriptionHeading
+        case distance
+        case latitude
+        case longitude
+        case pathAttribute
+        case skyDirection
+        case skyDirectionDescription
+        case streetName
+        case trackType
+        case turnDirection
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let cumulativeDistance = cumulativeDistance {
-            dictionary["cumulativeDistance"] = cumulativeDistance
-        }
-        if let cumulativeTravelTime = cumulativeTravelTime {
-            dictionary["cumulativeTravelTime"] = cumulativeTravelTime
-        }
-        if let description = description {
-            dictionary["description"] = description
-        }
-        if let descriptionHeading = descriptionHeading {
-            dictionary["descriptionHeading"] = descriptionHeading
-        }
-        if let distance = distance {
-            dictionary["distance"] = distance
-        }
-        if let latitude = latitude {
-            dictionary["latitude"] = latitude
-        }
-        if let longitude = longitude {
-            dictionary["longitude"] = longitude
-        }
-        if let pathAttribute = pathAttribute?.encode() {
-            dictionary["pathAttribute"] = pathAttribute
-        }
-        if let skyDirection = skyDirection {
-            dictionary["skyDirection"] = skyDirection
-        }
-        if let skyDirectionDescription = skyDirectionDescription?.encode() {
-            dictionary["skyDirectionDescription"] = skyDirectionDescription
-        }
-        if let streetName = streetName {
-            dictionary["streetName"] = streetName
-        }
-        if let trackType = trackType?.encode() {
-            dictionary["trackType"] = trackType
-        }
-        if let turnDirection = turnDirection {
-            dictionary["turnDirection"] = turnDirection
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        cumulativeDistance = try container.decodeIfPresent(.cumulativeDistance)
+        cumulativeTravelTime = try container.decodeIfPresent(.cumulativeTravelTime)
+        description = try container.decodeIfPresent(.description)
+        descriptionHeading = try container.decodeIfPresent(.descriptionHeading)
+        distance = try container.decodeIfPresent(.distance)
+        latitude = try container.decodeIfPresent(.latitude)
+        longitude = try container.decodeIfPresent(.longitude)
+        pathAttribute = try container.decodeIfPresent(.pathAttribute)
+        skyDirection = try container.decodeIfPresent(.skyDirection)
+        skyDirectionDescription = try container.decodeIfPresent(.skyDirectionDescription)
+        streetName = try container.decodeIfPresent(.streetName)
+        trackType = try container.decodeIfPresent(.trackType)
+        turnDirection = try container.decodeIfPresent(.turnDirection)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(cumulativeDistance, forKey: .cumulativeDistance)
+        try container.encode(cumulativeTravelTime, forKey: .cumulativeTravelTime)
+        try container.encode(description, forKey: .description)
+        try container.encode(descriptionHeading, forKey: .descriptionHeading)
+        try container.encode(distance, forKey: .distance)
+        try container.encode(latitude, forKey: .latitude)
+        try container.encode(longitude, forKey: .longitude)
+        try container.encode(pathAttribute, forKey: .pathAttribute)
+        try container.encode(skyDirection, forKey: .skyDirection)
+        try container.encode(skyDirectionDescription, forKey: .skyDirectionDescription)
+        try container.encode(streetName, forKey: .streetName)
+        try container.encode(trackType, forKey: .trackType)
+        try container.encode(turnDirection, forKey: .turnDirection)
     }
 }

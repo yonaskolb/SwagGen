@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class AppConfigSubscription: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class AppConfigSubscription: Codable {
 
     /** The available public plans a user can subscribe to. */
     public var plans: [Plan]?
@@ -15,20 +14,19 @@ public class AppConfigSubscription: JSONDecodable, JSONEncodable, PrettyPrintabl
         self.plans = plans
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        plans = jsonDictionary.json(atKeyPath: "plans")
+    private enum CodingKeys: String, CodingKey {
+        case plans
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let plans = plans?.encode() {
-            dictionary["plans"] = plans
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        plans = try container.decodeIfPresent(.plans)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(plans, forKey: .plans)
     }
 }

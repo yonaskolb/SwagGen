@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension TFL.StopPoint {
 
@@ -13,7 +12,7 @@ extension TFL.StopPoint {
         public static let service = APIService<Response>(id: "StopPoint_Crowding", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/Crowding/{line}", hasBody: false)
 
         /** The direction of travel. Can be inbound or outbound. */
-        public enum Direction: String {
+        public enum Direction: String, Codable {
             case inbound = "inbound"
             case outbound = "outbound"
             case all = "all"
@@ -63,7 +62,7 @@ extension TFL.StopPoint {
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 params["direction"] = options.direction.encode()
                 return params
             }
@@ -99,9 +98,9 @@ extension TFL.StopPoint {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decode([StopPoint].self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

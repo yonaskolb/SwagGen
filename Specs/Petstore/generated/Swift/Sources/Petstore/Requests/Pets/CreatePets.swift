@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension Petstore.Pets {
 
@@ -74,10 +73,10 @@ extension Petstore.Pets {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 case 201: self = .status201
-                default: self = try .defaultResponse(statusCode: statusCode, JSONDecoder.decode(data: data))
+                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ErrorType.self, from: data))
                 }
             }
 

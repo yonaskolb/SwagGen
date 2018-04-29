@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class MatchedRoute: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class MatchedRoute: Codable {
 
     /** eg: Destination */
     public var destination: String?
@@ -43,48 +42,40 @@ public class MatchedRoute: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.serviceType = serviceType
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        destination = jsonDictionary.json(atKeyPath: "destination")
-        destinationName = jsonDictionary.json(atKeyPath: "destinationName")
-        direction = jsonDictionary.json(atKeyPath: "direction")
-        name = jsonDictionary.json(atKeyPath: "name")
-        originationName = jsonDictionary.json(atKeyPath: "originationName")
-        originator = jsonDictionary.json(atKeyPath: "originator")
-        routeCode = jsonDictionary.json(atKeyPath: "routeCode")
-        serviceType = jsonDictionary.json(atKeyPath: "serviceType")
+    private enum CodingKeys: String, CodingKey {
+        case destination
+        case destinationName
+        case direction
+        case name
+        case originationName
+        case originator
+        case routeCode
+        case serviceType
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let destination = destination {
-            dictionary["destination"] = destination
-        }
-        if let destinationName = destinationName {
-            dictionary["destinationName"] = destinationName
-        }
-        if let direction = direction {
-            dictionary["direction"] = direction
-        }
-        if let name = name {
-            dictionary["name"] = name
-        }
-        if let originationName = originationName {
-            dictionary["originationName"] = originationName
-        }
-        if let originator = originator {
-            dictionary["originator"] = originator
-        }
-        if let routeCode = routeCode {
-            dictionary["routeCode"] = routeCode
-        }
-        if let serviceType = serviceType {
-            dictionary["serviceType"] = serviceType
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        destination = try container.decodeIfPresent(.destination)
+        destinationName = try container.decodeIfPresent(.destinationName)
+        direction = try container.decodeIfPresent(.direction)
+        name = try container.decodeIfPresent(.name)
+        originationName = try container.decodeIfPresent(.originationName)
+        originator = try container.decodeIfPresent(.originator)
+        routeCode = try container.decodeIfPresent(.routeCode)
+        serviceType = try container.decodeIfPresent(.serviceType)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(destination, forKey: .destination)
+        try container.encode(destinationName, forKey: .destinationName)
+        try container.encode(direction, forKey: .direction)
+        try container.encode(name, forKey: .name)
+        try container.encode(originationName, forKey: .originationName)
+        try container.encode(originator, forKey: .originator)
+        try container.encode(routeCode, forKey: .routeCode)
+        try container.encode(serviceType, forKey: .serviceType)
     }
 }

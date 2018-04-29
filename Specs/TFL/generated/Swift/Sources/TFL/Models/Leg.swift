@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Leg: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Leg: Codable {
 
     public var arrivalPoint: Point?
 
@@ -61,80 +60,64 @@ public class Leg: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.speed = speed
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        arrivalPoint = jsonDictionary.json(atKeyPath: "arrivalPoint")
-        arrivalTime = jsonDictionary.json(atKeyPath: "arrivalTime")
-        departurePoint = jsonDictionary.json(atKeyPath: "departurePoint")
-        departureTime = jsonDictionary.json(atKeyPath: "departureTime")
-        disruptions = jsonDictionary.json(atKeyPath: "disruptions")
-        distance = jsonDictionary.json(atKeyPath: "distance")
-        duration = jsonDictionary.json(atKeyPath: "duration")
-        hasFixedLocations = jsonDictionary.json(atKeyPath: "hasFixedLocations")
-        instruction = jsonDictionary.json(atKeyPath: "instruction")
-        isDisrupted = jsonDictionary.json(atKeyPath: "isDisrupted")
-        mode = jsonDictionary.json(atKeyPath: "mode")
-        obstacles = jsonDictionary.json(atKeyPath: "obstacles")
-        path = jsonDictionary.json(atKeyPath: "path")
-        plannedWorks = jsonDictionary.json(atKeyPath: "plannedWorks")
-        routeOptions = jsonDictionary.json(atKeyPath: "routeOptions")
-        speed = jsonDictionary.json(atKeyPath: "speed")
+    private enum CodingKeys: String, CodingKey {
+        case arrivalPoint
+        case arrivalTime
+        case departurePoint
+        case departureTime
+        case disruptions
+        case distance
+        case duration
+        case hasFixedLocations
+        case instruction
+        case isDisrupted
+        case mode
+        case obstacles
+        case path
+        case plannedWorks
+        case routeOptions
+        case speed
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let arrivalPoint = arrivalPoint?.encode() {
-            dictionary["arrivalPoint"] = arrivalPoint
-        }
-        if let arrivalTime = arrivalTime?.encode() {
-            dictionary["arrivalTime"] = arrivalTime
-        }
-        if let departurePoint = departurePoint?.encode() {
-            dictionary["departurePoint"] = departurePoint
-        }
-        if let departureTime = departureTime?.encode() {
-            dictionary["departureTime"] = departureTime
-        }
-        if let disruptions = disruptions?.encode() {
-            dictionary["disruptions"] = disruptions
-        }
-        if let distance = distance {
-            dictionary["distance"] = distance
-        }
-        if let duration = duration {
-            dictionary["duration"] = duration
-        }
-        if let hasFixedLocations = hasFixedLocations {
-            dictionary["hasFixedLocations"] = hasFixedLocations
-        }
-        if let instruction = instruction?.encode() {
-            dictionary["instruction"] = instruction
-        }
-        if let isDisrupted = isDisrupted {
-            dictionary["isDisrupted"] = isDisrupted
-        }
-        if let mode = mode?.encode() {
-            dictionary["mode"] = mode
-        }
-        if let obstacles = obstacles?.encode() {
-            dictionary["obstacles"] = obstacles
-        }
-        if let path = path?.encode() {
-            dictionary["path"] = path
-        }
-        if let plannedWorks = plannedWorks?.encode() {
-            dictionary["plannedWorks"] = plannedWorks
-        }
-        if let routeOptions = routeOptions?.encode() {
-            dictionary["routeOptions"] = routeOptions
-        }
-        if let speed = speed {
-            dictionary["speed"] = speed
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        arrivalPoint = try container.decodeIfPresent(.arrivalPoint)
+        arrivalTime = try container.decodeIfPresent(.arrivalTime)
+        departurePoint = try container.decodeIfPresent(.departurePoint)
+        departureTime = try container.decodeIfPresent(.departureTime)
+        disruptions = try container.decodeIfPresent(.disruptions)
+        distance = try container.decodeIfPresent(.distance)
+        duration = try container.decodeIfPresent(.duration)
+        hasFixedLocations = try container.decodeIfPresent(.hasFixedLocations)
+        instruction = try container.decodeIfPresent(.instruction)
+        isDisrupted = try container.decodeIfPresent(.isDisrupted)
+        mode = try container.decodeIfPresent(.mode)
+        obstacles = try container.decodeIfPresent(.obstacles)
+        path = try container.decodeIfPresent(.path)
+        plannedWorks = try container.decodeIfPresent(.plannedWorks)
+        routeOptions = try container.decodeIfPresent(.routeOptions)
+        speed = try container.decodeIfPresent(.speed)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(arrivalPoint, forKey: .arrivalPoint)
+        try container.encode(arrivalTime, forKey: .arrivalTime)
+        try container.encode(departurePoint, forKey: .departurePoint)
+        try container.encode(departureTime, forKey: .departureTime)
+        try container.encode(disruptions, forKey: .disruptions)
+        try container.encode(distance, forKey: .distance)
+        try container.encode(duration, forKey: .duration)
+        try container.encode(hasFixedLocations, forKey: .hasFixedLocations)
+        try container.encode(instruction, forKey: .instruction)
+        try container.encode(isDisrupted, forKey: .isDisrupted)
+        try container.encode(mode, forKey: .mode)
+        try container.encode(obstacles, forKey: .obstacles)
+        try container.encode(path, forKey: .path)
+        try container.encode(plannedWorks, forKey: .plannedWorks)
+        try container.encode(routeOptions, forKey: .routeOptions)
+        try container.encode(speed, forKey: .speed)
     }
 }

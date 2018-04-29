@@ -4,10 +4,9 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** Model for testing reserved words */
-public class Return: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Return: Codable {
 
     public var `return`: Int?
 
@@ -15,20 +14,19 @@ public class Return: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.`return` = `return`
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        `return` = jsonDictionary.json(atKeyPath: "return")
+    private enum CodingKeys: String, CodingKey {
+        case `return` = "return"
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let `return` = `return` {
-            dictionary["return"] = `return`
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        `return` = try container.decodeIfPresent(.`return`)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(`return`, forKey: .`return`)
     }
 }

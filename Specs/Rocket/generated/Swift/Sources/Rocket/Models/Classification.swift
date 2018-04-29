@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 public class Classification: ClassificationSummary {
 
@@ -30,26 +29,30 @@ Each classification in a system should have a unique level.
         super.init(code: code, name: name)
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        level = try jsonDictionary.json(atKeyPath: "level")
-        system = try jsonDictionary.json(atKeyPath: "system")
-        images = try jsonDictionary.json(atKeyPath: "images")
-        advisoryText = jsonDictionary.json(atKeyPath: "advisoryText")
-        try super.init(jsonDictionary: jsonDictionary)
+    private enum CodingKeys: String, CodingKey {
+        case level
+        case system
+        case images
+        case advisoryText
     }
 
-    public override func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["level"] = level
-        dictionary["system"] = system
-        dictionary["images"] = images.encode()
-        if let advisoryText = advisoryText {
-            dictionary["advisoryText"] = advisoryText
-        }
-        let superDictionary = super.encode()
-        for (key, value) in superDictionary {
-            dictionary[key] = value
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        level = try container.decode(.level)
+        system = try container.decode(.system)
+        images = try container.decode(.images)
+        advisoryText = try container.decodeIfPresent(.advisoryText)
+        try super.init(from: decoder)
+    }
+
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(level, forKey: .level)
+        try container.encode(system, forKey: .system)
+        try container.encode(images, forKey: .images)
+        try container.encode(advisoryText, forKey: .advisoryText)
+        try super.encode(to: encoder)
     }
 }

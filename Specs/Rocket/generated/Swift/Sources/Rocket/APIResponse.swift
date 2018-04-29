@@ -11,7 +11,7 @@ public protocol APIResponseValue: CustomDebugStringConvertible, CustomStringConv
     var statusCode: Int { get }
     var successful: Bool { get }
     var response: Any { get }
-    init(statusCode: Int, data: Data) throws
+    init(statusCode: Int, data: Data, decoder: JSONDecoder) throws
     var success: SuccessType? { get }
 }
 
@@ -94,10 +94,6 @@ extension APIResponse: CustomStringConvertible, CustomDebugStringConvertible {
         if let response = result.value?.response {
           if let debugStringConvertible = response as? CustomDebugStringConvertible {
               string += "\n\(debugStringConvertible.debugDescription)"
-          } else if let prettyPrinted = response as? PrettyPrintable {
-              string += "\n\(prettyPrinted.prettyPrinted)"
-          } else if let prettyPrinted = response as? [PrettyPrintable] {
-              string += "\n\(prettyPrinted.map { $0.prettyPrinted }.joined(separator: "\n"))"
           }
         }
         return string

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class LineRouteSection: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class LineRouteSection: Codable {
 
     public var destination: String?
 
@@ -32,44 +31,37 @@ public class LineRouteSection: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.vehicleDestinationText = vehicleDestinationText
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        destination = jsonDictionary.json(atKeyPath: "destination")
-        direction = jsonDictionary.json(atKeyPath: "direction")
-        fromStation = jsonDictionary.json(atKeyPath: "fromStation")
-        routeId = jsonDictionary.json(atKeyPath: "routeId")
-        serviceType = jsonDictionary.json(atKeyPath: "serviceType")
-        toStation = jsonDictionary.json(atKeyPath: "toStation")
-        vehicleDestinationText = jsonDictionary.json(atKeyPath: "vehicleDestinationText")
+    private enum CodingKeys: String, CodingKey {
+        case destination
+        case direction
+        case fromStation
+        case routeId
+        case serviceType
+        case toStation
+        case vehicleDestinationText
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let destination = destination {
-            dictionary["destination"] = destination
-        }
-        if let direction = direction {
-            dictionary["direction"] = direction
-        }
-        if let fromStation = fromStation {
-            dictionary["fromStation"] = fromStation
-        }
-        if let routeId = routeId {
-            dictionary["routeId"] = routeId
-        }
-        if let serviceType = serviceType {
-            dictionary["serviceType"] = serviceType
-        }
-        if let toStation = toStation {
-            dictionary["toStation"] = toStation
-        }
-        if let vehicleDestinationText = vehicleDestinationText {
-            dictionary["vehicleDestinationText"] = vehicleDestinationText
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        destination = try container.decodeIfPresent(.destination)
+        direction = try container.decodeIfPresent(.direction)
+        fromStation = try container.decodeIfPresent(.fromStation)
+        routeId = try container.decodeIfPresent(.routeId)
+        serviceType = try container.decodeIfPresent(.serviceType)
+        toStation = try container.decodeIfPresent(.toStation)
+        vehicleDestinationText = try container.decodeIfPresent(.vehicleDestinationText)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(destination, forKey: .destination)
+        try container.encode(direction, forKey: .direction)
+        try container.encode(fromStation, forKey: .fromStation)
+        try container.encode(routeId, forKey: .routeId)
+        try container.encode(serviceType, forKey: .serviceType)
+        try container.encode(toStation, forKey: .toStation)
+        try container.encode(vehicleDestinationText, forKey: .vehicleDestinationText)
     }
 }

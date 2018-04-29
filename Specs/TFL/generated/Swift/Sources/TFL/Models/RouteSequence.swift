@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class RouteSequence: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class RouteSequence: Codable {
 
     public var direction: String?
 
@@ -38,52 +37,43 @@ public class RouteSequence: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.stopPointSequences = stopPointSequences
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        direction = jsonDictionary.json(atKeyPath: "direction")
-        isOutboundOnly = jsonDictionary.json(atKeyPath: "isOutboundOnly")
-        lineId = jsonDictionary.json(atKeyPath: "lineId")
-        lineName = jsonDictionary.json(atKeyPath: "lineName")
-        lineStrings = jsonDictionary.json(atKeyPath: "lineStrings")
-        mode = jsonDictionary.json(atKeyPath: "mode")
-        orderedLineRoutes = jsonDictionary.json(atKeyPath: "orderedLineRoutes")
-        stations = jsonDictionary.json(atKeyPath: "stations")
-        stopPointSequences = jsonDictionary.json(atKeyPath: "stopPointSequences")
+    private enum CodingKeys: String, CodingKey {
+        case direction
+        case isOutboundOnly
+        case lineId
+        case lineName
+        case lineStrings
+        case mode
+        case orderedLineRoutes
+        case stations
+        case stopPointSequences
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let direction = direction {
-            dictionary["direction"] = direction
-        }
-        if let isOutboundOnly = isOutboundOnly {
-            dictionary["isOutboundOnly"] = isOutboundOnly
-        }
-        if let lineId = lineId {
-            dictionary["lineId"] = lineId
-        }
-        if let lineName = lineName {
-            dictionary["lineName"] = lineName
-        }
-        if let lineStrings = lineStrings {
-            dictionary["lineStrings"] = lineStrings
-        }
-        if let mode = mode {
-            dictionary["mode"] = mode
-        }
-        if let orderedLineRoutes = orderedLineRoutes?.encode() {
-            dictionary["orderedLineRoutes"] = orderedLineRoutes
-        }
-        if let stations = stations?.encode() {
-            dictionary["stations"] = stations
-        }
-        if let stopPointSequences = stopPointSequences?.encode() {
-            dictionary["stopPointSequences"] = stopPointSequences
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        direction = try container.decodeIfPresent(.direction)
+        isOutboundOnly = try container.decodeIfPresent(.isOutboundOnly)
+        lineId = try container.decodeIfPresent(.lineId)
+        lineName = try container.decodeIfPresent(.lineName)
+        lineStrings = try container.decodeIfPresent(.lineStrings)
+        mode = try container.decodeIfPresent(.mode)
+        orderedLineRoutes = try container.decodeIfPresent(.orderedLineRoutes)
+        stations = try container.decodeIfPresent(.stations)
+        stopPointSequences = try container.decodeIfPresent(.stopPointSequences)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(direction, forKey: .direction)
+        try container.encode(isOutboundOnly, forKey: .isOutboundOnly)
+        try container.encode(lineId, forKey: .lineId)
+        try container.encode(lineName, forKey: .lineName)
+        try container.encode(lineStrings, forKey: .lineStrings)
+        try container.encode(mode, forKey: .mode)
+        try container.encode(orderedLineRoutes, forKey: .orderedLineRoutes)
+        try container.encode(stations, forKey: .stations)
+        try container.encode(stopPointSequences, forKey: .stopPointSequences)
     }
 }

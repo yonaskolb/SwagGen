@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ArrayTest: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ArrayTest: Codable {
 
     public var arrayArrayOfInteger: [[Int]]?
 
@@ -20,28 +19,25 @@ public class ArrayTest: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.arrayOfString = arrayOfString
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        arrayArrayOfInteger = jsonDictionary.json(atKeyPath: "array_array_of_integer")
-        arrayArrayOfModel = jsonDictionary.json(atKeyPath: "array_array_of_model")
-        arrayOfString = jsonDictionary.json(atKeyPath: "array_of_string")
+    private enum CodingKeys: String, CodingKey {
+        case arrayArrayOfInteger = "array_array_of_integer"
+        case arrayArrayOfModel = "array_array_of_model"
+        case arrayOfString = "array_of_string"
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let arrayArrayOfInteger = arrayArrayOfInteger?.map({ $0.encode() }) {
-            dictionary["array_array_of_integer"] = arrayArrayOfInteger
-        }
-        if let arrayArrayOfModel = arrayArrayOfModel?.map({ $0.encode() }) {
-            dictionary["array_array_of_model"] = arrayArrayOfModel
-        }
-        if let arrayOfString = arrayOfString {
-            dictionary["array_of_string"] = arrayOfString
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        arrayArrayOfInteger = try container.decodeIfPresent(.arrayArrayOfInteger)
+        arrayArrayOfModel = try container.decodeIfPresent(.arrayArrayOfModel)
+        arrayOfString = try container.decodeIfPresent(.arrayOfString)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
+        try container.encode(arrayArrayOfModel, forKey: .arrayArrayOfModel)
+        try container.encode(arrayOfString, forKey: .arrayOfString)
     }
 }

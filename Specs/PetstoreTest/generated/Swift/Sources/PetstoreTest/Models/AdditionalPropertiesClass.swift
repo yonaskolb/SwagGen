@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class AdditionalPropertiesClass: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class AdditionalPropertiesClass: Codable {
 
     public var mapOfMapProperty: [String: [String: String]]?
 
@@ -17,24 +16,22 @@ public class AdditionalPropertiesClass: JSONDecodable, JSONEncodable, PrettyPrin
         self.mapProperty = mapProperty
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        mapOfMapProperty = jsonDictionary.json(atKeyPath: "map_of_map_property")
-        mapProperty = jsonDictionary.json(atKeyPath: "map_property")
+    private enum CodingKeys: String, CodingKey {
+        case mapOfMapProperty = "map_of_map_property"
+        case mapProperty = "map_property"
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let mapOfMapProperty = mapOfMapProperty?.mapValues({ $0.encode() }) {
-            dictionary["map_of_map_property"] = mapOfMapProperty
-        }
-        if let mapProperty = mapProperty {
-            dictionary["map_property"] = mapProperty
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        mapOfMapProperty = try container.decodeIfPresent(.mapOfMapProperty)
+        mapProperty = try container.decodeIfPresent(.mapProperty)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(mapOfMapProperty, forKey: .mapOfMapProperty)
+        try container.encode(mapProperty, forKey: .mapProperty)
     }
 }

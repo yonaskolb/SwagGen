@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class RegistrationRequest: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class RegistrationRequest: Codable {
 
     public var email: String
 
@@ -35,40 +34,37 @@ public class RegistrationRequest: JSONDecodable, JSONEncodable, PrettyPrintable 
         self.segments = segments
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        email = try jsonDictionary.json(atKeyPath: "email")
-        password = try jsonDictionary.json(atKeyPath: "password")
-        firstName = jsonDictionary.json(atKeyPath: "firstName")
-        lastName = jsonDictionary.json(atKeyPath: "lastName")
-        marketing = jsonDictionary.json(atKeyPath: "marketing")
-        pin = jsonDictionary.json(atKeyPath: "pin")
-        segments = jsonDictionary.json(atKeyPath: "segments")
+    private enum CodingKeys: String, CodingKey {
+        case email
+        case password
+        case firstName
+        case lastName
+        case marketing
+        case pin
+        case segments
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["email"] = email
-        dictionary["password"] = password
-        if let firstName = firstName {
-            dictionary["firstName"] = firstName
-        }
-        if let lastName = lastName {
-            dictionary["lastName"] = lastName
-        }
-        if let marketing = marketing {
-            dictionary["marketing"] = marketing
-        }
-        if let pin = pin {
-            dictionary["pin"] = pin
-        }
-        if let segments = segments {
-            dictionary["segments"] = segments
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        email = try container.decode(.email)
+        password = try container.decode(.password)
+        firstName = try container.decodeIfPresent(.firstName)
+        lastName = try container.decodeIfPresent(.lastName)
+        marketing = try container.decodeIfPresent(.marketing)
+        pin = try container.decodeIfPresent(.pin)
+        segments = try container.decodeIfPresent(.segments)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(email, forKey: .email)
+        try container.encode(password, forKey: .password)
+        try container.encode(firstName, forKey: .firstName)
+        try container.encode(lastName, forKey: .lastName)
+        try container.encode(marketing, forKey: .marketing)
+        try container.encode(pin, forKey: .pin)
+        try container.encode(segments, forKey: .segments)
     }
 }

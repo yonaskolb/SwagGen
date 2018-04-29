@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ItemSchedule: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ItemSchedule: Codable {
 
     public var id: String
 
@@ -41,40 +40,40 @@ public class ItemSchedule: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.`repeat` = `repeat`
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        id = try jsonDictionary.json(atKeyPath: "id")
-        channelId = try jsonDictionary.json(atKeyPath: "channelId")
-        startDate = try jsonDictionary.json(atKeyPath: "startDate")
-        endDate = try jsonDictionary.json(atKeyPath: "endDate")
-        featured = jsonDictionary.json(atKeyPath: "featured")
-        item = jsonDictionary.json(atKeyPath: "item")
-        live = jsonDictionary.json(atKeyPath: "live")
-        `repeat` = jsonDictionary.json(atKeyPath: "repeat")
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case channelId
+        case startDate
+        case endDate
+        case featured
+        case item
+        case live
+        case `repeat` = "repeat"
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["id"] = id
-        dictionary["channelId"] = channelId
-        dictionary["startDate"] = startDate.encode()
-        dictionary["endDate"] = endDate.encode()
-        if let featured = featured {
-            dictionary["featured"] = featured
-        }
-        if let item = item?.encode() {
-            dictionary["item"] = item
-        }
-        if let live = live {
-            dictionary["live"] = live
-        }
-        if let `repeat` = `repeat` {
-            dictionary["repeat"] = `repeat`
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(.id)
+        channelId = try container.decode(.channelId)
+        startDate = try container.decode(.startDate)
+        endDate = try container.decode(.endDate)
+        featured = try container.decodeIfPresent(.featured)
+        item = try container.decodeIfPresent(.item)
+        live = try container.decodeIfPresent(.live)
+        `repeat` = try container.decodeIfPresent(.`repeat`)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(channelId, forKey: .channelId)
+        try container.encode(startDate, forKey: .startDate)
+        try container.encode(endDate, forKey: .endDate)
+        try container.encode(featured, forKey: .featured)
+        try container.encode(item, forKey: .item)
+        try container.encode(live, forKey: .live)
+        try container.encode(`repeat`, forKey: .`repeat`)
     }
 }

@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class HasOnlyReadOnly: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class HasOnlyReadOnly: Codable {
 
     public var bar: String?
 
@@ -17,24 +16,22 @@ public class HasOnlyReadOnly: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.foo = foo
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        bar = jsonDictionary.json(atKeyPath: "bar")
-        foo = jsonDictionary.json(atKeyPath: "foo")
+    private enum CodingKeys: String, CodingKey {
+        case bar
+        case foo
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let bar = bar {
-            dictionary["bar"] = bar
-        }
-        if let foo = foo {
-            dictionary["foo"] = foo
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        bar = try container.decodeIfPresent(.bar)
+        foo = try container.decodeIfPresent(.foo)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(bar, forKey: .bar)
+        try container.encode(foo, forKey: .foo)
     }
 }

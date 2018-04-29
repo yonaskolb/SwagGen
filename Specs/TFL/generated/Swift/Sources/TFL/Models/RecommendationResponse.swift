@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class RecommendationResponse: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class RecommendationResponse: Codable {
 
     public var recommendations: [Recommendation]?
 
@@ -14,20 +13,19 @@ public class RecommendationResponse: JSONDecodable, JSONEncodable, PrettyPrintab
         self.recommendations = recommendations
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        recommendations = jsonDictionary.json(atKeyPath: "recommendations")
+    private enum CodingKeys: String, CodingKey {
+        case recommendations
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let recommendations = recommendations?.encode() {
-            dictionary["recommendations"] = recommendations
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        recommendations = try container.decodeIfPresent(.recommendations)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(recommendations, forKey: .recommendations)
     }
 }

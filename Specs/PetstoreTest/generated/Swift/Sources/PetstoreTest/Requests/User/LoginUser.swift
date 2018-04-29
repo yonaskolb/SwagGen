@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension PetstoreTest.User {
 
@@ -42,7 +41,7 @@ extension PetstoreTest.User {
             }
 
             public override var parameters: [String: Any] {
-                var params: JSONDictionary = [:]
+                var params: [String: Any] = [:]
                 params["username"] = options.username
                 params["password"] = options.password
                 return params
@@ -86,9 +85,9 @@ extension PetstoreTest.User {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(JSONDecoder.decode(data: data))
+                case 200: self = try .status200(decoder.decode(String.self, from: data))
                 case 400: self = .status400
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }

@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import JSONUtilities
 
 extension TBX.UserService {
 
@@ -118,13 +117,13 @@ extension TBX.UserService {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
                 case 204: self = .status204
-                case 400: self = try .status400(JSONDecoder.decode(data: data))
-                case 401: self = try .status401(JSONDecoder.decode(data: data))
-                case 404: self = try .status404(JSONDecoder.decode(data: data))
-                case 410: self = try .status410(JSONDecoder.decode(data: data))
+                case 400: self = try .status400(decoder.decodeAny(XAny.self, from: data))
+                case 401: self = try .status401(decoder.decodeAny(XAny.self, from: data))
+                case 404: self = try .status404(decoder.decodeAny(XAny.self, from: data))
+                case 410: self = try .status410(decoder.decodeAny(XAny.self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

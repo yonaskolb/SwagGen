@@ -4,10 +4,9 @@
 //
 
 import Foundation
-import JSONUtilities
 
 /** Model for testing model with "_class" property */
-public class ClassModel: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ClassModel: Codable {
 
     public var `class`: String?
 
@@ -15,20 +14,19 @@ public class ClassModel: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.`class` = `class`
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        `class` = jsonDictionary.json(atKeyPath: "_class")
+    private enum CodingKeys: String, CodingKey {
+        case `class` = "_class"
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let `class` = `class` {
-            dictionary["_class"] = `class`
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        `class` = try container.decodeIfPresent(.`class`)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(`class`, forKey: .`class`)
     }
 }

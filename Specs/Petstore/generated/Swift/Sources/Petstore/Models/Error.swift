@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ErrorType: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ErrorType: Codable {
 
     public var code: Int
 
@@ -17,20 +16,22 @@ public class ErrorType: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.message = message
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        code = try jsonDictionary.json(atKeyPath: "code")
-        message = try jsonDictionary.json(atKeyPath: "message")
+    private enum CodingKeys: String, CodingKey {
+        case code
+        case message
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["code"] = code
-        dictionary["message"] = message
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        code = try container.decode(.code)
+        message = try container.decode(.message)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(code, forKey: .code)
+        try container.encode(message, forKey: .message)
     }
 }

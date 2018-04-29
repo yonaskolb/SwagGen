@@ -4,22 +4,16 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Object: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Object: Codable {
 
     public init() {
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
+
+    public required init(from decoder: Decoder) throws {
     }
 
-    public func encode() -> JSONDictionary {
-        return [:]
-    }
-
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
     }
 }

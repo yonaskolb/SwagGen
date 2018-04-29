@@ -4,11 +4,10 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class MapTest: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class MapTest: Codable {
 
-    public enum MapOfEnumString: String {
+    public enum MapOfEnumString: String, Codable {
         case upper = "UPPER"
         case lower = "lower"
 
@@ -27,24 +26,22 @@ public class MapTest: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.mapOfEnumString = mapOfEnumString
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        mapMapOfString = jsonDictionary.json(atKeyPath: "map_map_of_string")
-        mapOfEnumString = jsonDictionary.json(atKeyPath: "map_of_enum_string")
+    private enum CodingKeys: String, CodingKey {
+        case mapMapOfString = "map_map_of_string"
+        case mapOfEnumString = "map_of_enum_string"
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let mapMapOfString = mapMapOfString?.mapValues({ $0.encode() }) {
-            dictionary["map_map_of_string"] = mapMapOfString
-        }
-        if let mapOfEnumString = mapOfEnumString?.encode() {
-            dictionary["map_of_enum_string"] = mapOfEnumString
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        mapMapOfString = try container.decodeIfPresent(.mapMapOfString)
+        mapOfEnumString = try container.decodeIfPresent(.mapOfEnumString)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(mapMapOfString, forKey: .mapMapOfString)
+        try container.encode(mapOfEnumString, forKey: .mapOfEnumString)
     }
 }

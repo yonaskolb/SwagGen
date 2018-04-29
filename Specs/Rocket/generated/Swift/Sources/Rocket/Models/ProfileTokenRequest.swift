@@ -4,12 +4,11 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class ProfileTokenRequest: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class ProfileTokenRequest: Codable {
 
     /** The scope(s) of the token(s) required. */
-    public enum Scopes: String {
+    public enum Scopes: String, Codable {
         case catalog = "Catalog"
         case commerce = "Commerce"
         case settings = "Settings"
@@ -36,24 +35,25 @@ public class ProfileTokenRequest: JSONDecodable, JSONEncodable, PrettyPrintable 
         self.pin = pin
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        profileId = try jsonDictionary.json(atKeyPath: "profileId")
-        scopes = try jsonDictionary.json(atKeyPath: "scopes")
-        pin = jsonDictionary.json(atKeyPath: "pin")
+    private enum CodingKeys: String, CodingKey {
+        case profileId
+        case scopes
+        case pin
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        dictionary["profileId"] = profileId
-        dictionary["scopes"] = scopes.encode()
-        if let pin = pin {
-            dictionary["pin"] = pin
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        profileId = try container.decode(.profileId)
+        scopes = try container.decode(.scopes)
+        pin = try container.decodeIfPresent(.pin)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(profileId, forKey: .profileId)
+        try container.encode(scopes, forKey: .scopes)
+        try container.encode(pin, forKey: .pin)
     }
 }

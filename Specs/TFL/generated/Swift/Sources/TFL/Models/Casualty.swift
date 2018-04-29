@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class Casualty: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class Casualty: Codable {
 
     public var age: Int?
 
@@ -26,36 +25,31 @@ public class Casualty: JSONDecodable, JSONEncodable, PrettyPrintable {
         self.severity = severity
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        age = jsonDictionary.json(atKeyPath: "age")
-        ageBand = jsonDictionary.json(atKeyPath: "ageBand")
-        `class` = jsonDictionary.json(atKeyPath: "class")
-        mode = jsonDictionary.json(atKeyPath: "mode")
-        severity = jsonDictionary.json(atKeyPath: "severity")
+    private enum CodingKeys: String, CodingKey {
+        case age
+        case ageBand
+        case `class` = "class"
+        case mode
+        case severity
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let age = age {
-            dictionary["age"] = age
-        }
-        if let ageBand = ageBand {
-            dictionary["ageBand"] = ageBand
-        }
-        if let `class` = `class` {
-            dictionary["class"] = `class`
-        }
-        if let mode = mode {
-            dictionary["mode"] = mode
-        }
-        if let severity = severity {
-            dictionary["severity"] = severity
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        age = try container.decodeIfPresent(.age)
+        ageBand = try container.decodeIfPresent(.ageBand)
+        `class` = try container.decodeIfPresent(.`class`)
+        mode = try container.decodeIfPresent(.mode)
+        severity = try container.decodeIfPresent(.severity)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(age, forKey: .age)
+        try container.encode(ageBand, forKey: .ageBand)
+        try container.encode(`class`, forKey: .`class`)
+        try container.encode(mode, forKey: .mode)
+        try container.encode(severity, forKey: .severity)
     }
 }

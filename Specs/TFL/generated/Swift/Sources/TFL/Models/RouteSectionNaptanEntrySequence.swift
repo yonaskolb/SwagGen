@@ -4,9 +4,8 @@
 //
 
 import Foundation
-import JSONUtilities
 
-public class RouteSectionNaptanEntrySequence: JSONDecodable, JSONEncodable, PrettyPrintable {
+public class RouteSectionNaptanEntrySequence: Codable {
 
     public var ordinal: Int?
 
@@ -17,24 +16,22 @@ public class RouteSectionNaptanEntrySequence: JSONDecodable, JSONEncodable, Pret
         self.stopPoint = stopPoint
     }
 
-    public required init(jsonDictionary: JSONDictionary) throws {
-        ordinal = jsonDictionary.json(atKeyPath: "ordinal")
-        stopPoint = jsonDictionary.json(atKeyPath: "stopPoint")
+    private enum CodingKeys: String, CodingKey {
+        case ordinal
+        case stopPoint
     }
 
-    public func encode() -> JSONDictionary {
-        var dictionary: JSONDictionary = [:]
-        if let ordinal = ordinal {
-            dictionary["ordinal"] = ordinal
-        }
-        if let stopPoint = stopPoint?.encode() {
-            dictionary["stopPoint"] = stopPoint
-        }
-        return dictionary
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        ordinal = try container.decodeIfPresent(.ordinal)
+        stopPoint = try container.decodeIfPresent(.stopPoint)
     }
 
-    /// pretty prints all properties including nested models
-    public var prettyPrinted: String {
-        return "\(Swift.type(of: self)):\n\(encode().recursivePrint(indentIndex: 1))"
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(ordinal, forKey: .ordinal)
+        try container.encode(stopPoint, forKey: .stopPoint)
     }
 }

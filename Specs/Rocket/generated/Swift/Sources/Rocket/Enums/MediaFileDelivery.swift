@@ -4,7 +4,7 @@
 //
 
 /** The video delivery type you require. */
-public enum MediaFileDelivery: String {
+public enum MediaFileDelivery: String, Codable {
     case stream = "stream"
     case progressive = "progressive"
     case download = "download"

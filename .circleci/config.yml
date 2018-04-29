@@ -12,5 +12,5 @@ jobs:
           name: Test
           command: swift test
       - run:
-          name: Build Specs
-          command: ./build_generated_specs.sh
+          name: Build Spec Fixtures
+          command: ./build_specs.sh

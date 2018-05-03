@@ -2,6 +2,7 @@ formatter: swift
 options:
   name: API
   fixedWidthIntegers: false
+  mutableModels: true
   dependencies:
     - name: Alamofire
       pod: Alamofire

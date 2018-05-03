@@ -15,6 +15,6 @@ let package = Package(
         .target(name: "TFL", dependencies: [
           "Alamofire",
           "Result",
-        ])
+        ], path: "Sources")
     ]
 )

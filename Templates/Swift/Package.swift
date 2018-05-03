@@ -17,6 +17,6 @@ let package = Package(
           {% for dependency in options.dependencies %}
           "{{ dependency.pod }}",
           {% endfor %}
-        ])
+        ], path: "Sources")
     ]
 )

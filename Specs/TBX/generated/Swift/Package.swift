@@ -15,6 +15,6 @@ let package = Package(
         .target(name: "TBX", dependencies: [
           "Alamofire",
           "Result",
-        ])
+        ], path: "Sources")
     ]
 )

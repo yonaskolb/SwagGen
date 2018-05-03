@@ -4,13 +4,40 @@ import SwagGenKit
 import Swagger
 import Yams
 
-func generate(templatePath: String, destinationPath: PathKit.Path, specPath: String, clean: Generator.Clean, options: [String]) {
-
+func generate(specPath: String, language: String, templatePath: String, destinationPath: PathKit.Path, clean: Generator.Clean, options: [String]) {
+    var templatePath = Path(templatePath)
     guard specPath != "" && URL(string: specPath) != nil else {
         writeError("Must provide a valid spec")
         exit(EXIT_FAILURE)
     }
-    guard templatePath != "" && URL(string: templatePath) != nil else {
+    guard language != "" else {
+        writeError("Must provide a language")
+        exit(EXIT_FAILURE)
+    }
+
+    if templatePath.string == "" {
+        let bundlePath = Path(Bundle.main.bundlePath)
+        let relativePath = Path("Templates/\(language)/template.yml")
+        var possibleSettingsPaths: [PathKit.Path] = [
+            relativePath,
+            bundlePath + relativePath,
+            bundlePath + "../share/swaggen/\(relativePath)",
+            Path(#file).parent().parent().parent() + relativePath,
+        ]
+
+        if let symlink = try? bundlePath.symlinkDestination() {
+            possibleSettingsPaths = [
+                symlink + relativePath,
+            ] + possibleSettingsPaths
+        }
+
+        guard let path = possibleSettingsPaths.first(where: { $0.exists }) else {
+            writeError("Couldn't find template for language \(language)")
+            exit(EXIT_FAILURE)
+        }
+        templatePath = path
+    }
+    guard templatePath != "" && URL(string: templatePath.string) != nil else {
         writeError("Must provide a template")
         exit(EXIT_FAILURE)
     }
@@ -53,7 +80,7 @@ func generate(templatePath: String, destinationPath: PathKit.Path, specPath: Str
 
     let templateConfig: TemplateConfig
     do {
-        templateConfig = try TemplateConfig(path: Path(templatePath).normalize(), options: optionsDictionary)
+        templateConfig = try TemplateConfig(path: templatePath.normalize(), options: optionsDictionary)
     } catch let error {
         writeError("Error loading template: \(error)")
         exit(EXIT_FAILURE)

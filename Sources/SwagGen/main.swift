@@ -40,9 +40,10 @@ extension Generator.Clean: ArgumentConvertible {
 }
 
 command(
-    Option("template", "", flag: "t", description: "The path to the template json file"),
-    Option("destination", Path.current + "generated", flag: "d", description: "The directory where the generated files will be created"),
     Option("spec", "", flag: "s", description: "The path or url to a swagger spec json file"),
+    Option("language", "swift", flag: "l", description: "The language of the template that will be generated"),
+    Option("template", "", flag: "t", description: "The path to the template json file.\nIf no template is passed a default template for the language will be used"),
+    Option("destination", Path.current + "generated", flag: "d", description: "The directory where the generated files will be created"),
     Option("clean", .none, flag: "c", description: "How the destination directory will be cleaned of non generated files:\nnone: no files will be removed\nleave.files: all other files will be removed except if starting with . in the destination directory\nall: all other files will be removed"),
     VariadicOption("option", [] as [String], description: "An option that will be merged with template options. Can be repeated multiple times"),
     generate

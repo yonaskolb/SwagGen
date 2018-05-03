@@ -1,7 +1,7 @@
 
-@testable import Swagger
 import PathKit
 import Spectre
+@testable import Swagger
 
 public func testParsing() {
 

@@ -1,7 +1,7 @@
 import Foundation
-import Swagger
-import SwagGenKit
 import PathKit
+import SwagGenKit
+import Swagger
 import Yams
 
 func generate(templatePath: String, destinationPath: PathKit.Path, specPath: String, clean: Generator.Clean, options: [String]) {

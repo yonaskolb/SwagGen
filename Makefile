@@ -5,6 +5,10 @@ SHARE_PATH = /usr/local/share/$(TOOL_NAME)
 BUILD_PATH = .build/release/$(TOOL_NAME)
 CURRENT_PATH = $(PWD)
 
+format_code:
+	swiftformat Tests --wraparguments beforefirst --stripunusedargs closure-only --header strip --disable blankLinesAtStartOfScope
+	swiftformat Sources --wraparguments beforefirst --stripunusedargs closure-only --header strip --disable blankLinesAtStartOfScope
+
 install:
 	swift build -c release -Xswiftc -static-stdlib
 	cp -f $(BUILD_PATH) $(INSTALL_PATH)

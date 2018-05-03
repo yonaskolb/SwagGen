@@ -1,5 +1,5 @@
-import SwaggerTests
 import SwagGenKitTests
+import SwaggerTests
 
 testFixtures()
 testParsing()

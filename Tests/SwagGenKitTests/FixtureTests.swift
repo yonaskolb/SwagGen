@@ -1,8 +1,8 @@
-@testable import SwagGenKit
-@testable import Swagger
+import Foundation
 import PathKit
 import Spectre
-import Foundation
+@testable import SwagGenKit
+@testable import Swagger
 
 public func testFixtures() {
 

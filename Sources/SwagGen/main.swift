@@ -1,6 +1,6 @@
+import Commander
 import Foundation
 import PathKit
-import Commander
 import SwagGenKit
 
 func optionsValidator(string: String) -> String {
@@ -45,5 +45,6 @@ command(
     Option("spec", "", flag: "s", description: "The path or url to a swagger spec json file"),
     Option("clean", .none, flag: "c", description: "How the destination directory will be cleaned of non generated files:\nnone: no files will be removed\nleave.files: all other files will be removed except if starting with . in the destination directory\nall: all other files will be removed"),
     VariadicOption("option", [] as [String], description: "An option that will be merged with template options. Can be repeated multiple times"),
-    generate)
-    .run()
+    generate
+)
+.run()

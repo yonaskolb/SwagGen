@@ -1,7 +1,7 @@
 import Foundation
 import JSONUtilities
-import Yams
 import PathKit
+import Yams
 
 public struct SwaggerSpec {
 
@@ -183,7 +183,7 @@ extension SwaggerSpec: JSONObjectConvertible {
             path.operations.forEach {
                 $0.pathParameters.forEach(resolveParameterReference)
                 $0.operationParameters.forEach(resolveParameterReference)
-                $0.responses.map{$0.response}.forEach(resolveResponseReference)
+                $0.responses.map { $0.response }.forEach(resolveResponseReference)
             }
         }
     }

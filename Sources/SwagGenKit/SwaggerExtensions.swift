@@ -1,8 +1,8 @@
 import Foundation
-import Swagger
-import Yams
 import JSONUtilities
 import PathKit
+import Swagger
+import Yams
 
 struct Enum {
     let name: String

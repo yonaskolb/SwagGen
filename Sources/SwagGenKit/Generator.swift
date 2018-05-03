@@ -1,8 +1,8 @@
 import Foundation
-import PathKit
-import Stencil
 import JSONUtilities
+import PathKit
 import Rainbow
+import Stencil
 
 public class Generator {
 

@@ -15,6 +15,6 @@ let package = Package(
         .target(name: "PetstoreTest", dependencies: [
           "Alamofire",
           "Result",
-        ])
+        ], path: "Sources")
     ]
 )

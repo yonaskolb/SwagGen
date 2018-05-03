@@ -1,5 +1,21 @@
 # Change Log
 
+## [2.0.0]
+### Added
+- Swift template: added `Codable` support to models #61
+- Swift template: added `Equatable` support to models #63
+- Swift template: added `mutableModels` option to template #64
+- Bundle templates with installation #65
+- New `language` argument which defaults to `swift` for now #65
+- Default template for language is now used if no template path is specified #65
+
+### Changes
+- Swift template: move sources out of now unnessary subdirectory #62
+
+### Removed
+- Swift template: models no longer have `init(jsonDictionary: JSONDictionary)` or `encode() -> JSONDictionary` functions #61
+- Swift template: removed `JSONUtilities` dependency functions #61
+
 ## [1.2.0]
 ### Added
 - Added `fixedWidthIntegers` option to Swift template. Thanks @martinknabbe
@@ -183,6 +199,7 @@ Improved the generation of complicated specs:
 ## 0.1.0 - 2017-04-27
 - First official release
 
+[2.0.0]: https://github.com/yonaskolb/SwagGen/compare/1.2.0...2.0.0
 [1.2.0]: https://github.com/yonaskolb/SwagGen/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/yonaskolb/SwagGen/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/yonaskolb/SwagGen/compare/0.6.1...1.0.0

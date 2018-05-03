@@ -20,11 +20,11 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}Codable, Equa
     {% if property.description %}
     /** {{ property.description }} */
     {% endif %}
-    public var {{ property.name }}: {{ property.optionalType }}
+    public {% if options.mutableModels %}var{% else %}let{% endif %} {{ property.name }}: {{ property.optionalType }}
     {% endfor %}
     {% if additionalPropertiesType %}
 
-    public var additionalProperties: [String: {{ additionalPropertiesType }}] = [:]
+    public {% if options.mutableModels %}var{% else %}let{% endif %} additionalProperties: [String: {{ additionalPropertiesType }}] = [:]
     {% endif %}
 
     public init({% for property in allProperties %}{{ property.name }}: {{ property.optionalType }}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Auth: Codable {
+public class Auth: Codable, Equatable {
 
     public var status: Bool
 
@@ -34,5 +34,16 @@ public class Auth: Codable {
 
         try container.encode(status, forKey: .status)
         try container.encode(userToken, forKey: .userToken)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Auth else { return false }
+      guard self.status == object.status else { return false }
+      guard self.userToken == object.userToken else { return false }
+      return true
+    }
+
+    public static func == (lhs: Auth, rhs: Auth) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

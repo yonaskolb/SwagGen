@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class NavEntry: Codable {
+public class NavEntry: Codable, Equatable {
 
     /** Child nav entries. */
     public var children: [NavEntry]?
@@ -69,5 +69,20 @@ If the value begins with `http` then it's an external url.
         try container.encode(featured, forKey: .featured)
         try container.encode(label, forKey: .label)
         try container.encode(path, forKey: .path)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? NavEntry else { return false }
+      guard self.children == object.children else { return false }
+      guard self.content == object.content else { return false }
+      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.featured == object.featured else { return false }
+      guard self.label == object.label else { return false }
+      guard self.path == object.path else { return false }
+      return true
+    }
+
+    public static func == (lhs: NavEntry, rhs: NavEntry) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

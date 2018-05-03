@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ErrorType: Codable {
+public class ErrorType: Codable, Equatable {
 
     public var code: Int
 
@@ -33,5 +33,16 @@ public class ErrorType: Codable {
 
         try container.encode(code, forKey: .code)
         try container.encode(message, forKey: .message)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ErrorType else { return false }
+      guard self.code == object.code else { return false }
+      guard self.message == object.message else { return false }
+      return true
+    }
+
+    public static func == (lhs: ErrorType, rhs: ErrorType) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

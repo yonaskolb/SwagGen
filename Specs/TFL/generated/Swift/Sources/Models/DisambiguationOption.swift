@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DisambiguationOption: Codable {
+public class DisambiguationOption: Codable, Equatable {
 
     public var description: String?
 
@@ -33,5 +33,16 @@ public class DisambiguationOption: Codable {
 
         try container.encode(description, forKey: .description)
         try container.encode(uri, forKey: .uri)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? DisambiguationOption else { return false }
+      guard self.description == object.description else { return false }
+      guard self.uri == object.uri else { return false }
+      return true
+    }
+
+    public static func == (lhs: DisambiguationOption, rhs: DisambiguationOption) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

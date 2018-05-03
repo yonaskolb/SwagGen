@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Identifier: Codable {
+public class Identifier: Codable, Equatable {
 
     public var crowding: Crowding?
 
@@ -57,5 +57,20 @@ public class Identifier: Codable {
         try container.encode(name, forKey: .name)
         try container.encode(type, forKey: .type)
         try container.encode(uri, forKey: .uri)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Identifier else { return false }
+      guard self.crowding == object.crowding else { return false }
+      guard self.fullName == object.fullName else { return false }
+      guard self.id == object.id else { return false }
+      guard self.name == object.name else { return false }
+      guard self.type == object.type else { return false }
+      guard self.uri == object.uri else { return false }
+      return true
+    }
+
+    public static func == (lhs: Identifier, rhs: Identifier) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

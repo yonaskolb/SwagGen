@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Navigation: Codable {
+public class Navigation: Codable, Equatable {
 
     /** The header navigation. */
     public var header: [NavEntry]
@@ -56,5 +56,19 @@ public class Navigation: Codable {
         try container.encode(copyright, forKey: .copyright)
         try container.encodeAny(customFields, forKey: .customFields)
         try container.encode(footer, forKey: .footer)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Navigation else { return false }
+      guard self.header == object.header else { return false }
+      guard self.account == object.account else { return false }
+      guard self.copyright == object.copyright else { return false }
+      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.footer == object.footer else { return false }
+      return true
+    }
+
+    public static func == (lhs: Navigation, rhs: Navigation) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

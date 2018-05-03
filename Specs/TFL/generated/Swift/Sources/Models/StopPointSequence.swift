@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StopPointSequence: Codable {
+public class StopPointSequence: Codable, Equatable {
 
     public enum ServiceType: String, Codable {
         case regular = "Regular"
@@ -84,5 +84,22 @@ public class StopPointSequence: Codable {
         try container.encode(prevBranchIds, forKey: .prevBranchIds)
         try container.encode(serviceType, forKey: .serviceType)
         try container.encode(stopPoint, forKey: .stopPoint)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? StopPointSequence else { return false }
+      guard self.branchId == object.branchId else { return false }
+      guard self.direction == object.direction else { return false }
+      guard self.lineId == object.lineId else { return false }
+      guard self.lineName == object.lineName else { return false }
+      guard self.nextBranchIds == object.nextBranchIds else { return false }
+      guard self.prevBranchIds == object.prevBranchIds else { return false }
+      guard self.serviceType == object.serviceType else { return false }
+      guard self.stopPoint == object.stopPoint else { return false }
+      return true
+    }
+
+    public static func == (lhs: StopPointSequence, rhs: StopPointSequence) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

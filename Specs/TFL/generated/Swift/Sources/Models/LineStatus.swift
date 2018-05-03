@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class LineStatus: Codable {
+public class LineStatus: Codable, Equatable {
 
     public var created: Date?
 
@@ -75,5 +75,23 @@ public class LineStatus: Codable {
         try container.encode(statusSeverity, forKey: .statusSeverity)
         try container.encode(statusSeverityDescription, forKey: .statusSeverityDescription)
         try container.encode(validityPeriods, forKey: .validityPeriods)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? LineStatus else { return false }
+      guard self.created == object.created else { return false }
+      guard self.disruption == object.disruption else { return false }
+      guard self.id == object.id else { return false }
+      guard self.lineId == object.lineId else { return false }
+      guard self.modified == object.modified else { return false }
+      guard self.reason == object.reason else { return false }
+      guard self.statusSeverity == object.statusSeverity else { return false }
+      guard self.statusSeverityDescription == object.statusSeverityDescription else { return false }
+      guard self.validityPeriods == object.validityPeriods else { return false }
+      return true
+    }
+
+    public static func == (lhs: LineStatus, rhs: LineStatus) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

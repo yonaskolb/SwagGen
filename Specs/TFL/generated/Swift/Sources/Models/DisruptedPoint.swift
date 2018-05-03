@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DisruptedPoint: Codable {
+public class DisruptedPoint: Codable, Equatable {
 
     public var additionalInformation: String?
 
@@ -81,5 +81,24 @@ public class DisruptedPoint: Codable {
         try container.encode(stationAtcoCode, forKey: .stationAtcoCode)
         try container.encode(toDate, forKey: .toDate)
         try container.encode(type, forKey: .type)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? DisruptedPoint else { return false }
+      guard self.additionalInformation == object.additionalInformation else { return false }
+      guard self.appearance == object.appearance else { return false }
+      guard self.atcoCode == object.atcoCode else { return false }
+      guard self.commonName == object.commonName else { return false }
+      guard self.description == object.description else { return false }
+      guard self.fromDate == object.fromDate else { return false }
+      guard self.mode == object.mode else { return false }
+      guard self.stationAtcoCode == object.stationAtcoCode else { return false }
+      guard self.toDate == object.toDate else { return false }
+      guard self.type == object.type else { return false }
+      return true
+    }
+
+    public static func == (lhs: DisruptedPoint, rhs: DisruptedPoint) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

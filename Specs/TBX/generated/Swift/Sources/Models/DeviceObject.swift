@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DeviceObject: Codable {
+public class DeviceObject: Codable, Equatable {
 
     public var token: String
 
@@ -52,5 +52,19 @@ public class DeviceObject: Codable {
         try container.encodeAny(type, forKey: .type)
         try container.encodeAny(customer, forKey: .customer)
         try container.encode(description, forKey: .description)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? DeviceObject else { return false }
+      guard self.token == object.token else { return false }
+      guard self.createdAt == object.createdAt else { return false }
+      guard NSDictionary(dictionary: self.type ).isEqual(to: object.type) else { return false }
+      guard NSDictionary(dictionary: self.customer ).isEqual(to: object.customer) else { return false }
+      guard self.description == object.description else { return false }
+      return true
+    }
+
+    public static func == (lhs: DeviceObject, rhs: DeviceObject) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

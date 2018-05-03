@@ -76,4 +76,11 @@ public class Credit: Person {
         try container.encode(character, forKey: .character)
         try super.encode(to: encoder)
     }
+
+    override public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Credit else { return false }
+      guard self.role == object.role else { return false }
+      guard self.character == object.character else { return false }
+      return super.isEqual(to: object)
+    }
 }

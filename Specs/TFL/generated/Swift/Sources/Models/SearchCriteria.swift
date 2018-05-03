@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class SearchCriteria: Codable {
+public class SearchCriteria: Codable, Equatable {
 
     public enum DateTimeType: String, Codable {
         case arriving = "Arriving"
@@ -49,5 +49,17 @@ public class SearchCriteria: Codable {
         try container.encode(dateTime, forKey: .dateTime)
         try container.encode(dateTimeType, forKey: .dateTimeType)
         try container.encode(timeAdjustments, forKey: .timeAdjustments)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? SearchCriteria else { return false }
+      guard self.dateTime == object.dateTime else { return false }
+      guard self.dateTimeType == object.dateTimeType else { return false }
+      guard self.timeAdjustments == object.timeAdjustments else { return false }
+      return true
+    }
+
+    public static func == (lhs: SearchCriteria, rhs: SearchCriteria) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

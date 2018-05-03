@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class CarParkOccupancy: Codable {
+public class CarParkOccupancy: Codable, Equatable {
 
     public var bays: [Bay]?
 
@@ -45,5 +45,18 @@ public class CarParkOccupancy: Codable {
         try container.encode(carParkDetailsUrl, forKey: .carParkDetailsUrl)
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? CarParkOccupancy else { return false }
+      guard self.bays == object.bays else { return false }
+      guard self.carParkDetailsUrl == object.carParkDetailsUrl else { return false }
+      guard self.id == object.id else { return false }
+      guard self.name == object.name else { return false }
+      return true
+    }
+
+    public static func == (lhs: CarParkOccupancy, rhs: CarParkOccupancy) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

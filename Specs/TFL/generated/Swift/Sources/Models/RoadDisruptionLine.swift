@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RoadDisruptionLine: Codable {
+public class RoadDisruptionLine: Codable, Equatable {
 
     public var endDate: Date?
 
@@ -69,5 +69,22 @@ public class RoadDisruptionLine: Codable {
         try container.encode(roadDisruptionId, forKey: .roadDisruptionId)
         try container.encode(startDate, forKey: .startDate)
         try container.encode(startTime, forKey: .startTime)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? RoadDisruptionLine else { return false }
+      guard self.endDate == object.endDate else { return false }
+      guard self.endTime == object.endTime else { return false }
+      guard self.id == object.id else { return false }
+      guard self.isDiversion == object.isDiversion else { return false }
+      guard self.multiLineString == object.multiLineString else { return false }
+      guard self.roadDisruptionId == object.roadDisruptionId else { return false }
+      guard self.startDate == object.startDate else { return false }
+      guard self.startTime == object.startTime else { return false }
+      return true
+    }
+
+    public static func == (lhs: RoadDisruptionLine, rhs: RoadDisruptionLine) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

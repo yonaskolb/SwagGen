@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ProfileSummary: Codable {
+public class ProfileSummary: Codable, Equatable {
 
     /** The id of the profile. */
     public var id: String
@@ -99,5 +99,23 @@ pin also exists. This is then applied across all profiles.
         try container.encode(segments, forKey: .segments)
         try container.encode(maxRatingContentFilter, forKey: .maxRatingContentFilter)
         try container.encode(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ProfileSummary else { return false }
+      guard self.id == object.id else { return false }
+      guard self.name == object.name else { return false }
+      guard self.isActive == object.isActive else { return false }
+      guard self.pinEnabled == object.pinEnabled else { return false }
+      guard self.purchaseEnabled == object.purchaseEnabled else { return false }
+      guard self.marketingEnabled == object.marketingEnabled else { return false }
+      guard self.segments == object.segments else { return false }
+      guard self.maxRatingContentFilter == object.maxRatingContentFilter else { return false }
+      guard self.minRatingPlaybackGuard == object.minRatingPlaybackGuard else { return false }
+      return true
+    }
+
+    public static func == (lhs: ProfileSummary, rhs: ProfileSummary) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

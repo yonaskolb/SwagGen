@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RouteSection: Codable {
+public class RouteSection: Codable, Equatable {
 
     /** eg: Destination Name */
     public var destinationName: String?
@@ -83,5 +83,23 @@ public class RouteSection: Codable {
         try container.encode(originationName, forKey: .originationName)
         try container.encode(routeCode, forKey: .routeCode)
         try container.encode(routeSectionNaptanEntrySequence, forKey: .routeSectionNaptanEntrySequence)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? RouteSection else { return false }
+      guard self.destinationName == object.destinationName else { return false }
+      guard self.direction == object.direction else { return false }
+      guard self.id == object.id else { return false }
+      guard self.lineId == object.lineId else { return false }
+      guard self.lineString == object.lineString else { return false }
+      guard self.name == object.name else { return false }
+      guard self.originationName == object.originationName else { return false }
+      guard self.routeCode == object.routeCode else { return false }
+      guard self.routeSectionNaptanEntrySequence == object.routeSectionNaptanEntrySequence else { return false }
+      return true
+    }
+
+    public static func == (lhs: RouteSection, rhs: RouteSection) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

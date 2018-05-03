@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ClassificationSummary: Codable {
+public class ClassificationSummary: Codable, Equatable {
 
     /** The unique code for a classification. */
     public var code: String
@@ -35,5 +35,16 @@ public class ClassificationSummary: Codable {
 
         try container.encode(code, forKey: .code)
         try container.encode(name, forKey: .name)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ClassificationSummary else { return false }
+      guard self.code == object.code else { return false }
+      guard self.name == object.name else { return false }
+      return true
+    }
+
+    public static func == (lhs: ClassificationSummary, rhs: ClassificationSummary) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

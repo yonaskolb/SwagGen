@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class OverrideRuleObject: Codable {
+public class OverrideRuleObject: Codable, Equatable {
 
     /** List of URNs to override */
     public var urn: [String]
@@ -73,5 +73,22 @@ public class OverrideRuleObject: Codable {
         try container.encode(dateFrom, forKey: .dateFrom)
         try container.encode(dateUntil, forKey: .dateUntil)
         try container.encode(idp, forKey: .idp)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? OverrideRuleObject else { return false }
+      guard self.urn == object.urn else { return false }
+      guard self.response == object.response else { return false }
+      guard self.priority == object.priority else { return false }
+      guard self.action == object.action else { return false }
+      guard self.country == object.country else { return false }
+      guard self.dateFrom == object.dateFrom else { return false }
+      guard self.dateUntil == object.dateUntil else { return false }
+      guard self.idp == object.idp else { return false }
+      return true
+    }
+
+    public static func == (lhs: OverrideRuleObject, rhs: OverrideRuleObject) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

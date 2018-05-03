@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PostcodeInput: Codable {
+public class PostcodeInput: Codable, Equatable {
 
     public var postcode: String?
 
@@ -27,5 +27,15 @@ public class PostcodeInput: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(postcode, forKey: .postcode)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? PostcodeInput else { return false }
+      guard self.postcode == object.postcode else { return false }
+      return true
+    }
+
+    public static func == (lhs: PostcodeInput, rhs: PostcodeInput) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

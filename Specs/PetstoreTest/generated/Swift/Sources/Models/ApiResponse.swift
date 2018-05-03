@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ApiResponse: Codable {
+public class ApiResponse: Codable, Equatable {
 
     public var code: Int?
 
@@ -39,5 +39,17 @@ public class ApiResponse: Codable {
         try container.encode(code, forKey: .code)
         try container.encode(message, forKey: .message)
         try container.encode(type, forKey: .type)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ApiResponse else { return false }
+      guard self.code == object.code else { return false }
+      guard self.message == object.message else { return false }
+      guard self.type == object.type else { return false }
+      return true
+    }
+
+    public static func == (lhs: ApiResponse, rhs: ApiResponse) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

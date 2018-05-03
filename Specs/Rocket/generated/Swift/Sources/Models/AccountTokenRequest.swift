@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AccountTokenRequest: Codable {
+public class AccountTokenRequest: Codable, Equatable {
 
     /** The scope(s) of the tokens required.
     For each scope listed an Account and Profile token of that scope will be returned
@@ -108,5 +108,19 @@ Either a pin or password should be supplied. If both are supplied the password w
         try container.encode(cookieType, forKey: .cookieType)
         try container.encode(password, forKey: .password)
         try container.encode(pin, forKey: .pin)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? AccountTokenRequest else { return false }
+      guard self.email == object.email else { return false }
+      guard self.scopes == object.scopes else { return false }
+      guard self.cookieType == object.cookieType else { return false }
+      guard self.password == object.password else { return false }
+      guard self.pin == object.pin else { return false }
+      return true
+    }
+
+    public static func == (lhs: AccountTokenRequest, rhs: AccountTokenRequest) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

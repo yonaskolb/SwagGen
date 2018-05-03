@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Path: Codable {
+public class Path: Codable, Equatable {
 
     public var elevation: [JpElevation]?
 
@@ -39,5 +39,17 @@ public class Path: Codable {
         try container.encode(elevation, forKey: .elevation)
         try container.encode(lineString, forKey: .lineString)
         try container.encode(stopPoints, forKey: .stopPoints)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Path else { return false }
+      guard self.elevation == object.elevation else { return false }
+      guard self.lineString == object.lineString else { return false }
+      guard self.stopPoints == object.stopPoints else { return false }
+      return true
+    }
+
+    public static func == (lhs: Path, rhs: Path) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

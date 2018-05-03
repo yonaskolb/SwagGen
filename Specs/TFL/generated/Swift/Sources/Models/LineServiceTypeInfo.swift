@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class LineServiceTypeInfo: Codable {
+public class LineServiceTypeInfo: Codable, Equatable {
 
     public var name: String?
 
@@ -33,5 +33,16 @@ public class LineServiceTypeInfo: Codable {
 
         try container.encode(name, forKey: .name)
         try container.encode(uri, forKey: .uri)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? LineServiceTypeInfo else { return false }
+      guard self.name == object.name else { return false }
+      guard self.uri == object.uri else { return false }
+      return true
+    }
+
+    public static func == (lhs: LineServiceTypeInfo, rhs: LineServiceTypeInfo) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

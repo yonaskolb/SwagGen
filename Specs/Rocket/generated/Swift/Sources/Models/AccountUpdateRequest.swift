@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AccountUpdateRequest: Codable {
+public class AccountUpdateRequest: Codable, Equatable {
 
     /** The id of the payment instrument to use by default for account transactions. */
     public var defaultPaymentInstrumentId: String?
@@ -63,5 +63,19 @@ If you want to disable this guard pass an empty string or `null`.
         try container.encode(lastName, forKey: .lastName)
         try container.encode(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
         try container.encode(trackingEnabled, forKey: .trackingEnabled)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? AccountUpdateRequest else { return false }
+      guard self.defaultPaymentInstrumentId == object.defaultPaymentInstrumentId else { return false }
+      guard self.firstName == object.firstName else { return false }
+      guard self.lastName == object.lastName else { return false }
+      guard self.minRatingPlaybackGuard == object.minRatingPlaybackGuard else { return false }
+      guard self.trackingEnabled == object.trackingEnabled else { return false }
+      return true
+    }
+
+    public static func == (lhs: AccountUpdateRequest, rhs: AccountUpdateRequest) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

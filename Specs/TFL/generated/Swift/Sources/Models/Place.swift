@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Place: Codable {
+public class Place: Codable, Equatable {
 
     /** A bag of additional key/value pairs with extra information about this place. */
     public var additionalProperties: [AdditionalProperties]?
@@ -90,5 +90,24 @@ public class Place: Codable {
         try container.encode(lon, forKey: .lon)
         try container.encode(placeType, forKey: .placeType)
         try container.encode(url, forKey: .url)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Place else { return false }
+      guard self.additionalProperties == object.additionalProperties else { return false }
+      guard self.children == object.children else { return false }
+      guard self.childrenUrls == object.childrenUrls else { return false }
+      guard self.commonName == object.commonName else { return false }
+      guard self.distance == object.distance else { return false }
+      guard self.id == object.id else { return false }
+      guard self.lat == object.lat else { return false }
+      guard self.lon == object.lon else { return false }
+      guard self.placeType == object.placeType else { return false }
+      guard self.url == object.url else { return false }
+      return true
+    }
+
+    public static func == (lhs: Place, rhs: Place) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

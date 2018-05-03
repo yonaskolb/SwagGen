@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Client: Codable {
+public class Client: Codable, Equatable {
 
     public var client: String?
 
@@ -27,5 +27,15 @@ public class Client: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(client, forKey: .client)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Client else { return false }
+      guard self.client == object.client else { return false }
+      return true
+    }
+
+    public static func == (lhs: Client, rhs: Client) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

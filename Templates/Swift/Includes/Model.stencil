@@ -8,7 +8,7 @@ public typealias {{ type }} = {{ aliasType }}
 {% elif additionalPropertiesType and allProperties.count == 0 %}
 public typealias {{ type }} = [String: {{ additionalPropertiesType }}]
 {% else %}
-public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}Codable{% endif %} {
+public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}Codable, Equatable{% endif %} {
     {% for enum in enums %}
     {% if not enum.isGlobal %}
 
@@ -102,6 +102,35 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}Codable{% end
         set {
             additionalProperties[key] = newValue
         }
+    }
+    {% endif %}
+
+    {% if parent %}override {% endif %}public func isEqual(to object: Any?) -> Bool {
+      {% if properties.count > 0 or additionalPropertiesType %}
+      guard let object = object as? {{ type }} else { return false }
+      {% else %}
+      guard object is {{ type }} else { return false }
+      {% endif %}
+      {% for property in properties %}
+      {% if property.type == "[String: Any]" %}
+      guard NSDictionary(dictionary: self.{{ property.name}} {% if property.optional %}?? [:]{% endif %}).isEqual(to: object.{{ property.name }}{% if property.optional %} ?? [:]{% endif %}) else { return false }
+      {% else %}
+      guard self.{{ property.name }} == object.{{ property.name }} else { return false }
+      {% endif %}
+      {% endfor %}
+      {% if additionalPropertiesType %}
+      guard NSDictionary(dictionary: self.additionalProperties).isEqual(to: object.additionalProperties) else { return false }
+      {% endif %}
+      {% if parent %}
+      return super.isEqual(to: object)
+      {% else %}
+      return true
+      {% endif %}
+    }
+    {% if not parent %}
+
+    public static func == (lhs: {{ type }}, rhs: {{ type }}) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
     {% endif %}
 }

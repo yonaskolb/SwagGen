@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class JourneyVector: Codable {
+public class JourneyVector: Codable, Equatable {
 
     public var from: String?
 
@@ -45,5 +45,18 @@ public class JourneyVector: Codable {
         try container.encode(to, forKey: .to)
         try container.encode(uri, forKey: .uri)
         try container.encode(via, forKey: .via)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? JourneyVector else { return false }
+      guard self.from == object.from else { return false }
+      guard self.to == object.to else { return false }
+      guard self.uri == object.uri else { return false }
+      guard self.via == object.via else { return false }
+      return true
+    }
+
+    public static func == (lhs: JourneyVector, rhs: JourneyVector) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

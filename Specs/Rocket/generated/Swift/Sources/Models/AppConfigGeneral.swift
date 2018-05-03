@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AppConfigGeneral: Codable {
+public class AppConfigGeneral: Codable, Equatable {
 
     /** The currency code to target. */
     public var currencyCode: String?
@@ -63,5 +63,20 @@ public class AppConfigGeneral: Codable {
         try container.encode(itemImageTypes, forKey: .itemImageTypes)
         try container.encode(stripeKey, forKey: .stripeKey)
         try container.encode(websiteUrl, forKey: .websiteUrl)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? AppConfigGeneral else { return false }
+      guard self.currencyCode == object.currencyCode else { return false }
+      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.gaToken == object.gaToken else { return false }
+      guard self.itemImageTypes == object.itemImageTypes else { return false }
+      guard self.stripeKey == object.stripeKey else { return false }
+      guard self.websiteUrl == object.websiteUrl else { return false }
+      return true
+    }
+
+    public static func == (lhs: AppConfigGeneral, rhs: AppConfigGeneral) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

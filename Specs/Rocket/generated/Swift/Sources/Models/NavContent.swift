@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class NavContent: Codable {
+public class NavContent: Codable, Equatable {
 
     /** The image type to target when rendering items of the list.
 
@@ -45,5 +45,17 @@ e.g wallpaper, poster, hero3x1, logo.
         try container.encode(imageType, forKey: .imageType)
         try container.encode(list, forKey: .list)
         try container.encode(title, forKey: .title)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? NavContent else { return false }
+      guard self.imageType == object.imageType else { return false }
+      guard self.list == object.list else { return false }
+      guard self.title == object.title else { return false }
+      return true
+    }
+
+    public static func == (lhs: NavContent, rhs: NavContent) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

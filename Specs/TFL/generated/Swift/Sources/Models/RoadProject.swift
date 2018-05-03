@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RoadProject: Codable {
+public class RoadProject: Codable, Equatable {
 
     public enum Phase: String, Codable {
         case unscoped = "Unscoped"
@@ -141,5 +141,31 @@ public class RoadProject: Codable {
         try container.encode(projectPageUrl, forKey: .projectPageUrl)
         try container.encode(projectSummaryPageUrl, forKey: .projectSummaryPageUrl)
         try container.encode(schemeName, forKey: .schemeName)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? RoadProject else { return false }
+      guard self.boroughsBenefited == object.boroughsBenefited else { return false }
+      guard self.constructionEndDate == object.constructionEndDate else { return false }
+      guard self.constructionStartDate == object.constructionStartDate else { return false }
+      guard self.consultationEndDate == object.consultationEndDate else { return false }
+      guard self.consultationPageUrl == object.consultationPageUrl else { return false }
+      guard self.consultationStartDate == object.consultationStartDate else { return false }
+      guard self.contactEmail == object.contactEmail else { return false }
+      guard self.contactName == object.contactName else { return false }
+      guard self.cycleSuperhighwayId == object.cycleSuperhighwayId else { return false }
+      guard self.externalPageUrl == object.externalPageUrl else { return false }
+      guard self.phase == object.phase else { return false }
+      guard self.projectDescription == object.projectDescription else { return false }
+      guard self.projectId == object.projectId else { return false }
+      guard self.projectName == object.projectName else { return false }
+      guard self.projectPageUrl == object.projectPageUrl else { return false }
+      guard self.projectSummaryPageUrl == object.projectSummaryPageUrl else { return false }
+      guard self.schemeName == object.schemeName else { return false }
+      return true
+    }
+
+    public static func == (lhs: RoadProject, rhs: RoadProject) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

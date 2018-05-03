@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StopPoint: Codable {
+public class StopPoint: Codable, Equatable {
 
     public var accessibilitySummary: String?
 
@@ -194,5 +194,41 @@ public class StopPoint: Codable {
         try container.encode(stopLetter, forKey: .stopLetter)
         try container.encode(stopType, forKey: .stopType)
         try container.encode(url, forKey: .url)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? StopPoint else { return false }
+      guard self.accessibilitySummary == object.accessibilitySummary else { return false }
+      guard self.additionalProperties == object.additionalProperties else { return false }
+      guard self.children == object.children else { return false }
+      guard self.childrenUrls == object.childrenUrls else { return false }
+      guard self.commonName == object.commonName else { return false }
+      guard self.distance == object.distance else { return false }
+      guard self.fullName == object.fullName else { return false }
+      guard self.hubNaptanCode == object.hubNaptanCode else { return false }
+      guard self.icsCode == object.icsCode else { return false }
+      guard self.id == object.id else { return false }
+      guard self.indicator == object.indicator else { return false }
+      guard self.lat == object.lat else { return false }
+      guard self.lineGroup == object.lineGroup else { return false }
+      guard self.lineModeGroups == object.lineModeGroups else { return false }
+      guard self.lines == object.lines else { return false }
+      guard self.lon == object.lon else { return false }
+      guard self.modes == object.modes else { return false }
+      guard self.naptanId == object.naptanId else { return false }
+      guard self.naptanMode == object.naptanMode else { return false }
+      guard self.placeType == object.placeType else { return false }
+      guard self.platformName == object.platformName else { return false }
+      guard self.smsCode == object.smsCode else { return false }
+      guard self.stationNaptan == object.stationNaptan else { return false }
+      guard self.status == object.status else { return false }
+      guard self.stopLetter == object.stopLetter else { return false }
+      guard self.stopType == object.stopType else { return false }
+      guard self.url == object.url else { return false }
+      return true
+    }
+
+    public static func == (lhs: StopPoint, rhs: StopPoint) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

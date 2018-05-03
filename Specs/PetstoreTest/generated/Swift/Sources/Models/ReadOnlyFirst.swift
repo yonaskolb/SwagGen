@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ReadOnlyFirst: Codable {
+public class ReadOnlyFirst: Codable, Equatable {
 
     public var bar: String?
 
@@ -33,5 +33,16 @@ public class ReadOnlyFirst: Codable {
 
         try container.encode(bar, forKey: .bar)
         try container.encode(baz, forKey: .baz)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ReadOnlyFirst else { return false }
+      guard self.bar == object.bar else { return false }
+      guard self.baz == object.baz else { return false }
+      return true
+    }
+
+    public static func == (lhs: ReadOnlyFirst, rhs: ReadOnlyFirst) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

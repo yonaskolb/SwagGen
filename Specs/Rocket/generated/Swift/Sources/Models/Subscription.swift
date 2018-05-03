@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Subscription: Codable {
+public class Subscription: Codable, Equatable {
 
     /** The status of a subscription. */
     public enum Status: String, Codable {
@@ -84,5 +84,20 @@ property will not exist.
         try container.encode(planId, forKey: .planId)
         try container.encode(status, forKey: .status)
         try container.encode(endDate, forKey: .endDate)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Subscription else { return false }
+      guard self.code == object.code else { return false }
+      guard self.startDate == object.startDate else { return false }
+      guard self.isTrialPeriod == object.isTrialPeriod else { return false }
+      guard self.planId == object.planId else { return false }
+      guard self.status == object.status else { return false }
+      guard self.endDate == object.endDate else { return false }
+      return true
+    }
+
+    public static func == (lhs: Subscription, rhs: Subscription) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

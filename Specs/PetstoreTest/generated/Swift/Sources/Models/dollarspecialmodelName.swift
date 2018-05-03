@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class dollarspecialmodelName: Codable {
+public class dollarspecialmodelName: Codable, Equatable {
 
     public init() {
     }
@@ -15,5 +15,14 @@ public class dollarspecialmodelName: Codable {
     }
 
     public func encode(to encoder: Encoder) throws {
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard object is dollarspecialmodelName else { return false }
+      return true
+    }
+
+    public static func == (lhs: dollarspecialmodelName, rhs: dollarspecialmodelName) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

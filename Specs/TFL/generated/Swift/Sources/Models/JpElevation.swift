@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class JpElevation: Codable {
+public class JpElevation: Codable, Equatable {
 
     public var distance: Int?
 
@@ -63,5 +63,21 @@ public class JpElevation: Codable {
         try container.encode(heightFromPreviousPoint, forKey: .heightFromPreviousPoint)
         try container.encode(startLat, forKey: .startLat)
         try container.encode(startLon, forKey: .startLon)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? JpElevation else { return false }
+      guard self.distance == object.distance else { return false }
+      guard self.endLat == object.endLat else { return false }
+      guard self.endLon == object.endLon else { return false }
+      guard self.gradient == object.gradient else { return false }
+      guard self.heightFromPreviousPoint == object.heightFromPreviousPoint else { return false }
+      guard self.startLat == object.startLat else { return false }
+      guard self.startLon == object.startLon else { return false }
+      return true
+    }
+
+    public static func == (lhs: JpElevation, rhs: JpElevation) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

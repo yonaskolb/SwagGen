@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class FaresSection: Codable {
+public class FaresSection: Codable, Equatable {
 
     public var header: String?
 
@@ -45,5 +45,18 @@ public class FaresSection: Codable {
         try container.encode(index, forKey: .index)
         try container.encode(messages, forKey: .messages)
         try container.encode(rows, forKey: .rows)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? FaresSection else { return false }
+      guard self.header == object.header else { return false }
+      guard self.index == object.index else { return false }
+      guard self.messages == object.messages else { return false }
+      guard self.rows == object.rows else { return false }
+      return true
+    }
+
+    public static func == (lhs: FaresSection, rhs: FaresSection) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

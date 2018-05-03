@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TwentyFourHourClockTime: Codable {
+public class TwentyFourHourClockTime: Codable, Equatable {
 
     public var hour: String?
 
@@ -33,5 +33,16 @@ public class TwentyFourHourClockTime: Codable {
 
         try container.encode(hour, forKey: .hour)
         try container.encode(minute, forKey: .minute)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? TwentyFourHourClockTime else { return false }
+      guard self.hour == object.hour else { return false }
+      guard self.minute == object.minute else { return false }
+      return true
+    }
+
+    public static func == (lhs: TwentyFourHourClockTime, rhs: TwentyFourHourClockTime) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

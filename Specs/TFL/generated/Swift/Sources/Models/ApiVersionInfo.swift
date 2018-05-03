@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ApiVersionInfo: Codable {
+public class ApiVersionInfo: Codable, Equatable {
 
     public var assemblies: [String]?
 
@@ -45,5 +45,18 @@ public class ApiVersionInfo: Codable {
         try container.encode(label, forKey: .label)
         try container.encode(timestamp, forKey: .timestamp)
         try container.encode(version, forKey: .version)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ApiVersionInfo else { return false }
+      guard self.assemblies == object.assemblies else { return false }
+      guard self.label == object.label else { return false }
+      guard self.timestamp == object.timestamp else { return false }
+      guard self.version == object.version else { return false }
+      return true
+    }
+
+    public static func == (lhs: ApiVersionInfo, rhs: ApiVersionInfo) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

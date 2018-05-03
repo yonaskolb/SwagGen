@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ContentProvider: Codable {
+public class ContentProvider: Codable, Equatable {
 
     public var description: String
 
@@ -99,5 +99,27 @@ public class ContentProvider: Codable {
         try container.encode(permittedURN, forKey: .permittedURN)
         try container.encode(urlMaintenance, forKey: .urlMaintenance)
         try container.encode(whitelistDomains, forKey: .whitelistDomains)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ContentProvider else { return false }
+      guard self.description == object.description else { return false }
+      guard self.shortName == object.shortName else { return false }
+      guard self.active == object.active else { return false }
+      guard self.apiKey == object.apiKey else { return false }
+      guard self.devicesLimit == object.devicesLimit else { return false }
+      guard self.canLogoutDevice == object.canLogoutDevice else { return false }
+      guard self.canCreateTryAndBuy == object.canCreateTryAndBuy else { return false }
+      guard self.hasSocialID == object.hasSocialID else { return false }
+      guard self.id == object.id else { return false }
+      guard self.overrideRules == object.overrideRules else { return false }
+      guard self.permittedURN == object.permittedURN else { return false }
+      guard self.urlMaintenance == object.urlMaintenance else { return false }
+      guard self.whitelistDomains == object.whitelistDomains else { return false }
+      return true
+    }
+
+    public static func == (lhs: ContentProvider, rhs: ContentProvider) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

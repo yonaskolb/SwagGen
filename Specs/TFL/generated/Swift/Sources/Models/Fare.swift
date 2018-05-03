@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Fare: Codable {
+public class Fare: Codable, Equatable {
 
     public var cap: Double?
 
@@ -87,5 +87,25 @@ public class Fare: Codable {
         try container.encode(validFrom, forKey: .validFrom)
         try container.encode(validUntil, forKey: .validUntil)
         try container.encode(zone, forKey: .zone)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Fare else { return false }
+      guard self.cap == object.cap else { return false }
+      guard self.cost == object.cost else { return false }
+      guard self.description == object.description else { return false }
+      guard self.id == object.id else { return false }
+      guard self.mode == object.mode else { return false }
+      guard self.passengerType == object.passengerType else { return false }
+      guard self.ticketTime == object.ticketTime else { return false }
+      guard self.ticketType == object.ticketType else { return false }
+      guard self.validFrom == object.validFrom else { return false }
+      guard self.validUntil == object.validUntil else { return false }
+      guard self.zone == object.zone else { return false }
+      return true
+    }
+
+    public static func == (lhs: Fare, rhs: Fare) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

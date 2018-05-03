@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AccidentDetail: Codable {
+public class AccidentDetail: Codable, Equatable {
 
     public var borough: String?
 
@@ -75,5 +75,23 @@ public class AccidentDetail: Codable {
         try container.encode(lon, forKey: .lon)
         try container.encode(severity, forKey: .severity)
         try container.encode(vehicles, forKey: .vehicles)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? AccidentDetail else { return false }
+      guard self.borough == object.borough else { return false }
+      guard self.casualties == object.casualties else { return false }
+      guard self.date == object.date else { return false }
+      guard self.id == object.id else { return false }
+      guard self.lat == object.lat else { return false }
+      guard self.location == object.location else { return false }
+      guard self.lon == object.lon else { return false }
+      guard self.severity == object.severity else { return false }
+      guard self.vehicles == object.vehicles else { return false }
+      return true
+    }
+
+    public static func == (lhs: AccidentDetail, rhs: AccidentDetail) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

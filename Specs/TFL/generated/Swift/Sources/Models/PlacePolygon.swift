@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PlacePolygon: Codable {
+public class PlacePolygon: Codable, Equatable {
 
     public var commonName: String?
 
@@ -33,5 +33,16 @@ public class PlacePolygon: Codable {
 
         try container.encode(commonName, forKey: .commonName)
         try container.encode(geoPoints, forKey: .geoPoints)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? PlacePolygon else { return false }
+      guard self.commonName == object.commonName else { return false }
+      guard self.geoPoints == object.geoPoints else { return false }
+      return true
+    }
+
+    public static func == (lhs: PlacePolygon, rhs: PlacePolygon) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

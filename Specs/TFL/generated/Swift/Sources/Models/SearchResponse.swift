@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class SearchResponse: Codable {
+public class SearchResponse: Codable, Equatable {
 
     public var from: Int?
 
@@ -69,5 +69,22 @@ public class SearchResponse: Codable {
         try container.encode(provider, forKey: .provider)
         try container.encode(query, forKey: .query)
         try container.encode(total, forKey: .total)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? SearchResponse else { return false }
+      guard self.from == object.from else { return false }
+      guard self.matches == object.matches else { return false }
+      guard self.maxScore == object.maxScore else { return false }
+      guard self.page == object.page else { return false }
+      guard self.pageSize == object.pageSize else { return false }
+      guard self.provider == object.provider else { return false }
+      guard self.query == object.query else { return false }
+      guard self.total == object.total else { return false }
+      return true
+    }
+
+    public static func == (lhs: SearchResponse, rhs: SearchResponse) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

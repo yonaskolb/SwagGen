@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Obstacle: Codable {
+public class Obstacle: Codable, Equatable {
 
     public var incline: String?
 
@@ -45,5 +45,18 @@ public class Obstacle: Codable {
         try container.encode(position, forKey: .position)
         try container.encode(stopId, forKey: .stopId)
         try container.encode(type, forKey: .type)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Obstacle else { return false }
+      guard self.incline == object.incline else { return false }
+      guard self.position == object.position else { return false }
+      guard self.stopId == object.stopId else { return false }
+      guard self.type == object.type else { return false }
+      return true
+    }
+
+    public static func == (lhs: Obstacle, rhs: Obstacle) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

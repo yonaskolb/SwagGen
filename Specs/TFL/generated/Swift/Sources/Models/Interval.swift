@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Interval: Codable {
+public class Interval: Codable, Equatable {
 
     public var stopId: String?
 
@@ -33,5 +33,16 @@ public class Interval: Codable {
 
         try container.encode(stopId, forKey: .stopId)
         try container.encode(timeToArrival, forKey: .timeToArrival)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Interval else { return false }
+      guard self.stopId == object.stopId else { return false }
+      guard self.timeToArrival == object.timeToArrival else { return false }
+      return true
+    }
+
+    public static func == (lhs: Interval, rhs: Interval) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

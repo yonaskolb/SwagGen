@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class EmissionsSurchargeVehicle: Codable {
+public class EmissionsSurchargeVehicle: Codable, Equatable {
 
     public enum Compliance: String, Codable {
         case notCompliant = "NotCompliant"
@@ -69,5 +69,20 @@ public class EmissionsSurchargeVehicle: Codable {
         try container.encode(model, forKey: .model)
         try container.encode(type, forKey: .type)
         try container.encode(vrm, forKey: .vrm)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? EmissionsSurchargeVehicle else { return false }
+      guard self.colour == object.colour else { return false }
+      guard self.compliance == object.compliance else { return false }
+      guard self.make == object.make else { return false }
+      guard self.model == object.model else { return false }
+      guard self.type == object.type else { return false }
+      guard self.vrm == object.vrm else { return false }
+      return true
+    }
+
+    public static func == (lhs: EmissionsSurchargeVehicle, rhs: EmissionsSurchargeVehicle) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

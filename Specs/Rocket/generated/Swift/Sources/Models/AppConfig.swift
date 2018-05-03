@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AppConfig: Codable {
+public class AppConfig: Codable, Equatable {
 
     /** The map of classification ratings. */
     public var classification: [String: Classification]?
@@ -58,5 +58,20 @@ public class AppConfig: Codable {
         try container.encode(playback, forKey: .playback)
         try container.encode(sitemap, forKey: .sitemap)
         try container.encode(subscription, forKey: .subscription)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? AppConfig else { return false }
+      guard self.classification == object.classification else { return false }
+      guard self.general == object.general else { return false }
+      guard self.navigation == object.navigation else { return false }
+      guard self.playback == object.playback else { return false }
+      guard self.sitemap == object.sitemap else { return false }
+      guard self.subscription == object.subscription else { return false }
+      return true
+    }
+
+    public static func == (lhs: AppConfig, rhs: AppConfig) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

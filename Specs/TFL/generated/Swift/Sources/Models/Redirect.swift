@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Redirect: Codable {
+public class Redirect: Codable, Equatable {
 
     public var active: Bool?
 
@@ -39,5 +39,17 @@ public class Redirect: Codable {
         try container.encode(active, forKey: .active)
         try container.encode(longUrl, forKey: .longUrl)
         try container.encode(shortUrl, forKey: .shortUrl)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Redirect else { return false }
+      guard self.active == object.active else { return false }
+      guard self.longUrl == object.longUrl else { return false }
+      guard self.shortUrl == object.shortUrl else { return false }
+      return true
+    }
+
+    public static func == (lhs: Redirect, rhs: Redirect) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

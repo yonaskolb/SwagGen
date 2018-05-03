@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class EnumArrays: Codable {
+public class EnumArrays: Codable, Equatable {
 
     public enum ArrayEnum: String, Codable {
         case fish = "fish"
@@ -53,5 +53,16 @@ public class EnumArrays: Codable {
 
         try container.encode(arrayEnum, forKey: .arrayEnum)
         try container.encode(justSymbol, forKey: .justSymbol)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? EnumArrays else { return false }
+      guard self.arrayEnum == object.arrayEnum else { return false }
+      guard self.justSymbol == object.justSymbol else { return false }
+      return true
+    }
+
+    public static func == (lhs: EnumArrays, rhs: EnumArrays) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

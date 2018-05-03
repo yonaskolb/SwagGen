@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PredictionTiming: Codable {
+public class PredictionTiming: Codable, Equatable {
 
     public var countdownServerAdjustment: String?
 
@@ -57,5 +57,20 @@ public class PredictionTiming: Codable {
         try container.encode(received, forKey: .received)
         try container.encode(sent, forKey: .sent)
         try container.encode(source, forKey: .source)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? PredictionTiming else { return false }
+      guard self.countdownServerAdjustment == object.countdownServerAdjustment else { return false }
+      guard self.insert == object.insert else { return false }
+      guard self.read == object.read else { return false }
+      guard self.received == object.received else { return false }
+      guard self.sent == object.sent else { return false }
+      guard self.source == object.source else { return false }
+      return true
+    }
+
+    public static func == (lhs: PredictionTiming, rhs: PredictionTiming) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

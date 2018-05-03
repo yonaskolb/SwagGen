@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class NumberOnly: Codable {
+public class NumberOnly: Codable, Equatable {
 
     public var justNumber: Double?
 
@@ -27,5 +27,15 @@ public class NumberOnly: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(justNumber, forKey: .justNumber)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? NumberOnly else { return false }
+      guard self.justNumber == object.justNumber else { return false }
+      return true
+    }
+
+    public static func == (lhs: NumberOnly, rhs: NumberOnly) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

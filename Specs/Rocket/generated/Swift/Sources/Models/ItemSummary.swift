@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ItemSummary: Codable {
+public class ItemSummary: Codable, Equatable {
 
     /** Unique identifier for an Item */
     public var id: String
@@ -213,5 +213,41 @@ For example the id for this item under a different content system.
         try container.encode(showId, forKey: .showId)
         try container.encode(tagline, forKey: .tagline)
         try container.encode(watchPath, forKey: .watchPath)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ItemSummary else { return false }
+      guard self.id == object.id else { return false }
+      guard self.type == object.type else { return false }
+      guard self.path == object.path else { return false }
+      guard self.title == object.title else { return false }
+      guard self.availableEpisodeCount == object.availableEpisodeCount else { return false }
+      guard self.availableSeasonCount == object.availableSeasonCount else { return false }
+      guard self.averageUserRating == object.averageUserRating else { return false }
+      guard self.badge == object.badge else { return false }
+      guard self.classification == object.classification else { return false }
+      guard self.contextualTitle == object.contextualTitle else { return false }
+      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.customId == object.customId else { return false }
+      guard self.duration == object.duration else { return false }
+      guard self.episodeCount == object.episodeCount else { return false }
+      guard self.episodeNumber == object.episodeNumber else { return false }
+      guard self.genres == object.genres else { return false }
+      guard self.hasClosedCaptions == object.hasClosedCaptions else { return false }
+      guard self.images == object.images else { return false }
+      guard self.offers == object.offers else { return false }
+      guard self.releaseYear == object.releaseYear else { return false }
+      guard self.scopes == object.scopes else { return false }
+      guard self.seasonId == object.seasonId else { return false }
+      guard self.seasonNumber == object.seasonNumber else { return false }
+      guard self.shortDescription == object.shortDescription else { return false }
+      guard self.showId == object.showId else { return false }
+      guard self.tagline == object.tagline else { return false }
+      guard self.watchPath == object.watchPath else { return false }
+      return true
+    }
+
+    public static func == (lhs: ItemSummary, rhs: ItemSummary) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Period: Codable {
+public class Period: Codable, Equatable {
 
     public enum `Type`: String, Codable {
         case normal = "Normal"
@@ -59,5 +59,18 @@ public class Period: Codable {
         try container.encode(fromTime, forKey: .fromTime)
         try container.encode(toTime, forKey: .toTime)
         try container.encode(type, forKey: .type)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Period else { return false }
+      guard self.frequency == object.frequency else { return false }
+      guard self.fromTime == object.fromTime else { return false }
+      guard self.toTime == object.toTime else { return false }
+      guard self.type == object.type else { return false }
+      return true
+    }
+
+    public static func == (lhs: Period, rhs: Period) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

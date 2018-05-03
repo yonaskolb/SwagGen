@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ArrayTest: Codable {
+public class ArrayTest: Codable, Equatable {
 
     public var arrayArrayOfInteger: [[Int]]?
 
@@ -39,5 +39,17 @@ public class ArrayTest: Codable {
         try container.encode(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
         try container.encode(arrayArrayOfModel, forKey: .arrayArrayOfModel)
         try container.encode(arrayOfString, forKey: .arrayOfString)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ArrayTest else { return false }
+      guard self.arrayArrayOfInteger == object.arrayArrayOfInteger else { return false }
+      guard self.arrayArrayOfModel == object.arrayArrayOfModel else { return false }
+      guard self.arrayOfString == object.arrayOfString else { return false }
+      return true
+    }
+
+    public static func == (lhs: ArrayTest, rhs: ArrayTest) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

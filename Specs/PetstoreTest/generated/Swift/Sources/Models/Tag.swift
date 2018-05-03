@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Tag: Codable {
+public class Tag: Codable, Equatable {
 
     public var id: Int?
 
@@ -33,5 +33,16 @@ public class Tag: Codable {
 
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Tag else { return false }
+      guard self.id == object.id else { return false }
+      guard self.name == object.name else { return false }
+      return true
+    }
+
+    public static func == (lhs: Tag, rhs: Tag) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

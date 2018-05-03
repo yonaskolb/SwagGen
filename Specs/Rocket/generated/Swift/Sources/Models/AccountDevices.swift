@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AccountDevices: Codable {
+public class AccountDevices: Codable, Equatable {
 
     /** The array of registered playack devices. */
     public var devices: [Device]
@@ -77,5 +77,18 @@ days old.
         try container.encode(maxRegistered, forKey: .maxRegistered)
         try container.encode(deregistrationWindow, forKey: .deregistrationWindow)
         try container.encode(registrationWindow, forKey: .registrationWindow)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? AccountDevices else { return false }
+      guard self.devices == object.devices else { return false }
+      guard self.maxRegistered == object.maxRegistered else { return false }
+      guard self.deregistrationWindow == object.deregistrationWindow else { return false }
+      guard self.registrationWindow == object.registrationWindow else { return false }
+      return true
+    }
+
+    public static func == (lhs: AccountDevices, rhs: AccountDevices) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

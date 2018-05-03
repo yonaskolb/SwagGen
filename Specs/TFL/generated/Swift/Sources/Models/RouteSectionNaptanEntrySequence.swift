@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RouteSectionNaptanEntrySequence: Codable {
+public class RouteSectionNaptanEntrySequence: Codable, Equatable {
 
     public var ordinal: Int?
 
@@ -33,5 +33,16 @@ public class RouteSectionNaptanEntrySequence: Codable {
 
         try container.encode(ordinal, forKey: .ordinal)
         try container.encode(stopPoint, forKey: .stopPoint)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? RouteSectionNaptanEntrySequence else { return false }
+      guard self.ordinal == object.ordinal else { return false }
+      guard self.stopPoint == object.stopPoint else { return false }
+      return true
+    }
+
+    public static func == (lhs: RouteSectionNaptanEntrySequence, rhs: RouteSectionNaptanEntrySequence) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

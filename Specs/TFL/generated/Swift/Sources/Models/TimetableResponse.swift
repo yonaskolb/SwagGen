@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TimetableResponse: Codable {
+public class TimetableResponse: Codable, Equatable {
 
     public var direction: String?
 
@@ -75,5 +75,23 @@ public class TimetableResponse: Codable {
         try container.encode(statusErrorMessage, forKey: .statusErrorMessage)
         try container.encode(stops, forKey: .stops)
         try container.encode(timetable, forKey: .timetable)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? TimetableResponse else { return false }
+      guard self.direction == object.direction else { return false }
+      guard self.disambiguation == object.disambiguation else { return false }
+      guard self.lineId == object.lineId else { return false }
+      guard self.lineName == object.lineName else { return false }
+      guard self.pdfUrl == object.pdfUrl else { return false }
+      guard self.stations == object.stations else { return false }
+      guard self.statusErrorMessage == object.statusErrorMessage else { return false }
+      guard self.stops == object.stops else { return false }
+      guard self.timetable == object.timetable else { return false }
+      return true
+    }
+
+    public static func == (lhs: TimetableResponse, rhs: TimetableResponse) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

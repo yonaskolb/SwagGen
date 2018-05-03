@@ -6,7 +6,7 @@
 import Foundation
 
 /** Represents a disruption to a route within the transport network. */
-public class Disruption: Codable {
+public class Disruption: Codable, Equatable {
 
     /** Gets or sets the category of this dispruption. */
     public enum Category: String, Codable {
@@ -124,5 +124,26 @@ public class Disruption: Codable {
         try container.encode(isWholeLine, forKey: .isWholeLine)
         try container.encode(lastUpdate, forKey: .lastUpdate)
         try container.encode(type, forKey: .type)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Disruption else { return false }
+      guard self.additionalInfo == object.additionalInfo else { return false }
+      guard self.affectedRoutes == object.affectedRoutes else { return false }
+      guard self.affectedStops == object.affectedStops else { return false }
+      guard self.category == object.category else { return false }
+      guard self.categoryDescription == object.categoryDescription else { return false }
+      guard self.closureText == object.closureText else { return false }
+      guard self.created == object.created else { return false }
+      guard self.description == object.description else { return false }
+      guard self.isBlocking == object.isBlocking else { return false }
+      guard self.isWholeLine == object.isWholeLine else { return false }
+      guard self.lastUpdate == object.lastUpdate else { return false }
+      guard self.type == object.type else { return false }
+      return true
+    }
+
+    public static func == (lhs: Disruption, rhs: Disruption) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

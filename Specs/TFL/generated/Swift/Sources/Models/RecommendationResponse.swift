@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RecommendationResponse: Codable {
+public class RecommendationResponse: Codable, Equatable {
 
     public var recommendations: [Recommendation]?
 
@@ -27,5 +27,15 @@ public class RecommendationResponse: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(recommendations, forKey: .recommendations)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? RecommendationResponse else { return false }
+      guard self.recommendations == object.recommendations else { return false }
+      return true
+    }
+
+    public static func == (lhs: RecommendationResponse, rhs: RecommendationResponse) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

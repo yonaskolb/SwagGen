@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MatchedRoute: Codable {
+public class MatchedRoute: Codable, Equatable {
 
     /** eg: Destination */
     public var destination: String?
@@ -77,5 +77,22 @@ public class MatchedRoute: Codable {
         try container.encode(originator, forKey: .originator)
         try container.encode(routeCode, forKey: .routeCode)
         try container.encode(serviceType, forKey: .serviceType)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? MatchedRoute else { return false }
+      guard self.destination == object.destination else { return false }
+      guard self.destinationName == object.destinationName else { return false }
+      guard self.direction == object.direction else { return false }
+      guard self.name == object.name else { return false }
+      guard self.originationName == object.originationName else { return false }
+      guard self.originator == object.originator else { return false }
+      guard self.routeCode == object.routeCode else { return false }
+      guard self.serviceType == object.serviceType else { return false }
+      return true
+    }
+
+    public static func == (lhs: MatchedRoute, rhs: MatchedRoute) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

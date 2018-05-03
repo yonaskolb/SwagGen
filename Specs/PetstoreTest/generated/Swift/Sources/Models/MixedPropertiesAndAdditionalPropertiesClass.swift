@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MixedPropertiesAndAdditionalPropertiesClass: Codable {
+public class MixedPropertiesAndAdditionalPropertiesClass: Codable, Equatable {
 
     public var dateTime: Date?
 
@@ -39,5 +39,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass: Codable {
         try container.encode(dateTime, forKey: .dateTime)
         try container.encode(map, forKey: .map)
         try container.encode(uuid, forKey: .uuid)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? MixedPropertiesAndAdditionalPropertiesClass else { return false }
+      guard self.dateTime == object.dateTime else { return false }
+      guard self.map == object.map else { return false }
+      guard self.uuid == object.uuid else { return false }
+      return true
+    }
+
+    public static func == (lhs: MixedPropertiesAndAdditionalPropertiesClass, rhs: MixedPropertiesAndAdditionalPropertiesClass) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

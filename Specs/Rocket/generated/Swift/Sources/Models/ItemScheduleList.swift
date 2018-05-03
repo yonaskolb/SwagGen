@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ItemScheduleList: Codable {
+public class ItemScheduleList: Codable, Equatable {
 
     /** The id of the channel the schedules belong to. */
     public var channelId: String
@@ -49,5 +49,18 @@ public class ItemScheduleList: Codable {
         try container.encode(startDate, forKey: .startDate)
         try container.encode(endDate, forKey: .endDate)
         try container.encode(schedules, forKey: .schedules)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ItemScheduleList else { return false }
+      guard self.channelId == object.channelId else { return false }
+      guard self.startDate == object.startDate else { return false }
+      guard self.endDate == object.endDate else { return false }
+      guard self.schedules == object.schedules else { return false }
+      return true
+    }
+
+    public static func == (lhs: ItemScheduleList, rhs: ItemScheduleList) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

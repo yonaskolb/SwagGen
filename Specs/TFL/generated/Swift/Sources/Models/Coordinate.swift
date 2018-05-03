@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Coordinate: Codable {
+public class Coordinate: Codable, Equatable {
 
     public var easting: Double?
 
@@ -57,5 +57,20 @@ public class Coordinate: Codable {
         try container.encode(northing, forKey: .northing)
         try container.encode(xCoord, forKey: .xCoord)
         try container.encode(yCoord, forKey: .yCoord)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Coordinate else { return false }
+      guard self.easting == object.easting else { return false }
+      guard self.latitude == object.latitude else { return false }
+      guard self.longitude == object.longitude else { return false }
+      guard self.northing == object.northing else { return false }
+      guard self.xCoord == object.xCoord else { return false }
+      guard self.yCoord == object.yCoord else { return false }
+      return true
+    }
+
+    public static func == (lhs: Coordinate, rhs: Coordinate) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

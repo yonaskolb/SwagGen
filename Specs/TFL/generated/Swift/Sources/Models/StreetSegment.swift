@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StreetSegment: Codable {
+public class StreetSegment: Codable, Equatable {
 
     /** geoJSON formatted LineString containing two latitude/longitude (WGS84) pairs that identify the start and end points of the street segment. */
     public var lineString: String?
@@ -49,5 +49,18 @@ public class StreetSegment: Codable {
         try container.encode(sourceSystemId, forKey: .sourceSystemId)
         try container.encode(sourceSystemKey, forKey: .sourceSystemKey)
         try container.encode(toid, forKey: .toid)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? StreetSegment else { return false }
+      guard self.lineString == object.lineString else { return false }
+      guard self.sourceSystemId == object.sourceSystemId else { return false }
+      guard self.sourceSystemKey == object.sourceSystemKey else { return false }
+      guard self.toid == object.toid else { return false }
+      return true
+    }
+
+    public static func == (lhs: StreetSegment, rhs: StreetSegment) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

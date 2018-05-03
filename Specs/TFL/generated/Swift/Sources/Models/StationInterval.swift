@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StationInterval: Codable {
+public class StationInterval: Codable, Equatable {
 
     public var id: String?
 
@@ -33,5 +33,16 @@ public class StationInterval: Codable {
 
         try container.encode(id, forKey: .id)
         try container.encode(intervals, forKey: .intervals)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? StationInterval else { return false }
+      guard self.id == object.id else { return false }
+      guard self.intervals == object.intervals else { return false }
+      return true
+    }
+
+    public static func == (lhs: StationInterval, rhs: StationInterval) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

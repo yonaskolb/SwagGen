@@ -6,7 +6,7 @@
 import Foundation
 
 /** Represents a period for which a planned works is valid. */
-public class ValidityPeriod: Codable {
+public class ValidityPeriod: Codable, Equatable {
 
     /** Gets or sets the start date. */
     public var fromDate: Date?
@@ -43,5 +43,17 @@ public class ValidityPeriod: Codable {
         try container.encode(fromDate, forKey: .fromDate)
         try container.encode(isNow, forKey: .isNow)
         try container.encode(toDate, forKey: .toDate)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ValidityPeriod else { return false }
+      guard self.fromDate == object.fromDate else { return false }
+      guard self.isNow == object.isNow else { return false }
+      guard self.toDate == object.toDate else { return false }
+      return true
+    }
+
+    public static func == (lhs: ValidityPeriod, rhs: ValidityPeriod) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

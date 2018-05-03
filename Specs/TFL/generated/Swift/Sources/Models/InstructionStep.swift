@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class InstructionStep: Codable {
+public class InstructionStep: Codable, Equatable {
 
     public enum SkyDirectionDescription: String, Codable {
         case north = "North"
@@ -141,5 +141,27 @@ public class InstructionStep: Codable {
         try container.encode(streetName, forKey: .streetName)
         try container.encode(trackType, forKey: .trackType)
         try container.encode(turnDirection, forKey: .turnDirection)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? InstructionStep else { return false }
+      guard self.cumulativeDistance == object.cumulativeDistance else { return false }
+      guard self.cumulativeTravelTime == object.cumulativeTravelTime else { return false }
+      guard self.description == object.description else { return false }
+      guard self.descriptionHeading == object.descriptionHeading else { return false }
+      guard self.distance == object.distance else { return false }
+      guard self.latitude == object.latitude else { return false }
+      guard self.longitude == object.longitude else { return false }
+      guard self.pathAttribute == object.pathAttribute else { return false }
+      guard self.skyDirection == object.skyDirection else { return false }
+      guard self.skyDirectionDescription == object.skyDirectionDescription else { return false }
+      guard self.streetName == object.streetName else { return false }
+      guard self.trackType == object.trackType else { return false }
+      guard self.turnDirection == object.turnDirection else { return false }
+      return true
+    }
+
+    public static func == (lhs: InstructionStep, rhs: InstructionStep) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

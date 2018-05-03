@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MatchedRouteSections: Codable {
+public class MatchedRouteSections: Codable, Equatable {
 
     public var id: Int?
 
@@ -27,5 +27,15 @@ public class MatchedRouteSections: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(id, forKey: .id)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? MatchedRouteSections else { return false }
+      guard self.id == object.id else { return false }
+      return true
+    }
+
+    public static func == (lhs: MatchedRouteSections, rhs: MatchedRouteSections) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

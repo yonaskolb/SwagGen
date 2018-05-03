@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RegistrationRequest: Codable {
+public class RegistrationRequest: Codable, Equatable {
 
     public var email: String
 
@@ -66,5 +66,21 @@ public class RegistrationRequest: Codable {
         try container.encode(marketing, forKey: .marketing)
         try container.encode(pin, forKey: .pin)
         try container.encode(segments, forKey: .segments)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? RegistrationRequest else { return false }
+      guard self.email == object.email else { return false }
+      guard self.password == object.password else { return false }
+      guard self.firstName == object.firstName else { return false }
+      guard self.lastName == object.lastName else { return false }
+      guard self.marketing == object.marketing else { return false }
+      guard self.pin == object.pin else { return false }
+      guard self.segments == object.segments else { return false }
+      return true
+    }
+
+    public static func == (lhs: RegistrationRequest, rhs: RegistrationRequest) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

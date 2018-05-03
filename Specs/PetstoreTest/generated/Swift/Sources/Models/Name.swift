@@ -6,7 +6,7 @@
 import Foundation
 
 /** Model for testing model name same as property name */
-public class Name: Codable {
+public class Name: Codable, Equatable {
 
     public var name: Int
 
@@ -46,5 +46,18 @@ public class Name: Codable {
         try container.encode(_123Number, forKey: ._123Number)
         try container.encode(property, forKey: .property)
         try container.encode(snakeCase, forKey: .snakeCase)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Name else { return false }
+      guard self.name == object.name else { return false }
+      guard self._123Number == object._123Number else { return false }
+      guard self.property == object.property else { return false }
+      guard self.snakeCase == object.snakeCase else { return false }
+      return true
+    }
+
+    public static func == (lhs: Name, rhs: Name) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

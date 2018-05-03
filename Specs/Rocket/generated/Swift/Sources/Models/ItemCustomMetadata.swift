@@ -6,7 +6,7 @@
 import Foundation
 
 /** Custom metadata associated with an item. */
-public class ItemCustomMetadata: Codable {
+public class ItemCustomMetadata: Codable, Equatable {
 
     /** The name of the custom metadata. */
     public var name: String
@@ -36,5 +36,16 @@ public class ItemCustomMetadata: Codable {
 
         try container.encode(name, forKey: .name)
         try container.encode(value, forKey: .value)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ItemCustomMetadata else { return false }
+      guard self.name == object.name else { return false }
+      guard self.value == object.value else { return false }
+      return true
+    }
+
+    public static func == (lhs: ItemCustomMetadata, rhs: ItemCustomMetadata) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

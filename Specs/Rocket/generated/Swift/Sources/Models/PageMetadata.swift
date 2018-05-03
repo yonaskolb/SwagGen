@@ -6,7 +6,7 @@
 import Foundation
 
 /** Metadata associated with a page. Primarily intended for SEO usage. */
-public class PageMetadata: Codable {
+public class PageMetadata: Codable, Equatable {
 
     public var description: String?
 
@@ -34,5 +34,16 @@ public class PageMetadata: Codable {
 
         try container.encode(description, forKey: .description)
         try container.encode(keywords, forKey: .keywords)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? PageMetadata else { return false }
+      guard self.description == object.description else { return false }
+      guard self.keywords == object.keywords else { return false }
+      return true
+    }
+
+    public static func == (lhs: PageMetadata, rhs: PageMetadata) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

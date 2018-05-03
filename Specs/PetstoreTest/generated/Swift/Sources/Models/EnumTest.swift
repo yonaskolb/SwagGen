@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class EnumTest: Codable {
+public class EnumTest: Codable, Equatable {
 
     public enum EnumInteger: Int, Codable {
         case _1 = 1
@@ -77,5 +77,18 @@ public class EnumTest: Codable {
         try container.encode(enumNumber, forKey: .enumNumber)
         try container.encode(enumString, forKey: .enumString)
         try container.encode(outerEnum, forKey: .outerEnum)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? EnumTest else { return false }
+      guard self.enumInteger == object.enumInteger else { return false }
+      guard self.enumNumber == object.enumNumber else { return false }
+      guard self.enumString == object.enumString else { return false }
+      guard self.outerEnum == object.outerEnum else { return false }
+      return true
+    }
+
+    public static func == (lhs: EnumTest, rhs: EnumTest) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

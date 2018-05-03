@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DeviceType: Codable {
+public class DeviceType: Codable, Equatable {
 
     public var shortName: String
 
@@ -57,5 +57,20 @@ public class DeviceType: Codable {
         try container.encode(deviceType, forKey: .deviceType)
         try container.encode(id, forKey: .id)
         try container.encode(needActivation, forKey: .needActivation)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? DeviceType else { return false }
+      guard self.shortName == object.shortName else { return false }
+      guard self.contentProvider == object.contentProvider else { return false }
+      guard self.defaultExpireDays == object.defaultExpireDays else { return false }
+      guard self.deviceType == object.deviceType else { return false }
+      guard self.id == object.id else { return false }
+      guard self.needActivation == object.needActivation else { return false }
+      return true
+    }
+
+    public static func == (lhs: DeviceType, rhs: DeviceType) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

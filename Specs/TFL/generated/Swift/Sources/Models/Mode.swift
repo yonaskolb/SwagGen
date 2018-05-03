@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Mode: Codable {
+public class Mode: Codable, Equatable {
 
     public var isFarePaying: Bool?
 
@@ -45,5 +45,18 @@ public class Mode: Codable {
         try container.encode(isScheduledService, forKey: .isScheduledService)
         try container.encode(isTflService, forKey: .isTflService)
         try container.encode(modeName, forKey: .modeName)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Mode else { return false }
+      guard self.isFarePaying == object.isFarePaying else { return false }
+      guard self.isScheduledService == object.isScheduledService else { return false }
+      guard self.isTflService == object.isTflService else { return false }
+      guard self.modeName == object.modeName else { return false }
+      return true
+    }
+
+    public static func == (lhs: Mode, rhs: Mode) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

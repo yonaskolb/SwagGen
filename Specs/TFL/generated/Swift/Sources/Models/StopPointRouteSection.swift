@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StopPointRouteSection: Codable {
+public class StopPointRouteSection: Codable, Equatable {
 
     public var destinationName: String?
 
@@ -93,5 +93,26 @@ public class StopPointRouteSection: Codable {
         try container.encode(validFrom, forKey: .validFrom)
         try container.encode(validTo, forKey: .validTo)
         try container.encode(vehicleDestinationText, forKey: .vehicleDestinationText)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? StopPointRouteSection else { return false }
+      guard self.destinationName == object.destinationName else { return false }
+      guard self.direction == object.direction else { return false }
+      guard self.isActive == object.isActive else { return false }
+      guard self.lineId == object.lineId else { return false }
+      guard self.lineString == object.lineString else { return false }
+      guard self.mode == object.mode else { return false }
+      guard self.naptanId == object.naptanId else { return false }
+      guard self.routeSectionName == object.routeSectionName else { return false }
+      guard self.serviceType == object.serviceType else { return false }
+      guard self.validFrom == object.validFrom else { return false }
+      guard self.validTo == object.validTo else { return false }
+      guard self.vehicleDestinationText == object.vehicleDestinationText else { return false }
+      return true
+    }
+
+    public static func == (lhs: StopPointRouteSection, rhs: StopPointRouteSection) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PlaceCategory: Codable {
+public class PlaceCategory: Codable, Equatable {
 
     public var availableKeys: [String]?
 
@@ -33,5 +33,16 @@ public class PlaceCategory: Codable {
 
         try container.encode(availableKeys, forKey: .availableKeys)
         try container.encode(category, forKey: .category)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? PlaceCategory else { return false }
+      guard self.availableKeys == object.availableKeys else { return false }
+      guard self.category == object.category else { return false }
+      return true
+    }
+
+    public static func == (lhs: PlaceCategory, rhs: PlaceCategory) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

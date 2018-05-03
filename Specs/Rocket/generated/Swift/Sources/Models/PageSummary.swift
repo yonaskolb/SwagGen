@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PageSummary: Codable {
+public class PageSummary: Codable, Equatable {
 
     /** Unique identifier for the page. */
     public var id: String
@@ -80,5 +80,21 @@ a page is static or not. Use the `isStatic` property instead.
         try container.encode(isStatic, forKey: .isStatic)
         try container.encode(isSystemPage, forKey: .isSystemPage)
         try container.encode(key, forKey: .key)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? PageSummary else { return false }
+      guard self.id == object.id else { return false }
+      guard self.path == object.path else { return false }
+      guard self.title == object.title else { return false }
+      guard self.template == object.template else { return false }
+      guard self.isStatic == object.isStatic else { return false }
+      guard self.isSystemPage == object.isSystemPage else { return false }
+      guard self.key == object.key else { return false }
+      return true
+    }
+
+    public static func == (lhs: PageSummary, rhs: PageSummary) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

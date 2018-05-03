@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class SearchMatch: Codable {
+public class SearchMatch: Codable, Equatable {
 
     public var id: String?
 
@@ -51,5 +51,19 @@ public class SearchMatch: Codable {
         try container.encode(lon, forKey: .lon)
         try container.encode(name, forKey: .name)
         try container.encode(url, forKey: .url)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? SearchMatch else { return false }
+      guard self.id == object.id else { return false }
+      guard self.lat == object.lat else { return false }
+      guard self.lon == object.lon else { return false }
+      guard self.name == object.name else { return false }
+      guard self.url == object.url else { return false }
+      return true
+    }
+
+    public static func == (lhs: SearchMatch, rhs: SearchMatch) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

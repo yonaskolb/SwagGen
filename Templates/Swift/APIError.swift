@@ -9,6 +9,7 @@ public enum APIError: Error {
     case authorizationError(AuthorizationError)
     case networkError(Error)
     case unknownError(Error)
+    case noData
 
     public var name:String {
         switch self {
@@ -18,6 +19,7 @@ public enum APIError: Error {
         case .authorizationError: return "Failed to authorize"
         case .networkError: return "Network error"
         case .unknownError: return "Unknown error"
+        case .noData: return "No Data"
         }
     }
 }
@@ -32,6 +34,7 @@ extension APIError: CustomStringConvertible {
         case .authorizationError(let error): return "\(name): \(error.reason)"
         case .networkError(let error): return "\(name): \(error.localizedDescription)"
         case .unknownError(let error): return "\(name): \(error.localizedDescription)"
+        case .noData: return name
         }
     }
 }

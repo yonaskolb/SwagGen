@@ -15,7 +15,7 @@ public class APIClient {
     public var baseURL: String
 
     /// The Alamofire SessionManager used for each request
-    public var sessionManager: SessionManager
+    public var urlSession: URLSession
 
     /// These headers will get added to every request
     public var defaultHeaders: [String: String]
@@ -31,17 +31,17 @@ public class APIClient {
 
     public var decodingQueue = DispatchQueue(label: "apiClient", qos: .utility, attributes: .concurrent)
 
-    public init(baseURL: String, sessionManager: SessionManager = .default, defaultHeaders: [String: String] = [:], behaviours: [RequestBehaviour] = [], authorizer: RequestAuthorizer? = nil) {
+    public init(baseURL: String, urlSession: URLSession = .shared, defaultHeaders: [String: String] = [:], behaviours: [RequestBehaviour] = [], authorizer: RequestAuthorizer? = nil) {
         self.baseURL = baseURL
         self.authorizer = authorizer
-        self.sessionManager = sessionManager
+        self.urlSession = urlSession
         self.behaviours = behaviours
         self.defaultHeaders = defaultHeaders
     }
 
     /// Any request behaviours will be run in addition to the client behaviours
     @discardableResult
-    public func makeRequest<T>(_ request: APIRequest<T>, behaviours: [RequestBehaviour] = [], queue: DispatchQueue = DispatchQueue.main, complete: @escaping (APIResponse<T>) -> Void) -> Request? {
+    public func makeRequest<T>(_ request: APIRequest<T>, behaviours: [RequestBehaviour] = [], queue: DispatchQueue = DispatchQueue.main, complete: @escaping (APIResponse<T>) -> Void) -> URLSessionDataTask? {
         // create composite behaviour to make it easy to call functions on array of behaviours
         let requestBehaviour = RequestBehaviourGroup(request: request, behaviours: self.behaviours + behaviours)
 
@@ -89,45 +89,50 @@ public class APIClient {
     }
 
     @discardableResult
-    private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: RequestBehaviourGroup, queue: DispatchQueue, complete: @escaping (APIResponse<T>) -> Void) -> Request {
+    private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: RequestBehaviourGroup, queue: DispatchQueue, complete: @escaping (APIResponse<T>) -> Void) -> URLSessionDataTask {
         requestBehaviour.beforeSend()
-        return sessionManager.request(urlRequest)
-            .responseData(queue: decodingQueue) { dataResponse in
+        let task = urlSession.dataTask(with: urlRequest) { (data, response, error) in
+            let response = response as! HTTPURLResponse
+            let result: APIResult<T>
 
-                let result: APIResult<T>
-
-                switch dataResponse.result {
-                case .success(let value):
-                    do {
-                        let statusCode = dataResponse.response!.statusCode
-                        let decoded = try T(statusCode: statusCode, data: value, decoder: self.jsonDecoder)
-                        result = .success(decoded)
-                        if decoded.successful {
-                            requestBehaviour.onSuccess(result: decoded.response as Any)
-                        }
-                    } catch let error {
-                        let apiError: APIError
-                        if let error = error as? DecodingError {
-                            apiError = APIError.decodingError(error)
-                        } else {
-                            apiError = APIError.unknownError(error)
-                        }
-
-                        result = .failure(apiError)
-                        requestBehaviour.onFailure(error: apiError)
+            if let error = error {
+                let apiError = APIError.networkError(error)
+                result = .failure(apiError)
+                requestBehaviour.onFailure(error: apiError)
+            } else if let data = data {
+                do {
+                    let statusCode = response.statusCode
+                    let decoded = try T(statusCode: statusCode, data: data, decoder: self.jsonDecoder)
+                    result = .success(decoded)
+                    if decoded.successful {
+                        requestBehaviour.onSuccess(result: decoded.response as Any)
                     }
-                case .failure(let error):
-                    let apiError = APIError.networkError(error)
+                } catch let error {
+                    let apiError: APIError
+                    if let error = error as? DecodingError {
+                        apiError = APIError.decodingError(error)
+                    } else {
+                        apiError = APIError.unknownError(error)
+                    }
+
                     result = .failure(apiError)
                     requestBehaviour.onFailure(error: apiError)
                 }
-                let response = APIResponse<T>(request: request, result: result, urlRequest: dataResponse.request, urlResponse: dataResponse.response, data: dataResponse.data, timeline: dataResponse.timeline)
-                requestBehaviour.onResponse(response: response.asAny())
+            } else {
+                let apiError = APIError.noData
+                result = .failure(apiError)
+                requestBehaviour.onFailure(error: apiError)
+            }
 
-                queue.async {
-                    complete(response)
-                }
+            let apiResponse = APIResponse<T>(request: request, result: result, urlRequest: urlRequest, urlResponse: response, data: data)
+            requestBehaviour.onResponse(response: apiResponse.asAny())
+
+            queue.async {
+                complete(apiResponse)
+            }
         }
+        task.resume()
+        return task
     }
 }
 

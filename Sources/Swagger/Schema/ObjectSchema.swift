@@ -17,14 +17,14 @@ extension ObjectSchema: JSONObjectConvertible {
         let requiredPropertyNames: [String] = (jsonDictionary.json(atKeyPath: "required")) ?? []
         let propertiesByName: [String: Schema] = (jsonDictionary.json(atKeyPath: "properties")) ?? [:]
 
-        requiredProperties = requiredPropertyNames.flatMap { name in
+        requiredProperties = requiredPropertyNames.compactMap { name in
             if let schema = propertiesByName[name] {
                 return Property(name: name, required: true, schema: schema)
             }
             return nil
         }
 
-        optionalProperties = propertiesByName.flatMap { name, schema in
+        optionalProperties = propertiesByName.compactMap { name, schema in
             if !requiredPropertyNames.contains(name) {
                 return Property(name: name, required: false, schema: schema)
             }

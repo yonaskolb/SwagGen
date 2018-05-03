@@ -62,7 +62,8 @@ import SwagGenKit
 Use `SwagGen -help` to see the list of options:
 
 - **spec** (required): This is the path to the Swagger spec. It can either be a file path or a web url to a YAML or JSON file
-- **template**: (required): This is the path to the template config yaml file. It can either be a direct path to the file, or a path to the parent directory which will by default look for `/template.yml`
+- **language**: The language to generate a template for. This defaults to `swift` for now.
+- **template**:: This is the path to the template config yaml file. It can either be a direct path to the file, or a path to the parent directory which will by default look for `/template.yml`. If this is not passed, the default template for the language will be used.
 - **destination**: The directory that the generated files will be added to.
 - **option**: An option that will be merged with the template config options with those in this argument taking precedence, meaning any existing options of the same name will be overwritten. This argument can be repeated to pass in multiple options. Options must specify the option name and option value seperated by a colon, with any spaces contained in quotes. The following formats are allowed:
 	- `-- option myOption:myValue`

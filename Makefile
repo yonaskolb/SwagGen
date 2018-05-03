@@ -12,5 +12,9 @@ format_code:
 install:
 	swift build -c release -Xswiftc -static-stdlib
 	cp -f $(BUILD_PATH) $(INSTALL_PATH)
+	mkdir -p $(SHARE_PATH)
+	cp -R $(CURRENT_PATH)/Templates $(SHARE_PATH)/Templates
+
 uninstall:
 	rm -f $(INSTALL_PATH)
+	rm -f $(SHARE_PATH)

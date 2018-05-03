@@ -6,7 +6,7 @@
 import Foundation
 
 /** The base type for both Offer and Entitlement. */
-public class OfferRights: Codable {
+public class OfferRights: Codable, Equatable {
 
     /** The base type for both Offer and Entitlement. */
     public enum DeliveryType: String, Codable {
@@ -130,5 +130,23 @@ public class OfferRights: Codable {
         try container.encode(maxPlays, forKey: .maxPlays)
         try container.encode(playPeriod, forKey: .playPeriod)
         try container.encode(rentalPeriod, forKey: .rentalPeriod)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? OfferRights else { return false }
+      guard self.deliveryType == object.deliveryType else { return false }
+      guard self.scopes == object.scopes else { return false }
+      guard self.resolution == object.resolution else { return false }
+      guard self.ownership == object.ownership else { return false }
+      guard self.exclusionRules == object.exclusionRules else { return false }
+      guard self.maxDownloads == object.maxDownloads else { return false }
+      guard self.maxPlays == object.maxPlays else { return false }
+      guard self.playPeriod == object.playPeriod else { return false }
+      guard self.rentalPeriod == object.rentalPeriod else { return false }
+      return true
+    }
+
+    public static func == (lhs: OfferRights, rhs: OfferRights) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

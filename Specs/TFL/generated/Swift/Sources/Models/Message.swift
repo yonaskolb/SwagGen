@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Message: Codable {
+public class Message: Codable, Equatable {
 
     public var bulletOrder: Int?
 
@@ -51,5 +51,19 @@ public class Message: Codable {
         try container.encode(linkText, forKey: .linkText)
         try container.encode(messageText, forKey: .messageText)
         try container.encode(url, forKey: .url)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Message else { return false }
+      guard self.bulletOrder == object.bulletOrder else { return false }
+      guard self.header == object.header else { return false }
+      guard self.linkText == object.linkText else { return false }
+      guard self.messageText == object.messageText else { return false }
+      guard self.url == object.url else { return false }
+      return true
+    }
+
+    public static func == (lhs: Message, rhs: Message) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

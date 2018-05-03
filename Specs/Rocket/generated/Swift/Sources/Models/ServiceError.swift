@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ServiceError: Codable {
+public class ServiceError: Codable, Equatable {
 
     /** A description of the error. */
     public var message: String
@@ -35,5 +35,16 @@ public class ServiceError: Codable {
 
         try container.encode(message, forKey: .message)
         try container.encode(code, forKey: .code)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ServiceError else { return false }
+      guard self.message == object.message else { return false }
+      guard self.code == object.code else { return false }
+      return true
+    }
+
+    public static func == (lhs: ServiceError, rhs: ServiceError) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

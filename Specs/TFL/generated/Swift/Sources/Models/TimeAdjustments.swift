@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TimeAdjustments: Codable {
+public class TimeAdjustments: Codable, Equatable {
 
     public var earlier: TimeAdjustment?
 
@@ -45,5 +45,18 @@ public class TimeAdjustments: Codable {
         try container.encode(earliest, forKey: .earliest)
         try container.encode(later, forKey: .later)
         try container.encode(latest, forKey: .latest)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? TimeAdjustments else { return false }
+      guard self.earlier == object.earlier else { return false }
+      guard self.earliest == object.earliest else { return false }
+      guard self.later == object.later else { return false }
+      guard self.latest == object.latest else { return false }
+      return true
+    }
+
+    public static func == (lhs: TimeAdjustments, rhs: TimeAdjustments) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

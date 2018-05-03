@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MultiHasAccessToObject: Codable {
+public class MultiHasAccessToObject: Codable, Equatable {
 
     public var granted: [String]
 
@@ -45,5 +45,18 @@ public class MultiHasAccessToObject: Codable {
         try container.encode(denied, forKey: .denied)
         try container.encode(failed, forKey: .failed)
         try container.encode(details, forKey: .details)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? MultiHasAccessToObject else { return false }
+      guard self.granted == object.granted else { return false }
+      guard self.denied == object.denied else { return false }
+      guard self.failed == object.failed else { return false }
+      guard self.details == object.details else { return false }
+      return true
+    }
+
+    public static func == (lhs: MultiHasAccessToObject, rhs: MultiHasAccessToObject) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

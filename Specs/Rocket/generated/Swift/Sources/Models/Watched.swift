@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Watched: Codable {
+public class Watched: Codable, Equatable {
 
     /** The last playhead position watched for the item. */
     public var position: Int
@@ -47,5 +47,18 @@ public class Watched: Codable {
         try container.encode(firstWatchedDate, forKey: .firstWatchedDate)
         try container.encode(lastWatchedDate, forKey: .lastWatchedDate)
         try container.encode(itemId, forKey: .itemId)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Watched else { return false }
+      guard self.position == object.position else { return false }
+      guard self.firstWatchedDate == object.firstWatchedDate else { return false }
+      guard self.lastWatchedDate == object.lastWatchedDate else { return false }
+      guard self.itemId == object.itemId else { return false }
+      return true
+    }
+
+    public static func == (lhs: Watched, rhs: Watched) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

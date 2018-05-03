@@ -88,4 +88,18 @@ public class Entitlement: OfferRights {
         try container.encode(remainingDownloads, forKey: .remainingDownloads)
         try super.encode(to: encoder)
     }
+
+    override public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Entitlement else { return false }
+      guard self.activationDate == object.activationDate else { return false }
+      guard self.classification == object.classification else { return false }
+      guard self.creationDate == object.creationDate else { return false }
+      guard self.expirationDate == object.expirationDate else { return false }
+      guard self.itemId == object.itemId else { return false }
+      guard self.itemType == object.itemType else { return false }
+      guard self.mediaDuration == object.mediaDuration else { return false }
+      guard self.playCount == object.playCount else { return false }
+      guard self.remainingDownloads == object.remainingDownloads else { return false }
+      return super.isEqual(to: object)
+    }
 }

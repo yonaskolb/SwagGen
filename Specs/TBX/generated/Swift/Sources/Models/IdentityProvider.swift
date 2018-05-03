@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class IdentityProvider: Codable {
+public class IdentityProvider: Codable, Equatable {
 
     public var description: String
 
@@ -153,5 +153,36 @@ public class IdentityProvider: Codable {
         try container.encode(wsMaintenanceCountry, forKey: .wsMaintenanceCountry)
         try container.encode(wsNameSpace, forKey: .wsNameSpace)
         try container.encode(wsURL, forKey: .wsURL)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? IdentityProvider else { return false }
+      guard self.description == object.description else { return false }
+      guard self.shortName == object.shortName else { return false }
+      guard self.apiKey == object.apiKey else { return false }
+      guard self.clientType == object.clientType else { return false }
+      guard self.devicesLimit == object.devicesLimit else { return false }
+      guard self.active == object.active else { return false }
+      guard self.canCreateToken == object.canCreateToken else { return false }
+      guard self.canCreateDevice == object.canCreateDevice else { return false }
+      guard self.conector == object.conector else { return false }
+      guard self.haveMultipleURNService == object.haveMultipleURNService else { return false }
+      guard self.id == object.id else { return false }
+      guard self.maintenance == object.maintenance else { return false }
+      guard NSDictionary(dictionary: self.oauth2 ?? [:]).isEqual(to: object.oauth2 ?? [:]) else { return false }
+      guard NSDictionary(dictionary: self.saml ?? [:]).isEqual(to: object.saml ?? [:]) else { return false }
+      guard self.sendRequestorAuthZ == object.sendRequestorAuthZ else { return false }
+      guard self.subscriberIdData == object.subscriberIdData else { return false }
+      guard self.whitelistDomains == object.whitelistDomains else { return false }
+      guard self.wsAPIKey == object.wsAPIKey else { return false }
+      guard self.wsMaintenance == object.wsMaintenance else { return false }
+      guard self.wsMaintenanceCountry == object.wsMaintenanceCountry else { return false }
+      guard self.wsNameSpace == object.wsNameSpace else { return false }
+      guard self.wsURL == object.wsURL else { return false }
+      return true
+    }
+
+    public static func == (lhs: IdentityProvider, rhs: IdentityProvider) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

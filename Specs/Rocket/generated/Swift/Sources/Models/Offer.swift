@@ -72,4 +72,15 @@ public class Offer: OfferRights {
         try container.encode(subscriptionCode, forKey: .subscriptionCode)
         try super.encode(to: encoder)
     }
+
+    override public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Offer else { return false }
+      guard self.price == object.price else { return false }
+      guard self.availability == object.availability else { return false }
+      guard self.endDate == object.endDate else { return false }
+      guard self.name == object.name else { return false }
+      guard self.startDate == object.startDate else { return false }
+      guard self.subscriptionCode == object.subscriptionCode else { return false }
+      return super.isEqual(to: object)
+    }
 }

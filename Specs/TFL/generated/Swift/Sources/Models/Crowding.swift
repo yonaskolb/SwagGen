@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Crowding: Codable {
+public class Crowding: Codable, Equatable {
 
     /** Busiest times at a station (static information) */
     public var passengerFlows: [PassengerFlow]?
@@ -35,5 +35,16 @@ public class Crowding: Codable {
 
         try container.encode(passengerFlows, forKey: .passengerFlows)
         try container.encode(trainLoadings, forKey: .trainLoadings)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Crowding else { return false }
+      guard self.passengerFlows == object.passengerFlows else { return false }
+      guard self.trainLoadings == object.trainLoadings else { return false }
+      return true
+    }
+
+    public static func == (lhs: Crowding, rhs: Crowding) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

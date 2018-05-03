@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DeviceRegistrationWindow: Codable {
+public class DeviceRegistrationWindow: Codable, Equatable {
 
     /** The number of days a de/registration period runs for. */
     public var periodDays: Int
@@ -65,5 +65,19 @@ This is based on the value of `startDate` plus the number of days defined by  `p
         try container.encode(remaining, forKey: .remaining)
         try container.encode(startDate, forKey: .startDate)
         try container.encode(endDate, forKey: .endDate)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? DeviceRegistrationWindow else { return false }
+      guard self.periodDays == object.periodDays else { return false }
+      guard self.limit == object.limit else { return false }
+      guard self.remaining == object.remaining else { return false }
+      guard self.startDate == object.startDate else { return false }
+      guard self.endDate == object.endDate else { return false }
+      return true
+    }
+
+    public static func == (lhs: DeviceRegistrationWindow, rhs: DeviceRegistrationWindow) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PasswordResetEmailRequest: Codable {
+public class PasswordResetEmailRequest: Codable, Equatable {
 
     /** The email address of the primary account profile to reset the password for. */
     public var email: String
@@ -28,5 +28,15 @@ public class PasswordResetEmailRequest: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(email, forKey: .email)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? PasswordResetEmailRequest else { return false }
+      guard self.email == object.email else { return false }
+      return true
+    }
+
+    public static func == (lhs: PasswordResetEmailRequest, rhs: PasswordResetEmailRequest) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

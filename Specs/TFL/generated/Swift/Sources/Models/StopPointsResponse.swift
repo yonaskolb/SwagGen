@@ -6,7 +6,7 @@
 import Foundation
 
 /** A paged response containing StopPoints */
-public class StopPointsResponse: Codable {
+public class StopPointsResponse: Codable, Equatable {
 
     /** The centre latitude/longitude of this list of StopPoints */
     public var centrePoint: [Double]?
@@ -57,5 +57,19 @@ public class StopPointsResponse: Codable {
         try container.encode(pageSize, forKey: .pageSize)
         try container.encode(stopPoints, forKey: .stopPoints)
         try container.encode(total, forKey: .total)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? StopPointsResponse else { return false }
+      guard self.centrePoint == object.centrePoint else { return false }
+      guard self.page == object.page else { return false }
+      guard self.pageSize == object.pageSize else { return false }
+      guard self.stopPoints == object.stopPoints else { return false }
+      guard self.total == object.total else { return false }
+      return true
+    }
+
+    public static func == (lhs: StopPointsResponse, rhs: StopPointsResponse) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

@@ -73,4 +73,14 @@ on list detail pages. See `feature-flags.md` for further details.*
         try container.encode(metadata, forKey: .metadata)
         try super.encode(to: encoder)
     }
+
+    override public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Page else { return false }
+      guard self.entries == object.entries else { return false }
+      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.item == object.item else { return false }
+      guard self.list == object.list else { return false }
+      guard self.metadata == object.metadata else { return false }
+      return super.isEqual(to: object)
+    }
 }

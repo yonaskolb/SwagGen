@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ActiveServiceType: Codable {
+public class ActiveServiceType: Codable, Equatable {
 
     public var mode: String?
 
@@ -33,5 +33,16 @@ public class ActiveServiceType: Codable {
 
         try container.encode(mode, forKey: .mode)
         try container.encode(serviceType, forKey: .serviceType)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ActiveServiceType else { return false }
+      guard self.mode == object.mode else { return false }
+      guard self.serviceType == object.serviceType else { return false }
+      return true
+    }
+
+    public static func == (lhs: ActiveServiceType, rhs: ActiveServiceType) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

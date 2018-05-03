@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MatchedStop: Codable {
+public class MatchedStop: Codable, Equatable {
 
     public var accessibilitySummary: String?
 
@@ -141,5 +141,34 @@ public class MatchedStop: Codable {
         try container.encode(towards, forKey: .towards)
         try container.encode(url, forKey: .url)
         try container.encode(zone, forKey: .zone)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? MatchedStop else { return false }
+      guard self.accessibilitySummary == object.accessibilitySummary else { return false }
+      guard self.direction == object.direction else { return false }
+      guard self.hasDisruption == object.hasDisruption else { return false }
+      guard self.icsId == object.icsId else { return false }
+      guard self.id == object.id else { return false }
+      guard self.lat == object.lat else { return false }
+      guard self.lines == object.lines else { return false }
+      guard self.lon == object.lon else { return false }
+      guard self.modes == object.modes else { return false }
+      guard self.name == object.name else { return false }
+      guard self.parentId == object.parentId else { return false }
+      guard self.routeId == object.routeId else { return false }
+      guard self.stationId == object.stationId else { return false }
+      guard self.status == object.status else { return false }
+      guard self.stopLetter == object.stopLetter else { return false }
+      guard self.stopType == object.stopType else { return false }
+      guard self.topMostParentId == object.topMostParentId else { return false }
+      guard self.towards == object.towards else { return false }
+      guard self.url == object.url else { return false }
+      guard self.zone == object.zone else { return false }
+      return true
+    }
+
+    public static func == (lhs: MatchedStop, rhs: MatchedStop) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

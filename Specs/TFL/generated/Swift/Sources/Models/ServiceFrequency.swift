@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ServiceFrequency: Codable {
+public class ServiceFrequency: Codable, Equatable {
 
     public var highestFrequency: Double?
 
@@ -33,5 +33,16 @@ public class ServiceFrequency: Codable {
 
         try container.encode(highestFrequency, forKey: .highestFrequency)
         try container.encode(lowestFrequency, forKey: .lowestFrequency)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ServiceFrequency else { return false }
+      guard self.highestFrequency == object.highestFrequency else { return false }
+      guard self.lowestFrequency == object.lowestFrequency else { return false }
+      return true
+    }
+
+    public static func == (lhs: ServiceFrequency, rhs: ServiceFrequency) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

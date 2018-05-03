@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PlannedWork: Codable {
+public class PlannedWork: Codable, Equatable {
 
     public var createdDateTime: Date?
 
@@ -45,5 +45,18 @@ public class PlannedWork: Codable {
         try container.encode(description, forKey: .description)
         try container.encode(id, forKey: .id)
         try container.encode(lastUpdateDateTime, forKey: .lastUpdateDateTime)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? PlannedWork else { return false }
+      guard self.createdDateTime == object.createdDateTime else { return false }
+      guard self.description == object.description else { return false }
+      guard self.id == object.id else { return false }
+      guard self.lastUpdateDateTime == object.lastUpdateDateTime else { return false }
+      return true
+    }
+
+    public static func == (lhs: PlannedWork, rhs: PlannedWork) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

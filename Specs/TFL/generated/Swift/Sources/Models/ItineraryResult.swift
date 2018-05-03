@@ -6,7 +6,7 @@
 import Foundation
 
 /** A DTO representing a list of possible journeys. */
-public class ItineraryResult: Codable {
+public class ItineraryResult: Codable, Equatable {
 
     public var cycleHireDockingStationData: JourneyPlannerCycleHireDockingStationData?
 
@@ -64,5 +64,21 @@ public class ItineraryResult: Codable {
         try container.encode(recommendedMaxAgeMinutes, forKey: .recommendedMaxAgeMinutes)
         try container.encode(searchCriteria, forKey: .searchCriteria)
         try container.encode(stopMessages, forKey: .stopMessages)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ItineraryResult else { return false }
+      guard self.cycleHireDockingStationData == object.cycleHireDockingStationData else { return false }
+      guard self.journeyVector == object.journeyVector else { return false }
+      guard self.journeys == object.journeys else { return false }
+      guard self.lines == object.lines else { return false }
+      guard self.recommendedMaxAgeMinutes == object.recommendedMaxAgeMinutes else { return false }
+      guard self.searchCriteria == object.searchCriteria else { return false }
+      guard self.stopMessages == object.stopMessages else { return false }
+      return true
+    }
+
+    public static func == (lhs: ItineraryResult, rhs: ItineraryResult) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

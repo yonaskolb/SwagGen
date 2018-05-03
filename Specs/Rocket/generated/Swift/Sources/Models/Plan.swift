@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Plan: Codable {
+public class Plan: Codable, Equatable {
 
     /** The type of plan. */
     public enum `Type`: String, Codable {
@@ -191,5 +191,33 @@ public class Plan: Codable {
         try container.encode(currency, forKey: .currency)
         try container.encodeAny(customFields, forKey: .customFields)
         try container.encode(price, forKey: .price)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Plan else { return false }
+      guard self.id == object.id else { return false }
+      guard self.title == object.title else { return false }
+      guard self.tagline == object.tagline else { return false }
+      guard self.type == object.type else { return false }
+      guard self.isFeatured == object.isFeatured else { return false }
+      guard self.isActive == object.isActive else { return false }
+      guard self.isPrivate == object.isPrivate else { return false }
+      guard self.revenueType == object.revenueType else { return false }
+      guard self.subscriptionCode == object.subscriptionCode else { return false }
+      guard self.alias == object.alias else { return false }
+      guard self.benefits == object.benefits else { return false }
+      guard self.billingPeriodType == object.billingPeriodType else { return false }
+      guard self.billingPeriodFrequency == object.billingPeriodFrequency else { return false }
+      guard self.hasTrialPeriod == object.hasTrialPeriod else { return false }
+      guard self.trialPeriodDays == object.trialPeriodDays else { return false }
+      guard self.termsAndConditions == object.termsAndConditions else { return false }
+      guard self.currency == object.currency else { return false }
+      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.price == object.price else { return false }
+      return true
+    }
+
+    public static func == (lhs: Plan, rhs: Plan) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

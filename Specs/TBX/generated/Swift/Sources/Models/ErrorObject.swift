@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ErrorObject: Codable {
+public class ErrorObject: Codable, Equatable {
 
     /** CloudPass error code */
     public var errorCode: String
@@ -49,5 +49,18 @@ public class ErrorObject: Codable {
         try container.encode(message, forKey: .message)
         try container.encode(externalCode, forKey: .externalCode)
         try container.encode(externalMessage, forKey: .externalMessage)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ErrorObject else { return false }
+      guard self.errorCode == object.errorCode else { return false }
+      guard self.message == object.message else { return false }
+      guard self.externalCode == object.externalCode else { return false }
+      guard self.externalMessage == object.externalMessage else { return false }
+      return true
+    }
+
+    public static func == (lhs: ErrorObject, rhs: ErrorObject) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

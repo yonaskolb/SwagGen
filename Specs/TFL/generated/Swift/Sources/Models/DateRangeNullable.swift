@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DateRangeNullable: Codable {
+public class DateRangeNullable: Codable, Equatable {
 
     public var endDate: Date?
 
@@ -33,5 +33,16 @@ public class DateRangeNullable: Codable {
 
         try container.encode(endDate, forKey: .endDate)
         try container.encode(startDate, forKey: .startDate)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? DateRangeNullable else { return false }
+      guard self.endDate == object.endDate else { return false }
+      guard self.startDate == object.startDate else { return false }
+      return true
+    }
+
+    public static func == (lhs: DateRangeNullable, rhs: DateRangeNullable) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

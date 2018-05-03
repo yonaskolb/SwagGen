@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Device: Codable {
+public class Device: Codable, Equatable {
 
     public var id: String
 
@@ -99,5 +99,27 @@ public class Device: Codable {
         try container.encode(lastLogin, forKey: .lastLogin)
         try container.encode(loggedOutDate, forKey: .loggedOutDate)
         try container.encode(updated, forKey: .updated)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Device else { return false }
+      guard self.id == object.id else { return false }
+      guard self.created == object.created else { return false }
+      guard self.customer == object.customer else { return false }
+      guard self.customerId == object.customerId else { return false }
+      guard NSDictionary(dictionary: self.data ?? [:]).isEqual(to: object.data ?? [:]) else { return false }
+      guard self.deactivateDate == object.deactivateDate else { return false }
+      guard self.description == object.description else { return false }
+      guard self.deviceType == object.deviceType else { return false }
+      guard self.expirationDate == object.expirationDate else { return false }
+      guard self.identifier == object.identifier else { return false }
+      guard self.lastLogin == object.lastLogin else { return false }
+      guard self.loggedOutDate == object.loggedOutDate else { return false }
+      guard self.updated == object.updated else { return false }
+      return true
+    }
+
+    public static func == (lhs: Device, rhs: Device) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

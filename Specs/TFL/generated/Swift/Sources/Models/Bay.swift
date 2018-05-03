@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Bay: Codable {
+public class Bay: Codable, Equatable {
 
     public var bayCount: Int?
 
@@ -45,5 +45,18 @@ public class Bay: Codable {
         try container.encode(bayType, forKey: .bayType)
         try container.encode(free, forKey: .free)
         try container.encode(occupied, forKey: .occupied)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Bay else { return false }
+      guard self.bayCount == object.bayCount else { return false }
+      guard self.bayType == object.bayType else { return false }
+      guard self.free == object.free else { return false }
+      guard self.occupied == object.occupied else { return false }
+      return true
+    }
+
+    public static func == (lhs: Bay, rhs: Bay) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

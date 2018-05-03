@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Casualty: Codable {
+public class Casualty: Codable, Equatable {
 
     public var age: Int?
 
@@ -51,5 +51,19 @@ public class Casualty: Codable {
         try container.encode(`class`, forKey: .`class`)
         try container.encode(mode, forKey: .mode)
         try container.encode(severity, forKey: .severity)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Casualty else { return false }
+      guard self.age == object.age else { return false }
+      guard self.ageBand == object.ageBand else { return false }
+      guard self.`class` == object.`class` else { return false }
+      guard self.mode == object.mode else { return false }
+      guard self.severity == object.severity else { return false }
+      return true
+    }
+
+    public static func == (lhs: Casualty, rhs: Casualty) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

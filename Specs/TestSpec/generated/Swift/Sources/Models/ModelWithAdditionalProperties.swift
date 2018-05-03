@@ -6,7 +6,7 @@
 import Foundation
 
 /** definition with additional properties */
-public class ModelWithAdditionalProperties: Codable {
+public class ModelWithAdditionalProperties: Codable, Equatable {
 
     public var name: String?
 
@@ -49,5 +49,16 @@ public class ModelWithAdditionalProperties: Codable {
         set {
             additionalProperties[key] = newValue
         }
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ModelWithAdditionalProperties else { return false }
+      guard self.name == object.name else { return false }
+      guard NSDictionary(dictionary: self.additionalProperties).isEqual(to: object.additionalProperties) else { return false }
+      return true
+    }
+
+    public static func == (lhs: ModelWithAdditionalProperties, rhs: ModelWithAdditionalProperties) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

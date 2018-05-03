@@ -31,4 +31,10 @@ public class Cat: Animal {
         try container.encode(declawed, forKey: .declawed)
         try super.encode(to: encoder)
     }
+
+    override public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Cat else { return false }
+      guard self.declawed == object.declawed else { return false }
+      return super.isEqual(to: object)
+    }
 }

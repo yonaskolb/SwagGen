@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MSO: Codable {
+public class MSO: Codable, Equatable {
 
     public var countryCode: String
 
@@ -39,5 +39,17 @@ public class MSO: Codable {
         try container.encode(countryCode, forKey: .countryCode)
         try container.encode(country, forKey: .country)
         try container.encodeAny(idp, forKey: .idp)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? MSO else { return false }
+      guard self.countryCode == object.countryCode else { return false }
+      guard self.country == object.country else { return false }
+      guard self.idp == object.idp else { return false }
+      return true
+    }
+
+    public static func == (lhs: MSO, rhs: MSO) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

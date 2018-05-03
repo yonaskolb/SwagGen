@@ -55,4 +55,13 @@ Each classification in a system should have a unique level.
         try container.encode(advisoryText, forKey: .advisoryText)
         try super.encode(to: encoder)
     }
+
+    override public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Classification else { return false }
+      guard self.level == object.level else { return false }
+      guard self.system == object.system else { return false }
+      guard self.images == object.images else { return false }
+      guard self.advisoryText == object.advisoryText else { return false }
+      return super.isEqual(to: object)
+    }
 }

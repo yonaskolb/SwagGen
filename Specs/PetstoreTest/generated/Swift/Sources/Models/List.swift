@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class List: Codable {
+public class List: Codable, Equatable {
 
     public var _123List: String?
 
@@ -27,5 +27,15 @@ public class List: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(_123List, forKey: ._123List)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? List else { return false }
+      guard self._123List == object._123List else { return false }
+      return true
+    }
+
+    public static func == (lhs: List, rhs: List) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

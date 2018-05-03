@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Recommendation: Codable {
+public class Recommendation: Codable, Equatable {
 
     public var cost: String?
 
@@ -129,5 +129,32 @@ public class Recommendation: Codable {
         try container.encode(ticketTime, forKey: .ticketTime)
         try container.encode(ticketType, forKey: .ticketType)
         try container.encode(zones, forKey: .zones)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Recommendation else { return false }
+      guard self.cost == object.cost else { return false }
+      guard self.discountCard == object.discountCard else { return false }
+      guard self.fareType == object.fareType else { return false }
+      guard self.gettingYourTicket == object.gettingYourTicket else { return false }
+      guard self.id == object.id else { return false }
+      guard self.keyFeatures == object.keyFeatures else { return false }
+      guard self.notes == object.notes else { return false }
+      guard self.priceComparison == object.priceComparison else { return false }
+      guard self.priceDescription == object.priceDescription else { return false }
+      guard self.product == object.product else { return false }
+      guard self.productType == object.productType else { return false }
+      guard self.rank == object.rank else { return false }
+      guard self.recommendedTopUp == object.recommendedTopUp else { return false }
+      guard self.rule == object.rule else { return false }
+      guard self.singleFare == object.singleFare else { return false }
+      guard self.ticketTime == object.ticketTime else { return false }
+      guard self.ticketType == object.ticketType else { return false }
+      guard self.zones == object.zones else { return false }
+      return true
+    }
+
+    public static func == (lhs: Recommendation, rhs: Recommendation) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

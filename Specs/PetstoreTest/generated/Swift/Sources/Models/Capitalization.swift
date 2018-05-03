@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Capitalization: Codable {
+public class Capitalization: Codable, Equatable {
 
     /** Name of the pet
  */
@@ -59,5 +59,20 @@ public class Capitalization: Codable {
         try container.encode(sCAETHFlowPoints, forKey: .sCAETHFlowPoints)
         try container.encode(smallCamel, forKey: .smallCamel)
         try container.encode(smallSnake, forKey: .smallSnake)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Capitalization else { return false }
+      guard self.attname == object.attname else { return false }
+      guard self.capitalCamel == object.capitalCamel else { return false }
+      guard self.capitalSnake == object.capitalSnake else { return false }
+      guard self.sCAETHFlowPoints == object.sCAETHFlowPoints else { return false }
+      guard self.smallCamel == object.smallCamel else { return false }
+      guard self.smallSnake == object.smallSnake else { return false }
+      return true
+    }
+
+    public static func == (lhs: Capitalization, rhs: Capitalization) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

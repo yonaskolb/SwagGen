@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ContentIdentityCountry: Codable {
+public class ContentIdentityCountry: Codable, Equatable {
 
     public var order: Double
 
@@ -57,5 +57,20 @@ public class ContentIdentityCountry: Codable {
         try container.encode(id, forKey: .id)
         try container.encode(identityProvider, forKey: .identityProvider)
         try container.encode(showInList, forKey: .showInList)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ContentIdentityCountry else { return false }
+      guard self.order == object.order else { return false }
+      guard self.contentProvider == object.contentProvider else { return false }
+      guard self.country == object.country else { return false }
+      guard self.id == object.id else { return false }
+      guard self.identityProvider == object.identityProvider else { return false }
+      guard self.showInList == object.showInList else { return false }
+      return true
+    }
+
+    public static func == (lhs: ContentIdentityCountry, rhs: ContentIdentityCountry) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

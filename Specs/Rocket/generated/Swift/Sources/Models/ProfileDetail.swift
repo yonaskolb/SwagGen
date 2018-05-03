@@ -46,4 +46,12 @@ public class ProfileDetail: ProfileSummary {
         try container.encode(bookmarked, forKey: .bookmarked)
         try super.encode(to: encoder)
     }
+
+    override public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ProfileDetail else { return false }
+      guard self.watched == object.watched else { return false }
+      guard self.rated == object.rated else { return false }
+      guard self.bookmarked == object.bookmarked else { return false }
+      return super.isEqual(to: object)
+    }
 }

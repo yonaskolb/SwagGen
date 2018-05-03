@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Pagination: Codable {
+public class Pagination: Codable, Equatable {
 
     /** The total number of pages available given the current page size.
 
@@ -92,5 +92,21 @@ by a CDN. For example a Bookmarks list.
         try container.encode(options, forKey: .options)
         try container.encode(previous, forKey: .previous)
         try container.encode(size, forKey: .size)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Pagination else { return false }
+      guard self.total == object.total else { return false }
+      guard self.page == object.page else { return false }
+      guard self.authorization == object.authorization else { return false }
+      guard self.next == object.next else { return false }
+      guard self.options == object.options else { return false }
+      guard self.previous == object.previous else { return false }
+      guard self.size == object.size else { return false }
+      return true
+    }
+
+    public static func == (lhs: Pagination, rhs: Pagination) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

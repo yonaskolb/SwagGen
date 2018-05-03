@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class UserRating: Codable {
+public class UserRating: Codable, Equatable {
 
     /** The id of the item rated. */
     public var itemId: String
@@ -35,5 +35,16 @@ public class UserRating: Codable {
 
         try container.encode(itemId, forKey: .itemId)
         try container.encode(rating, forKey: .rating)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? UserRating else { return false }
+      guard self.itemId == object.itemId else { return false }
+      guard self.rating == object.rating else { return false }
+      return true
+    }
+
+    public static func == (lhs: UserRating, rhs: UserRating) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

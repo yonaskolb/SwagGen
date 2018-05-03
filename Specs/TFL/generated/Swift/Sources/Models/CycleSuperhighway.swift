@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class CycleSuperhighway: Codable {
+public class CycleSuperhighway: Codable, Equatable {
 
     /** A LineString or MultiLineString that forms the route of the highway */
     public var geography: DbGeography?
@@ -63,5 +63,20 @@ public class CycleSuperhighway: Codable {
         try container.encode(labelShort, forKey: .labelShort)
         try container.encode(modified, forKey: .modified)
         try container.encode(segmented, forKey: .segmented)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? CycleSuperhighway else { return false }
+      guard self.geography == object.geography else { return false }
+      guard self.id == object.id else { return false }
+      guard self.label == object.label else { return false }
+      guard self.labelShort == object.labelShort else { return false }
+      guard self.modified == object.modified else { return false }
+      guard self.segmented == object.segmented else { return false }
+      return true
+    }
+
+    public static func == (lhs: CycleSuperhighway, rhs: CycleSuperhighway) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

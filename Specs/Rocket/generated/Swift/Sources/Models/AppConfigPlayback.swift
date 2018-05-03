@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AppConfigPlayback: Codable {
+public class AppConfigPlayback: Codable, Equatable {
 
     /** How often a heartbeat should be renewed during playback. */
     public var heartbeatFrequency: Int
@@ -39,5 +39,16 @@ Often known as quartiles when four equaly spread event points.
 
         try container.encode(heartbeatFrequency, forKey: .heartbeatFrequency)
         try container.encode(viewEventPoints, forKey: .viewEventPoints)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? AppConfigPlayback else { return false }
+      guard self.heartbeatFrequency == object.heartbeatFrequency else { return false }
+      guard self.viewEventPoints == object.viewEventPoints else { return false }
+      return true
+    }
+
+    public static func == (lhs: AppConfigPlayback, rhs: AppConfigPlayback) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

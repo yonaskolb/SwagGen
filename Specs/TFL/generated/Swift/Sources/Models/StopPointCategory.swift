@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StopPointCategory: Codable {
+public class StopPointCategory: Codable, Equatable {
 
     public var availableKeys: [String]?
 
@@ -33,5 +33,16 @@ public class StopPointCategory: Codable {
 
         try container.encode(availableKeys, forKey: .availableKeys)
         try container.encode(category, forKey: .category)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? StopPointCategory else { return false }
+      guard self.availableKeys == object.availableKeys else { return false }
+      guard self.category == object.category else { return false }
+      return true
+    }
+
+    public static func == (lhs: StopPointCategory, rhs: StopPointCategory) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

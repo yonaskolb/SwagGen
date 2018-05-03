@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Ticket: Codable {
+public class Ticket: Codable, Equatable {
 
     public var cost: String?
 
@@ -69,5 +69,22 @@ public class Ticket: Codable {
         try container.encode(passengerType, forKey: .passengerType)
         try container.encode(ticketTime, forKey: .ticketTime)
         try container.encode(ticketType, forKey: .ticketType)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Ticket else { return false }
+      guard self.cost == object.cost else { return false }
+      guard self.description == object.description else { return false }
+      guard self.displayOrder == object.displayOrder else { return false }
+      guard self.messages == object.messages else { return false }
+      guard self.mode == object.mode else { return false }
+      guard self.passengerType == object.passengerType else { return false }
+      guard self.ticketTime == object.ticketTime else { return false }
+      guard self.ticketType == object.ticketType else { return false }
+      return true
+    }
+
+    public static func == (lhs: Ticket, rhs: Ticket) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

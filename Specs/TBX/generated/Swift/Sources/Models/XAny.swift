@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class XAny: Codable {
+public class XAny: Codable, Equatable {
 
     public init() {
     }
@@ -15,5 +15,14 @@ public class XAny: Codable {
     }
 
     public func encode(to encoder: Encoder) throws {
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard object is XAny else { return false }
+      return true
+    }
+
+    public static func == (lhs: XAny, rhs: XAny) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

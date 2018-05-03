@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Line: Codable {
+public class Line: Codable, Equatable {
 
     public var created: Date?
 
@@ -81,5 +81,24 @@ public class Line: Codable {
         try container.encode(name, forKey: .name)
         try container.encode(routeSections, forKey: .routeSections)
         try container.encode(serviceTypes, forKey: .serviceTypes)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Line else { return false }
+      guard self.created == object.created else { return false }
+      guard self.crowding == object.crowding else { return false }
+      guard self.disruptions == object.disruptions else { return false }
+      guard self.id == object.id else { return false }
+      guard self.lineStatuses == object.lineStatuses else { return false }
+      guard self.modeName == object.modeName else { return false }
+      guard self.modified == object.modified else { return false }
+      guard self.name == object.name else { return false }
+      guard self.routeSections == object.routeSections else { return false }
+      guard self.serviceTypes == object.serviceTypes else { return false }
+      return true
+    }
+
+    public static func == (lhs: Line, rhs: Line) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

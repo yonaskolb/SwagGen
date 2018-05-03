@@ -6,7 +6,7 @@
 import Foundation
 
 /** Model for testing model with "_class" property */
-public class ClassModel: Codable {
+public class ClassModel: Codable, Equatable {
 
     public var `class`: String?
 
@@ -28,5 +28,15 @@ public class ClassModel: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(`class`, forKey: .`class`)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ClassModel else { return false }
+      guard self.`class` == object.`class` else { return false }
+      return true
+    }
+
+    public static func == (lhs: ClassModel, rhs: ClassModel) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class LineModeGroup: Codable {
+public class LineModeGroup: Codable, Equatable {
 
     public var lineIdentifier: [String]?
 
@@ -33,5 +33,16 @@ public class LineModeGroup: Codable {
 
         try container.encode(lineIdentifier, forKey: .lineIdentifier)
         try container.encode(modeName, forKey: .modeName)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? LineModeGroup else { return false }
+      guard self.lineIdentifier == object.lineIdentifier else { return false }
+      guard self.modeName == object.modeName else { return false }
+      return true
+    }
+
+    public static func == (lhs: LineModeGroup, rhs: LineModeGroup) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

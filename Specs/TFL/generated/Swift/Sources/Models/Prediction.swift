@@ -6,7 +6,7 @@
 import Foundation
 
 /** DTO to capture the prediction details */
-public class Prediction: Codable {
+public class Prediction: Codable, Equatable {
 
     /** Bearing (between 0 to 359) */
     public var bearing: String?
@@ -162,5 +162,34 @@ public class Prediction: Codable {
         try container.encode(timing, forKey: .timing)
         try container.encode(towards, forKey: .towards)
         try container.encode(vehicleId, forKey: .vehicleId)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Prediction else { return false }
+      guard self.bearing == object.bearing else { return false }
+      guard self.currentLocation == object.currentLocation else { return false }
+      guard self.destinationName == object.destinationName else { return false }
+      guard self.destinationNaptanId == object.destinationNaptanId else { return false }
+      guard self.direction == object.direction else { return false }
+      guard self.expectedArrival == object.expectedArrival else { return false }
+      guard self.id == object.id else { return false }
+      guard self.lineId == object.lineId else { return false }
+      guard self.lineName == object.lineName else { return false }
+      guard self.modeName == object.modeName else { return false }
+      guard self.naptanId == object.naptanId else { return false }
+      guard self.operationType == object.operationType else { return false }
+      guard self.platformName == object.platformName else { return false }
+      guard self.stationName == object.stationName else { return false }
+      guard self.timeToLive == object.timeToLive else { return false }
+      guard self.timeToStation == object.timeToStation else { return false }
+      guard self.timestamp == object.timestamp else { return false }
+      guard self.timing == object.timing else { return false }
+      guard self.towards == object.towards else { return false }
+      guard self.vehicleId == object.vehicleId else { return false }
+      return true
+    }
+
+    public static func == (lhs: Prediction, rhs: Prediction) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

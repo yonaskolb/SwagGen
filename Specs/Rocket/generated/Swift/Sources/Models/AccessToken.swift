@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AccessToken: Codable {
+public class AccessToken: Codable, Equatable {
 
     /** The type of the token. */
     public enum `Type`: String, Codable {
@@ -60,5 +60,18 @@ public class AccessToken: Codable {
         try container.encode(refreshable, forKey: .refreshable)
         try container.encode(expirationDate, forKey: .expirationDate)
         try container.encode(type, forKey: .type)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? AccessToken else { return false }
+      guard self.value == object.value else { return false }
+      guard self.refreshable == object.refreshable else { return false }
+      guard self.expirationDate == object.expirationDate else { return false }
+      guard self.type == object.type else { return false }
+      return true
+    }
+
+    public static func == (lhs: AccessToken, rhs: AccessToken) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

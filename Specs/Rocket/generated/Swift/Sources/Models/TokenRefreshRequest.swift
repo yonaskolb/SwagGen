@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TokenRefreshRequest: Codable {
+public class TokenRefreshRequest: Codable, Equatable {
 
     /** If you specify a cookie type then a content filter cookie will be returned
     along with the token(s). This is only really intended for web based clients which
@@ -62,5 +62,16 @@ If undefined no cookies will be set.
 
         try container.encode(token, forKey: .token)
         try container.encode(cookieType, forKey: .cookieType)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? TokenRefreshRequest else { return false }
+      guard self.token == object.token else { return false }
+      guard self.cookieType == object.cookieType else { return false }
+      return true
+    }
+
+    public static func == (lhs: TokenRefreshRequest, rhs: TokenRefreshRequest) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

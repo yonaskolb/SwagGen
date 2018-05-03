@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PaginationAuth: Codable {
+public class PaginationAuth: Codable, Equatable {
 
     /** The token type required to load the list. */
     public enum `Type`: String, Codable {
@@ -59,5 +59,16 @@ public class PaginationAuth: Codable {
 
         try container.encode(type, forKey: .type)
         try container.encode(scope, forKey: .scope)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? PaginationAuth else { return false }
+      guard self.type == object.type else { return false }
+      guard self.scope == object.scope else { return false }
+      return true
+    }
+
+    public static func == (lhs: PaginationAuth, rhs: PaginationAuth) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

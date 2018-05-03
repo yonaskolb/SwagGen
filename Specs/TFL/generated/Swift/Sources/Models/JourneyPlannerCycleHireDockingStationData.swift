@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class JourneyPlannerCycleHireDockingStationData: Codable {
+public class JourneyPlannerCycleHireDockingStationData: Codable, Equatable {
 
     public var destinationId: String?
 
@@ -57,5 +57,20 @@ public class JourneyPlannerCycleHireDockingStationData: Codable {
         try container.encode(originId, forKey: .originId)
         try container.encode(originNumberOfBikes, forKey: .originNumberOfBikes)
         try container.encode(originNumberOfEmptySlots, forKey: .originNumberOfEmptySlots)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? JourneyPlannerCycleHireDockingStationData else { return false }
+      guard self.destinationId == object.destinationId else { return false }
+      guard self.destinationNumberOfBikes == object.destinationNumberOfBikes else { return false }
+      guard self.destinationNumberOfEmptySlots == object.destinationNumberOfEmptySlots else { return false }
+      guard self.originId == object.originId else { return false }
+      guard self.originNumberOfBikes == object.originNumberOfBikes else { return false }
+      guard self.originNumberOfEmptySlots == object.originNumberOfEmptySlots else { return false }
+      return true
+    }
+
+    public static func == (lhs: JourneyPlannerCycleHireDockingStationData, rhs: JourneyPlannerCycleHireDockingStationData) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class SearchResults: Codable {
+public class SearchResults: Codable, Equatable {
 
     /** The search term. */
     public var term: String
@@ -72,5 +72,20 @@ If this is present then the `items` list won't be.
         try container.encode(movies, forKey: .movies)
         try container.encode(people, forKey: .people)
         try container.encode(tv, forKey: .tv)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? SearchResults else { return false }
+      guard self.term == object.term else { return false }
+      guard self.total == object.total else { return false }
+      guard self.items == object.items else { return false }
+      guard self.movies == object.movies else { return false }
+      guard self.people == object.people else { return false }
+      guard self.tv == object.tv else { return false }
+      return true
+    }
+
+    public static func == (lhs: SearchResults, rhs: SearchResults) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class HasAccessToObject: Codable {
+public class HasAccessToObject: Codable, Equatable {
 
     /** Target urn */
     public var urn: String
@@ -70,5 +70,21 @@ Options: CACHE_ACCESS / IDP_ACCESS / ACTIVITY_ACCESS / PERMISSION_ACCESS / ETIME
         try container.encode(error, forKey: .error)
         try container.encode(expiration, forKey: .expiration)
         try container.encode(idpAccess, forKey: .idpAccess)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? HasAccessToObject else { return false }
+      guard self.urn == object.urn else { return false }
+      guard self.access == object.access else { return false }
+      guard self.isTryandbuy == object.isTryandbuy else { return false }
+      guard self.reason == object.reason else { return false }
+      guard self.error == object.error else { return false }
+      guard self.expiration == object.expiration else { return false }
+      guard self.idpAccess == object.idpAccess else { return false }
+      return true
+    }
+
+    public static func == (lhs: HasAccessToObject, rhs: HasAccessToObject) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

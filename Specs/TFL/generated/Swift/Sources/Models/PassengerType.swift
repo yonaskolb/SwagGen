@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PassengerType: Codable {
+public class PassengerType: Codable, Equatable {
 
     public var description: String?
 
@@ -45,5 +45,18 @@ public class PassengerType: Codable {
         try container.encode(displayName, forKey: .displayName)
         try container.encode(displayOrder, forKey: .displayOrder)
         try container.encode(type, forKey: .type)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? PassengerType else { return false }
+      guard self.description == object.description else { return false }
+      guard self.displayName == object.displayName else { return false }
+      guard self.displayOrder == object.displayOrder else { return false }
+      guard self.type == object.type else { return false }
+      return true
+    }
+
+    public static func == (lhs: PassengerType, rhs: PassengerType) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ChangePasswordRequest: Codable {
+public class ChangePasswordRequest: Codable, Equatable {
 
     /** The new password for the account. */
     public var password: String
@@ -28,5 +28,15 @@ public class ChangePasswordRequest: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(password, forKey: .password)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ChangePasswordRequest else { return false }
+      guard self.password == object.password else { return false }
+      return true
+    }
+
+    public static func == (lhs: ChangePasswordRequest, rhs: ChangePasswordRequest) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

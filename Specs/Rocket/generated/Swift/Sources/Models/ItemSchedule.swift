@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ItemSchedule: Codable {
+public class ItemSchedule: Codable, Equatable {
 
     public var id: String
 
@@ -75,5 +75,22 @@ public class ItemSchedule: Codable {
         try container.encode(item, forKey: .item)
         try container.encode(live, forKey: .live)
         try container.encode(`repeat`, forKey: .`repeat`)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ItemSchedule else { return false }
+      guard self.id == object.id else { return false }
+      guard self.channelId == object.channelId else { return false }
+      guard self.startDate == object.startDate else { return false }
+      guard self.endDate == object.endDate else { return false }
+      guard self.featured == object.featured else { return false }
+      guard self.item == object.item else { return false }
+      guard self.live == object.live else { return false }
+      guard self.`repeat` == object.`repeat` else { return false }
+      return true
+    }
+
+    public static func == (lhs: ItemSchedule, rhs: ItemSchedule) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

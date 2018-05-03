@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Instruction: Codable {
+public class Instruction: Codable, Equatable {
 
     public var detailed: String?
 
@@ -39,5 +39,17 @@ public class Instruction: Codable {
         try container.encode(detailed, forKey: .detailed)
         try container.encode(steps, forKey: .steps)
         try container.encode(summary, forKey: .summary)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Instruction else { return false }
+      guard self.detailed == object.detailed else { return false }
+      guard self.steps == object.steps else { return false }
+      guard self.summary == object.summary else { return false }
+      return true
+    }
+
+    public static func == (lhs: Instruction, rhs: Instruction) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

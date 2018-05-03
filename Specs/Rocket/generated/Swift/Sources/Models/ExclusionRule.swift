@@ -6,7 +6,7 @@
 import Foundation
 
 /** Defines playback exclusion rules for an Offer or Entitlement. */
-public class ExclusionRule: Codable {
+public class ExclusionRule: Codable, Equatable {
 
     /** Defines playback exclusion rules for an Offer or Entitlement. */
     public enum ExcludeDelivery: String, Codable {
@@ -93,5 +93,20 @@ public class ExclusionRule: Codable {
         try container.encode(excludeChromecast, forKey: .excludeChromecast)
         try container.encode(excludeDelivery, forKey: .excludeDelivery)
         try container.encode(excludeMinResolution, forKey: .excludeMinResolution)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ExclusionRule else { return false }
+      guard self.description == object.description else { return false }
+      guard self.device == object.device else { return false }
+      guard self.excludeAirplay == object.excludeAirplay else { return false }
+      guard self.excludeChromecast == object.excludeChromecast else { return false }
+      guard self.excludeDelivery == object.excludeDelivery else { return false }
+      guard self.excludeMinResolution == object.excludeMinResolution else { return false }
+      return true
+    }
+
+    public static func == (lhs: ExclusionRule, rhs: ExclusionRule) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DbGeography: Codable {
+public class DbGeography: Codable, Equatable {
 
     public var geography: DbGeographyWellKnownValue?
 
@@ -27,5 +27,15 @@ public class DbGeography: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(geography, forKey: .geography)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? DbGeography else { return false }
+      guard self.geography == object.geography else { return false }
+      return true
+    }
+
+    public static func == (lhs: DbGeography, rhs: DbGeography) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

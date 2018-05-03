@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ResponseError: Codable {
+public class ResponseError: Codable, Equatable {
 
     public var error: ErrorObject
 
@@ -27,5 +27,15 @@ public class ResponseError: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(error, forKey: .error)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ResponseError else { return false }
+      guard self.error == object.error else { return false }
+      return true
+    }
+
+    public static func == (lhs: ResponseError, rhs: ResponseError) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

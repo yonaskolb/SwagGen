@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RoadDisruption: Codable {
+public class RoadDisruption: Codable, Equatable {
 
     /** Describes the nature of disruption e.g. Traffic Incidents, Works */
     public var category: String?
@@ -251,5 +251,45 @@ public class RoadDisruption: Codable {
         try container.encode(subCategory, forKey: .subCategory)
         try container.encode(timeFrame, forKey: .timeFrame)
         try container.encode(url, forKey: .url)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? RoadDisruption else { return false }
+      guard self.category == object.category else { return false }
+      guard self.comments == object.comments else { return false }
+      guard self.corridorIds == object.corridorIds else { return false }
+      guard self.currentUpdate == object.currentUpdate else { return false }
+      guard self.currentUpdateDateTime == object.currentUpdateDateTime else { return false }
+      guard self.endDateTime == object.endDateTime else { return false }
+      guard self.geography == object.geography else { return false }
+      guard self.geometry == object.geometry else { return false }
+      guard self.hasClosures == object.hasClosures else { return false }
+      guard self.id == object.id else { return false }
+      guard self.isProvisional == object.isProvisional else { return false }
+      guard self.lastModifiedTime == object.lastModifiedTime else { return false }
+      guard self.levelOfInterest == object.levelOfInterest else { return false }
+      guard self.linkText == object.linkText else { return false }
+      guard self.linkUrl == object.linkUrl else { return false }
+      guard self.location == object.location else { return false }
+      guard self.ordinal == object.ordinal else { return false }
+      guard self.point == object.point else { return false }
+      guard self.publishEndDate == object.publishEndDate else { return false }
+      guard self.publishStartDate == object.publishStartDate else { return false }
+      guard self.recurringSchedules == object.recurringSchedules else { return false }
+      guard self.roadDisruptionImpactAreas == object.roadDisruptionImpactAreas else { return false }
+      guard self.roadDisruptionLines == object.roadDisruptionLines else { return false }
+      guard self.roadProject == object.roadProject else { return false }
+      guard self.severity == object.severity else { return false }
+      guard self.startDateTime == object.startDateTime else { return false }
+      guard self.status == object.status else { return false }
+      guard self.streets == object.streets else { return false }
+      guard self.subCategory == object.subCategory else { return false }
+      guard self.timeFrame == object.timeFrame else { return false }
+      guard self.url == object.url else { return false }
+      return true
+    }
+
+    public static func == (lhs: RoadDisruption, rhs: RoadDisruption) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

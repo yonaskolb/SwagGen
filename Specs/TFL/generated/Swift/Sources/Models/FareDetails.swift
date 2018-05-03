@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class FareDetails: Codable {
+public class FareDetails: Codable, Equatable {
 
     public var boundsId: Int?
 
@@ -147,5 +147,35 @@ public class FareDetails: Codable {
         try container.encode(toStation, forKey: .toStation)
         try container.encode(validatorInformation, forKey: .validatorInformation)
         try container.encode(via, forKey: .via)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? FareDetails else { return false }
+      guard self.boundsId == object.boundsId else { return false }
+      guard self.displayName == object.displayName else { return false }
+      guard self.displayOrder == object.displayOrder else { return false }
+      guard self.endDate == object.endDate else { return false }
+      guard self.from == object.from else { return false }
+      guard self.fromStation == object.fromStation else { return false }
+      guard self.isTour == object.isTour else { return false }
+      guard self.messages == object.messages else { return false }
+      guard self.mode == object.mode else { return false }
+      guard self.`operator` == object.`operator` else { return false }
+      guard self.passengerType == object.passengerType else { return false }
+      guard self.routeCode == object.routeCode else { return false }
+      guard self.routeDescription == object.routeDescription else { return false }
+      guard self.specialFare == object.specialFare else { return false }
+      guard self.startDate == object.startDate else { return false }
+      guard self.throughFare == object.throughFare else { return false }
+      guard self.ticketsAvailable == object.ticketsAvailable else { return false }
+      guard self.to == object.to else { return false }
+      guard self.toStation == object.toStation else { return false }
+      guard self.validatorInformation == object.validatorInformation else { return false }
+      guard self.via == object.via else { return false }
+      return true
+    }
+
+    public static func == (lhs: FareDetails, rhs: FareDetails) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

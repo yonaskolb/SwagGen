@@ -6,7 +6,7 @@
 import Foundation
 
 /** Model for testing reserved words */
-public class Return: Codable {
+public class Return: Codable, Equatable {
 
     public var `return`: Int?
 
@@ -28,5 +28,15 @@ public class Return: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(`return`, forKey: .`return`)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Return else { return false }
+      guard self.`return` == object.`return` else { return false }
+      return true
+    }
+
+    public static func == (lhs: Return, rhs: Return) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

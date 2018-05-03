@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Account: Codable {
+public class Account: Codable, Equatable {
 
     /** The id of the account. */
     public var id: String
@@ -136,5 +136,29 @@ If you want to disable this guard pass an empty string or `null`.
         try container.encode(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
         try container.encode(subscriptions, forKey: .subscriptions)
         try container.encode(usedFreeTrial, forKey: .usedFreeTrial)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Account else { return false }
+      guard self.id == object.id else { return false }
+      guard self.email == object.email else { return false }
+      guard self.trackingEnabled == object.trackingEnabled else { return false }
+      guard self.pinEnabled == object.pinEnabled else { return false }
+      guard self.marketingEnabled == object.marketingEnabled else { return false }
+      guard self.primaryProfileId == object.primaryProfileId else { return false }
+      guard self.subscriptionCode == object.subscriptionCode else { return false }
+      guard self.profiles == object.profiles else { return false }
+      guard self.defaultPaymentInstrumentId == object.defaultPaymentInstrumentId else { return false }
+      guard self.entitlements == object.entitlements else { return false }
+      guard self.firstName == object.firstName else { return false }
+      guard self.lastName == object.lastName else { return false }
+      guard self.minRatingPlaybackGuard == object.minRatingPlaybackGuard else { return false }
+      guard self.subscriptions == object.subscriptions else { return false }
+      guard self.usedFreeTrial == object.usedFreeTrial else { return false }
+      return true
+    }
+
+    public static func == (lhs: Account, rhs: Account) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

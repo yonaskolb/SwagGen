@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class GeoCodeSearchMatch: Codable {
+public class GeoCodeSearchMatch: Codable, Equatable {
 
     /** A string describing the formatted address of the place. Adds additional context to the place's Name. */
     public var address: String?
@@ -65,5 +65,21 @@ public class GeoCodeSearchMatch: Codable {
         try container.encode(name, forKey: .name)
         try container.encode(types, forKey: .types)
         try container.encode(url, forKey: .url)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? GeoCodeSearchMatch else { return false }
+      guard self.address == object.address else { return false }
+      guard self.id == object.id else { return false }
+      guard self.lat == object.lat else { return false }
+      guard self.lon == object.lon else { return false }
+      guard self.name == object.name else { return false }
+      guard self.types == object.types else { return false }
+      guard self.url == object.url else { return false }
+      return true
+    }
+
+    public static func == (lhs: GeoCodeSearchMatch, rhs: GeoCodeSearchMatch) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

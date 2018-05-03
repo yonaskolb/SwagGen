@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MediaFile: Codable {
+public class MediaFile: Codable, Equatable {
 
     /** The way in which the media file is delivered. */
     public enum DeliveryType: String, Codable {
@@ -119,5 +119,24 @@ public class MediaFile: Codable {
         try container.encode(height, forKey: .height)
         try container.encode(language, forKey: .language)
         try container.encode(channels, forKey: .channels)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? MediaFile else { return false }
+      guard self.name == object.name else { return false }
+      guard self.deliveryType == object.deliveryType else { return false }
+      guard self.url == object.url else { return false }
+      guard self.drm == object.drm else { return false }
+      guard self.format == object.format else { return false }
+      guard self.resolution == object.resolution else { return false }
+      guard self.width == object.width else { return false }
+      guard self.height == object.height else { return false }
+      guard self.language == object.language else { return false }
+      guard self.channels == object.channels else { return false }
+      return true
+    }
+
+    public static func == (lhs: MediaFile, rhs: MediaFile) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

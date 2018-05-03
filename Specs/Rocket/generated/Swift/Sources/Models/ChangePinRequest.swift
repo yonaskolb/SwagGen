@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ChangePinRequest: Codable {
+public class ChangePinRequest: Codable, Equatable {
 
     /** The new pin to set. */
     public var pin: String
@@ -28,5 +28,15 @@ public class ChangePinRequest: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(pin, forKey: .pin)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ChangePinRequest else { return false }
+      guard self.pin == object.pin else { return false }
+      return true
+    }
+
+    public static func == (lhs: ChangePinRequest, rhs: ChangePinRequest) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

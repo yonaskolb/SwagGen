@@ -6,7 +6,7 @@
 import Foundation
 
 /** Model for testing model name starting with number */
-public class _200Response: Codable {
+public class _200Response: Codable, Equatable {
 
     public var `class`: String?
 
@@ -34,5 +34,16 @@ public class _200Response: Codable {
 
         try container.encode(`class`, forKey: .`class`)
         try container.encode(name, forKey: .name)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? _200Response else { return false }
+      guard self.`class` == object.`class` else { return false }
+      guard self.name == object.name else { return false }
+      return true
+    }
+
+    public static func == (lhs: _200Response, rhs: _200Response) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

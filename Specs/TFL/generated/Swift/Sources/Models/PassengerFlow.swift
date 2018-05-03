@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PassengerFlow: Codable {
+public class PassengerFlow: Codable, Equatable {
 
     /** Time in 24hr format with 15 minute intervals e.g. 0500-0515, 0515-0530 etc. */
     public var timeSlice: String?
@@ -35,5 +35,16 @@ public class PassengerFlow: Codable {
 
         try container.encode(timeSlice, forKey: .timeSlice)
         try container.encode(value, forKey: .value)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? PassengerFlow else { return false }
+      guard self.timeSlice == object.timeSlice else { return false }
+      guard self.value == object.value else { return false }
+      return true
+    }
+
+    public static func == (lhs: PassengerFlow, rhs: PassengerFlow) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

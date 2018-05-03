@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AdditionalProperties: Codable {
+public class AdditionalProperties: Codable, Equatable {
 
     public var category: String?
 
@@ -51,5 +51,19 @@ public class AdditionalProperties: Codable {
         try container.encode(modified, forKey: .modified)
         try container.encode(sourceSystemKey, forKey: .sourceSystemKey)
         try container.encode(value, forKey: .value)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? AdditionalProperties else { return false }
+      guard self.category == object.category else { return false }
+      guard self.key == object.key else { return false }
+      guard self.modified == object.modified else { return false }
+      guard self.sourceSystemKey == object.sourceSystemKey else { return false }
+      guard self.value == object.value else { return false }
+      return true
+    }
+
+    public static func == (lhs: AdditionalProperties, rhs: AdditionalProperties) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

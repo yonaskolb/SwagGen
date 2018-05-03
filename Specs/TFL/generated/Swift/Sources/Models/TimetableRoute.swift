@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TimetableRoute: Codable {
+public class TimetableRoute: Codable, Equatable {
 
     public var schedules: [Schedule]?
 
@@ -33,5 +33,16 @@ public class TimetableRoute: Codable {
 
         try container.encode(schedules, forKey: .schedules)
         try container.encode(stationIntervals, forKey: .stationIntervals)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? TimetableRoute else { return false }
+      guard self.schedules == object.schedules else { return false }
+      guard self.stationIntervals == object.stationIntervals else { return false }
+      return true
+    }
+
+    public static func == (lhs: TimetableRoute, rhs: TimetableRoute) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

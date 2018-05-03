@@ -6,7 +6,7 @@
 import Foundation
 
 /** Represents a point located at a latitude and longitude using the WGS84 co-ordinate system. */
-public class Point: Codable {
+public class Point: Codable, Equatable {
 
     /** WGS84 latitude of the location. */
     public var lat: Double?
@@ -36,5 +36,16 @@ public class Point: Codable {
 
         try container.encode(lat, forKey: .lat)
         try container.encode(lon, forKey: .lon)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Point else { return false }
+      guard self.lat == object.lat else { return false }
+      guard self.lon == object.lon else { return false }
+      return true
+    }
+
+    public static func == (lhs: Point, rhs: Point) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

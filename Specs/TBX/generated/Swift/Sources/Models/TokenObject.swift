@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TokenObject: Codable {
+public class TokenObject: Codable, Equatable {
 
     /** The Token ID */
     public var token: String
@@ -59,5 +59,20 @@ public class TokenObject: Codable {
         try container.encode(expiration, forKey: .expiration)
         try container.encode(remainingCredits, forKey: .remainingCredits)
         try container.encode(uses, forKey: .uses)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? TokenObject else { return false }
+      guard self.token == object.token else { return false }
+      guard NSDictionary(dictionary: self.idp ).isEqual(to: object.idp) else { return false }
+      guard self.type == object.type else { return false }
+      guard self.expiration == object.expiration else { return false }
+      guard self.remainingCredits == object.remainingCredits else { return false }
+      guard self.uses == object.uses else { return false }
+      return true
+    }
+
+    public static func == (lhs: TokenObject, rhs: TokenObject) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

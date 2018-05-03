@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TryAndBuyObject: Codable {
+public class TryAndBuyObject: Codable, Equatable {
 
     public var active: Bool
 
@@ -60,5 +60,20 @@ public class TryAndBuyObject: Codable {
         try container.encode(daysWithTryAndBuy, forKey: .daysWithTryAndBuy)
         try container.encode(numTryAndBuyExpired, forKey: .numTryAndBuyExpired)
         try container.encode(lastFinishedTryAndBuy, forKey: .lastFinishedTryAndBuy)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? TryAndBuyObject else { return false }
+      guard self.active == object.active else { return false }
+      guard self.createdAt == object.createdAt else { return false }
+      guard self.expiration == object.expiration else { return false }
+      guard self.daysWithTryAndBuy == object.daysWithTryAndBuy else { return false }
+      guard self.numTryAndBuyExpired == object.numTryAndBuyExpired else { return false }
+      guard self.lastFinishedTryAndBuy == object.lastFinishedTryAndBuy else { return false }
+      return true
+    }
+
+    public static func == (lhs: TryAndBuyObject, rhs: TryAndBuyObject) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

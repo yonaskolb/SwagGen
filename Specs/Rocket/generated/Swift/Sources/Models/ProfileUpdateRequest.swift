@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ProfileUpdateRequest: Codable {
+public class ProfileUpdateRequest: Codable, Equatable {
 
     /** The unique name of the profile. */
     public var name: String?
@@ -52,5 +52,18 @@ If no account pin is defined this has no impact.
         try container.encode(pinEnabled, forKey: .pinEnabled)
         try container.encode(purchaseEnabled, forKey: .purchaseEnabled)
         try container.encode(segments, forKey: .segments)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ProfileUpdateRequest else { return false }
+      guard self.name == object.name else { return false }
+      guard self.pinEnabled == object.pinEnabled else { return false }
+      guard self.purchaseEnabled == object.purchaseEnabled else { return false }
+      guard self.segments == object.segments else { return false }
+      return true
+    }
+
+    public static func == (lhs: ProfileUpdateRequest, rhs: ProfileUpdateRequest) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Street: Codable {
+public class Street: Codable, Equatable {
 
     /** Type of road closure. Some example values:
             Open = road is open, not blocked, not closed, not restricted. It maybe that the disruption has been moved out of the carriageway.
@@ -75,5 +75,20 @@ public class Street: Codable {
         try container.encode(segments, forKey: .segments)
         try container.encode(sourceSystemId, forKey: .sourceSystemId)
         try container.encode(sourceSystemKey, forKey: .sourceSystemKey)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Street else { return false }
+      guard self.closure == object.closure else { return false }
+      guard self.directions == object.directions else { return false }
+      guard self.name == object.name else { return false }
+      guard self.segments == object.segments else { return false }
+      guard self.sourceSystemId == object.sourceSystemId else { return false }
+      guard self.sourceSystemKey == object.sourceSystemKey else { return false }
+      return true
+    }
+
+    public static func == (lhs: Street, rhs: Street) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

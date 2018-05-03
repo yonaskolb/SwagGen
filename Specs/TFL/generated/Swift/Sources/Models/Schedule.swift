@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Schedule: Codable {
+public class Schedule: Codable, Equatable {
 
     public var firstJourney: KnownJourney?
 
@@ -51,5 +51,19 @@ public class Schedule: Codable {
         try container.encode(lastJourney, forKey: .lastJourney)
         try container.encode(name, forKey: .name)
         try container.encode(periods, forKey: .periods)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Schedule else { return false }
+      guard self.firstJourney == object.firstJourney else { return false }
+      guard self.knownJourneys == object.knownJourneys else { return false }
+      guard self.lastJourney == object.lastJourney else { return false }
+      guard self.name == object.name else { return false }
+      guard self.periods == object.periods else { return false }
+      return true
+    }
+
+    public static func == (lhs: Schedule, rhs: Schedule) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

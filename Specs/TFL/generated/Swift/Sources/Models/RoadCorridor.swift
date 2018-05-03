@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RoadCorridor: Codable {
+public class RoadCorridor: Codable, Equatable {
 
     /** The Bounds of the Corridor, given by the south-east followed by the north-west co-ordinate
             pair in geoJSON format e.g. "[[-1.241531,51.242151],[1.641223,53.765721]]" */
@@ -94,5 +94,24 @@ public class RoadCorridor: Codable {
         try container.encode(statusSeverity, forKey: .statusSeverity)
         try container.encode(statusSeverityDescription, forKey: .statusSeverityDescription)
         try container.encode(url, forKey: .url)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? RoadCorridor else { return false }
+      guard self.bounds == object.bounds else { return false }
+      guard self.displayName == object.displayName else { return false }
+      guard self.envelope == object.envelope else { return false }
+      guard self.group == object.group else { return false }
+      guard self.id == object.id else { return false }
+      guard self.statusAggregationEndDate == object.statusAggregationEndDate else { return false }
+      guard self.statusAggregationStartDate == object.statusAggregationStartDate else { return false }
+      guard self.statusSeverity == object.statusSeverity else { return false }
+      guard self.statusSeverityDescription == object.statusSeverityDescription else { return false }
+      guard self.url == object.url else { return false }
+      return true
+    }
+
+    public static func == (lhs: RoadCorridor, rhs: RoadCorridor) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

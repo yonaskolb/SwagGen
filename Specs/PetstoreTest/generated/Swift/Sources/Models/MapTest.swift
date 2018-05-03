@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MapTest: Codable {
+public class MapTest: Codable, Equatable {
 
     public enum MapOfEnumString: String, Codable {
         case upper = "UPPER"
@@ -43,5 +43,16 @@ public class MapTest: Codable {
 
         try container.encode(mapMapOfString, forKey: .mapMapOfString)
         try container.encode(mapOfEnumString, forKey: .mapOfEnumString)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? MapTest else { return false }
+      guard self.mapMapOfString == object.mapMapOfString else { return false }
+      guard self.mapOfEnumString == object.mapOfEnumString else { return false }
+      return true
+    }
+
+    public static func == (lhs: MapTest, rhs: MapTest) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

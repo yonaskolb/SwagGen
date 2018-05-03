@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RouteSearchResponse: Codable {
+public class RouteSearchResponse: Codable, Equatable {
 
     public var input: String?
 
@@ -33,5 +33,16 @@ public class RouteSearchResponse: Codable {
 
         try container.encode(input, forKey: .input)
         try container.encode(searchMatches, forKey: .searchMatches)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? RouteSearchResponse else { return false }
+      guard self.input == object.input else { return false }
+      guard self.searchMatches == object.searchMatches else { return false }
+      return true
+    }
+
+    public static func == (lhs: RouteSearchResponse, rhs: RouteSearchResponse) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

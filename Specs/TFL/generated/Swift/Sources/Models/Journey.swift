@@ -6,7 +6,7 @@
 import Foundation
 
 /** Object that represents an end to end journey (see schematic). */
-public class Journey: Codable {
+public class Journey: Codable, Equatable {
 
     public var arrivalDateTime: Date?
 
@@ -46,5 +46,18 @@ public class Journey: Codable {
         try container.encode(duration, forKey: .duration)
         try container.encode(legs, forKey: .legs)
         try container.encode(startDateTime, forKey: .startDateTime)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Journey else { return false }
+      guard self.arrivalDateTime == object.arrivalDateTime else { return false }
+      guard self.duration == object.duration else { return false }
+      guard self.legs == object.legs else { return false }
+      guard self.startDateTime == object.startDateTime else { return false }
+      return true
+    }
+
+    public static func == (lhs: Journey, rhs: Journey) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

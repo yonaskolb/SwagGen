@@ -154,4 +154,26 @@ Specific to a Program item type.
         try container.encode(venue, forKey: .venue)
         try super.encode(to: encoder)
     }
+
+    override public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ItemDetail else { return false }
+      guard self.advisoryText == object.advisoryText else { return false }
+      guard self.copyright == object.copyright else { return false }
+      guard self.credits == object.credits else { return false }
+      guard self.customMetadata == object.customMetadata else { return false }
+      guard self.description == object.description else { return false }
+      guard self.distributor == object.distributor else { return false }
+      guard self.episodeName == object.episodeName else { return false }
+      guard self.episodes == object.episodes else { return false }
+      guard self.eventDate == object.eventDate else { return false }
+      guard self.genrePaths == object.genrePaths else { return false }
+      guard self.location == object.location else { return false }
+      guard self.season == object.season else { return false }
+      guard self.seasons == object.seasons else { return false }
+      guard self.show == object.show else { return false }
+      guard self.totalUserRatings == object.totalUserRatings else { return false }
+      guard self.trailers == object.trailers else { return false }
+      guard self.venue == object.venue else { return false }
+      return super.isEqual(to: object)
+    }
 }

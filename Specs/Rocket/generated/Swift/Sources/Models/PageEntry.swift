@@ -9,7 +9,7 @@ import Foundation
 Defines what specific piece of content should be presented e.g. an Item or ItemList.
 Also defines what visual template should be used to render that content.
  */
-public class PageEntry: Codable {
+public class PageEntry: Codable, Equatable {
 
     /** The type of PageEntry. Used to help identify what type of content will be presented. */
     public enum `Type`: String, Codable {
@@ -123,5 +123,24 @@ For example the images of an `ImageEntry`.
         try container.encode(list, forKey: .list)
         try container.encode(people, forKey: .people)
         try container.encode(text, forKey: .text)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? PageEntry else { return false }
+      guard self.id == object.id else { return false }
+      guard self.type == object.type else { return false }
+      guard self.title == object.title else { return false }
+      guard self.template == object.template else { return false }
+      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.images == object.images else { return false }
+      guard self.item == object.item else { return false }
+      guard self.list == object.list else { return false }
+      guard self.people == object.people else { return false }
+      guard self.text == object.text else { return false }
+      return true
+    }
+
+    public static func == (lhs: PageEntry, rhs: PageEntry) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

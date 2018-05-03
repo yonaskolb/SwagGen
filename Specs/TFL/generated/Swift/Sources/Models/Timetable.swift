@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Timetable: Codable {
+public class Timetable: Codable, Equatable {
 
     public var departureStopId: String?
 
@@ -33,5 +33,16 @@ public class Timetable: Codable {
 
         try container.encode(departureStopId, forKey: .departureStopId)
         try container.encode(routes, forKey: .routes)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Timetable else { return false }
+      guard self.departureStopId == object.departureStopId else { return false }
+      guard self.routes == object.routes else { return false }
+      return true
+    }
+
+    public static func == (lhs: Timetable, rhs: Timetable) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class FaresPeriod: Codable {
+public class FaresPeriod: Codable, Equatable {
 
     public var endDate: Date?
 
@@ -51,5 +51,19 @@ public class FaresPeriod: Codable {
         try container.encode(isFuture, forKey: .isFuture)
         try container.encode(startDate, forKey: .startDate)
         try container.encode(viewableDate, forKey: .viewableDate)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? FaresPeriod else { return false }
+      guard self.endDate == object.endDate else { return false }
+      guard self.id == object.id else { return false }
+      guard self.isFuture == object.isFuture else { return false }
+      guard self.startDate == object.startDate else { return false }
+      guard self.viewableDate == object.viewableDate else { return false }
+      return true
+    }
+
+    public static func == (lhs: FaresPeriod, rhs: FaresPeriod) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

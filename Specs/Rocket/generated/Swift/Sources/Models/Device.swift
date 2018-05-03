@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Device: Codable {
+public class Device: Codable, Equatable {
 
     /** The unique identifier for this device e.g. serial number. */
     public var id: String
@@ -49,5 +49,18 @@ public class Device: Codable {
         try container.encode(name, forKey: .name)
         try container.encode(registrationDate, forKey: .registrationDate)
         try container.encode(type, forKey: .type)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Device else { return false }
+      guard self.id == object.id else { return false }
+      guard self.name == object.name else { return false }
+      guard self.registrationDate == object.registrationDate else { return false }
+      guard self.type == object.type else { return false }
+      return true
+    }
+
+    public static func == (lhs: Device, rhs: Device) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

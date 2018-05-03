@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AdditionalPropertiesClass: Codable {
+public class AdditionalPropertiesClass: Codable, Equatable {
 
     public var mapOfMapProperty: [String: [String: String]]?
 
@@ -33,5 +33,16 @@ public class AdditionalPropertiesClass: Codable {
 
         try container.encode(mapOfMapProperty, forKey: .mapOfMapProperty)
         try container.encode(mapProperty, forKey: .mapProperty)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? AdditionalPropertiesClass else { return false }
+      guard self.mapOfMapProperty == object.mapOfMapProperty else { return false }
+      guard self.mapProperty == object.mapProperty else { return false }
+      return true
+    }
+
+    public static func == (lhs: AdditionalPropertiesClass, rhs: AdditionalPropertiesClass) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

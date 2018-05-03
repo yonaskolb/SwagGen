@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Vehicle: Codable {
+public class Vehicle: Codable, Equatable {
 
     public var type: String?
 
@@ -27,5 +27,15 @@ public class Vehicle: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(type, forKey: .type)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Vehicle else { return false }
+      guard self.type == object.type else { return false }
+      return true
+    }
+
+    public static func == (lhs: Vehicle, rhs: Vehicle) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

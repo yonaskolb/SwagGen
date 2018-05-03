@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StatusSeverity: Codable {
+public class StatusSeverity: Codable, Equatable {
 
     public var description: String?
 
@@ -39,5 +39,17 @@ public class StatusSeverity: Codable {
         try container.encode(description, forKey: .description)
         try container.encode(modeName, forKey: .modeName)
         try container.encode(severityLevel, forKey: .severityLevel)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? StatusSeverity else { return false }
+      guard self.description == object.description else { return false }
+      guard self.modeName == object.modeName else { return false }
+      guard self.severityLevel == object.severityLevel else { return false }
+      return true
+    }
+
+    public static func == (lhs: StatusSeverity, rhs: StatusSeverity) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

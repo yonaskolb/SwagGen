@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ProfileTokenRequest: Codable {
+public class ProfileTokenRequest: Codable, Equatable {
 
     /** The scope(s) of the token(s) required. */
     public enum Scopes: String, Codable {
@@ -55,5 +55,17 @@ public class ProfileTokenRequest: Codable {
         try container.encode(profileId, forKey: .profileId)
         try container.encode(scopes, forKey: .scopes)
         try container.encode(pin, forKey: .pin)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ProfileTokenRequest else { return false }
+      guard self.profileId == object.profileId else { return false }
+      guard self.scopes == object.scopes else { return false }
+      guard self.pin == object.pin else { return false }
+      return true
+    }
+
+    public static func == (lhs: ProfileTokenRequest, rhs: ProfileTokenRequest) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

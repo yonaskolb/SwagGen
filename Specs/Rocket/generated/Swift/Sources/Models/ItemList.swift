@@ -6,7 +6,7 @@
 import Foundation
 
 /** A pageable list of items. */
-public class ItemList: Codable {
+public class ItemList: Codable, Equatable {
 
     /** The id of this list */
     public var id: String
@@ -113,5 +113,27 @@ For example the Movies Genre list will take a parameter `genre` with a given val
         try container.encode(shortDescription, forKey: .shortDescription)
         try container.encode(tagline, forKey: .tagline)
         try container.encode(title, forKey: .title)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? ItemList else { return false }
+      guard self.id == object.id else { return false }
+      guard self.size == object.size else { return false }
+      guard self.items == object.items else { return false }
+      guard self.paging == object.paging else { return false }
+      guard self.path == object.path else { return false }
+      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.description == object.description else { return false }
+      guard self.images == object.images else { return false }
+      guard self.itemTypes == object.itemTypes else { return false }
+      guard self.parameter == object.parameter else { return false }
+      guard self.shortDescription == object.shortDescription else { return false }
+      guard self.tagline == object.tagline else { return false }
+      guard self.title == object.title else { return false }
+      return true
+    }
+
+    public static func == (lhs: ItemList, rhs: ItemList) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

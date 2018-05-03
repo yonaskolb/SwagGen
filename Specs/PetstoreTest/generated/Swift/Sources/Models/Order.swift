@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Order: Codable {
+public class Order: Codable, Equatable {
 
     /** Order Status */
     public enum Status: String, Codable {
@@ -71,5 +71,20 @@ public class Order: Codable {
         try container.encode(quantity, forKey: .quantity)
         try container.encode(shipDate, forKey: .shipDate)
         try container.encode(status, forKey: .status)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Order else { return false }
+      guard self.complete == object.complete else { return false }
+      guard self.id == object.id else { return false }
+      guard self.petId == object.petId else { return false }
+      guard self.quantity == object.quantity else { return false }
+      guard self.shipDate == object.shipDate else { return false }
+      guard self.status == object.status else { return false }
+      return true
+    }
+
+    public static func == (lhs: Order, rhs: Order) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

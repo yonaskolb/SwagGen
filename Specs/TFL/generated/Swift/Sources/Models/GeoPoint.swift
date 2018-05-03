@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class GeoPoint: Codable {
+public class GeoPoint: Codable, Equatable {
 
     public var lat: Double
 
@@ -33,5 +33,16 @@ public class GeoPoint: Codable {
 
         try container.encode(lat, forKey: .lat)
         try container.encode(lon, forKey: .lon)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? GeoPoint else { return false }
+      guard self.lat == object.lat else { return false }
+      guard self.lon == object.lon else { return false }
+      return true
+    }
+
+    public static func == (lhs: GeoPoint, rhs: GeoPoint) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

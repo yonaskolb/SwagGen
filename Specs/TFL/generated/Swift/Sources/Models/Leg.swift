@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Leg: Codable {
+public class Leg: Codable, Equatable {
 
     public var arrivalPoint: Point?
 
@@ -119,5 +119,30 @@ public class Leg: Codable {
         try container.encode(plannedWorks, forKey: .plannedWorks)
         try container.encode(routeOptions, forKey: .routeOptions)
         try container.encode(speed, forKey: .speed)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? Leg else { return false }
+      guard self.arrivalPoint == object.arrivalPoint else { return false }
+      guard self.arrivalTime == object.arrivalTime else { return false }
+      guard self.departurePoint == object.departurePoint else { return false }
+      guard self.departureTime == object.departureTime else { return false }
+      guard self.disruptions == object.disruptions else { return false }
+      guard self.distance == object.distance else { return false }
+      guard self.duration == object.duration else { return false }
+      guard self.hasFixedLocations == object.hasFixedLocations else { return false }
+      guard self.instruction == object.instruction else { return false }
+      guard self.isDisrupted == object.isDisrupted else { return false }
+      guard self.mode == object.mode else { return false }
+      guard self.obstacles == object.obstacles else { return false }
+      guard self.path == object.path else { return false }
+      guard self.plannedWorks == object.plannedWorks else { return false }
+      guard self.routeOptions == object.routeOptions else { return false }
+      guard self.speed == object.speed else { return false }
+      return true
+    }
+
+    public static func == (lhs: Leg, rhs: Leg) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

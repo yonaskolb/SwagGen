@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class FormatTest: Codable {
+public class FormatTest: Codable, Equatable {
 
     public var number: Double
 
@@ -99,5 +99,27 @@ public class FormatTest: Codable {
         try container.encode(integer, forKey: .integer)
         try container.encode(string, forKey: .string)
         try container.encode(uuid, forKey: .uuid)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? FormatTest else { return false }
+      guard self.number == object.number else { return false }
+      guard self.byte == object.byte else { return false }
+      guard self.date == object.date else { return false }
+      guard self.password == object.password else { return false }
+      guard self.binary == object.binary else { return false }
+      guard self.dateTime == object.dateTime else { return false }
+      guard self.double == object.double else { return false }
+      guard self.float == object.float else { return false }
+      guard self.int32 == object.int32 else { return false }
+      guard self.int64 == object.int64 else { return false }
+      guard self.integer == object.integer else { return false }
+      guard self.string == object.string else { return false }
+      guard self.uuid == object.uuid else { return false }
+      return true
+    }
+
+    public static func == (lhs: FormatTest, rhs: FormatTest) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

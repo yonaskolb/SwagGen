@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PaginationOptions: Codable {
+public class PaginationOptions: Codable, Equatable {
 
     /** Specific item type filter. */
     public var itemType: ItemType?
@@ -56,5 +56,19 @@ public class PaginationOptions: Codable {
         try container.encode(order, forKey: .order)
         try container.encode(orderBy, forKey: .orderBy)
         try container.encode(pageSize, forKey: .pageSize)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? PaginationOptions else { return false }
+      guard self.itemType == object.itemType else { return false }
+      guard self.maxRating == object.maxRating else { return false }
+      guard self.order == object.order else { return false }
+      guard self.orderBy == object.orderBy else { return false }
+      guard self.pageSize == object.pageSize else { return false }
+      return true
+    }
+
+    public static func == (lhs: PaginationOptions, rhs: PaginationOptions) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AccidentStatsOrderedSummary: Codable {
+public class AccidentStatsOrderedSummary: Codable, Equatable {
 
     public var accidents: Int?
 
@@ -39,5 +39,17 @@ public class AccidentStatsOrderedSummary: Codable {
         try container.encode(accidents, forKey: .accidents)
         try container.encode(borough, forKey: .borough)
         try container.encode(year, forKey: .year)
+    }
+
+    public func isEqual(to object: Any?) -> Bool {
+      guard let object = object as? AccidentStatsOrderedSummary else { return false }
+      guard self.accidents == object.accidents else { return false }
+      guard self.borough == object.borough else { return false }
+      guard self.year == object.year else { return false }
+      return true
+    }
+
+    public static func == (lhs: AccidentStatsOrderedSummary, rhs: AccidentStatsOrderedSummary) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }

@@ -12,13 +12,203 @@ public class DeviceObject: Codable, Equatable {
     /** When this device was created */
     public var createdAt: Date
 
-    public var type: [String: Any]
+    public var type: `Type`
 
-    public var customer: [String: Any]
+    public var customer: Customer
 
     public var description: String?
 
-    public init(token: String, createdAt: Date, type: [String: Any], customer: [String: Any], description: String? = nil) {
+    public class `Type`: Codable, Equatable {
+
+        public var code: String?
+
+        public var description: String?
+
+        public init(code: String? = nil, description: String? = nil) {
+            self.code = code
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case description
+        }
+
+        public required init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+
+            code = try container.decodeIfPresent(.code)
+            description = try container.decodeIfPresent(.description)
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(code, forKey: .code)
+            try container.encode(description, forKey: .description)
+        }
+
+        public func isEqual(to object: Any?) -> Bool {
+          guard let object = object as? `Type` else { return false }
+          guard self.code == object.code else { return false }
+          guard self.description == object.description else { return false }
+          return true
+        }
+
+        public static func == (lhs: `Type`, rhs: `Type`) -> Bool {
+            return lhs.isEqual(to: rhs)
+        }
+    }
+
+    public class Customer: Codable, Equatable {
+
+        public var country: Country?
+
+        /** When the customer was created */
+        public var createdAt: Date?
+
+        public var id: String?
+
+        public var idp: Idp?
+
+        public var subscriberId: String?
+
+        public class Country: Codable, Equatable {
+
+            public var code: String?
+
+            public var description: String?
+
+            public init(code: String? = nil, description: String? = nil) {
+                self.code = code
+                self.description = description
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case code
+                case description
+            }
+
+            public required init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+
+                code = try container.decodeIfPresent(.code)
+                description = try container.decodeIfPresent(.description)
+            }
+
+            public func encode(to encoder: Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+
+                try container.encode(code, forKey: .code)
+                try container.encode(description, forKey: .description)
+            }
+
+            public func isEqual(to object: Any?) -> Bool {
+              guard let object = object as? Country else { return false }
+              guard self.code == object.code else { return false }
+              guard self.description == object.description else { return false }
+              return true
+            }
+
+            public static func == (lhs: Country, rhs: Country) -> Bool {
+                return lhs.isEqual(to: rhs)
+            }
+        }
+
+        public class Idp: Codable, Equatable {
+
+            public var code: String?
+
+            public var description: String?
+
+            public init(code: String? = nil, description: String? = nil) {
+                self.code = code
+                self.description = description
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case code
+                case description
+            }
+
+            public required init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: CodingKeys.self)
+
+                code = try container.decodeIfPresent(.code)
+                description = try container.decodeIfPresent(.description)
+            }
+
+            public func encode(to encoder: Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+
+                try container.encode(code, forKey: .code)
+                try container.encode(description, forKey: .description)
+            }
+
+            public func isEqual(to object: Any?) -> Bool {
+              guard let object = object as? Idp else { return false }
+              guard self.code == object.code else { return false }
+              guard self.description == object.description else { return false }
+              return true
+            }
+
+            public static func == (lhs: Idp, rhs: Idp) -> Bool {
+                return lhs.isEqual(to: rhs)
+            }
+        }
+
+        public init(country: Country? = nil, createdAt: Date? = nil, id: String? = nil, idp: Idp? = nil, subscriberId: String? = nil) {
+            self.country = country
+            self.createdAt = createdAt
+            self.id = id
+            self.idp = idp
+            self.subscriberId = subscriberId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case country
+            case createdAt
+            case id
+            case idp
+            case subscriberId
+        }
+
+        public required init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+
+            country = try container.decodeIfPresent(.country)
+            createdAt = try container.decodeIfPresent(.createdAt)
+            id = try container.decodeIfPresent(.id)
+            idp = try container.decodeIfPresent(.idp)
+            subscriberId = try container.decodeIfPresent(.subscriberId)
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(country, forKey: .country)
+            try container.encode(createdAt, forKey: .createdAt)
+            try container.encode(id, forKey: .id)
+            try container.encode(idp, forKey: .idp)
+            try container.encode(subscriberId, forKey: .subscriberId)
+        }
+
+        public func isEqual(to object: Any?) -> Bool {
+          guard let object = object as? Customer else { return false }
+          guard self.country == object.country else { return false }
+          guard self.createdAt == object.createdAt else { return false }
+          guard self.id == object.id else { return false }
+          guard self.idp == object.idp else { return false }
+          guard self.subscriberId == object.subscriberId else { return false }
+          return true
+        }
+
+        public static func == (lhs: Customer, rhs: Customer) -> Bool {
+            return lhs.isEqual(to: rhs)
+        }
+    }
+
+    public init(token: String, createdAt: Date, type: `Type`, customer: Customer, description: String? = nil) {
         self.token = token
         self.createdAt = createdAt
         self.type = type
@@ -39,8 +229,8 @@ public class DeviceObject: Codable, Equatable {
 
         token = try container.decode(.token)
         createdAt = try container.decode(.createdAt)
-        type = try container.decodeAny(.type)
-        customer = try container.decodeAny(.customer)
+        type = try container.decode(.type)
+        customer = try container.decode(.customer)
         description = try container.decodeIfPresent(.description)
     }
 
@@ -49,8 +239,8 @@ public class DeviceObject: Codable, Equatable {
 
         try container.encode(token, forKey: .token)
         try container.encode(createdAt, forKey: .createdAt)
-        try container.encodeAny(type, forKey: .type)
-        try container.encodeAny(customer, forKey: .customer)
+        try container.encode(type, forKey: .type)
+        try container.encode(customer, forKey: .customer)
         try container.encode(description, forKey: .description)
     }
 
@@ -58,8 +248,8 @@ public class DeviceObject: Codable, Equatable {
       guard let object = object as? DeviceObject else { return false }
       guard self.token == object.token else { return false }
       guard self.createdAt == object.createdAt else { return false }
-      guard NSDictionary(dictionary: self.type ).isEqual(to: object.type) else { return false }
-      guard NSDictionary(dictionary: self.customer ).isEqual(to: object.customer) else { return false }
+      guard self.type == object.type else { return false }
+      guard self.customer == object.customer else { return false }
       guard self.description == object.description else { return false }
       return true
     }

@@ -18,6 +18,10 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
         {% endfor %}
 
         public final class Request: APIRequest<Response> {
+            {% for schema in requestSchemas %}
+
+            {% include "Includes/Model.stencil" using schema %}
+            {% endfor %}
             {% if nonBodyParams %}
 
             public struct Options {
@@ -93,6 +97,10 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
+            {% for schema in responseSchemas %}
+
+            {% include "Includes/Model.stencil" using schema %}
+            {% endfor %}
             {% for enum in responseEnums %}
             {% if not enum.isGlobal %}
 

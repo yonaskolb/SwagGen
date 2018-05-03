@@ -147,6 +147,10 @@ public class SwiftFormatter: CodeFormatter {
             enumValue = schema.getEnum(name: name, description: "").flatMap { getEnumContext($0)["enumName"] as? String }
         }
 
+        if schema.generateInlineSchema {
+            return getModelType(name)
+        }
+
         switch schema.type {
         case let .simple(simpleType):
             if simpleType.canBeEnum, let enumValue = enumValue {
@@ -166,7 +170,8 @@ public class SwiftFormatter: CodeFormatter {
         case let .object(schema):
             //            if schema.properties.isEmpty {
             switch schema.additionalProperties {
-            case .bool: return "[String: Any]"
+            case .bool:
+                return "[String: Any]"
             case let .schema(schema):
                 let typeString = getSchemaType(name: name, schema: schema, checkEnum: checkEnum)
                 return checkEnum ? "[String: \(enumValue ?? typeString)]" : typeString

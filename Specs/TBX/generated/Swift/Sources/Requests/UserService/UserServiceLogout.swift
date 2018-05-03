@@ -42,10 +42,45 @@ extension TBX.UserService {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = [String: Any]
+
+            public class Status200: Codable, Equatable {
+
+                public var status: Bool?
+
+                public init(status: Bool? = nil) {
+                    self.status = status
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case status
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: CodingKeys.self)
+
+                    status = try container.decodeIfPresent(.status)
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: CodingKeys.self)
+
+                    try container.encode(status, forKey: .status)
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status200 else { return false }
+                  guard self.status == object.status else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status200, rhs: Status200) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+            public typealias SuccessType = Status200
 
             /** Request was successful */
-            case status200([String: Any])
+            case status200(Status200)
 
             /** Bad Request  */
             case status400(ResponseError)
@@ -59,7 +94,7 @@ extension TBX.UserService {
             /** Device was Logged Out or the customer not longer exists */
             case status410(ResponseError)
 
-            public var success: [String: Any]? {
+            public var success: Status200? {
                 switch self {
                 case .status200(let response): return response
                 default: return nil
@@ -77,7 +112,7 @@ extension TBX.UserService {
             }
 
             /// either success or failure value. Success is anything in the 200..<300 status code range
-            public var responseResult: APIResponseResult<[String: Any], ResponseError> {
+            public var responseResult: APIResponseResult<Status200, ResponseError> {
                 if let successValue = success {
                     return .success(successValue)
                 } else if let failureValue = failure {
@@ -119,7 +154,7 @@ extension TBX.UserService {
 
             public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decodeAny([String: Any].self, from: data))
+                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
                 case 400: self = try .status400(decoder.decode(ResponseError.self, from: data))
                 case 401: self = try .status401(decoder.decode(ResponseError.self, from: data))
                 case 404: self = try .status404(decoder.decode(ResponseError.self, from: data))

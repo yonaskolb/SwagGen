@@ -139,6 +139,16 @@ extension Schema {
         }
         return enums
     }
+
+    var generateInlineSchema: Bool {
+        if case .object(let schema) = type,
+            case .bool(let additionalProperties) = schema.additionalProperties, !additionalProperties,
+            !schema.properties.isEmpty {
+                return true
+        } else {
+            return false
+        }
+    }
 }
 
 extension Swagger.Operation {

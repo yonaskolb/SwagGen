@@ -95,6 +95,25 @@ public class CodeFormatter {
         return context
     }
 
+    func getInlineSchemaContext(_ schema: Schema, name: String) -> Context? {
+
+        guard schema.generateInlineSchema else { return nil }
+
+        var context: Context = [:]
+
+        context["type"] = getModelType(name)
+        context["requiredProperties"] = schema.requiredProperties.map(getPropertyContext)
+        context["optionalProperties"] = schema.optionalProperties.map(getPropertyContext)
+        context["properties"] = schema.properties.map(getPropertyContext)
+        context["allProperties"] = schema.properties.map(getPropertyContext)
+        context["enums"] = schema.enums.map(getEnumContext)
+
+        context["schemas"] = schema.properties.flatMap { property in
+            getInlineSchemaContext(property.schema, name: property.name)
+        }
+        return context
+    }
+
     func getSchemaContext(_ schema: Schema) -> Context {
         var context: Context = [:]
 
@@ -111,6 +130,9 @@ public class CodeFormatter {
         context["allProperties"] = schema.parentProperties.map(getPropertyContext)
         context["enums"] = schema.enums.map(getEnumContext)
 
+        context["schemas"] = schema.properties.flatMap { property in
+            getInlineSchemaContext(property.schema, name: property.name)
+        }
         return context
     }
 
@@ -190,6 +212,18 @@ public class CodeFormatter {
         context["enums"] = operation.enums.map(getEnumContext)
         context["requestEnums"] = operation.requestEnums.map(getEnumContext)
         context["responseEnums"] = operation.responseEnums.map(getEnumContext)
+
+        let requestSchemas: [Context] = operation.parameters.flatMap { parameter in
+            guard case .body(let schema) = parameter.value.type else { return nil }
+            return getInlineSchemaContext(schema, name: parameter.value.name)
+        }
+        context["requestSchemas"] = requestSchemas
+
+        let responseSchemas: [Context] = operation.responses.flatMap { response in
+            guard let schema = response.response.value.schema else { return nil }
+            return getInlineSchemaContext(schema, name: response.name.lowerCamelCased())
+        }
+        context["responseSchemas"] = responseSchemas
 
         return context
     }

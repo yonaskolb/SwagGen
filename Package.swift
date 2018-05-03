@@ -40,6 +40,7 @@ let package = Package(
         ]),
         .testTarget(name: "SwaggerTests", dependencies: [
           "Swagger",
+          "Spectre",
         ]),
     ]
 )

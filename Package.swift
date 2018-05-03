@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "SwagGen",
     products: [
-        .executable(name: "SwagGen", targets: ["SwagGen"]),
+        .executable(name: "swaggen", targets: ["SwagGen"]),
         .library(name: "SwagGenKit", targets: ["SwagGenKit"]),
         .library(name: "Swagger", targets: ["Swagger"]),
     ],

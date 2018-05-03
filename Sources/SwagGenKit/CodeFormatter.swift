@@ -108,7 +108,7 @@ public class CodeFormatter {
         context["allProperties"] = schema.properties.map(getPropertyContext)
         context["enums"] = schema.enums.map(getEnumContext)
 
-        context["schemas"] = schema.properties.flatMap { property in
+        context["schemas"] = schema.properties.compactMap { property in
             getInlineSchemaContext(property.schema, name: property.name)
         }
         return context
@@ -130,7 +130,7 @@ public class CodeFormatter {
         context["allProperties"] = schema.parentProperties.map(getPropertyContext)
         context["enums"] = schema.enums.map(getEnumContext)
 
-        context["schemas"] = schema.properties.flatMap { property in
+        context["schemas"] = schema.properties.compactMap { property in
             getInlineSchemaContext(property.schema, name: property.name)
         }
         return context
@@ -199,8 +199,8 @@ public class CodeFormatter {
         context["onlySuccessReponses"] = successResponses.count == responses.count
         context["alwaysHasResponseType"] = responses.filter { $0.response.value.schema != nil }.count == responses.count
 
-        let successTypes = successResponses.flatMap { $0["type"] as? String }
-        let failureTypes = failureResponses.flatMap { $0["type"] as? String }
+        let successTypes = successResponses.compactMap { $0["type"] as? String }
+        let failureTypes = failureResponses.compactMap { $0["type"] as? String }
 
         if Set(successTypes).count == 1 {
             context["singleSuccessType"] = successTypes.first
@@ -213,13 +213,13 @@ public class CodeFormatter {
         context["requestEnums"] = operation.requestEnums.map(getEnumContext)
         context["responseEnums"] = operation.responseEnums.map(getEnumContext)
 
-        let requestSchemas: [Context] = operation.parameters.flatMap { parameter in
+        let requestSchemas: [Context] = operation.parameters.compactMap { parameter in
             guard case .body(let schema) = parameter.value.type else { return nil }
             return getInlineSchemaContext(schema, name: parameter.value.name)
         }
         context["requestSchemas"] = requestSchemas
 
-        let responseSchemas: [Context] = operation.responses.flatMap { response in
+        let responseSchemas: [Context] = operation.responses.compactMap { response in
             guard let schema = response.response.value.schema else { return nil }
             return getInlineSchemaContext(schema, name: response.name.lowerCamelCased())
         }

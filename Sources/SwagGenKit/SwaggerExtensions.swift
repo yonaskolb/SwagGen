@@ -42,7 +42,7 @@ extension SwaggerSpec {
     }
 
     var enums: [Enum] {
-        return parameters.flatMap { $0.value.getEnum(name: $0.name, description: $0.value.description) }
+        return parameters.compactMap { $0.value.getEnum(name: $0.name, description: $0.value.description) }
     }
 }
 
@@ -50,7 +50,7 @@ extension Metadata {
 
     func getEnum(name: String, type: Enum.EnumType, description: String?) -> Enum? {
         if let enumValues = enumeratedValues {
-            return Enum(name: name, cases: enumValues.flatMap { $0 }, type: type, description: description ?? self.description, metadata: self)
+            return Enum(name: name, cases: enumValues.compactMap { $0 }, type: type, description: description ?? self.description, metadata: self)
         }
         return nil
     }
@@ -133,7 +133,7 @@ extension Schema {
     }
 
     var enums: [Enum] {
-        var enums = properties.flatMap { $0.schema.getEnum(name: $0.name, description: $0.schema.metadata.description) }
+        var enums = properties.compactMap { $0.schema.getEnum(name: $0.name, description: $0.schema.metadata.description) }
         if case let .object(objectSchema) = type, case let .schema(schema) = objectSchema.additionalProperties {
             enums += schema.enums
         }
@@ -162,11 +162,11 @@ extension Swagger.Operation {
     }
 
     var requestEnums: [Enum] {
-        return parameters.flatMap { $0.value.enumValue }
+        return parameters.compactMap { $0.value.enumValue }
     }
 
     var responseEnums: [Enum] {
-        return responses.flatMap { $0.enumValue }
+        return responses.compactMap { $0.enumValue }
     }
 }
 

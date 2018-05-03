@@ -8,3 +8,4 @@
 /Specs/**/.build/
 /Specs/**/*.xcodeproj
 /Specs/**/Package.resolved
+/.vscode

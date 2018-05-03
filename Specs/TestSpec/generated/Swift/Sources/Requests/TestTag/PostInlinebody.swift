@@ -14,15 +14,58 @@ extension TestSpec.TestTag {
 
         public final class Request: APIRequest<Response> {
 
-            public var item: [String: Any]
+            /** operation with an inline body */
+            public class Item: Codable, Equatable {
 
-            public init(item: [String: Any]) {
+                public var id: Int?
+
+                public var name: String?
+
+                public init(id: Int? = nil, name: String? = nil) {
+                    self.id = id
+                    self.name = name
+                }
+
+                private enum CodingKeys: String, CodingKey {
+                    case id
+                    case name
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: CodingKeys.self)
+
+                    id = try container.decodeIfPresent(.id)
+                    name = try container.decodeIfPresent(.name)
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: CodingKeys.self)
+
+                    try container.encode(id, forKey: .id)
+                    try container.encode(name, forKey: .name)
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Item else { return false }
+                  guard self.id == object.id else { return false }
+                  guard self.name == object.name else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Item, rhs: Item) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+
+            public var item: Item
+
+            public init(item: Item) {
                 self.item = item
                 super.init(service: PostInlinebody.service)
             }
 
             public override var jsonBody: Encodable? {
-                return AnyCodable(item)
+                return item
             }
         }
 

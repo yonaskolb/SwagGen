@@ -10,7 +10,7 @@ public class TokenObject: Codable, Equatable {
     /** The Token ID */
     public var token: String
 
-    public var idp: [String: Any]
+    public var idp: Idp
 
     /** The Token type */
     public var type: String
@@ -21,7 +21,49 @@ public class TokenObject: Codable, Equatable {
 
     public var uses: Double?
 
-    public init(token: String, idp: [String: Any], type: String, expiration: Date? = nil, remainingCredits: Double? = nil, uses: Double? = nil) {
+    public class Idp: Codable, Equatable {
+
+        public var code: String?
+
+        public var description: String?
+
+        public init(code: String? = nil, description: String? = nil) {
+            self.code = code
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case description
+        }
+
+        public required init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+
+            code = try container.decodeIfPresent(.code)
+            description = try container.decodeIfPresent(.description)
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(code, forKey: .code)
+            try container.encode(description, forKey: .description)
+        }
+
+        public func isEqual(to object: Any?) -> Bool {
+          guard let object = object as? Idp else { return false }
+          guard self.code == object.code else { return false }
+          guard self.description == object.description else { return false }
+          return true
+        }
+
+        public static func == (lhs: Idp, rhs: Idp) -> Bool {
+            return lhs.isEqual(to: rhs)
+        }
+    }
+
+    public init(token: String, idp: Idp, type: String, expiration: Date? = nil, remainingCredits: Double? = nil, uses: Double? = nil) {
         self.token = token
         self.idp = idp
         self.type = type
@@ -43,7 +85,7 @@ public class TokenObject: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         token = try container.decode(.token)
-        idp = try container.decodeAny(.idp)
+        idp = try container.decode(.idp)
         type = try container.decode(.type)
         expiration = try container.decodeIfPresent(.expiration)
         remainingCredits = try container.decodeIfPresent(.remainingCredits)
@@ -54,7 +96,7 @@ public class TokenObject: Codable, Equatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(token, forKey: .token)
-        try container.encodeAny(idp, forKey: .idp)
+        try container.encode(idp, forKey: .idp)
         try container.encode(type, forKey: .type)
         try container.encode(expiration, forKey: .expiration)
         try container.encode(remainingCredits, forKey: .remainingCredits)
@@ -64,7 +106,7 @@ public class TokenObject: Codable, Equatable {
     public func isEqual(to object: Any?) -> Bool {
       guard let object = object as? TokenObject else { return false }
       guard self.token == object.token else { return false }
-      guard NSDictionary(dictionary: self.idp ).isEqual(to: object.idp) else { return false }
+      guard self.idp == object.idp else { return false }
       guard self.type == object.type else { return false }
       guard self.expiration == object.expiration else { return false }
       guard self.remainingCredits == object.remainingCredits else { return false }

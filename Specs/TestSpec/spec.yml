@@ -107,6 +107,16 @@ definitions:
     description: definition with only additional properties
     type: object
     additionalProperties: true
+  ModelWithInlineSpec:
+    type: object
+    properties:
+      myModel:
+        type: object
+        description: an inline model
+        properties:
+          name:
+            description: name of the model
+            type: string
 responses:
   400:
     description: 400 response

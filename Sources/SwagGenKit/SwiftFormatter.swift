@@ -111,6 +111,7 @@ public class SwiftFormatter: CodeFormatter {
                 case .dateTime, .date: return "Date"
                 case .email, .hostname, .ipv4, .ipv6, .password: return "String"
                 case .uri: return "URL"
+                case .uuid: return "UUID"
                 }
             case .other: return "String"
             }

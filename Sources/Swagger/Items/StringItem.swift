@@ -37,6 +37,7 @@ public enum StringFormat: RawRepresentable {
         case ipv6
         case password
         case uri
+        case uuid
     }
 }
 

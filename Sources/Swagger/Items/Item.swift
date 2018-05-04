@@ -26,7 +26,7 @@ extension ItemType: JSONObjectConvertible {
         } else if let dataType = DataType(jsonDictionary: jsonDictionary), dataType == .array {
             self = .array(try ArrayItem(jsonDictionary: jsonDictionary))
         } else {
-            throw SwaggerError.incorrectItemType(jsonDictionary)
+            throw SwaggerError.invalidItemType(jsonDictionary)
         }
     }
 }

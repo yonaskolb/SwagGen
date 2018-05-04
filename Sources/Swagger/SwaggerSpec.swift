@@ -73,7 +73,7 @@ extension SwaggerSpec: JSONObjectConvertible {
         version = String(describing: jsonDictionary["swagger"])
         if let swaggerVersion = Double(version),
             floor(swaggerVersion) != 2 {
-            throw SwaggerError.incorrectVersion(version)
+            throw SwaggerError.invalidVersion(version)
         }
 
         info = try jsonDictionary.json(atKeyPath: "info")

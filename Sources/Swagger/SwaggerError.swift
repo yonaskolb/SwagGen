@@ -1,5 +1,5 @@
-import JSONUtilities
 import Foundation
+import JSONUtilities
 
 public enum SwaggerError: Error, CustomStringConvertible {
 
@@ -12,15 +12,15 @@ public enum SwaggerError: Error, CustomStringConvertible {
     public var description: String {
         switch self {
 
-        case .invalidVersion(let version):
+        case let .invalidVersion(version):
             return "Invalid version \(version)"
-        case .invalidItemType(let dictionary):
+        case let .invalidItemType(dictionary):
             return "Invalid item type:\n\(dictionary)"
-        case .invalidSchemaType(let dictionary):
+        case let .invalidSchemaType(dictionary):
             return "Invalid schema type:\n\(dictionary)"
-        case .invalidArraySchema(let array):
+        case let .invalidArraySchema(array):
             return "Invalid array schema:\n\(array)"
-        case .loadError(let url):
+        case let .loadError(url):
             return "Couldn't load url \(url)"
         }
     }

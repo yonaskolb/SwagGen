@@ -2,29 +2,29 @@ import Foundation
 import PathKit
 import SwagGenKit
 import Swagger
-import Yams
 import SwiftCLI
+import Yams
 
-//TODO: remove custom newline spacing once https://github.com/jakeheis/SwiftCLI/pull/58 get's merged and integrated
+// TODO: remove custom newline spacing once https://github.com/jakeheis/SwiftCLI/pull/58 get's merged and integrated
 class GenerateCommand: Command {
 
     let name = "Generate"
-    
+
     let spec = SwiftCLI.Parameter()
-    
+
     let clean = Key<Generator.Clean>("--clean", "-c", description: "How the destination directory will be cleaned of non generated files:\n\(String(repeating: " ", count: 31)) - none: no files will be removed\n\(String(repeating: " ", count: 31)) - leave.files: all other files will be removed except if starting with . in the destination directory\n\(String(repeating: " ", count: 31)) - all: all other files will be removed")
 
     let destination = Key<String>("--destination", "-d", description: "The directory where the generated files will be created. Defaults to \"generated\"")
 
-    let template = Key<String>("--template" , "-t", description: "The path to the template json file.\n\(String(repeating: " ", count: 31))If no template is passed a default template for the language will be used")
+    let template = Key<String>("--template", "-t", description: "The path to the template json file.\n\(String(repeating: " ", count: 31))If no template is passed a default template for the language will be used")
 
     let language = Key<String>("--language", "-l", description: "The language of the template that will be generated")
 
     let options = VariadicKey<String>("--option", "-o", description: "An option that will be merged with template options. Can be repeated multiple times")
-    
+
     func execute() throws {
         let clean = self.clean.value ?? .none
-        let destinationPath = destination.value.flatMap{ Path($0) } ?? (Path.current + "generated")
+        let destinationPath = destination.value.flatMap { Path($0) } ?? (Path.current + "generated")
         let language = self.language.value ?? "swift"
 
         let specURL: URL
@@ -56,7 +56,7 @@ class GenerateCommand: Command {
         let templatePath: PathKit.Path
         if let template = template.value {
             templatePath = Path(template)
-        } else  {
+        } else {
             let bundlePath = Path(Bundle.main.bundlePath)
             let relativePath = Path("Templates/\(language)/template.yml")
             var possibleSettingsPaths: [PathKit.Path] = [
@@ -64,12 +64,12 @@ class GenerateCommand: Command {
                 bundlePath + relativePath,
                 bundlePath + "../share/swaggen/\(relativePath)",
                 Path(#file).parent().parent().parent() + relativePath,
-                ]
+            ]
 
             if let symlink = try? bundlePath.symlinkDestination() {
                 possibleSettingsPaths = [
                     symlink + relativePath,
-                    ] + possibleSettingsPaths
+                ] + possibleSettingsPaths
             }
 
             guard let path = possibleSettingsPaths.first(where: { $0.exists }) else {
@@ -109,7 +109,7 @@ class GenerateCommand: Command {
             // ("tag", spec.tags.count),
             ("parameter", spec.parameters.count),
             ("security definition", spec.securityDefinitions.count),
-            ], pluralise: true)
+        ], pluralise: true)
         standardOut("Loaded spec: \"\(spec.info.title)\" - \(specCounts)")
 
         //    let invalidReferences = Array(Set(spec.invalidReferences)).sorted()
@@ -128,7 +128,7 @@ class GenerateCommand: Command {
             ("template file", templateConfig.templateFiles.count),
             ("copied file", templateConfig.copiedFiles.count),
             ("option", templateConfig.options.keys.count),
-            ], pluralise: true)
+        ], pluralise: true)
         standardOut("Loaded template: \(templateCounts)")
         if !templateConfig.options.isEmpty {
             standardOut("Options:\n  \(templateConfig.options.prettyPrinted.replacingOccurrences(of: "\n", with: "\n  "))")
@@ -192,7 +192,7 @@ extension Generator.Clean: ConvertibleFromString {
         switch from {
         case "true", "yes", "all": return .all
         case "false", "no", "none": return .none
-        case "leave-dot-files", "leaveDotFiles", "leave.files":return .leaveDotFiles
+        case "leave-dot-files", "leaveDotFiles", "leave.files": return .leaveDotFiles
         default: return nil
         }
     }

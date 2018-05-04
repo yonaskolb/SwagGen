@@ -1,4 +1,3 @@
-import Commander
 import Foundation
 import PathKit
 import SwagGenKit

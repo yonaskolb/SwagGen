@@ -141,10 +141,10 @@ extension Schema {
     }
 
     var generateInlineSchema: Bool {
-        if case .object(let schema) = type,
-            case .bool(let additionalProperties) = schema.additionalProperties, !additionalProperties,
+        if case let .object(schema) = type,
+            case let .bool(additionalProperties) = schema.additionalProperties, !additionalProperties,
             !schema.properties.isEmpty {
-                return true
+            return true
         } else {
             return false
         }

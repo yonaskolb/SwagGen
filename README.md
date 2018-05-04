@@ -13,7 +13,7 @@ It has many advantages over the official [swagger-codegen](https://github.com/sw
 The default Swift templates it generates are also much improved with support for model inheritance, shared enums, mutable parameter structs, convenience initialisers and many more improvements.
 
 ## Installing
-Make sure Xcode 9 is installed first.
+Make sure Xcode 9.3 is installed first.
 
 ### [Mint](https://github.com/yonaskolb/mint)
 ```sh

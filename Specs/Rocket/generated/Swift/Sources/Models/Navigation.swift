@@ -41,7 +41,7 @@ public class Navigation: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        header = try container.decode(.header)
+        header = try container.decodeArray(.header)
         account = try container.decodeIfPresent(.account)
         copyright = try container.decodeIfPresent(.copyright)
         customFields = try container.decodeAnyIfPresent(.customFields)

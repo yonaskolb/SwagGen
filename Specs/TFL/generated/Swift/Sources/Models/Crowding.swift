@@ -26,8 +26,8 @@ public class Crowding: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        passengerFlows = try container.decodeIfPresent(.passengerFlows)
-        trainLoadings = try container.decodeIfPresent(.trainLoadings)
+        passengerFlows = try container.decodeArrayIfPresent(.passengerFlows)
+        trainLoadings = try container.decodeArrayIfPresent(.trainLoadings)
     }
 
     public func encode(to encoder: Encoder) throws {

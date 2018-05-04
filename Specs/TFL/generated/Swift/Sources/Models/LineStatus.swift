@@ -60,7 +60,7 @@ public class LineStatus: Codable, Equatable {
         reason = try container.decodeIfPresent(.reason)
         statusSeverity = try container.decodeIfPresent(.statusSeverity)
         statusSeverityDescription = try container.decodeIfPresent(.statusSeverityDescription)
-        validityPeriods = try container.decodeIfPresent(.validityPeriods)
+        validityPeriods = try container.decodeArrayIfPresent(.validityPeriods)
     }
 
     public func encode(to encoder: Encoder) throws {

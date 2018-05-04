@@ -45,7 +45,7 @@ public class AppConfig: Codable, Equatable {
         general = try container.decodeIfPresent(.general)
         navigation = try container.decodeIfPresent(.navigation)
         playback = try container.decodeIfPresent(.playback)
-        sitemap = try container.decodeIfPresent(.sitemap)
+        sitemap = try container.decodeArrayIfPresent(.sitemap)
         subscription = try container.decodeIfPresent(.subscription)
     }
 

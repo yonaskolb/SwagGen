@@ -24,7 +24,7 @@ public class PlaceCategory: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        availableKeys = try container.decodeIfPresent(.availableKeys)
+        availableKeys = try container.decodeArrayIfPresent(.availableKeys)
         category = try container.decodeIfPresent(.category)
     }
 

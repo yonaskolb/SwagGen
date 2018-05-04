@@ -106,7 +106,7 @@ For example the images of an `ImageEntry`.
         images = try container.decodeIfPresent(.images)
         item = try container.decodeIfPresent(.item)
         list = try container.decodeIfPresent(.list)
-        people = try container.decodeIfPresent(.people)
+        people = try container.decodeArrayIfPresent(.people)
         text = try container.decodeIfPresent(.text)
     }
 

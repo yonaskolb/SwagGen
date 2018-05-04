@@ -25,7 +25,7 @@ public class RouteSearchResponse: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         input = try container.decodeIfPresent(.input)
-        searchMatches = try container.decodeIfPresent(.searchMatches)
+        searchMatches = try container.decodeArrayIfPresent(.searchMatches)
     }
 
     public func encode(to encoder: Encoder) throws {

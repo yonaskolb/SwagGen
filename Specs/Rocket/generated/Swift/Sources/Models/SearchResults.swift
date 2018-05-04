@@ -59,7 +59,7 @@ If this is present then the `items` list won't be.
         total = try container.decode(.total)
         items = try container.decodeIfPresent(.items)
         movies = try container.decodeIfPresent(.movies)
-        people = try container.decodeIfPresent(.people)
+        people = try container.decodeArrayIfPresent(.people)
         tv = try container.decodeIfPresent(.tv)
     }
 

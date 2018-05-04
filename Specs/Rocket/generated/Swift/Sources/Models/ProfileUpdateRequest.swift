@@ -42,7 +42,7 @@ If no account pin is defined this has no impact.
         name = try container.decodeIfPresent(.name)
         pinEnabled = try container.decodeIfPresent(.pinEnabled)
         purchaseEnabled = try container.decodeIfPresent(.purchaseEnabled)
-        segments = try container.decodeIfPresent(.segments)
+        segments = try container.decodeArrayIfPresent(.segments)
     }
 
     public func encode(to encoder: Encoder) throws {

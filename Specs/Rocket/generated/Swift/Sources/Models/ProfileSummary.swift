@@ -82,7 +82,7 @@ pin also exists. This is then applied across all profiles.
         pinEnabled = try container.decode(.pinEnabled)
         purchaseEnabled = try container.decode(.purchaseEnabled)
         marketingEnabled = try container.decode(.marketingEnabled)
-        segments = try container.decode(.segments)
+        segments = try container.decodeArray(.segments)
         maxRatingContentFilter = try container.decodeIfPresent(.maxRatingContentFilter)
         minRatingPlaybackGuard = try container.decodeIfPresent(.minRatingPlaybackGuard)
     }

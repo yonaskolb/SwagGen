@@ -35,7 +35,7 @@ public class Journey: Codable, Equatable {
 
         arrivalDateTime = try container.decodeIfPresent(.arrivalDateTime)
         duration = try container.decodeIfPresent(.duration)
-        legs = try container.decodeIfPresent(.legs)
+        legs = try container.decodeArrayIfPresent(.legs)
         startDateTime = try container.decodeIfPresent(.startDateTime)
     }
 

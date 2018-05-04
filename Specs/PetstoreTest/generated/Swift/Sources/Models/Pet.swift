@@ -55,11 +55,11 @@ public class Pet: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         name = try container.decode(.name)
-        photoUrls = try container.decode(.photoUrls)
+        photoUrls = try container.decodeArray(.photoUrls)
         category = try container.decodeIfPresent(.category)
         id = try container.decodeIfPresent(.id)
         status = try container.decodeIfPresent(.status)
-        tags = try container.decodeIfPresent(.tags)
+        tags = try container.decodeArrayIfPresent(.tags)
     }
 
     public func encode(to encoder: Encoder) throws {

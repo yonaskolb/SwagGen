@@ -76,7 +76,7 @@ public class FareBounds: Codable, Equatable {
         isPopularFare = try container.decodeIfPresent(.isPopularFare)
         isPopularTravelCard = try container.decodeIfPresent(.isPopularTravelCard)
         isTour = try container.decodeIfPresent(.isTour)
-        messages = try container.decodeIfPresent(.messages)
+        messages = try container.decodeArrayIfPresent(.messages)
         `operator` = try container.decodeIfPresent(.`operator`)
         routeCode = try container.decodeIfPresent(.routeCode)
         to = try container.decodeIfPresent(.to)

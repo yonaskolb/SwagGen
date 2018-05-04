@@ -52,7 +52,7 @@ If the value begins with `http` then it's an external url.
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        children = try container.decodeIfPresent(.children)
+        children = try container.decodeArrayIfPresent(.children)
         content = try container.decodeIfPresent(.content)
         customFields = try container.decodeAnyIfPresent(.customFields)
         featured = try container.decodeIfPresent(.featured)

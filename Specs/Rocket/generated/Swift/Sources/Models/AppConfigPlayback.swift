@@ -31,7 +31,7 @@ Often known as quartiles when four equaly spread event points.
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         heartbeatFrequency = try container.decode(.heartbeatFrequency)
-        viewEventPoints = try container.decode(.viewEventPoints)
+        viewEventPoints = try container.decodeArray(.viewEventPoints)
     }
 
     public func encode(to encoder: Encoder) throws {

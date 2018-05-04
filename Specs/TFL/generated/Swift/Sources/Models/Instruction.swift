@@ -29,7 +29,7 @@ public class Instruction: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         detailed = try container.decodeIfPresent(.detailed)
-        steps = try container.decodeIfPresent(.steps)
+        steps = try container.decodeArrayIfPresent(.steps)
         summary = try container.decodeIfPresent(.summary)
     }
 

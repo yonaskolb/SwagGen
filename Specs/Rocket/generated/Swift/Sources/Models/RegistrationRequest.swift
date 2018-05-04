@@ -53,7 +53,7 @@ public class RegistrationRequest: Codable, Equatable {
         lastName = try container.decodeIfPresent(.lastName)
         marketing = try container.decodeIfPresent(.marketing)
         pin = try container.decodeIfPresent(.pin)
-        segments = try container.decodeIfPresent(.segments)
+        segments = try container.decodeArrayIfPresent(.segments)
     }
 
     public func encode(to encoder: Encoder) throws {

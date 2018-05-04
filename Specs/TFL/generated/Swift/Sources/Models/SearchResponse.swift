@@ -49,7 +49,7 @@ public class SearchResponse: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         from = try container.decodeIfPresent(.from)
-        matches = try container.decodeIfPresent(.matches)
+        matches = try container.decodeArrayIfPresent(.matches)
         maxScore = try container.decodeIfPresent(.maxScore)
         page = try container.decodeIfPresent(.page)
         pageSize = try container.decodeIfPresent(.pageSize)

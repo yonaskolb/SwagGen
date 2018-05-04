@@ -21,7 +21,7 @@ public class AppConfigSubscription: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        plans = try container.decodeIfPresent(.plans)
+        plans = try container.decodeArrayIfPresent(.plans)
     }
 
     public func encode(to encoder: Encoder) throws {

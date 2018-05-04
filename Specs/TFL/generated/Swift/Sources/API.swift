@@ -7,6 +7,12 @@ import Foundation
 
 public struct TFL {
 
+    /// Whether to discard any errors when decoding optional properties
+    public static var safeOptionalDecoding = false
+
+     /// Whether to remove invalid elements instead of throwing when decoding arrays
+    public static var safeArrayDecoding = false
+
     public static let version = "v1"
 
     public enum AccidentStats {}

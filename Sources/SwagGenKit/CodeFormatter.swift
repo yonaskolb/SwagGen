@@ -265,6 +265,10 @@ public class CodeFormatter {
         context["isFile"] = parameter.metadata.type == .file
         context["description"] = parameter.description
 
+        if case let .other(items) = parameter.type,
+            case .array = items.type {
+            context["isArray"] = true
+        }
         switch parameter.type {
         case let .body(schema): context["type"] = getSchemaType(name: parameter.name, schema: schema)
         case let .other(item): context["type"] = getItemType(name: parameter.name, item: item)
@@ -287,6 +291,10 @@ public class CodeFormatter {
         context["name"] = getName(property.name)
         context["value"] = property.name
         context["type"] = getSchemaType(name: property.name, schema: property.schema)
+
+        if case .array = property.schema.type {
+            context["isArray"] = true
+        }
 
         return context
     }

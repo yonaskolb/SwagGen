@@ -24,8 +24,8 @@ public class TimetableRoute: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        schedules = try container.decodeIfPresent(.schedules)
-        stationIntervals = try container.decodeIfPresent(.stationIntervals)
+        schedules = try container.decodeArrayIfPresent(.schedules)
+        stationIntervals = try container.decodeArrayIfPresent(.stationIntervals)
     }
 
     public func encode(to encoder: Encoder) throws {

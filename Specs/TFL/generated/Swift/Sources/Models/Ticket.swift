@@ -51,7 +51,7 @@ public class Ticket: Codable, Equatable {
         cost = try container.decodeIfPresent(.cost)
         description = try container.decodeIfPresent(.description)
         displayOrder = try container.decodeIfPresent(.displayOrder)
-        messages = try container.decodeIfPresent(.messages)
+        messages = try container.decodeArrayIfPresent(.messages)
         mode = try container.decodeIfPresent(.mode)
         passengerType = try container.decodeIfPresent(.passengerType)
         ticketTime = try container.decodeIfPresent(.ticketTime)

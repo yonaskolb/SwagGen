@@ -28,7 +28,7 @@ public class LineGroup: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        lineIdentifier = try container.decodeIfPresent(.lineIdentifier)
+        lineIdentifier = try container.decodeArrayIfPresent(.lineIdentifier)
         naptanIdReference = try container.decodeIfPresent(.naptanIdReference)
         stationAtcoCode = try container.decodeIfPresent(.stationAtcoCode)
     }

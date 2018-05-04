@@ -158,7 +158,7 @@ public class Plan: Codable, Equatable {
         revenueType = try container.decode(.revenueType)
         subscriptionCode = try container.decode(.subscriptionCode)
         alias = try container.decode(.alias)
-        benefits = try container.decode(.benefits)
+        benefits = try container.decodeArray(.benefits)
         billingPeriodType = try container.decode(.billingPeriodType)
         billingPeriodFrequency = try container.decode(.billingPeriodFrequency)
         hasTrialPeriod = try container.decode(.hasTrialPeriod)

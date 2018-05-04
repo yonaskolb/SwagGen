@@ -108,10 +108,10 @@ public class OfferRights: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         deliveryType = try container.decode(.deliveryType)
-        scopes = try container.decode(.scopes)
+        scopes = try container.decodeArray(.scopes)
         resolution = try container.decode(.resolution)
         ownership = try container.decode(.ownership)
-        exclusionRules = try container.decodeIfPresent(.exclusionRules)
+        exclusionRules = try container.decodeArrayIfPresent(.exclusionRules)
         maxDownloads = try container.decodeIfPresent(.maxDownloads)
         maxPlays = try container.decodeIfPresent(.maxPlays)
         playPeriod = try container.decodeIfPresent(.playPeriod)

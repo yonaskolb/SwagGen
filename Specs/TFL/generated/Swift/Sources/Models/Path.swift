@@ -28,9 +28,9 @@ public class Path: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        elevation = try container.decodeIfPresent(.elevation)
+        elevation = try container.decodeArrayIfPresent(.elevation)
         lineString = try container.decodeIfPresent(.lineString)
-        stopPoints = try container.decodeIfPresent(.stopPoints)
+        stopPoints = try container.decodeArrayIfPresent(.stopPoints)
     }
 
     public func encode(to encoder: Encoder) throws {

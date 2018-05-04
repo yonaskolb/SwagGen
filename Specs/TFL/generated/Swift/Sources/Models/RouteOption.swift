@@ -35,7 +35,7 @@ public class RouteOption: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        directions = try container.decodeIfPresent(.directions)
+        directions = try container.decodeArrayIfPresent(.directions)
         id = try container.decodeIfPresent(.id)
         lineIdentifier = try container.decodeIfPresent(.lineIdentifier)
         name = try container.decodeIfPresent(.name)

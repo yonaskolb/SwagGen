@@ -45,7 +45,7 @@ public class ProfileTokenRequest: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         profileId = try container.decode(.profileId)
-        scopes = try container.decode(.scopes)
+        scopes = try container.decodeArray(.scopes)
         pin = try container.decodeIfPresent(.pin)
     }
 

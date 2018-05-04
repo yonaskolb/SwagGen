@@ -39,7 +39,7 @@ public class ItemScheduleList: Codable, Equatable {
         channelId = try container.decode(.channelId)
         startDate = try container.decode(.startDate)
         endDate = try container.decode(.endDate)
-        schedules = try container.decode(.schedules)
+        schedules = try container.decodeArray(.schedules)
     }
 
     public func encode(to encoder: Encoder) throws {

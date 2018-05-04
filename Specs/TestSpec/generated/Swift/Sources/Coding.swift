@@ -55,11 +55,13 @@ extension KeyedDecodingContainer {
     }
 
     func decodeAnyIfPresent<T>(_ type: T.Type, forKey key: K) throws -> T? {
-        guard let value = try decodeIfPresent(AnyCodable.self, forKey: key)?.value else { return nil }
-        if let typedValue = value as? T {
-            return typedValue
-        } else {
-            throw DecodingError.typeMismatch(T.self, DecodingError.Context(codingPath: codingPath, debugDescription: "Decoding of \(T.self) failed"))
+        return try decodeOptional {
+            guard let value = try decodeIfPresent(AnyCodable.self, forKey: key)?.value else { return nil }
+            if let typedValue = value as? T {
+                return typedValue
+            } else {
+                throw DecodingError.typeMismatch(T.self, DecodingError.Context(codingPath: codingPath, debugDescription: "Decoding of \(T.self) failed"))
+            }
         }
     }
 
@@ -69,6 +71,63 @@ extension KeyedDecodingContainer {
             dictionary[key.stringValue] = try decodeAny(key)
         }
         return dictionary
+    }
+
+    func decode<T>(_ key: KeyedDecodingContainer.Key) throws -> T where T: Decodable {
+        return try decode(T.self, forKey: key)
+    }
+
+    func decodeIfPresent<T>(_ key: KeyedDecodingContainer.Key) throws -> T? where T: Decodable {
+        return try decodeOptional {
+            try decodeIfPresent(T.self, forKey: key)
+        }
+    }
+
+    func decodeAny<T>(_ key: K) throws -> T {
+        return try decodeAny(T.self, forKey: key)
+    }
+
+    func decodeAnyIfPresent<T>(_ key: K) throws -> T? {
+        return try decodeOptional {
+            try decodeAnyIfPresent(T.self, forKey: key)
+        }
+    }
+
+    public func decodeArray<T: Decodable>(_ key: K) throws -> [T] {
+        var container = try nestedUnkeyedContainer(forKey: key)
+        var array: [T] = []
+        while !container.isAtEnd {
+            do {
+                let element = try container.decode(T.self)
+                array.append(element)
+            } catch {
+                if TestSpec.safeArrayDecoding {
+                    // hack to advance the current index
+                    _ = try? container.decode(AnyCodable.self)
+                } else {
+                    throw error
+                }
+            }
+        }
+        return array
+    }
+
+    public func decodeArrayIfPresent<T: Decodable>(_ key: K) throws -> [T]? {
+        return try decodeOptional {
+            try decodeArray(key)
+        }
+    }
+
+     fileprivate func decodeOptional<T>(_ closure: () throws -> T? ) throws -> T? {
+        if TestSpec.safeOptionalDecoding {
+            do {
+                return try closure()
+            } catch {
+                return nil
+            }
+        } else {
+            return try closure()
+        }
     }
 }
 
@@ -81,26 +140,6 @@ extension KeyedEncodingContainer {
 
     mutating func encodeAny<T>(_ value: T, forKey key: K) throws {
         try encode(AnyCodable(value), forKey: key)
-    }
-}
-
-// generic extensions
-extension KeyedDecodingContainer {
-
-    func decode<T>(_ key: KeyedDecodingContainer.Key) throws -> T where T: Decodable {
-        return try decode(T.self, forKey: key)
-    }
-
-    func decodeIfPresent<T>(_ key: KeyedDecodingContainer.Key) throws -> T? where T: Decodable {
-        return try decodeIfPresent(T.self, forKey: key)
-    }
-
-    func decodeAny<T>(_ key: K) throws -> T {
-        return try decodeAny(T.self, forKey: key)
-    }
-
-    func decodeAnyIfPresent<T>(_ key: K) throws -> T? {
-        return try decodeAnyIfPresent(T.self, forKey: key)
     }
 }
 

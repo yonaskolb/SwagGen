@@ -120,10 +120,10 @@ public class IdentityProvider: Codable, Equatable {
         saml = try container.decodeAnyIfPresent(.saml)
         sendRequestorAuthZ = try container.decodeIfPresent(.sendRequestorAuthZ)
         subscriberIdData = try container.decodeIfPresent(.subscriberIdData)
-        whitelistDomains = try container.decodeIfPresent(.whitelistDomains)
+        whitelistDomains = try container.decodeArrayIfPresent(.whitelistDomains)
         wsAPIKey = try container.decodeIfPresent(.wsAPIKey)
         wsMaintenance = try container.decodeIfPresent(.wsMaintenance)
-        wsMaintenanceCountry = try container.decodeIfPresent(.wsMaintenanceCountry)
+        wsMaintenanceCountry = try container.decodeArrayIfPresent(.wsMaintenanceCountry)
         wsNameSpace = try container.decodeIfPresent(.wsNameSpace)
         wsURL = try container.decodeIfPresent(.wsURL)
     }

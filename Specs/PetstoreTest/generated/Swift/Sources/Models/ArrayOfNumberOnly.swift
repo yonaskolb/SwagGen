@@ -20,7 +20,7 @@ public class ArrayOfNumberOnly: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        arrayNumber = try container.decodeIfPresent(.arrayNumber)
+        arrayNumber = try container.decodeArrayIfPresent(.arrayNumber)
     }
 
     public func encode(to encoder: Encoder) throws {

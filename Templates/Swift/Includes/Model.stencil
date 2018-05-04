@@ -53,7 +53,7 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}Codable, Equa
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         {% for property in properties %}
-        {{ property.name }} = try container.decode{% if property.isAnyType %}Any{% endif %}{% if property.optional %}IfPresent{% endif %}(.{{ property.name }})
+        {{ property.name }} = try container.decode{% if property.isArray and not property.isAnyType %}Array{% endif %}{% if property.isAnyType %}Any{% endif %}{% if property.optional %}IfPresent{% endif %}(.{{ property.name }})
         {% endfor %}
         {% endif %}
         {% if additionalPropertiesType %}

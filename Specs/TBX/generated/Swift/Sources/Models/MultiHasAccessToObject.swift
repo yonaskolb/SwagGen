@@ -32,10 +32,10 @@ public class MultiHasAccessToObject: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        granted = try container.decode(.granted)
-        denied = try container.decode(.denied)
-        failed = try container.decode(.failed)
-        details = try container.decode(.details)
+        granted = try container.decodeArray(.granted)
+        denied = try container.decodeArray(.denied)
+        failed = try container.decodeArray(.failed)
+        details = try container.decodeArray(.details)
     }
 
     public func encode(to encoder: Encoder) throws {

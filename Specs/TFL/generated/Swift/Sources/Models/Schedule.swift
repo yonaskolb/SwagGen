@@ -37,10 +37,10 @@ public class Schedule: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         firstJourney = try container.decodeIfPresent(.firstJourney)
-        knownJourneys = try container.decodeIfPresent(.knownJourneys)
+        knownJourneys = try container.decodeArrayIfPresent(.knownJourneys)
         lastJourney = try container.decodeIfPresent(.lastJourney)
         name = try container.decodeIfPresent(.name)
-        periods = try container.decodeIfPresent(.periods)
+        periods = try container.decodeArrayIfPresent(.periods)
     }
 
     public func encode(to encoder: Encoder) throws {

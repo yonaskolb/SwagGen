@@ -11,6 +11,7 @@
 - New `language` argument which defaults to `swift` for now #65
 - Default template for language is now used if no template path is specified #65
 - Added support for inline anonymous schemas in definitions, body params, and responses #66
+- Added UUID support #72
 - Added `--silent` flag #68
 - Added `--verbose` flag #68
 - Added `--version` flag #68

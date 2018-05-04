@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NO_COLOR='\033[0m'
 SPEC_NAME=$(basename $1)
 SPEC_PATH=$1
 SWAGGER_SPEC=$1/spec.yml
@@ -14,10 +17,10 @@ fi
 
 rm -f ${SPEC_PATH}/generated/Swift/Package.resolved
 
-echo "📦  Generating $SPEC_PATH"
-swift run swaggen generate ${SWAGGER_SPEC} --template Templates/Swift/template.yml --destination $SPEC_PATH/generated/Swift --option name:$SPEC_NAME --clean all
-
-echo "📦  Building $SPEC_PATH"
+echo "📦  Testing $SPEC_PATH"
+echo "   ⚙️  Generating..."
+swift run swaggen generate ${SWAGGER_SPEC} --template Templates/Swift/template.yml --destination $SPEC_PATH/generated/Swift --option name:$SPEC_NAME --clean all --silent
+echo "   ⚙️  Building..."
 swift build --package-path ${SPEC_PATH}/generated/Swift --build-path Specs/.build -c release
-
+echo "   ✅  ${GREEN}Built $SPEC_PATH${NO_COLOR}"
 rm -f ${SPEC_PATH}/generated/Swift/Package.resolved

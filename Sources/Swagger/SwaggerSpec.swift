@@ -58,6 +58,11 @@ extension SwaggerSpec {
         try self.init(string: string)
     }
 
+    public init(path: PathKit.Path) throws {
+        let string: String = try path.read()
+        try self.init(string: string)
+    }
+
     public init(string: String) throws {
         let yaml = try Yams.load(yaml: string)
         let json = yaml as! JSONDictionary

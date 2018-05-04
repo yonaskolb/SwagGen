@@ -7,6 +7,9 @@ import Foundation
 
 public struct TestSpec {
 
+    /// Whether to discard any errors when decoding optional properties
+    public static var safeOptionalDecoding = false
+
     public static let version = "1.0"
 
     public enum TestTag {}

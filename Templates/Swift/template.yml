@@ -3,6 +3,7 @@ options:
   name: API
   fixedWidthIntegers: false
   mutableModels: true
+  safeOptionalDecoding: false
   dependencies:
     - name: Alamofire
       pod: Alamofire

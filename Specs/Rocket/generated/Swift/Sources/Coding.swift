@@ -55,11 +55,13 @@ extension KeyedDecodingContainer {
     }
 
     func decodeAnyIfPresent<T>(_ type: T.Type, forKey key: K) throws -> T? {
-        guard let value = try decodeIfPresent(AnyCodable.self, forKey: key)?.value else { return nil }
-        if let typedValue = value as? T {
-            return typedValue
-        } else {
-            throw DecodingError.typeMismatch(T.self, DecodingError.Context(codingPath: codingPath, debugDescription: "Decoding of \(T.self) failed"))
+        return try decodeOptional {
+            guard let value = try decodeIfPresent(AnyCodable.self, forKey: key)?.value else { return nil }
+            if let typedValue = value as? T {
+                return typedValue
+            } else {
+                throw DecodingError.typeMismatch(T.self, DecodingError.Context(codingPath: codingPath, debugDescription: "Decoding of \(T.self) failed"))
+            }
         }
     }
 
@@ -87,12 +89,26 @@ extension KeyedEncodingContainer {
 // generic extensions
 extension KeyedDecodingContainer {
 
+    fileprivate func decodeOptional<T>(_ closure: () throws -> T? ) throws -> T? {
+        if Rocket.safeOptionalDecoding {
+            do {
+                return try closure()
+            } catch {
+                return nil
+            }
+        } else {
+            return try closure()
+        }
+    }
+
     func decode<T>(_ key: KeyedDecodingContainer.Key) throws -> T where T: Decodable {
         return try decode(T.self, forKey: key)
     }
 
     func decodeIfPresent<T>(_ key: KeyedDecodingContainer.Key) throws -> T? where T: Decodable {
-        return try decodeIfPresent(T.self, forKey: key)
+        return try decodeOptional {
+            try decodeIfPresent(T.self, forKey: key)
+        }
     }
 
     func decodeAny<T>(_ key: K) throws -> T {
@@ -100,7 +116,9 @@ extension KeyedDecodingContainer {
     }
 
     func decodeAnyIfPresent<T>(_ key: K) throws -> T? {
-        return try decodeAnyIfPresent(T.self, forKey: key)
+        return try decodeOptional {
+            try decodeAnyIfPresent(T.self, forKey: key)
+        }
     }
 }
 

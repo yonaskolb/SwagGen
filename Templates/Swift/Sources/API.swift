@@ -7,6 +7,9 @@ import Foundation
 {% endif %}
 public struct {{ options.name }} {
 
+    /// Whether to discard any errors when decoding optional properties
+    public static var safeOptionalDecoding = {% if options.safeOptionalDecoding %}true{% else %}false{% endif %}
+
     {% if info.version %}
     public static let version = "{{ info.version }}"
     {% endif %}

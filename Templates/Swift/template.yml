@@ -14,37 +14,26 @@ options:
       version: 3.2.1
 templateFiles:
   - path: Package.swift
+  - path: Cartfile
+  - path: Sources/API.swift
+  - path: Sources/Coding.swift
+  - path: Sources/APIRequest.swift
+  - path: Sources/APIClient.swift
+  - path: Sources/APIService.swift
+  - path: Sources/APIError.swift
+  - path: Sources/APIResponse.swift
+  - path: Sources/Authorization.swift
+  - path: Sources/APIResult.swift
+  - path: Sources/RequestBehaviour.swift
+  - path: Sources/AnyCodable.swift
   - path: Podspec.podspec
     destination: "{{ options.name }}.podspec"
-  - path: Cartfile
-  - path: enum.swift
+  - path: Sources/enum.swift
     context: enums
     destination: "Sources/Enums/{{ enumName }}.swift"
-  - path: model.swift
+  - path: Sources/model.swift
     context: definitions
     destination: "Sources/Models/{{ filename }}.swift"
-  - path: request.swift
+  - path: Sources/request.swift
     context: operations
     destination: "Sources/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ filename }}.swift"
-  - path: API.swift
-    destination: "Sources/API.swift"
-  - path: Coding.swift
-    destination: "Sources/Coding.swift"
-  - path: APIRequest.swift
-    destination: "Sources/APIRequest.swift"
-  - path: APIClient.swift
-    destination: "Sources/APIClient.swift"
-  - path: APIService.swift
-    destination: "Sources/APIService.swift"
-  - path: APIError.swift
-    destination: "Sources/APIError.swift"
-  - path: APIResponse.swift
-    destination: "Sources/APIResponse.swift"
-  - path: Authorization.swift
-    destination: "Sources/Authorization.swift"
-  - path: APIResult.swift
-    destination: "Sources/APIResult.swift"
-  - path: RequestBehaviour.swift
-    destination: "Sources/RequestBehaviour.swift"
-  - path: AnyCodable.swift
-    destination: "Sources/AnyCodable.swift"

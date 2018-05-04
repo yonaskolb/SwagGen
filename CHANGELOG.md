@@ -4,7 +4,9 @@
 ### Added
 - Swift template: added `Codable` support to models #61
 - Swift template: added `Equatable` support to models #63
-- Swift template: added `mutableModels` option to template #64
+- Swift template: added `mutableModels` option #64
+- Swift template: added `safeArrayDecoding` option #71
+- Swift template: added `safeOptionalDecoding` option #71
 - Bundle templates with installation #65
 - New `language` argument which defaults to `swift` for now #65
 - Default template for language is now used if no template path is specified #65

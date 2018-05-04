@@ -46,15 +46,20 @@ public struct SwaggerObject<T: JSONObjectConvertible> {
 
 extension SwaggerSpec {
 
-    public init(path: PathKit.Path) throws {
-        var url = URL(string: path.string)!
-        if url.scheme == nil {
-            url = URL(fileURLWithPath: path.string)
+    public init(url: URL) throws {
+        let data: Data
+        do {
+            data = try Data(contentsOf: url)
+        } catch {
+            throw SwaggerError.loadError(url)
         }
-
-        let data = try Data(contentsOf: url)
         let string = String(data: data, encoding: .utf8)!
 
+        try self.init(string: string)
+    }
+
+    public init(path: PathKit.Path) throws {
+        let string: String = try path.read()
         try self.init(string: string)
     }
 
@@ -73,7 +78,7 @@ extension SwaggerSpec: JSONObjectConvertible {
         version = String(describing: jsonDictionary["swagger"])
         if let swaggerVersion = Double(version),
             floor(swaggerVersion) != 2 {
-            throw SwaggerError.incorrectVersion(version)
+            throw SwaggerError.invalidVersion(version)
         }
 
         info = try jsonDictionary.json(atKeyPath: "info")

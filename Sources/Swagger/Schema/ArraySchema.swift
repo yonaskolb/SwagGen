@@ -22,7 +22,7 @@ extension ArraySchema: JSONObjectConvertible {
         } else if let multiple: [Schema] = jsonDictionary.json(atKeyPath: .key(itemsKey)) {
             items = .multiple(multiple)
         } else {
-            throw SwaggerError.incorrectArraySchema(jsonDictionary)
+            throw SwaggerError.invalidArraySchema(jsonDictionary)
         }
 
         minItems = jsonDictionary.json(atKeyPath: "minItems")

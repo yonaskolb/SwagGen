@@ -11,7 +11,7 @@ public struct TemplateConfig {
     public let formatter: String?
     public let options: [String: Any]
 
-    public init(path: Path, options: [String: String]) throws {
+    public init(path: Path, options: [String: Any]) throws {
         let templatePath: Path
         if path.isDirectory {
             basePath = path

@@ -214,7 +214,7 @@ public class CodeFormatter {
         context["responseEnums"] = operation.responseEnums.map(getEnumContext)
 
         let requestSchemas: [Context] = operation.parameters.compactMap { parameter in
-            guard case .body(let schema) = parameter.value.type else { return nil }
+            guard case let .body(schema) = parameter.value.type else { return nil }
             return getInlineSchemaContext(schema, name: parameter.value.name)
         }
         context["requestSchemas"] = requestSchemas

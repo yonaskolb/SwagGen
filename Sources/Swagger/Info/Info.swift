@@ -19,7 +19,7 @@ extension Info: JSONObjectConvertible {
         if let versionValue = jsonDictionary["version"] {
             version = String(describing: versionValue)
         } else {
-            throw SwaggerError.incorrectVersion("")
+            throw SwaggerError.invalidVersion("")
         }
         contact = jsonDictionary.json(atKeyPath: "contact")
         license = jsonDictionary.json(atKeyPath: "license")

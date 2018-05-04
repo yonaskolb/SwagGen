@@ -1,0 +1,213 @@
+import Foundation
+import PathKit
+import SwagGenKit
+import Swagger
+import SwiftCLI
+import Yams
+
+// TODO: remove custom newline spacing once https://github.com/jakeheis/SwiftCLI/pull/58 get's merged and integrated
+class GenerateCommand: Command {
+
+    let name = "generate"
+    let shortDescription = "Generates code for a Swagger spec"
+
+    let spec = SwiftCLI.Parameter()
+
+    let clean = Key<Generator.Clean>("--clean", "-c", description: "How the destination directory will be cleaned of non generated files:\n\(String(repeating: " ", count: 31)) - none: no files will be removed\n\(String(repeating: " ", count: 31)) - leave.files: all other files will be removed except if starting with . in the destination directory\n\(String(repeating: " ", count: 31)) - all: all other files will be removed")
+
+    let destination = Key<String>("--destination", "-d", description: "The directory where the generated files will be created. Defaults to \"generated\"")
+
+    let template = Key<String>("--template", "-t", description: "path to the template config yaml file. If no template is passed a default template for the language will be used")
+
+    let language = Key<String>("--language", "-l", description: "The language of the template that will be generated. This defaults to swift")
+
+    let options = VariadicKey<String>("--option", "-o", description: "An option that will be merged with template options, and overwrite any options of the same name.\n\(String(repeating: " ", count: 31))Can be repeated multiple times and must in the format --option \"name:value\"")
+
+    let verbose = Flag("--verbose", "-v", description: "Show verbose output", defaultValue: false)
+    let silent = Flag("--silent", "-s", description: "Silence standard output", defaultValue: false)
+
+    func execute() throws {
+        let clean = self.clean.value ?? .none
+        let destinationPath = destination.value.flatMap { Path($0) } ?? (Path.current + "generated")
+        let language = self.language.value ?? "swift"
+
+        let specURL: URL
+        if URL(string: spec.value)?.scheme == nil {
+            let path = Path(spec.value).normalize()
+            guard path.exists else {
+                exitWithError("Could not find spec at \(path)")
+            }
+            specURL = URL(fileURLWithPath: path.string)
+        } else if let url = URL(string: spec.value) {
+            specURL = url
+        } else {
+            exitWithError("Must pass valid spec. It can be a path or a url")
+        }
+
+        var options: [String: Any] = [:]
+        for option in self.options.values {
+            guard option.contains(":") else {
+                exitWithError("Options arguement '\(option)' must be comma delimited and the name and value must be seperated by a colon")
+            }
+            let parts = option.components(separatedBy: ":").map { $0.trimmingCharacters(in: .whitespaces) }
+            if parts.count >= 2 {
+                let key = parts.first!
+                let value = Array(parts.dropFirst()).joined(separator: ":")
+                options[key] = value
+            }
+        }
+
+        let templatePath: PathKit.Path
+        if let template = template.value {
+            templatePath = Path(template)
+        } else {
+            let bundlePath = Path(Bundle.main.bundlePath)
+            let relativePath = Path("Templates/\(language)/template.yml")
+            var possibleSettingsPaths: [PathKit.Path] = [
+                relativePath,
+                bundlePath + relativePath,
+                bundlePath + "../share/swaggen/\(relativePath)",
+                Path(#file).parent().parent().parent() + relativePath,
+            ]
+
+            if let symlink = try? bundlePath.symlinkDestination() {
+                possibleSettingsPaths = [
+                    symlink + relativePath,
+                ] + possibleSettingsPaths
+            }
+
+            guard let path = possibleSettingsPaths.first(where: { $0.exists }) else {
+                exitWithError("Couldn't find template for language \(language)")
+            }
+            templatePath = path
+        }
+
+        generate(specURL: specURL, templatePath: templatePath, destinationPath: destinationPath, clean: clean, options: options)
+    }
+
+    func exitWithError(_ string: String) -> Never {
+        stderr <<< string.red
+        exit(EXIT_FAILURE)
+    }
+
+    func standardOut(_ string: String) {
+        if !silent.value {
+            stdout <<< string
+        }
+    }
+
+    func generate(specURL: URL, templatePath: PathKit.Path, destinationPath: PathKit.Path, clean: Generator.Clean, options: [String: Any]) {
+
+        let spec: SwaggerSpec
+        do {
+            if specURL.scheme != nil {
+                standardOut("Loading spec from \(specURL.absoluteString)")
+            }
+
+            spec = try SwaggerSpec(url: specURL)
+        } catch let error {
+            exitWithError("Error loading Swagger Spec: \(error)")
+        }
+
+        let specCounts = getCountString(counts: [
+            ("operation", spec.paths.reduce(0) { $0 + $1.operations.count }),
+            ("definition", spec.definitions.count),
+            // ("tag", spec.tags.count),
+            ("parameter", spec.parameters.count),
+            ("security definition", spec.securityDefinitions.count),
+        ], pluralise: true)
+        standardOut("Loaded spec: \"\(spec.info.title)\" - \(specCounts)")
+
+        //    let invalidReferences = Array(Set(spec.invalidReferences)).sorted()
+        //    for reference in invalidReferences {
+        //        writeError("Couldn't find reference: \(reference)")
+        //    }
+
+        let templateConfig: TemplateConfig
+        do {
+            templateConfig = try TemplateConfig(path: templatePath.normalize(), options: options)
+        } catch let error {
+            exitWithError("Error loading template: \(error)")
+        }
+
+        let templateCounts = getCountString(counts: [
+            ("template file", templateConfig.templateFiles.count),
+            ("copied file", templateConfig.copiedFiles.count),
+            ("option", templateConfig.options.keys.count),
+        ], pluralise: true)
+        standardOut("Loaded template: \(templateCounts)")
+
+        if verbose.value {
+            if !templateConfig.options.isEmpty {
+                standardOut("Options:\n  \(templateConfig.options.prettyPrinted.replacingOccurrences(of: "\n", with: "\n  "))")
+            }
+        }
+        let codeFormatter: CodeFormatter
+        if let formatter = templateConfig.formatter {
+
+            switch formatter {
+            case "swift":
+                codeFormatter = SwiftFormatter(spec: spec, templateConfig: templateConfig)
+            default:
+                codeFormatter = CodeFormatter(spec: spec, templateConfig: templateConfig)
+                standardOut("Unrecognized formatter \(formatter). Using default")
+                return
+            }
+        } else {
+            codeFormatter = CodeFormatter(spec: spec, templateConfig: templateConfig)
+        }
+
+        let context = codeFormatter.getContext()
+
+        //    for schema in codeFormatter.schemaTypeErrors {
+        //        writeError("Couldn't calculate type for: \(schema)\(schema.metadata.description.flatMap{" \"\($0)\""} ?? "")")
+        //    }
+        //    for value in codeFormatter.valueTypeErrors {
+        //        writeError("Couldn't calculate type for: \(value.name)\(value.description.flatMap{" \"\($0)\""} ?? "")")
+        //    }
+
+        let generator = Generator(context: context, destination: destinationPath.normalize(), templateConfig: templateConfig)
+
+        standardOut("Destination: \(destinationPath.absolute())")
+
+        do {
+            let generationResult = try generator.generate(clean: clean) { change in
+
+                guard verbose.value else {
+                    return
+                }
+
+                switch change {
+                case let .generated(file):
+                    switch file.state {
+                    case .unchanged:
+                        break
+                    // standardOut("Unchanged \(file.path)".lightBlack)
+                    case .modified:
+                        standardOut("Modified \(file.path)".yellow)
+                    case .created:
+                        standardOut("Created \(file.path)".green)
+                    }
+                case let .removed(path):
+                    let relativePath = path.absolute().string.replacingOccurrences(of: destinationPath.normalize().absolute().string + "/", with: "")
+                    standardOut("Removed \(relativePath)".red)
+                }
+            }
+            standardOut("Generation complete: \(generationResult)")
+        } catch let error {
+            exitWithError("Error generating code: \(error)")
+        }
+    }
+}
+
+extension Generator.Clean: ConvertibleFromString {
+
+    public static func convert(from: String) -> Generator.Clean? {
+        switch from {
+        case "true", "yes", "all": return .all
+        case "false", "no", "none": return .none
+        case "leave-dot-files", "leaveDotFiles", "leave.files": return .leaveDotFiles
+        default: return nil
+        }
+    }
+}

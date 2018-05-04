@@ -34,7 +34,7 @@ extension SchemaType: JSONObjectConvertible {
             case .object:
                 self = .object(try ObjectSchema(jsonDictionary: jsonDictionary))
             default:
-                throw SwaggerError.incorrectSchemaType(jsonDictionary)
+                throw SwaggerError.invalidSchemaType(jsonDictionary)
             }
         } else if jsonDictionary["$ref"] != nil {
             self = .reference(try Reference(jsonDictionary: jsonDictionary))

@@ -18,7 +18,8 @@
 ### Changes
 - Swift template: move sources out of now unnessary subdirectory #62
 - Swift template: reorganise template #69
-- Update to Swift 4.1
+- Swift template: updated dependencies
+- Swift template: Update to Swift 4.1
 - Updated CLI #68
 - Improved error output #68
 - Make executable lowercase `swaggen` (breaking on linux) #68
@@ -27,7 +28,7 @@
 
 ### Removed
 - **BREAKING** Swift template: models no longer have `init(jsonDictionary: JSONDictionary)` or `encode() -> JSONDictionary` functions #61
-- Swift template: removed `JSONUtilities` dependency functions #61
+- Swift template: removed `JSONUtilities` dependency #61
 
 ## [1.2.0](https://github.com/yonaskolb/SwagGen/compare/1.1.0...1.2.0)
 ### Added

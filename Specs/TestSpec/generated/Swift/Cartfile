@@ -1,2 +1,2 @@
-github "Alamofire/Alamofire" ~> 4.4.0
-github "antitypical/Result" ~> 3.2.1
+github "Alamofire/Alamofire" ~> 4.7.2
+github "antitypical/Result" ~> 4.0.0

@@ -8,8 +8,8 @@ let package = Package(
         .library(name: "TFL", targets: ["TFL"])
     ],
     dependencies: [
-        .package(url: "https://github.com/Alamofire/Alamofire.git", .exact("4.4.0")),
-        .package(url: "https://github.com/antitypical/Result.git", .exact("3.2.1")),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .exact("4.7.2")),
+        .package(url: "https://github.com/antitypical/Result.git", .exact("4.0.0")),
     ],
     targets: [
         .target(name: "TFL", dependencies: [

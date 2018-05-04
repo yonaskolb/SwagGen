@@ -8,9 +8,6 @@ class Swaggen < Formula
   depends_on :xcode
 
   def install
-    build_path = "#{buildpath}/.build/release/SwagGen"
-    ohai "Building SwagGen"
-    system("swift build --disable-sandbox -c release -Xswiftc -static-stdlib")
-    bin.install build_path
+    system "make", "install", "PREFIX=#{prefix}"
   end
 end

@@ -17,10 +17,10 @@ fi
 
 rm -f ${SPEC_PATH}/generated/Swift/Package.resolved
 
-echo "📦  Testing $SPEC_PATH"
-echo "   ⚙️  Generating..."
+# echo "📦  Testing $SPEC_PATH"
+echo "⚙️  Generating $SPEC_NAME..."
 swift run swaggen generate ${SWAGGER_SPEC} --template Templates/Swift/template.yml --destination $SPEC_PATH/generated/Swift --option name:$SPEC_NAME --clean all --silent
-echo "   ⚙️  Building..."
+echo "⚙️  Compiling $SPEC_NAME..."
 swift build --package-path ${SPEC_PATH}/generated/Swift --build-path Specs/.build -c release
-echo "   ✅  ${GREEN}Built $SPEC_PATH${NO_COLOR}"
+echo "✅  ${GREEN}Built $SPEC_NAME${NO_COLOR}"
 rm -f ${SPEC_PATH}/generated/Swift/Package.resolved

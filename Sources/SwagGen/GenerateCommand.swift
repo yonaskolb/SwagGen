@@ -8,7 +8,7 @@ import Yams
 // TODO: remove custom newline spacing once https://github.com/jakeheis/SwiftCLI/pull/58 get's merged and integrated
 class GenerateCommand: Command {
 
-    let name = "Generate"
+    let name = ""
 
     let spec = SwiftCLI.Parameter()
 

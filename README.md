@@ -60,11 +60,20 @@ import SwagGenKit
 
 ## Usage
 
+Use `--help` to see usage information
 ```
-swaggen path_to_spec
+swaggen --help
+Usage: swaggen <command> [options]
+
+Commands:
+  generate        Generates a template from a Swagger spec
+  help            Prints this help information
+  version         Prints the current version of this app
 ```
 
-Use `swaggen -help` to see the list of options:
+### generate
+
+Use `swaggen generate -help` to see the list of generation options:
 
 - **spec**: This is the path to the Swagger spec and is a required parameter. It can either be a file path or a web url to a YAML or JSON file
 - **--language**: The language to generate a template for. This defaults to `swift` for now.
@@ -83,7 +92,7 @@ Use `swaggen -help` to see the list of options:
 Example:
 
 ```
-swaggen http://myapi.com/spec --template Templates/Swift  --destination generated --option name:MyAPI --option "customProperty: custom value --clean leave.files"
+swaggen generate http://myapi.com/spec --template Templates/Swift  --destination generated --option name:MyAPI --option "customProperty: custom value --clean leave.files"
 ```
 
 For the Swift template, a handy option is `name`, which changes the name of the generated framework from the default of `API`. This can be set in the template or by passing in `--option name:MyCoolAPI`.
@@ -133,7 +142,7 @@ This tool is powered by:
 - custom fork of [Stencil](https://github.com/yonaskolb/Stencil) by [Kyle Fuller](https://github.com/kylef)
 - [Spectre](https://github.com/kylef/Spectre) by [Kyle Fuller](https://github.com/kylef)
 - [PathKit](https://github.com/kylef/PathKit) by [Kyle Fuller](https://github.com/kylef)
-- [Commander](https://github.com/kylef/Commander) by [Kyle Fuller](https://github.com/kylef)
+- [SwiftCLI](https://github.com/jakeheis/SwiftCLI) by [Jake Heis](https://github.com/jakeheis)
 - [Yams](https://github.com/jpsim/Yams) by [JP Simard](https://github.com/jpsim)
 
 Thanks also to [Logan Shire](https://github.com/AttilaTheFun) and his work on [Swagger Parser](https://github.com/AttilaTheFun/SwaggerParser)

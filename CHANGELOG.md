@@ -8,12 +8,24 @@
 - Bundle templates with installation #65
 - New `language` argument which defaults to `swift` for now #65
 - Default template for language is now used if no template path is specified #65
+- Added support for inline anonymous schemas in definitions, body params, and responses #66
+- Added `--silent` flag #68
+- Added `--verbose` flag #68
+- Added `--version` flag #68
 
 ### Changes
 - Swift template: move sources out of now unnessary subdirectory #62
+- Swift template: reorganise template #69
+- Update to Swift 4.1
+- Updated CLI #68
+- Improved error output #68
+- Make executable lowercase `swaggen` (breaking on linux) #68
+- **BREAKING** generation moved into generate command: `swaggen generate` #68
+- **BREAKING** `--spec` has changed to a required parameter: `swaggen generate path_to_spec` #68
+- 
 
 ### Removed
-- Swift template: models no longer have `init(jsonDictionary: JSONDictionary)` or `encode() -> JSONDictionary` functions #61
+- **BREAKING** Swift template: models no longer have `init(jsonDictionary: JSONDictionary)` or `encode() -> JSONDictionary` functions #61
 - Swift template: removed `JSONUtilities` dependency functions #61
 
 ## [1.2.0]

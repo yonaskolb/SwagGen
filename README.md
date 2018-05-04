@@ -6,11 +6,11 @@
 [![Build Status](https://img.shields.io/circleci/project/github/yonaskolb/SwagGen.svg?style=for-the-badge)](https://circleci.com/gh/yonaskolb/SwagGen)
 [![license](https://img.shields.io/github/license/yonaskolb/SwagGen.svg?style=for-the-badge)](https://github.com/yonaskolb/SwagGen/blob/master/LICENSE)
 
-This is a Swift command line tool that generates client code based on a [Swagger/OpenAPI](http://swagger.io) 2.0 Spec
+SwagGen is a command line tool that generates client code from a [Swagger/OpenAPI](http://swagger.io) 2.0 Spec.
 
-It has many advantages over the official [swagger-codegen](https://github.com/swagger-api/swagger-codegen) java tool such as speed, configurability, simplicity, extensibility, and an improved templating language.
+It is an alternative the official [swagger-codegen](https://github.com/swagger-api/swagger-codegen) java code generator, and adds some improvements such as speed, configurability, simplicity, extensibility, an improved templating language, and a great Swift template.
 
-The default Swift templates it generates are also much improved with support for model inheritance, shared enums, mutable parameter structs, convenience initialisers and many more improvements.
+The default Swift templates it generates include support for model inheritance, shared enums, mutable parameter structs, convenience initialisers, inline schemas, Codable and Equatable models, configurable model options, generic networking stack, decoding options, and many other niceties.
 
 ## Installing
 Make sure Xcode 9.3 is installed first.

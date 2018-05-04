@@ -7,8 +7,6 @@ import Foundation
 {% endif %}
 public struct {{ options.name }} {
 
-    /// change this if your api has a different date encoding format
-    public static var dateEncodingFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     {% if info.version %}
     public static let version = "{{ info.version }}"
     {% endif %}

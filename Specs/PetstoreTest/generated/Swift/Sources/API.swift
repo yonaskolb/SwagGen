@@ -8,8 +8,6 @@ import Foundation
 /** This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. */
 public struct PetstoreTest {
 
-    /// change this if your api has a different date encoding format
-    public static var dateEncodingFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     public static let version = "1.0.0"
 
     public enum Fake {}

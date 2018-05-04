@@ -7,8 +7,6 @@ import Foundation
 
 public struct TestSpec {
 
-    /// change this if your api has a different date encoding format
-    public static var dateEncodingFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     public static let version = "1.0"
 
     public enum TestTag {}

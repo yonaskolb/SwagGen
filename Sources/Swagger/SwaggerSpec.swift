@@ -46,13 +46,13 @@ public struct SwaggerObject<T: JSONObjectConvertible> {
 
 extension SwaggerSpec {
 
-    public init(path: PathKit.Path) throws {
-        var url = URL(string: path.string)!
-        if url.scheme == nil {
-            url = URL(fileURLWithPath: path.string)
+    public init(url: URL) throws {
+        let data: Data
+        do {
+            data = try Data(contentsOf: url)
+        } catch {
+            throw SwaggerError.loadError(url)
         }
-
-        let data = try Data(contentsOf: url)
         let string = String(data: data, encoding: .utf8)!
 
         try self.init(string: string)

@@ -10,7 +10,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/kylef/PathKit.git", from: "0.8.0"),
-        .package(url: "https://github.com/kylef/Commander.git", from: "0.6.1"),
+        .package(url: "https://github.com/jakeheis/SwiftCLI", from: "5.0.0"),
         .package(url: "https://github.com/yonaskolb/Stencil.git", from: "0.9.0"),
         .package(url: "https://github.com/jpsim/Yams.git", from: "0.5.0"),
         .package(url: "https://github.com/yonaskolb/JSONUtilities.git", from: "3.3.0"),
@@ -20,7 +20,7 @@ let package = Package(
     targets: [
         .target(name: "SwagGen", dependencies: [
           "SwagGenKit",
-          "Commander",
+          "SwiftCLI",
           "Rainbow",
           "PathKit",
         ]),

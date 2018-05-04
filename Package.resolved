@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "Commander",
-        "repositoryURL": "https://github.com/kylef/Commander.git",
-        "state": {
-          "branch": null,
-          "revision": "4c320a3507d621d27f89514eb576664becfee643",
-          "version": "0.6.1"
-        }
-      },
-      {
         "package": "JSONUtilities",
         "repositoryURL": "https://github.com/yonaskolb/JSONUtilities.git",
         "state": {
@@ -53,6 +44,15 @@
           "branch": null,
           "revision": "daf4e41549a534904376794e899ca6aecaf4ff83",
           "version": "0.9.3"
+        }
+      },
+      {
+        "package": "SwiftCLI",
+        "repositoryURL": "https://github.com/jakeheis/SwiftCLI",
+        "state": {
+          "branch": null,
+          "revision": "51ba542611878b2e64e82467b895fdf4240ec32e",
+          "version": "5.0.0"
         }
       },
       {

@@ -21,14 +21,14 @@ $ mint run yonaskolb/SwagGen
 ```
 ### Homebrew
 
-```
+```sh
 $ brew tap yonaskolb/SwagGen https://github.com/yonaskolb/SwagGen.git
 $ brew install SwagGen
 ```
 
 ### Make
 
-```
+```sh
 $ git clone https://github.com/yonaskolb/SwagGen.git
 $ cd SwagGen
 $ make
@@ -48,7 +48,7 @@ $ swift run
 
 Add the following to your Package.swift file's dependencies:
 
-```
+```swift
 .package(url: "https://github.com/yonaskolb/SwagGen.git", from: "1.1.0"),
 ```
 
@@ -73,7 +73,11 @@ Commands:
 
 ### generate
 
-Use `swaggen generate -help` to see the list of generation options:
+```sh
+swaggen generate path_to_spec
+```
+
+Use `swaggen generate --help` to see the list of generation options.
 
 - **spec**: This is the path to the Swagger spec and is a required parameter. It can either be a file path or a web url to a YAML or JSON file
 - **--language**: The language to generate a template for. This defaults to `swift` for now.
@@ -84,10 +88,12 @@ Use `swaggen generate -help` to see the list of generation options:
 	- `-- option "myOption: my value"`
 	- `-- option myOption:" my value"`
 
-- **clean**: Controls if and how the destination directory is cleaned of non generated files. Options are:
+- **--clean**: Controls if and how the destination directory is cleaned of non generated files. Options are:
 	- `none`: no files are removed (default)
 	- `all`: all other files are removed
 	- `leave.files`: all files and directories except those that start with `.` in the destination directory are removed. This is useful for keeping configuration files and directories such as `.git` around, while still making sure that items removed from the spec are removed from the generated API.
+- **--verbose**: Show more verbose output
+- **--silent**: Silences any standard output. Errors will still be shown
 
 Example:
 

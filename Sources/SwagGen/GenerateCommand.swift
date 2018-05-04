@@ -17,11 +17,14 @@ class GenerateCommand: Command {
 
     let destination = Key<String>("--destination", "-d", description: "The directory where the generated files will be created. Defaults to \"generated\"")
 
-    let template = Key<String>("--template", "-t", description: "The path to the template json file.\n\(String(repeating: " ", count: 31))If no template is passed a default template for the language will be used")
+    let template = Key<String>("--template", "-t", description: "path to the template config yaml file. If no template is passed a default template for the language will be used")
 
-    let language = Key<String>("--language", "-l", description: "The language of the template that will be generated")
+    let language = Key<String>("--language", "-l", description: "The language of the template that will be generated. This defaults to swift")
 
-    let options = VariadicKey<String>("--option", "-o", description: "An option that will be merged with template options. Can be repeated multiple times")
+    let options = VariadicKey<String>("--option", "-o", description: "An option that will be merged with template options, and overwrite any options of the same name.\n\(String(repeating: " ", count: 31))Can be repeated multiple times and must in the format --option \"name:value\"")
+
+    let verbose = Flag("--verbose", "-v", description: "Show verbose output", defaultValue: false)
+    let silent = Flag("--silent", "-s", description: "Silence standard output", defaultValue: false)
 
     func execute() throws {
         let clean = self.clean.value ?? .none
@@ -88,7 +91,9 @@ class GenerateCommand: Command {
     }
 
     func standardOut(_ string: String) {
-        stdout <<< string
+        if !silent.value {
+            stdout <<< string
+        }
     }
 
     func generate(specURL: URL, templatePath: PathKit.Path, destinationPath: PathKit.Path, clean: Generator.Clean, options: [String: Any]) {
@@ -131,8 +136,11 @@ class GenerateCommand: Command {
             ("option", templateConfig.options.keys.count),
         ], pluralise: true)
         standardOut("Loaded template: \(templateCounts)")
-        if !templateConfig.options.isEmpty {
-            standardOut("Options:\n  \(templateConfig.options.prettyPrinted.replacingOccurrences(of: "\n", with: "\n  "))")
+
+        if verbose.value {
+            if !templateConfig.options.isEmpty {
+                standardOut("Options:\n  \(templateConfig.options.prettyPrinted.replacingOccurrences(of: "\n", with: "\n  "))")
+            }
         }
         let codeFormatter: CodeFormatter
         if let formatter = templateConfig.formatter {
@@ -164,6 +172,11 @@ class GenerateCommand: Command {
 
         do {
             let generationResult = try generator.generate(clean: clean) { change in
+
+                guard verbose.value else {
+                    return
+                }
+
                 switch change {
                 case let .generated(file):
                     switch file.state {

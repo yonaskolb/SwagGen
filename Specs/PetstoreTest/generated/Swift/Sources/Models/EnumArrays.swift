@@ -44,7 +44,7 @@ public class EnumArrays: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        arrayEnum = try container.decodeIfPresent(.arrayEnum)
+        arrayEnum = try container.decodeArrayIfPresent(.arrayEnum)
         justSymbol = try container.decodeIfPresent(.justSymbol)
     }
 

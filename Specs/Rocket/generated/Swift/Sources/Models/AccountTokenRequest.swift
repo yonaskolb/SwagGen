@@ -94,7 +94,7 @@ Either a pin or password should be supplied. If both are supplied the password w
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         email = try container.decode(.email)
-        scopes = try container.decode(.scopes)
+        scopes = try container.decodeArray(.scopes)
         cookieType = try container.decodeIfPresent(.cookieType)
         password = try container.decodeIfPresent(.password)
         pin = try container.decodeIfPresent(.pin)

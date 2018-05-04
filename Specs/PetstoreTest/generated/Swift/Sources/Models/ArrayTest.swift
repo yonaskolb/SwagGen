@@ -28,9 +28,9 @@ public class ArrayTest: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        arrayArrayOfInteger = try container.decodeIfPresent(.arrayArrayOfInteger)
-        arrayArrayOfModel = try container.decodeIfPresent(.arrayArrayOfModel)
-        arrayOfString = try container.decodeIfPresent(.arrayOfString)
+        arrayArrayOfInteger = try container.decodeArrayIfPresent(.arrayArrayOfInteger)
+        arrayArrayOfModel = try container.decodeArrayIfPresent(.arrayArrayOfModel)
+        arrayOfString = try container.decodeArrayIfPresent(.arrayOfString)
     }
 
     public func encode(to encoder: Encoder) throws {

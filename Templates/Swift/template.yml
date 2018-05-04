@@ -4,6 +4,7 @@ options:
   fixedWidthIntegers: false
   mutableModels: true
   safeOptionalDecoding: false
+  safeArrayDecoding: false
   dependencies:
     - name: Alamofire
       pod: Alamofire

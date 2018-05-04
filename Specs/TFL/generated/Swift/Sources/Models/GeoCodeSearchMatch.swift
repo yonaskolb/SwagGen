@@ -51,7 +51,7 @@ public class GeoCodeSearchMatch: Codable, Equatable {
         lat = try container.decodeIfPresent(.lat)
         lon = try container.decodeIfPresent(.lon)
         name = try container.decodeIfPresent(.name)
-        types = try container.decodeIfPresent(.types)
+        types = try container.decodeArrayIfPresent(.types)
         url = try container.decodeIfPresent(.url)
     }
 

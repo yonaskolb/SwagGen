@@ -77,10 +77,10 @@ public class ContentProvider: Codable, Equatable {
         canCreateTryAndBuy = try container.decodeIfPresent(.canCreateTryAndBuy)
         hasSocialID = try container.decodeIfPresent(.hasSocialID)
         id = try container.decodeIfPresent(.id)
-        overrideRules = try container.decodeIfPresent(.overrideRules)
-        permittedURN = try container.decodeIfPresent(.permittedURN)
+        overrideRules = try container.decodeArrayIfPresent(.overrideRules)
+        permittedURN = try container.decodeArrayIfPresent(.permittedURN)
         urlMaintenance = try container.decodeIfPresent(.urlMaintenance)
-        whitelistDomains = try container.decodeIfPresent(.whitelistDomains)
+        whitelistDomains = try container.decodeArrayIfPresent(.whitelistDomains)
     }
 
     public func encode(to encoder: Encoder) throws {

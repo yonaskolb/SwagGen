@@ -29,7 +29,7 @@ public class OrderedRoute: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         name = try container.decodeIfPresent(.name)
-        naptanIds = try container.decodeIfPresent(.naptanIds)
+        naptanIds = try container.decodeArrayIfPresent(.naptanIds)
         serviceType = try container.decodeIfPresent(.serviceType)
     }
 

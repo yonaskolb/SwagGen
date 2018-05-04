@@ -67,10 +67,10 @@ public class StopPointSequence: Codable, Equatable {
         direction = try container.decodeIfPresent(.direction)
         lineId = try container.decodeIfPresent(.lineId)
         lineName = try container.decodeIfPresent(.lineName)
-        nextBranchIds = try container.decodeIfPresent(.nextBranchIds)
-        prevBranchIds = try container.decodeIfPresent(.prevBranchIds)
+        nextBranchIds = try container.decodeArrayIfPresent(.nextBranchIds)
+        prevBranchIds = try container.decodeArrayIfPresent(.prevBranchIds)
         serviceType = try container.decodeIfPresent(.serviceType)
-        stopPoint = try container.decodeIfPresent(.stopPoint)
+        stopPoint = try container.decodeArrayIfPresent(.stopPoint)
     }
 
     public func encode(to encoder: Encoder) throws {

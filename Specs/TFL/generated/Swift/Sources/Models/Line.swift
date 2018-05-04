@@ -58,14 +58,14 @@ public class Line: Codable, Equatable {
 
         created = try container.decodeIfPresent(.created)
         crowding = try container.decodeIfPresent(.crowding)
-        disruptions = try container.decodeIfPresent(.disruptions)
+        disruptions = try container.decodeArrayIfPresent(.disruptions)
         id = try container.decodeIfPresent(.id)
-        lineStatuses = try container.decodeIfPresent(.lineStatuses)
+        lineStatuses = try container.decodeArrayIfPresent(.lineStatuses)
         modeName = try container.decodeIfPresent(.modeName)
         modified = try container.decodeIfPresent(.modified)
         name = try container.decodeIfPresent(.name)
-        routeSections = try container.decodeIfPresent(.routeSections)
-        serviceTypes = try container.decodeIfPresent(.serviceTypes)
+        routeSections = try container.decodeArrayIfPresent(.routeSections)
+        serviceTypes = try container.decodeArrayIfPresent(.serviceTypes)
     }
 
     public func encode(to encoder: Encoder) throws {

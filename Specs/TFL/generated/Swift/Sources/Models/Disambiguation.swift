@@ -20,7 +20,7 @@ public class Disambiguation: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        disambiguationOptions = try container.decodeIfPresent(.disambiguationOptions)
+        disambiguationOptions = try container.decodeArrayIfPresent(.disambiguationOptions)
     }
 
     public func encode(to encoder: Encoder) throws {

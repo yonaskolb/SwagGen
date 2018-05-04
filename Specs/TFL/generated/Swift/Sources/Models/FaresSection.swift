@@ -34,8 +34,8 @@ public class FaresSection: Codable, Equatable {
 
         header = try container.decodeIfPresent(.header)
         index = try container.decodeIfPresent(.index)
-        messages = try container.decodeIfPresent(.messages)
-        rows = try container.decodeIfPresent(.rows)
+        messages = try container.decodeArrayIfPresent(.messages)
+        rows = try container.decodeArrayIfPresent(.rows)
     }
 
     public func encode(to encoder: Encoder) throws {

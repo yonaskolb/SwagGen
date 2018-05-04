@@ -72,34 +72,6 @@ extension KeyedDecodingContainer {
         }
         return dictionary
     }
-}
-
-// any encoding
-extension KeyedEncodingContainer {
-
-    mutating func encodeAnyIfPresent<T>(_ value: T?, forKey key: K) throws {
-        try encodeIfPresent(AnyCodable(value), forKey: key)
-    }
-
-    mutating func encodeAny<T>(_ value: T, forKey key: K) throws {
-        try encode(AnyCodable(value), forKey: key)
-    }
-}
-
-// generic extensions
-extension KeyedDecodingContainer {
-
-    fileprivate func decodeOptional<T>(_ closure: () throws -> T? ) throws -> T? {
-        if TestSpec.safeOptionalDecoding {
-            do {
-                return try closure()
-            } catch {
-                return nil
-            }
-        } else {
-            return try closure()
-        }
-    }
 
     func decode<T>(_ key: KeyedDecodingContainer.Key) throws -> T where T: Decodable {
         return try decode(T.self, forKey: key)
@@ -119,6 +91,55 @@ extension KeyedDecodingContainer {
         return try decodeOptional {
             try decodeAnyIfPresent(T.self, forKey: key)
         }
+    }
+
+    public func decodeArray<T: Decodable>(_ key: K) throws -> [T] {
+        var container = try nestedUnkeyedContainer(forKey: key)
+        var array: [T] = []
+        while !container.isAtEnd {
+            do {
+                let element = try container.decode(T.self)
+                array.append(element)
+            } catch {
+                if TestSpec.safeArrayDecoding {
+                    // hack to advance the current index
+                    _ = try? container.decode(AnyCodable.self)
+                } else {
+                    throw error
+                }
+            }
+        }
+        return array
+    }
+
+    public func decodeArrayIfPresent<T: Decodable>(_ key: K) throws -> [T]? {
+        return try decodeOptional {
+            try decodeArray(key)
+        }
+    }
+
+     fileprivate func decodeOptional<T>(_ closure: () throws -> T? ) throws -> T? {
+        if TestSpec.safeOptionalDecoding {
+            do {
+                return try closure()
+            } catch {
+                return nil
+            }
+        } else {
+            return try closure()
+        }
+    }
+}
+
+// any encoding
+extension KeyedEncodingContainer {
+
+    mutating func encodeAnyIfPresent<T>(_ value: T?, forKey key: K) throws {
+        try encodeIfPresent(AnyCodable(value), forKey: key)
+    }
+
+    mutating func encodeAny<T>(_ value: T, forKey key: K) throws {
+        try encode(AnyCodable(value), forKey: key)
     }
 }
 

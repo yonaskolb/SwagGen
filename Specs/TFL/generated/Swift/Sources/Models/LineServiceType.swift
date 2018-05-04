@@ -25,7 +25,7 @@ public class LineServiceType: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         lineName = try container.decodeIfPresent(.lineName)
-        lineSpecificServiceTypes = try container.decodeIfPresent(.lineSpecificServiceTypes)
+        lineSpecificServiceTypes = try container.decodeArrayIfPresent(.lineSpecificServiceTypes)
     }
 
     public func encode(to encoder: Encoder) throws {

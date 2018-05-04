@@ -108,13 +108,13 @@ If you want to disable this guard pass an empty string or `null`.
         marketingEnabled = try container.decode(.marketingEnabled)
         primaryProfileId = try container.decode(.primaryProfileId)
         subscriptionCode = try container.decode(.subscriptionCode)
-        profiles = try container.decode(.profiles)
+        profiles = try container.decodeArray(.profiles)
         defaultPaymentInstrumentId = try container.decodeIfPresent(.defaultPaymentInstrumentId)
-        entitlements = try container.decodeIfPresent(.entitlements)
+        entitlements = try container.decodeArrayIfPresent(.entitlements)
         firstName = try container.decodeIfPresent(.firstName)
         lastName = try container.decodeIfPresent(.lastName)
         minRatingPlaybackGuard = try container.decodeIfPresent(.minRatingPlaybackGuard)
-        subscriptions = try container.decodeIfPresent(.subscriptions)
+        subscriptions = try container.decodeArrayIfPresent(.subscriptions)
         usedFreeTrial = try container.decodeIfPresent(.usedFreeTrial)
     }
 

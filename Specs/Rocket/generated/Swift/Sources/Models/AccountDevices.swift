@@ -64,7 +64,7 @@ days old.
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        devices = try container.decode(.devices)
+        devices = try container.decodeArray(.devices)
         maxRegistered = try container.decode(.maxRegistered)
         deregistrationWindow = try container.decodeIfPresent(.deregistrationWindow)
         registrationWindow = try container.decodeIfPresent(.registrationWindow)

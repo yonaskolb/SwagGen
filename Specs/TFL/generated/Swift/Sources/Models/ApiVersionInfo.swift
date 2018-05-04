@@ -32,7 +32,7 @@ public class ApiVersionInfo: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        assemblies = try container.decodeIfPresent(.assemblies)
+        assemblies = try container.decodeArrayIfPresent(.assemblies)
         label = try container.decodeIfPresent(.label)
         timestamp = try container.decodeIfPresent(.timestamp)
         version = try container.decodeIfPresent(.version)

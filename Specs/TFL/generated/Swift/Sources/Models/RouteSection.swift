@@ -68,7 +68,7 @@ public class RouteSection: Codable, Equatable {
         name = try container.decodeIfPresent(.name)
         originationName = try container.decodeIfPresent(.originationName)
         routeCode = try container.decodeIfPresent(.routeCode)
-        routeSectionNaptanEntrySequence = try container.decodeIfPresent(.routeSectionNaptanEntrySequence)
+        routeSectionNaptanEntrySequence = try container.decodeArrayIfPresent(.routeSectionNaptanEntrySequence)
     }
 
     public func encode(to encoder: Encoder) throws {

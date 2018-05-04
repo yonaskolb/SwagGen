@@ -25,7 +25,7 @@ public class PlacePolygon: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         commonName = try container.decodeIfPresent(.commonName)
-        geoPoints = try container.decodeIfPresent(.geoPoints)
+        geoPoints = try container.decodeArrayIfPresent(.geoPoints)
     }
 
     public func encode(to encoder: Encoder) throws {

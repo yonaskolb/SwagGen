@@ -47,11 +47,11 @@ public class ItineraryResult: Codable, Equatable {
 
         cycleHireDockingStationData = try container.decodeIfPresent(.cycleHireDockingStationData)
         journeyVector = try container.decodeIfPresent(.journeyVector)
-        journeys = try container.decodeIfPresent(.journeys)
-        lines = try container.decodeIfPresent(.lines)
+        journeys = try container.decodeArrayIfPresent(.journeys)
+        lines = try container.decodeArrayIfPresent(.lines)
         recommendedMaxAgeMinutes = try container.decodeIfPresent(.recommendedMaxAgeMinutes)
         searchCriteria = try container.decodeIfPresent(.searchCriteria)
-        stopMessages = try container.decodeIfPresent(.stopMessages)
+        stopMessages = try container.decodeArrayIfPresent(.stopMessages)
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -65,9 +65,9 @@ public class Place: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        additionalProperties = try container.decodeIfPresent(.additionalProperties)
-        children = try container.decodeIfPresent(.children)
-        childrenUrls = try container.decodeIfPresent(.childrenUrls)
+        additionalProperties = try container.decodeArrayIfPresent(.additionalProperties)
+        children = try container.decodeArrayIfPresent(.children)
+        childrenUrls = try container.decodeArrayIfPresent(.childrenUrls)
         commonName = try container.decodeIfPresent(.commonName)
         distance = try container.decodeIfPresent(.distance)
         id = try container.decodeIfPresent(.id)

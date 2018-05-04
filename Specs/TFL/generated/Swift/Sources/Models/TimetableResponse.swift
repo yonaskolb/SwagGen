@@ -57,9 +57,9 @@ public class TimetableResponse: Codable, Equatable {
         lineId = try container.decodeIfPresent(.lineId)
         lineName = try container.decodeIfPresent(.lineName)
         pdfUrl = try container.decodeIfPresent(.pdfUrl)
-        stations = try container.decodeIfPresent(.stations)
+        stations = try container.decodeArrayIfPresent(.stations)
         statusErrorMessage = try container.decodeIfPresent(.statusErrorMessage)
-        stops = try container.decodeIfPresent(.stops)
+        stops = try container.decodeArrayIfPresent(.stops)
         timetable = try container.decodeIfPresent(.timetable)
     }
 

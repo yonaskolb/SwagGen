@@ -61,7 +61,7 @@ public class Street: Codable, Equatable {
         closure = try container.decodeIfPresent(.closure)
         directions = try container.decodeIfPresent(.directions)
         name = try container.decodeIfPresent(.name)
-        segments = try container.decodeIfPresent(.segments)
+        segments = try container.decodeArrayIfPresent(.segments)
         sourceSystemId = try container.decodeIfPresent(.sourceSystemId)
         sourceSystemKey = try container.decodeIfPresent(.sourceSystemKey)
     }

@@ -96,8 +96,8 @@ public class Disruption: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         additionalInfo = try container.decodeIfPresent(.additionalInfo)
-        affectedRoutes = try container.decodeIfPresent(.affectedRoutes)
-        affectedStops = try container.decodeIfPresent(.affectedStops)
+        affectedRoutes = try container.decodeArrayIfPresent(.affectedRoutes)
+        affectedStops = try container.decodeArrayIfPresent(.affectedStops)
         category = try container.decodeIfPresent(.category)
         categoryDescription = try container.decodeIfPresent(.categoryDescription)
         closureText = try container.decodeIfPresent(.closureText)

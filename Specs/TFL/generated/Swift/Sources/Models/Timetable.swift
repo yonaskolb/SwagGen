@@ -25,7 +25,7 @@ public class Timetable: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         departureStopId = try container.decodeIfPresent(.departureStopId)
-        routes = try container.decodeIfPresent(.routes)
+        routes = try container.decodeArrayIfPresent(.routes)
     }
 
     public func encode(to encoder: Encoder) throws {

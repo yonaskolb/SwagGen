@@ -56,11 +56,11 @@ public class RouteSequence: Codable, Equatable {
         isOutboundOnly = try container.decodeIfPresent(.isOutboundOnly)
         lineId = try container.decodeIfPresent(.lineId)
         lineName = try container.decodeIfPresent(.lineName)
-        lineStrings = try container.decodeIfPresent(.lineStrings)
+        lineStrings = try container.decodeArrayIfPresent(.lineStrings)
         mode = try container.decodeIfPresent(.mode)
-        orderedLineRoutes = try container.decodeIfPresent(.orderedLineRoutes)
-        stations = try container.decodeIfPresent(.stations)
-        stopPointSequences = try container.decodeIfPresent(.stopPointSequences)
+        orderedLineRoutes = try container.decodeArrayIfPresent(.orderedLineRoutes)
+        stations = try container.decodeArrayIfPresent(.stations)
+        stopPointSequences = try container.decodeArrayIfPresent(.stopPointSequences)
     }
 
     public func encode(to encoder: Encoder) throws {

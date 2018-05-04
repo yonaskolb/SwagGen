@@ -26,7 +26,7 @@ public class PageMetadata: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         description = try container.decodeIfPresent(.description)
-        keywords = try container.decodeIfPresent(.keywords)
+        keywords = try container.decodeArrayIfPresent(.keywords)
     }
 
     public func encode(to encoder: Encoder) throws {

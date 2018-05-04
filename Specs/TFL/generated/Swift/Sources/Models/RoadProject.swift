@@ -102,7 +102,7 @@ public class RoadProject: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        boroughsBenefited = try container.decodeIfPresent(.boroughsBenefited)
+        boroughsBenefited = try container.decodeArrayIfPresent(.boroughsBenefited)
         constructionEndDate = try container.decodeIfPresent(.constructionEndDate)
         constructionStartDate = try container.decodeIfPresent(.constructionStartDate)
         consultationEndDate = try container.decodeIfPresent(.consultationEndDate)

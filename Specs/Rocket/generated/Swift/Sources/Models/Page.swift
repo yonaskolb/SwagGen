@@ -55,7 +55,7 @@ on list detail pages. See `feature-flags.md` for further details.*
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        entries = try container.decode(.entries)
+        entries = try container.decodeArray(.entries)
         customFields = try container.decodeAnyIfPresent(.customFields)
         item = try container.decodeIfPresent(.item)
         list = try container.decodeIfPresent(.list)

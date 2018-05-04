@@ -52,14 +52,14 @@ public class OverrideRuleObject: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        urn = try container.decode(.urn)
+        urn = try container.decodeArray(.urn)
         response = try container.decode(.response)
         priority = try container.decode(.priority)
-        action = try container.decodeIfPresent(.action)
-        country = try container.decodeIfPresent(.country)
+        action = try container.decodeArrayIfPresent(.action)
+        country = try container.decodeArrayIfPresent(.country)
         dateFrom = try container.decodeIfPresent(.dateFrom)
         dateUntil = try container.decodeIfPresent(.dateUntil)
-        idp = try container.decodeIfPresent(.idp)
+        idp = try container.decodeArrayIfPresent(.idp)
     }
 
     public func encode(to encoder: Encoder) throws {

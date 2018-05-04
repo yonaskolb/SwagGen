@@ -32,7 +32,7 @@ public class CarParkOccupancy: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        bays = try container.decodeIfPresent(.bays)
+        bays = try container.decodeArrayIfPresent(.bays)
         carParkDetailsUrl = try container.decodeIfPresent(.carParkDetailsUrl)
         id = try container.decodeIfPresent(.id)
         name = try container.decodeIfPresent(.name)

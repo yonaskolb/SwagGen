@@ -24,7 +24,7 @@ public class LineModeGroup: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        lineIdentifier = try container.decodeIfPresent(.lineIdentifier)
+        lineIdentifier = try container.decodeArrayIfPresent(.lineIdentifier)
         modeName = try container.decodeIfPresent(.modeName)
     }
 

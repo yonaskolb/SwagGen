@@ -42,10 +42,10 @@ public class StopPointsResponse: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        centrePoint = try container.decodeIfPresent(.centrePoint)
+        centrePoint = try container.decodeArrayIfPresent(.centrePoint)
         page = try container.decodeIfPresent(.page)
         pageSize = try container.decodeIfPresent(.pageSize)
-        stopPoints = try container.decodeIfPresent(.stopPoints)
+        stopPoints = try container.decodeArrayIfPresent(.stopPoints)
         total = try container.decodeIfPresent(.total)
     }
 

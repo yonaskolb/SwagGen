@@ -53,14 +53,14 @@ public class AccidentDetail: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         borough = try container.decodeIfPresent(.borough)
-        casualties = try container.decodeIfPresent(.casualties)
+        casualties = try container.decodeArrayIfPresent(.casualties)
         date = try container.decodeIfPresent(.date)
         id = try container.decodeIfPresent(.id)
         lat = try container.decodeIfPresent(.lat)
         location = try container.decodeIfPresent(.location)
         lon = try container.decodeIfPresent(.lon)
         severity = try container.decodeIfPresent(.severity)
-        vehicles = try container.decodeIfPresent(.vehicles)
+        vehicles = try container.decodeArrayIfPresent(.vehicles)
     }
 
     public func encode(to encoder: Encoder) throws {

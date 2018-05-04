@@ -25,7 +25,7 @@ public class StationInterval: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         id = try container.decodeIfPresent(.id)
-        intervals = try container.decodeIfPresent(.intervals)
+        intervals = try container.decodeArrayIfPresent(.intervals)
     }
 
     public func encode(to encoder: Encoder) throws {

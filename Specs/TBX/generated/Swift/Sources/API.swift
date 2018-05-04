@@ -10,6 +10,9 @@ public struct TBX {
     /// Whether to discard any errors when decoding optional properties
     public static var safeOptionalDecoding = false
 
+     /// Whether to remove invalid elements instead of throwing when decoding arrays
+    public static var safeArrayDecoding = false
+
     public static let version = "2.4.1"
 
     public enum AuthorizationService {}

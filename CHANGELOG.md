@@ -22,7 +22,6 @@
 - Make executable lowercase `swaggen` (breaking on linux) #68
 - **BREAKING** generation moved into generate command: `swaggen generate` #68
 - **BREAKING** `--spec` has changed to a required parameter: `swaggen generate path_to_spec` #68
-- 
 
 ### Removed
 - **BREAKING** Swift template: models no longer have `init(jsonDictionary: JSONDictionary)` or `encode() -> JSONDictionary` functions #61

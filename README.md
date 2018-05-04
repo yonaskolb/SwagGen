@@ -54,13 +54,14 @@ Add the following to your Package.swift file's dependencies:
 
 And then import wherever needed:
 
-```
+```swift
 import SwagGenKit
 ```
 
 ## Usage
 
 Use `--help` to see usage information
+
 ```
 swaggen --help
 Usage: swaggen <command> [options]

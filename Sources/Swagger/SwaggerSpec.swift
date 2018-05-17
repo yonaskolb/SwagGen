@@ -181,14 +181,23 @@ extension SwaggerSpec: JSONObjectConvertible {
             }
         }
 
+        func resolveResponse(_ response: OperationResponse) {
+            resolveResponseReference(response.response)
+            if let schema = response.response.value.schema {
+                resolveSchema(schema)
+            }
+        }
+
         definitions.forEach { resolveSchema($0.value) }
         parameters.forEach { resolveParamater($0.value) }
         paths.forEach { path in
             path.parameters.forEach(resolveParameterReference)
             path.operations.forEach {
                 $0.pathParameters.forEach(resolveParameterReference)
+                $0.pathParameters.map { $0.value }.forEach(resolveParamater)
                 $0.operationParameters.forEach(resolveParameterReference)
-                $0.responses.map { $0.response }.forEach(resolveResponseReference)
+                $0.operationParameters.map { $0.value }.forEach(resolveParamater)
+                $0.responses.forEach(resolveResponse)
             }
         }
     }

@@ -9,10 +9,14 @@ public class CodeFormatter {
     var filenames: [String] = []
     var enums: [Enum] = []
     let templateConfig: TemplateConfig
+    var modelPrefix: String?
+    var modelSuffix: String?
 
     public init(spec: SwaggerSpec, templateConfig: TemplateConfig) {
         self.spec = spec
         self.templateConfig = templateConfig
+        self.modelPrefix = templateConfig.getStringOption("modelPrefix")
+        self.modelSuffix = templateConfig.getStringOption("modelSuffix")
     }
 
     var disallowedNames: [String] {
@@ -71,8 +75,7 @@ public class CodeFormatter {
     func getDefinitionContext(_ schema: SwaggerObject<Schema>) -> Context {
         var context = getSchemaContext(schema.value)
 
-        context["filename"] = getFilename(schema.name)
-        context["type"] = getModelType(schema.name)
+        context["type"] = getSchemaTypeName(schema)
 
         let schemaType = getSchemaType(name: schema.name, schema: schema.value)
 
@@ -95,13 +98,22 @@ public class CodeFormatter {
         return context
     }
 
+    func getSchemaTypeName(_ schema: SwaggerObject<Schema>) -> String {
+        if case .simple = schema.value.type,
+            schema.value.getEnum(name: schema.name, description: schema.value.metadata.description) != nil {
+            return getEnumType(schema.name)
+        } else {
+            return getModelType(schema.name)
+        }
+    }
+
     func getInlineSchemaContext(_ schema: Schema, name: String) -> Context? {
 
         guard schema.generateInlineSchema else { return nil }
 
         var context: Context = [:]
 
-        context["type"] = getModelType(name)
+        context["type"] = escapeType(name.upperCamelCased())
         context["requiredProperties"] = schema.requiredProperties.map(getPropertyContext)
         context["optionalProperties"] = schema.optionalProperties.map(getPropertyContext)
         context["properties"] = schema.properties.map(getPropertyContext)
@@ -151,14 +163,14 @@ public class CodeFormatter {
 
         if let operationId = operation.identifier {
             context["operationId"] = operationId
-            context["filename"] = getFilename(operationId)
+            context["type"] = escapeType(operationId.upperCamelCased())
         } else {
             let pathParts = operation.path.components(separatedBy: "/")
             var pathName = pathParts.map { $0.upperCamelCased() }.joined(separator: "")
             pathName = pathName.replacingOccurrences(of: "\\{(.*?)\\}", with: "By_$1", options: .regularExpression, range: nil)
             let generatedOperationId = operation.method.rawValue.lowercased() + pathName.upperCamelCased()
             context["operationId"] = generatedOperationId
-            context["filename"] = getFilename(generatedOperationId)
+            context["type"] = escapeType(generatedOperationId.upperCamelCased())
         }
 
         context["raw"] = operation.json
@@ -309,10 +321,10 @@ public class CodeFormatter {
                 break
             }
         }
-        context["enumName"] = getEnumTypeType(enumValue.name)
+        context["enumName"] = getEnumType(enumValue.name)
 
         if let specEnum = specEnum {
-            context["enumName"] = getEnumTypeType(specEnum.name)
+            context["enumName"] = getEnumType(specEnum.name)
             context["isGlobal"] = true
         }
         context["enums"] = enumValue.cases.map { ["name": getName("\($0)"), "value": $0] }
@@ -364,14 +376,8 @@ public class CodeFormatter {
         return escapeName(name)
     }
 
-    func getFilename(_ name: String) -> String {
-        let filename = escapeString(name.upperCamelCased())
-        filenames.append(filename)
-        return filename
-    }
-
-    func getEnumTypeType(_ name: String) -> String {
-        return escapeType(name.upperCamelCased())
+    func getEnumType(_ name: String) -> String {
+        return escapeType("\(modelPrefix ?? "")\(name.upperCamelCased())")
     }
 
     func getItemType(name: String, item: Item, checkEnum: Bool = true) -> String {
@@ -380,7 +386,7 @@ public class CodeFormatter {
 
     func getModelType(_ name: String) -> String {
         let type = name.upperCamelCased()
-        return escapeType(type)
+        return escapeType("\(modelPrefix ?? "")\(type)\(modelSuffix ?? "")")
     }
 
     func getSchemaType(name: String, schema: Schema, checkEnum: Bool = true) -> String {

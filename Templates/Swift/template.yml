@@ -5,6 +5,8 @@ options:
   mutableModels: true
   safeOptionalDecoding: false
   safeArrayDecoding: false
+  modelPrefix: null # applied to model classes and enums
+  modelSuffix: null # applied to model classes
   dependencies:
     - name: Alamofire
       pod: Alamofire
@@ -35,7 +37,7 @@ templateFiles:
     destination: "Sources/Enums/{{ enumName }}.swift"
   - path: Sources/model.swift
     context: definitions
-    destination: "Sources/Models/{{ filename }}.swift"
+    destination: "Sources/Models/{{ type }}.swift"
   - path: Sources/request.swift
     context: operations
-    destination: "Sources/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ filename }}.swift"
+    destination: "Sources/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ type }}.swift"

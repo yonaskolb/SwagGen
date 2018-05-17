@@ -1,5 +1,10 @@
 # Change Log
 
+## [2.1.0](https://github.com/yonaskolb/SwagGen/compare/2.0.0...2.1.0)
+### Added
+- Seperated `date` and `date-time` formats, and created `DateDay` struct #74
+- Added new `modelPrefix` and `modelSuffix` options #75
+
 ## [2.0.0](https://github.com/yonaskolb/SwagGen/compare/1.2.0...2.0.0)
 ### Added
 - Swift template: added `Codable` support to models #61

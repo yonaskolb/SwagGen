@@ -7,7 +7,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
     {% if description %}
     /** {{ description }} */
     {% endif %}
-    public enum {{ operationId|upperCamelCase }} {
+    public enum {{ type }} {
 
         public static let service = APIService<Response>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if securityRequirement %}, authorization: Authorization(type: "{{ securityRequirement.name }}", scope: "{{ securityRequirement.scope }}"){% endif %})
         {% for enum in requestEnums %}
@@ -54,7 +54,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 {% if nonBodyParams %}
                 self.options = options
                 {% endif %}
-                super.init(service: {{ operationId|upperCamelCase }}.service)
+                super.init(service: {{ type }}.service)
             }
             {% if nonBodyParams %}
 

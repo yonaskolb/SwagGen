@@ -31,6 +31,21 @@ public struct TemplateConfig {
         let templateOptions = json["options"] as? JSONDictionary ?? [:]
         self.options = templateOptions + options
     }
+
+    public func getStringOption(_ option: String) -> String? {
+        return options[option] as? String
+    }
+
+    public func getBooleanOption(_ option: String) -> Bool {
+        if let bool = options[option] as? Bool {
+            return bool
+        } else if let string = options[option] as? String {
+            let lowercaseString = string.lowercased()
+            return lowercaseString == "true" || lowercaseString == "yes"
+        } else {
+            return false
+        }
+    }
 }
 
 public struct TemplateFile: JSONObjectConvertible {

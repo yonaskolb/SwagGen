@@ -73,7 +73,7 @@ public class SwiftFormatter: CodeFormatter {
     let fixedWidthIntegers: Bool
 
     public override init(spec: SwaggerSpec, templateConfig: TemplateConfig) {
-        fixedWidthIntegers = templateConfig.options["fixedWidthIntegers"] as? Bool ?? false
+        fixedWidthIntegers = templateConfig.getBooleanOption("fixedWidthIntegers")
         super.init(spec: spec, templateConfig: templateConfig)
     }
 
@@ -149,7 +149,7 @@ public class SwiftFormatter: CodeFormatter {
         }
 
         if schema.generateInlineSchema {
-            return getModelType(name)
+            return escapeType(name.upperCamelCased())
         }
 
         switch schema.type {
@@ -180,7 +180,8 @@ public class SwiftFormatter: CodeFormatter {
         //            } else {
         //                return getModelType(name)
         //            }
-        case let .reference(reference): return escapeType(reference.name.upperCamelCased())
+        case let .reference(reference):
+            return getSchemaTypeName(reference.swaggerObject)
         case .allOf: return "UNKNOWN_ALL_OFF"
         case .any: return "UNKNOWN_ANY"
         }

@@ -1,10 +1,12 @@
 formatter: swift
 options:
-  name: API
-  fixedWidthIntegers: false
-  mutableModels: true
-  safeOptionalDecoding: false
-  safeArrayDecoding: false
+  name: API # the name of the API
+  fixedWidthIntegers: false # whether to use types like Int32 and Int64
+  mutableModels: true # whether model properties are mutable
+  safeOptionalDecoding: false # set invalid optionals to nil instead of throwing
+  safeArrayDecoding: false # filter out invalid items in array instead of throwing
+  modelPrefix: null # applied to model classes and enums
+  modelSuffix: null # applied to model classes
   dependencies:
     - name: Alamofire
       pod: Alamofire
@@ -33,9 +35,9 @@ templateFiles:
   - path: Sources/enum.swift
     context: enums
     destination: "Sources/Enums/{{ enumName }}.swift"
-  - path: Sources/model.swift
+  - path: Sources/Model.swift
     context: definitions
-    destination: "Sources/Models/{{ filename }}.swift"
-  - path: Sources/request.swift
+    destination: "Sources/Models/{{ type }}.swift"
+  - path: Sources/Request.swift
     context: operations
-    destination: "Sources/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ filename }}.swift"
+    destination: "Sources/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ type }}.swift"

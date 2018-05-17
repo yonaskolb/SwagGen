@@ -2,4 +2,4 @@
 
 import Foundation
 
-{% include "Includes/Model.stencil" using bodyParam %}
+{% include "Includes/Model.stencil" %}

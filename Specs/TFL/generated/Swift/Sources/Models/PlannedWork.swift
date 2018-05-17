@@ -7,15 +7,15 @@ import Foundation
 
 public class PlannedWork: Codable, Equatable {
 
-    public var createdDateTime: Date?
+    public var createdDateTime: DateTime?
 
     public var description: String?
 
     public var id: String?
 
-    public var lastUpdateDateTime: Date?
+    public var lastUpdateDateTime: DateTime?
 
-    public init(createdDateTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateDateTime: Date? = nil) {
+    public init(createdDateTime: DateTime? = nil, description: String? = nil, id: String? = nil, lastUpdateDateTime: DateTime? = nil) {
         self.createdDateTime = createdDateTime
         self.description = description
         self.id = id

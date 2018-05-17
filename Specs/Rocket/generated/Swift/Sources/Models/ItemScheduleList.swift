@@ -11,15 +11,15 @@ public class ItemScheduleList: Codable, Equatable {
     public var channelId: String
 
     /** The date and time this list of schedules starts. */
-    public var startDate: Date
+    public var startDate: DateTime
 
     /** The date and time this list of schedules ends. */
-    public var endDate: Date
+    public var endDate: DateTime
 
     /** The list of item schedules. */
     public var schedules: [ItemSchedule]
 
-    public init(channelId: String, startDate: Date, endDate: Date, schedules: [ItemSchedule]) {
+    public init(channelId: String, startDate: DateTime, endDate: DateTime, schedules: [ItemSchedule]) {
         self.channelId = channelId
         self.startDate = startDate
         self.endDate = endDate

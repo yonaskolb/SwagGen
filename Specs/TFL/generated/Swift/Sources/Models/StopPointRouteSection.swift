@@ -25,13 +25,13 @@ public class StopPointRouteSection: Codable, Equatable {
 
     public var serviceType: String?
 
-    public var validFrom: Date?
+    public var validFrom: DateTime?
 
-    public var validTo: Date?
+    public var validTo: DateTime?
 
     public var vehicleDestinationText: String?
 
-    public init(destinationName: String? = nil, direction: String? = nil, isActive: Bool? = nil, lineId: String? = nil, lineString: String? = nil, mode: String? = nil, naptanId: String? = nil, routeSectionName: String? = nil, serviceType: String? = nil, validFrom: Date? = nil, validTo: Date? = nil, vehicleDestinationText: String? = nil) {
+    public init(destinationName: String? = nil, direction: String? = nil, isActive: Bool? = nil, lineId: String? = nil, lineString: String? = nil, mode: String? = nil, naptanId: String? = nil, routeSectionName: String? = nil, serviceType: String? = nil, validFrom: DateTime? = nil, validTo: DateTime? = nil, vehicleDestinationText: String? = nil) {
         self.destinationName = destinationName
         self.direction = direction
         self.isActive = isActive

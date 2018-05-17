@@ -20,7 +20,6 @@ extension TestSpec {
                 self.body = body
                 super.init(service: PostString.service) {
                     let jsonEncoder = JSONEncoder()
-                    jsonEncoder.dateEncodingStrategy = .formatted(TestSpec.dateFormatter)
                     return try jsonEncoder.encode(body)
                 }
             }
@@ -57,8 +56,6 @@ extension TestSpec {
             }
 
             public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(TestSpec.dateFormatter)
                 switch statusCode {
                 default: self = .defaultResponse(statusCode: statusCode)
                 }

@@ -7,7 +7,7 @@ import Foundation
 
 public class RoadDisruptionLine: Codable, Equatable {
 
-    public var endDate: Date?
+    public var endDate: DateTime?
 
     public var endTime: String?
 
@@ -19,11 +19,11 @@ public class RoadDisruptionLine: Codable, Equatable {
 
     public var roadDisruptionId: String?
 
-    public var startDate: Date?
+    public var startDate: DateTime?
 
     public var startTime: String?
 
-    public init(endDate: Date? = nil, endTime: String? = nil, id: Int? = nil, isDiversion: Bool? = nil, multiLineString: DbGeography? = nil, roadDisruptionId: String? = nil, startDate: Date? = nil, startTime: String? = nil) {
+    public init(endDate: DateTime? = nil, endTime: String? = nil, id: Int? = nil, isDiversion: Bool? = nil, multiLineString: DbGeography? = nil, roadDisruptionId: String? = nil, startDate: DateTime? = nil, startTime: String? = nil) {
         self.endDate = endDate
         self.endTime = endTime
         self.id = id

@@ -13,7 +13,7 @@ public class FareDetails: Codable, Equatable {
 
     public var displayOrder: Int?
 
-    public var endDate: Date?
+    public var endDate: DateTime?
 
     public var from: String?
 
@@ -35,7 +35,7 @@ public class FareDetails: Codable, Equatable {
 
     public var specialFare: Bool?
 
-    public var startDate: Date?
+    public var startDate: DateTime?
 
     public var throughFare: Bool?
 
@@ -49,7 +49,7 @@ public class FareDetails: Codable, Equatable {
 
     public var via: String?
 
-    public init(boundsId: Int? = nil, displayName: String? = nil, displayOrder: Int? = nil, endDate: Date? = nil, from: String? = nil, fromStation: String? = nil, isTour: Bool? = nil, messages: [Message]? = nil, mode: String? = nil, `operator`: String? = nil, passengerType: String? = nil, routeCode: String? = nil, routeDescription: String? = nil, specialFare: Bool? = nil, startDate: Date? = nil, throughFare: Bool? = nil, ticketsAvailable: [Ticket]? = nil, to: String? = nil, toStation: String? = nil, validatorInformation: String? = nil, via: String? = nil) {
+    public init(boundsId: Int? = nil, displayName: String? = nil, displayOrder: Int? = nil, endDate: DateTime? = nil, from: String? = nil, fromStation: String? = nil, isTour: Bool? = nil, messages: [Message]? = nil, mode: String? = nil, `operator`: String? = nil, passengerType: String? = nil, routeCode: String? = nil, routeDescription: String? = nil, specialFare: Bool? = nil, startDate: DateTime? = nil, throughFare: Bool? = nil, ticketsAvailable: [Ticket]? = nil, to: String? = nil, toStation: String? = nil, validatorInformation: String? = nil, via: String? = nil) {
         self.boundsId = boundsId
         self.displayName = displayName
         self.displayOrder = displayOrder

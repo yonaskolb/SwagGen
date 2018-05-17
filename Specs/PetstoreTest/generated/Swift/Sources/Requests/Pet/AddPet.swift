@@ -19,7 +19,6 @@ extension PetstoreTest.Pet {
                 self.body = body
                 super.init(service: AddPet.service) {
                     let jsonEncoder = JSONEncoder()
-                    jsonEncoder.dateEncodingStrategy = .formatted(PetstoreTest.dateFormatter)
                     return try jsonEncoder.encode(body)
                 }
             }
@@ -56,8 +55,6 @@ extension PetstoreTest.Pet {
             }
 
             public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(PetstoreTest.dateFormatter)
                 switch statusCode {
                 case 405: self = .status405
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

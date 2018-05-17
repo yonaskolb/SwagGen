@@ -7,11 +7,11 @@ import Foundation
 
 public class RoadDisruptionSchedule: Codable, Equatable {
 
-    public var endTime: Date?
+    public var endTime: DateTime?
 
-    public var startTime: Date?
+    public var startTime: DateTime?
 
-    public init(endTime: Date? = nil, startTime: Date? = nil) {
+    public init(endTime: DateTime? = nil, startTime: DateTime? = nil) {
         self.endTime = endTime
         self.startTime = startTime
     }

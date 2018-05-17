@@ -145,8 +145,68 @@ extension KeyedEncodingContainer {
     }
 }
 
-public struct DateDay: Codable, Equatable {
+// Date structs for date and date-time formats
 
+public struct DateTime: Codable, Comparable {
+
+    public var date: Date
+
+    /// The date formatters used for decoding. They will be tried in order
+    public static var dateDecodingFormatters: [DateFormatter] = {
+        return [
+        "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
+        "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ",
+        "yyyy-MM-dd'T'HH:mm:ss'Z'",
+        "yyyy-MM-dd",
+        ].map { (format: String) -> DateFormatter in
+            let formatter = DateFormatter()
+            formatter.dateFormat = format
+            return formatter
+        }
+    }()
+
+    /// The date formatter used for encoding
+    public static let dateEncodingFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.Z"
+        return formatter
+    }()
+
+    public init(date: Date) {
+        self.date = date
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let string = try container.decode(String.self)
+
+        for formatter in DateTime.dateDecodingFormatters {
+            if let date = formatter.date(from: string) {
+                self.init(date: date)
+                return
+            }
+        }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "Date not in correct format")
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        let string = DateTime.dateEncodingFormatter.string(from: date)
+        try container.encode(string)
+    }
+
+    public static func == (lhs: DateTime, rhs: DateTime) -> Bool {
+        return lhs.date == rhs.date
+    }
+
+    public static func < (lhs: DateTime, rhs: DateTime) -> Bool {
+        return lhs.date < rhs.date
+    }
+}
+
+public struct DateDay: Codable, Comparable {
+
+    /// The date formatter used for encoding and decoding
     public static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYY-MM-dd"
@@ -203,7 +263,14 @@ public struct DateDay: Codable, Equatable {
             lhs.month == rhs.month &&
             lhs.day == rhs.day
     }
+
+    public static func < (lhs: DateDay, rhs: DateDay) -> Bool {
+        return lhs.date < rhs.date
+    }
 }
+
+
+// for parameter encoding
 
 extension DateDay {
     func encode() -> Any {
@@ -211,9 +278,9 @@ extension DateDay {
     }
 }
 
-extension Date {
+extension DateTime {
     func encode() -> Any {
-        return TFL.dateFormatter.string(from: self)
+        return DateTime.dateEncodingFormatter.string(from: date)
     }
 }
 

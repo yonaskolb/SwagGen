@@ -9,7 +9,7 @@ public class Device: Codable, Equatable {
 
     public var id: String
 
-    public var created: Date?
+    public var created: DateTime?
 
     public var customer: ObjectID?
 
@@ -17,23 +17,23 @@ public class Device: Codable, Equatable {
 
     public var data: [String: Any]?
 
-    public var deactivateDate: Date?
+    public var deactivateDate: DateTime?
 
     public var description: String?
 
     public var deviceType: ObjectID?
 
-    public var expirationDate: Date?
+    public var expirationDate: DateTime?
 
     public var identifier: String?
 
-    public var lastLogin: Date?
+    public var lastLogin: DateTime?
 
-    public var loggedOutDate: Date?
+    public var loggedOutDate: DateTime?
 
-    public var updated: Date?
+    public var updated: DateTime?
 
-    public init(id: String, created: Date? = nil, customer: ObjectID? = nil, customerId: ObjectID? = nil, data: [String: Any]? = nil, deactivateDate: Date? = nil, description: String? = nil, deviceType: ObjectID? = nil, expirationDate: Date? = nil, identifier: String? = nil, lastLogin: Date? = nil, loggedOutDate: Date? = nil, updated: Date? = nil) {
+    public init(id: String, created: DateTime? = nil, customer: ObjectID? = nil, customerId: ObjectID? = nil, data: [String: Any]? = nil, deactivateDate: DateTime? = nil, description: String? = nil, deviceType: ObjectID? = nil, expirationDate: DateTime? = nil, identifier: String? = nil, lastLogin: DateTime? = nil, loggedOutDate: DateTime? = nil, updated: DateTime? = nil) {
         self.id = id
         self.created = created
         self.customer = customer

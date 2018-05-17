@@ -11,11 +11,11 @@ public class ApiVersionInfo: Codable, Equatable {
 
     public var label: String?
 
-    public var timestamp: Date?
+    public var timestamp: DateTime?
 
     public var version: String?
 
-    public init(assemblies: [String]? = nil, label: String? = nil, timestamp: Date? = nil, version: String? = nil) {
+    public init(assemblies: [String]? = nil, label: String? = nil, timestamp: DateTime? = nil, version: String? = nil) {
         self.assemblies = assemblies
         self.label = label
         self.timestamp = timestamp

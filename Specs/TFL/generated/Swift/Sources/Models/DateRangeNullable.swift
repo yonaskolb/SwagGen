@@ -7,11 +7,11 @@ import Foundation
 
 public class DateRangeNullable: Codable, Equatable {
 
-    public var endDate: Date?
+    public var endDate: DateTime?
 
-    public var startDate: Date?
+    public var startDate: DateTime?
 
-    public init(endDate: Date? = nil, startDate: Date? = nil) {
+    public init(endDate: DateTime? = nil, startDate: DateTime? = nil) {
         self.endDate = endDate
         self.startDate = startDate
     }

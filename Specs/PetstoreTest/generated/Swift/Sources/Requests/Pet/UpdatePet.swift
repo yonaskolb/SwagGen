@@ -19,7 +19,6 @@ extension PetstoreTest.Pet {
                 self.body = body
                 super.init(service: UpdatePet.service) {
                     let jsonEncoder = JSONEncoder()
-                    jsonEncoder.dateEncodingStrategy = .formatted(PetstoreTest.dateFormatter)
                     return try jsonEncoder.encode(body)
                 }
             }
@@ -66,8 +65,6 @@ extension PetstoreTest.Pet {
             }
 
             public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(PetstoreTest.dateFormatter)
                 switch statusCode {
                 case 400: self = .status400
                 case 404: self = .status404

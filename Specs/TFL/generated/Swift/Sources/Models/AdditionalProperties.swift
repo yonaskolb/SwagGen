@@ -11,13 +11,13 @@ public class AdditionalProperties: Codable, Equatable {
 
     public var key: String?
 
-    public var modified: Date?
+    public var modified: DateTime?
 
     public var sourceSystemKey: String?
 
     public var value: String?
 
-    public init(category: String? = nil, key: String? = nil, modified: Date? = nil, sourceSystemKey: String? = nil, value: String? = nil) {
+    public init(category: String? = nil, key: String? = nil, modified: DateTime? = nil, sourceSystemKey: String? = nil, value: String? = nil) {
         self.category = category
         self.key = key
         self.modified = modified

@@ -11,7 +11,7 @@ public class AccidentDetail: Codable, Equatable {
 
     public var casualties: [Casualty]?
 
-    public var date: Date?
+    public var date: DateTime?
 
     public var id: Int?
 
@@ -25,7 +25,7 @@ public class AccidentDetail: Codable, Equatable {
 
     public var vehicles: [Vehicle]?
 
-    public init(borough: String? = nil, casualties: [Casualty]? = nil, date: Date? = nil, id: Int? = nil, lat: Double? = nil, location: String? = nil, lon: Double? = nil, severity: String? = nil, vehicles: [Vehicle]? = nil) {
+    public init(borough: String? = nil, casualties: [Casualty]? = nil, date: DateTime? = nil, id: Int? = nil, lat: Double? = nil, location: String? = nil, lon: Double? = nil, severity: String? = nil, vehicles: [Vehicle]? = nil) {
         self.borough = borough
         self.casualties = casualties
         self.date = date

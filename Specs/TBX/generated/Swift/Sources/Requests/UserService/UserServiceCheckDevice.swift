@@ -119,7 +119,6 @@ extension TBX.UserService {
 
             public init(statusCode: Int, data: Data) throws {
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(TBX.dateFormatter)
                 switch statusCode {
                 case 204: self = .status204
                 case 400: self = try .status400(decoder.decodeAny(XAny.self, from: data))

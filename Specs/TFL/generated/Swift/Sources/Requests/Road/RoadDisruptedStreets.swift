@@ -16,12 +16,12 @@ extension TFL.Road {
             public struct Options {
 
                 /** Optional, the start time to filter on. */
-                public var startDate: Date
+                public var startDate: DateTime
 
                 /** Optional, The end time to filter on. */
-                public var endDate: Date
+                public var endDate: DateTime
 
-                public init(startDate: Date, endDate: Date) {
+                public init(startDate: DateTime, endDate: DateTime) {
                     self.startDate = startDate
                     self.endDate = endDate
                 }
@@ -35,7 +35,7 @@ extension TFL.Road {
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(startDate: Date, endDate: Date) {
+            public convenience init(startDate: DateTime, endDate: DateTime) {
                 let options = Options(startDate: startDate, endDate: endDate)
                 self.init(options: options)
             }
@@ -80,7 +80,6 @@ extension TFL.Road {
 
             public init(statusCode: Int, data: Data) throws {
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(TFL.dateFormatter)
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(Object.self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

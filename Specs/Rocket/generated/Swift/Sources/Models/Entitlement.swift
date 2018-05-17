@@ -8,16 +8,16 @@ import Foundation
 public class Entitlement: OfferRights {
 
     /** The date of activation. If no date is defined the entitlement has not be activated. */
-    public var activationDate: Date?
+    public var activationDate: DateTime?
 
     /** The classification of the entitled item. */
     public var classification: ClassificationSummary?
 
     /** The date the entitlement was created. */
-    public var creationDate: Date?
+    public var creationDate: DateTime?
 
     /** The date the entitlement expires. */
-    public var expirationDate: Date?
+    public var expirationDate: DateTime?
 
     /** The id of the item this entitlement is for. */
     public var itemId: String?
@@ -34,7 +34,7 @@ public class Entitlement: OfferRights {
     /** How many more downloads of this media are available. */
     public var remainingDownloads: Int?
 
-    public init(deliveryType: DeliveryType, scopes: [String], resolution: Resolution, ownership: Ownership, exclusionRules: [ExclusionRule]? = nil, maxDownloads: Int? = nil, maxPlays: Int? = nil, playPeriod: Int? = nil, rentalPeriod: Int? = nil, activationDate: Date? = nil, classification: ClassificationSummary? = nil, creationDate: Date? = nil, expirationDate: Date? = nil, itemId: String? = nil, itemType: ItemType? = nil, mediaDuration: Int? = nil, playCount: Int? = nil, remainingDownloads: Int? = nil) {
+    public init(deliveryType: DeliveryType, scopes: [String], resolution: Resolution, ownership: Ownership, exclusionRules: [ExclusionRule]? = nil, maxDownloads: Int? = nil, maxPlays: Int? = nil, playPeriod: Int? = nil, rentalPeriod: Int? = nil, activationDate: DateTime? = nil, classification: ClassificationSummary? = nil, creationDate: DateTime? = nil, expirationDate: DateTime? = nil, itemId: String? = nil, itemType: ItemType? = nil, mediaDuration: Int? = nil, playCount: Int? = nil, remainingDownloads: Int? = nil) {
         self.activationDate = activationDate
         self.classification = classification
         self.creationDate = creationDate

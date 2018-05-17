@@ -20,10 +20,10 @@ extension Rocket.Profile {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = [String: Date]
+            public typealias SuccessType = [String: DateTime]
 
             /** OK */
-            case status200([String: Date])
+            case status200([String: DateTime])
 
             /** Bad request. */
             case status400(ServiceError)
@@ -43,7 +43,7 @@ extension Rocket.Profile {
             /** Service error. */
             case defaultResponse(statusCode: Int, ServiceError)
 
-            public var success: [String: Date]? {
+            public var success: [String: DateTime]? {
                 switch self {
                 case .status200(let response): return response
                 default: return nil
@@ -63,7 +63,7 @@ extension Rocket.Profile {
             }
 
             /// either success or failure value. Success is anything in the 200..<300 status code range
-            public var responseResult: APIResponseResult<[String: Date], ServiceError> {
+            public var responseResult: APIResponseResult<[String: DateTime], ServiceError> {
                 if let successValue = success {
                     return .success(successValue)
                 } else if let failureValue = failure {
@@ -111,9 +111,8 @@ extension Rocket.Profile {
 
             public init(statusCode: Int, data: Data) throws {
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(Rocket.dateFormatter)
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode([String: Date].self, from: data))
+                case 200: self = try .status200(decoder.decode([String: DateTime].self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))
                 case 401: self = try .status401(decoder.decode(ServiceError.self, from: data))
                 case 403: self = try .status403(decoder.decode(ServiceError.self, from: data))

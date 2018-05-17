@@ -9,9 +9,9 @@ public class TryAndBuyObject: Codable, Equatable {
 
     public var active: Bool
 
-    public var createdAt: Date
+    public var createdAt: DateTime
 
-    public var expiration: Date
+    public var expiration: DateTime
 
     /** Number of days that the user was with tryandbuy */
     public var daysWithTryAndBuy: Double
@@ -20,9 +20,9 @@ public class TryAndBuyObject: Codable, Equatable {
     public var numTryAndBuyExpired: Double
 
     /** Date when the last TryAndBuy finished */
-    public var lastFinishedTryAndBuy: Date?
+    public var lastFinishedTryAndBuy: DateTime?
 
-    public init(active: Bool, createdAt: Date, expiration: Date, daysWithTryAndBuy: Double, numTryAndBuyExpired: Double, lastFinishedTryAndBuy: Date? = nil) {
+    public init(active: Bool, createdAt: DateTime, expiration: DateTime, daysWithTryAndBuy: Double, numTryAndBuyExpired: Double, lastFinishedTryAndBuy: DateTime? = nil) {
         self.active = active
         self.createdAt = createdAt
         self.expiration = expiration

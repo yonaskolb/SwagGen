@@ -7,13 +7,13 @@ import Foundation
 
 public class MixedPropertiesAndAdditionalPropertiesClass: Codable, Equatable {
 
-    public var dateTime: Date?
+    public var dateTime: DateTime?
 
     public var map: [String: Animal]?
 
     public var uuid: UUID?
 
-    public init(dateTime: Date? = nil, map: [String: Animal]? = nil, uuid: UUID? = nil) {
+    public init(dateTime: DateTime? = nil, map: [String: Animal]? = nil, uuid: UUID? = nil) {
         self.dateTime = dateTime
         self.map = map
         self.uuid = uuid

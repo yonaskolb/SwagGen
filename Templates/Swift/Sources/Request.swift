@@ -56,7 +56,6 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 {% endif %}
                 super.init(service: {{ type }}.service){% if bodyParam %} {
                     let jsonEncoder = JSONEncoder()
-                    jsonEncoder.dateEncodingStrategy = .formatted({{ options.name}}.dateFormatter)
                     return try jsonEncoder.encode({% if bodyParam.isAnyType %}AnyCodable({{ bodyParam.name }}).value{% else %}{{ bodyParam.name }}{% endif %})
                 }{% endif %}
             }
@@ -187,8 +186,9 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             }
 
             public init(statusCode: Int, data: Data) throws {
+                {% if hasResponseModels %}
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted({{ options.name}}.dateFormatter)
+                {% endif %}
                 switch statusCode {
                 {% for response in responses where response.statusCode %}
                 {% if response.type %}

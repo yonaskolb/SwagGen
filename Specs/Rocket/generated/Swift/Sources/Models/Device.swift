@@ -14,12 +14,12 @@ public class Device: Codable, Equatable {
     public var name: String
 
     /** The date this device was registered. */
-    public var registrationDate: Date
+    public var registrationDate: DateTime
 
     /** The device type e.g. web_browser. */
     public var type: String
 
-    public init(id: String, name: String, registrationDate: Date, type: String) {
+    public init(id: String, name: String, registrationDate: DateTime, type: String) {
         self.id = id
         self.name = name
         self.registrationDate = registrationDate

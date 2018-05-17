@@ -17,13 +17,13 @@ public class SearchCriteria: Codable, Equatable {
         ]
     }
 
-    public var dateTime: Date?
+    public var dateTime: DateTime?
 
     public var dateTimeType: DateTimeType?
 
     public var timeAdjustments: TimeAdjustments?
 
-    public init(dateTime: Date? = nil, dateTimeType: DateTimeType? = nil, timeAdjustments: TimeAdjustments? = nil) {
+    public init(dateTime: DateTime? = nil, dateTimeType: DateTimeType? = nil, timeAdjustments: TimeAdjustments? = nil) {
         self.dateTime = dateTime
         self.dateTimeType = dateTimeType
         self.timeAdjustments = timeAdjustments

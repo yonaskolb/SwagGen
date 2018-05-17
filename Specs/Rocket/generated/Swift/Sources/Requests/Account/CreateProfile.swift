@@ -20,7 +20,6 @@ extension Rocket.Account {
                 self.body = body
                 super.init(service: CreateProfile.service) {
                     let jsonEncoder = JSONEncoder()
-                    jsonEncoder.dateEncodingStrategy = .formatted(Rocket.dateFormatter)
                     return try jsonEncoder.encode(body)
                 }
             }
@@ -118,7 +117,6 @@ extension Rocket.Account {
 
             public init(statusCode: Int, data: Data) throws {
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(Rocket.dateFormatter)
                 switch statusCode {
                 case 201: self = try .status201(decoder.decode(ProfileDetail.self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

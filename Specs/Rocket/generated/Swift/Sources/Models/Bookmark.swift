@@ -11,9 +11,9 @@ public class Bookmark: Codable, Equatable {
     public var itemId: String
 
     /** The date the bookmark was created. */
-    public var creationDate: Date
+    public var creationDate: DateTime
 
-    public init(itemId: String, creationDate: Date) {
+    public init(itemId: String, creationDate: DateTime) {
         self.itemId = itemId
         self.creationDate = creationDate
     }

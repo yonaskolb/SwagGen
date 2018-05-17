@@ -31,15 +31,15 @@ extension TBX.AuthorizationService {
                 public var action: String?
 
                 /** Start date */
-                public var dateFrom: Date?
+                public var dateFrom: DateTime?
 
                 /** until date */
-                public var dateUntil: Date?
+                public var dateUntil: DateTime?
 
                 /** Priority Order */
                 public var priority: Double?
 
-                public init(urn: String, response: Bool, country: String? = nil, idp: String? = nil, action: String? = nil, dateFrom: Date? = nil, dateUntil: Date? = nil, priority: Double? = nil) {
+                public init(urn: String, response: Bool, country: String? = nil, idp: String? = nil, action: String? = nil, dateFrom: DateTime? = nil, dateUntil: DateTime? = nil, priority: Double? = nil) {
                     self.urn = urn
                     self.response = response
                     self.country = country
@@ -59,7 +59,7 @@ extension TBX.AuthorizationService {
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(urn: String, response: Bool, country: String? = nil, idp: String? = nil, action: String? = nil, dateFrom: Date? = nil, dateUntil: Date? = nil, priority: Double? = nil) {
+            public convenience init(urn: String, response: Bool, country: String? = nil, idp: String? = nil, action: String? = nil, dateFrom: DateTime? = nil, dateUntil: DateTime? = nil, priority: Double? = nil) {
                 let options = Options(urn: urn, response: response, country: country, idp: idp, action: action, dateFrom: dateFrom, dateUntil: dateUntil, priority: priority)
                 self.init(options: options)
             }
@@ -168,7 +168,6 @@ extension TBX.AuthorizationService {
 
             public init(statusCode: Int, data: Data) throws {
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(TBX.dateFormatter)
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(OverrideRuleObject.self, from: data))
                 case 400: self = try .status400(decoder.decode(ErrorObject.self, from: data))

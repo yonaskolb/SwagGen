@@ -25,11 +25,11 @@ extension TFL.Line {
 
                 public var endDate: String
 
-                public var dateRangeStartDate: Date?
+                public var dateRangeStartDate: DateTime?
 
-                public var dateRangeEndDate: Date?
+                public var dateRangeEndDate: DateTime?
 
-                public init(ids: [String], detail: Bool? = nil, startDate: String, endDate: String, dateRangeStartDate: Date? = nil, dateRangeEndDate: Date? = nil) {
+                public init(ids: [String], detail: Bool? = nil, startDate: String, endDate: String, dateRangeStartDate: DateTime? = nil, dateRangeEndDate: DateTime? = nil) {
                     self.ids = ids
                     self.detail = detail
                     self.startDate = startDate
@@ -47,7 +47,7 @@ extension TFL.Line {
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(ids: [String], detail: Bool? = nil, startDate: String, endDate: String, dateRangeStartDate: Date? = nil, dateRangeEndDate: Date? = nil) {
+            public convenience init(ids: [String], detail: Bool? = nil, startDate: String, endDate: String, dateRangeStartDate: DateTime? = nil, dateRangeEndDate: DateTime? = nil) {
                 let options = Options(ids: ids, detail: detail, startDate: startDate, endDate: endDate, dateRangeStartDate: dateRangeStartDate, dateRangeEndDate: dateRangeEndDate)
                 self.init(options: options)
             }
@@ -105,7 +105,6 @@ extension TFL.Line {
 
             public init(statusCode: Int, data: Data) throws {
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(TFL.dateFormatter)
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Line].self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

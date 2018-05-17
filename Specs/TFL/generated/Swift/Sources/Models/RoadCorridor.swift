@@ -26,10 +26,10 @@ public class RoadCorridor: Codable, Equatable {
     public var id: String?
 
     /** The end of the period over which status has been aggregated, or null if this is the current corridor status. */
-    public var statusAggregationEndDate: Date?
+    public var statusAggregationEndDate: DateTime?
 
     /** The start of the period over which status has been aggregated, or null if this is the current corridor status. */
-    public var statusAggregationStartDate: Date?
+    public var statusAggregationStartDate: DateTime?
 
     /** Standard multi-mode status severity code */
     public var statusSeverity: String?
@@ -40,7 +40,7 @@ public class RoadCorridor: Codable, Equatable {
     /** URL to retrieve this Corridor. */
     public var url: String?
 
-    public init(bounds: String? = nil, displayName: String? = nil, envelope: String? = nil, group: String? = nil, id: String? = nil, statusAggregationEndDate: Date? = nil, statusAggregationStartDate: Date? = nil, statusSeverity: String? = nil, statusSeverityDescription: String? = nil, url: String? = nil) {
+    public init(bounds: String? = nil, displayName: String? = nil, envelope: String? = nil, group: String? = nil, id: String? = nil, statusAggregationEndDate: DateTime? = nil, statusAggregationStartDate: DateTime? = nil, statusSeverity: String? = nil, statusSeverityDescription: String? = nil, url: String? = nil) {
         self.bounds = bounds
         self.displayName = displayName
         self.envelope = envelope

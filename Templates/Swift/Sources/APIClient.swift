@@ -37,6 +37,7 @@ public class APIClient {
         self.sessionManager = sessionManager
         self.behaviours = behaviours
         self.defaultHeaders = defaultHeaders
+        self.jsonDecoder.dateDecodingStrategy = .formatted({{ options.name }}.dateFormatter)
     }
 
     /// Any request behaviours will be run in addition to the client behaviours

@@ -90,7 +90,7 @@ public class AnyRequest: APIRequest<AnyResponseValue> {
 
     init<T>(request: APIRequest<T>) {
         requestPath = request.path
-        super.init(service: request.service.asAny(), parameters: request.parameters, jsonBody: request.jsonBody, headers: request.headers)
+        super.init(service: request.service.asAny(), parameters: request.parameters, headers: request.headers, encodeBody: request.encodeBody)
     }
 }
 
@@ -112,7 +112,7 @@ public struct AnyResponseValue: APIResponseValue, CustomDebugStringConvertible, 
         self.success = success
     }
 
-    public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+    public init(statusCode: Int, data: Data) throws {
         fatalError()
     }
 

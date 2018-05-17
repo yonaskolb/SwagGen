@@ -1,21 +1,23 @@
 {% include "Includes/Header.stencil" %}
 
+import Foundation
+
 public class APIRequest<ResponseType: APIResponseValue> {
 
     public let service: APIService<ResponseType>
     public private(set) var parameters: [String: Any]
-    public private(set) var jsonBody: Encodable?
+    public let encodeBody: (() throws -> Data)?
     public var headers: [String: String] = [:]
 
     public var path: String {
         return service.path
     }
 
-    public init(service: APIService<ResponseType>, parameters: [String: Any] = [:], jsonBody: Encodable? = nil, headers: [String: String] = [:]) {
+    public init(service: APIService<ResponseType>, parameters: [String: Any] = [:], headers: [String: String] = [:], encodeBody: (() throws -> Data)? = nil) {
         self.service = service
         self.parameters = parameters
-        self.jsonBody = jsonBody
         self.headers = headers
+        self.encodeBody = encodeBody
     }
 
     public func addHeader(name: String, value: String) {
@@ -40,8 +42,10 @@ extension APIRequest: CustomDebugStringConvertible {
 
     public var debugDescription: String {
         var string = description
-        if let body = jsonBody {
-            string += "\nbody: \(body)"
+        if let encodeBody = encodeBody,
+            let data = try? encodeBody(),
+            let bodyString = String(data: data, encoding: .utf8) {
+            string += "\nbody: \(bodyString)"
         }
         return string
     }

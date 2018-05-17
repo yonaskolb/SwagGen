@@ -77,7 +77,9 @@ extension PetstoreTest.User {
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(PetstoreTest.dateFormatter)
                 switch statusCode {
                 case 400: self = .status400
                 case 404: self = .status404

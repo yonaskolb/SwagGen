@@ -23,11 +23,11 @@ before access is granted.
 
             public init(body: ProfileTokenRequest) {
                 self.body = body
-                super.init(service: GetProfileToken.service)
-            }
-
-            public override var jsonBody: Encodable? {
-                return body
+                super.init(service: GetProfileToken.service) {
+                    let jsonEncoder = JSONEncoder()
+                    jsonEncoder.dateEncodingStrategy = .formatted(Rocket.dateFormatter)
+                    return try jsonEncoder.encode(body)
+                }
             }
         }
 
@@ -121,7 +121,9 @@ before access is granted.
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(Rocket.dateFormatter)
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([AccessToken].self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

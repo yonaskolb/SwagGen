@@ -18,11 +18,11 @@ extension PetstoreTest.User {
 
             public init(body: User) {
                 self.body = body
-                super.init(service: CreateUser.service)
-            }
-
-            public override var jsonBody: Encodable? {
-                return body
+                super.init(service: CreateUser.service) {
+                    let jsonEncoder = JSONEncoder()
+                    jsonEncoder.dateEncodingStrategy = .formatted(PetstoreTest.dateFormatter)
+                    return try jsonEncoder.encode(body)
+                }
             }
         }
 
@@ -56,7 +56,9 @@ extension PetstoreTest.User {
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(PetstoreTest.dateFormatter)
                 switch statusCode {
                 default: self = .defaultResponse(statusCode: statusCode)
                 }

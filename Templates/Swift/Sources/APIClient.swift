@@ -23,12 +23,6 @@ public class APIClient {
     /// Used to authorise requests
     public var authorizer: RequestAuthorizer?
 
-    /// The JSON encoder used
-    public var jsonEncoder = JSONEncoder()
-
-    /// The JSON decoder used
-    public var jsonDecoder = JSONDecoder()
-
     public var decodingQueue = DispatchQueue(label: "apiClient", qos: .utility, attributes: .concurrent)
 
     public init(baseURL: String, sessionManager: SessionManager = .default, defaultHeaders: [String: String] = [:], behaviours: [RequestBehaviour] = [], authorizer: RequestAuthorizer? = nil) {
@@ -37,7 +31,6 @@ public class APIClient {
         self.sessionManager = sessionManager
         self.behaviours = behaviours
         self.defaultHeaders = defaultHeaders
-        self.jsonDecoder.dateDecodingStrategy = .formatted({{ options.name }}.dateFormatter)
     }
 
     /// Any request behaviours will be run in addition to the client behaviours
@@ -101,7 +94,7 @@ public class APIClient {
                 case .success(let value):
                     do {
                         let statusCode = dataResponse.response!.statusCode
-                        let decoded = try T(statusCode: statusCode, data: value, decoder: self.jsonDecoder)
+                        let decoded = try T(statusCode: statusCode, data: value)
                         result = .success(decoded)
                         if decoded.successful {
                             requestBehaviour.onSuccess(result: decoded.response as Any)
@@ -162,9 +155,8 @@ extension APIRequest {
             let encoding: ParameterEncoding = service.hasBody ? URLEncoding.httpBody : URLEncoding.queryString
             urlRequest = try encoding.encode(urlRequest, with: params)
         }
-        if let jsonBody = jsonBody {
-            // not using Alamofire's JSONEncoding so that we can send a json array instead of being restricted to [String: Any]
-            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: jsonBody)
+        if let encodeBody = encodeBody {
+            urlRequest.httpBody = try encodeBody()
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
         return urlRequest

@@ -97,7 +97,9 @@ basic cookies we assigned them during token authorization.
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(Rocket.dateFormatter)
                 switch statusCode {
                 case 204: self = .status204
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

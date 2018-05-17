@@ -73,7 +73,9 @@ extension TFL.Search {
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(TFL.dateFormatter)
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(SearchResponse.self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

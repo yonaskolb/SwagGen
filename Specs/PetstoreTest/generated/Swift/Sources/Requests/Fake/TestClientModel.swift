@@ -18,11 +18,11 @@ extension PetstoreTest.Fake {
 
             public init(body: Client) {
                 self.body = body
-                super.init(service: TestClientModel.service)
-            }
-
-            public override var jsonBody: Encodable? {
-                return body
+                super.init(service: TestClientModel.service) {
+                    let jsonEncoder = JSONEncoder()
+                    jsonEncoder.dateEncodingStrategy = .formatted(PetstoreTest.dateFormatter)
+                    return try jsonEncoder.encode(body)
+                }
             }
         }
 
@@ -56,7 +56,9 @@ extension PetstoreTest.Fake {
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(PetstoreTest.dateFormatter)
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(Client.self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

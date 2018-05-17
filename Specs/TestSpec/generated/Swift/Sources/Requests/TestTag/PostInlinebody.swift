@@ -61,11 +61,11 @@ extension TestSpec.TestTag {
 
             public init(item: Item) {
                 self.item = item
-                super.init(service: PostInlinebody.service)
-            }
-
-            public override var jsonBody: Encodable? {
-                return item
+                super.init(service: PostInlinebody.service) {
+                    let jsonEncoder = JSONEncoder()
+                    jsonEncoder.dateEncodingStrategy = .formatted(TestSpec.dateFormatter)
+                    return try jsonEncoder.encode(item)
+                }
             }
         }
 
@@ -99,7 +99,9 @@ extension TestSpec.TestTag {
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(TestSpec.dateFormatter)
                 switch statusCode {
                 case 201: self = .status201
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

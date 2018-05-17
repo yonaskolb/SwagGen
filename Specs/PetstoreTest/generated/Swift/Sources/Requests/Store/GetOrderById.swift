@@ -84,7 +84,9 @@ extension PetstoreTest.Store {
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(PetstoreTest.dateFormatter)
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(Order.self, from: data))
                 case 400: self = .status400

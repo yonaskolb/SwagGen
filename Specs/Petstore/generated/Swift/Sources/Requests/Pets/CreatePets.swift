@@ -73,7 +73,9 @@ extension Petstore.Pets {
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(Petstore.dateFormatter)
                 switch statusCode {
                 case 201: self = .status201
                 default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ErrorType.self, from: data))

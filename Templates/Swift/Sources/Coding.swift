@@ -266,6 +266,16 @@ public struct DateDay: Codable, Comparable {
     }
 }
 
+extension DateFormatter {
+
+    public func string(from dateTime: DateTime) -> String {
+        return string(from: dateTime.date)
+    }
+
+    public func string(from dateDay: DateDay) -> String {
+        return string(from: dateDay.date)
+    }
+}
 
 // for parameter encoding
 

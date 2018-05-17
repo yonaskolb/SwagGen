@@ -50,8 +50,6 @@ extension TestSpec {
             }
 
             public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(TestSpec.dateFormatter)
                 switch statusCode {
                 case 201: self = .status201
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

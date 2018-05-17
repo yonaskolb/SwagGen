@@ -9,17 +9,17 @@ public class PredictionTiming: Codable, Equatable {
 
     public var countdownServerAdjustment: String?
 
-    public var insert: Date?
+    public var insert: DateTime?
 
-    public var read: Date?
+    public var read: DateTime?
 
-    public var received: Date?
+    public var received: DateTime?
 
-    public var sent: Date?
+    public var sent: DateTime?
 
-    public var source: Date?
+    public var source: DateTime?
 
-    public init(countdownServerAdjustment: String? = nil, insert: Date? = nil, read: Date? = nil, received: Date? = nil, sent: Date? = nil, source: Date? = nil) {
+    public init(countdownServerAdjustment: String? = nil, insert: DateTime? = nil, read: DateTime? = nil, received: DateTime? = nil, sent: DateTime? = nil, source: DateTime? = nil) {
         self.countdownServerAdjustment = countdownServerAdjustment
         self.insert = insert
         self.read = read

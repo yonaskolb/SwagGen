@@ -236,6 +236,7 @@ public class CodeFormatter {
             return getInlineSchemaContext(schema, name: response.name.lowerCamelCased())
         }
         context["responseSchemas"] = responseSchemas
+        context["hasResponseModels"] = !operation.responses.filter { $0.response.value.schema != nil }.isEmpty
 
         return context
     }

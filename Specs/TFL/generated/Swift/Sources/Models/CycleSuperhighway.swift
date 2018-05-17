@@ -20,12 +20,12 @@ public class CycleSuperhighway: Codable, Equatable {
     public var labelShort: String?
 
     /** When the data was last updated */
-    public var modified: Date?
+    public var modified: DateTime?
 
     /** True if the route is split into segments */
     public var segmented: Bool?
 
-    public init(geography: DbGeography? = nil, id: String? = nil, label: String? = nil, labelShort: String? = nil, modified: Date? = nil, segmented: Bool? = nil) {
+    public init(geography: DbGeography? = nil, id: String? = nil, label: String? = nil, labelShort: String? = nil, modified: DateTime? = nil, segmented: Bool? = nil) {
         self.geography = geography
         self.id = id
         self.label = label

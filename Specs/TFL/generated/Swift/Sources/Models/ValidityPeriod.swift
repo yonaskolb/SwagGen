@@ -9,15 +9,15 @@ import Foundation
 public class ValidityPeriod: Codable, Equatable {
 
     /** Gets or sets the start date. */
-    public var fromDate: Date?
+    public var fromDate: DateTime?
 
     /** If true is a realtime status rather than planned or info */
     public var isNow: Bool?
 
     /** Gets or sets the end date. */
-    public var toDate: Date?
+    public var toDate: DateTime?
 
-    public init(fromDate: Date? = nil, isNow: Bool? = nil, toDate: Date? = nil) {
+    public init(fromDate: DateTime? = nil, isNow: Bool? = nil, toDate: DateTime? = nil) {
         self.fromDate = fromDate
         self.isNow = isNow
         self.toDate = toDate

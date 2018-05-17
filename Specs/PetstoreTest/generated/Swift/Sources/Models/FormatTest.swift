@@ -17,7 +17,7 @@ public class FormatTest: Codable, Equatable {
 
     public var binary: String?
 
-    public var dateTime: Date?
+    public var dateTime: DateTime?
 
     public var double: Double?
 
@@ -33,7 +33,7 @@ public class FormatTest: Codable, Equatable {
 
     public var uuid: UUID?
 
-    public init(number: Double, byte: String, date: DateDay, password: String, binary: String? = nil, dateTime: Date? = nil, double: Double? = nil, float: Float? = nil, int32: Int? = nil, int64: Int? = nil, integer: Int? = nil, string: String? = nil, uuid: UUID? = nil) {
+    public init(number: Double, byte: String, date: DateDay, password: String, binary: String? = nil, dateTime: DateTime? = nil, double: Double? = nil, float: Float? = nil, int32: Int? = nil, int64: Int? = nil, integer: Int? = nil, string: String? = nil, uuid: UUID? = nil) {
         self.number = number
         self.byte = byte
         self.date = date

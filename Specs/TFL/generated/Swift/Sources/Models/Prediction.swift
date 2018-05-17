@@ -24,7 +24,7 @@ public class Prediction: Codable, Equatable {
     public var direction: String?
 
     /** The expected arrival time of the vehicle at the stop/station */
-    public var expectedArrival: Date?
+    public var expectedArrival: DateTime?
 
     /** The identitier for the prediction */
     public var id: String?
@@ -51,13 +51,13 @@ public class Prediction: Codable, Equatable {
     public var stationName: String?
 
     /** The expiry time for the prediction */
-    public var timeToLive: Date?
+    public var timeToLive: DateTime?
 
     /** Prediction of the Time to station in seconds */
     public var timeToStation: Int?
 
     /** Timestamp for when the prediction was inserted/modified (source column drives what objects are broadcast on each iteration) */
-    public var timestamp: Date?
+    public var timestamp: DateTime?
 
     /** Keep the original timestamp from MongoDb fo debugging purposes */
     public var timing: PredictionTiming?
@@ -68,7 +68,7 @@ public class Prediction: Codable, Equatable {
     /** The actual vehicle in transit (for train modes, the leading car of the rolling set) */
     public var vehicleId: String?
 
-    public init(bearing: String? = nil, currentLocation: String? = nil, destinationName: String? = nil, destinationNaptanId: String? = nil, direction: String? = nil, expectedArrival: Date? = nil, id: String? = nil, lineId: String? = nil, lineName: String? = nil, modeName: String? = nil, naptanId: String? = nil, operationType: Int? = nil, platformName: String? = nil, stationName: String? = nil, timeToLive: Date? = nil, timeToStation: Int? = nil, timestamp: Date? = nil, timing: PredictionTiming? = nil, towards: String? = nil, vehicleId: String? = nil) {
+    public init(bearing: String? = nil, currentLocation: String? = nil, destinationName: String? = nil, destinationNaptanId: String? = nil, direction: String? = nil, expectedArrival: DateTime? = nil, id: String? = nil, lineId: String? = nil, lineName: String? = nil, modeName: String? = nil, naptanId: String? = nil, operationType: Int? = nil, platformName: String? = nil, stationName: String? = nil, timeToLive: DateTime? = nil, timeToStation: Int? = nil, timestamp: DateTime? = nil, timing: PredictionTiming? = nil, towards: String? = nil, vehicleId: String? = nil) {
         self.bearing = bearing
         self.currentLocation = currentLocation
         self.destinationName = destinationName

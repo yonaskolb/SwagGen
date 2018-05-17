@@ -7,7 +7,7 @@ import Foundation
 
 public class LineStatus: Codable, Equatable {
 
-    public var created: Date?
+    public var created: DateTime?
 
     public var disruption: Disruption?
 
@@ -15,7 +15,7 @@ public class LineStatus: Codable, Equatable {
 
     public var lineId: String?
 
-    public var modified: Date?
+    public var modified: DateTime?
 
     public var reason: String?
 
@@ -25,7 +25,7 @@ public class LineStatus: Codable, Equatable {
 
     public var validityPeriods: [ValidityPeriod]?
 
-    public init(created: Date? = nil, disruption: Disruption? = nil, id: Int? = nil, lineId: String? = nil, modified: Date? = nil, reason: String? = nil, statusSeverity: Int? = nil, statusSeverityDescription: String? = nil, validityPeriods: [ValidityPeriod]? = nil) {
+    public init(created: DateTime? = nil, disruption: Disruption? = nil, id: Int? = nil, lineId: String? = nil, modified: DateTime? = nil, reason: String? = nil, statusSeverity: Int? = nil, statusSeverityDescription: String? = nil, validityPeriods: [ValidityPeriod]? = nil) {
         self.created = created
         self.disruption = disruption
         self.id = id

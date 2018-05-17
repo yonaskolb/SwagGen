@@ -15,7 +15,7 @@ public class Customer: Codable, Equatable {
 
     public var country: ObjectID?
 
-    public var created: Date?
+    public var created: DateTime?
 
     public var hasNotDeviceLimit: Bool?
 
@@ -23,11 +23,11 @@ public class Customer: Codable, Equatable {
 
     public var identityProvider: ObjectID?
 
-    public var lastLogin: Date?
+    public var lastLogin: DateTime?
 
-    public var updated: Date?
+    public var updated: DateTime?
 
-    public init(subscriberID: String, banReason: String? = nil, banned: Bool? = nil, country: ObjectID? = nil, created: Date? = nil, hasNotDeviceLimit: Bool? = nil, id: ObjectID? = nil, identityProvider: ObjectID? = nil, lastLogin: Date? = nil, updated: Date? = nil) {
+    public init(subscriberID: String, banReason: String? = nil, banned: Bool? = nil, country: ObjectID? = nil, created: DateTime? = nil, hasNotDeviceLimit: Bool? = nil, id: ObjectID? = nil, identityProvider: ObjectID? = nil, lastLogin: DateTime? = nil, updated: DateTime? = nil) {
         self.subscriberID = subscriberID
         self.banReason = banReason
         self.banned = banned

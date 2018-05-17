@@ -19,13 +19,6 @@ public struct Rocket {
      /// Whether to remove invalid elements instead of throwing when decoding arrays
     public static var safeArrayDecoding = false
 
-    /// The date formatter used for Date's with format "date-time". See DateDay.dateFormat for "date" format
-    public static let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.Z"
-        return formatter
-    }()
-
     public static let version = "1.0.0"
 
     public enum Account {}

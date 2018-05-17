@@ -54,7 +54,7 @@ extension PetstoreTest.Fake {
                 public var date: DateDay?
 
                 /** None */
-                public var dateTime: Date?
+                public var dateTime: DateTime?
 
                 /** None */
                 public var password: String?
@@ -62,7 +62,7 @@ extension PetstoreTest.Fake {
                 /** None */
                 public var callback: String?
 
-                public init(integer: Int? = nil, int32: Int? = nil, int64: Int? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: String, binary: String? = nil, date: DateDay? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) {
+                public init(integer: Int? = nil, int32: Int? = nil, int64: Int? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: String, binary: String? = nil, date: DateDay? = nil, dateTime: DateTime? = nil, password: String? = nil, callback: String? = nil) {
                     self.integer = integer
                     self.int32 = int32
                     self.int64 = int64
@@ -88,7 +88,7 @@ extension PetstoreTest.Fake {
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(integer: Int? = nil, int32: Int? = nil, int64: Int? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: String, binary: String? = nil, date: DateDay? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) {
+            public convenience init(integer: Int? = nil, int32: Int? = nil, int64: Int? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: String, binary: String? = nil, date: DateDay? = nil, dateTime: DateTime? = nil, password: String? = nil, callback: String? = nil) {
                 let options = Options(integer: integer, int32: int32, int64: int64, number: number, float: float, double: double, string: string, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback)
                 self.init(options: options)
             }
@@ -169,8 +169,6 @@ extension PetstoreTest.Fake {
             }
 
             public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(PetstoreTest.dateFormatter)
                 switch statusCode {
                 case 400: self = .status400
                 case 404: self = .status404

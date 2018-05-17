@@ -7,7 +7,7 @@ import Foundation
 
 public class Line: Codable, Equatable {
 
-    public var created: Date?
+    public var created: DateTime?
 
     public var crowding: Crowding?
 
@@ -19,7 +19,7 @@ public class Line: Codable, Equatable {
 
     public var modeName: String?
 
-    public var modified: Date?
+    public var modified: DateTime?
 
     public var name: String?
 
@@ -27,7 +27,7 @@ public class Line: Codable, Equatable {
 
     public var serviceTypes: [LineServiceTypeInfo]?
 
-    public init(created: Date? = nil, crowding: Crowding? = nil, disruptions: [Disruption]? = nil, id: String? = nil, lineStatuses: [LineStatus]? = nil, modeName: String? = nil, modified: Date? = nil, name: String? = nil, routeSections: [MatchedRoute]? = nil, serviceTypes: [LineServiceTypeInfo]? = nil) {
+    public init(created: DateTime? = nil, crowding: Crowding? = nil, disruptions: [Disruption]? = nil, id: String? = nil, lineStatuses: [LineStatus]? = nil, modeName: String? = nil, modified: DateTime? = nil, name: String? = nil, routeSections: [MatchedRoute]? = nil, serviceTypes: [LineServiceTypeInfo]? = nil) {
         self.created = created
         self.crowding = crowding
         self.disruptions = disruptions

@@ -23,11 +23,11 @@ public class RoadDisruption: Codable, Equatable {
 
     /** The time when the last CurrentUpdate description was recorded, 
             or null if no CurrentUpdate has been applied. */
-    public var currentUpdateDateTime: Date?
+    public var currentUpdateDateTime: DateTime?
 
     /** The date and time on which the disruption ended. For planned disruptions, this date will have a valid value. For unplanned 
             disruptions in progress, this field will be omitted. */
-    public var endDateTime: Date?
+    public var endDateTime: DateTime?
 
     /** Geography version of Point for output as GeoJSON.
             Can not use Geometry in a consistent way as non-TIMS disruptions do not have a polygon */
@@ -49,7 +49,7 @@ public class RoadDisruption: Codable, Equatable {
 
     /** The date and time on which the disruption was last modified in the system. This information can reliably be used by a developer to quickly
             compare two instances of the same disruption to determine if it has been changed. */
-    public var lastModifiedTime: Date?
+    public var lastModifiedTime: DateTime?
 
     /** This describes the level of potential impact on traffic operations of the disruption. 
             High = e.g. a one-off disruption on a major or high profile route which will require a high level of operational attention 
@@ -72,10 +72,10 @@ public class RoadDisruption: Codable, Equatable {
     /** Latitude and longitude (WGS84) of the centroid of the disruption, stored in a geoJSON-formatted string. */
     public var point: String?
 
-    public var publishEndDate: Date?
+    public var publishEndDate: DateTime?
 
     /** TDM Additional properties */
-    public var publishStartDate: Date?
+    public var publishStartDate: DateTime?
 
     public var recurringSchedules: [RoadDisruptionSchedule]?
 
@@ -91,7 +91,7 @@ public class RoadDisruption: Codable, Equatable {
 
     /** The date and time which the disruption started. For a planned disruption (i.e. planned road works) this date will be in the future.
             For unplanned disruptions, this will default to the date on which the disruption was first recorded, but may be adjusted by the operator. */
-    public var startDateTime: Date?
+    public var startDateTime: DateTime?
 
     /** This describes the status of the disruption.  
             Active = currently in progress 
@@ -113,7 +113,7 @@ public class RoadDisruption: Codable, Equatable {
     /** URL to retrieve this road disruption */
     public var url: String?
 
-    public init(category: String? = nil, comments: String? = nil, corridorIds: [String]? = nil, currentUpdate: String? = nil, currentUpdateDateTime: Date? = nil, endDateTime: Date? = nil, geography: DbGeography? = nil, geometry: DbGeography? = nil, hasClosures: Bool? = nil, id: String? = nil, isProvisional: Bool? = nil, lastModifiedTime: Date? = nil, levelOfInterest: String? = nil, linkText: String? = nil, linkUrl: String? = nil, location: String? = nil, ordinal: Int? = nil, point: String? = nil, publishEndDate: Date? = nil, publishStartDate: Date? = nil, recurringSchedules: [RoadDisruptionSchedule]? = nil, roadDisruptionImpactAreas: [RoadDisruptionImpactArea]? = nil, roadDisruptionLines: [RoadDisruptionLine]? = nil, roadProject: RoadProject? = nil, severity: String? = nil, startDateTime: Date? = nil, status: String? = nil, streets: [Street]? = nil, subCategory: String? = nil, timeFrame: String? = nil, url: String? = nil) {
+    public init(category: String? = nil, comments: String? = nil, corridorIds: [String]? = nil, currentUpdate: String? = nil, currentUpdateDateTime: DateTime? = nil, endDateTime: DateTime? = nil, geography: DbGeography? = nil, geometry: DbGeography? = nil, hasClosures: Bool? = nil, id: String? = nil, isProvisional: Bool? = nil, lastModifiedTime: DateTime? = nil, levelOfInterest: String? = nil, linkText: String? = nil, linkUrl: String? = nil, location: String? = nil, ordinal: Int? = nil, point: String? = nil, publishEndDate: DateTime? = nil, publishStartDate: DateTime? = nil, recurringSchedules: [RoadDisruptionSchedule]? = nil, roadDisruptionImpactAreas: [RoadDisruptionImpactArea]? = nil, roadDisruptionLines: [RoadDisruptionLine]? = nil, roadProject: RoadProject? = nil, severity: String? = nil, startDateTime: DateTime? = nil, status: String? = nil, streets: [Street]? = nil, subCategory: String? = nil, timeFrame: String? = nil, url: String? = nil) {
         self.category = category
         self.comments = comments
         self.corridorIds = corridorIds

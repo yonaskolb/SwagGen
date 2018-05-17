@@ -47,7 +47,7 @@ public class Disruption: Codable, Equatable {
     public var closureText: String?
 
     /** Gets or sets the date/time when this disruption was created. */
-    public var created: Date?
+    public var created: DateTime?
 
     /** Gets or sets the description of this disruption. */
     public var description: String?
@@ -57,12 +57,12 @@ public class Disruption: Codable, Equatable {
     public var isWholeLine: Bool?
 
     /** Gets or sets the date/time when this disruption was last updated. */
-    public var lastUpdate: Date?
+    public var lastUpdate: DateTime?
 
     /** Gets or sets the disruption type of this dispruption. */
     public var type: String?
 
-    public init(additionalInfo: String? = nil, affectedRoutes: [RouteSection]? = nil, affectedStops: [StopPoint]? = nil, category: Category? = nil, categoryDescription: String? = nil, closureText: String? = nil, created: Date? = nil, description: String? = nil, isBlocking: Bool? = nil, isWholeLine: Bool? = nil, lastUpdate: Date? = nil, type: String? = nil) {
+    public init(additionalInfo: String? = nil, affectedRoutes: [RouteSection]? = nil, affectedStops: [StopPoint]? = nil, category: Category? = nil, categoryDescription: String? = nil, closureText: String? = nil, created: DateTime? = nil, description: String? = nil, isBlocking: Bool? = nil, isWholeLine: Bool? = nil, lastUpdate: DateTime? = nil, type: String? = nil) {
         self.additionalInfo = additionalInfo
         self.affectedRoutes = affectedRoutes
         self.affectedStops = affectedStops

@@ -10,7 +10,7 @@ public class DeviceObject: Codable, Equatable {
     public var token: String
 
     /** When this device was created */
-    public var createdAt: Date
+    public var createdAt: DateTime
 
     public var type: `Type`
 
@@ -65,7 +65,7 @@ public class DeviceObject: Codable, Equatable {
         public var country: Country?
 
         /** When the customer was created */
-        public var createdAt: Date?
+        public var createdAt: DateTime?
 
         public var id: String?
 
@@ -157,7 +157,7 @@ public class DeviceObject: Codable, Equatable {
             }
         }
 
-        public init(country: Country? = nil, createdAt: Date? = nil, id: String? = nil, idp: Idp? = nil, subscriberId: String? = nil) {
+        public init(country: Country? = nil, createdAt: DateTime? = nil, id: String? = nil, idp: Idp? = nil, subscriberId: String? = nil) {
             self.country = country
             self.createdAt = createdAt
             self.id = id
@@ -208,7 +208,7 @@ public class DeviceObject: Codable, Equatable {
         }
     }
 
-    public init(token: String, createdAt: Date, type: `Type`, customer: Customer, description: String? = nil) {
+    public init(token: String, createdAt: DateTime, type: `Type`, customer: Customer, description: String? = nil) {
         self.token = token
         self.createdAt = createdAt
         self.type = type

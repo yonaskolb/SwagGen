@@ -10,14 +10,14 @@ public class Watched: Codable, Equatable {
     /** The last playhead position watched for the item. */
     public var position: Int
 
-    public var firstWatchedDate: Date
+    public var firstWatchedDate: DateTime
 
-    public var lastWatchedDate: Date
+    public var lastWatchedDate: DateTime
 
     /** The id of the item watched. */
     public var itemId: String?
 
-    public init(position: Int, firstWatchedDate: Date, lastWatchedDate: Date, itemId: String? = nil) {
+    public init(position: Int, firstWatchedDate: DateTime, lastWatchedDate: DateTime, itemId: String? = nil) {
         self.position = position
         self.firstWatchedDate = firstWatchedDate
         self.lastWatchedDate = lastWatchedDate

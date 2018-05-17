@@ -7,17 +7,17 @@ import Foundation
 
 public class FaresPeriod: Codable, Equatable {
 
-    public var endDate: Date?
+    public var endDate: DateTime?
 
     public var id: Int?
 
     public var isFuture: Bool?
 
-    public var startDate: Date?
+    public var startDate: DateTime?
 
-    public var viewableDate: Date?
+    public var viewableDate: DateTime?
 
-    public init(endDate: Date? = nil, id: Int? = nil, isFuture: Bool? = nil, startDate: Date? = nil, viewableDate: Date? = nil) {
+    public init(endDate: DateTime? = nil, id: Int? = nil, isFuture: Bool? = nil, startDate: DateTime? = nil, viewableDate: DateTime? = nil) {
         self.endDate = endDate
         self.id = id
         self.isFuture = isFuture

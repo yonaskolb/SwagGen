@@ -27,15 +27,15 @@ public class RoadProject: Codable, Equatable {
 
     public var boroughsBenefited: [String]?
 
-    public var constructionEndDate: Date?
+    public var constructionEndDate: DateTime?
 
-    public var constructionStartDate: Date?
+    public var constructionStartDate: DateTime?
 
-    public var consultationEndDate: Date?
+    public var consultationEndDate: DateTime?
 
     public var consultationPageUrl: String?
 
-    public var consultationStartDate: Date?
+    public var consultationStartDate: DateTime?
 
     public var contactEmail: String?
 
@@ -59,7 +59,7 @@ public class RoadProject: Codable, Equatable {
 
     public var schemeName: String?
 
-    public init(boroughsBenefited: [String]? = nil, constructionEndDate: Date? = nil, constructionStartDate: Date? = nil, consultationEndDate: Date? = nil, consultationPageUrl: String? = nil, consultationStartDate: Date? = nil, contactEmail: String? = nil, contactName: String? = nil, cycleSuperhighwayId: String? = nil, externalPageUrl: String? = nil, phase: Phase? = nil, projectDescription: String? = nil, projectId: String? = nil, projectName: String? = nil, projectPageUrl: String? = nil, projectSummaryPageUrl: String? = nil, schemeName: String? = nil) {
+    public init(boroughsBenefited: [String]? = nil, constructionEndDate: DateTime? = nil, constructionStartDate: DateTime? = nil, consultationEndDate: DateTime? = nil, consultationPageUrl: String? = nil, consultationStartDate: DateTime? = nil, contactEmail: String? = nil, contactName: String? = nil, cycleSuperhighwayId: String? = nil, externalPageUrl: String? = nil, phase: Phase? = nil, projectDescription: String? = nil, projectId: String? = nil, projectName: String? = nil, projectPageUrl: String? = nil, projectSummaryPageUrl: String? = nil, schemeName: String? = nil) {
         self.boroughsBenefited = boroughsBenefited
         self.constructionEndDate = constructionEndDate
         self.constructionStartDate = constructionStartDate

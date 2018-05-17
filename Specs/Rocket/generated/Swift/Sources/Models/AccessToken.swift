@@ -25,12 +25,12 @@ public class AccessToken: Codable, Equatable {
     public var refreshable: Bool
 
     /** The timestamp this token expires. */
-    public var expirationDate: Date
+    public var expirationDate: DateTime
 
     /** The type of the token. */
     public var type: `Type`
 
-    public init(value: String, refreshable: Bool, expirationDate: Date, type: `Type`) {
+    public init(value: String, refreshable: Bool, expirationDate: DateTime, type: `Type`) {
         self.value = value
         self.refreshable = refreshable
         self.expirationDate = expirationDate

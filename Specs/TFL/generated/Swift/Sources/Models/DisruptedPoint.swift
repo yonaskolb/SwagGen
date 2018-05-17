@@ -17,17 +17,17 @@ public class DisruptedPoint: Codable, Equatable {
 
     public var description: String?
 
-    public var fromDate: Date?
+    public var fromDate: DateTime?
 
     public var mode: String?
 
     public var stationAtcoCode: String?
 
-    public var toDate: Date?
+    public var toDate: DateTime?
 
     public var type: String?
 
-    public init(additionalInformation: String? = nil, appearance: String? = nil, atcoCode: String? = nil, commonName: String? = nil, description: String? = nil, fromDate: Date? = nil, mode: String? = nil, stationAtcoCode: String? = nil, toDate: Date? = nil, type: String? = nil) {
+    public init(additionalInformation: String? = nil, appearance: String? = nil, atcoCode: String? = nil, commonName: String? = nil, description: String? = nil, fromDate: DateTime? = nil, mode: String? = nil, stationAtcoCode: String? = nil, toDate: DateTime? = nil, type: String? = nil) {
         self.additionalInformation = additionalInformation
         self.appearance = appearance
         self.atcoCode = atcoCode

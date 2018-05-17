@@ -8,15 +8,15 @@ import Foundation
 /** Object that represents an end to end journey (see schematic). */
 public class Journey: Codable, Equatable {
 
-    public var arrivalDateTime: Date?
+    public var arrivalDateTime: DateTime?
 
     public var duration: Int?
 
     public var legs: [Leg]?
 
-    public var startDateTime: Date?
+    public var startDateTime: DateTime?
 
-    public init(arrivalDateTime: Date? = nil, duration: Int? = nil, legs: [Leg]? = nil, startDateTime: Date? = nil) {
+    public init(arrivalDateTime: DateTime? = nil, duration: Int? = nil, legs: [Leg]? = nil, startDateTime: DateTime? = nil) {
         self.arrivalDateTime = arrivalDateTime
         self.duration = duration
         self.legs = legs

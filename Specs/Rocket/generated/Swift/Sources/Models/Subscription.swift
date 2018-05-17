@@ -28,7 +28,7 @@ public class Subscription: Codable, Equatable {
     public var code: String
 
     /** The start date of a subscription. */
-    public var startDate: Date
+    public var startDate: DateTime
 
     /** True if a subscription is in its trial period, false if not. */
     public var isTrialPeriod: Bool
@@ -44,9 +44,9 @@ public class Subscription: Codable, Equatable {
 Some subscriptions may not have an end date, in which case this
 property will not exist.
  */
-    public var endDate: Date?
+    public var endDate: DateTime?
 
-    public init(code: String, startDate: Date, isTrialPeriod: Bool, planId: String, status: Status, endDate: Date? = nil) {
+    public init(code: String, startDate: DateTime, isTrialPeriod: Bool, planId: String, status: Status, endDate: DateTime? = nil) {
         self.code = code
         self.startDate = startDate
         self.isTrialPeriod = isTrialPeriod

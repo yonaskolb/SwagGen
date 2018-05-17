@@ -14,9 +14,9 @@ public class ProfileDetail: ProfileSummary {
     public var rated: [String: Int]
 
     /** A map of bookmarked itemIds => created date */
-    public var bookmarked: [String: Date]
+    public var bookmarked: [String: DateTime]
 
-    public init(id: String, name: String, isActive: Bool, pinEnabled: Bool, purchaseEnabled: Bool, marketingEnabled: Bool, segments: [String], watched: [String: Watched], rated: [String: Int], bookmarked: [String: Date], maxRatingContentFilter: ClassificationSummary? = nil, minRatingPlaybackGuard: ClassificationSummary? = nil) {
+    public init(id: String, name: String, isActive: Bool, pinEnabled: Bool, purchaseEnabled: Bool, marketingEnabled: Bool, segments: [String], watched: [String: Watched], rated: [String: Int], bookmarked: [String: DateTime], maxRatingContentFilter: ClassificationSummary? = nil, minRatingPlaybackGuard: ClassificationSummary? = nil) {
         self.watched = watched
         self.rated = rated
         self.bookmarked = bookmarked

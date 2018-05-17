@@ -12,10 +12,10 @@ public class ItemSchedule: Codable, Equatable {
     public var channelId: String
 
     /** The date and time this schedule starts. */
-    public var startDate: Date
+    public var startDate: DateTime
 
     /** The date and time this schedule ends. */
-    public var endDate: Date
+    public var endDate: DateTime
 
     /** True if this is a featured item schedule. */
     public var featured: Bool?
@@ -29,7 +29,7 @@ public class ItemSchedule: Codable, Equatable {
     /** True if this has been aired previously on the same channel. */
     public var `repeat`: Bool?
 
-    public init(id: String, channelId: String, startDate: Date, endDate: Date, featured: Bool? = nil, item: ItemSummary? = nil, live: Bool? = nil, `repeat`: Bool? = nil) {
+    public init(id: String, channelId: String, startDate: DateTime, endDate: DateTime, featured: Bool? = nil, item: ItemSummary? = nil, live: Bool? = nil, `repeat`: Bool? = nil) {
         self.id = id
         self.channelId = channelId
         self.startDate = startDate

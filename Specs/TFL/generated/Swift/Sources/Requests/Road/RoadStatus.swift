@@ -18,11 +18,11 @@ extension TFL.Road {
                 /** Comma-separated list of road identifiers e.g. "A406, A2" or use "all" to ignore id filter (a full list of supported road identifiers can be found at the /Road/ endpoint) */
                 public var ids: [String]
 
-                public var dateRangeNullableStartDate: Date?
+                public var dateRangeNullableStartDate: DateTime?
 
-                public var dateRangeNullableEndDate: Date?
+                public var dateRangeNullableEndDate: DateTime?
 
-                public init(ids: [String], dateRangeNullableStartDate: Date? = nil, dateRangeNullableEndDate: Date? = nil) {
+                public init(ids: [String], dateRangeNullableStartDate: DateTime? = nil, dateRangeNullableEndDate: DateTime? = nil) {
                     self.ids = ids
                     self.dateRangeNullableStartDate = dateRangeNullableStartDate
                     self.dateRangeNullableEndDate = dateRangeNullableEndDate
@@ -37,7 +37,7 @@ extension TFL.Road {
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(ids: [String], dateRangeNullableStartDate: Date? = nil, dateRangeNullableEndDate: Date? = nil) {
+            public convenience init(ids: [String], dateRangeNullableStartDate: DateTime? = nil, dateRangeNullableEndDate: DateTime? = nil) {
                 let options = Options(ids: ids, dateRangeNullableStartDate: dateRangeNullableStartDate, dateRangeNullableEndDate: dateRangeNullableEndDate)
                 self.init(options: options)
             }
@@ -90,7 +90,6 @@ extension TFL.Road {
 
             public init(statusCode: Int, data: Data) throws {
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(TFL.dateFormatter)
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([RoadCorridor].self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

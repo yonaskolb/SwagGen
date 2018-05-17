@@ -49,8 +49,6 @@ extension PetstoreTest.User {
             }
 
             public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(PetstoreTest.dateFormatter)
                 switch statusCode {
                 default: self = .defaultResponse(statusCode: statusCode)
                 }

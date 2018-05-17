@@ -25,7 +25,7 @@ extension TBX.UserService {
                 public var type: String
 
                 /** Token expiration date */
-                public var expiration: Date?
+                public var expiration: DateTime?
 
                 /** Token credits */
                 public var credits: Double?
@@ -33,7 +33,7 @@ extension TBX.UserService {
                 /** Extra data to device */
                 public var attributes: String?
 
-                public init(subscriberId: String, country: String, type: String, expiration: Date? = nil, credits: Double? = nil, attributes: String? = nil) {
+                public init(subscriberId: String, country: String, type: String, expiration: DateTime? = nil, credits: Double? = nil, attributes: String? = nil) {
                     self.subscriberId = subscriberId
                     self.country = country
                     self.type = type
@@ -51,7 +51,7 @@ extension TBX.UserService {
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(subscriberId: String, country: String, type: String, expiration: Date? = nil, credits: Double? = nil, attributes: String? = nil) {
+            public convenience init(subscriberId: String, country: String, type: String, expiration: DateTime? = nil, credits: Double? = nil, attributes: String? = nil) {
                 let options = Options(subscriberId: subscriberId, country: country, type: type, expiration: expiration, credits: credits, attributes: attributes)
                 self.init(options: options)
             }
@@ -152,7 +152,6 @@ extension TBX.UserService {
 
             public init(statusCode: Int, data: Data) throws {
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(TBX.dateFormatter)
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(TokenObject.self, from: data))
                 case 400: self = try .status400(decoder.decode(ResponseError.self, from: data))

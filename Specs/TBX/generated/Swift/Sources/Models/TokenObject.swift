@@ -15,7 +15,7 @@ public class TokenObject: Codable, Equatable {
     /** The Token type */
     public var type: String
 
-    public var expiration: Date?
+    public var expiration: DateTime?
 
     public var remainingCredits: Double?
 
@@ -63,7 +63,7 @@ public class TokenObject: Codable, Equatable {
         }
     }
 
-    public init(token: String, idp: Idp, type: String, expiration: Date? = nil, remainingCredits: Double? = nil, uses: Double? = nil) {
+    public init(token: String, idp: Idp, type: String, expiration: DateTime? = nil, remainingCredits: Double? = nil, uses: Double? = nil) {
         self.token = token
         self.idp = idp
         self.type = type

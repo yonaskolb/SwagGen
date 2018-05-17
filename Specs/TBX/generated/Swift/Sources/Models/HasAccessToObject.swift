@@ -23,12 +23,12 @@ Options: CACHE_ACCESS / IDP_ACCESS / ACTIVITY_ACCESS / PERMISSION_ACCESS / ETIME
     public var error: ErrorObject?
 
     /** If the action is PPV this is the date on the PPV will expire */
-    public var expiration: Date?
+    public var expiration: DateTime?
 
     /** The response received from the IDP */
     public var idpAccess: Bool?
 
-    public init(urn: String, access: Bool, isTryandbuy: Bool, reason: String, error: ErrorObject? = nil, expiration: Date? = nil, idpAccess: Bool? = nil) {
+    public init(urn: String, access: Bool, isTryandbuy: Bool, reason: String, error: ErrorObject? = nil, expiration: DateTime? = nil, idpAccess: Bool? = nil) {
         self.urn = urn
         self.access = access
         self.isTryandbuy = isTryandbuy

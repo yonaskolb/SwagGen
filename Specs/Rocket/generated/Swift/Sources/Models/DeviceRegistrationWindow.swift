@@ -23,15 +23,15 @@ N is defined by `periodDays`.
 
 If no device has been de/registered then start date will be from the current date.
  */
-    public var startDate: Date
+    public var startDate: DateTime
 
     /** The end date of the current period.
 
 This is based on the value of `startDate` plus the number of days defined by  `periodDays`.
  */
-    public var endDate: Date
+    public var endDate: DateTime
 
-    public init(periodDays: Int, limit: Int, remaining: Int, startDate: Date, endDate: Date) {
+    public init(periodDays: Int, limit: Int, remaining: Int, startDate: DateTime, endDate: DateTime) {
         self.periodDays = periodDays
         self.limit = limit
         self.remaining = remaining

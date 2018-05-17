@@ -85,9 +85,7 @@ extension KeyedDecodingContainer {
     }
 
     func decodeAnyIfPresent<T>(_ key: K) throws -> T? {
-        return try decodeOptional {
-            try decodeAnyIfPresent(T.self, forKey: key)
-        }
+        return try decodeAnyIfPresent(T.self, forKey: key)
     }
 
     public func decodeArray<T: Decodable>(_ key: K) throws -> [T] {
@@ -111,11 +109,15 @@ extension KeyedDecodingContainer {
 
     public func decodeArrayIfPresent<T: Decodable>(_ key: K) throws -> [T]? {
         return try decodeOptional {
-            try decodeArray(key)
+            if contains(key) {
+                return try decodeArray(key)
+            } else {
+                return nil
+            }
         }
     }
 
-     fileprivate func decodeOptional<T>(_ closure: () throws -> T? ) throws -> T? {
+    fileprivate func decodeOptional<T>(_ closure: () throws -> T? ) throws -> T? {
         if {{ options.name }}.safeOptionalDecoding {
             do {
                 return try closure()

@@ -145,7 +145,7 @@ extension KeyedEncodingContainer {
 
 public struct DateDay: Codable, Equatable {
 
-    public static var dateFormatter: DateFormatter = {
+    public static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYY-MM-dd"
         formatter.calendar = .current
@@ -211,7 +211,7 @@ extension DateDay {
 
 extension Date {
     func encode() -> Any {
-        return String(data: try! APIClient.default.jsonEncoder.encode(self), encoding: .utf8) ?? ""
+        return PetstoreTest.dateFormatter.string(from: self)
     }
 }
 

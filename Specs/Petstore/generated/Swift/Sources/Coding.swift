@@ -172,7 +172,7 @@ public struct DateTime: Codable, Comparable {
         return formatter
     }()
 
-    public init(date: Date) {
+    public init(date: Date = Date()) {
         self.date = date
     }
 
@@ -214,12 +214,12 @@ public struct DateDay: Codable, Comparable {
         return formatter
     }()
 
-    let date: Date
+    public let date: Date
     public let year: Int
     public let month: Int
     public let day: Int
 
-    public init(date: Date) {
+    public init(date: Date = Date()) {
         self.date = date
         let dateComponents = Calendar.current.dateComponents([.day, .month, .year], from: date)
         guard let year = dateComponents.year,

@@ -211,7 +211,7 @@ public struct DateDay: Codable, Comparable {
         return formatter
     }()
 
-    let date: Date
+    public let date: Date
     public let year: Int
     public let month: Int
     public let day: Int

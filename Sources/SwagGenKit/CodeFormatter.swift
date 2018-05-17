@@ -15,8 +15,8 @@ public class CodeFormatter {
     public init(spec: SwaggerSpec, templateConfig: TemplateConfig) {
         self.spec = spec
         self.templateConfig = templateConfig
-        self.modelPrefix = templateConfig.getStringOption("modelPrefix")
-        self.modelSuffix = templateConfig.getStringOption("modelSuffix")
+        modelPrefix = templateConfig.getStringOption("modelPrefix")
+        modelSuffix = templateConfig.getStringOption("modelSuffix")
     }
 
     var disallowedNames: [String] {

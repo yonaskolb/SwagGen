@@ -36,9 +36,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(dateTime, forKey: .dateTime)
-        try container.encode(map, forKey: .map)
-        try container.encode(uuid, forKey: .uuid)
+        try container.encodeIfPresent(dateTime, forKey: .dateTime)
+        try container.encodeIfPresent(map, forKey: .map)
+        try container.encodeIfPresent(uuid, forKey: .uuid)
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -71,10 +71,10 @@ public class ItemSchedule: Codable, Equatable {
         try container.encode(channelId, forKey: .channelId)
         try container.encode(startDate, forKey: .startDate)
         try container.encode(endDate, forKey: .endDate)
-        try container.encode(featured, forKey: .featured)
-        try container.encode(item, forKey: .item)
-        try container.encode(live, forKey: .live)
-        try container.encode(`repeat`, forKey: .`repeat`)
+        try container.encodeIfPresent(featured, forKey: .featured)
+        try container.encodeIfPresent(item, forKey: .item)
+        try container.encodeIfPresent(live, forKey: .live)
+        try container.encodeIfPresent(`repeat`, forKey: .`repeat`)
     }
 
     public func isEqual(to object: Any?) -> Bool {

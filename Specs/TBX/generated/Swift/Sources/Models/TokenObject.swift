@@ -47,8 +47,8 @@ public class TokenObject: Codable, Equatable {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
 
-            try container.encode(code, forKey: .code)
-            try container.encode(description, forKey: .description)
+            try container.encodeIfPresent(code, forKey: .code)
+            try container.encodeIfPresent(description, forKey: .description)
         }
 
         public func isEqual(to object: Any?) -> Bool {
@@ -98,9 +98,9 @@ public class TokenObject: Codable, Equatable {
         try container.encode(token, forKey: .token)
         try container.encode(idp, forKey: .idp)
         try container.encode(type, forKey: .type)
-        try container.encode(expiration, forKey: .expiration)
-        try container.encode(remainingCredits, forKey: .remainingCredits)
-        try container.encode(uses, forKey: .uses)
+        try container.encodeIfPresent(expiration, forKey: .expiration)
+        try container.encodeIfPresent(remainingCredits, forKey: .remainingCredits)
+        try container.encodeIfPresent(uses, forKey: .uses)
     }
 
     public func isEqual(to object: Any?) -> Bool {

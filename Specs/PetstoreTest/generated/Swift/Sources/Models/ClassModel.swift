@@ -27,7 +27,7 @@ public class ClassModel: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(`class`, forKey: .`class`)
+        try container.encodeIfPresent(`class`, forKey: .`class`)
     }
 
     public func isEqual(to object: Any?) -> Bool {

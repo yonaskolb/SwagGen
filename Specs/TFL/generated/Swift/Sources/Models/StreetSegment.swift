@@ -45,10 +45,10 @@ public class StreetSegment: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(lineString, forKey: .lineString)
-        try container.encode(sourceSystemId, forKey: .sourceSystemId)
-        try container.encode(sourceSystemKey, forKey: .sourceSystemKey)
-        try container.encode(toid, forKey: .toid)
+        try container.encodeIfPresent(lineString, forKey: .lineString)
+        try container.encodeIfPresent(sourceSystemId, forKey: .sourceSystemId)
+        try container.encodeIfPresent(sourceSystemKey, forKey: .sourceSystemKey)
+        try container.encodeIfPresent(toid, forKey: .toid)
     }
 
     public func isEqual(to object: Any?) -> Bool {

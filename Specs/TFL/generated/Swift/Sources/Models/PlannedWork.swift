@@ -41,10 +41,10 @@ public class PlannedWork: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(createdDateTime, forKey: .createdDateTime)
-        try container.encode(description, forKey: .description)
-        try container.encode(id, forKey: .id)
-        try container.encode(lastUpdateDateTime, forKey: .lastUpdateDateTime)
+        try container.encodeIfPresent(createdDateTime, forKey: .createdDateTime)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(lastUpdateDateTime, forKey: .lastUpdateDateTime)
     }
 
     public func isEqual(to object: Any?) -> Bool {

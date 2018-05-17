@@ -32,8 +32,8 @@ public class PageMetadata: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(description, forKey: .description)
-        try container.encode(keywords, forKey: .keywords)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(keywords, forKey: .keywords)
     }
 
     public func isEqual(to object: Any?) -> Bool {

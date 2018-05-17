@@ -36,9 +36,9 @@ public class OrderedRoute: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(name, forKey: .name)
-        try container.encode(naptanIds, forKey: .naptanIds)
-        try container.encode(serviceType, forKey: .serviceType)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(naptanIds, forKey: .naptanIds)
+        try container.encodeIfPresent(serviceType, forKey: .serviceType)
     }
 
     public func isEqual(to object: Any?) -> Bool {

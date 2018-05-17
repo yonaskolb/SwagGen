@@ -83,7 +83,7 @@ property will not exist.
         try container.encode(isTrialPeriod, forKey: .isTrialPeriod)
         try container.encode(planId, forKey: .planId)
         try container.encode(status, forKey: .status)
-        try container.encode(endDate, forKey: .endDate)
+        try container.encodeIfPresent(endDate, forKey: .endDate)
     }
 
     public func isEqual(to object: Any?) -> Bool {

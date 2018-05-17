@@ -26,7 +26,7 @@ public class RecommendationResponse: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(recommendations, forKey: .recommendations)
+        try container.encodeIfPresent(recommendations, forKey: .recommendations)
     }
 
     public func isEqual(to object: Any?) -> Bool {

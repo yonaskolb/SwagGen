@@ -41,10 +41,10 @@ public class ApiVersionInfo: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(assemblies, forKey: .assemblies)
-        try container.encode(label, forKey: .label)
-        try container.encode(timestamp, forKey: .timestamp)
-        try container.encode(version, forKey: .version)
+        try container.encodeIfPresent(assemblies, forKey: .assemblies)
+        try container.encodeIfPresent(label, forKey: .label)
+        try container.encodeIfPresent(timestamp, forKey: .timestamp)
+        try container.encodeIfPresent(version, forKey: .version)
     }
 
     public func isEqual(to object: Any?) -> Bool {

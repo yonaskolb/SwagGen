@@ -41,10 +41,10 @@ public class FaresSection: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(header, forKey: .header)
-        try container.encode(index, forKey: .index)
-        try container.encode(messages, forKey: .messages)
-        try container.encode(rows, forKey: .rows)
+        try container.encodeIfPresent(header, forKey: .header)
+        try container.encodeIfPresent(index, forKey: .index)
+        try container.encodeIfPresent(messages, forKey: .messages)
+        try container.encodeIfPresent(rows, forKey: .rows)
     }
 
     public func isEqual(to object: Any?) -> Bool {

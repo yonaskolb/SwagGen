@@ -31,8 +31,8 @@ public class Interval: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(stopId, forKey: .stopId)
-        try container.encode(timeToArrival, forKey: .timeToArrival)
+        try container.encodeIfPresent(stopId, forKey: .stopId)
+        try container.encodeIfPresent(timeToArrival, forKey: .timeToArrival)
     }
 
     public func isEqual(to object: Any?) -> Bool {

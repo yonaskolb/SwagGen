@@ -56,13 +56,13 @@ public class LineRouteSection: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(destination, forKey: .destination)
-        try container.encode(direction, forKey: .direction)
-        try container.encode(fromStation, forKey: .fromStation)
-        try container.encode(routeId, forKey: .routeId)
-        try container.encode(serviceType, forKey: .serviceType)
-        try container.encode(toStation, forKey: .toStation)
-        try container.encode(vehicleDestinationText, forKey: .vehicleDestinationText)
+        try container.encodeIfPresent(destination, forKey: .destination)
+        try container.encodeIfPresent(direction, forKey: .direction)
+        try container.encodeIfPresent(fromStation, forKey: .fromStation)
+        try container.encodeIfPresent(routeId, forKey: .routeId)
+        try container.encodeIfPresent(serviceType, forKey: .serviceType)
+        try container.encodeIfPresent(toStation, forKey: .toStation)
+        try container.encodeIfPresent(vehicleDestinationText, forKey: .vehicleDestinationText)
     }
 
     public func isEqual(to object: Any?) -> Bool {

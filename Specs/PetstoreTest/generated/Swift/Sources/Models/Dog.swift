@@ -28,7 +28,7 @@ public class Dog: Animal {
     public override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(breed, forKey: .breed)
+        try container.encodeIfPresent(breed, forKey: .breed)
         try super.encode(to: encoder)
     }
 

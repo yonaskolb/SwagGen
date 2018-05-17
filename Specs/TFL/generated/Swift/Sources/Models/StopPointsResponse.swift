@@ -52,11 +52,11 @@ public class StopPointsResponse: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(centrePoint, forKey: .centrePoint)
-        try container.encode(page, forKey: .page)
-        try container.encode(pageSize, forKey: .pageSize)
-        try container.encode(stopPoints, forKey: .stopPoints)
-        try container.encode(total, forKey: .total)
+        try container.encodeIfPresent(centrePoint, forKey: .centrePoint)
+        try container.encodeIfPresent(page, forKey: .page)
+        try container.encodeIfPresent(pageSize, forKey: .pageSize)
+        try container.encodeIfPresent(stopPoints, forKey: .stopPoints)
+        try container.encodeIfPresent(total, forKey: .total)
     }
 
     public func isEqual(to object: Any?) -> Bool {

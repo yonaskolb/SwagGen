@@ -66,10 +66,10 @@ public class Offer: OfferRights {
 
         try container.encode(price, forKey: .price)
         try container.encode(availability, forKey: .availability)
-        try container.encode(endDate, forKey: .endDate)
-        try container.encode(name, forKey: .name)
-        try container.encode(startDate, forKey: .startDate)
-        try container.encode(subscriptionCode, forKey: .subscriptionCode)
+        try container.encodeIfPresent(endDate, forKey: .endDate)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(startDate, forKey: .startDate)
+        try container.encodeIfPresent(subscriptionCode, forKey: .subscriptionCode)
         try super.encode(to: encoder)
     }
 

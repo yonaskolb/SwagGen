@@ -36,9 +36,9 @@ public class ArrayTest: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
-        try container.encode(arrayArrayOfModel, forKey: .arrayArrayOfModel)
-        try container.encode(arrayOfString, forKey: .arrayOfString)
+        try container.encodeIfPresent(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
+        try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
+        try container.encodeIfPresent(arrayOfString, forKey: .arrayOfString)
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -61,14 +61,14 @@ public class Ticket: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(cost, forKey: .cost)
-        try container.encode(description, forKey: .description)
-        try container.encode(displayOrder, forKey: .displayOrder)
-        try container.encode(messages, forKey: .messages)
-        try container.encode(mode, forKey: .mode)
-        try container.encode(passengerType, forKey: .passengerType)
-        try container.encode(ticketTime, forKey: .ticketTime)
-        try container.encode(ticketType, forKey: .ticketType)
+        try container.encodeIfPresent(cost, forKey: .cost)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(displayOrder, forKey: .displayOrder)
+        try container.encodeIfPresent(messages, forKey: .messages)
+        try container.encodeIfPresent(mode, forKey: .mode)
+        try container.encodeIfPresent(passengerType, forKey: .passengerType)
+        try container.encodeIfPresent(ticketTime, forKey: .ticketTime)
+        try container.encodeIfPresent(ticketType, forKey: .ticketType)
     }
 
     public func isEqual(to object: Any?) -> Bool {

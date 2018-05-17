@@ -66,15 +66,15 @@ public class RouteSequence: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(direction, forKey: .direction)
-        try container.encode(isOutboundOnly, forKey: .isOutboundOnly)
-        try container.encode(lineId, forKey: .lineId)
-        try container.encode(lineName, forKey: .lineName)
-        try container.encode(lineStrings, forKey: .lineStrings)
-        try container.encode(mode, forKey: .mode)
-        try container.encode(orderedLineRoutes, forKey: .orderedLineRoutes)
-        try container.encode(stations, forKey: .stations)
-        try container.encode(stopPointSequences, forKey: .stopPointSequences)
+        try container.encodeIfPresent(direction, forKey: .direction)
+        try container.encodeIfPresent(isOutboundOnly, forKey: .isOutboundOnly)
+        try container.encodeIfPresent(lineId, forKey: .lineId)
+        try container.encodeIfPresent(lineName, forKey: .lineName)
+        try container.encodeIfPresent(lineStrings, forKey: .lineStrings)
+        try container.encodeIfPresent(mode, forKey: .mode)
+        try container.encodeIfPresent(orderedLineRoutes, forKey: .orderedLineRoutes)
+        try container.encodeIfPresent(stations, forKey: .stations)
+        try container.encodeIfPresent(stopPointSequences, forKey: .stopPointSequences)
     }
 
     public func isEqual(to object: Any?) -> Bool {

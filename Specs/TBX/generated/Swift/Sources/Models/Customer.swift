@@ -72,15 +72,15 @@ public class Customer: Codable, Equatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(subscriberID, forKey: .subscriberID)
-        try container.encode(banReason, forKey: .banReason)
-        try container.encode(banned, forKey: .banned)
-        try container.encode(country, forKey: .country)
-        try container.encode(created, forKey: .created)
-        try container.encode(hasNotDeviceLimit, forKey: .hasNotDeviceLimit)
-        try container.encode(id, forKey: .id)
-        try container.encode(identityProvider, forKey: .identityProvider)
-        try container.encode(lastLogin, forKey: .lastLogin)
-        try container.encode(updated, forKey: .updated)
+        try container.encodeIfPresent(banReason, forKey: .banReason)
+        try container.encodeIfPresent(banned, forKey: .banned)
+        try container.encodeIfPresent(country, forKey: .country)
+        try container.encodeIfPresent(created, forKey: .created)
+        try container.encodeIfPresent(hasNotDeviceLimit, forKey: .hasNotDeviceLimit)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(identityProvider, forKey: .identityProvider)
+        try container.encodeIfPresent(lastLogin, forKey: .lastLogin)
+        try container.encodeIfPresent(updated, forKey: .updated)
     }
 
     public func isEqual(to object: Any?) -> Bool {

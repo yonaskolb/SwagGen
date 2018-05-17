@@ -68,10 +68,10 @@ If this is present then the `items` list won't be.
 
         try container.encode(term, forKey: .term)
         try container.encode(total, forKey: .total)
-        try container.encode(items, forKey: .items)
-        try container.encode(movies, forKey: .movies)
-        try container.encode(people, forKey: .people)
-        try container.encode(tv, forKey: .tv)
+        try container.encodeIfPresent(items, forKey: .items)
+        try container.encodeIfPresent(movies, forKey: .movies)
+        try container.encodeIfPresent(people, forKey: .people)
+        try container.encodeIfPresent(tv, forKey: .tv)
     }
 
     public func isEqual(to object: Any?) -> Bool {

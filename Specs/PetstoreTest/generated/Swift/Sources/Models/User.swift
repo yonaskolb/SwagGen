@@ -62,14 +62,14 @@ public class User: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(email, forKey: .email)
-        try container.encode(firstName, forKey: .firstName)
-        try container.encode(id, forKey: .id)
-        try container.encode(lastName, forKey: .lastName)
-        try container.encode(password, forKey: .password)
-        try container.encode(phone, forKey: .phone)
-        try container.encode(userStatus, forKey: .userStatus)
-        try container.encode(username, forKey: .username)
+        try container.encodeIfPresent(email, forKey: .email)
+        try container.encodeIfPresent(firstName, forKey: .firstName)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(lastName, forKey: .lastName)
+        try container.encodeIfPresent(password, forKey: .password)
+        try container.encodeIfPresent(phone, forKey: .phone)
+        try container.encodeIfPresent(userStatus, forKey: .userStatus)
+        try container.encodeIfPresent(username, forKey: .username)
     }
 
     public func isEqual(to object: Any?) -> Bool {

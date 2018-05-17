@@ -61,14 +61,14 @@ public class RoadDisruptionLine: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(endDate, forKey: .endDate)
-        try container.encode(endTime, forKey: .endTime)
-        try container.encode(id, forKey: .id)
-        try container.encode(isDiversion, forKey: .isDiversion)
-        try container.encode(multiLineString, forKey: .multiLineString)
-        try container.encode(roadDisruptionId, forKey: .roadDisruptionId)
-        try container.encode(startDate, forKey: .startDate)
-        try container.encode(startTime, forKey: .startTime)
+        try container.encodeIfPresent(endDate, forKey: .endDate)
+        try container.encodeIfPresent(endTime, forKey: .endTime)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(isDiversion, forKey: .isDiversion)
+        try container.encodeIfPresent(multiLineString, forKey: .multiLineString)
+        try container.encodeIfPresent(roadDisruptionId, forKey: .roadDisruptionId)
+        try container.encodeIfPresent(startDate, forKey: .startDate)
+        try container.encodeIfPresent(startTime, forKey: .startTime)
     }
 
     public func isEqual(to object: Any?) -> Bool {

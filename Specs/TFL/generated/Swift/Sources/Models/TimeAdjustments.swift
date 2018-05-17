@@ -41,10 +41,10 @@ public class TimeAdjustments: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(earlier, forKey: .earlier)
-        try container.encode(earliest, forKey: .earliest)
-        try container.encode(later, forKey: .later)
-        try container.encode(latest, forKey: .latest)
+        try container.encodeIfPresent(earlier, forKey: .earlier)
+        try container.encodeIfPresent(earliest, forKey: .earliest)
+        try container.encodeIfPresent(later, forKey: .later)
+        try container.encodeIfPresent(latest, forKey: .latest)
     }
 
     public func isEqual(to object: Any?) -> Bool {

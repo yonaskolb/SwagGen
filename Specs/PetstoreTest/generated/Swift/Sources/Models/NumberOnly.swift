@@ -26,7 +26,7 @@ public class NumberOnly: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(justNumber, forKey: .justNumber)
+        try container.encodeIfPresent(justNumber, forKey: .justNumber)
     }
 
     public func isEqual(to object: Any?) -> Bool {

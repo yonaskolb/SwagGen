@@ -52,10 +52,10 @@ public class Navigation: Codable, Equatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(header, forKey: .header)
-        try container.encode(account, forKey: .account)
-        try container.encode(copyright, forKey: .copyright)
-        try container.encodeAny(customFields, forKey: .customFields)
-        try container.encode(footer, forKey: .footer)
+        try container.encodeIfPresent(account, forKey: .account)
+        try container.encodeIfPresent(copyright, forKey: .copyright)
+        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
+        try container.encodeIfPresent(footer, forKey: .footer)
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -46,11 +46,11 @@ public class Casualty: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(age, forKey: .age)
-        try container.encode(ageBand, forKey: .ageBand)
-        try container.encode(`class`, forKey: .`class`)
-        try container.encode(mode, forKey: .mode)
-        try container.encode(severity, forKey: .severity)
+        try container.encodeIfPresent(age, forKey: .age)
+        try container.encodeIfPresent(ageBand, forKey: .ageBand)
+        try container.encodeIfPresent(`class`, forKey: .`class`)
+        try container.encodeIfPresent(mode, forKey: .mode)
+        try container.encodeIfPresent(severity, forKey: .severity)
     }
 
     public func isEqual(to object: Any?) -> Bool {

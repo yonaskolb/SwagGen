@@ -53,12 +53,12 @@ public class Capitalization: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(attname, forKey: .attname)
-        try container.encode(capitalCamel, forKey: .capitalCamel)
-        try container.encode(capitalSnake, forKey: .capitalSnake)
-        try container.encode(sCAETHFlowPoints, forKey: .sCAETHFlowPoints)
-        try container.encode(smallCamel, forKey: .smallCamel)
-        try container.encode(smallSnake, forKey: .smallSnake)
+        try container.encodeIfPresent(attname, forKey: .attname)
+        try container.encodeIfPresent(capitalCamel, forKey: .capitalCamel)
+        try container.encodeIfPresent(capitalSnake, forKey: .capitalSnake)
+        try container.encodeIfPresent(sCAETHFlowPoints, forKey: .sCAETHFlowPoints)
+        try container.encodeIfPresent(smallCamel, forKey: .smallCamel)
+        try container.encodeIfPresent(smallSnake, forKey: .smallSnake)
     }
 
     public func isEqual(to object: Any?) -> Bool {

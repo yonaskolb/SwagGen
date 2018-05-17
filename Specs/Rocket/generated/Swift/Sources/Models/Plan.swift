@@ -189,8 +189,8 @@ public class Plan: Codable, Equatable {
         try container.encode(trialPeriodDays, forKey: .trialPeriodDays)
         try container.encode(termsAndConditions, forKey: .termsAndConditions)
         try container.encode(currency, forKey: .currency)
-        try container.encodeAny(customFields, forKey: .customFields)
-        try container.encode(price, forKey: .price)
+        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
+        try container.encodeIfPresent(price, forKey: .price)
     }
 
     public func isEqual(to object: Any?) -> Bool {

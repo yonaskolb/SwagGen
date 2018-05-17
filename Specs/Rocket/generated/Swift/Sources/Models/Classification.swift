@@ -52,7 +52,7 @@ Each classification in a system should have a unique level.
         try container.encode(level, forKey: .level)
         try container.encode(system, forKey: .system)
         try container.encode(images, forKey: .images)
-        try container.encode(advisoryText, forKey: .advisoryText)
+        try container.encodeIfPresent(advisoryText, forKey: .advisoryText)
         try super.encode(to: encoder)
     }
 

@@ -118,7 +118,7 @@ public class MediaFile: Codable, Equatable {
         try container.encode(width, forKey: .width)
         try container.encode(height, forKey: .height)
         try container.encode(language, forKey: .language)
-        try container.encode(channels, forKey: .channels)
+        try container.encodeIfPresent(channels, forKey: .channels)
     }
 
     public func isEqual(to object: Any?) -> Bool {

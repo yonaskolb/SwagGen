@@ -64,7 +64,7 @@ extension TBX.UserService {
                 public func encode(to encoder: Encoder) throws {
                     var container = encoder.container(keyedBy: CodingKeys.self)
 
-                    try container.encode(status, forKey: .status)
+                    try container.encodeIfPresent(status, forKey: .status)
                 }
 
                 public func isEqual(to object: Any?) -> Bool {

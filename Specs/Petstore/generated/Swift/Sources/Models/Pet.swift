@@ -38,7 +38,7 @@ public class Pet: Codable, Equatable {
 
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
-        try container.encode(tag, forKey: .tag)
+        try container.encodeIfPresent(tag, forKey: .tag)
     }
 
     public func isEqual(to object: Any?) -> Bool {

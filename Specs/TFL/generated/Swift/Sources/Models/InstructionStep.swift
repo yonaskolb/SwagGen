@@ -128,19 +128,19 @@ public class InstructionStep: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(cumulativeDistance, forKey: .cumulativeDistance)
-        try container.encode(cumulativeTravelTime, forKey: .cumulativeTravelTime)
-        try container.encode(description, forKey: .description)
-        try container.encode(descriptionHeading, forKey: .descriptionHeading)
-        try container.encode(distance, forKey: .distance)
-        try container.encode(latitude, forKey: .latitude)
-        try container.encode(longitude, forKey: .longitude)
-        try container.encode(pathAttribute, forKey: .pathAttribute)
-        try container.encode(skyDirection, forKey: .skyDirection)
-        try container.encode(skyDirectionDescription, forKey: .skyDirectionDescription)
-        try container.encode(streetName, forKey: .streetName)
-        try container.encode(trackType, forKey: .trackType)
-        try container.encode(turnDirection, forKey: .turnDirection)
+        try container.encodeIfPresent(cumulativeDistance, forKey: .cumulativeDistance)
+        try container.encodeIfPresent(cumulativeTravelTime, forKey: .cumulativeTravelTime)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(descriptionHeading, forKey: .descriptionHeading)
+        try container.encodeIfPresent(distance, forKey: .distance)
+        try container.encodeIfPresent(latitude, forKey: .latitude)
+        try container.encodeIfPresent(longitude, forKey: .longitude)
+        try container.encodeIfPresent(pathAttribute, forKey: .pathAttribute)
+        try container.encodeIfPresent(skyDirection, forKey: .skyDirection)
+        try container.encodeIfPresent(skyDirectionDescription, forKey: .skyDirectionDescription)
+        try container.encodeIfPresent(streetName, forKey: .streetName)
+        try container.encodeIfPresent(trackType, forKey: .trackType)
+        try container.encodeIfPresent(turnDirection, forKey: .turnDirection)
     }
 
     public func isEqual(to object: Any?) -> Bool {

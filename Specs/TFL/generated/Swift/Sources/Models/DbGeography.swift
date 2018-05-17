@@ -26,7 +26,7 @@ public class DbGeography: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(geography, forKey: .geography)
+        try container.encodeIfPresent(geography, forKey: .geography)
     }
 
     public func isEqual(to object: Any?) -> Bool {

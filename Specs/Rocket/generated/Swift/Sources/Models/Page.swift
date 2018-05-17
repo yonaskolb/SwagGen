@@ -67,10 +67,10 @@ on list detail pages. See `feature-flags.md` for further details.*
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(entries, forKey: .entries)
-        try container.encodeAny(customFields, forKey: .customFields)
-        try container.encode(item, forKey: .item)
-        try container.encode(list, forKey: .list)
-        try container.encode(metadata, forKey: .metadata)
+        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
+        try container.encodeIfPresent(item, forKey: .item)
+        try container.encodeIfPresent(list, forKey: .list)
+        try container.encodeIfPresent(metadata, forKey: .metadata)
         try super.encode(to: encoder)
     }
 

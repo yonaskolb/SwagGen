@@ -59,7 +59,7 @@ public class TryAndBuyObject: Codable, Equatable {
         try container.encode(expiration, forKey: .expiration)
         try container.encode(daysWithTryAndBuy, forKey: .daysWithTryAndBuy)
         try container.encode(numTryAndBuyExpired, forKey: .numTryAndBuyExpired)
-        try container.encode(lastFinishedTryAndBuy, forKey: .lastFinishedTryAndBuy)
+        try container.encodeIfPresent(lastFinishedTryAndBuy, forKey: .lastFinishedTryAndBuy)
     }
 
     public func isEqual(to object: Any?) -> Bool {

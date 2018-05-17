@@ -44,8 +44,8 @@ public class DeviceObject: Codable, Equatable {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
 
-            try container.encode(code, forKey: .code)
-            try container.encode(description, forKey: .description)
+            try container.encodeIfPresent(code, forKey: .code)
+            try container.encodeIfPresent(description, forKey: .description)
         }
 
         public func isEqual(to object: Any?) -> Bool {
@@ -99,8 +99,8 @@ public class DeviceObject: Codable, Equatable {
             public func encode(to encoder: Encoder) throws {
                 var container = encoder.container(keyedBy: CodingKeys.self)
 
-                try container.encode(code, forKey: .code)
-                try container.encode(description, forKey: .description)
+                try container.encodeIfPresent(code, forKey: .code)
+                try container.encodeIfPresent(description, forKey: .description)
             }
 
             public func isEqual(to object: Any?) -> Bool {
@@ -141,8 +141,8 @@ public class DeviceObject: Codable, Equatable {
             public func encode(to encoder: Encoder) throws {
                 var container = encoder.container(keyedBy: CodingKeys.self)
 
-                try container.encode(code, forKey: .code)
-                try container.encode(description, forKey: .description)
+                try container.encodeIfPresent(code, forKey: .code)
+                try container.encodeIfPresent(description, forKey: .description)
             }
 
             public func isEqual(to object: Any?) -> Bool {
@@ -186,11 +186,11 @@ public class DeviceObject: Codable, Equatable {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
 
-            try container.encode(country, forKey: .country)
-            try container.encode(createdAt, forKey: .createdAt)
-            try container.encode(id, forKey: .id)
-            try container.encode(idp, forKey: .idp)
-            try container.encode(subscriberId, forKey: .subscriberId)
+            try container.encodeIfPresent(country, forKey: .country)
+            try container.encodeIfPresent(createdAt, forKey: .createdAt)
+            try container.encodeIfPresent(id, forKey: .id)
+            try container.encodeIfPresent(idp, forKey: .idp)
+            try container.encodeIfPresent(subscriberId, forKey: .subscriberId)
         }
 
         public func isEqual(to object: Any?) -> Bool {
@@ -241,7 +241,7 @@ public class DeviceObject: Codable, Equatable {
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(type, forKey: .type)
         try container.encode(customer, forKey: .customer)
-        try container.encode(description, forKey: .description)
+        try container.encodeIfPresent(description, forKey: .description)
     }
 
     public func isEqual(to object: Any?) -> Bool {

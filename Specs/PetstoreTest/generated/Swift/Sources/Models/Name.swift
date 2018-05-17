@@ -43,9 +43,9 @@ public class Name: Codable, Equatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(name, forKey: .name)
-        try container.encode(_123Number, forKey: ._123Number)
-        try container.encode(property, forKey: .property)
-        try container.encode(snakeCase, forKey: .snakeCase)
+        try container.encodeIfPresent(_123Number, forKey: ._123Number)
+        try container.encodeIfPresent(property, forKey: .property)
+        try container.encodeIfPresent(snakeCase, forKey: .snakeCase)
     }
 
     public func isEqual(to object: Any?) -> Bool {

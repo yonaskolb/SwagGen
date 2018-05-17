@@ -61,7 +61,7 @@ If undefined no cookies will be set.
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(token, forKey: .token)
-        try container.encode(cookieType, forKey: .cookieType)
+        try container.encodeIfPresent(cookieType, forKey: .cookieType)
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -28,7 +28,7 @@ public class Cat: Animal {
     public override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(declawed, forKey: .declawed)
+        try container.encodeIfPresent(declawed, forKey: .declawed)
         try super.encode(to: encoder)
     }
 

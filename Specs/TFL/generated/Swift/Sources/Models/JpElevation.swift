@@ -56,13 +56,13 @@ public class JpElevation: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(distance, forKey: .distance)
-        try container.encode(endLat, forKey: .endLat)
-        try container.encode(endLon, forKey: .endLon)
-        try container.encode(gradient, forKey: .gradient)
-        try container.encode(heightFromPreviousPoint, forKey: .heightFromPreviousPoint)
-        try container.encode(startLat, forKey: .startLat)
-        try container.encode(startLon, forKey: .startLon)
+        try container.encodeIfPresent(distance, forKey: .distance)
+        try container.encodeIfPresent(endLat, forKey: .endLat)
+        try container.encodeIfPresent(endLon, forKey: .endLon)
+        try container.encodeIfPresent(gradient, forKey: .gradient)
+        try container.encodeIfPresent(heightFromPreviousPoint, forKey: .heightFromPreviousPoint)
+        try container.encodeIfPresent(startLat, forKey: .startLat)
+        try container.encodeIfPresent(startLon, forKey: .startLon)
     }
 
     public func isEqual(to object: Any?) -> Bool {

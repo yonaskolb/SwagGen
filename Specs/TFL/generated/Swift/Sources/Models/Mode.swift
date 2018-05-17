@@ -41,10 +41,10 @@ public class Mode: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(isFarePaying, forKey: .isFarePaying)
-        try container.encode(isScheduledService, forKey: .isScheduledService)
-        try container.encode(isTflService, forKey: .isTflService)
-        try container.encode(modeName, forKey: .modeName)
+        try container.encodeIfPresent(isFarePaying, forKey: .isFarePaying)
+        try container.encodeIfPresent(isScheduledService, forKey: .isScheduledService)
+        try container.encodeIfPresent(isTflService, forKey: .isTflService)
+        try container.encodeIfPresent(modeName, forKey: .modeName)
     }
 
     public func isEqual(to object: Any?) -> Bool {

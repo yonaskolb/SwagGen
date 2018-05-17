@@ -105,14 +105,14 @@ For example the Movies Genre list will take a parameter `genre` with a given val
         try container.encode(items, forKey: .items)
         try container.encode(paging, forKey: .paging)
         try container.encode(path, forKey: .path)
-        try container.encodeAny(customFields, forKey: .customFields)
-        try container.encode(description, forKey: .description)
-        try container.encode(images, forKey: .images)
-        try container.encode(itemTypes, forKey: .itemTypes)
-        try container.encode(parameter, forKey: .parameter)
-        try container.encode(shortDescription, forKey: .shortDescription)
-        try container.encode(tagline, forKey: .tagline)
-        try container.encode(title, forKey: .title)
+        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(images, forKey: .images)
+        try container.encodeIfPresent(itemTypes, forKey: .itemTypes)
+        try container.encodeIfPresent(parameter, forKey: .parameter)
+        try container.encodeIfPresent(shortDescription, forKey: .shortDescription)
+        try container.encodeIfPresent(tagline, forKey: .tagline)
+        try container.encodeIfPresent(title, forKey: .title)
     }
 
     public func isEqual(to object: Any?) -> Bool {

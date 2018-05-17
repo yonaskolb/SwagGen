@@ -31,8 +31,8 @@ public class DisambiguationOption: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(description, forKey: .description)
-        try container.encode(uri, forKey: .uri)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(uri, forKey: .uri)
     }
 
     public func isEqual(to object: Any?) -> Bool {

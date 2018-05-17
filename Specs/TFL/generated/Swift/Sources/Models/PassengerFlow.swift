@@ -33,8 +33,8 @@ public class PassengerFlow: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(timeSlice, forKey: .timeSlice)
-        try container.encode(value, forKey: .value)
+        try container.encodeIfPresent(timeSlice, forKey: .timeSlice)
+        try container.encodeIfPresent(value, forKey: .value)
     }
 
     public func isEqual(to object: Any?) -> Bool {

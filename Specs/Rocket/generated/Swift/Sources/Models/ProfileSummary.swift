@@ -97,8 +97,8 @@ pin also exists. This is then applied across all profiles.
         try container.encode(purchaseEnabled, forKey: .purchaseEnabled)
         try container.encode(marketingEnabled, forKey: .marketingEnabled)
         try container.encode(segments, forKey: .segments)
-        try container.encode(maxRatingContentFilter, forKey: .maxRatingContentFilter)
-        try container.encode(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
+        try container.encodeIfPresent(maxRatingContentFilter, forKey: .maxRatingContentFilter)
+        try container.encodeIfPresent(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
     }
 
     public func isEqual(to object: Any?) -> Bool {

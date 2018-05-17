@@ -61,11 +61,11 @@ public class RegistrationRequest: Codable, Equatable {
 
         try container.encode(email, forKey: .email)
         try container.encode(password, forKey: .password)
-        try container.encode(firstName, forKey: .firstName)
-        try container.encode(lastName, forKey: .lastName)
-        try container.encode(marketing, forKey: .marketing)
-        try container.encode(pin, forKey: .pin)
-        try container.encode(segments, forKey: .segments)
+        try container.encodeIfPresent(firstName, forKey: .firstName)
+        try container.encodeIfPresent(lastName, forKey: .lastName)
+        try container.encodeIfPresent(marketing, forKey: .marketing)
+        try container.encodeIfPresent(pin, forKey: .pin)
+        try container.encodeIfPresent(segments, forKey: .segments)
     }
 
     public func isEqual(to object: Any?) -> Bool {

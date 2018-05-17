@@ -51,12 +51,12 @@ public class JourneyPlannerCycleHireDockingStationData: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(destinationId, forKey: .destinationId)
-        try container.encode(destinationNumberOfBikes, forKey: .destinationNumberOfBikes)
-        try container.encode(destinationNumberOfEmptySlots, forKey: .destinationNumberOfEmptySlots)
-        try container.encode(originId, forKey: .originId)
-        try container.encode(originNumberOfBikes, forKey: .originNumberOfBikes)
-        try container.encode(originNumberOfEmptySlots, forKey: .originNumberOfEmptySlots)
+        try container.encodeIfPresent(destinationId, forKey: .destinationId)
+        try container.encodeIfPresent(destinationNumberOfBikes, forKey: .destinationNumberOfBikes)
+        try container.encodeIfPresent(destinationNumberOfEmptySlots, forKey: .destinationNumberOfEmptySlots)
+        try container.encodeIfPresent(originId, forKey: .originId)
+        try container.encodeIfPresent(originNumberOfBikes, forKey: .originNumberOfBikes)
+        try container.encodeIfPresent(originNumberOfEmptySlots, forKey: .originNumberOfEmptySlots)
     }
 
     public func isEqual(to object: Any?) -> Bool {

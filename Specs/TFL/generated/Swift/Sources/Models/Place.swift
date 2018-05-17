@@ -80,16 +80,16 @@ public class Place: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(additionalProperties, forKey: .additionalProperties)
-        try container.encode(children, forKey: .children)
-        try container.encode(childrenUrls, forKey: .childrenUrls)
-        try container.encode(commonName, forKey: .commonName)
-        try container.encode(distance, forKey: .distance)
-        try container.encode(id, forKey: .id)
-        try container.encode(lat, forKey: .lat)
-        try container.encode(lon, forKey: .lon)
-        try container.encode(placeType, forKey: .placeType)
-        try container.encode(url, forKey: .url)
+        try container.encodeIfPresent(additionalProperties, forKey: .additionalProperties)
+        try container.encodeIfPresent(children, forKey: .children)
+        try container.encodeIfPresent(childrenUrls, forKey: .childrenUrls)
+        try container.encodeIfPresent(commonName, forKey: .commonName)
+        try container.encodeIfPresent(distance, forKey: .distance)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(lat, forKey: .lat)
+        try container.encodeIfPresent(lon, forKey: .lon)
+        try container.encodeIfPresent(placeType, forKey: .placeType)
+        try container.encodeIfPresent(url, forKey: .url)
     }
 
     public func isEqual(to object: Any?) -> Bool {

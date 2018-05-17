@@ -31,8 +31,8 @@ public class RouteSearchResponse: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(input, forKey: .input)
-        try container.encode(searchMatches, forKey: .searchMatches)
+        try container.encodeIfPresent(input, forKey: .input)
+        try container.encodeIfPresent(searchMatches, forKey: .searchMatches)
     }
 
     public func isEqual(to object: Any?) -> Bool {

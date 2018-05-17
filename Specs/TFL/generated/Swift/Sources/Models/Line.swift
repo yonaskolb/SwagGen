@@ -71,16 +71,16 @@ public class Line: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(created, forKey: .created)
-        try container.encode(crowding, forKey: .crowding)
-        try container.encode(disruptions, forKey: .disruptions)
-        try container.encode(id, forKey: .id)
-        try container.encode(lineStatuses, forKey: .lineStatuses)
-        try container.encode(modeName, forKey: .modeName)
-        try container.encode(modified, forKey: .modified)
-        try container.encode(name, forKey: .name)
-        try container.encode(routeSections, forKey: .routeSections)
-        try container.encode(serviceTypes, forKey: .serviceTypes)
+        try container.encodeIfPresent(created, forKey: .created)
+        try container.encodeIfPresent(crowding, forKey: .crowding)
+        try container.encodeIfPresent(disruptions, forKey: .disruptions)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(lineStatuses, forKey: .lineStatuses)
+        try container.encodeIfPresent(modeName, forKey: .modeName)
+        try container.encodeIfPresent(modified, forKey: .modified)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(routeSections, forKey: .routeSections)
+        try container.encodeIfPresent(serviceTypes, forKey: .serviceTypes)
     }
 
     public func isEqual(to object: Any?) -> Bool {

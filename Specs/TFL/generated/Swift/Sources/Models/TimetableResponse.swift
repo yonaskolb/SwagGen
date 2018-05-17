@@ -66,15 +66,15 @@ public class TimetableResponse: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(direction, forKey: .direction)
-        try container.encode(disambiguation, forKey: .disambiguation)
-        try container.encode(lineId, forKey: .lineId)
-        try container.encode(lineName, forKey: .lineName)
-        try container.encode(pdfUrl, forKey: .pdfUrl)
-        try container.encode(stations, forKey: .stations)
-        try container.encode(statusErrorMessage, forKey: .statusErrorMessage)
-        try container.encode(stops, forKey: .stops)
-        try container.encode(timetable, forKey: .timetable)
+        try container.encodeIfPresent(direction, forKey: .direction)
+        try container.encodeIfPresent(disambiguation, forKey: .disambiguation)
+        try container.encodeIfPresent(lineId, forKey: .lineId)
+        try container.encodeIfPresent(lineName, forKey: .lineName)
+        try container.encodeIfPresent(pdfUrl, forKey: .pdfUrl)
+        try container.encodeIfPresent(stations, forKey: .stations)
+        try container.encodeIfPresent(statusErrorMessage, forKey: .statusErrorMessage)
+        try container.encodeIfPresent(stops, forKey: .stops)
+        try container.encodeIfPresent(timetable, forKey: .timetable)
     }
 
     public func isEqual(to object: Any?) -> Bool {

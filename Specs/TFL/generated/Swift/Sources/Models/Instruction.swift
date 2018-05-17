@@ -36,9 +36,9 @@ public class Instruction: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(detailed, forKey: .detailed)
-        try container.encode(steps, forKey: .steps)
-        try container.encode(summary, forKey: .summary)
+        try container.encodeIfPresent(detailed, forKey: .detailed)
+        try container.encodeIfPresent(steps, forKey: .steps)
+        try container.encodeIfPresent(summary, forKey: .summary)
     }
 
     public func isEqual(to object: Any?) -> Bool {

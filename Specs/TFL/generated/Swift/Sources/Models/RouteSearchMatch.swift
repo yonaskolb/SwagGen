@@ -76,17 +76,17 @@ public class RouteSearchMatch: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(id, forKey: .id)
-        try container.encode(lat, forKey: .lat)
-        try container.encode(lineId, forKey: .lineId)
-        try container.encode(lineName, forKey: .lineName)
-        try container.encode(lineRouteSection, forKey: .lineRouteSection)
-        try container.encode(lon, forKey: .lon)
-        try container.encode(matchedRouteSections, forKey: .matchedRouteSections)
-        try container.encode(matchedStops, forKey: .matchedStops)
-        try container.encode(mode, forKey: .mode)
-        try container.encode(name, forKey: .name)
-        try container.encode(url, forKey: .url)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(lat, forKey: .lat)
+        try container.encodeIfPresent(lineId, forKey: .lineId)
+        try container.encodeIfPresent(lineName, forKey: .lineName)
+        try container.encodeIfPresent(lineRouteSection, forKey: .lineRouteSection)
+        try container.encodeIfPresent(lon, forKey: .lon)
+        try container.encodeIfPresent(matchedRouteSections, forKey: .matchedRouteSections)
+        try container.encodeIfPresent(matchedStops, forKey: .matchedStops)
+        try container.encodeIfPresent(mode, forKey: .mode)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(url, forKey: .url)
     }
 
     public func isEqual(to object: Any?) -> Bool {

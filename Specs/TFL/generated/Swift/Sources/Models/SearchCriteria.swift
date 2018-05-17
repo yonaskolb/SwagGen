@@ -46,9 +46,9 @@ public class SearchCriteria: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(dateTime, forKey: .dateTime)
-        try container.encode(dateTimeType, forKey: .dateTimeType)
-        try container.encode(timeAdjustments, forKey: .timeAdjustments)
+        try container.encodeIfPresent(dateTime, forKey: .dateTime)
+        try container.encodeIfPresent(dateTimeType, forKey: .dateTimeType)
+        try container.encodeIfPresent(timeAdjustments, forKey: .timeAdjustments)
     }
 
     public func isEqual(to object: Any?) -> Bool {

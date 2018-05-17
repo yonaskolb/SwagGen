@@ -36,9 +36,9 @@ public class Path: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(elevation, forKey: .elevation)
-        try container.encode(lineString, forKey: .lineString)
-        try container.encode(stopPoints, forKey: .stopPoints)
+        try container.encodeIfPresent(elevation, forKey: .elevation)
+        try container.encodeIfPresent(lineString, forKey: .lineString)
+        try container.encodeIfPresent(stopPoints, forKey: .stopPoints)
     }
 
     public func isEqual(to object: Any?) -> Bool {

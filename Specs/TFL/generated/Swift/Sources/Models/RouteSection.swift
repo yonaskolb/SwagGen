@@ -74,15 +74,15 @@ public class RouteSection: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(destinationName, forKey: .destinationName)
-        try container.encode(direction, forKey: .direction)
-        try container.encode(id, forKey: .id)
-        try container.encode(lineId, forKey: .lineId)
-        try container.encode(lineString, forKey: .lineString)
-        try container.encode(name, forKey: .name)
-        try container.encode(originationName, forKey: .originationName)
-        try container.encode(routeCode, forKey: .routeCode)
-        try container.encode(routeSectionNaptanEntrySequence, forKey: .routeSectionNaptanEntrySequence)
+        try container.encodeIfPresent(destinationName, forKey: .destinationName)
+        try container.encodeIfPresent(direction, forKey: .direction)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(lineId, forKey: .lineId)
+        try container.encodeIfPresent(lineString, forKey: .lineString)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(originationName, forKey: .originationName)
+        try container.encodeIfPresent(routeCode, forKey: .routeCode)
+        try container.encodeIfPresent(routeSectionNaptanEntrySequence, forKey: .routeSectionNaptanEntrySequence)
     }
 
     public func isEqual(to object: Any?) -> Bool {

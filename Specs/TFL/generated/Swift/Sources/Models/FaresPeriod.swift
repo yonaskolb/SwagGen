@@ -46,11 +46,11 @@ public class FaresPeriod: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(endDate, forKey: .endDate)
-        try container.encode(id, forKey: .id)
-        try container.encode(isFuture, forKey: .isFuture)
-        try container.encode(startDate, forKey: .startDate)
-        try container.encode(viewableDate, forKey: .viewableDate)
+        try container.encodeIfPresent(endDate, forKey: .endDate)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(isFuture, forKey: .isFuture)
+        try container.encodeIfPresent(startDate, forKey: .startDate)
+        try container.encodeIfPresent(viewableDate, forKey: .viewableDate)
     }
 
     public func isEqual(to object: Any?) -> Bool {

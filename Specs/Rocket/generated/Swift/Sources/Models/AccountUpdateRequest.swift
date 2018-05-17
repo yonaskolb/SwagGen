@@ -58,11 +58,11 @@ If you want to disable this guard pass an empty string or `null`.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(defaultPaymentInstrumentId, forKey: .defaultPaymentInstrumentId)
-        try container.encode(firstName, forKey: .firstName)
-        try container.encode(lastName, forKey: .lastName)
-        try container.encode(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
-        try container.encode(trackingEnabled, forKey: .trackingEnabled)
+        try container.encodeIfPresent(defaultPaymentInstrumentId, forKey: .defaultPaymentInstrumentId)
+        try container.encodeIfPresent(firstName, forKey: .firstName)
+        try container.encodeIfPresent(lastName, forKey: .lastName)
+        try container.encodeIfPresent(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
+        try container.encodeIfPresent(trackingEnabled, forKey: .trackingEnabled)
     }
 
     public func isEqual(to object: Any?) -> Bool {

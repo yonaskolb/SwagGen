@@ -64,13 +64,13 @@ public class TrainLoading: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(direction, forKey: .direction)
-        try container.encode(line, forKey: .line)
-        try container.encode(lineDirection, forKey: .lineDirection)
-        try container.encode(naptanTo, forKey: .naptanTo)
-        try container.encode(platformDirection, forKey: .platformDirection)
-        try container.encode(timeSlice, forKey: .timeSlice)
-        try container.encode(value, forKey: .value)
+        try container.encodeIfPresent(direction, forKey: .direction)
+        try container.encodeIfPresent(line, forKey: .line)
+        try container.encodeIfPresent(lineDirection, forKey: .lineDirection)
+        try container.encodeIfPresent(naptanTo, forKey: .naptanTo)
+        try container.encodeIfPresent(platformDirection, forKey: .platformDirection)
+        try container.encodeIfPresent(timeSlice, forKey: .timeSlice)
+        try container.encodeIfPresent(value, forKey: .value)
     }
 
     public func isEqual(to object: Any?) -> Bool {

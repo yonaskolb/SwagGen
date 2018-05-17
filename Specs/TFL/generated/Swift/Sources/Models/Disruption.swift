@@ -112,18 +112,18 @@ public class Disruption: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(additionalInfo, forKey: .additionalInfo)
-        try container.encode(affectedRoutes, forKey: .affectedRoutes)
-        try container.encode(affectedStops, forKey: .affectedStops)
-        try container.encode(category, forKey: .category)
-        try container.encode(categoryDescription, forKey: .categoryDescription)
-        try container.encode(closureText, forKey: .closureText)
-        try container.encode(created, forKey: .created)
-        try container.encode(description, forKey: .description)
-        try container.encode(isBlocking, forKey: .isBlocking)
-        try container.encode(isWholeLine, forKey: .isWholeLine)
-        try container.encode(lastUpdate, forKey: .lastUpdate)
-        try container.encode(type, forKey: .type)
+        try container.encodeIfPresent(additionalInfo, forKey: .additionalInfo)
+        try container.encodeIfPresent(affectedRoutes, forKey: .affectedRoutes)
+        try container.encodeIfPresent(affectedStops, forKey: .affectedStops)
+        try container.encodeIfPresent(category, forKey: .category)
+        try container.encodeIfPresent(categoryDescription, forKey: .categoryDescription)
+        try container.encodeIfPresent(closureText, forKey: .closureText)
+        try container.encodeIfPresent(created, forKey: .created)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(isBlocking, forKey: .isBlocking)
+        try container.encodeIfPresent(isWholeLine, forKey: .isWholeLine)
+        try container.encodeIfPresent(lastUpdate, forKey: .lastUpdate)
+        try container.encodeIfPresent(type, forKey: .type)
     }
 
     public func isEqual(to object: Any?) -> Bool {

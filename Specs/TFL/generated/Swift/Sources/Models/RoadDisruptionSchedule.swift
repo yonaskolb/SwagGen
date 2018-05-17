@@ -31,8 +31,8 @@ public class RoadDisruptionSchedule: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(endTime, forKey: .endTime)
-        try container.encode(startTime, forKey: .startTime)
+        try container.encodeIfPresent(endTime, forKey: .endTime)
+        try container.encodeIfPresent(startTime, forKey: .startTime)
     }
 
     public func isEqual(to object: Any?) -> Bool {

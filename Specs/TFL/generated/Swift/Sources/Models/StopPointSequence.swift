@@ -76,14 +76,14 @@ public class StopPointSequence: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(branchId, forKey: .branchId)
-        try container.encode(direction, forKey: .direction)
-        try container.encode(lineId, forKey: .lineId)
-        try container.encode(lineName, forKey: .lineName)
-        try container.encode(nextBranchIds, forKey: .nextBranchIds)
-        try container.encode(prevBranchIds, forKey: .prevBranchIds)
-        try container.encode(serviceType, forKey: .serviceType)
-        try container.encode(stopPoint, forKey: .stopPoint)
+        try container.encodeIfPresent(branchId, forKey: .branchId)
+        try container.encodeIfPresent(direction, forKey: .direction)
+        try container.encodeIfPresent(lineId, forKey: .lineId)
+        try container.encodeIfPresent(lineName, forKey: .lineName)
+        try container.encodeIfPresent(nextBranchIds, forKey: .nextBranchIds)
+        try container.encodeIfPresent(prevBranchIds, forKey: .prevBranchIds)
+        try container.encodeIfPresent(serviceType, forKey: .serviceType)
+        try container.encodeIfPresent(stopPoint, forKey: .stopPoint)
     }
 
     public func isEqual(to object: Any?) -> Bool {

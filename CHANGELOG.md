@@ -2,7 +2,7 @@
 
 ## [2.1.0](https://github.com/yonaskolb/SwagGen/compare/2.0.0...2.1.0)
 ### Added
-- Seperated `date` and `date-time` formats into `DateDay` and `DateTime` structs #74 #77
+- Separated `date` and `date-time` formats into `DateDay` and `DateTime` structs #74 #77
 - Added new `modelPrefix` and `modelSuffix` options #75
 
 ### Fixed

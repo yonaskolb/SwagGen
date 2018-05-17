@@ -57,12 +57,12 @@ public class AppConfigGeneral: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(currencyCode, forKey: .currencyCode)
-        try container.encodeAny(customFields, forKey: .customFields)
-        try container.encode(gaToken, forKey: .gaToken)
-        try container.encode(itemImageTypes, forKey: .itemImageTypes)
-        try container.encode(stripeKey, forKey: .stripeKey)
-        try container.encode(websiteUrl, forKey: .websiteUrl)
+        try container.encodeIfPresent(currencyCode, forKey: .currencyCode)
+        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
+        try container.encodeIfPresent(gaToken, forKey: .gaToken)
+        try container.encodeIfPresent(itemImageTypes, forKey: .itemImageTypes)
+        try container.encodeIfPresent(stripeKey, forKey: .stripeKey)
+        try container.encodeIfPresent(websiteUrl, forKey: .websiteUrl)
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -67,10 +67,10 @@ public class Pet: Codable, Equatable {
 
         try container.encode(name, forKey: .name)
         try container.encode(photoUrls, forKey: .photoUrls)
-        try container.encode(category, forKey: .category)
-        try container.encode(id, forKey: .id)
-        try container.encode(status, forKey: .status)
-        try container.encode(tags, forKey: .tags)
+        try container.encodeIfPresent(category, forKey: .category)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(tags, forKey: .tags)
     }
 
     public func isEqual(to object: Any?) -> Bool {

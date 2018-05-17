@@ -36,9 +36,9 @@ public class Redirect: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(active, forKey: .active)
-        try container.encode(longUrl, forKey: .longUrl)
-        try container.encode(shortUrl, forKey: .shortUrl)
+        try container.encodeIfPresent(active, forKey: .active)
+        try container.encodeIfPresent(longUrl, forKey: .longUrl)
+        try container.encodeIfPresent(shortUrl, forKey: .shortUrl)
     }
 
     public func isEqual(to object: Any?) -> Bool {

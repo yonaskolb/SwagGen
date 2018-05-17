@@ -117,12 +117,12 @@ For example the images of an `ImageEntry`.
         try container.encode(type, forKey: .type)
         try container.encode(title, forKey: .title)
         try container.encode(template, forKey: .template)
-        try container.encodeAny(customFields, forKey: .customFields)
-        try container.encode(images, forKey: .images)
-        try container.encode(item, forKey: .item)
-        try container.encode(list, forKey: .list)
-        try container.encode(people, forKey: .people)
-        try container.encode(text, forKey: .text)
+        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
+        try container.encodeIfPresent(images, forKey: .images)
+        try container.encodeIfPresent(item, forKey: .item)
+        try container.encodeIfPresent(list, forKey: .list)
+        try container.encodeIfPresent(people, forKey: .people)
+        try container.encodeIfPresent(text, forKey: .text)
     }
 
     public func isEqual(to object: Any?) -> Bool {

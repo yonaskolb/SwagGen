@@ -125,11 +125,11 @@ public class OfferRights: Codable, Equatable {
         try container.encode(scopes, forKey: .scopes)
         try container.encode(resolution, forKey: .resolution)
         try container.encode(ownership, forKey: .ownership)
-        try container.encode(exclusionRules, forKey: .exclusionRules)
-        try container.encode(maxDownloads, forKey: .maxDownloads)
-        try container.encode(maxPlays, forKey: .maxPlays)
-        try container.encode(playPeriod, forKey: .playPeriod)
-        try container.encode(rentalPeriod, forKey: .rentalPeriod)
+        try container.encodeIfPresent(exclusionRules, forKey: .exclusionRules)
+        try container.encodeIfPresent(maxDownloads, forKey: .maxDownloads)
+        try container.encodeIfPresent(maxPlays, forKey: .maxPlays)
+        try container.encodeIfPresent(playPeriod, forKey: .playPeriod)
+        try container.encodeIfPresent(rentalPeriod, forKey: .rentalPeriod)
     }
 
     public func isEqual(to object: Any?) -> Bool {

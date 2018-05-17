@@ -47,8 +47,8 @@ public class ErrorObject: Codable, Equatable {
 
         try container.encode(errorCode, forKey: .errorCode)
         try container.encode(message, forKey: .message)
-        try container.encode(externalCode, forKey: .externalCode)
-        try container.encode(externalMessage, forKey: .externalMessage)
+        try container.encodeIfPresent(externalCode, forKey: .externalCode)
+        try container.encodeIfPresent(externalMessage, forKey: .externalMessage)
     }
 
     public func isEqual(to object: Any?) -> Bool {

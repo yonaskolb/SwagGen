@@ -129,13 +129,13 @@ If you want to disable this guard pass an empty string or `null`.
         try container.encode(primaryProfileId, forKey: .primaryProfileId)
         try container.encode(subscriptionCode, forKey: .subscriptionCode)
         try container.encode(profiles, forKey: .profiles)
-        try container.encode(defaultPaymentInstrumentId, forKey: .defaultPaymentInstrumentId)
-        try container.encode(entitlements, forKey: .entitlements)
-        try container.encode(firstName, forKey: .firstName)
-        try container.encode(lastName, forKey: .lastName)
-        try container.encode(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
-        try container.encode(subscriptions, forKey: .subscriptions)
-        try container.encode(usedFreeTrial, forKey: .usedFreeTrial)
+        try container.encodeIfPresent(defaultPaymentInstrumentId, forKey: .defaultPaymentInstrumentId)
+        try container.encodeIfPresent(entitlements, forKey: .entitlements)
+        try container.encodeIfPresent(firstName, forKey: .firstName)
+        try container.encodeIfPresent(lastName, forKey: .lastName)
+        try container.encodeIfPresent(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
+        try container.encodeIfPresent(subscriptions, forKey: .subscriptions)
+        try container.encodeIfPresent(usedFreeTrial, forKey: .usedFreeTrial)
     }
 
     public func isEqual(to object: Any?) -> Bool {

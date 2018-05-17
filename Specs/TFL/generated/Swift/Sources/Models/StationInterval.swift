@@ -31,8 +31,8 @@ public class StationInterval: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(id, forKey: .id)
-        try container.encode(intervals, forKey: .intervals)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(intervals, forKey: .intervals)
     }
 
     public func isEqual(to object: Any?) -> Bool {

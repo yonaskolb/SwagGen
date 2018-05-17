@@ -51,8 +51,8 @@ public class EnumArrays: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(arrayEnum, forKey: .arrayEnum)
-        try container.encode(justSymbol, forKey: .justSymbol)
+        try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
+        try container.encodeIfPresent(justSymbol, forKey: .justSymbol)
     }
 
     public func isEqual(to object: Any?) -> Bool {

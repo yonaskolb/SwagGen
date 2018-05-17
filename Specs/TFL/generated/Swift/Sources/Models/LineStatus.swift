@@ -66,15 +66,15 @@ public class LineStatus: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(created, forKey: .created)
-        try container.encode(disruption, forKey: .disruption)
-        try container.encode(id, forKey: .id)
-        try container.encode(lineId, forKey: .lineId)
-        try container.encode(modified, forKey: .modified)
-        try container.encode(reason, forKey: .reason)
-        try container.encode(statusSeverity, forKey: .statusSeverity)
-        try container.encode(statusSeverityDescription, forKey: .statusSeverityDescription)
-        try container.encode(validityPeriods, forKey: .validityPeriods)
+        try container.encodeIfPresent(created, forKey: .created)
+        try container.encodeIfPresent(disruption, forKey: .disruption)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(lineId, forKey: .lineId)
+        try container.encodeIfPresent(modified, forKey: .modified)
+        try container.encodeIfPresent(reason, forKey: .reason)
+        try container.encodeIfPresent(statusSeverity, forKey: .statusSeverity)
+        try container.encodeIfPresent(statusSeverityDescription, forKey: .statusSeverityDescription)
+        try container.encodeIfPresent(validityPeriods, forKey: .validityPeriods)
     }
 
     public func isEqual(to object: Any?) -> Bool {

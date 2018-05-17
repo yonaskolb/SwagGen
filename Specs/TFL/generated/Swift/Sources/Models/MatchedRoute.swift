@@ -69,14 +69,14 @@ public class MatchedRoute: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(destination, forKey: .destination)
-        try container.encode(destinationName, forKey: .destinationName)
-        try container.encode(direction, forKey: .direction)
-        try container.encode(name, forKey: .name)
-        try container.encode(originationName, forKey: .originationName)
-        try container.encode(originator, forKey: .originator)
-        try container.encode(routeCode, forKey: .routeCode)
-        try container.encode(serviceType, forKey: .serviceType)
+        try container.encodeIfPresent(destination, forKey: .destination)
+        try container.encodeIfPresent(destinationName, forKey: .destinationName)
+        try container.encodeIfPresent(direction, forKey: .direction)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(originationName, forKey: .originationName)
+        try container.encodeIfPresent(originator, forKey: .originator)
+        try container.encodeIfPresent(routeCode, forKey: .routeCode)
+        try container.encodeIfPresent(serviceType, forKey: .serviceType)
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -73,10 +73,10 @@ public class EnumTest: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(enumInteger, forKey: .enumInteger)
-        try container.encode(enumNumber, forKey: .enumNumber)
-        try container.encode(enumString, forKey: .enumString)
-        try container.encode(outerEnum, forKey: .outerEnum)
+        try container.encodeIfPresent(enumInteger, forKey: .enumInteger)
+        try container.encodeIfPresent(enumNumber, forKey: .enumNumber)
+        try container.encodeIfPresent(enumString, forKey: .enumString)
+        try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
     }
 
     public func isEqual(to object: Any?) -> Bool {

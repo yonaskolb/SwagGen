@@ -36,9 +36,9 @@ public class LineGroup: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(lineIdentifier, forKey: .lineIdentifier)
-        try container.encode(naptanIdReference, forKey: .naptanIdReference)
-        try container.encode(stationAtcoCode, forKey: .stationAtcoCode)
+        try container.encodeIfPresent(lineIdentifier, forKey: .lineIdentifier)
+        try container.encodeIfPresent(naptanIdReference, forKey: .naptanIdReference)
+        try container.encodeIfPresent(stationAtcoCode, forKey: .stationAtcoCode)
     }
 
     public func isEqual(to object: Any?) -> Bool {

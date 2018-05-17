@@ -52,12 +52,12 @@ public class AppConfig: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(classification, forKey: .classification)
-        try container.encode(general, forKey: .general)
-        try container.encode(navigation, forKey: .navigation)
-        try container.encode(playback, forKey: .playback)
-        try container.encode(sitemap, forKey: .sitemap)
-        try container.encode(subscription, forKey: .subscription)
+        try container.encodeIfPresent(classification, forKey: .classification)
+        try container.encodeIfPresent(general, forKey: .general)
+        try container.encodeIfPresent(navigation, forKey: .navigation)
+        try container.encodeIfPresent(playback, forKey: .playback)
+        try container.encodeIfPresent(sitemap, forKey: .sitemap)
+        try container.encodeIfPresent(subscription, forKey: .subscription)
     }
 
     public func isEqual(to object: Any?) -> Bool {

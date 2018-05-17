@@ -46,11 +46,11 @@ public class AdditionalProperties: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(category, forKey: .category)
-        try container.encode(key, forKey: .key)
-        try container.encode(modified, forKey: .modified)
-        try container.encode(sourceSystemKey, forKey: .sourceSystemKey)
-        try container.encode(value, forKey: .value)
+        try container.encodeIfPresent(category, forKey: .category)
+        try container.encodeIfPresent(key, forKey: .key)
+        try container.encodeIfPresent(modified, forKey: .modified)
+        try container.encodeIfPresent(sourceSystemKey, forKey: .sourceSystemKey)
+        try container.encodeIfPresent(value, forKey: .value)
     }
 
     public func isEqual(to object: Any?) -> Bool {

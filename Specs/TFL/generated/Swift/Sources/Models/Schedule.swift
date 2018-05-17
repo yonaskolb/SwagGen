@@ -46,11 +46,11 @@ public class Schedule: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(firstJourney, forKey: .firstJourney)
-        try container.encode(knownJourneys, forKey: .knownJourneys)
-        try container.encode(lastJourney, forKey: .lastJourney)
-        try container.encode(name, forKey: .name)
-        try container.encode(periods, forKey: .periods)
+        try container.encodeIfPresent(firstJourney, forKey: .firstJourney)
+        try container.encodeIfPresent(knownJourneys, forKey: .knownJourneys)
+        try container.encodeIfPresent(lastJourney, forKey: .lastJourney)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(periods, forKey: .periods)
     }
 
     public func isEqual(to object: Any?) -> Bool {

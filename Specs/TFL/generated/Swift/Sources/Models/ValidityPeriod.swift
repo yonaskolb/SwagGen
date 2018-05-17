@@ -40,9 +40,9 @@ public class ValidityPeriod: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(fromDate, forKey: .fromDate)
-        try container.encode(isNow, forKey: .isNow)
-        try container.encode(toDate, forKey: .toDate)
+        try container.encodeIfPresent(fromDate, forKey: .fromDate)
+        try container.encodeIfPresent(isNow, forKey: .isNow)
+        try container.encodeIfPresent(toDate, forKey: .toDate)
     }
 
     public func isEqual(to object: Any?) -> Bool {

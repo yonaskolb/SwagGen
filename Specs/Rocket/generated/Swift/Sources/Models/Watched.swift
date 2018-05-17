@@ -46,7 +46,7 @@ public class Watched: Codable, Equatable {
         try container.encode(position, forKey: .position)
         try container.encode(firstWatchedDate, forKey: .firstWatchedDate)
         try container.encode(lastWatchedDate, forKey: .lastWatchedDate)
-        try container.encode(itemId, forKey: .itemId)
+        try container.encodeIfPresent(itemId, forKey: .itemId)
     }
 
     public func isEqual(to object: Any?) -> Bool {

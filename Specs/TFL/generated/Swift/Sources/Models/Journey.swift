@@ -42,10 +42,10 @@ public class Journey: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(arrivalDateTime, forKey: .arrivalDateTime)
-        try container.encode(duration, forKey: .duration)
-        try container.encode(legs, forKey: .legs)
-        try container.encode(startDateTime, forKey: .startDateTime)
+        try container.encodeIfPresent(arrivalDateTime, forKey: .arrivalDateTime)
+        try container.encodeIfPresent(duration, forKey: .duration)
+        try container.encodeIfPresent(legs, forKey: .legs)
+        try container.encodeIfPresent(startDateTime, forKey: .startDateTime)
     }
 
     public func isEqual(to object: Any?) -> Bool {

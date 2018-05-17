@@ -32,8 +32,8 @@ public class _200Response: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(`class`, forKey: .`class`)
-        try container.encode(name, forKey: .name)
+        try container.encodeIfPresent(`class`, forKey: .`class`)
+        try container.encodeIfPresent(name, forKey: .name)
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -86,19 +86,19 @@ public class FareBounds: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(description, forKey: .description)
-        try container.encode(displayName, forKey: .displayName)
-        try container.encode(displayOrder, forKey: .displayOrder)
-        try container.encode(from, forKey: .from)
-        try container.encode(id, forKey: .id)
-        try container.encode(isPopularFare, forKey: .isPopularFare)
-        try container.encode(isPopularTravelCard, forKey: .isPopularTravelCard)
-        try container.encode(isTour, forKey: .isTour)
-        try container.encode(messages, forKey: .messages)
-        try container.encode(`operator`, forKey: .`operator`)
-        try container.encode(routeCode, forKey: .routeCode)
-        try container.encode(to, forKey: .to)
-        try container.encode(via, forKey: .via)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(displayName, forKey: .displayName)
+        try container.encodeIfPresent(displayOrder, forKey: .displayOrder)
+        try container.encodeIfPresent(from, forKey: .from)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(isPopularFare, forKey: .isPopularFare)
+        try container.encodeIfPresent(isPopularTravelCard, forKey: .isPopularTravelCard)
+        try container.encodeIfPresent(isTour, forKey: .isTour)
+        try container.encodeIfPresent(messages, forKey: .messages)
+        try container.encodeIfPresent(`operator`, forKey: .`operator`)
+        try container.encodeIfPresent(routeCode, forKey: .routeCode)
+        try container.encodeIfPresent(to, forKey: .to)
+        try container.encodeIfPresent(via, forKey: .via)
     }
 
     public func isEqual(to object: Any?) -> Bool {

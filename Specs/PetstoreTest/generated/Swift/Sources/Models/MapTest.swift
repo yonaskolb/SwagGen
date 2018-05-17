@@ -41,8 +41,8 @@ public class MapTest: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(mapMapOfString, forKey: .mapMapOfString)
-        try container.encode(mapOfEnumString, forKey: .mapOfEnumString)
+        try container.encodeIfPresent(mapMapOfString, forKey: .mapMapOfString)
+        try container.encodeIfPresent(mapOfEnumString, forKey: .mapOfEnumString)
     }
 
     public func isEqual(to object: Any?) -> Bool {

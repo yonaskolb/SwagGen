@@ -41,10 +41,10 @@ public class Bay: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(bayCount, forKey: .bayCount)
-        try container.encode(bayType, forKey: .bayType)
-        try container.encode(free, forKey: .free)
-        try container.encode(occupied, forKey: .occupied)
+        try container.encodeIfPresent(bayCount, forKey: .bayCount)
+        try container.encodeIfPresent(bayType, forKey: .bayType)
+        try container.encodeIfPresent(free, forKey: .free)
+        try container.encodeIfPresent(occupied, forKey: .occupied)
     }
 
     public func isEqual(to object: Any?) -> Bool {

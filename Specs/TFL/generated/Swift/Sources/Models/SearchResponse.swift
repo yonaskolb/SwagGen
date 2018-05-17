@@ -61,14 +61,14 @@ public class SearchResponse: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(from, forKey: .from)
-        try container.encode(matches, forKey: .matches)
-        try container.encode(maxScore, forKey: .maxScore)
-        try container.encode(page, forKey: .page)
-        try container.encode(pageSize, forKey: .pageSize)
-        try container.encode(provider, forKey: .provider)
-        try container.encode(query, forKey: .query)
-        try container.encode(total, forKey: .total)
+        try container.encodeIfPresent(from, forKey: .from)
+        try container.encodeIfPresent(matches, forKey: .matches)
+        try container.encodeIfPresent(maxScore, forKey: .maxScore)
+        try container.encodeIfPresent(page, forKey: .page)
+        try container.encodeIfPresent(pageSize, forKey: .pageSize)
+        try container.encodeIfPresent(provider, forKey: .provider)
+        try container.encodeIfPresent(query, forKey: .query)
+        try container.encodeIfPresent(total, forKey: .total)
     }
 
     public func isEqual(to object: Any?) -> Bool {

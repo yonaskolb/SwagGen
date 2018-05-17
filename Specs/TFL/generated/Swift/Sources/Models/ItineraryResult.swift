@@ -57,13 +57,13 @@ public class ItineraryResult: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(cycleHireDockingStationData, forKey: .cycleHireDockingStationData)
-        try container.encode(journeyVector, forKey: .journeyVector)
-        try container.encode(journeys, forKey: .journeys)
-        try container.encode(lines, forKey: .lines)
-        try container.encode(recommendedMaxAgeMinutes, forKey: .recommendedMaxAgeMinutes)
-        try container.encode(searchCriteria, forKey: .searchCriteria)
-        try container.encode(stopMessages, forKey: .stopMessages)
+        try container.encodeIfPresent(cycleHireDockingStationData, forKey: .cycleHireDockingStationData)
+        try container.encodeIfPresent(journeyVector, forKey: .journeyVector)
+        try container.encodeIfPresent(journeys, forKey: .journeys)
+        try container.encodeIfPresent(lines, forKey: .lines)
+        try container.encodeIfPresent(recommendedMaxAgeMinutes, forKey: .recommendedMaxAgeMinutes)
+        try container.encodeIfPresent(searchCriteria, forKey: .searchCriteria)
+        try container.encodeIfPresent(stopMessages, forKey: .stopMessages)
     }
 
     public func isEqual(to object: Any?) -> Bool {

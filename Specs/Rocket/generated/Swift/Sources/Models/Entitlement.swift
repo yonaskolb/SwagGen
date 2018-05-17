@@ -77,15 +77,15 @@ public class Entitlement: OfferRights {
     public override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(activationDate, forKey: .activationDate)
-        try container.encode(classification, forKey: .classification)
-        try container.encode(creationDate, forKey: .creationDate)
-        try container.encode(expirationDate, forKey: .expirationDate)
-        try container.encode(itemId, forKey: .itemId)
-        try container.encode(itemType, forKey: .itemType)
-        try container.encode(mediaDuration, forKey: .mediaDuration)
-        try container.encode(playCount, forKey: .playCount)
-        try container.encode(remainingDownloads, forKey: .remainingDownloads)
+        try container.encodeIfPresent(activationDate, forKey: .activationDate)
+        try container.encodeIfPresent(classification, forKey: .classification)
+        try container.encodeIfPresent(creationDate, forKey: .creationDate)
+        try container.encodeIfPresent(expirationDate, forKey: .expirationDate)
+        try container.encodeIfPresent(itemId, forKey: .itemId)
+        try container.encodeIfPresent(itemType, forKey: .itemType)
+        try container.encodeIfPresent(mediaDuration, forKey: .mediaDuration)
+        try container.encodeIfPresent(playCount, forKey: .playCount)
+        try container.encodeIfPresent(remainingDownloads, forKey: .remainingDownloads)
         try super.encode(to: encoder)
     }
 

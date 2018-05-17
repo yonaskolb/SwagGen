@@ -64,7 +64,7 @@ extension TBX.AuthorizationService {
                 public func encode(to encoder: Encoder) throws {
                     var container = encoder.container(keyedBy: CodingKeys.self)
 
-                    try container.encode(status, forKey: .status)
+                    try container.encodeIfPresent(status, forKey: .status)
                 }
 
                 public func isEqual(to object: Any?) -> Bool {
@@ -152,7 +152,9 @@ extension TBX.AuthorizationService {
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(TBX.dateFormatter)
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(Status200.self, from: data))
                 case 400: self = try .status400(decoder.decode(ErrorObject.self, from: data))

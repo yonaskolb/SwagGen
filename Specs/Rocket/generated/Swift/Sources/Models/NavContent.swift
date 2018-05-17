@@ -42,9 +42,9 @@ e.g wallpaper, poster, hero3x1, logo.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(imageType, forKey: .imageType)
-        try container.encode(list, forKey: .list)
-        try container.encode(title, forKey: .title)
+        try container.encodeIfPresent(imageType, forKey: .imageType)
+        try container.encodeIfPresent(list, forKey: .list)
+        try container.encodeIfPresent(title, forKey: .title)
     }
 
     public func isEqual(to object: Any?) -> Bool {

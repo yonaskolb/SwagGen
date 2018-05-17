@@ -36,9 +36,9 @@ public class DbGeographyWellKnownValue: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(coordinateSystemId, forKey: .coordinateSystemId)
-        try container.encode(wellKnownBinary, forKey: .wellKnownBinary)
-        try container.encode(wellKnownText, forKey: .wellKnownText)
+        try container.encodeIfPresent(coordinateSystemId, forKey: .coordinateSystemId)
+        try container.encodeIfPresent(wellKnownBinary, forKey: .wellKnownBinary)
+        try container.encodeIfPresent(wellKnownText, forKey: .wellKnownText)
     }
 
     public func isEqual(to object: Any?) -> Bool {

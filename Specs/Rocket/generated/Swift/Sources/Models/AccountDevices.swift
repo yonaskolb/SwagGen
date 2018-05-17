@@ -75,8 +75,8 @@ days old.
 
         try container.encode(devices, forKey: .devices)
         try container.encode(maxRegistered, forKey: .maxRegistered)
-        try container.encode(deregistrationWindow, forKey: .deregistrationWindow)
-        try container.encode(registrationWindow, forKey: .registrationWindow)
+        try container.encodeIfPresent(deregistrationWindow, forKey: .deregistrationWindow)
+        try container.encodeIfPresent(registrationWindow, forKey: .registrationWindow)
     }
 
     public func isEqual(to object: Any?) -> Bool {

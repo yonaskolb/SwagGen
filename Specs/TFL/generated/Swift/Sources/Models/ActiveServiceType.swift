@@ -31,8 +31,8 @@ public class ActiveServiceType: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(mode, forKey: .mode)
-        try container.encode(serviceType, forKey: .serviceType)
+        try container.encodeIfPresent(mode, forKey: .mode)
+        try container.encodeIfPresent(serviceType, forKey: .serviceType)
     }
 
     public func isEqual(to object: Any?) -> Bool {

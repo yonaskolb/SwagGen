@@ -51,12 +51,12 @@ public class PredictionTiming: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(countdownServerAdjustment, forKey: .countdownServerAdjustment)
-        try container.encode(insert, forKey: .insert)
-        try container.encode(read, forKey: .read)
-        try container.encode(received, forKey: .received)
-        try container.encode(sent, forKey: .sent)
-        try container.encode(source, forKey: .source)
+        try container.encodeIfPresent(countdownServerAdjustment, forKey: .countdownServerAdjustment)
+        try container.encodeIfPresent(insert, forKey: .insert)
+        try container.encodeIfPresent(read, forKey: .read)
+        try container.encodeIfPresent(received, forKey: .received)
+        try container.encodeIfPresent(sent, forKey: .sent)
+        try container.encodeIfPresent(source, forKey: .source)
     }
 
     public func isEqual(to object: Any?) -> Bool {

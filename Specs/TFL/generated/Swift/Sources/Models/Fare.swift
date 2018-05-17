@@ -76,17 +76,17 @@ public class Fare: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(cap, forKey: .cap)
-        try container.encode(cost, forKey: .cost)
-        try container.encode(description, forKey: .description)
-        try container.encode(id, forKey: .id)
-        try container.encode(mode, forKey: .mode)
-        try container.encode(passengerType, forKey: .passengerType)
-        try container.encode(ticketTime, forKey: .ticketTime)
-        try container.encode(ticketType, forKey: .ticketType)
-        try container.encode(validFrom, forKey: .validFrom)
-        try container.encode(validUntil, forKey: .validUntil)
-        try container.encode(zone, forKey: .zone)
+        try container.encodeIfPresent(cap, forKey: .cap)
+        try container.encodeIfPresent(cost, forKey: .cost)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(mode, forKey: .mode)
+        try container.encodeIfPresent(passengerType, forKey: .passengerType)
+        try container.encodeIfPresent(ticketTime, forKey: .ticketTime)
+        try container.encodeIfPresent(ticketType, forKey: .ticketType)
+        try container.encodeIfPresent(validFrom, forKey: .validFrom)
+        try container.encodeIfPresent(validUntil, forKey: .validUntil)
+        try container.encodeIfPresent(zone, forKey: .zone)
     }
 
     public func isEqual(to object: Any?) -> Bool {

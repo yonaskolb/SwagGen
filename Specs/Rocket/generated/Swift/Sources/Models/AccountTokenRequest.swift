@@ -105,9 +105,9 @@ Either a pin or password should be supplied. If both are supplied the password w
 
         try container.encode(email, forKey: .email)
         try container.encode(scopes, forKey: .scopes)
-        try container.encode(cookieType, forKey: .cookieType)
-        try container.encode(password, forKey: .password)
-        try container.encode(pin, forKey: .pin)
+        try container.encodeIfPresent(cookieType, forKey: .cookieType)
+        try container.encodeIfPresent(password, forKey: .password)
+        try container.encodeIfPresent(pin, forKey: .pin)
     }
 
     public func isEqual(to object: Any?) -> Bool {

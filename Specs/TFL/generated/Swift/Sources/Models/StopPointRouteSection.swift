@@ -81,18 +81,18 @@ public class StopPointRouteSection: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(destinationName, forKey: .destinationName)
-        try container.encode(direction, forKey: .direction)
-        try container.encode(isActive, forKey: .isActive)
-        try container.encode(lineId, forKey: .lineId)
-        try container.encode(lineString, forKey: .lineString)
-        try container.encode(mode, forKey: .mode)
-        try container.encode(naptanId, forKey: .naptanId)
-        try container.encode(routeSectionName, forKey: .routeSectionName)
-        try container.encode(serviceType, forKey: .serviceType)
-        try container.encode(validFrom, forKey: .validFrom)
-        try container.encode(validTo, forKey: .validTo)
-        try container.encode(vehicleDestinationText, forKey: .vehicleDestinationText)
+        try container.encodeIfPresent(destinationName, forKey: .destinationName)
+        try container.encodeIfPresent(direction, forKey: .direction)
+        try container.encodeIfPresent(isActive, forKey: .isActive)
+        try container.encodeIfPresent(lineId, forKey: .lineId)
+        try container.encodeIfPresent(lineString, forKey: .lineString)
+        try container.encodeIfPresent(mode, forKey: .mode)
+        try container.encodeIfPresent(naptanId, forKey: .naptanId)
+        try container.encodeIfPresent(routeSectionName, forKey: .routeSectionName)
+        try container.encodeIfPresent(serviceType, forKey: .serviceType)
+        try container.encodeIfPresent(validFrom, forKey: .validFrom)
+        try container.encodeIfPresent(validTo, forKey: .validTo)
+        try container.encodeIfPresent(vehicleDestinationText, forKey: .vehicleDestinationText)
     }
 
     public func isEqual(to object: Any?) -> Bool {

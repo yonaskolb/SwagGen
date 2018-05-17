@@ -79,7 +79,7 @@ a page is static or not. Use the `isStatic` property instead.
         try container.encode(template, forKey: .template)
         try container.encode(isStatic, forKey: .isStatic)
         try container.encode(isSystemPage, forKey: .isSystemPage)
-        try container.encode(key, forKey: .key)
+        try container.encodeIfPresent(key, forKey: .key)
     }
 
     public func isEqual(to object: Any?) -> Bool {

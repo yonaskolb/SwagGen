@@ -26,7 +26,7 @@ public class ArrayOfArrayOfNumberOnly: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(arrayArrayNumber, forKey: .arrayArrayNumber)
+        try container.encodeIfPresent(arrayArrayNumber, forKey: .arrayArrayNumber)
     }
 
     public func isEqual(to object: Any?) -> Bool {

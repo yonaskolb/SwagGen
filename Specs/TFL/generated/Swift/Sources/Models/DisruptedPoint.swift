@@ -71,16 +71,16 @@ public class DisruptedPoint: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(additionalInformation, forKey: .additionalInformation)
-        try container.encode(appearance, forKey: .appearance)
-        try container.encode(atcoCode, forKey: .atcoCode)
-        try container.encode(commonName, forKey: .commonName)
-        try container.encode(description, forKey: .description)
-        try container.encode(fromDate, forKey: .fromDate)
-        try container.encode(mode, forKey: .mode)
-        try container.encode(stationAtcoCode, forKey: .stationAtcoCode)
-        try container.encode(toDate, forKey: .toDate)
-        try container.encode(type, forKey: .type)
+        try container.encodeIfPresent(additionalInformation, forKey: .additionalInformation)
+        try container.encodeIfPresent(appearance, forKey: .appearance)
+        try container.encodeIfPresent(atcoCode, forKey: .atcoCode)
+        try container.encodeIfPresent(commonName, forKey: .commonName)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(fromDate, forKey: .fromDate)
+        try container.encodeIfPresent(mode, forKey: .mode)
+        try container.encodeIfPresent(stationAtcoCode, forKey: .stationAtcoCode)
+        try container.encodeIfPresent(toDate, forKey: .toDate)
+        try container.encodeIfPresent(type, forKey: .type)
     }
 
     public func isEqual(to object: Any?) -> Bool {

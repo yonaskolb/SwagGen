@@ -14,8 +14,6 @@ public struct TBX {
     public static var safeArrayDecoding = false
 
     /// The date formatter used for Date's with format "date-time". See DateDay.dateFormat for "date" format
-    /// This is used in the APIClient.jsonDecoder.dateDecodingStrategy. You can edit the strategy after APIClient initialization.
-    /// This is also used when encoding parameters
     public static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.Z"

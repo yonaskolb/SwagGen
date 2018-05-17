@@ -52,11 +52,11 @@ public class DeviceType: Codable, Equatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(shortName, forKey: .shortName)
-        try container.encode(contentProvider, forKey: .contentProvider)
-        try container.encode(defaultExpireDays, forKey: .defaultExpireDays)
-        try container.encode(deviceType, forKey: .deviceType)
-        try container.encode(id, forKey: .id)
-        try container.encode(needActivation, forKey: .needActivation)
+        try container.encodeIfPresent(contentProvider, forKey: .contentProvider)
+        try container.encodeIfPresent(defaultExpireDays, forKey: .defaultExpireDays)
+        try container.encodeIfPresent(deviceType, forKey: .deviceType)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(needActivation, forKey: .needActivation)
     }
 
     public func isEqual(to object: Any?) -> Bool {

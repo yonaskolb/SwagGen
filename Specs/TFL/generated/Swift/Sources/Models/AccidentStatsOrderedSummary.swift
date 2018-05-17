@@ -36,9 +36,9 @@ public class AccidentStatsOrderedSummary: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(accidents, forKey: .accidents)
-        try container.encode(borough, forKey: .borough)
-        try container.encode(year, forKey: .year)
+        try container.encodeIfPresent(accidents, forKey: .accidents)
+        try container.encodeIfPresent(borough, forKey: .borough)
+        try container.encodeIfPresent(year, forKey: .year)
     }
 
     public func isEqual(to object: Any?) -> Bool {

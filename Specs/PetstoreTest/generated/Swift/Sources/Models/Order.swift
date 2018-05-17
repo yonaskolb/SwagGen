@@ -65,12 +65,12 @@ public class Order: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(complete, forKey: .complete)
-        try container.encode(id, forKey: .id)
-        try container.encode(petId, forKey: .petId)
-        try container.encode(quantity, forKey: .quantity)
-        try container.encode(shipDate, forKey: .shipDate)
-        try container.encode(status, forKey: .status)
+        try container.encodeIfPresent(complete, forKey: .complete)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(petId, forKey: .petId)
+        try container.encodeIfPresent(quantity, forKey: .quantity)
+        try container.encodeIfPresent(shipDate, forKey: .shipDate)
+        try container.encodeIfPresent(status, forKey: .status)
     }
 
     public func isEqual(to object: Any?) -> Bool {

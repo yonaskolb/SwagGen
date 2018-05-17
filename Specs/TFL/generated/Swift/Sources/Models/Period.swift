@@ -55,10 +55,10 @@ public class Period: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(frequency, forKey: .frequency)
-        try container.encode(fromTime, forKey: .fromTime)
-        try container.encode(toTime, forKey: .toTime)
-        try container.encode(type, forKey: .type)
+        try container.encodeIfPresent(frequency, forKey: .frequency)
+        try container.encodeIfPresent(fromTime, forKey: .fromTime)
+        try container.encodeIfPresent(toTime, forKey: .toTime)
+        try container.encodeIfPresent(type, forKey: .type)
     }
 
     public func isEqual(to object: Any?) -> Bool {

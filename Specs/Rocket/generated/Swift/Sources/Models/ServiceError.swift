@@ -34,7 +34,7 @@ public class ServiceError: Codable, Equatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(message, forKey: .message)
-        try container.encode(code, forKey: .code)
+        try container.encodeIfPresent(code, forKey: .code)
     }
 
     public func isEqual(to object: Any?) -> Bool {

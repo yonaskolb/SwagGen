@@ -84,16 +84,16 @@ public class RoadCorridor: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(bounds, forKey: .bounds)
-        try container.encode(displayName, forKey: .displayName)
-        try container.encode(envelope, forKey: .envelope)
-        try container.encode(group, forKey: .group)
-        try container.encode(id, forKey: .id)
-        try container.encode(statusAggregationEndDate, forKey: .statusAggregationEndDate)
-        try container.encode(statusAggregationStartDate, forKey: .statusAggregationStartDate)
-        try container.encode(statusSeverity, forKey: .statusSeverity)
-        try container.encode(statusSeverityDescription, forKey: .statusSeverityDescription)
-        try container.encode(url, forKey: .url)
+        try container.encodeIfPresent(bounds, forKey: .bounds)
+        try container.encodeIfPresent(displayName, forKey: .displayName)
+        try container.encodeIfPresent(envelope, forKey: .envelope)
+        try container.encodeIfPresent(group, forKey: .group)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(statusAggregationEndDate, forKey: .statusAggregationEndDate)
+        try container.encodeIfPresent(statusAggregationStartDate, forKey: .statusAggregationStartDate)
+        try container.encodeIfPresent(statusSeverity, forKey: .statusSeverity)
+        try container.encodeIfPresent(statusSeverityDescription, forKey: .statusSeverityDescription)
+        try container.encodeIfPresent(url, forKey: .url)
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -31,8 +31,8 @@ public class RouteSectionNaptanEntrySequence: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(ordinal, forKey: .ordinal)
-        try container.encode(stopPoint, forKey: .stopPoint)
+        try container.encodeIfPresent(ordinal, forKey: .ordinal)
+        try container.encodeIfPresent(stopPoint, forKey: .stopPoint)
     }
 
     public func isEqual(to object: Any?) -> Bool {

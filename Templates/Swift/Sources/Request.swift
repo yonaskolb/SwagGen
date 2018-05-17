@@ -54,7 +54,11 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 {% if nonBodyParams %}
                 self.options = options
                 {% endif %}
-                super.init(service: {{ type }}.service)
+                super.init(service: {{ type }}.service){% if bodyParam %} {
+                    let jsonEncoder = JSONEncoder()
+                    jsonEncoder.dateEncodingStrategy = .formatted({{ options.name}}.dateFormatter)
+                    return try jsonEncoder.encode({% if bodyParam.isAnyType %}AnyCodable({{ bodyParam.name }}).value{% else %}{{ bodyParam.name }}{% endif %})
+                }{% endif %}
             }
             {% if nonBodyParams %}
 
@@ -86,12 +90,6 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 {% endif %}
                 {% endfor %}
                 return params
-            }
-            {% endif %}
-            {% if bodyParam %}
-
-            public override var jsonBody: Encodable? {
-                return {% if bodyParam.isAnyType %}AnyCodable({{ bodyParam.name }}){% else %}{{ bodyParam.name }}{% endif %}
             }
             {% endif %}
         }
@@ -188,7 +186,9 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted({{ options.name}}.dateFormatter)
                 switch statusCode {
                 {% for response in responses where response.statusCode %}
                 {% if response.type %}

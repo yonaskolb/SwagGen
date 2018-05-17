@@ -87,11 +87,11 @@ by a CDN. For example a Bookmarks list.
 
         try container.encode(total, forKey: .total)
         try container.encode(page, forKey: .page)
-        try container.encode(authorization, forKey: .authorization)
-        try container.encode(next, forKey: .next)
-        try container.encode(options, forKey: .options)
-        try container.encode(previous, forKey: .previous)
-        try container.encode(size, forKey: .size)
+        try container.encodeIfPresent(authorization, forKey: .authorization)
+        try container.encodeIfPresent(next, forKey: .next)
+        try container.encodeIfPresent(options, forKey: .options)
+        try container.encodeIfPresent(previous, forKey: .previous)
+        try container.encodeIfPresent(size, forKey: .size)
     }
 
     public func isEqual(to object: Any?) -> Bool {

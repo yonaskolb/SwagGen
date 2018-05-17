@@ -41,8 +41,8 @@ extension TestSpec.TestTag {
                 public func encode(to encoder: Encoder) throws {
                     var container = encoder.container(keyedBy: CodingKeys.self)
 
-                    try container.encode(id, forKey: .id)
-                    try container.encode(name, forKey: .name)
+                    try container.encodeIfPresent(id, forKey: .id)
+                    try container.encodeIfPresent(name, forKey: .name)
                 }
 
                 public func isEqual(to object: Any?) -> Bool {
@@ -61,11 +61,11 @@ extension TestSpec.TestTag {
 
             public init(item: Item) {
                 self.item = item
-                super.init(service: PostInlinebody.service)
-            }
-
-            public override var jsonBody: Encodable? {
-                return item
+                super.init(service: PostInlinebody.service) {
+                    let jsonEncoder = JSONEncoder()
+                    jsonEncoder.dateEncodingStrategy = .formatted(TestSpec.dateFormatter)
+                    return try jsonEncoder.encode(item)
+                }
             }
         }
 
@@ -99,7 +99,9 @@ extension TestSpec.TestTag {
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(TestSpec.dateFormatter)
                 switch statusCode {
                 case 201: self = .status201
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

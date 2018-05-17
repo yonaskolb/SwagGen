@@ -41,10 +41,10 @@ public class JourneyVector: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(from, forKey: .from)
-        try container.encode(to, forKey: .to)
-        try container.encode(uri, forKey: .uri)
-        try container.encode(via, forKey: .via)
+        try container.encodeIfPresent(from, forKey: .from)
+        try container.encodeIfPresent(to, forKey: .to)
+        try container.encodeIfPresent(uri, forKey: .uri)
+        try container.encodeIfPresent(via, forKey: .via)
     }
 
     public func isEqual(to object: Any?) -> Bool {

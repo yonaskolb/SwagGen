@@ -73,7 +73,7 @@ public class Credit: Person {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(role, forKey: .role)
-        try container.encode(character, forKey: .character)
+        try container.encodeIfPresent(character, forKey: .character)
         try super.encode(to: encoder)
     }
 

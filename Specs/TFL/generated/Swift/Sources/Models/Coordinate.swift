@@ -51,12 +51,12 @@ public class Coordinate: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(easting, forKey: .easting)
-        try container.encode(latitude, forKey: .latitude)
-        try container.encode(longitude, forKey: .longitude)
-        try container.encode(northing, forKey: .northing)
-        try container.encode(xCoord, forKey: .xCoord)
-        try container.encode(yCoord, forKey: .yCoord)
+        try container.encodeIfPresent(easting, forKey: .easting)
+        try container.encodeIfPresent(latitude, forKey: .latitude)
+        try container.encodeIfPresent(longitude, forKey: .longitude)
+        try container.encodeIfPresent(northing, forKey: .northing)
+        try container.encodeIfPresent(xCoord, forKey: .xCoord)
+        try container.encodeIfPresent(yCoord, forKey: .yCoord)
     }
 
     public func isEqual(to object: Any?) -> Bool {

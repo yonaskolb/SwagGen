@@ -87,12 +87,12 @@ public class ExclusionRule: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(description, forKey: .description)
-        try container.encode(device, forKey: .device)
-        try container.encode(excludeAirplay, forKey: .excludeAirplay)
-        try container.encode(excludeChromecast, forKey: .excludeChromecast)
-        try container.encode(excludeDelivery, forKey: .excludeDelivery)
-        try container.encode(excludeMinResolution, forKey: .excludeMinResolution)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(device, forKey: .device)
+        try container.encodeIfPresent(excludeAirplay, forKey: .excludeAirplay)
+        try container.encodeIfPresent(excludeChromecast, forKey: .excludeChromecast)
+        try container.encodeIfPresent(excludeDelivery, forKey: .excludeDelivery)
+        try container.encodeIfPresent(excludeMinResolution, forKey: .excludeMinResolution)
     }
 
     public func isEqual(to object: Any?) -> Bool {

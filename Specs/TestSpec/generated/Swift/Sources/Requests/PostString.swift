@@ -18,11 +18,11 @@ extension TestSpec {
 
             public init(body: String?) {
                 self.body = body
-                super.init(service: PostString.service)
-            }
-
-            public override var jsonBody: Encodable? {
-                return body
+                super.init(service: PostString.service) {
+                    let jsonEncoder = JSONEncoder()
+                    jsonEncoder.dateEncodingStrategy = .formatted(TestSpec.dateFormatter)
+                    return try jsonEncoder.encode(body)
+                }
             }
         }
 
@@ -56,7 +56,9 @@ extension TestSpec {
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(TestSpec.dateFormatter)
                 switch statusCode {
                 default: self = .defaultResponse(statusCode: statusCode)
                 }

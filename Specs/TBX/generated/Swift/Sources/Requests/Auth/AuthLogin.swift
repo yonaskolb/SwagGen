@@ -109,7 +109,9 @@ extension TBX.Auth {
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(TBX.dateFormatter)
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(Auth.self, from: data))
                 default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)

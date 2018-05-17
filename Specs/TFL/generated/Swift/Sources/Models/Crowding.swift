@@ -33,8 +33,8 @@ public class Crowding: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(passengerFlows, forKey: .passengerFlows)
-        try container.encode(trainLoadings, forKey: .trainLoadings)
+        try container.encodeIfPresent(passengerFlows, forKey: .passengerFlows)
+        try container.encodeIfPresent(trainLoadings, forKey: .trainLoadings)
     }
 
     public func isEqual(to object: Any?) -> Bool {

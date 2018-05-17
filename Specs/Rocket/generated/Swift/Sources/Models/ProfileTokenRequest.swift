@@ -54,7 +54,7 @@ public class ProfileTokenRequest: Codable, Equatable {
 
         try container.encode(profileId, forKey: .profileId)
         try container.encode(scopes, forKey: .scopes)
-        try container.encode(pin, forKey: .pin)
+        try container.encodeIfPresent(pin, forKey: .pin)
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -31,8 +31,8 @@ public class HasOnlyReadOnly: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(bar, forKey: .bar)
-        try container.encode(foo, forKey: .foo)
+        try container.encodeIfPresent(bar, forKey: .bar)
+        try container.encodeIfPresent(foo, forKey: .foo)
     }
 
     public func isEqual(to object: Any?) -> Bool {

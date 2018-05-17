@@ -31,8 +31,8 @@ public class PlacePolygon: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(commonName, forKey: .commonName)
-        try container.encode(geoPoints, forKey: .geoPoints)
+        try container.encodeIfPresent(commonName, forKey: .commonName)
+        try container.encodeIfPresent(geoPoints, forKey: .geoPoints)
     }
 
     public func isEqual(to object: Any?) -> Bool {

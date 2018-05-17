@@ -49,9 +49,9 @@ If no account pin is defined this has no impact.
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(name, forKey: .name)
-        try container.encode(pinEnabled, forKey: .pinEnabled)
-        try container.encode(purchaseEnabled, forKey: .purchaseEnabled)
-        try container.encode(segments, forKey: .segments)
+        try container.encodeIfPresent(pinEnabled, forKey: .pinEnabled)
+        try container.encodeIfPresent(purchaseEnabled, forKey: .purchaseEnabled)
+        try container.encodeIfPresent(segments, forKey: .segments)
     }
 
     public func isEqual(to object: Any?) -> Bool {

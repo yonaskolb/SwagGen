@@ -52,11 +52,11 @@ public class ContentIdentityCountry: Codable, Equatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(order, forKey: .order)
-        try container.encode(contentProvider, forKey: .contentProvider)
-        try container.encode(country, forKey: .country)
-        try container.encode(id, forKey: .id)
-        try container.encode(identityProvider, forKey: .identityProvider)
-        try container.encode(showInList, forKey: .showInList)
+        try container.encodeIfPresent(contentProvider, forKey: .contentProvider)
+        try container.encodeIfPresent(country, forKey: .country)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(identityProvider, forKey: .identityProvider)
+        try container.encodeIfPresent(showInList, forKey: .showInList)
     }
 
     public func isEqual(to object: Any?) -> Bool {

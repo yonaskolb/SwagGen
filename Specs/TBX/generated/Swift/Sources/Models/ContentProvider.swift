@@ -92,13 +92,13 @@ public class ContentProvider: Codable, Equatable {
         try container.encode(apiKey, forKey: .apiKey)
         try container.encode(devicesLimit, forKey: .devicesLimit)
         try container.encode(canLogoutDevice, forKey: .canLogoutDevice)
-        try container.encode(canCreateTryAndBuy, forKey: .canCreateTryAndBuy)
-        try container.encode(hasSocialID, forKey: .hasSocialID)
-        try container.encode(id, forKey: .id)
-        try container.encode(overrideRules, forKey: .overrideRules)
-        try container.encode(permittedURN, forKey: .permittedURN)
-        try container.encode(urlMaintenance, forKey: .urlMaintenance)
-        try container.encode(whitelistDomains, forKey: .whitelistDomains)
+        try container.encodeIfPresent(canCreateTryAndBuy, forKey: .canCreateTryAndBuy)
+        try container.encodeIfPresent(hasSocialID, forKey: .hasSocialID)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(overrideRules, forKey: .overrideRules)
+        try container.encodeIfPresent(permittedURN, forKey: .permittedURN)
+        try container.encodeIfPresent(urlMaintenance, forKey: .urlMaintenance)
+        try container.encodeIfPresent(whitelistDomains, forKey: .whitelistDomains)
     }
 
     public func isEqual(to object: Any?) -> Bool {

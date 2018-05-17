@@ -31,8 +31,8 @@ public class LineSpecificServiceType: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(serviceType, forKey: .serviceType)
-        try container.encode(stopServesServiceType, forKey: .stopServesServiceType)
+        try container.encodeIfPresent(serviceType, forKey: .serviceType)
+        try container.encodeIfPresent(stopServesServiceType, forKey: .stopServesServiceType)
     }
 
     public func isEqual(to object: Any?) -> Bool {

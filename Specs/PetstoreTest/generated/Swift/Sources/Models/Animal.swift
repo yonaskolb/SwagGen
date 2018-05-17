@@ -32,7 +32,7 @@ public class Animal: Codable, Equatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(className, forKey: .className)
-        try container.encode(color, forKey: .color)
+        try container.encodeIfPresent(color, forKey: .color)
     }
 
     public func isEqual(to object: Any?) -> Bool {

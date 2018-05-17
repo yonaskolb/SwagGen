@@ -31,8 +31,8 @@ public class TimetableRoute: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(schedules, forKey: .schedules)
-        try container.encode(stationIntervals, forKey: .stationIntervals)
+        try container.encodeIfPresent(schedules, forKey: .schedules)
+        try container.encodeIfPresent(stationIntervals, forKey: .stationIntervals)
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -68,11 +68,11 @@ public class OverrideRuleObject: Codable, Equatable {
         try container.encode(urn, forKey: .urn)
         try container.encode(response, forKey: .response)
         try container.encode(priority, forKey: .priority)
-        try container.encode(action, forKey: .action)
-        try container.encode(country, forKey: .country)
-        try container.encode(dateFrom, forKey: .dateFrom)
-        try container.encode(dateUntil, forKey: .dateUntil)
-        try container.encode(idp, forKey: .idp)
+        try container.encodeIfPresent(action, forKey: .action)
+        try container.encodeIfPresent(country, forKey: .country)
+        try container.encodeIfPresent(dateFrom, forKey: .dateFrom)
+        try container.encodeIfPresent(dateUntil, forKey: .dateUntil)
+        try container.encodeIfPresent(idp, forKey: .idp)
     }
 
     public func isEqual(to object: Any?) -> Bool {

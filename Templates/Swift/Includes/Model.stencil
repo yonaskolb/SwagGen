@@ -83,7 +83,7 @@ public class {{ type }}: {% if parent %}{{ parent.type }}{% else %}Codable, Equa
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         {% for property in properties %}
-        try container.encode{% if property.isAnyType %}Any{% endif %}({{ property.name }}, forKey: .{{ property.name }})
+        try container.encode{% if property.isAnyType %}Any{% endif %}{% if property.optional %}IfPresent{% endif %}({{ property.name }}, forKey: .{{ property.name }})
         {% endfor %}
         {% endif %}
         {% if additionalPropertiesType %}

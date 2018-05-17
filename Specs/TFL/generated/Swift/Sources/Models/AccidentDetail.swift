@@ -66,15 +66,15 @@ public class AccidentDetail: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(borough, forKey: .borough)
-        try container.encode(casualties, forKey: .casualties)
-        try container.encode(date, forKey: .date)
-        try container.encode(id, forKey: .id)
-        try container.encode(lat, forKey: .lat)
-        try container.encode(location, forKey: .location)
-        try container.encode(lon, forKey: .lon)
-        try container.encode(severity, forKey: .severity)
-        try container.encode(vehicles, forKey: .vehicles)
+        try container.encodeIfPresent(borough, forKey: .borough)
+        try container.encodeIfPresent(casualties, forKey: .casualties)
+        try container.encodeIfPresent(date, forKey: .date)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(lat, forKey: .lat)
+        try container.encodeIfPresent(location, forKey: .location)
+        try container.encodeIfPresent(lon, forKey: .lon)
+        try container.encodeIfPresent(severity, forKey: .severity)
+        try container.encodeIfPresent(vehicles, forKey: .vehicles)
     }
 
     public func isEqual(to object: Any?) -> Bool {

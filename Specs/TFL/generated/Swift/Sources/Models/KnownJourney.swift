@@ -36,9 +36,9 @@ public class KnownJourney: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(hour, forKey: .hour)
-        try container.encode(intervalId, forKey: .intervalId)
-        try container.encode(minute, forKey: .minute)
+        try container.encodeIfPresent(hour, forKey: .hour)
+        try container.encodeIfPresent(intervalId, forKey: .intervalId)
+        try container.encodeIfPresent(minute, forKey: .minute)
     }
 
     public func isEqual(to object: Any?) -> Bool {

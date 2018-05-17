@@ -51,12 +51,12 @@ public class Identifier: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(crowding, forKey: .crowding)
-        try container.encode(fullName, forKey: .fullName)
-        try container.encode(id, forKey: .id)
-        try container.encode(name, forKey: .name)
-        try container.encode(type, forKey: .type)
-        try container.encode(uri, forKey: .uri)
+        try container.encodeIfPresent(crowding, forKey: .crowding)
+        try container.encodeIfPresent(fullName, forKey: .fullName)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(uri, forKey: .uri)
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -46,11 +46,11 @@ public class Message: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(bulletOrder, forKey: .bulletOrder)
-        try container.encode(header, forKey: .header)
-        try container.encode(linkText, forKey: .linkText)
-        try container.encode(messageText, forKey: .messageText)
-        try container.encode(url, forKey: .url)
+        try container.encodeIfPresent(bulletOrder, forKey: .bulletOrder)
+        try container.encodeIfPresent(header, forKey: .header)
+        try container.encodeIfPresent(linkText, forKey: .linkText)
+        try container.encodeIfPresent(messageText, forKey: .messageText)
+        try container.encodeIfPresent(url, forKey: .url)
     }
 
     public func isEqual(to object: Any?) -> Bool {

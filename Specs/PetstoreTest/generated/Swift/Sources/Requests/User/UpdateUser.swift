@@ -31,7 +31,11 @@ extension PetstoreTest.User {
             public init(body: User, options: Options) {
                 self.body = body
                 self.options = options
-                super.init(service: UpdateUser.service)
+                super.init(service: UpdateUser.service) {
+                    let jsonEncoder = JSONEncoder()
+                    jsonEncoder.dateEncodingStrategy = .formatted(PetstoreTest.dateFormatter)
+                    return try jsonEncoder.encode(body)
+                }
             }
 
             /// convenience initialiser so an Option doesn't have to be created
@@ -42,10 +46,6 @@ extension PetstoreTest.User {
 
             public override var path: String {
                 return super.path.replacingOccurrences(of: "{" + "username" + "}", with: "\(self.options.username)")
-            }
-
-            public override var jsonBody: Encodable? {
-                return body
             }
         }
 
@@ -84,7 +84,9 @@ extension PetstoreTest.User {
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(PetstoreTest.dateFormatter)
                 switch statusCode {
                 case 400: self = .status400
                 case 404: self = .status404

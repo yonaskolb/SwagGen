@@ -26,7 +26,7 @@ public class List: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(_123List, forKey: ._123List)
+        try container.encodeIfPresent(_123List, forKey: ._123List)
     }
 
     public func isEqual(to object: Any?) -> Bool {

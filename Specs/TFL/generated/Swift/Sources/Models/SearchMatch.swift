@@ -46,11 +46,11 @@ public class SearchMatch: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(id, forKey: .id)
-        try container.encode(lat, forKey: .lat)
-        try container.encode(lon, forKey: .lon)
-        try container.encode(name, forKey: .name)
-        try container.encode(url, forKey: .url)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(lat, forKey: .lat)
+        try container.encodeIfPresent(lon, forKey: .lon)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(url, forKey: .url)
     }
 
     public func isEqual(to object: Any?) -> Bool {

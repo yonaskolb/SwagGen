@@ -69,12 +69,12 @@ public class Street: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(closure, forKey: .closure)
-        try container.encode(directions, forKey: .directions)
-        try container.encode(name, forKey: .name)
-        try container.encode(segments, forKey: .segments)
-        try container.encode(sourceSystemId, forKey: .sourceSystemId)
-        try container.encode(sourceSystemKey, forKey: .sourceSystemKey)
+        try container.encodeIfPresent(closure, forKey: .closure)
+        try container.encodeIfPresent(directions, forKey: .directions)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(segments, forKey: .segments)
+        try container.encodeIfPresent(sourceSystemId, forKey: .sourceSystemId)
+        try container.encodeIfPresent(sourceSystemKey, forKey: .sourceSystemKey)
     }
 
     public func isEqual(to object: Any?) -> Bool {

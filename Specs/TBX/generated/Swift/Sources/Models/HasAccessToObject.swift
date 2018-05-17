@@ -67,9 +67,9 @@ Options: CACHE_ACCESS / IDP_ACCESS / ACTIVITY_ACCESS / PERMISSION_ACCESS / ETIME
         try container.encode(access, forKey: .access)
         try container.encode(isTryandbuy, forKey: .isTryandbuy)
         try container.encode(reason, forKey: .reason)
-        try container.encode(error, forKey: .error)
-        try container.encode(expiration, forKey: .expiration)
-        try container.encode(idpAccess, forKey: .idpAccess)
+        try container.encodeIfPresent(error, forKey: .error)
+        try container.encodeIfPresent(expiration, forKey: .expiration)
+        try container.encodeIfPresent(idpAccess, forKey: .idpAccess)
     }
 
     public func isEqual(to object: Any?) -> Bool {

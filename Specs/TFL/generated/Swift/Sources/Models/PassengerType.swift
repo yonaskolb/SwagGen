@@ -41,10 +41,10 @@ public class PassengerType: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(description, forKey: .description)
-        try container.encode(displayName, forKey: .displayName)
-        try container.encode(displayOrder, forKey: .displayOrder)
-        try container.encode(type, forKey: .type)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(displayName, forKey: .displayName)
+        try container.encodeIfPresent(displayOrder, forKey: .displayOrder)
+        try container.encodeIfPresent(type, forKey: .type)
     }
 
     public func isEqual(to object: Any?) -> Bool {

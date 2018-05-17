@@ -40,11 +40,11 @@ If neither a pin or password are supplied an http 400 error will be returned.
 
             public init(body: AccountTokenRequest) {
                 self.body = body
-                super.init(service: GetAccountToken.service)
-            }
-
-            public override var jsonBody: Encodable? {
-                return body
+                super.init(service: GetAccountToken.service) {
+                    let jsonEncoder = JSONEncoder()
+                    jsonEncoder.dateEncodingStrategy = .formatted(Rocket.dateFormatter)
+                    return try jsonEncoder.encode(body)
+                }
             }
         }
 
@@ -138,7 +138,9 @@ If neither a pin or password are supplied an http 400 error will be returned.
                 }
             }
 
-            public init(statusCode: Int, data: Data, decoder: JSONDecoder) throws {
+            public init(statusCode: Int, data: Data) throws {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(Rocket.dateFormatter)
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([AccessToken].self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

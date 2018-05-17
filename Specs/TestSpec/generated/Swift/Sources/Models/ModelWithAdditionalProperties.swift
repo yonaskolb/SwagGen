@@ -34,7 +34,7 @@ public class ModelWithAdditionalProperties: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(name, forKey: .name)
+        try container.encodeIfPresent(name, forKey: .name)
 
         var additionalPropertiesContainer = encoder.container(keyedBy: StringCodingKey.self)
         for (key, value) in additionalProperties {

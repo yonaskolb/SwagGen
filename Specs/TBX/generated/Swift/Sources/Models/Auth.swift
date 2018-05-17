@@ -33,7 +33,7 @@ public class Auth: Codable, Equatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(status, forKey: .status)
-        try container.encode(userToken, forKey: .userToken)
+        try container.encodeIfPresent(userToken, forKey: .userToken)
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -53,9 +53,15 @@ extension SwaggerSpec {
         } catch {
             throw SwaggerError.loadError(url)
         }
-        let string = String(data: data, encoding: .utf8)!
 
-        try self.init(string: string)
+        if let string = String(data: data, encoding: .utf8) {
+            try self.init(string: string)
+        } else if let string = String(data: data, encoding: .ascii) {
+            try self.init(string: string)
+        } else {
+            throw SwaggerError.parseError("Swagger doc is not utf8 or ascii encoded")
+        }
+
     }
 
     public init(path: PathKit.Path) throws {

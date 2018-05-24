@@ -8,6 +8,7 @@ public enum SwaggerError: Error, CustomStringConvertible {
     case invalidSchemaType(JSONDictionary)
     case invalidArraySchema([String: Any])
     case loadError(URL)
+    case parseError(String)
 
     public var description: String {
         switch self {
@@ -22,6 +23,8 @@ public enum SwaggerError: Error, CustomStringConvertible {
             return "Invalid array schema:\n\(array)"
         case let .loadError(url):
             return "Couldn't load url \(url)"
+        case let .parseError(message):
+            return "Swagger Parsing Error \(message)"
         }
     }
 }

@@ -317,3 +317,9 @@ extension Dictionary where Key == String, Value: RawRepresentable {
         return mapValues { $0.rawValue }
     }
 }
+
+extension UUID {
+    func encode() -> Any {
+        return uuidString
+    }
+}

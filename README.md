@@ -112,7 +112,7 @@ List of all available options
 name | action | expected values | default value
 --- | --- | --- | ---
 authors | authors in podspec | `String` | Yonas Kolb
-baseURL | baseURL in APIClient | `String` | null
+baseURL | baseURL in APIClient | `String` | first scheme, host, and base path of spec
 fixedWidthIntegers | whether to use types like Int32 and Int64 | `Bool` | false
 homepage | homepage in podspec  | `String` | https://github.com/yonaskolb/SwagGen
 modelPrefix | model by adding a prefix and model file name | `String` | null

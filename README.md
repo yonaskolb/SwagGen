@@ -104,6 +104,27 @@ swaggen generate http://myapi.com/spec --template Templates/Swift  --destination
 
 For the Swift template, a handy option is `name`, which changes the name of the generated framework from the default of `API`. This can be set in the template or by passing in `--option name:MyCoolAPI`.
 
+
+### Swift Template Options
+
+List of all available options
+
+name | action | expected values | default value
+--- | --- | --- | ---
+authors | authors in podspec | `String` | Yonas Kolb
+baseURL | baseURL in APIClient | `String` | null
+fixedWidthIntegers | whether to use types like Int32 and Int64 | `Bool` | false
+homepage | homepage in podspec  | `String` | https://github.com/yonaskolb/SwagGen
+modelPrefix | model by adding a prefix and model file name | `String` | null
+modelSuffix | model by adding a suffix and model file name | `String` | null
+mutableModels | whether model properties are mutable | `Bool` | true
+name | name of the API | `String` | API
+safeArrayDecoding | filter out invalid items in array instead of throwing | `Bool` | false
+safeOptionalDecoding | set invalid optionals to nil instead of throwing | `Bool` | false
+tagPrefix | prefix for all tags | `String` | null
+tagSuffix | suffix for all tags | `String` | null
+
+
 ## Editing
 ```
 $ git clone https://github.com/yonaskolb/SwagGen.git

@@ -1,5 +1,14 @@
 # Change Log
 
+## [2.1.1](https://github.com/yonaskolb/SwagGen/compare/2.1.0...2.1.1)
+
+### Added
+- Added support for ASCI encoded swagger specs #80
+
+### Fixed
+- Fixed homebrew installation on machines with both Xcode 9.3 and Command line tools installed
+- Fixed `UUID` parameter encoding #81
+
 ## [2.1.0](https://github.com/yonaskolb/SwagGen/compare/2.0.0...2.1.0)
 ### Added
 - Separated `date` and `date-time` formats into `DateDay` and `DateTime` structs #74 #77

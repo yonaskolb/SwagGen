@@ -61,7 +61,6 @@ extension SwaggerSpec {
         } else {
             throw SwaggerError.parseError("Swagger doc is not utf8 or ascii encoded")
         }
-
     }
 
     public init(path: PathKit.Path) throws {

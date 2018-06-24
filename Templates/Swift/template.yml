@@ -17,6 +17,7 @@ options:
       github: antitypical/Result
       version: 4.0.0
 templateFiles:
+  - path: README.md
   - path: Package.swift
   - path: Cartfile
   - path: Sources/API.swift

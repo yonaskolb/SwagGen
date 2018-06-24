@@ -41,7 +41,7 @@ public class CodeFormatter {
         context["operations"] = spec.operations.map(getOperationContext)
         context["tags"] = spec.tags
         context["operationsByTag"] = spec.operationsByTag.map { ["name": $0, "operations": $1.map(getOperationContext)] }
-        context["definitions"] = spec.definitions.map(getDefinitionContext)
+        context["definitions"] = spec.definitions.map(getDefinitionContext).sorted { sortContext(by: "type", value1: $0, value2: $1) }
         context["info"] = getSpecInformationContext(spec.info)
         context["host"] = spec.host
         context["basePath"] = spec.basePath
@@ -51,6 +51,10 @@ public class CodeFormatter {
         context["baseURL"] = "\(scheme ?? "")\(spec.host?.absoluteString ?? "")\(spec.basePath ?? "")"
 
         return context
+    }
+
+    private func sortContext(by: String, value1: [String: Any?], value2: [String: Any?]) -> Bool {
+        return (value1[by] as? String ?? "") < (value2[by] as? String ?? "")
     }
 
     func getSecurityDefinitionContext(_ securityDefinition: SecuritySchema) -> Context {

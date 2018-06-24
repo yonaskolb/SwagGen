@@ -161,7 +161,7 @@ Formatters change what information is available to the templates and how it's fo
 SwagGen can be used to generate code for any language. At the moment there is only a formatter and template for **Swift**
 
 ## Swift API usage
-Usage documentation can be found in the [Readme](Templates/swift/README.md) that is generated with your template.
+Usage documentation can be found in the [Readme](Templates/Swift/README.md) that is generated with your template.
 
 ---
 

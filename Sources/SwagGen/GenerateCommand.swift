@@ -70,9 +70,9 @@ class GenerateCommand: Command {
                 Path(#file).parent().parent().parent() + relativePath,
             ]
 
-            if let symlink = try? bundlePath.symlinkDestination() {
+            if let symlink = try? (bundlePath + "swaggen").symlinkDestination() {
                 possibleSettingsPaths = [
-                    symlink + relativePath,
+                    symlink.parent() + relativePath,
                 ] + possibleSettingsPaths
             }
 

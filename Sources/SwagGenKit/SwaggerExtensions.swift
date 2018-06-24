@@ -36,7 +36,9 @@ extension SwaggerSpec {
         }
 
         for tag in tags {
-            dictionary[tag] = operations.filter { $0.tags.contains(tag) }
+            dictionary[tag] = operations
+                .filter { $0.tags.contains(tag) }
+                .sorted { $0.identifier ?? "" < $1.identifier ?? ""}
         }
         return dictionary
     }

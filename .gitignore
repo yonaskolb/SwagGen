@@ -9,4 +9,3 @@
 /Specs/**/*.xcodeproj
 /Specs/**/Package.resolved
 /.vscode
-generated/

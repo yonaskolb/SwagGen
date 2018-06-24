@@ -1,5 +1,14 @@
 # Change Log
 
+## [2.1.2](https://github.com/yonaskolb/SwagGen/compare/2.1.1...2.1.2)
+
+### Added
+- Added generated Swift template documenation #87
+
+### Fixed
+- Fixed nil `AnyCodable` values being encoded as null
+- Fixed inbuilt templates not being found in Mint installations
+
 ## [2.1.1](https://github.com/yonaskolb/SwagGen/compare/2.1.0...2.1.1)
 
 ### Added

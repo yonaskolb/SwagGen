@@ -17,7 +17,7 @@ Make sure Xcode 9.3 is installed first.
 
 ### [Mint](https://github.com/yonaskolb/mint)
 ```sh
-$ mint run yonaskolb/SwagGen
+$ mint install yonaskolb/SwagGen
 ```
 ### Homebrew
 

@@ -94,6 +94,13 @@ There are some options to control how invalid JSON is handled when decoding and 
 - `safeOptionalDecoding`: Whether to discard any errors when decoding optional properties. Defaults to `true`.
 - `safeArrayDecoding`: Whether to remove invalid elements instead of throwing when decoding arrays. Defaults to `true`.
 
+Dates are encoded and decoded differently according to the swagger date format. They use different `DateFormatter`'s that you can set.
+- `date-time`
+    - `DateTime.dateEncodingFormatter`: defaults to `yyyy-MM-dd'T'HH:mm:ss.Z`
+    - `DateTime.dateDecodingFormatters`: an array of date formatters. The first one to decode successfully will be used
+- `date`
+    - `DateDay.dateFormatter`: defaults to `YYY-MM-dd`
+
 #### APIError
 This is error enum that `APIResponse.result` may contain:
 

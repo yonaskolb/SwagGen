@@ -9,6 +9,8 @@ options:
   modelSuffix: null # applied to model classes
   modelType: class # can be struct or class
   modelInheritance: true # must be false for struct modelType
+  modelNames: {} # override model type names
+  enumNames: {} # override enum type names
   dependencies:
     - name: Alamofire
       pod: Alamofire

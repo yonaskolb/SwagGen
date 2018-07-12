@@ -111,6 +111,7 @@ List of all available options
 
 name | action | expected values | default value
 --- | --- | --- | ---
+name | name of the API | `String` | API
 authors | authors in podspec | `String` | Yonas Kolb
 baseURL | baseURL in APIClient | `String` | first scheme, host, and base path of spec
 fixedWidthIntegers | whether to use types like Int32 and Int64 | `Bool` | false
@@ -120,7 +121,8 @@ modelSuffix | model by adding a suffix and model file name | `String` | null
 mutableModels | whether model properties are mutable | `Bool` | true
 modelType | whether each model is a `struct` or `class` | `String` | class
 modelInheritance | whether models use inheritance. Must be false for structs | Bool | true
-name | name of the API | `String` | API
+modelNames | override model names | `[String: String]` | [:]
+enumNames | override enum names | `[String: String]` | [:]
 safeArrayDecoding | filter out invalid items in array instead of throwing | `Bool` | false
 safeOptionalDecoding | set invalid optionals to nil instead of throwing | `Bool` | false
 tagPrefix | prefix for all tags | `String` | null

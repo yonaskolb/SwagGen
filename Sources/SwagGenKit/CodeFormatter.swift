@@ -11,12 +11,14 @@ public class CodeFormatter {
     let templateConfig: TemplateConfig
     var modelPrefix: String?
     var modelSuffix: String?
+    var modelInheritance: Bool
 
     public init(spec: SwaggerSpec, templateConfig: TemplateConfig) {
         self.spec = spec
         self.templateConfig = templateConfig
         modelPrefix = templateConfig.getStringOption("modelPrefix")
         modelSuffix = templateConfig.getStringOption("modelSuffix")
+        modelInheritance = templateConfig.getBooleanOption("modelInheritance") ?? true
     }
 
     var disallowedNames: [String] {
@@ -135,20 +137,30 @@ public class CodeFormatter {
 
         context["raw"] = schema.metadata.json
 
-        if let parent = schema.parent {
+        if modelInheritance, let parent = schema.parent {
             context["parent"] = getDefinitionContext(parent)
         }
 
         context["description"] = schema.metadata.description
-        context["requiredProperties"] = schema.requiredProperties.map(getPropertyContext)
-        context["optionalProperties"] = schema.optionalProperties.map(getPropertyContext)
-        context["properties"] = schema.properties.map(getPropertyContext)
-        context["allProperties"] = schema.parentProperties.map(getPropertyContext)
-        context["enums"] = schema.enums.map(getEnumContext)
-
-        context["schemas"] = schema.properties.compactMap { property in
-            getInlineSchemaContext(property.schema, name: property.name)
+        if modelInheritance {
+            context["requiredProperties"] = schema.requiredProperties.map(getPropertyContext)
+            context["optionalProperties"] = schema.optionalProperties.map(getPropertyContext)
+            context["properties"] = schema.properties.map(getPropertyContext)
+            context["enums"] = schema.enums.map(getEnumContext)
+            context["schemas"] = schema.properties.compactMap { property in
+                getInlineSchemaContext(property.schema, name: property.name)
+            }
+        } else {
+            context["requiredProperties"] = schema.inheritedRequiredProperties.map(getPropertyContext)
+            context["optionalProperties"] = schema.inheritedOptionalProperties.map(getPropertyContext)
+            context["properties"] = schema.inheritedProperties.map(getPropertyContext)
+            context["enums"] = schema.inheritedEnums.map(getEnumContext)
+            context["schemas"] = schema.inheritedProperties.compactMap { property in
+                getInlineSchemaContext(property.schema, name: property.name)
+            }
         }
+        context["allProperties"] = schema.inheritedProperties.map(getPropertyContext)
+
         return context
     }
 

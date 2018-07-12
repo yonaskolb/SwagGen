@@ -118,6 +118,7 @@ homepage | homepage in podspec  | `String` | https://github.com/yonaskolb/SwagGe
 modelPrefix | model by adding a prefix and model file name | `String` | null
 modelSuffix | model by adding a suffix and model file name | `String` | null
 mutableModels | whether model properties are mutable | `Bool` | true
+modelInheritance | whether models use inheritance. Must be false for structs | Bool | true
 name | name of the API | `String` | API
 safeArrayDecoding | filter out invalid items in array instead of throwing | `Bool` | false
 safeOptionalDecoding | set invalid optionals to nil instead of throwing | `Bool` | false

@@ -73,7 +73,7 @@ public class SwiftFormatter: CodeFormatter {
     let fixedWidthIntegers: Bool
 
     public override init(spec: SwaggerSpec, templateConfig: TemplateConfig) {
-        fixedWidthIntegers = templateConfig.getBooleanOption("fixedWidthIntegers")
+        fixedWidthIntegers = templateConfig.getBooleanOption("fixedWidthIntegers") ?? false
         super.init(spec: spec, templateConfig: templateConfig)
     }
 

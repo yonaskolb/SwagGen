@@ -103,16 +103,16 @@ extension Schema {
         return []
     }
 
-    var parentProperties: [Property] {
-        return parentRequiredProperties + parentOptionalProperties
+    var inheritedProperties: [Property] {
+        return inheritedRequiredProperties + inheritedOptionalProperties
     }
 
-    private var parentRequiredProperties: [Property] {
-        return (parent?.value.parentRequiredProperties ?? []) + requiredProperties
+    var inheritedRequiredProperties: [Property] {
+        return (parent?.value.inheritedRequiredProperties ?? []) + requiredProperties
     }
 
-    private var parentOptionalProperties: [Property] {
-        return (parent?.value.parentOptionalProperties ?? []) + optionalProperties
+    var inheritedOptionalProperties: [Property] {
+        return (parent?.value.inheritedOptionalProperties ?? []) + optionalProperties
     }
 
     func getEnum(name: String, description: String?) -> Enum? {
@@ -140,6 +140,10 @@ extension Schema {
             enums += schema.enums
         }
         return enums
+    }
+
+    var inheritedEnums: [Enum] {
+        return (parent?.value.inheritedEnums ?? []) + enums
     }
 
     var generateInlineSchema: Bool {

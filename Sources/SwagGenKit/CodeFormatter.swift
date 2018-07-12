@@ -9,16 +9,20 @@ public class CodeFormatter {
     var filenames: [String] = []
     var enums: [Enum] = []
     let templateConfig: TemplateConfig
-    var modelPrefix: String?
-    var modelSuffix: String?
+    var modelPrefix: String
+    var modelSuffix: String
     var modelInheritance: Bool
+    var modelNames: [String: String]
+    var enumNames: [String: String]
 
     public init(spec: SwaggerSpec, templateConfig: TemplateConfig) {
         self.spec = spec
         self.templateConfig = templateConfig
-        modelPrefix = templateConfig.getStringOption("modelPrefix")
-        modelSuffix = templateConfig.getStringOption("modelSuffix")
+        modelPrefix = templateConfig.getStringOption("modelPrefix") ?? ""
+        modelSuffix = templateConfig.getStringOption("modelSuffix") ?? ""
         modelInheritance = templateConfig.getBooleanOption("modelInheritance") ?? true
+        modelNames = templateConfig.options["modelNames"] as? [String: String] ?? [:]
+        enumNames = templateConfig.options["enumNames"] as? [String: String] ?? [:]
     }
 
     var disallowedNames: [String] {
@@ -394,7 +398,10 @@ public class CodeFormatter {
     }
 
     func getEnumType(_ name: String) -> String {
-        return escapeType("\(modelPrefix ?? "")\(name.upperCamelCased())")
+        if let enumName = enumNames[name] {
+            return enumName
+        }
+        return escapeType("\(modelPrefix)\(name.upperCamelCased())")
     }
 
     func getItemType(name: String, item: Item, checkEnum: Bool = true) -> String {
@@ -402,8 +409,11 @@ public class CodeFormatter {
     }
 
     func getModelType(_ name: String) -> String {
+        if let modelName = modelNames[name] {
+            return modelName
+        }
         let type = name.upperCamelCased()
-        return escapeType("\(modelPrefix ?? "")\(type)\(modelSuffix ?? "")")
+        return escapeType("\(modelPrefix)\(type)\(modelSuffix)")
     }
 
     func getSchemaType(name: String, schema: Schema, checkEnum: Bool = true) -> String {

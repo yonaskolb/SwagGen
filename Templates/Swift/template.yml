@@ -7,7 +7,8 @@ options:
   safeArrayDecoding: false # filter out invalid items in array instead of throwing
   modelPrefix: null # applied to model classes and enums
   modelSuffix: null # applied to model classes
-  modelInheritance: false # must be false for struct modelType
+  modelType: class # can be struct or class
+  modelInheritance: true # must be false for struct modelType
   dependencies:
     - name: Alamofire
       pod: Alamofire

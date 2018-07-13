@@ -48,7 +48,7 @@ public {{ options.modelType }} {{ type }}: {% if parent %}{{ parent.type }}{% el
     }
     {% endif %}
 
-    public required init(from decoder: Decoder) throws {
+    public {% if options.modelType == 'class' %}required {% endif %}init(from decoder: Decoder) throws {
         {% if properties.count > 0 %}
         let container = try decoder.container(keyedBy: CodingKeys.self)
 

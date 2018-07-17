@@ -41,10 +41,13 @@ paths:
           schema:
             type: object
             additionalProperties:
-              type: string
-              enum:
+              type: integer
+              x-enum-names:
                 - one
                 - two
+              enum:
+                - 1
+                - 2
   /string:
     post:
       description: operation with string body

@@ -348,7 +348,17 @@ public class CodeFormatter {
             context["enumName"] = getEnumType(specEnum.name)
             context["isGlobal"] = true
         }
-        context["enums"] = enumValue.cases.map { ["name": getName("\($0)"), "value": $0] }
+        var enumCases: [[String: String]] = []
+        for (index, value) in enumValue.cases.enumerated() {
+            let value = String(describing: value)
+            var name = value
+            if let names = enumValue.names,
+                enumValue.cases.count == names.count {
+                name = names[index]
+            }
+            enumCases.append(["name": getName(name), "value": value])
+        }
+        context["enums"] = enumCases
         context["description"] = specEnum?.description ?? enumValue.description
         context["raw"] = enumValue.metadata.json
 

@@ -10,6 +10,7 @@ struct Enum {
     let type: EnumType
     let description: String?
     let metadata: Metadata
+    let names: [String]?
 
     enum EnumType {
         case schema(Schema)
@@ -51,8 +52,8 @@ extension SwaggerSpec {
 extension Metadata {
 
     func getEnum(name: String, type: Enum.EnumType, description: String?) -> Enum? {
-        if let enumValues = enumeratedValues {
-            return Enum(name: name, cases: enumValues.compactMap { $0 }, type: type, description: description ?? self.description, metadata: self)
+        if let enumValues = enumValues {
+            return Enum(name: name, cases: enumValues.compactMap { $0 }, type: type, description: description ?? self.description, metadata: self, names: enumNames)
         }
         return nil
     }

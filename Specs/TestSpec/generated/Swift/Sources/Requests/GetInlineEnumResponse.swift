@@ -22,9 +22,9 @@ extension TestSpec {
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
 
             /** enum response */
-            public enum Status200: String, Codable {
-                case one = "one"
-                case two = "two"
+            public enum Status200: Int, Codable {
+                case one = 1
+                case two = 2
 
                 public static let cases: [Status200] = [
                   .one,

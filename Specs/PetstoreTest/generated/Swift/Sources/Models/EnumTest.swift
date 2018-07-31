@@ -30,12 +30,12 @@ public class EnumTest: Codable, Equatable {
     public enum EnumString: String, Codable {
         case upper = "UPPER"
         case lower = "lower"
-        case lessThannullgreaterThan = "<null>"
+        case empty = ""
 
         public static let cases: [EnumString] = [
           .upper,
           .lower,
-          .lessThannullgreaterThan,
+          .empty,
         ]
     }
 

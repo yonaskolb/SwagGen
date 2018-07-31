@@ -70,7 +70,7 @@ paths:
       - text/plain
       responses:
         200:
-          description: string response
+          description: ""
           schema:
             type: string
         400:

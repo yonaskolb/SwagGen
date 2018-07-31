@@ -359,6 +359,9 @@ public class CodeFormatter {
                 enumValue.cases.count == names.count {
                 name = names[index]
             }
+            if name == "" {
+                name = "empty"
+            }
             enumCases.append(["name": getName(name), "value": value])
         }
         context["enums"] = enumCases

@@ -21,8 +21,6 @@ extension TestSpec {
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
             public typealias SuccessType = String
-
-            /** string response */
             case status200(String)
 
             /** 400 response */

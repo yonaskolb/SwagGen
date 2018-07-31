@@ -59,10 +59,32 @@ func + (lhs: [String: Any?], rhs: [String: Any?]) -> [String: Any] {
     return combined
 }
 
+fileprivate let separators = [" ", "_", "-", "."]
+fileprivate let acronymStrings = ["URL"]
+
 extension String {
 
     private func camelCased(seperator: String) -> String {
-        return components(separatedBy: seperator).map { $0.mapFirstChar { $0.uppercased() } }.joined(separator: "")
+
+        var index = 0
+        let components = self.components(separatedBy: seperator)
+        if uppercased() == self {
+            return components.map { $0.lowercased().mapFirstChar { $0.uppercased()} }.joined(separator: "")
+        }
+        return components
+            .map { string in
+                defer {
+                    index += 1
+                }
+                if index > 0 && string.isAcronym {
+                    return string.uppercased()
+                } else if string.count == 1 {
+                    return string
+                } else {
+                    return string.upperCamelCased()
+                }
+            }
+            .joined(separator: "")
     }
 
     private func mapFirstChar(transform: (String) -> String) -> String {
@@ -73,18 +95,29 @@ extension String {
         return first + rest
     }
 
-    private func camelCased() -> String {
-        return camelCased(seperator: " ")
-            .camelCased(seperator: "_")
-            .camelCased(seperator: "-")
-            .camelCased(seperator: ".")
+    private func camelCaseSeperators() -> String {
+        var string = self
+        for separator in separators {
+            if string.contains(separator) {
+                string = string.camelCased(seperator: separator)
+            }
+        }
+        return string
+    }
+
+    private var hasSeparator: Bool {
+        return separators.contains(where: { contains($0)})
+    }
+
+    private var isAcronym: Bool {
+        return acronymStrings.contains(uppercased())
     }
 
     func lowerCamelCased() -> String {
 
-        let string = camelCased()
+        let string = camelCaseSeperators()
 
-        if string == string.uppercased() {
+        if string == string.uppercased() && !hasSeparator {
             return string.lowercased()
         }
 
@@ -92,7 +125,10 @@ extension String {
     }
 
     func upperCamelCased() -> String {
-        return camelCased().mapFirstChar { $0.uppercased() }
+        if acronymStrings.contains(uppercased()) && !hasSeparator {
+            return uppercased()
+        }
+        return camelCaseSeperators().mapFirstChar { $0.uppercased() }
     }
 }
 

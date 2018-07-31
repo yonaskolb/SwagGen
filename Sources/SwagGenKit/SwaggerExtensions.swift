@@ -31,7 +31,9 @@ extension SwaggerSpec {
         var dictionary: [String: [Swagger.Operation]] = [:]
 
         // add operations with no tag at ""
-        let operationsWithoutTag = operations.filter { $0.tags.isEmpty }
+        let operationsWithoutTag = operations
+            .filter { $0.tags.isEmpty }
+            .sorted { $0.identifier ?? "" < $1.identifier ?? "" }
         if !operationsWithoutTag.isEmpty {
             dictionary[""] = operationsWithoutTag
         }

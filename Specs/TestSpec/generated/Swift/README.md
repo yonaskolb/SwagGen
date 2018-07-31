@@ -170,9 +170,9 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 ## Operations
 
-- **TestSpec.TestTag**
-	- `PostInlinebody`
 - `TestSpec.GetInlineEnumResponse`
 - `TestSpec.PostString`
 - `TestSpec.GetString`
 - `TestSpec.GetUntagged`
+- **TestSpec.TestTag**
+	- `PostInlinebody`

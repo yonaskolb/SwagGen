@@ -196,6 +196,19 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 ## Operations
 
+- **PetstoreTest.Fake**
+	- `TestClientModel`
+	- `TestEndpointParameters`
+	- `TestEnumParameters`
+- **PetstoreTest.Pet**
+	- `AddPet`
+	- `DeletePet`
+	- `FindPetsByStatus`
+	- `FindPetsByTags`
+	- `GetPetById`
+	- `UpdatePet`
+	- `UpdatePetWithForm`
+	- `UploadFile`
 - **PetstoreTest.Store**
 	- `DeleteOrder`
 	- `GetInventory`
@@ -210,16 +223,3 @@ To add support for a specific asynchronous library, just add an extension on `AP
 	- `LoginUser`
 	- `LogoutUser`
 	- `UpdateUser`
-- **PetstoreTest.Fake**
-	- `TestClientModel`
-	- `TestEndpointParameters`
-	- `TestEnumParameters`
-- **PetstoreTest.Pet**
-	- `AddPet`
-	- `DeletePet`
-	- `FindPetsByStatus`
-	- `FindPetsByTags`
-	- `GetPetById`
-	- `UpdatePet`
-	- `UpdatePetWithForm`
-	- `UploadFile`

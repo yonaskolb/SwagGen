@@ -219,28 +219,6 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 ## Operations
 
-- **Rocket.Content**
-	- `GetItem`
-	- `GetItemChildrenList`
-	- `GetItemRelatedList`
-	- `GetList`
-	- `GetLists`
-	- `GetPlan`
-	- `GetPublicItemMediaFiles`
-	- `GetSchedules`
-	- `Search`
-- **Rocket.Authorization**
-	- `GetAccountToken`
-	- `GetProfileToken`
-	- `RefreshToken`
-	- `SignOut`
-- **Rocket.App**
-	- `GetAppConfig`
-	- `GetPage`
-- **Rocket.Support**
-	- `ForgotPassword`
-	- `ResetPassword`
-	- `VerifyEmail`
 - **Rocket.Account**
 	- `ChangePassword`
 	- `ChangePin`
@@ -259,6 +237,24 @@ To add support for a specific asynchronous library, just add an extension on `AP
 	- `RequestEmailVerification`
 	- `UpdateAccount`
 	- `UpdateProfileWithId`
+- **Rocket.App**
+	- `GetAppConfig`
+	- `GetPage`
+- **Rocket.Authorization**
+	- `GetAccountToken`
+	- `GetProfileToken`
+	- `RefreshToken`
+	- `SignOut`
+- **Rocket.Content**
+	- `GetItem`
+	- `GetItemChildrenList`
+	- `GetItemRelatedList`
+	- `GetList`
+	- `GetLists`
+	- `GetPlan`
+	- `GetPublicItemMediaFiles`
+	- `GetSchedules`
+	- `Search`
 - **Rocket.Profile**
 	- `BookmarkItem`
 	- `DeleteItemBookmark`
@@ -276,3 +272,7 @@ To add support for a specific asynchronous library, just add an extension on `AP
 	- `SetItemWatchedStatus`
 - **Rocket.Registration**
 	- `Register`
+- **Rocket.Support**
+	- `ForgotPassword`
+	- `ResetPassword`
+	- `VerifyEmail`

@@ -274,6 +274,19 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 ## Operations
 
+- **TFL.AccidentStats**
+	- `AccidentStatsGet`
+- **TFL.AirQuality**
+	- `AirQualityGet`
+- **TFL.BikePoint**
+	- `BikePointGet`
+	- `BikePointGetAll`
+	- `BikePointSearch`
+- **TFL.Cabwise**
+	- `CabwiseGet`
+- **TFL.Journey**
+	- `JourneyJourneyResults`
+	- `JourneyMeta`
 - **TFL.Line**
 	- `GetLineStatus`
 	- `LineDisruption`
@@ -297,8 +310,22 @@ To add support for a specific asynchronous library, just add an extension on `AP
 	- `LineTimetableTo`
 	- `GetLineArrivals`
 	- `GetLineArrivalsByPath`
-- **TFL.AirQuality**
-	- `AirQualityGet`
+- **TFL.Mode**
+	- `ModeArrivals`
+	- `ModeGetActiveServiceTypes`
+- **TFL.Occupancy**
+	- `GetOccupant`
+	- `GetOccupants`
+- **TFL.Place**
+	- `PlaceGet`
+	- `PlaceGetAt`
+	- `PlaceGetByGeoBox`
+	- `PlaceGetByType`
+	- `PlaceGetOverlay`
+	- `PlaceGetStreetsByPostCode`
+	- `PlaceMetaCategories`
+	- `PlaceMetaPlaceTypes`
+	- `PlaceSearch`
 - **TFL.Road**
 	- `GetRoadDisruption`
 	- `RoadDisruptedStreets`
@@ -308,12 +335,12 @@ To add support for a specific asynchronous library, just add an extension on `AP
 	- `RoadStatus`
 	- `GetRoad`
 	- `GetRoads`
-- **TFL.Mode**
-	- `ModeArrivals`
-	- `ModeGetActiveServiceTypes`
-- **TFL.Vehicle**
-	- `VehicleGet`
-	- `VehicleGetVehicle`
+- **TFL.Search**
+	- `SearchBusSchedules`
+	- `SearchGet`
+	- `SearchMetaCategories`
+	- `SearchMetaSearchProviders`
+	- `SearchMetaSorts`
 - **TFL.StopPoint**
 	- `StopPointArrivals`
 	- `StopPointCrowding`
@@ -335,36 +362,9 @@ To add support for a specific asynchronous library, just add an extension on `AP
 	- `StopPointRoute`
 	- `SearchStopPoints`
 	- `SearchStopPointsByPath`
-- **TFL.BikePoint**
-	- `BikePointGet`
-	- `BikePointGetAll`
-	- `BikePointSearch`
 - **TFL.TravelTime**
 	- `TravelTimeGetCompareOverlay`
 	- `TravelTimeGetOverlay`
-- **TFL.AccidentStats**
-	- `AccidentStatsGet`
-- **TFL.Place**
-	- `PlaceGet`
-	- `PlaceGetAt`
-	- `PlaceGetByGeoBox`
-	- `PlaceGetByType`
-	- `PlaceGetOverlay`
-	- `PlaceGetStreetsByPostCode`
-	- `PlaceMetaCategories`
-	- `PlaceMetaPlaceTypes`
-	- `PlaceSearch`
-- **TFL.Search**
-	- `SearchBusSchedules`
-	- `SearchGet`
-	- `SearchMetaCategories`
-	- `SearchMetaSearchProviders`
-	- `SearchMetaSorts`
-- **TFL.Cabwise**
-	- `CabwiseGet`
-- **TFL.Journey**
-	- `JourneyJourneyResults`
-	- `JourneyMeta`
-- **TFL.Occupancy**
-	- `GetOccupant`
-	- `GetOccupants`
+- **TFL.Vehicle**
+	- `VehicleGet`
+	- `VehicleGetVehicle`

@@ -46,7 +46,10 @@ public class CodeFormatter {
         context["paths"] = spec.paths.map(getPathContext)
         context["operations"] = spec.operations.map(getOperationContext)
         context["tags"] = spec.tags
-        context["operationsByTag"] = spec.operationsByTag.map { ["name": $0, "operations": $1.map(getOperationContext)] }
+        context["operationsByTag"] = spec.operationsByTag
+            .map { ($0, $1) }
+            .sorted { $0.0.lowercased() < $1.0.lowercased() }
+            .map { ["name": $0, "operations": $1.map(getOperationContext)] }
         context["definitions"] = spec.definitions.map(getDefinitionContext).sorted { sortContext(by: "type", value1: $0, value2: $1) }
         context["info"] = getSpecInformationContext(spec.info)
         context["host"] = spec.host

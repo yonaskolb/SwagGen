@@ -49,10 +49,10 @@ extension TestSpec {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 201: self = .status201
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

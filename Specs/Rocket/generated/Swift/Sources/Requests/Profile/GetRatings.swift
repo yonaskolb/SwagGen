@@ -10,7 +10,7 @@ extension Rocket.Profile {
     /** Get the map of rated item ids (itemId => rating out of 10) under the active profile. */
     public enum GetRatings {
 
-        public static let service = APIService<Response>(id: "getRatings", tag: "profile", method: "GET", path: "/account/profile/ratings", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getRatings", tag: "profile", method: "GET", path: "/account/profile/ratings", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -109,8 +109,7 @@ extension Rocket.Profile {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([String: Int].self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

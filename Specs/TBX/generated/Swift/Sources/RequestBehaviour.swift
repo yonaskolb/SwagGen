@@ -7,8 +7,11 @@ import Foundation
 
 public protocol RequestBehaviour {
 
-    /// runs first and allows the requests to be modified
+    /// runs first and allows the requests to be modified. If modifying asynchronously use validate
     func modifyRequest(request: AnyRequest, urlRequest: URLRequest) -> URLRequest
+
+    /// validates and modifies the request. complete must be called with either .success or .fail
+    func validate(request: AnyRequest, urlRequest: URLRequest, complete: @escaping (RequestValidationResult) -> Void)
 
     /// called before request is sent
     func beforeSend(request: AnyRequest)
@@ -17,19 +20,27 @@ public protocol RequestBehaviour {
     func onSuccess(request: AnyRequest, result: Any)
 
     /// called when request fails with an error. This will not be called if the request returns a known response even if the a status code is out of the 200 range
-    func onFailure(request: AnyRequest, error: APIError)
+    func onFailure(request: AnyRequest, error: APIClientError)
 
     /// called if the request recieves a network response. This is not called if request fails validation or encoding
     func onResponse(request: AnyRequest, response: AnyResponse)
 }
 
+public enum RequestValidationResult {
+    case success(URLRequest)
+    case failure(String)
+}
+
 // Provides empty defaults so that each function becomes optional
 public extension RequestBehaviour {
+    func modifyRequest(request: AnyRequest, urlRequest: URLRequest) -> URLRequest { return urlRequest }
+    func validate(request: AnyRequest, urlRequest: URLRequest, complete: @escaping (RequestValidationResult) -> Void) {
+        complete(.success(urlRequest))
+    }
     func beforeSend(request: AnyRequest) {}
     func onSuccess(request: AnyRequest, result: Any) {}
-    func onFailure(request: AnyRequest, error: APIError) {}
+    func onFailure(request: AnyRequest, error: APIClientError) {}
     func onResponse(request: AnyRequest, response: AnyResponse) {}
-    func modifyRequest(request: AnyRequest, urlRequest: URLRequest) -> URLRequest { return urlRequest }
 }
 
 // Group different RequestBehaviours together
@@ -49,13 +60,37 @@ struct RequestBehaviourGroup {
         }
     }
 
+    func validate(_ urlRequest: URLRequest, complete: @escaping (RequestValidationResult) -> Void) {
+
+        var count = 0
+        var modifiedRequest = urlRequest
+        func validateNext() {
+            let behaviour = behaviours[count]
+            behaviour.validate(request: request, urlRequest: modifiedRequest) { result in
+                count += 1
+                switch result {
+                case .success(let urlRequest):
+                    modifiedRequest = urlRequest
+                    if count == self.behaviours.count {
+                        complete(.success(modifiedRequest))
+                    } else {
+                        validateNext()
+                    }
+                case .failure(let error):
+                    complete(.failure(error))
+                }
+            }
+        }
+        validateNext()
+    }
+
     func onSuccess(result: Any) {
         behaviours.forEach {
             $0.onSuccess(request: request, result: result)
         }
     }
 
-    func onFailure(error: APIError) {
+    func onFailure(error: APIClientError) {
         behaviours.forEach {
             $0.onFailure(request: request, error: error)
         }
@@ -112,7 +147,7 @@ public struct AnyResponseValue: APIResponseValue, CustomDebugStringConvertible, 
         self.success = success
     }
 
-    public init(statusCode: Int, data: Data) throws {
+    public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
         fatalError()
     }
 
@@ -130,25 +165,25 @@ public struct AnyResponseValue: APIResponseValue, CustomDebugStringConvertible, 
 }
 
 extension APIResponseValue {
-    func asAny() -> AnyResponseValue {
+    public func asAny() -> AnyResponseValue {
         return AnyResponseValue(statusCode: statusCode, successful: successful, response: response, responseEnum: self, success: success)
     }
 }
 
 extension APIResponse {
-    func asAny() -> APIResponse<AnyResponseValue> {
+    public func asAny() -> APIResponse<AnyResponseValue> {
         return APIResponse<AnyResponseValue>(request: request.asAny(), result: result.map{ $0.asAny() }, urlRequest: urlRequest, urlResponse: urlResponse, data: data, timeline: timeline)
     }
 }
 
 extension APIRequest {
-    func asAny() -> AnyRequest {
+    public func asAny() -> AnyRequest {
         return AnyRequest(request: self)
     }
 }
 
 extension APIService {
-    func asAny() -> APIService<AnyResponseValue> {
-        return APIService<AnyResponseValue>(id: id, tag: tag, method: method, path: path, hasBody: hasBody, authorization: authorization)
+    public func asAny() -> APIService<AnyResponseValue> {
+        return APIService<AnyResponseValue>(id: id, tag: tag, method: method, path: path, hasBody: hasBody, securityRequirement: securityRequirement)
     }
 }

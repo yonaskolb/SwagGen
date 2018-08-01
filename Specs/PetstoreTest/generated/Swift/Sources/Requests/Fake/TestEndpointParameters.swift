@@ -14,7 +14,7 @@ extension PetstoreTest.Fake {
  */
     public enum TestEndpointParameters {
 
-        public static let service = APIService<Response>(id: "testEndpointParameters", tag: "fake", method: "POST", path: "/fake", hasBody: true, authorization: Authorization(type: "http_basic_test", scope: ""))
+        public static let service = APIService<Response>(id: "testEndpointParameters", tag: "fake", method: "POST", path: "/fake", hasBody: true, securityRequirement: SecurityRequirement(type: "http_basic_test", scope: ""))
 
         public final class Request: APIRequest<Response> {
 
@@ -168,11 +168,11 @@ extension PetstoreTest.Fake {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 400: self = .status400
                 case 404: self = .status404
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

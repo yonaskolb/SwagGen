@@ -21,7 +21,7 @@ for changing an account email address.
  */
     public enum RequestEmailVerification {
 
-        public static let service = APIService<Response>(id: "requestEmailVerification", tag: "account", method: "POST", path: "/account/request-email-verification", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "requestEmailVerification", tag: "account", method: "POST", path: "/account/request-email-verification", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -120,8 +120,7 @@ for changing an account email address.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 204: self = .status204
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

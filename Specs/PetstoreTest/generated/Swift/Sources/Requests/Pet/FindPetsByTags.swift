@@ -10,7 +10,7 @@ extension PetstoreTest.Pet {
     /** Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. */
     public enum FindPetsByTags {
 
-        public static let service = APIService<Response>(id: "findPetsByTags", tag: "pet", method: "GET", path: "/pet/findByTags", hasBody: false, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
+        public static let service = APIService<Response>(id: "findPetsByTags", tag: "pet", method: "GET", path: "/pet/findByTags", hasBody: false, securityRequirement: SecurityRequirement(type: "petstore_auth", scope: "write:pets"))
 
         public final class Request: APIRequest<Response> {
 
@@ -81,12 +81,11 @@ extension PetstoreTest.Pet {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Pet].self, from: data))
                 case 400: self = .status400
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

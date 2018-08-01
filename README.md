@@ -105,9 +105,9 @@ swaggen generate http://myapi.com/spec --template Templates/Swift  --destination
 For the Swift template, a handy option is `name`, which changes the name of the generated framework from the default of `API`. This can be set in the template or by passing in `--option name:MyCoolAPI`.
 
 
-### Swift Template Options
+### Swift Template
 
-List of all available options
+List of all available options:
 
 name | action | expected values | default value
 --- | --- | --- | ---
@@ -128,6 +128,12 @@ safeOptionalDecoding | set invalid optionals to nil instead of throwing | `Bool`
 tagPrefix | prefix for all tags | `String` | null
 tagSuffix | suffix for all tags | `String` | null
 
+If writing your own Swift template there are a few types that are generated that you will need to provide typealias's for:
+
+- `ID`: The `UUID` format. Usually `UUID` or `String`)
+- `File`: The `file` format. Usually `URL`, `Data` or a custom type with a mimeType and fileName
+- `DateTime`: The `date-time` format. Usually `Date`
+- `DateDay`:  The `date` format. Usually `Date` or a custom type.
 
 ## Editing
 ```

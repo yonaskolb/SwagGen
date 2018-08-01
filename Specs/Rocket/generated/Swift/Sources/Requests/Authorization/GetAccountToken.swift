@@ -137,8 +137,7 @@ If neither a pin or password are supplied an http 400 error will be returned.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([AccessToken].self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

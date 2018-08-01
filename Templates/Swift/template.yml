@@ -1,6 +1,6 @@
 formatter: swift
 options:
-  name: API # the name of the API
+  name: EngagementAPI # the name of the API
   fixedWidthIntegers: false # whether to use types like Int32 and Int64
   mutableModels: true # whether model properties are mutable
   safeOptionalDecoding: false # set invalid optionals to nil instead of throwing
@@ -9,7 +9,12 @@ options:
   modelSuffix: null # applied to model classes
   modelType: class # can be struct or class
   modelInheritance: true # must be false for struct modelType
-  modelNames: {} # override model type names
+  modelNames: # override model type names
+    CreatePaymentRequest: CreatePaymentRequestModel
+    DeclinePaymentRequest: DeclinePaymentRequestModel
+    FulfilPaymentRequest: FulfilPaymentRequestModel
+    Notification: EngagementNotification
+    Payment: PaymentData
   enumNames: {} # override enum type names
   dependencies:
     - name: Alamofire
@@ -29,9 +34,8 @@ templateFiles:
   - path: Sources/APIRequest.swift
   - path: Sources/APIClient.swift
   - path: Sources/APIService.swift
-  - path: Sources/APIError.swift
+  - path: Sources/APIClientError.swift
   - path: Sources/APIResponse.swift
-  - path: Sources/Authorization.swift
   - path: Sources/APIResult.swift
   - path: Sources/RequestBehaviour.swift
   - path: Sources/AnyCodable.swift

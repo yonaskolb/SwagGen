@@ -13,7 +13,7 @@ This supports partial updates so you can send just the properties you wish to up
  */
     public enum UpdateProfileWithId {
 
-        public static let service = APIService<Response>(id: "updateProfileWithId", tag: "account", method: "PATCH", path: "/account/profiles/{id}", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "updateProfileWithId", tag: "account", method: "PATCH", path: "/account/profiles/{id}", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -141,8 +141,7 @@ This supports partial updates so you can send just the properties you wish to up
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 204: self = .status204
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

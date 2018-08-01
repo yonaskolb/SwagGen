@@ -9,7 +9,7 @@ extension PetstoreTest.Pet {
 
     public enum DeletePet {
 
-        public static let service = APIService<Response>(id: "deletePet", tag: "pet", method: "DELETE", path: "/pet/{petId}", hasBody: false, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
+        public static let service = APIService<Response>(id: "deletePet", tag: "pet", method: "DELETE", path: "/pet/{petId}", hasBody: false, securityRequirement: SecurityRequirement(type: "petstore_auth", scope: "write:pets"))
 
         public final class Request: APIRequest<Response> {
 
@@ -74,10 +74,10 @@ extension PetstoreTest.Pet {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 400: self = .status400
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

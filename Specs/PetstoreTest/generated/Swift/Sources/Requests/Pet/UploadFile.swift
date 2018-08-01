@@ -9,7 +9,7 @@ extension PetstoreTest.Pet {
 
     public enum UploadFile {
 
-        public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
+        public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, hasFile: true, securityRequirement: SecurityRequirement(type: "petstore_auth", scope: "write:pets"))
 
         public final class Request: APIRequest<Response> {
 
@@ -90,11 +90,10 @@ extension PetstoreTest.Pet {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(ApiResponse.self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

@@ -10,7 +10,7 @@ extension PetstoreTest.Pet {
     /** Returns a single pet */
     public enum GetPetById {
 
-        public static let service = APIService<Response>(id: "getPetById", tag: "pet", method: "GET", path: "/pet/{petId}", hasBody: false, authorization: Authorization(type: "api_key", scope: ""))
+        public static let service = APIService<Response>(id: "getPetById", tag: "pet", method: "GET", path: "/pet/{petId}", hasBody: false, securityRequirement: SecurityRequirement(type: "api_key", scope: ""))
 
         public final class Request: APIRequest<Response> {
 
@@ -84,13 +84,12 @@ extension PetstoreTest.Pet {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(Pet.self, from: data))
                 case 400: self = .status400
                 case 404: self = .status404
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

@@ -10,7 +10,7 @@ extension TestSpec {
     /** operation with an enum response */
     public enum GetInlineEnumResponse {
 
-        public static let service = APIService<Response>(id: "getInlineEnumResponse", tag: "", method: "GET", path: "/inlineEnumResponse", hasBody: false)
+        public static let service = APIService<Response>(id: "getInlineEnumResponse", tag: "", method: "GET", path: "/inlineEnumResponse", hasBody: false, securityRequirement: SecurityRequirement(type: "test_auth", scope: "read"))
 
         public final class Request: APIRequest<Response> {
 

@@ -10,7 +10,7 @@ extension TestSpec {
     /** operation without a tag */
     public enum GetUntagged {
 
-        public static let service = APIService<Response>(id: "getUntagged", tag: "", method: "GET", path: "/untagged", hasBody: false)
+        public static let service = APIService<Response>(id: "getUntagged", tag: "", method: "GET", path: "/untagged", hasBody: false, securityRequirement: SecurityRequirement(type: "test_auth", scope: "read"))
 
         public final class Request: APIRequest<Response> {
 

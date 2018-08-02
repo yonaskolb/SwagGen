@@ -217,8 +217,10 @@ public class CodeFormatter {
         context["formParams"] = operation.getParameters(type: .formData).map(getParameterContext)
         context["headerParams"] = operation.getParameters(type: .header).map(getParameterContext)
         context["hasFileParam"] = params.contains { $0.metadata.type == .file }
-        context["securityRequirement"] = operation.security?.first.flatMap(getSecurityRequirementContext)
-        context["securityRequirements"] = operation.security?.map(getSecurityRequirementContext)
+        
+        let securityRequirements = operation.securityRequirements ?? spec.securityRequirements
+        context["securityRequirement"] = securityRequirements?.first.flatMap(getSecurityRequirementContext)
+        context["securityRequirements"] = securityRequirements?.map(getSecurityRequirementContext)
 
         // Responses
 

@@ -10,7 +10,7 @@ extension Rocket.Account {
     /** Change the pin of an account. */
     public enum ChangePin {
 
-        public static let service = APIService<Response>(id: "changePin", tag: "account", method: "PUT", path: "/account/pin", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Settings"))
+        public static let service = APIService<Response>(id: "changePin", tag: "account", method: "PUT", path: "/account/pin", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Settings"))
 
         public final class Request: APIRequest<Response> {
 
@@ -115,8 +115,7 @@ extension Rocket.Account {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 204: self = .status204
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

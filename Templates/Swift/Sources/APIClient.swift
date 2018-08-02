@@ -20,22 +20,27 @@ public class APIClient {
     /// These headers will get added to every request
     public var defaultHeaders: [String: String]
 
-    /// Used to authorise requests
-    public var authorizer: RequestAuthorizer?
+    public var jsonDecoder = JSONDecoder()
 
     public var decodingQueue = DispatchQueue(label: "apiClient", qos: .utility, attributes: .concurrent)
 
-    public init(baseURL: String, sessionManager: SessionManager = .default, defaultHeaders: [String: String] = [:], behaviours: [RequestBehaviour] = [], authorizer: RequestAuthorizer? = nil) {
+    public init(baseURL: String, sessionManager: SessionManager = .default, defaultHeaders: [String: String] = [:], behaviours: [RequestBehaviour] = []) {
         self.baseURL = baseURL
-        self.authorizer = authorizer
         self.sessionManager = sessionManager
         self.behaviours = behaviours
         self.defaultHeaders = defaultHeaders
     }
 
-    /// Any request behaviours will be run in addition to the client behaviours
+    /// Makes a network request
+    ///
+    /// - Parameters:
+    ///   - request: The API request to make
+    ///   - behaviours: A list of behaviours that will be run for this request. Merged with APIClient.behaviours
+    ///   - completionQueue: The queue that complete will be called on
+    ///   - complete: A closure that gets passed the APIResponse
+    /// - Returns: A cancellable request. Not that cancellation will only work after any validation RequestBehaviours have run
     @discardableResult
-    public func makeRequest<T>(_ request: APIRequest<T>, behaviours: [RequestBehaviour] = [], queue: DispatchQueue = DispatchQueue.main, complete: @escaping (APIResponse<T>) -> Void) -> Request? {
+    public func makeRequest<T>(_ request: APIRequest<T>, behaviours: [RequestBehaviour] = [], completionQueue: DispatchQueue = DispatchQueue.main, complete: @escaping (APIResponse<T>) -> Void) -> CancellableRequest? {
         // create composite behaviour to make it easy to call functions on array of behaviours
         let requestBehaviour = RequestBehaviourGroup(request: request, behaviours: self.behaviours + behaviours)
 
@@ -43,8 +48,8 @@ public class APIClient {
         var urlRequest: URLRequest
         do {
             urlRequest = try request.createURLRequest(baseURL: baseURL)
-        } catch _ {
-            let error = APIError.invalidBaseURL(baseURL)
+        } catch {
+            let error = APIClientError.requestEncodingError(error)
             requestBehaviour.onFailure(error: error)
             let response = APIResponse<T>(request: request, result: .failure(error))
             complete(response)
@@ -61,66 +66,130 @@ public class APIClient {
 
         urlRequest = requestBehaviour.modifyRequest(urlRequest)
 
-        if let authorizer = authorizer, let authorization = request.service.authorization {
+        let cancellableRequest = CancellableRequest(request: request.asAny())
 
-            // authorize request
-            authorizer.authorize(request: requestBehaviour.request, authorization: authorization, urlRequest: urlRequest) { result in
-
-                switch result {
-                case .success(let urlRequest):
-                    self.makeNetworkRequest(request: request, urlRequest: urlRequest, requestBehaviour: requestBehaviour, queue: queue, complete: complete)
-                case .failure(let reason):
-                    let error = APIError.authorizationError(AuthorizationError(authorization: authorization, reason: reason))
-                    let response = APIResponse<T>(request: request, result: .failure(error), urlRequest: urlRequest)
-                    requestBehaviour.onFailure(error: error)
-                    complete(response)
-                }
+        requestBehaviour.validate(urlRequest) { result in
+            switch result {
+            case .success(let urlRequest):
+                self.makeNetworkRequest(request: request, urlRequest: urlRequest, cancellableRequest: cancellableRequest, requestBehaviour: requestBehaviour, completionQueue: completionQueue, complete: complete)
+            case .failure(let error):
+                let error = APIClientError.validationError(error)
+                let response = APIResponse<T>(request: request, result: .failure(error), urlRequest: urlRequest)
+                requestBehaviour.onFailure(error: error)
+                complete(response)
             }
-            return nil
+        }
+        return cancellableRequest
+    }
+
+    private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, cancellableRequest: CancellableRequest, requestBehaviour: RequestBehaviourGroup, completionQueue: DispatchQueue, complete: @escaping (APIResponse<T>) -> Void) {
+        requestBehaviour.beforeSend()
+
+        if request.service.hasFile {
+            sessionManager.upload(
+                multipartFormData: { multipartFormData in
+                    for (name, value) in request.parameters {
+                        if let file = value as? File {
+                            switch file.type {
+                            case let .url(url):
+                                if let fileName = file.fileName, let mimeType = file.mimeType {
+                                    multipartFormData.append(url, withName: name, fileName: fileName, mimeType: mimeType)
+                                } else {
+                                    multipartFormData.append(url, withName: name)
+                                }
+                            case let .data(data):
+                                if let fileName = file.fileName, let mimeType = file.mimeType {
+                                    multipartFormData.append(data, withName: name, fileName: fileName, mimeType: mimeType)
+                                } else {
+                                    multipartFormData.append(data, withName: name)
+                                }
+                            }
+                        } else if let url = value as? URL {
+                            multipartFormData.append(url, withName: name)
+                        } else if let data = value as? Data {
+                            multipartFormData.append(data, withName: name)
+                        }
+                    }
+                },
+                with: urlRequest,
+                encodingCompletion: { result in
+                    switch result {
+                    case .success(let uploadRequest, _, _):
+                        cancellableRequest.networkRequest = uploadRequest
+                        uploadRequest.responseData { dataResponse in
+                            self.handleResponse(request: request, requestBehaviour: requestBehaviour, dataResponse: dataResponse, completionQueue: completionQueue, complete: complete)
+                        }
+                    case .failure(let error):
+                        let apiError = APIClientError.requestEncodingError(error)
+                        requestBehaviour.onFailure(error: apiError)
+                        let response = APIResponse<T>(request: request, result: .failure(apiError))
+
+                        completionQueue.async {
+                            complete(response)
+                        }
+                    }
+            })
         } else {
-            return self.makeNetworkRequest(request: request, urlRequest: urlRequest, requestBehaviour: requestBehaviour, queue: queue, complete: complete)
+            let networkRequest = sessionManager.request(urlRequest)
+                .responseData(queue: decodingQueue) { dataResponse in
+                    self.handleResponse(request: request, requestBehaviour: requestBehaviour, dataResponse: dataResponse, completionQueue: completionQueue, complete: complete)
+
+            }
+            cancellableRequest.networkRequest = networkRequest
         }
     }
 
-    @discardableResult
-    private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: RequestBehaviourGroup, queue: DispatchQueue, complete: @escaping (APIResponse<T>) -> Void) -> Request {
-        requestBehaviour.beforeSend()
-        return sessionManager.request(urlRequest)
-            .responseData(queue: decodingQueue) { dataResponse in
+    private func handleResponse<T>(request: APIRequest<T>, requestBehaviour: RequestBehaviourGroup, dataResponse: DataResponse<Data>, completionQueue: DispatchQueue, complete: @escaping (APIResponse<T>) -> Void) {
 
-                let result: APIResult<T>
+        let result: APIResult<T>
 
-                switch dataResponse.result {
-                case .success(let value):
-                    do {
-                        let statusCode = dataResponse.response!.statusCode
-                        let decoded = try T(statusCode: statusCode, data: value)
-                        result = .success(decoded)
-                        if decoded.successful {
-                            requestBehaviour.onSuccess(result: decoded.response as Any)
-                        }
-                    } catch let error {
-                        let apiError: APIError
-                        if let error = error as? DecodingError {
-                            apiError = APIError.decodingError(error)
-                        } else {
-                            apiError = APIError.unknownError(error)
-                        }
-
-                        result = .failure(apiError)
-                        requestBehaviour.onFailure(error: apiError)
-                    }
-                case .failure(let error):
-                    let apiError = APIError.networkError(error)
-                    result = .failure(apiError)
-                    requestBehaviour.onFailure(error: apiError)
+        switch dataResponse.result {
+        case .success(let value):
+            do {
+                let statusCode = dataResponse.response!.statusCode
+                let decoded = try T(statusCode: statusCode, data: value, decoder: jsonDecoder)
+                result = .success(decoded)
+                if decoded.successful {
+                    requestBehaviour.onSuccess(result: decoded.response as Any)
                 }
-                let response = APIResponse<T>(request: request, result: result, urlRequest: dataResponse.request, urlResponse: dataResponse.response, data: dataResponse.data, timeline: dataResponse.timeline)
-                requestBehaviour.onResponse(response: response.asAny())
-
-                queue.async {
-                    complete(response)
+            } catch let error {
+                let apiError: APIClientError
+                if let error = error as? DecodingError {
+                    apiError = APIClientError.decodingError(error)
+                } else {
+                    apiError = APIClientError.unknownError(error)
                 }
+
+                result = .failure(apiError)
+                requestBehaviour.onFailure(error: apiError)
+            }
+        case .failure(let error):
+            let apiError = APIClientError.networkError(error)
+            result = .failure(apiError)
+            requestBehaviour.onFailure(error: apiError)
+        }
+        let response = APIResponse<T>(request: request, result: result, urlRequest: dataResponse.request, urlResponse: dataResponse.response, data: dataResponse.data, timeline: dataResponse.timeline)
+        requestBehaviour.onResponse(response: response.asAny())
+
+        completionQueue.async {
+            complete(response)
+        }
+    }
+}
+
+public class CancellableRequest {
+    /// The request used to make the actual network request
+    public let request: AnyRequest
+
+    init(request: AnyRequest) {
+        self.request = request
+    }
+    var networkRequest: Request?
+
+    /// cancels the request
+    public func cancel() {
+        if let networkRequest = networkRequest {
+            networkRequest.cancel()
         }
     }
 }

@@ -10,7 +10,7 @@ extension Rocket.Profile {
     /** Get the rating info for an item under the active profile. */
     public enum GetItemRating {
 
-        public static let service = APIService<Response>(id: "getItemRating", tag: "profile", method: "GET", path: "/account/profile/ratings/{itemId}", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getItemRating", tag: "profile", method: "GET", path: "/account/profile/ratings/{itemId}", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -132,8 +132,7 @@ extension Rocket.Profile {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(UserRating.self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

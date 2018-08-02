@@ -2,4 +2,4 @@
 
 import Result
 
-public typealias APIResult<T> = Result<T, APIError>
+public typealias APIResult<T> = Result<T, APIClientError>

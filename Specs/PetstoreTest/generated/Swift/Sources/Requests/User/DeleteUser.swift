@@ -77,11 +77,11 @@ extension PetstoreTest.User {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 400: self = .status400
                 case 404: self = .status404
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

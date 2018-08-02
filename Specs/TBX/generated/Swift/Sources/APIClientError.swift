@@ -5,11 +5,11 @@
 
 import Foundation
 
-public enum APIError: Error {
+public enum APIClientError: Error {
     case unexpectedStatusCode(statusCode: Int, data: Data)
     case decodingError(DecodingError)
-    case invalidBaseURL(String)
-    case authorizationError(AuthorizationError)
+    case requestEncodingError(Error)
+    case validationError(String)
     case networkError(Error)
     case unknownError(Error)
 
@@ -17,22 +17,22 @@ public enum APIError: Error {
         switch self {
         case .unexpectedStatusCode: return "Unexpected status code"
         case .decodingError: return "Decoding error"
-        case .invalidBaseURL: return "Invalid base URL"
-        case .authorizationError: return "Failed to authorize"
+        case .validationError: return "Request validation failed"
+        case .requestEncodingError: return "Request encoding failed"
         case .networkError: return "Network error"
         case .unknownError: return "Unknown error"
         }
     }
 }
 
-extension APIError: CustomStringConvertible {
+extension APIClientError: CustomStringConvertible {
 
     public var description:String {
         switch self {
         case .unexpectedStatusCode(let statusCode, _): return "\(name): \(statusCode)"
         case .decodingError(let error): return "\(name): \(error.localizedDescription)"
-        case .invalidBaseURL(let url): return "\(name): \(url)"
-        case .authorizationError(let error): return "\(name): \(error.reason)"
+        case .validationError(let error): return "\(name): \(error)"
+        case .requestEncodingError(let error): return "\(name): \(error)"
         case .networkError(let error): return "\(name): \(error.localizedDescription)"
         case .unknownError(let error): return "\(name): \(error.localizedDescription)"
         }

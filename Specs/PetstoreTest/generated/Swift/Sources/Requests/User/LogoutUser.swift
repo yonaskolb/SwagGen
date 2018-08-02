@@ -48,7 +48,7 @@ extension PetstoreTest.User {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 default: self = .defaultResponse(statusCode: statusCode)
                 }

@@ -152,15 +152,14 @@ extension TBX.AuthorizationService {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(Status200.self, from: data))
                 case 400: self = try .status400(decoder.decode(ErrorObject.self, from: data))
                 case 401: self = try .status401(decoder.decode(ErrorObject.self, from: data))
                 case 404: self = try .status404(decoder.decode(ErrorObject.self, from: data))
                 case 410: self = try .status410(decoder.decode(ErrorObject.self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

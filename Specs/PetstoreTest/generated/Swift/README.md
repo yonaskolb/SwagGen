@@ -81,7 +81,7 @@ Each [Request](#request) also has a `makeRequest` convenience function that uses
 The `APIResponse` that gets passed to the completion closure contains the following properties:
 
 - `request`: The original request
-- `result`: A `Result` type either containing an `APIError` or the [Response](#response) of the request
+- `result`: A `Result` type either containing an `APIClientError` or the [Response](#response) of the request
 - `urlRequest`: The `URLRequest` used to send the request
 - `urlResponse`: The `HTTPURLResponse` that was returned by the request
 - `data`: The `Data` returned by the request.
@@ -101,60 +101,50 @@ Dates are encoded and decoded differently according to the swagger date format. 
 - `date`
     - `DateDay.dateFormatter`: defaults to `YYY-MM-dd`
 
-#### APIError
+#### APIClientError
 This is error enum that `APIResponse.result` may contain:
 
 ```swift
-public enum APIError: Error {
+public enum APIClientError: Error {
     case unexpectedStatusCode(statusCode: Int, data: Data)
     case decodingError(DecodingError)
-    case invalidBaseURL(String)
-    case authorizationError(AuthorizationError)
+    case requestEncodingError(String)
+    case validationError(String)
     case networkError(Error)
     case unknownError(Error)
 }
 ```
 
-#### RequestAuthorizer
-If a [Service](#service) has an `Authorization` then `APIClient.authorizer` will be called for requests that use that service. You can set this `authorizer` property to authorize your requests using your own custom logic and storage.
-
-`RequestAuthorizer` is a protocol with a single `authorize` function. In your authorize function you have to call `complete` with either a `.failure(reason: String)` or a `.success(authorizedRequest: URLRequest)`
-
-```swift
-/// Allows a request that has an authorization on it to be authorized asynchronously
-public protocol RequestAuthorizer {
-
-    /// complete must be called with either .success(authorizedURLRequest) or .failure(failureReason)
-    func authorize(request: AnyRequest, authorization: Authorization, urlRequest: URLRequest, complete: @escaping (AuthorizationResult) -> Void)
-}
-```
-
 #### RequestBehaviour
-Request behaviours are used to modify, monitor or respond to requests. They can be added to the `APIClient.behaviours` for all requests, or they can passed into `makeRequest` for just that single request. 
+Request behaviours are used to modify, authorize, monitor or respond to requests. They can be added to the `APIClient.behaviours` for all requests, or they can passed into `makeRequest` for just that single request. 
 
 `RequestBehaviour` is a protocol you can conform to with each function being optional. As the behaviours must work across multiple different request types, they only have access to a typed erased `AnyRequest`.
 
 ```swift
 public protocol RequestBehaviour {
 
-    /// runs first and allows the requests to be modified
+    /// runs first and allows the requests to be modified. If modifying asynchronously use validate
     func modifyRequest(request: AnyRequest, urlRequest: URLRequest) -> URLRequest
+
+    /// validates and modifies the request. complete must be called with either .success or .fail
+    func validate(request: AnyRequest, urlRequest: URLRequest, complete: @escaping (RequestValidationResult) -> Void)
 
     /// called before request is sent
     func beforeSend(request: AnyRequest)
 
-    /// called when request successfully returns a 200 range response
+    /// called when request successfuly returns a 200 range response
     func onSuccess(request: AnyRequest, result: Any)
 
     /// called when request fails with an error. This will not be called if the request returns a known response even if the a status code is out of the 200 range
-    func onFailure(request: AnyRequest, error: APIError)
+    func onFailure(request: AnyRequest, error: APIClientError)
 
-    /// called if the request receives a network response. This is not called if request fails validation or encoding
+    /// called if the request recieves a network response. This is not called if request fails validation or encoding
     func onResponse(request: AnyRequest, response: AnyResponse)
 }
 ```
 
-While you could authorize requests with behaviours, the specialized [RequestAuthorizer](#requestauthorizer) is better suited for that purpose
+### Authorization
+Each request has an optional `securityRequirement`. You can create a `RequestBehaviour` that checks this requirement and adds some form of authorization (usually via headers) in `validate` or `modifyRequest`. An alternative way is to set the `APIClient.defaultHeaders` which applies to all requests.
 
 #### Reactive and Promises
 To add support for a specific asynchronous library, just add an extension on `APIClient` and add a function that wraps the `makeRequest` function and converts from a closure based syntax to returning the object of choice (stream, future...ect)

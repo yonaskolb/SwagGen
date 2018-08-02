@@ -5,6 +5,15 @@
 
 import Foundation
 
+public typealias ID = UUID
+
+public protocol ResponseDecoder {
+
+    func decode<T: Decodable>(_ type: T.Type, from: Data) throws -> T
+}
+
+extension JSONDecoder: ResponseDecoder {}
+
 struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
 
     private let string: String
@@ -34,7 +43,7 @@ struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
 }
 
 // any json decoding
-extension JSONDecoder {
+extension ResponseDecoder {
 
     func decodeAny<T>(_ type: T.Type, from data: Data) throws -> T {
         guard let decoded = try decode(AnyCodable.self, from: data) as? T else {
@@ -322,5 +331,11 @@ extension Dictionary where Key == String, Value: RawRepresentable {
 extension UUID {
     func encode() -> Any {
         return uuidString
+    }
+}
+
+extension String {
+    func encode() -> Any {
+        return self
     }
 }

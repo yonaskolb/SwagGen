@@ -13,7 +13,7 @@ If a device with the same id already exists a `409` conflict will be returned.
  */
     public enum RegisterDevice {
 
-        public static let service = APIService<Response>(id: "registerDevice", tag: "account", method: "POST", path: "/account/devices", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "registerDevice", tag: "account", method: "POST", path: "/account/devices", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -125,8 +125,7 @@ If a device with the same id already exists a `409` conflict will be returned.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(Device.self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

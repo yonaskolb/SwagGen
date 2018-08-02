@@ -10,7 +10,7 @@ extension Rocket.Profile {
     /** Get the details of the active profile, including watched, bookmarked and rated items. */
     public enum GetProfile {
 
-        public static let service = APIService<Response>(id: "getProfile", tag: "profile", method: "GET", path: "/account/profile", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getProfile", tag: "profile", method: "GET", path: "/account/profile", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -109,8 +109,7 @@ extension Rocket.Profile {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(ProfileDetail.self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

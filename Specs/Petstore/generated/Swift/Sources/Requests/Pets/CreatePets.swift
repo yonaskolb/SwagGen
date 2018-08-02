@@ -9,7 +9,7 @@ extension Petstore.Pets {
 
     public enum CreatePets {
 
-        public static let service = APIService<Response>(id: "createPets", tag: "pets", method: "POST", path: "/pets", hasBody: false, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
+        public static let service = APIService<Response>(id: "createPets", tag: "pets", method: "POST", path: "/pets", hasBody: false, securityRequirement: SecurityRequirement(type: "petstore_auth", scope: "write:pets"))
 
         public final class Request: APIRequest<Response> {
 
@@ -73,8 +73,7 @@ extension Petstore.Pets {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 201: self = .status201
                 default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ErrorType.self, from: data))

@@ -10,7 +10,7 @@ extension Rocket.Account {
     /** Get a registered device. */
     public enum GetDevice {
 
-        public static let service = APIService<Response>(id: "getDevice", tag: "account", method: "GET", path: "/account/devices/{id}", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getDevice", tag: "account", method: "GET", path: "/account/devices/{id}", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -132,8 +132,7 @@ extension Rocket.Account {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(Device.self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

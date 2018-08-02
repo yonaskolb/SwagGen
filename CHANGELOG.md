@@ -1,5 +1,34 @@
 # Change Log
 
+## [3.0.0](https://github.com/yonaskolb/SwagGen/compare/2.1.2...3.0.0)
+
+### Added
+- Added File upload support #103
+- Added top level security support #104
+- Added `modelType` option to Swift template for class or struct models #94
+- Added `modelInheritance` template option #94
+- Added `modelNames` and `enumNames` template options for overriding names #95
+- Added `x-enum-name` property to Swagger for custom enum names #98
+
+### Changed
+- Swift template changes #104
+	- Renamed `APIError` to `APIClientError`
+	- Removed `APIClient.authorizer`
+	- Added `RequestBehavour.validate` (replaces `APIClient.authorizer`)
+	- `APIClient.makeRequest` now returns a `CancellableRequest` instead of `Alamofire.Request`
+	- A new `APIClient.jsonDecoder` property which is used for json requests
+	- Renamed `queue` to `completionQueue` in `APIClient.makeRequest`
+	- Replaced `APIError. authorizationError` with `APIClientError. validationError`
+	- Rename `APIService.authorization` to `APIService.securityRequirement`
+- Generated type changes in Swift template. You will now have to handle or typealias the following types #104
+	- `ID`: The `UUID` format. Usually `UUID` or `String`
+	- `File`: The `file` format. Usually `URL`, `Data` or a custom type with a mimeType and fileName
+
+### Fixed
+- Sort operations in generated Readme
+- Better name camel casing #100
+- Fix empty string field decoding in YAML #101
+
 ## [2.1.2](https://github.com/yonaskolb/SwagGen/compare/2.1.1...2.1.2)
 
 ### Added

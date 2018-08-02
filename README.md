@@ -130,7 +130,7 @@ tagSuffix | suffix for all tags | `String` | null
 
 If writing your own Swift template there are a few types that are generated that you will need to provide typealias's for:
 
-- `ID`: The `UUID` format. Usually `UUID` or `String`)
+- `ID`: The `UUID` format. Usually `UUID` or `String`
 - `File`: The `file` format. Usually `URL`, `Data` or a custom type with a mimeType and fileName
 - `DateTime`: The `date-time` format. Usually `Date`
 - `DateDay`:  The `date` format. Usually `Date` or a custom type.

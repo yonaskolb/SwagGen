@@ -31,9 +31,9 @@ public class FormatTest: Codable, Equatable {
 
     public var string: String?
 
-    public var uuid: UUID?
+    public var uuid: ID?
 
-    public init(number: Double, byte: String, date: DateDay, password: String, binary: String? = nil, dateTime: DateTime? = nil, double: Double? = nil, float: Float? = nil, int32: Int? = nil, int64: Int? = nil, integer: Int? = nil, string: String? = nil, uuid: UUID? = nil) {
+    public init(number: Double, byte: String, date: DateDay, password: String, binary: String? = nil, dateTime: DateTime? = nil, double: Double? = nil, float: Float? = nil, int32: Int? = nil, int64: Int? = nil, integer: Int? = nil, string: String? = nil, uuid: ID? = nil) {
         self.number = number
         self.byte = byte
         self.date = date

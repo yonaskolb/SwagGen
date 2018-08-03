@@ -11,9 +11,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass: Codable, Equatable {
 
     public var map: [String: Animal]?
 
-    public var uuid: UUID?
+    public var uuid: ID?
 
-    public init(dateTime: DateTime? = nil, map: [String: Animal]? = nil, uuid: UUID? = nil) {
+    public init(dateTime: DateTime? = nil, map: [String: Animal]? = nil, uuid: ID? = nil) {
         self.dateTime = dateTime
         self.map = map
         self.uuid = uuid

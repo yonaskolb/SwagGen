@@ -112,7 +112,7 @@ public class SwiftFormatter: CodeFormatter {
                 case .date: return "DateDay"
                 case .email, .hostname, .ipv4, .ipv6, .password: return "String"
                 case .uri: return "URL"
-                case .uuid: return "UUID"
+                case .uuid: return "ID"
                 }
             case .other: return "String"
             }
@@ -139,7 +139,7 @@ public class SwiftFormatter: CodeFormatter {
             }
         case .boolean:
             return "Bool"
-        case .file: return "URL"
+        case .file: return "File"
         }
     }
 

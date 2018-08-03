@@ -151,75 +151,75 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 ## Models
 
-- `Auth`
-- `ContentIdentityCountry`
-- `ContentProvider`
-- `Customer`
-- `Device`
-- `DeviceObject`
-- `DeviceType`
-- `ErrorObject`
-- `HasAccessToObject`
-- `IdentityProvider`
-- `MSO`
-- `MultiHasAccessToObject`
-- `ObjectID`
-- `OverrideRuleObject`
-- `ResponseError`
-- `TokenObject`
-- `TryAndBuyObject`
-- `XAny`
+- **Auth**
+- **ContentIdentityCountry**
+- **ContentProvider**
+- **Customer**
+- **Device**
+- **DeviceObject**
+- **DeviceType**
+- **ErrorObject**
+- **HasAccessToObject**
+- **IdentityProvider**
+- **MSO**
+- **MultiHasAccessToObject**
+- **ObjectID**
+- **OverrideRuleObject**
+- **ResponseError**
+- **TokenObject**
+- **TryAndBuyObject**
+- **XAny**
 
-## Operations
+## Requests
 
 - **TBX.Auth**
-	- `AuthGenerateJavascript`
-	- `AuthGetListOfMSO`
-	- `AuthLogin`
-	- `AuthLoginWithoutRedirect`
-	- `AuthLogout`
-	- `AuthOauth2Assert`
-	- `AuthReturnLogin`
-	- `AuthSamlAssertGetAuthSamlAssert`
-	- `AuthSamlAssertPostAuthSamlAssert`
-	- `AuthSamlLogout`
-	- `AuthSamlMetadata`
-	- `AuthStatus`
+	- **AuthGenerateJavascript**: GET `/auth/{cp}/auth.js`
+	- **AuthGetListOfMSO**: GET `/auth/{cp}/mso.json`
+	- **AuthLogin**: GET `/auth/{cp}/login.html`
+	- **AuthLoginWithoutRedirect**: GET `/auth/{cp}/loginwithoutredirect.html`
+	- **AuthLogout**: GET `/auth/{cp}/logout.json`
+	- **AuthOauth2Assert**: GET `/auth/oauth2/assert`
+	- **AuthReturnLogin**: GET `/auth/{cp}/returnlogin`
+	- **AuthSamlAssertGetAuthSamlAssert**: GET `/auth/saml/assert`
+	- **AuthSamlAssertPostAuthSamlAssert**: POST `/auth/saml/assert`
+	- **AuthSamlLogout**: GET `/auth/saml/logout`
+	- **AuthSamlMetadata**: GET `/auth/saml/metadata.xml`
+	- **AuthStatus**: GET `/auth/{cp}/status.json`
 - **TBX.AuthorizationService**
-	- `AuthorizationServiceCreateRuleToOverrideResponse`
-	- `AuthorizationServiceCreateTryAndBuy`
-	- `AuthorizationServiceDeleteRuleToOverrideResponse`
-	- `AuthorizationServiceGetAttributes`
-	- `AuthorizationServiceGetRulesToOverrideResponse`
-	- `AuthorizationServiceGetTryAndBuy`
-	- `AuthorizationServiceGetUser`
-	- `AuthorizationServiceHasAccessTo`
-	- `AuthorizationServiceHasLogged`
+	- **AuthorizationServiceCreateRuleToOverrideResponse**: POST `/authorizationservices/overriderule`
+	- **AuthorizationServiceCreateTryAndBuy**: POST `/authorizationservices/createtryandbuy`
+	- **AuthorizationServiceDeleteRuleToOverrideResponse**: DELETE `/authorizationservices/overriderule/{ruleid}`
+	- **AuthorizationServiceGetAttributes**: GET `/authorizationservices/getattributes`
+	- **AuthorizationServiceGetRulesToOverrideResponse**: GET `/authorizationservices/overriderules`
+	- **AuthorizationServiceGetTryAndBuy**: GET `/authorizationservices/gettryandbuy`
+	- **AuthorizationServiceGetUser**: GET `/authorizationservices/getuser`
+	- **AuthorizationServiceHasAccessTo**: GET `/authorizationservices/hasaccessto`
+	- **AuthorizationServiceHasLogged**: GET `/authorizationservices/haslogged`
 - **TBX.DeviceService**
-	- `DeviceServiceActivateDevice`
-	- `DeviceServiceCreateTryAndBuy`
-	- `DeviceServiceDeactivateDevice`
-	- `DeviceServiceGetDevice`
-	- `DeviceServiceHasLogged`
-	- `DeviceServiceListDevices`
-	- `DeviceServiceReactiveDevice`
-	- `DeviceServiceValidateCode`
+	- **DeviceServiceActivateDevice**: POST `/deviceservices/activatedevice`
+	- **DeviceServiceCreateTryAndBuy**: POST `/deviceservices/createtryandbuy`
+	- **DeviceServiceDeactivateDevice**: POST `/deviceservices/deactivatedevice`
+	- **DeviceServiceGetDevice**: GET `/deviceservices/getdevice`
+	- **DeviceServiceHasLogged**: GET `/deviceservices/haslogged`
+	- **DeviceServiceListDevices**: GET `/deviceservices/listdevices`
+	- **DeviceServiceReactiveDevice**: POST `/deviceservices/reactivatedevice`
+	- **DeviceServiceValidateCode**: POST `/deviceservices/validatecode`
 - **TBX.UserService**
-	- `UserServiceAccess`
-	- `UserServiceCheckDevice`
-	- `UserServiceCreateDevice`
-	- `UserServiceCreateToken`
-	- `UserServiceCreateTryAndBuy`
-	- `UserServiceDeviceAccess`
-	- `UserServiceDeviceHasAccessTo`
-	- `UserServiceGetCustomerDevices`
-	- `UserServiceGetDevice`
-	- `UserServiceGetDeviceAttributes`
-	- `UserServiceGetToken`
-	- `UserServiceGetTryAndBuy`
-	- `UserServiceHasAccessTo`
-	- `UserServiceLogout`
-	- `UserServiceLogoutAll`
-	- `UserServiceRemoveUserCache`
-	- `UserServiceUpdateDevice`
-	- `UserServiceUseToken`
+	- **UserServiceAccess**: GET `/userservices/{customer}/access`
+	- **UserServiceCheckDevice**: HEAD `/userservices/device/{device}`
+	- **UserServiceCreateDevice**: POST `/userservices/device`
+	- **UserServiceCreateToken**: POST `/userservices/token`
+	- **UserServiceCreateTryAndBuy**: POST `/userservices/{customer}/tryandbuy`
+	- **UserServiceDeviceAccess**: GET `/userservices/device/{device}/access`
+	- **UserServiceDeviceHasAccessTo**: GET `/userservices/device/{device}/hasaccessto`
+	- **UserServiceGetCustomerDevices**: GET `/userservices/{customer}/devices`
+	- **UserServiceGetDevice**: GET `/userservices/device/{device}`
+	- **UserServiceGetDeviceAttributes**: GET `/userservices/device/{device}/attributes`
+	- **UserServiceGetToken**: GET `/userservices/token/{token}`
+	- **UserServiceGetTryAndBuy**: GET `/userservices/{customer}/tryandbuy`
+	- **UserServiceHasAccessTo**: GET `/userservices/{customer}/hasaccessto`
+	- **UserServiceLogout**: DELETE `/userservices/device/{device}`
+	- **UserServiceLogoutAll**: DELETE `/userservices/{customer}/devices`
+	- **UserServiceRemoveUserCache**: DELETE `/userservices/cache`
+	- **UserServiceUpdateDevice**: PUT `/userservices/device/{device}`
+	- **UserServiceUseToken**: PUT `/userservices/token/{token}`

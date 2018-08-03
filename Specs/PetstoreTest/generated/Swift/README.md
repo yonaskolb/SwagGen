@@ -151,65 +151,65 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 ## Models
 
-- `AdditionalPropertiesClass`
-- `Animal`
-- `AnimalFarm`
-- `ApiResponse`
-- `ArrayOfArrayOfNumberOnly`
-- `ArrayOfNumberOnly`
-- `ArrayTest`
-- `Capitalization`
-- `Cat`
-- `Category`
-- `ClassModel`
-- `Client`
-- `Dog`
-- `EnumArrays`
-- `EnumClass`
-- `EnumTest`
-- `FormatTest`
-- `HasOnlyReadOnly`
-- `List`
-- `MapTest`
-- `MixedPropertiesAndAdditionalPropertiesClass`
-- `Name`
-- `NumberOnly`
-- `Order`
-- `OuterEnum`
-- `Pet`
-- `ReadOnlyFirst`
-- `Return`
-- `Tag`
-- `User`
-- `_200Response`
-- `dollarspecialmodelName`
+- **AdditionalPropertiesClass**
+- **Animal**
+- **AnimalFarm**
+- **ApiResponse**
+- **ArrayOfArrayOfNumberOnly**
+- **ArrayOfNumberOnly**
+- **ArrayTest**
+- **Capitalization**
+- **Cat**
+- **Category**
+- **ClassModel**
+- **Client**
+- **Dog**
+- **EnumArrays**
+- **EnumClass**
+- **EnumTest**
+- **FormatTest**
+- **HasOnlyReadOnly**
+- **List**
+- **MapTest**
+- **MixedPropertiesAndAdditionalPropertiesClass**
+- **Name**
+- **NumberOnly**
+- **Order**
+- **OuterEnum**
+- **Pet**
+- **ReadOnlyFirst**
+- **Return**
+- **Tag**
+- **User**
+- **_200Response**
+- **dollarspecialmodelName**
 
-## Operations
+## Requests
 
 - **PetstoreTest.Fake**
-	- `TestClientModel`
-	- `TestEndpointParameters`
-	- `TestEnumParameters`
+	- **TestClientModel**: PATCH `/fake`
+	- **TestEndpointParameters**: POST `/fake`
+	- **TestEnumParameters**: GET `/fake`
 - **PetstoreTest.Pet**
-	- `AddPet`
-	- `DeletePet`
-	- `FindPetsByStatus`
-	- `FindPetsByTags`
-	- `GetPetById`
-	- `UpdatePet`
-	- `UpdatePetWithForm`
-	- `UploadFile`
+	- **AddPet**: POST `/pet`
+	- **DeletePet**: DELETE `/pet/{petid}`
+	- **FindPetsByStatus**: GET `/pet/findbystatus`
+	- **FindPetsByTags**: GET `/pet/findbytags`
+	- **GetPetById**: GET `/pet/{petid}`
+	- **UpdatePet**: PUT `/pet`
+	- **UpdatePetWithForm**: POST `/pet/{petid}`
+	- **UploadFile**: POST `/pet/{petid}/uploadimage`
 - **PetstoreTest.Store**
-	- `DeleteOrder`
-	- `GetInventory`
-	- `GetOrderById`
-	- `PlaceOrder`
+	- **DeleteOrder**: DELETE `/store/order/{order_id}`
+	- **GetInventory**: GET `/store/inventory`
+	- **GetOrderById**: GET `/store/order/{order_id}`
+	- **PlaceOrder**: POST `/store/order`
 - **PetstoreTest.User**
-	- `CreateUser`
-	- `CreateUsersWithArrayInput`
-	- `CreateUsersWithListInput`
-	- `DeleteUser`
-	- `GetUserByName`
-	- `LoginUser`
-	- `LogoutUser`
-	- `UpdateUser`
+	- **CreateUser**: POST `/user`
+	- **CreateUsersWithArrayInput**: POST `/user/createwitharray`
+	- **CreateUsersWithListInput**: POST `/user/createwithlist`
+	- **DeleteUser**: DELETE `/user/{username}`
+	- **GetUserByName**: GET `/user/{username}`
+	- **LoginUser**: GET `/user/login`
+	- **LogoutUser**: GET `/user/logout`
+	- **UpdateUser**: PUT `/user/{username}`

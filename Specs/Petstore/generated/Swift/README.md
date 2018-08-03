@@ -151,14 +151,14 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 ## Models
 
-- `ErrorType`
-- `Pet`
-- `SoldPet`
+- **ErrorType**
+- **Pet**
+- **SoldPet**
 
-## Operations
+## Requests
 
 - **Petstore.Pets**
-	- `CreatePets`
-	- `ListPets`
-	- `ShowPetById`
-	- `UpdatePetWithForm`
+	- **CreatePets**: POST `/pets`
+	- **ListPets**: GET `/pets`
+	- **ShowPetById**: GET `/pets/{petid}`
+	- **UpdatePetWithForm**: POST `/pets/{petid}`

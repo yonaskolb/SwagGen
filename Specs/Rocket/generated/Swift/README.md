@@ -151,118 +151,118 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 ## Models
 
-- `AccessToken`
-- `Account`
-- `AccountDevices`
-- `AccountTokenRequest`
-- `AccountUpdateRequest`
-- `AppConfig`
-- `AppConfigGeneral`
-- `AppConfigPlayback`
-- `AppConfigSubscription`
-- `Bookmark`
-- `ChangePasswordRequest`
-- `ChangePinRequest`
-- `Classification`
-- `ClassificationSummary`
-- `Credit`
-- `Device`
-- `DeviceRegistrationRequest`
-- `DeviceRegistrationWindow`
-- `Entitlement`
-- `ExclusionRule`
-- `ItemCustomMetadata`
-- `ItemDetail`
-- `ItemList`
-- `ItemSchedule`
-- `ItemScheduleList`
-- `ItemSummary`
-- `MediaFile`
-- `NavContent`
-- `NavEntry`
-- `Navigation`
-- `Offer`
-- `OfferRights`
-- `Page`
-- `PageEntry`
-- `PageMetadata`
-- `PageSummary`
-- `Pagination`
-- `PaginationAuth`
-- `PaginationOptions`
-- `PasswordResetEmailRequest`
-- `PasswordResetRequest`
-- `Person`
-- `Plan`
-- `ProfileCreationRequest`
-- `ProfileDetail`
-- `ProfileSummary`
-- `ProfileTokenRequest`
-- `ProfileUpdateRequest`
-- `RegistrationRequest`
-- `SearchResults`
-- `ServiceError`
-- `Subscription`
-- `TokenRefreshRequest`
-- `UserRating`
-- `Watched`
+- **AccessToken**
+- **Account**
+- **AccountDevices**
+- **AccountTokenRequest**
+- **AccountUpdateRequest**
+- **AppConfig**
+- **AppConfigGeneral**
+- **AppConfigPlayback**
+- **AppConfigSubscription**
+- **Bookmark**
+- **ChangePasswordRequest**
+- **ChangePinRequest**
+- **Classification**
+- **ClassificationSummary**
+- **Credit**
+- **Device**
+- **DeviceRegistrationRequest**
+- **DeviceRegistrationWindow**
+- **Entitlement**
+- **ExclusionRule**
+- **ItemCustomMetadata**
+- **ItemDetail**
+- **ItemList**
+- **ItemSchedule**
+- **ItemScheduleList**
+- **ItemSummary**
+- **MediaFile**
+- **NavContent**
+- **NavEntry**
+- **Navigation**
+- **Offer**
+- **OfferRights**
+- **Page**
+- **PageEntry**
+- **PageMetadata**
+- **PageSummary**
+- **Pagination**
+- **PaginationAuth**
+- **PaginationOptions**
+- **PasswordResetEmailRequest**
+- **PasswordResetRequest**
+- **Person**
+- **Plan**
+- **ProfileCreationRequest**
+- **ProfileDetail**
+- **ProfileSummary**
+- **ProfileTokenRequest**
+- **ProfileUpdateRequest**
+- **RegistrationRequest**
+- **SearchResults**
+- **ServiceError**
+- **Subscription**
+- **TokenRefreshRequest**
+- **UserRating**
+- **Watched**
 
-## Operations
+## Requests
 
 - **Rocket.Account**
-	- `ChangePassword`
-	- `ChangePin`
-	- `CreateProfile`
-	- `DeleteProfileWithId`
-	- `DeregisterDevice`
-	- `GetAccount`
-	- `GetDevice`
-	- `GetDevices`
-	- `GetEntitlements`
-	- `GetItemMediaFiles`
-	- `GetItemMediaFilesGuarded`
-	- `GetProfileWithId`
-	- `RegisterDevice`
-	- `RenameDevice`
-	- `RequestEmailVerification`
-	- `UpdateAccount`
-	- `UpdateProfileWithId`
+	- **ChangePassword**: PUT `/account/password`
+	- **ChangePin**: PUT `/account/pin`
+	- **CreateProfile**: POST `/account/profiles`
+	- **DeleteProfileWithId**: DELETE `/account/profiles/{id}`
+	- **DeregisterDevice**: DELETE `/account/devices/{id}`
+	- **GetAccount**: GET `/account`
+	- **GetDevice**: GET `/account/devices/{id}`
+	- **GetDevices**: GET `/account/devices`
+	- **GetEntitlements**: GET `/account/entitlements`
+	- **GetItemMediaFiles**: GET `/account/items/{id}/videos`
+	- **GetItemMediaFilesGuarded**: GET `/account/items/{id}/videos-guarded`
+	- **GetProfileWithId**: GET `/account/profiles/{id}`
+	- **RegisterDevice**: POST `/account/devices`
+	- **RenameDevice**: PUT `/account/devices/{id}/name`
+	- **RequestEmailVerification**: POST `/account/request-email-verification`
+	- **UpdateAccount**: PATCH `/account`
+	- **UpdateProfileWithId**: PATCH `/account/profiles/{id}`
 - **Rocket.App**
-	- `GetAppConfig`
-	- `GetPage`
+	- **GetAppConfig**: GET `/config`
+	- **GetPage**: GET `/page`
 - **Rocket.Authorization**
-	- `GetAccountToken`
-	- `GetProfileToken`
-	- `RefreshToken`
-	- `SignOut`
+	- **GetAccountToken**: POST `/authorization`
+	- **GetProfileToken**: POST `/authorization/profile`
+	- **RefreshToken**: POST `/authorization/refresh`
+	- **SignOut**: DELETE `/authorization`
 - **Rocket.Content**
-	- `GetItem`
-	- `GetItemChildrenList`
-	- `GetItemRelatedList`
-	- `GetList`
-	- `GetLists`
-	- `GetPlan`
-	- `GetPublicItemMediaFiles`
-	- `GetSchedules`
-	- `Search`
+	- **GetItem**: GET `/items/{id}`
+	- **GetItemChildrenList**: GET `/items/{id}/children`
+	- **GetItemRelatedList**: GET `/items/{id}/related`
+	- **GetList**: GET `/lists/{id}`
+	- **GetLists**: GET `/lists`
+	- **GetPlan**: GET `/plans/{id}`
+	- **GetPublicItemMediaFiles**: GET `/items/{id}/videos`
+	- **GetSchedules**: GET `/schedules`
+	- **Search**: GET `/search`
 - **Rocket.Profile**
-	- `BookmarkItem`
-	- `DeleteItemBookmark`
-	- `GetBookmarkList`
-	- `GetBookmarks`
-	- `GetItemBookmark`
-	- `GetItemRating`
-	- `GetItemWatchedStatus`
-	- `GetProfile`
-	- `GetRatings`
-	- `GetRatingsList`
-	- `GetWatched`
-	- `GetWatchedList`
-	- `RateItem`
-	- `SetItemWatchedStatus`
+	- **BookmarkItem**: PUT `/account/profile/bookmarks/{itemid}`
+	- **DeleteItemBookmark**: DELETE `/account/profile/bookmarks/{itemid}`
+	- **GetBookmarkList**: GET `/account/profile/bookmarks/list`
+	- **GetBookmarks**: GET `/account/profile/bookmarks`
+	- **GetItemBookmark**: GET `/account/profile/bookmarks/{itemid}`
+	- **GetItemRating**: GET `/account/profile/ratings/{itemid}`
+	- **GetItemWatchedStatus**: GET `/account/profile/watched/{itemid}`
+	- **GetProfile**: GET `/account/profile`
+	- **GetRatings**: GET `/account/profile/ratings`
+	- **GetRatingsList**: GET `/account/profile/ratings/list`
+	- **GetWatched**: GET `/account/profile/watched`
+	- **GetWatchedList**: GET `/account/profile/watched/list`
+	- **RateItem**: PUT `/account/profile/ratings/{itemid}`
+	- **SetItemWatchedStatus**: PUT `/account/profile/watched/{itemid}`
 - **Rocket.Registration**
-	- `Register`
+	- **Register**: POST `/register`
 - **Rocket.Support**
-	- `ForgotPassword`
-	- `ResetPassword`
-	- `VerifyEmail`
+	- **ForgotPassword**: POST `/request-password-reset`
+	- **ResetPassword**: POST `/reset-password`
+	- **VerifyEmail**: POST `/verify-email`

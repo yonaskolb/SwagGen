@@ -152,20 +152,20 @@ To add support for a specific asynchronous library, just add an extension on `AP
 ## Models
 
 {% for model in definitions %}
-- `{{ model.type }}`
+- **{{ model.type }}**
 {% endfor %}
 
-## Operations
+## Requests
 
 {% for operationTag in operationsByTag %}
 {% if operationTag.name != "" %}
 - **{{ options.name }}.{{ options.tagPrefix }}{{ operationTag.name|upperCamelCase }}{{ options.tagSuffix }}**
 	{% for operation in operationTag.operations %}
-	- `{{ operation.type }}`
+	- **{{ operation.type }}**: {{ operation.method }} `{{ operation.path | lowercase }}`
 	{% endfor %}
 {% else %}
 {% for operation in operationTag.operations %}
-- `{{ options.name }}.{{ operation.type }}`
+- **{{ options.name }}.{{ operation.type }}**: {{ operation.method }} `{{ operation.path | lowercase }}`
 {% endfor %}
 {% endif %}	
 {% endfor %}

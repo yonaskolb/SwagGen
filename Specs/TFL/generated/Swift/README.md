@@ -151,210 +151,210 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 ## Models
 
-- `AccidentDetail`
-- `AccidentStatsOrderedSummary`
-- `ActiveServiceType`
-- `AdditionalProperties`
-- `ApiVersionInfo`
-- `Bay`
-- `CarParkOccupancy`
-- `Casualty`
-- `Coordinate`
-- `Crowding`
-- `CycleSuperhighway`
-- `DateRange`
-- `DateRangeNullable`
-- `DbGeography`
-- `DbGeographyWellKnownValue`
-- `Disambiguation`
-- `DisambiguationOption`
-- `DisruptedPoint`
-- `Disruption`
-- `EmissionsSurchargeVehicle`
-- `Fare`
-- `FareBounds`
-- `FareDetails`
-- `FaresMode`
-- `FaresPeriod`
-- `FaresSection`
-- `GeoCodeSearchMatch`
-- `GeoPoint`
-- `GeoPointBBox`
-- `Identifier`
-- `Instruction`
-- `InstructionStep`
-- `Interval`
-- `ItineraryResult`
-- `Journey`
-- `JourneyPlannerCycleHireDockingStationData`
-- `JourneyVector`
-- `JpElevation`
-- `KnownJourney`
-- `Leg`
-- `Line`
-- `LineGroup`
-- `LineModeGroup`
-- `LineRouteSection`
-- `LineServiceType`
-- `LineServiceTypeInfo`
-- `LineSpecificServiceType`
-- `LineStatus`
-- `MatchedRoute`
-- `MatchedRouteSections`
-- `MatchedStop`
-- `Message`
-- `Mode`
-- `Object`
-- `Obstacle`
-- `OrderedRoute`
-- `PassengerFlow`
-- `PassengerType`
-- `Path`
-- `PathAttribute`
-- `Period`
-- `Place`
-- `PlaceCategory`
-- `PlacePolygon`
-- `PlannedWork`
-- `Point`
-- `PostcodeInput`
-- `Prediction`
-- `PredictionTiming`
-- `Recommendation`
-- `RecommendationResponse`
-- `Redirect`
-- `RoadCorridor`
-- `RoadDisruption`
-- `RoadDisruptionImpactArea`
-- `RoadDisruptionLine`
-- `RoadDisruptionSchedule`
-- `RoadProject`
-- `RouteOption`
-- `RouteSearchMatch`
-- `RouteSearchResponse`
-- `RouteSection`
-- `RouteSectionNaptanEntrySequence`
-- `RouteSequence`
-- `Schedule`
-- `SearchCriteria`
-- `SearchMatch`
-- `SearchResponse`
-- `ServiceFrequency`
-- `StationInterval`
-- `StatusSeverity`
-- `StopPoint`
-- `StopPointCategory`
-- `StopPointRouteSection`
-- `StopPointSequence`
-- `StopPointsResponse`
-- `Street`
-- `StreetSegment`
-- `Ticket`
-- `TicketTime`
-- `TicketType`
-- `TimeAdjustment`
-- `TimeAdjustments`
-- `Timetable`
-- `TimetableResponse`
-- `TimetableRoute`
-- `TrainLoading`
-- `TwentyFourHourClockTime`
-- `ValidityPeriod`
-- `Vehicle`
+- **AccidentDetail**
+- **AccidentStatsOrderedSummary**
+- **ActiveServiceType**
+- **AdditionalProperties**
+- **ApiVersionInfo**
+- **Bay**
+- **CarParkOccupancy**
+- **Casualty**
+- **Coordinate**
+- **Crowding**
+- **CycleSuperhighway**
+- **DateRange**
+- **DateRangeNullable**
+- **DbGeography**
+- **DbGeographyWellKnownValue**
+- **Disambiguation**
+- **DisambiguationOption**
+- **DisruptedPoint**
+- **Disruption**
+- **EmissionsSurchargeVehicle**
+- **Fare**
+- **FareBounds**
+- **FareDetails**
+- **FaresMode**
+- **FaresPeriod**
+- **FaresSection**
+- **GeoCodeSearchMatch**
+- **GeoPoint**
+- **GeoPointBBox**
+- **Identifier**
+- **Instruction**
+- **InstructionStep**
+- **Interval**
+- **ItineraryResult**
+- **Journey**
+- **JourneyPlannerCycleHireDockingStationData**
+- **JourneyVector**
+- **JpElevation**
+- **KnownJourney**
+- **Leg**
+- **Line**
+- **LineGroup**
+- **LineModeGroup**
+- **LineRouteSection**
+- **LineServiceType**
+- **LineServiceTypeInfo**
+- **LineSpecificServiceType**
+- **LineStatus**
+- **MatchedRoute**
+- **MatchedRouteSections**
+- **MatchedStop**
+- **Message**
+- **Mode**
+- **Object**
+- **Obstacle**
+- **OrderedRoute**
+- **PassengerFlow**
+- **PassengerType**
+- **Path**
+- **PathAttribute**
+- **Period**
+- **Place**
+- **PlaceCategory**
+- **PlacePolygon**
+- **PlannedWork**
+- **Point**
+- **PostcodeInput**
+- **Prediction**
+- **PredictionTiming**
+- **Recommendation**
+- **RecommendationResponse**
+- **Redirect**
+- **RoadCorridor**
+- **RoadDisruption**
+- **RoadDisruptionImpactArea**
+- **RoadDisruptionLine**
+- **RoadDisruptionSchedule**
+- **RoadProject**
+- **RouteOption**
+- **RouteSearchMatch**
+- **RouteSearchResponse**
+- **RouteSection**
+- **RouteSectionNaptanEntrySequence**
+- **RouteSequence**
+- **Schedule**
+- **SearchCriteria**
+- **SearchMatch**
+- **SearchResponse**
+- **ServiceFrequency**
+- **StationInterval**
+- **StatusSeverity**
+- **StopPoint**
+- **StopPointCategory**
+- **StopPointRouteSection**
+- **StopPointSequence**
+- **StopPointsResponse**
+- **Street**
+- **StreetSegment**
+- **Ticket**
+- **TicketTime**
+- **TicketType**
+- **TimeAdjustment**
+- **TimeAdjustments**
+- **Timetable**
+- **TimetableResponse**
+- **TimetableRoute**
+- **TrainLoading**
+- **TwentyFourHourClockTime**
+- **ValidityPeriod**
+- **Vehicle**
 
-## Operations
+## Requests
 
 - **TFL.AccidentStats**
-	- `AccidentStatsGet`
+	- **AccidentStatsGet**: GET `/accidentstats/{year}`
 - **TFL.AirQuality**
-	- `AirQualityGet`
+	- **AirQualityGet**: GET `/airquality`
 - **TFL.BikePoint**
-	- `BikePointGet`
-	- `BikePointGetAll`
-	- `BikePointSearch`
+	- **BikePointGet**: GET `/bikepoint/{id}`
+	- **BikePointGetAll**: GET `/bikepoint`
+	- **BikePointSearch**: GET `/bikepoint/search`
 - **TFL.Cabwise**
-	- `CabwiseGet`
+	- **CabwiseGet**: GET `/cabwise/search`
 - **TFL.Journey**
-	- `JourneyJourneyResults`
-	- `JourneyMeta`
+	- **JourneyJourneyResults**: GET `/journey/journeyresults/{from}/to/{to}`
+	- **JourneyMeta**: GET `/journey/meta/modes`
 - **TFL.Line**
-	- `GetLineStatus`
-	- `LineDisruption`
-	- `LineDisruptionByMode`
-	- `LineGet`
-	- `LineGetByMode`
-	- `LineLineRoutesByIds`
-	- `LineMetaDisruptionCategories`
-	- `LineMetaModes`
-	- `LineMetaServiceTypes`
-	- `LineMetaSeverity`
-	- `LineRoute`
-	- `LineRouteByMode`
-	- `LineRouteSequence`
-	- `LineSearch`
-	- `LineStatusByIds`
-	- `LineStatusByMode`
-	- `LineStatusBySeverity`
-	- `LineStopPoints`
-	- `LineTimetable`
-	- `LineTimetableTo`
-	- `GetLineArrivals`
-	- `GetLineArrivalsByPath`
+	- **GetLineStatus**: GET `/line/{ids}/status/{startdate}/to/{enddate}`
+	- **LineDisruption**: GET `/line/{ids}/disruption`
+	- **LineDisruptionByMode**: GET `/line/mode/{modes}/disruption`
+	- **LineGet**: GET `/line/{ids}`
+	- **LineGetByMode**: GET `/line/mode/{modes}`
+	- **LineLineRoutesByIds**: GET `/line/{ids}/route`
+	- **LineMetaDisruptionCategories**: GET `/line/meta/disruptioncategories`
+	- **LineMetaModes**: GET `/line/meta/modes`
+	- **LineMetaServiceTypes**: GET `/line/meta/servicetypes`
+	- **LineMetaSeverity**: GET `/line/meta/severity`
+	- **LineRoute**: GET `/line/route`
+	- **LineRouteByMode**: GET `/line/mode/{modes}/route`
+	- **LineRouteSequence**: GET `/line/{id}/route/sequence/{direction}`
+	- **LineSearch**: GET `/line/search/{query}`
+	- **LineStatusByIds**: GET `/line/{ids}/status`
+	- **LineStatusByMode**: GET `/line/mode/{modes}/status`
+	- **LineStatusBySeverity**: GET `/line/status/{severity}`
+	- **LineStopPoints**: GET `/line/{id}/stoppoints`
+	- **LineTimetable**: GET `/line/{id}/timetable/{fromstoppointid}`
+	- **LineTimetableTo**: GET `/line/{id}/timetable/{fromstoppointid}/to/{tostoppointid}`
+	- **GetLineArrivals**: GET `/line/{ids}/arrivals`
+	- **GetLineArrivalsByPath**: GET `/line/{ids}/arrivals/{stoppointid}`
 - **TFL.Mode**
-	- `ModeArrivals`
-	- `ModeGetActiveServiceTypes`
+	- **ModeArrivals**: GET `/mode/{mode}/arrivals`
+	- **ModeGetActiveServiceTypes**: GET `/mode/activeservicetypes`
 - **TFL.Occupancy**
-	- `GetOccupant`
-	- `GetOccupants`
+	- **GetOccupant**: GET `/occupancy/carpark/{id}`
+	- **GetOccupants**: GET `/occupancy/carpark`
 - **TFL.Place**
-	- `PlaceGet`
-	- `PlaceGetAt`
-	- `PlaceGetByGeoBox`
-	- `PlaceGetByType`
-	- `PlaceGetOverlay`
-	- `PlaceGetStreetsByPostCode`
-	- `PlaceMetaCategories`
-	- `PlaceMetaPlaceTypes`
-	- `PlaceSearch`
+	- **PlaceGet**: GET `/place/{id}`
+	- **PlaceGetAt**: GET `/place/{type}/at/{lat}/{lon}`
+	- **PlaceGetByGeoBox**: GET `/place`
+	- **PlaceGetByType**: GET `/place/type/{types}`
+	- **PlaceGetOverlay**: GET `/place/{type}/overlay/{z}/{lat}/{lon}/{width}/{height}`
+	- **PlaceGetStreetsByPostCode**: GET `/place/address/streets/{postcode}`
+	- **PlaceMetaCategories**: GET `/place/meta/categories`
+	- **PlaceMetaPlaceTypes**: GET `/place/meta/placetypes`
+	- **PlaceSearch**: GET `/place/search`
 - **TFL.Road**
-	- `GetRoadDisruption`
-	- `RoadDisruptedStreets`
-	- `RoadDisruptionById`
-	- `RoadMetaCategories`
-	- `RoadMetaSeverities`
-	- `RoadStatus`
-	- `GetRoad`
-	- `GetRoads`
+	- **GetRoadDisruption**: GET `/road/{ids}/disruption`
+	- **RoadDisruptedStreets**: GET `/road/all/street/disruption`
+	- **RoadDisruptionById**: GET `/road/all/disruption/{disruptionids}`
+	- **RoadMetaCategories**: GET `/road/meta/categories`
+	- **RoadMetaSeverities**: GET `/road/meta/severities`
+	- **RoadStatus**: GET `/road/{ids}/status`
+	- **GetRoad**: GET `/road/{ids}`
+	- **GetRoads**: GET `/road`
 - **TFL.Search**
-	- `SearchBusSchedules`
-	- `SearchGet`
-	- `SearchMetaCategories`
-	- `SearchMetaSearchProviders`
-	- `SearchMetaSorts`
+	- **SearchBusSchedules**: GET `/search/busschedules`
+	- **SearchGet**: GET `/search`
+	- **SearchMetaCategories**: GET `/search/meta/categories`
+	- **SearchMetaSearchProviders**: GET `/search/meta/searchproviders`
+	- **SearchMetaSorts**: GET `/search/meta/sorts`
 - **TFL.StopPoint**
-	- `StopPointArrivals`
-	- `StopPointCrowding`
-	- `StopPointDirection`
-	- `StopPointDisruption`
-	- `StopPointDisruptionByMode`
-	- `StopPointGet`
-	- `StopPointGetByGeoPoint`
-	- `StopPointGetByMode`
-	- `StopPointGetBySms`
-	- `StopPointGetByType`
-	- `StopPointGetCarParksById`
-	- `StopPointGetServiceTypes`
-	- `StopPointGetTaxiRanksByIds`
-	- `StopPointMetaCategories`
-	- `StopPointMetaModes`
-	- `StopPointMetaStopTypes`
-	- `StopPointReachableFrom`
-	- `StopPointRoute`
-	- `SearchStopPoints`
-	- `SearchStopPointsByPath`
+	- **StopPointArrivals**: GET `/stoppoint/{id}/arrivals`
+	- **StopPointCrowding**: GET `/stoppoint/{id}/crowding/{line}`
+	- **StopPointDirection**: GET `/stoppoint/{id}/directionto/{tostoppointid}`
+	- **StopPointDisruption**: GET `/stoppoint/{ids}/disruption`
+	- **StopPointDisruptionByMode**: GET `/stoppoint/mode/{modes}/disruption`
+	- **StopPointGet**: GET `/stoppoint/{ids}`
+	- **StopPointGetByGeoPoint**: GET `/stoppoint`
+	- **StopPointGetByMode**: GET `/stoppoint/mode/{modes}`
+	- **StopPointGetBySms**: GET `/stoppoint/sms/{id}`
+	- **StopPointGetByType**: GET `/stoppoint/type/{types}`
+	- **StopPointGetCarParksById**: GET `/stoppoint/{stoppointid}/carparks`
+	- **StopPointGetServiceTypes**: GET `/stoppoint/servicetypes`
+	- **StopPointGetTaxiRanksByIds**: GET `/stoppoint/{stoppointid}/taxiranks`
+	- **StopPointMetaCategories**: GET `/stoppoint/meta/categories`
+	- **StopPointMetaModes**: GET `/stoppoint/meta/modes`
+	- **StopPointMetaStopTypes**: GET `/stoppoint/meta/stoptypes`
+	- **StopPointReachableFrom**: GET `/stoppoint/{id}/canreachonline/{lineid}`
+	- **StopPointRoute**: GET `/stoppoint/{id}/route`
+	- **SearchStopPoints**: GET `/stoppoint/search`
+	- **SearchStopPointsByPath**: GET `/stoppoint/search/{query}`
 - **TFL.TravelTime**
-	- `TravelTimeGetCompareOverlay`
-	- `TravelTimeGetOverlay`
+	- **TravelTimeGetCompareOverlay**: GET `/traveltimes/compareoverlay/{z}/mapcenter/{mapcenterlat}/{mapcenterlon}/pinlocation/{pinlat}/{pinlon}/dimensions/{width}/{height}`
+	- **TravelTimeGetOverlay**: GET `/traveltimes/overlay/{z}/mapcenter/{mapcenterlat}/{mapcenterlon}/pinlocation/{pinlat}/{pinlon}/dimensions/{width}/{height}`
 - **TFL.Vehicle**
-	- `VehicleGet`
-	- `VehicleGetVehicle`
+	- **VehicleGet**: GET `/vehicle/{ids}/arrivals`
+	- **VehicleGetVehicle**: GET `/vehicle/emissionsurcharge`

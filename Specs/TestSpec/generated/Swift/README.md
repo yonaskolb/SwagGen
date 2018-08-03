@@ -151,18 +151,18 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 ## Models
 
-- `ModelWithAdditionalProperties`
-- `ModelWithBooleanAdditionalProperties`
-- `ModelWithDefinitionAdditionalProperties`
-- `ModelWithInlineSpec`
-- `ModelWithOnlyAdditionalProperties`
-- `User`
+- **ModelWithAdditionalProperties**
+- **ModelWithBooleanAdditionalProperties**
+- **ModelWithDefinitionAdditionalProperties**
+- **ModelWithInlineSpec**
+- **ModelWithOnlyAdditionalProperties**
+- **User**
 
-## Operations
+## Requests
 
-- `TestSpec.GetInlineEnumResponse`
-- `TestSpec.PostString`
-- `TestSpec.GetString`
-- `TestSpec.GetUntagged`
+- **TestSpec.GetInlineEnumResponse**: GET `/inlineenumresponse`
+- **TestSpec.PostString**: POST `/string`
+- **TestSpec.GetString**: GET `/string`
+- **TestSpec.GetUntagged**: GET `/untagged`
 - **TestSpec.TestTag**
-	- `PostInlinebody`
+	- **PostInlinebody**: POST `/inlinebody`

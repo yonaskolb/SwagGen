@@ -7,6 +7,9 @@ import Foundation
 
 extension PetstoreTest.Pet {
 
+    /**
+    Deletes a pet
+    */
     public enum DeletePet {
 
         public static let service = APIService<Response>(id: "deletePet", tag: "pet", method: "DELETE", path: "/pet/{petId}", hasBody: false, securityRequirement: SecurityRequirement(type: "petstore_auth", scope: "write:pets"))

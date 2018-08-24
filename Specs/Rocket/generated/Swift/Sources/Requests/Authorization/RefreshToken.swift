@@ -7,7 +7,9 @@ import Foundation
 
 extension Rocket.Authorization {
 
-    /** Refresh an account or profile level authorization token which is marked as refreshable. */
+    /**
+    Refresh an account or profile level authorization token which is marked as refreshable.
+    */
     public enum RefreshToken {
 
         public static let service = APIService<Response>(id: "refreshToken", tag: "authorization", method: "POST", path: "/authorization/refresh", hasBody: true)

@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Line {
 
+    /**
+    Gets lines that match the specified line ids.
+    */
     public enum LineGet {
 
         public static let service = APIService<Response>(id: "Line_Get", tag: "Line", method: "GET", path: "/Line/{ids}", hasBody: false)

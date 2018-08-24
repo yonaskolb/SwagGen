@@ -7,7 +7,11 @@ import Foundation
 
 extension PetstoreTest.Pet {
 
-    /** Multiple status values can be provided with comma separated strings */
+    /**
+    Finds Pets by status
+
+    Multiple status values can be provided with comma separated strings
+    */
     public enum FindPetsByStatus {
 
         public static let service = APIService<Response>(id: "findPetsByStatus", tag: "pet", method: "GET", path: "/pet/findByStatus", hasBody: false, securityRequirement: SecurityRequirement(type: "petstore_auth", scope: "write:pets"))

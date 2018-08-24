@@ -4,8 +4,18 @@ import Foundation
 
 extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }}{% endif %} {
 
-    {% if description %}
-    /** {{ description }} */
+    {% if description or summary %}
+    /**
+    {% if summary %}
+    {{ summary }}
+    {% if description and description != summary %}
+
+    {{ description }}
+    {% endif %}
+    {% elif description %}
+    {{ description }}
+    {% endif %}
+    */
     {% endif %}
     public enum {{ type }} {
 

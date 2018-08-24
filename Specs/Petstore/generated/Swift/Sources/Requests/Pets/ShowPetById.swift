@@ -7,6 +7,9 @@ import Foundation
 
 extension Petstore.Pets {
 
+    /**
+    Info for a specific pet
+    */
     public enum ShowPetById {
 
         public static let service = APIService<Response>(id: "showPetById", tag: "pets", method: "GET", path: "/pets/{petId}", hasBody: false)

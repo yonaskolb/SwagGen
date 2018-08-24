@@ -7,10 +7,12 @@ import Foundation
 
 extension Rocket.Account {
 
-    /** Update the details of an account.
+    /**
+    Update the details of an account.
 
 This supports partial updates so you can send just the properties you wish to update.
- */
+
+    */
     public enum UpdateAccount {
 
         public static let service = APIService<Response>(id: "updateAccount", tag: "account", method: "PATCH", path: "/account", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Settings"))

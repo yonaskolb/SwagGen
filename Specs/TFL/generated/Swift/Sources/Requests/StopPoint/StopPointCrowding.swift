@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.StopPoint {
 
+    /**
+    Gets all the Crowding data (static) for the StopPointId, plus crowding data for a given line and optionally a particular direction.
+    */
     public enum StopPointCrowding {
 
         public static let service = APIService<Response>(id: "StopPoint_Crowding", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/Crowding/{line}", hasBody: false)

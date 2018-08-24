@@ -7,7 +7,11 @@ import Foundation
 
 extension PetstoreTest.Store {
 
-    /** Returns a map of status codes to quantities */
+    /**
+    Returns pet inventories by status
+
+    Returns a map of status codes to quantities
+    */
     public enum GetInventory {
 
         public static let service = APIService<Response>(id: "getInventory", tag: "store", method: "GET", path: "/store/inventory", hasBody: false, securityRequirement: SecurityRequirement(type: "api_key", scope: ""))

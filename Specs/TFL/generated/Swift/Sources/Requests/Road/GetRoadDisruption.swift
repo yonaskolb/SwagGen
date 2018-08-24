@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Road {
 
+    /**
+    Get active disruptions, filtered by road ids
+    */
     public enum GetRoadDisruption {
 
         public static let service = APIService<Response>(id: "Get_Road_Disruption", tag: "Road", method: "GET", path: "/Road/{ids}/Disruption", hasBody: false)

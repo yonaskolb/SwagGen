@@ -7,10 +7,12 @@ import Foundation
 
 extension Rocket.Profile {
 
-    /** Bookmark an item under the active profile.
+    /**
+    Bookmark an item under the active profile.
 
 Creates one if it doesn't exist, overwrites one if it does.
- */
+
+    */
     public enum BookmarkItem {
 
         public static let service = APIService<Response>(id: "bookmarkItem", tag: "profile", method: "PUT", path: "/account/profile/bookmarks/{itemId}", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))

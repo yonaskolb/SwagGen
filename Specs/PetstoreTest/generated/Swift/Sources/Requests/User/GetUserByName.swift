@@ -7,6 +7,9 @@ import Foundation
 
 extension PetstoreTest.User {
 
+    /**
+    Get user by user name
+    */
     public enum GetUserByName {
 
         public static let service = APIService<Response>(id: "getUserByName", tag: "user", method: "GET", path: "/user/{username}", hasBody: false)

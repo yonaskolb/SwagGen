@@ -7,6 +7,9 @@ import Foundation
 
 extension TBX.Auth {
 
+    /**
+    Contains information necessary for interaction with SAML-enabled identity or service providers
+    */
     public enum AuthSamlMetadata {
 
         public static let service = APIService<Response>(id: "auth.samlMetadata", tag: "auth", method: "GET", path: "/auth/saml/metadata.xml", hasBody: false)

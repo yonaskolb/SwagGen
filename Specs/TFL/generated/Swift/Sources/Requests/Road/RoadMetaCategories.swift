@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Road {
 
+    /**
+    Gets a list of valid RoadDisruption categories
+    */
     public enum RoadMetaCategories {
 
         public static let service = APIService<Response>(id: "Road_MetaCategories", tag: "Road", method: "GET", path: "/Road/Meta/Categories", hasBody: false)

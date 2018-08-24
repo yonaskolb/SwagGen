@@ -7,6 +7,9 @@ import Foundation
 
 extension TBX.UserService {
 
+    /**
+    Check if the Customer has access to execute an action in many URNs
+    */
     public enum UserServiceAccess {
 
         public static let service = APIService<Response>(id: "UserService.access", tag: "UserService", method: "GET", path: "/UserServices/{customer}/access", hasBody: false)

@@ -7,7 +7,9 @@ import Foundation
 
 extension PetstoreTest.Fake {
 
-    /** To test enum parameters */
+    /**
+    To test enum parameters
+    */
     public enum TestEnumParameters {
 
         public static let service = APIService<Response>(id: "testEnumParameters", tag: "fake", method: "GET", path: "/fake", hasBody: true)

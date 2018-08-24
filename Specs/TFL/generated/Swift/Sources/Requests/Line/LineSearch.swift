@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Line {
 
+    /**
+    Search for lines or routes matching the query string
+    */
     public enum LineSearch {
 
         public static let service = APIService<Response>(id: "Line_Search", tag: "Line", method: "GET", path: "/Line/Search/{query}", hasBody: false)

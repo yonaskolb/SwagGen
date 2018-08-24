@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Line {
 
+    /**
+    Gets lines that serve the given modes.
+    */
     public enum LineGetByMode {
 
         public static let service = APIService<Response>(id: "Line_GetByMode", tag: "Line", method: "GET", path: "/Line/Mode/{modes}", hasBody: false)

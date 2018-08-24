@@ -7,7 +7,9 @@ import Foundation
 
 extension Rocket.Profile {
 
-    /** Get the map of bookmarked item ids (itemId => creationDate) under the active profile. */
+    /**
+    Get the map of bookmarked item ids (itemId => creationDate) under the active profile.
+    */
     public enum GetBookmarks {
 
         public static let service = APIService<Response>(id: "getBookmarks", tag: "profile", method: "GET", path: "/account/profile/bookmarks", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))

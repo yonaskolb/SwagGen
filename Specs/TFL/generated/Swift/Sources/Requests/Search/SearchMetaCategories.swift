@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Search {
 
+    /**
+    Gets the available search categories.
+    */
     public enum SearchMetaCategories {
 
         public static let service = APIService<Response>(id: "Search_MetaCategories", tag: "Search", method: "GET", path: "/Search/Meta/Categories", hasBody: false)

@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Line {
 
+    /**
+    Gets the timetable for a specified station on the give line
+    */
     public enum LineTimetable {
 
         public static let service = APIService<Response>(id: "Line_Timetable", tag: "Line", method: "GET", path: "/Line/{id}/Timetable/{fromStopPointId}", hasBody: false)

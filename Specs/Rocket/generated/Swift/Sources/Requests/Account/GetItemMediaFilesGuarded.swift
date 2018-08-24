@@ -7,7 +7,8 @@ import Foundation
 
 extension Rocket.Account {
 
-    /** Get the video files associated with an item given maximum resolution, device type
+    /**
+    Get the video files associated with an item given maximum resolution, device type
 and one or more delivery types.
 
 This endpoint is identical to the `/account/items/{id}/videos` however it expects
@@ -27,7 +28,8 @@ types in the order you specify them in the query. For example `stream,progressiv
 would return an array with 0 or more stream files followed by 0 or more progressive files.
 
 If no files are found a 404 is returned.
- */
+
+    */
     public enum GetItemMediaFilesGuarded {
 
         public static let service = APIService<Response>(id: "getItemMediaFilesGuarded", tag: "account", method: "GET", path: "/account/items/{id}/videos-guarded", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Playback"))

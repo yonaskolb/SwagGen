@@ -7,6 +7,9 @@ import Foundation
 
 extension Petstore.Pets {
 
+    /**
+    Updates a pet in the store with form data
+    */
     public enum UpdatePetWithForm {
 
         public static let service = APIService<Response>(id: "updatePetWithForm", tag: "pets", method: "POST", path: "/pets/{petId}", hasBody: true, securityRequirement: SecurityRequirement(type: "petstore_auth", scope: "write:pets"))

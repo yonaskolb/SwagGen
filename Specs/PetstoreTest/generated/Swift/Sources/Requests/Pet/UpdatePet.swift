@@ -7,6 +7,9 @@ import Foundation
 
 extension PetstoreTest.Pet {
 
+    /**
+    Update an existing pet
+    */
     public enum UpdatePet {
 
         public static let service = APIService<Response>(id: "updatePet", tag: "pet", method: "PUT", path: "/pet", hasBody: true, securityRequirement: SecurityRequirement(type: "petstore_auth", scope: "write:pets"))

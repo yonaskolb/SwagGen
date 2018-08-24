@@ -7,7 +7,9 @@ import Foundation
 
 extension Rocket.Content {
 
-    /** Search the catalog of items and people. */
+    /**
+    Search the catalog of items and people.
+    */
     public enum Search {
 
         public static let service = APIService<Response>(id: "search", tag: "content", method: "GET", path: "/search", hasBody: false)

@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Line {
 
+    /**
+    Get disruptions for the given line ids
+    */
     public enum LineDisruption {
 
         public static let service = APIService<Response>(id: "Line_Disruption", tag: "Line", method: "GET", path: "/Line/{ids}/Disruption", hasBody: false)

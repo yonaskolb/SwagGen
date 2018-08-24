@@ -7,7 +7,11 @@ import Foundation
 
 extension PetstoreTest.User {
 
-    /** This can only be done by the logged in user. */
+    /**
+    Delete user
+
+    This can only be done by the logged in user.
+    */
     public enum DeleteUser {
 
         public static let service = APIService<Response>(id: "deleteUser", tag: "user", method: "DELETE", path: "/user/{username}", hasBody: false)

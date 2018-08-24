@@ -7,6 +7,9 @@ import Foundation
 
 extension TBX.Auth {
 
+    /**
+    URL for the client can start a new login with your IDP
+    */
     public enum AuthLogin {
 
         public static let service = APIService<Response>(id: "auth.login", tag: "auth", method: "GET", path: "/auth/{cp}/login.html", hasBody: false)

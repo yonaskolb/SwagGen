@@ -7,6 +7,10 @@ import Foundation
 
 extension TFL.Mode {
 
+    /**
+    Returns the service type active for a mode.
+            Currently only supports tube
+    */
     public enum ModeGetActiveServiceTypes {
 
         public static let service = APIService<Response>(id: "Mode_GetActiveServiceTypes", tag: "Mode", method: "GET", path: "/Mode/ActiveServiceTypes", hasBody: false)

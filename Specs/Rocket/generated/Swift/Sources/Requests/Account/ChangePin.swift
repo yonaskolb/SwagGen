@@ -7,7 +7,9 @@ import Foundation
 
 extension Rocket.Account {
 
-    /** Change the pin of an account. */
+    /**
+    Change the pin of an account.
+    */
     public enum ChangePin {
 
         public static let service = APIService<Response>(id: "changePin", tag: "account", method: "PUT", path: "/account/pin", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Settings"))

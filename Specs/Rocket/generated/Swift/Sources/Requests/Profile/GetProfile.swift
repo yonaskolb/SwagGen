@@ -7,7 +7,9 @@ import Foundation
 
 extension Rocket.Profile {
 
-    /** Get the details of the active profile, including watched, bookmarked and rated items. */
+    /**
+    Get the details of the active profile, including watched, bookmarked and rated items.
+    */
     public enum GetProfile {
 
         public static let service = APIService<Response>(id: "getProfile", tag: "profile", method: "GET", path: "/account/profile", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))

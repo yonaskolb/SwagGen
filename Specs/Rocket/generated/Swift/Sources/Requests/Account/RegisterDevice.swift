@@ -7,10 +7,12 @@ import Foundation
 
 extension Rocket.Account {
 
-    /** Register a playback device under an account.
+    /**
+    Register a playback device under an account.
 
 If a device with the same id already exists a `409` conflict will be returned.
- */
+
+    */
     public enum RegisterDevice {
 
         public static let service = APIService<Response>(id: "registerDevice", tag: "account", method: "POST", path: "/account/devices", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))

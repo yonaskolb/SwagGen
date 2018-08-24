@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.AirQuality {
 
+    /**
+    Gets air quality data feed
+    */
     public enum AirQualityGet {
 
         public static let service = APIService<Response>(id: "AirQuality_Get", tag: "AirQuality", method: "GET", path: "/AirQuality", hasBody: false)

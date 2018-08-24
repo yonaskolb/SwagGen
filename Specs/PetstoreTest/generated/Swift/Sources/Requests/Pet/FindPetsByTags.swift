@@ -7,7 +7,11 @@ import Foundation
 
 extension PetstoreTest.Pet {
 
-    /** Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. */
+    /**
+    Finds Pets by tags
+
+    Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+    */
     public enum FindPetsByTags {
 
         public static let service = APIService<Response>(id: "findPetsByTags", tag: "pet", method: "GET", path: "/pet/findByTags", hasBody: false, securityRequirement: SecurityRequirement(type: "petstore_auth", scope: "write:pets"))

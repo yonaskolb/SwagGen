@@ -7,6 +7,9 @@ import Foundation
 
 extension TBX.UserService {
 
+    /**
+    Get a Token
+    */
     public enum UserServiceGetToken {
 
         public static let service = APIService<Response>(id: "UserService.getToken", tag: "UserService", method: "GET", path: "/UserServices/token/{token}", hasBody: false)

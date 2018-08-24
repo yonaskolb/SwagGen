@@ -7,7 +7,9 @@ import Foundation
 
 extension Rocket.Profile {
 
-    /** Get the map of watched item ids (itemId => last playhead position) under the active profile. */
+    /**
+    Get the map of watched item ids (itemId => last playhead position) under the active profile.
+    */
     public enum GetWatched {
 
         public static let service = APIService<Response>(id: "getWatched", tag: "profile", method: "GET", path: "/account/profile/watched", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))

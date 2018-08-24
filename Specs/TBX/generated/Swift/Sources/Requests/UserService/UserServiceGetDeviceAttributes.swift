@@ -7,6 +7,9 @@ import Foundation
 
 extension TBX.UserService {
 
+    /**
+    Get device data attributes by deviceToken
+    */
     public enum UserServiceGetDeviceAttributes {
 
         public static let service = APIService<Response>(id: "UserService.getDeviceAttributes", tag: "UserService", method: "GET", path: "/UserServices/device/{device}/attributes", hasBody: false)

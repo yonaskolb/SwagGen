@@ -7,6 +7,9 @@ import Foundation
 
 extension TBX.UserService {
 
+    /**
+    Update Device info
+    */
     public enum UserServiceUpdateDevice {
 
         public static let service = APIService<Response>(id: "UserService.updateDevice", tag: "UserService", method: "PUT", path: "/UserServices/device/{device}", hasBody: true)

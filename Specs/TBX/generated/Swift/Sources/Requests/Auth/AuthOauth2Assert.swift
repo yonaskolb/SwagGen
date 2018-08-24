@@ -7,6 +7,9 @@ import Foundation
 
 extension TBX.Auth {
 
+    /**
+    Return Url from OAuth2.0 login
+    */
     public enum AuthOauth2Assert {
 
         public static let service = APIService<Response>(id: "auth.oauth2Assert", tag: "auth", method: "GET", path: "/auth/oauth2/assert", hasBody: false)

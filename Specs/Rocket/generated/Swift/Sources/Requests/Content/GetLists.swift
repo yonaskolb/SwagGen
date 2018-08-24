@@ -7,7 +7,9 @@ import Foundation
 
 extension Rocket.Content {
 
-    /** Returns an array of item lists with their first page of content resolved. */
+    /**
+    Returns an array of item lists with their first page of content resolved.
+    */
     public enum GetLists {
 
         public static let service = APIService<Response>(id: "getLists", tag: "content", method: "GET", path: "/lists", hasBody: false)

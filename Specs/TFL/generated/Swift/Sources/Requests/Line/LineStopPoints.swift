@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Line {
 
+    /**
+    Gets a list of the stations that serve the given line id
+    */
     public enum LineStopPoints {
 
         public static let service = APIService<Response>(id: "Line_StopPoints", tag: "Line", method: "GET", path: "/Line/{id}/StopPoints", hasBody: false)

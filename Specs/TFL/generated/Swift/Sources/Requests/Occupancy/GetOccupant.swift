@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Occupancy {
 
+    /**
+    Gets the occupancy for a car park with a given id
+    */
     public enum GetOccupant {
 
         public static let service = APIService<Response>(id: "getOccupant", tag: "Occupancy", method: "GET", path: "/Occupancy/CarPark/{id}", hasBody: false)

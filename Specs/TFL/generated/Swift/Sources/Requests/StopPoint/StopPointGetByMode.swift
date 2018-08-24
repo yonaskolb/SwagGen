@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.StopPoint {
 
+    /**
+    Gets a list of StopPoints filtered by the modes available at that StopPoint.
+    */
     public enum StopPointGetByMode {
 
         public static let service = APIService<Response>(id: "StopPoint_GetByMode", tag: "StopPoint", method: "GET", path: "/StopPoint/Mode/{modes}", hasBody: false)

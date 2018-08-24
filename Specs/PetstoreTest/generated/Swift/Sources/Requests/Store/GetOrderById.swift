@@ -7,7 +7,11 @@ import Foundation
 
 extension PetstoreTest.Store {
 
-    /** For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions */
+    /**
+    Find purchase order by ID
+
+    For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+    */
     public enum GetOrderById {
 
         public static let service = APIService<Response>(id: "getOrderById", tag: "store", method: "GET", path: "/store/order/{order_id}", hasBody: false)

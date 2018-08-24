@@ -7,7 +7,9 @@ import Foundation
 
 extension Rocket.Account {
 
-    /** Change the password of an account. */
+    /**
+    Change the password of an account.
+    */
     public enum ChangePassword {
 
         public static let service = APIService<Response>(id: "changePassword", tag: "account", method: "PUT", path: "/account/password", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Settings"))

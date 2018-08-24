@@ -7,11 +7,13 @@ import Foundation
 
 extension PetstoreTest.Fake {
 
-    /** Fake endpoint for testing various parameters
+    /**
+    Fake endpoint for testing various parameters
 假端點
 偽のエンドポイント
 가짜 엔드 포인트
- */
+
+    */
     public enum TestEndpointParameters {
 
         public static let service = APIService<Response>(id: "testEndpointParameters", tag: "fake", method: "POST", path: "/fake", hasBody: true, securityRequirement: SecurityRequirement(type: "http_basic_test", scope: ""))

@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.StopPoint {
 
+    /**
+    Gets a distinct list of disrupted stop points for the given modes
+    */
     public enum StopPointDisruptionByMode {
 
         public static let service = APIService<Response>(id: "StopPoint_DisruptionByMode", tag: "StopPoint", method: "GET", path: "/StopPoint/Mode/{modes}/Disruption", hasBody: false)

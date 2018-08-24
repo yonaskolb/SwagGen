@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.TravelTime {
 
+    /**
+    Gets the TravelTime overlay.
+    */
     public enum TravelTimeGetOverlay {
 
         public static let service = APIService<Response>(id: "TravelTime_GetOverlay", tag: "TravelTime", method: "GET", path: "/TravelTimes/overlay/{z}/mapcenter/{mapCenterLat}/{mapCenterLon}/pinlocation/{pinLat}/{pinLon}/dimensions/{width}/{height}", hasBody: false)

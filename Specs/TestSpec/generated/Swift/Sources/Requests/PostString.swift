@@ -7,7 +7,9 @@ import Foundation
 
 extension TestSpec {
 
-    /** operation with string body */
+    /**
+    operation with string body
+    */
     public enum PostString {
 
         public static let service = APIService<Response>(id: "postString", tag: "", method: "POST", path: "/string", hasBody: true, securityRequirement: SecurityRequirement(type: "test_auth", scope: "read"))

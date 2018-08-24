@@ -7,7 +7,9 @@ import Foundation
 
 extension Rocket.Profile {
 
-    /** Get the rating info for an item under the active profile. */
+    /**
+    Get the rating info for an item under the active profile.
+    */
     public enum GetItemRating {
 
         public static let service = APIService<Response>(id: "getItemRating", tag: "profile", method: "GET", path: "/account/profile/ratings/{itemId}", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))

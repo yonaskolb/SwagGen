@@ -7,7 +7,11 @@ import Foundation
 
 extension PetstoreTest.User {
 
-    /** This can only be done by the logged in user. */
+    /**
+    Updated user
+
+    This can only be done by the logged in user.
+    */
     public enum UpdateUser {
 
         public static let service = APIService<Response>(id: "updateUser", tag: "user", method: "PUT", path: "/user/{username}", hasBody: true)

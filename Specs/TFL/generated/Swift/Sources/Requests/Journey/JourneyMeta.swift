@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Journey {
 
+    /**
+    Gets a list of all of the available journey planner modes
+    */
     public enum JourneyMeta {
 
         public static let service = APIService<Response>(id: "Journey_Meta", tag: "Journey", method: "GET", path: "/Journey/Meta/Modes", hasBody: false)

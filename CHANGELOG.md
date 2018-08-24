@@ -9,6 +9,7 @@
 - Added `modelInheritance` template option #94
 - Added `modelNames` and `enumNames` template options for overriding names #95
 - Added `x-enum-name` property to Swagger for custom enum names #98
+- Added operation `summary` to generation and template
 
 ### Changed
 - Swift template changes #104

@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Place {
 
+    /**
+    Gets all places of a given type
+    */
     public enum PlaceGetByType {
 
         public static let service = APIService<Response>(id: "Place_GetByType", tag: "Place", method: "GET", path: "/Place/Type/{types}", hasBody: false)

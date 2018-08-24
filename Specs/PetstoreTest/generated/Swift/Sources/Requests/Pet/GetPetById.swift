@@ -7,7 +7,11 @@ import Foundation
 
 extension PetstoreTest.Pet {
 
-    /** Returns a single pet */
+    /**
+    Find pet by ID
+
+    Returns a single pet
+    */
     public enum GetPetById {
 
         public static let service = APIService<Response>(id: "getPetById", tag: "pet", method: "GET", path: "/pet/{petId}", hasBody: false, securityRequirement: SecurityRequirement(type: "api_key", scope: ""))

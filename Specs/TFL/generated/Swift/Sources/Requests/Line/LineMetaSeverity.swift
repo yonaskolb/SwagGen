@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Line {
 
+    /**
+    Gets a list of valid severity codes
+    */
     public enum LineMetaSeverity {
 
         public static let service = APIService<Response>(id: "Line_MetaSeverity", tag: "Line", method: "GET", path: "/Line/Meta/Severity", hasBody: false)

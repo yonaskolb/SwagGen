@@ -7,7 +7,8 @@ import Foundation
 
 extension Rocket.Authorization {
 
-    /** Request one or more `Account` level authorization tokens each with a chosen scope.
+    /**
+    Request one or more `Account` level authorization tokens each with a chosen scope.
 
 Tokens are used to access restricted service endpoints. These restricted endpoints
 will require a specific token type (e.g Account) with a specific scope (e.g. Catalog)
@@ -29,7 +30,8 @@ token. This is not obtainable from an Account pin, only password.
 If both a pin and password are supplied only the password will be used.
 
 If neither a pin or password are supplied an http 400 error will be returned.
- */
+
+    */
     public enum GetAccountToken {
 
         public static let service = APIService<Response>(id: "getAccountToken", tag: "authorization", method: "POST", path: "/authorization", hasBody: true)

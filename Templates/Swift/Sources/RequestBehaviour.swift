@@ -40,6 +40,8 @@ public extension RequestBehaviour {
     func onResponse(request: AnyRequest, response: AnyResponse) {}
 }
 
+struct PhantomRequestBehaviour : RequestBehaviour { }
+
 // Group different RequestBehaviours together
 struct RequestBehaviourGroup {
 
@@ -48,7 +50,7 @@ struct RequestBehaviourGroup {
 
     init<T>(request: APIRequest<T>, behaviours: [RequestBehaviour]) {
         self.request = request.asAny()
-        self.behaviours = behaviours
+        self.behaviours = behaviours.isEmpty ? [PhantomRequestBehaviour()] : behaviours
     }
 
     func beforeSend() {

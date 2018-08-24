@@ -29,6 +29,7 @@
 - Sort operations in generated Readme
 - Better name camel casing #100
 - Fix empty string field decoding in YAML #101
+- Escape `Protocol` in swift templates
 
 ## [2.1.2](https://github.com/yonaskolb/SwagGen/compare/2.1.1...2.1.2)
 

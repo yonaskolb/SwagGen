@@ -6,6 +6,7 @@ public class SwiftFormatter: CodeFormatter {
     var disallowedKeywords: [String] {
         return [
             "Type",
+            "Protocol",
             "class",
             "struct",
             "enum",

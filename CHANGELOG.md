@@ -1,4 +1,5 @@
 # Change Log
+## Master
 
 ## [3.0.0](https://github.com/yonaskolb/SwagGen/compare/2.1.2...3.0.0)
 

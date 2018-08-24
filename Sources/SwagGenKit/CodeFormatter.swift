@@ -180,7 +180,7 @@ public class CodeFormatter {
 
         return context
     }
-    
+
     func getOperationContext(_ operation: Swagger.Operation) -> Context {
         var context: Context = [:]
 
@@ -218,7 +218,7 @@ public class CodeFormatter {
         context["formParams"] = operation.getParameters(type: .formData).map(getParameterContext)
         context["headerParams"] = operation.getParameters(type: .header).map(getParameterContext)
         context["hasFileParam"] = params.contains { $0.metadata.type == .file }
-        
+
         let securityRequirements = operation.securityRequirements ?? spec.securityRequirements
         context["securityRequirement"] = securityRequirements?.first.flatMap(getSecurityRequirementContext)
         context["securityRequirements"] = securityRequirements?.map(getSecurityRequirementContext)

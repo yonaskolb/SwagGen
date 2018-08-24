@@ -1,7 +1,7 @@
 import Foundation
-import XCTest
 import Spectre
 @testable import SwagGenKit
+import XCTest
 
 public func testGenerator() {
 

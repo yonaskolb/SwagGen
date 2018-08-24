@@ -69,7 +69,7 @@ extension String {
         var index = 0
         let components = self.components(separatedBy: seperator)
         if uppercased() == self {
-            return components.map { $0.lowercased().mapFirstChar { $0.uppercased()} }.joined(separator: "")
+            return components.map { $0.lowercased().mapFirstChar { $0.uppercased() } }.joined(separator: "")
         }
         return components
             .map { string in
@@ -106,7 +106,7 @@ extension String {
     }
 
     private var hasSeparator: Bool {
-        return separators.contains(where: { contains($0)})
+        return separators.contains(where: { contains($0) })
     }
 
     private var isAcronym: Bool {

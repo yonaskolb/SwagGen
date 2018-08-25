@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PaginationOptions: Codable, Equatable {
+public class PaginationOptions: APIModel {
 
     /** Specific item type filter. */
     public var itemType: ItemType?

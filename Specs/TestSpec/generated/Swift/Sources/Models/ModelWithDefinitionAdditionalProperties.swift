@@ -6,7 +6,7 @@
 import Foundation
 
 /** definition with a Definition as additional properties */
-public class ModelWithDefinitionAdditionalProperties: Codable, Equatable {
+public class ModelWithDefinitionAdditionalProperties: APIModel {
 
     public var name: String?
 

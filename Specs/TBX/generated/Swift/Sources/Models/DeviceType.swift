@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DeviceType: Codable, Equatable {
+public class DeviceType: APIModel {
 
     public var shortName: String
 

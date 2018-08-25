@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Client: Codable, Equatable {
+public class Client: APIModel {
 
     public var client: String?
 

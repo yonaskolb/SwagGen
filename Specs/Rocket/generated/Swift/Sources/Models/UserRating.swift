@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class UserRating: Codable, Equatable {
+public class UserRating: APIModel {
 
     /** The id of the item rated. */
     public var itemId: String

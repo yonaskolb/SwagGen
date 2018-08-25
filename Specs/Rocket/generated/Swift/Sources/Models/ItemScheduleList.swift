@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ItemScheduleList: Codable, Equatable {
+public class ItemScheduleList: APIModel {
 
     /** The id of the channel the schedules belong to. */
     public var channelId: String

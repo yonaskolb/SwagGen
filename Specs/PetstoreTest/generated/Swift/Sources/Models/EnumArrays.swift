@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class EnumArrays: Codable, Equatable {
+public class EnumArrays: APIModel {
 
     public enum ArrayEnum: String, Codable {
         case fish = "fish"

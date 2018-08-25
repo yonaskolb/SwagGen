@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ItemSchedule: Codable, Equatable {
+public class ItemSchedule: APIModel {
 
     public var id: String
 

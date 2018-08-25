@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ErrorType: Codable, Equatable {
+public class ErrorType: APIModel {
 
     public var code: Int
 

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TokenObject: Codable, Equatable {
+public class TokenObject: APIModel {
 
     /** The Token ID */
     public var token: String
@@ -21,7 +21,7 @@ public class TokenObject: Codable, Equatable {
 
     public var uses: Double?
 
-    public class Idp: Codable, Equatable {
+    public class Idp: APIModel {
 
         public var code: String?
 

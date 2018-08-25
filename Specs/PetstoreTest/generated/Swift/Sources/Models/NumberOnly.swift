@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class NumberOnly: Codable, Equatable {
+public class NumberOnly: APIModel {
 
     public var justNumber: Double?
 

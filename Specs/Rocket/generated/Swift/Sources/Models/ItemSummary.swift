@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ItemSummary: Codable, Equatable {
+public class ItemSummary: APIModel {
 
     /** Unique identifier for an Item */
     public var id: String

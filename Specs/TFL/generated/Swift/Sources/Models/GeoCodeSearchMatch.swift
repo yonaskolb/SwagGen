@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class GeoCodeSearchMatch: Codable, Equatable {
+public class GeoCodeSearchMatch: APIModel {
 
     /** A string describing the formatted address of the place. Adds additional context to the place's Name. */
     public var address: String?

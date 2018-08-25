@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Message: Codable, Equatable {
+public class Message: APIModel {
 
     public var bulletOrder: Int?
 

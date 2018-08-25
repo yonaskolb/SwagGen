@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Path: Codable, Equatable {
+public class Path: APIModel {
 
     public var elevation: [JpElevation]?
 

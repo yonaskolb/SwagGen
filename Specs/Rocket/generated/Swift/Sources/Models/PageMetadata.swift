@@ -6,7 +6,7 @@
 import Foundation
 
 /** Metadata associated with a page. Primarily intended for SEO usage. */
-public class PageMetadata: Codable, Equatable {
+public class PageMetadata: APIModel {
 
     public var description: String?
 

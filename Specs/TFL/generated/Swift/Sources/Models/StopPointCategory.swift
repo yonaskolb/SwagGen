@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StopPointCategory: Codable, Equatable {
+public class StopPointCategory: APIModel {
 
     public var availableKeys: [String]?
 

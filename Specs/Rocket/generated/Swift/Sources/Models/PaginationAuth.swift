@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PaginationAuth: Codable, Equatable {
+public class PaginationAuth: APIModel {
 
     /** The token type required to load the list. */
     public enum `Type`: String, Codable {

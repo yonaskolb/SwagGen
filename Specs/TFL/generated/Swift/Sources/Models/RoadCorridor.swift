@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RoadCorridor: Codable, Equatable {
+public class RoadCorridor: APIModel {
 
     /** The Bounds of the Corridor, given by the south-east followed by the north-west co-ordinate
             pair in geoJSON format e.g. "[[-1.241531,51.242151],[1.641223,53.765721]]" */

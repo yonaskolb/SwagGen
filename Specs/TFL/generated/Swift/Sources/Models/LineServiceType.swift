@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class LineServiceType: Codable, Equatable {
+public class LineServiceType: APIModel {
 
     public var lineName: String?
 

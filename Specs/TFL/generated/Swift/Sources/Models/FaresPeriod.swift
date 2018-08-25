@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class FaresPeriod: Codable, Equatable {
+public class FaresPeriod: APIModel {
 
     public var endDate: DateTime?
 

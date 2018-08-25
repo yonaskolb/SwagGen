@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class dollarspecialmodelName: Codable, Equatable {
+public class dollarspecialmodelName: APIModel {
 
     public init() {
     }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Timetable: Codable, Equatable {
+public class Timetable: APIModel {
 
     public var departureStopId: String?
 

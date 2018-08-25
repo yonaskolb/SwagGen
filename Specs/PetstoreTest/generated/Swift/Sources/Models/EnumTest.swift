@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class EnumTest: Codable, Equatable {
+public class EnumTest: APIModel {
 
     public enum EnumInteger: Int, Codable {
         case _1 = 1

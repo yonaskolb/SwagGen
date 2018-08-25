@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RoadDisruptionImpactArea: Codable, Equatable {
+public class RoadDisruptionImpactArea: APIModel {
 
     public var endDate: DateTime?
 

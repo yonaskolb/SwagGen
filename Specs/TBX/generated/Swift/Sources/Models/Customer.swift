@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Customer: Codable, Equatable {
+public class Customer: APIModel {
 
     public var subscriberID: String
 

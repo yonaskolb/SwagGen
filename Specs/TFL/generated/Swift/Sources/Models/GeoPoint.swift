@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class GeoPoint: Codable, Equatable {
+public class GeoPoint: APIModel {
 
     public var lat: Double
 

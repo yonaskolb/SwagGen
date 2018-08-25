@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MapTest: Codable, Equatable {
+public class MapTest: APIModel {
 
     public enum MapOfEnumString: String, Codable {
         case upper = "UPPER"

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Capitalization: Codable, Equatable {
+public class Capitalization: APIModel {
 
     /** Name of the pet
  */

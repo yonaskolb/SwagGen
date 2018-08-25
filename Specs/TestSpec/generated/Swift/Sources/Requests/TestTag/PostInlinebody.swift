@@ -17,7 +17,7 @@ extension TestSpec.TestTag {
         public final class Request: APIRequest<Response> {
 
             /** operation with an inline body */
-            public class Item: Codable, Equatable {
+            public class Item: APIModel {
 
                 public var id: Int?
 

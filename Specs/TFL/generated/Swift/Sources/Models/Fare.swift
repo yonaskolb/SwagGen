@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Fare: Codable, Equatable {
+public class Fare: APIModel {
 
     public var cap: Double?
 

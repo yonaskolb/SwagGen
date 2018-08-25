@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TicketTime: Codable, Equatable {
+public class TicketTime: APIModel {
 
     public var description: String?
 

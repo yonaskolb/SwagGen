@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class LineModeGroup: Codable, Equatable {
+public class LineModeGroup: APIModel {
 
     public var lineIdentifier: [String]?
 

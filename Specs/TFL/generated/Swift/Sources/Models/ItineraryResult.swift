@@ -6,7 +6,7 @@
 import Foundation
 
 /** A DTO representing a list of possible journeys. */
-public class ItineraryResult: Codable, Equatable {
+public class ItineraryResult: APIModel {
 
     public var cycleHireDockingStationData: JourneyPlannerCycleHireDockingStationData?
 

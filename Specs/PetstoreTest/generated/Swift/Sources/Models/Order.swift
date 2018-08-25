@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Order: Codable, Equatable {
+public class Order: APIModel {
 
     /** Order Status */
     public enum Status: String, Codable {

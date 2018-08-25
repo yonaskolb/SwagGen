@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class OrderedRoute: Codable, Equatable {
+public class OrderedRoute: APIModel {
 
     public var name: String?
 

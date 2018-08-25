@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Schedule: Codable, Equatable {
+public class Schedule: APIModel {
 
     public var firstJourney: KnownJourney?
 

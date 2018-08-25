@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AccidentDetail: Codable, Equatable {
+public class AccidentDetail: APIModel {
 
     public var borough: String?
 

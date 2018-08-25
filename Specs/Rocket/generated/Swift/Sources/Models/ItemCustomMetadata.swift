@@ -6,7 +6,7 @@
 import Foundation
 
 /** Custom metadata associated with an item. */
-public class ItemCustomMetadata: Codable, Equatable {
+public class ItemCustomMetadata: APIModel {
 
     /** The name of the custom metadata. */
     public var name: String

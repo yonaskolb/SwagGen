@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TimetableRoute: Codable, Equatable {
+public class TimetableRoute: APIModel {
 
     public var schedules: [Schedule]?
 

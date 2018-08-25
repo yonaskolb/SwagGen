@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class JourneyVector: Codable, Equatable {
+public class JourneyVector: APIModel {
 
     public var from: String?
 

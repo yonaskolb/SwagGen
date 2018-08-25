@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PathAttribute: Codable, Equatable {
+public class PathAttribute: APIModel {
 
     public var name: String?
 

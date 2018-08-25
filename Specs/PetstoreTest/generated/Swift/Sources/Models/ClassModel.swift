@@ -6,7 +6,7 @@
 import Foundation
 
 /** Model for testing model with "_class" property */
-public class ClassModel: Codable, Equatable {
+public class ClassModel: APIModel {
 
     public var `class`: String?
 

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TimeAdjustment: Codable, Equatable {
+public class TimeAdjustment: APIModel {
 
     public var date: String?
 

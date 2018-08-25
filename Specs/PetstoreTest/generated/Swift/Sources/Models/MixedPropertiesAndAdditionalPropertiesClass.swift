@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MixedPropertiesAndAdditionalPropertiesClass: Codable, Equatable {
+public class MixedPropertiesAndAdditionalPropertiesClass: APIModel {
 
     public var dateTime: DateTime?
 

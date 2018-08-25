@@ -5,12 +5,12 @@
 
 import Foundation
 
-public class ModelWithInlineSpec: Codable, Equatable {
+public class ModelWithInlineSpec: APIModel {
 
     /** an inline model */
     public var myModel: MyModel?
 
-    public class MyModel: Codable, Equatable {
+    public class MyModel: APIModel {
 
         /** name of the model */
         public var name: String?

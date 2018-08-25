@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Person: Codable, Equatable {
+public class Person: APIModel {
 
     /** The name of the person. */
     public var name: String

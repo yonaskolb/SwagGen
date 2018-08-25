@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ContentIdentityCountry: Codable, Equatable {
+public class ContentIdentityCountry: APIModel {
 
     public var order: Double
 

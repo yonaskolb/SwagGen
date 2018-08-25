@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Mode: Codable, Equatable {
+public class Mode: APIModel {
 
     public var isFarePaying: Bool?
 

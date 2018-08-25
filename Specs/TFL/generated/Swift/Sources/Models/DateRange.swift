@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DateRange: Codable, Equatable {
+public class DateRange: APIModel {
 
     public var endDate: DateTime?
 

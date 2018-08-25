@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MatchedStop: Codable, Equatable {
+public class MatchedStop: APIModel {
 
     public var accessibilitySummary: String?
 

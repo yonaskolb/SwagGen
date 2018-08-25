@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Auth: Codable, Equatable {
+public class Auth: APIModel {
 
     public var status: Bool
 

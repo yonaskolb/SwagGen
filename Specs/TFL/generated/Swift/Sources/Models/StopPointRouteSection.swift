@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StopPointRouteSection: Codable, Equatable {
+public class StopPointRouteSection: APIModel {
 
     public var destinationName: String?
 

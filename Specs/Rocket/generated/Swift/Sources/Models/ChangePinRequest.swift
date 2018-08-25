@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ChangePinRequest: Codable, Equatable {
+public class ChangePinRequest: APIModel {
 
     /** The new pin to set. */
     public var pin: String

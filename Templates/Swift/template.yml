@@ -9,6 +9,7 @@ options:
   modelSuffix: null # applied to model classes
   modelType: class # can be struct or class
   modelInheritance: true # must be false for struct modelType
+  modelProtocol: APIModel # the protocol all models conform to
   modelNames: # override model type names
     CreatePaymentRequest: CreatePaymentRequestModel
     DeclinePaymentRequest: DeclinePaymentRequestModel

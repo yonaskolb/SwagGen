@@ -6,7 +6,7 @@
 import Foundation
 
 /** Model for testing model name same as property name */
-public class Name: Codable, Equatable {
+public class Name: APIModel {
 
     public var name: Int
 

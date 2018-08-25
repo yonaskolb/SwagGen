@@ -6,7 +6,7 @@
 import Foundation
 
 /** Represents a point located at a latitude and longitude using the WGS84 co-ordinate system. */
-public class Point: Codable, Equatable {
+public class Point: APIModel {
 
     /** WGS84 latitude of the location. */
     public var lat: Double?

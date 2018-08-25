@@ -6,7 +6,7 @@
 import Foundation
 
 /** Represents a disruption to a route within the transport network. */
-public class Disruption: Codable, Equatable {
+public class Disruption: APIModel {
 
     /** Gets or sets the category of this dispruption. */
     public enum Category: String, Codable {

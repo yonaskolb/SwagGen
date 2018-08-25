@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MSO: Codable, Equatable {
+public class MSO: APIModel {
 
     public var countryCode: String
 

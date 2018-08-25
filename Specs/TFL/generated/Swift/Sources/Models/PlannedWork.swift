@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PlannedWork: Codable, Equatable {
+public class PlannedWork: APIModel {
 
     public var createdDateTime: DateTime?
 

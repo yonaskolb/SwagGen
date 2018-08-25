@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Bay: Codable, Equatable {
+public class Bay: APIModel {
 
     public var bayCount: Int?
 

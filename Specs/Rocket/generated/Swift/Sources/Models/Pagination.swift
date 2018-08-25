@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Pagination: Codable, Equatable {
+public class Pagination: APIModel {
 
     /** The total number of pages available given the current page size.
 

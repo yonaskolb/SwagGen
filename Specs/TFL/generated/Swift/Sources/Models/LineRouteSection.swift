@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class LineRouteSection: Codable, Equatable {
+public class LineRouteSection: APIModel {
 
     public var destination: String?
 

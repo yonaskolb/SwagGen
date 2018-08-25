@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RoadDisruptionLine: Codable, Equatable {
+public class RoadDisruptionLine: APIModel {
 
     public var endDate: DateTime?
 

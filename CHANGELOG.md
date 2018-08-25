@@ -3,7 +3,10 @@
 
 ## 3.0.1
 
-### Changes
+### Added
+- Added new `modelProtocol` template option which defaults to `APIModel` #109
+
+### Fixed
 - Fixed crash in Swift template when not using any RequestBehaviours #108
 
 [Commits](https://github.com/yonaskolb/SwagGen/compare/3.0.0...3.0.1)

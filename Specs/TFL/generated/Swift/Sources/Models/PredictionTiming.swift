@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PredictionTiming: Codable, Equatable {
+public class PredictionTiming: APIModel {
 
     public var countdownServerAdjustment: String?
 

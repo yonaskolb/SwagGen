@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Watched: Codable, Equatable {
+public class Watched: APIModel {
 
     /** The last playhead position watched for the item. */
     public var position: Int

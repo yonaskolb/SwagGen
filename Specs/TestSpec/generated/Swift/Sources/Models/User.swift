@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class User: Codable, Equatable {
+public class User: APIModel {
 
     public var id: Int?
 

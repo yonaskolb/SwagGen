@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MatchedRoute: Codable, Equatable {
+public class MatchedRoute: APIModel {
 
     /** eg: Destination */
     public var destination: String?

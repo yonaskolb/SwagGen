@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ArrayOfNumberOnly: Codable, Equatable {
+public class ArrayOfNumberOnly: APIModel {
 
     public var arrayNumber: [Double]?
 

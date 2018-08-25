@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Instruction: Codable, Equatable {
+public class Instruction: APIModel {
 
     public var detailed: String?
 

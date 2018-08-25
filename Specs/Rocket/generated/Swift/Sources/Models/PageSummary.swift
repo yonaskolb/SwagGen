@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PageSummary: Codable, Equatable {
+public class PageSummary: APIModel {
 
     /** Unique identifier for the page. */
     public var id: String

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class FormatTest: Codable, Equatable {
+public class FormatTest: APIModel {
 
     public var number: Double
 

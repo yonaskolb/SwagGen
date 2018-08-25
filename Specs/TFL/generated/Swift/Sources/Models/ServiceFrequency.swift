@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ServiceFrequency: Codable, Equatable {
+public class ServiceFrequency: APIModel {
 
     public var highestFrequency: Double?
 

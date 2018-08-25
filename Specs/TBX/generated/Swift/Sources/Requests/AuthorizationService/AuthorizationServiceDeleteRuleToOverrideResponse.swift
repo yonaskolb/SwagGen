@@ -46,7 +46,7 @@ extension TBX.AuthorizationService {
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
 
-            public class Status200: Codable, Equatable {
+            public class Status200: APIModel {
 
                 public var status: Bool?
 

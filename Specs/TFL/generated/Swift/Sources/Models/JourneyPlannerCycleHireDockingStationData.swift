@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class JourneyPlannerCycleHireDockingStationData: Codable, Equatable {
+public class JourneyPlannerCycleHireDockingStationData: APIModel {
 
     public var destinationId: String?
 

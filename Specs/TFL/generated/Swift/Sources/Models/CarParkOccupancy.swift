@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class CarParkOccupancy: Codable, Equatable {
+public class CarParkOccupancy: APIModel {
 
     public var bays: [Bay]?
 

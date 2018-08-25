@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Redirect: Codable, Equatable {
+public class Redirect: APIModel {
 
     public var active: Bool?
 

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ActiveServiceType: Codable, Equatable {
+public class ActiveServiceType: APIModel {
 
     public var mode: String?
 

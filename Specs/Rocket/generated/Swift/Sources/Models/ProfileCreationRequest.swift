@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ProfileCreationRequest: Codable, Equatable {
+public class ProfileCreationRequest: APIModel {
 
     /** The unique name of the profile. */
     public var name: String

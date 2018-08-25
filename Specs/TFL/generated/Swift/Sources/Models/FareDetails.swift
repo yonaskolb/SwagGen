@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class FareDetails: Codable, Equatable {
+public class FareDetails: APIModel {
 
     public var boundsId: Int?
 

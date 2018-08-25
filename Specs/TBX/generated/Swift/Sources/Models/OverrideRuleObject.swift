@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class OverrideRuleObject: Codable, Equatable {
+public class OverrideRuleObject: APIModel {
 
     /** List of URNs to override */
     public var urn: [String]

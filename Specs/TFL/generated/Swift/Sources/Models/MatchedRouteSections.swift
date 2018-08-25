@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MatchedRouteSections: Codable, Equatable {
+public class MatchedRouteSections: APIModel {
 
     public var id: Int?
 

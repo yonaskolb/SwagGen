@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class InstructionStep: Codable, Equatable {
+public class InstructionStep: APIModel {
 
     public enum SkyDirectionDescription: String, Codable {
         case north = "North"

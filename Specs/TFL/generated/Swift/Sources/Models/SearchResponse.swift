@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class SearchResponse: Codable, Equatable {
+public class SearchResponse: APIModel {
 
     public var from: Int?
 

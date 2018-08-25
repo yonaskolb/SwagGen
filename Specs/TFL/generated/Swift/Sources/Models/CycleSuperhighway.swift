@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class CycleSuperhighway: Codable, Equatable {
+public class CycleSuperhighway: APIModel {
 
     /** A LineString or MultiLineString that forms the route of the highway */
     public var geography: DbGeography?

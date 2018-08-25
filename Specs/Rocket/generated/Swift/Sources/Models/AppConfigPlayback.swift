@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AppConfigPlayback: Codable, Equatable {
+public class AppConfigPlayback: APIModel {
 
     /** How often a heartbeat should be renewed during playback. */
     public var heartbeatFrequency: Int

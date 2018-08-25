@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Leg: Codable, Equatable {
+public class Leg: APIModel {
 
     public var arrivalPoint: Point?
 

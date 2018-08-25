@@ -6,7 +6,7 @@
 import Foundation
 
 /** DTO to capture the prediction details */
-public class Prediction: Codable, Equatable {
+public class Prediction: APIModel {
 
     /** Bearing (between 0 to 359) */
     public var bearing: String?

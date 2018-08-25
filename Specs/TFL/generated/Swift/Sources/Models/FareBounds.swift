@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class FareBounds: Codable, Equatable {
+public class FareBounds: APIModel {
 
     public var description: String?
 

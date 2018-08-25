@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class IdentityProvider: Codable, Equatable {
+public class IdentityProvider: APIModel {
 
     public var description: String
 

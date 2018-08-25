@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ServiceError: Codable, Equatable {
+public class ServiceError: APIModel {
 
     /** A description of the error. */
     public var message: String

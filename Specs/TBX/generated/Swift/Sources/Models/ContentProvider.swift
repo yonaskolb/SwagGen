@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ContentProvider: Codable, Equatable {
+public class ContentProvider: APIModel {
 
     public var description: String
 

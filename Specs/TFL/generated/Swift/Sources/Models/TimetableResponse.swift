@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TimetableResponse: Codable, Equatable {
+public class TimetableResponse: APIModel {
 
     public var direction: String?
 

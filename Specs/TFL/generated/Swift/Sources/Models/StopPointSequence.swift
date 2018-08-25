@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StopPointSequence: Codable, Equatable {
+public class StopPointSequence: APIModel {
 
     public enum ServiceType: String, Codable {
         case regular = "Regular"

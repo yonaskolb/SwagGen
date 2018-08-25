@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Crowding: Codable, Equatable {
+public class Crowding: APIModel {
 
     /** Busiest times at a station (static information) */
     public var passengerFlows: [PassengerFlow]?

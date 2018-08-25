@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ArrayTest: Codable, Equatable {
+public class ArrayTest: APIModel {
 
     public var arrayArrayOfInteger: [[Int]]?
 

@@ -6,7 +6,7 @@
 import Foundation
 
 /** Object that represents an end to end journey (see schematic). */
-public class Journey: Codable, Equatable {
+public class Journey: APIModel {
 
     public var arrivalDateTime: DateTime?
 

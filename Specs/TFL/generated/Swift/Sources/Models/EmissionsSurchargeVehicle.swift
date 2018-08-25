@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class EmissionsSurchargeVehicle: Codable, Equatable {
+public class EmissionsSurchargeVehicle: APIModel {
 
     public enum Compliance: String, Codable {
         case notCompliant = "NotCompliant"

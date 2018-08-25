@@ -6,7 +6,7 @@
 import Foundation
 
 /** Represents a period for which a planned works is valid. */
-public class ValidityPeriod: Codable, Equatable {
+public class ValidityPeriod: APIModel {
 
     /** Gets or sets the start date. */
     public var fromDate: DateTime?

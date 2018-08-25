@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DbGeographyWellKnownValue: Codable, Equatable {
+public class DbGeographyWellKnownValue: APIModel {
 
     public var coordinateSystemId: Int?
 

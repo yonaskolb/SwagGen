@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Line: Codable, Equatable {
+public class Line: APIModel {
 
     public var created: DateTime?
 

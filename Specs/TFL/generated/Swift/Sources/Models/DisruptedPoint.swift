@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DisruptedPoint: Codable, Equatable {
+public class DisruptedPoint: APIModel {
 
     public var additionalInformation: String?
 

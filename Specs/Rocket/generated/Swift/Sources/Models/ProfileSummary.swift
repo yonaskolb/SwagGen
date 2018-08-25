@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ProfileSummary: Codable, Equatable {
+public class ProfileSummary: APIModel {
 
     /** The id of the profile. */
     public var id: String

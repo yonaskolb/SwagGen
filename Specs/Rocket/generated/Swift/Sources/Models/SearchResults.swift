@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class SearchResults: Codable, Equatable {
+public class SearchResults: APIModel {
 
     /** The search term. */
     public var term: String

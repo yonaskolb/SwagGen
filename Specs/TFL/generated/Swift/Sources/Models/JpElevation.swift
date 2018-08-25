@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class JpElevation: Codable, Equatable {
+public class JpElevation: APIModel {
 
     public var distance: Int?
 

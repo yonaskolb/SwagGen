@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Vehicle: Codable, Equatable {
+public class Vehicle: APIModel {
 
     public var type: String?
 

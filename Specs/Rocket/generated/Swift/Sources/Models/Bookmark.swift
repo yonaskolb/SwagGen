@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Bookmark: Codable, Equatable {
+public class Bookmark: APIModel {
 
     /** The id of the item bookmarked. */
     public var itemId: String

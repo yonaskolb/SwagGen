@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TimeAdjustments: Codable, Equatable {
+public class TimeAdjustments: APIModel {
 
     public var earlier: TimeAdjustment?
 

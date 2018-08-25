@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Coordinate: Codable, Equatable {
+public class Coordinate: APIModel {
 
     public var easting: Double?
 

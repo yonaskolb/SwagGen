@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DateRangeNullable: Codable, Equatable {
+public class DateRangeNullable: APIModel {
 
     public var endDate: DateTime?
 

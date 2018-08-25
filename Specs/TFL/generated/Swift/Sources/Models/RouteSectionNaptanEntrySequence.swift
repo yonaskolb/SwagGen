@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RouteSectionNaptanEntrySequence: Codable, Equatable {
+public class RouteSectionNaptanEntrySequence: APIModel {
 
     public var ordinal: Int?
 

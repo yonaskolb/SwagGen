@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RegistrationRequest: Codable, Equatable {
+public class RegistrationRequest: APIModel {
 
     public var email: String
 

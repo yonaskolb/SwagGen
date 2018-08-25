@@ -2,6 +2,8 @@
 
 import Foundation
 
+public protocol APIModel: Codable, Equatable { }
+
 public typealias ID = UUID
 
 public protocol ResponseDecoder {

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PlaceCategory: Codable, Equatable {
+public class PlaceCategory: APIModel {
 
     public var availableKeys: [String]?
 

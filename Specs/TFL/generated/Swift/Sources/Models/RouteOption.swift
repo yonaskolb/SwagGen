@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RouteOption: Codable, Equatable {
+public class RouteOption: APIModel {
 
     public var directions: [String]?
 

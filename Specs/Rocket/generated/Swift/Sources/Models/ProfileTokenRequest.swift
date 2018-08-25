@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ProfileTokenRequest: Codable, Equatable {
+public class ProfileTokenRequest: APIModel {
 
     /** The scope(s) of the token(s) required. */
     public enum Scopes: String, Codable {

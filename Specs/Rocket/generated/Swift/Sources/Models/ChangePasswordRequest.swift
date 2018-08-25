@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ChangePasswordRequest: Codable, Equatable {
+public class ChangePasswordRequest: APIModel {
 
     /** The new password for the account. */
     public var password: String

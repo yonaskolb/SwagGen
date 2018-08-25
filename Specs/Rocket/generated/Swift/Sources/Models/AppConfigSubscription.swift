@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AppConfigSubscription: Codable, Equatable {
+public class AppConfigSubscription: APIModel {
 
     /** The available public plans a user can subscribe to. */
     public var plans: [Plan]?

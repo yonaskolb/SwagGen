@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class FaresSection: Codable, Equatable {
+public class FaresSection: APIModel {
 
     public var header: String?
 

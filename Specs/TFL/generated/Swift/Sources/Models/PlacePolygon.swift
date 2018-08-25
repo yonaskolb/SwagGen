@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PlacePolygon: Codable, Equatable {
+public class PlacePolygon: APIModel {
 
     public var commonName: String?
 

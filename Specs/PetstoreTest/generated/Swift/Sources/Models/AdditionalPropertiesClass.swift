@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AdditionalPropertiesClass: Codable, Equatable {
+public class AdditionalPropertiesClass: APIModel {
 
     public var mapOfMapProperty: [String: [String: String]]?
 

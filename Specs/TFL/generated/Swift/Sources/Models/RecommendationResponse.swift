@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RecommendationResponse: Codable, Equatable {
+public class RecommendationResponse: APIModel {
 
     public var recommendations: [Recommendation]?
 

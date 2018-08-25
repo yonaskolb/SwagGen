@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RouteSection: Codable, Equatable {
+public class RouteSection: APIModel {
 
     /** eg: Destination Name */
     public var destinationName: String?

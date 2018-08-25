@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StreetSegment: Codable, Equatable {
+public class StreetSegment: APIModel {
 
     /** geoJSON formatted LineString containing two latitude/longitude (WGS84) pairs that identify the start and end points of the street segment. */
     public var lineString: String?

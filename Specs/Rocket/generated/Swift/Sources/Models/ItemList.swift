@@ -6,7 +6,7 @@
 import Foundation
 
 /** A pageable list of items. */
-public class ItemList: Codable, Equatable {
+public class ItemList: APIModel {
 
     /** The id of this list */
     public var id: String

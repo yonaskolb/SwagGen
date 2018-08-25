@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Object: Codable, Equatable {
+public class Object: APIModel {
 
     public init() {
     }

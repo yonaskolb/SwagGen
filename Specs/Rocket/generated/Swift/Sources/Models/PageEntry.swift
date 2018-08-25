@@ -9,7 +9,7 @@ import Foundation
 Defines what specific piece of content should be presented e.g. an Item or ItemList.
 Also defines what visual template should be used to render that content.
  */
-public class PageEntry: Codable, Equatable {
+public class PageEntry: APIModel {
 
     /** The type of PageEntry. Used to help identify what type of content will be presented. */
     public enum `Type`: String, Codable {

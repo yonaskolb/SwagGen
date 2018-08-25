@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PassengerFlow: Codable, Equatable {
+public class PassengerFlow: APIModel {
 
     /** Time in 24hr format with 15 minute intervals e.g. 0500-0515, 0515-0530 etc. */
     public var timeSlice: String?

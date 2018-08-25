@@ -122,6 +122,7 @@ mutableModels | whether model properties are mutable | `Bool` | true
 modelType | whether each model is a `struct` or `class` | `String` | class
 modelInheritance | whether models use inheritance. Must be false for structs | Bool | true
 modelNames | override model names | `[String: String]` | [:]
+modelProtocol | customize protocol name that all models conform to | `String` | APIModel
 enumNames | override enum names | `[String: String]` | [:]
 safeArrayDecoding | filter out invalid items in array instead of throwing | `Bool` | false
 safeOptionalDecoding | set invalid optionals to nil instead of throwing | `Bool` | false

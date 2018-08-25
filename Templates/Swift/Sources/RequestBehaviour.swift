@@ -58,6 +58,10 @@ struct RequestBehaviourGroup {
     }
 
     func validate(_ urlRequest: URLRequest, complete: @escaping (RequestValidationResult) -> Void) {
+        if behaviours.isEmpty {
+            complete(.success(urlRequest))
+            return
+        }
 
         var count = 0
         var modifiedRequest = urlRequest

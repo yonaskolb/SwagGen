@@ -2,7 +2,7 @@
 
 import Foundation
 
-public protocol APIModel: Codable, Equatable { }
+public protocol {{ options.modelProtocol }}: Codable, Equatable { }
 
 public typealias ID = UUID
 

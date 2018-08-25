@@ -8,7 +8,7 @@ public typealias {{ type }} = {{ aliasType }}
 {% elif additionalPropertiesType and allProperties.count == 0 %}
 public typealias {{ type }} = [String: {{ additionalPropertiesType }}]
 {% else %}
-public {{ options.modelType }} {{ type }}: {% if parent %}{{ parent.type }}{% else %}APIModel{% endif %} {
+public {{ options.modelType }} {{ type }}: {% if parent %}{{ parent.type }}{% else %}{{ options.modelProtocol }}{% endif %} {
     {% for enum in enums %}
     {% if not enum.isGlobal %}
 

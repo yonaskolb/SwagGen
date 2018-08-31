@@ -154,6 +154,7 @@ To add support for a specific asynchronous library, just add an extension on `AP
 - **ModelWithAdditionalProperties**
 - **ModelWithBooleanAdditionalProperties**
 - **ModelWithDefinitionAdditionalProperties**
+- **ModelWithFallback**
 - **ModelWithInlineSpec**
 - **ModelWithOnlyAdditionalProperties**
 - **User**

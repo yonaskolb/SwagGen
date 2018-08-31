@@ -104,6 +104,18 @@ definitions:
     properties:
       name:
         type: string
+  ModelWithFallback:
+    description: definition with default value
+    type: object
+    required:
+      - requiredProperty
+    properties:
+      optionalProperty:
+        type: string
+        x-fallback: "john"
+      requiredProperty:
+        type: string
+        x-fallback: "stephen"
   ModelWithBooleanAdditionalProperties:
     description: definition with bool additional properties
     type: object

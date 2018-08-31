@@ -53,7 +53,7 @@ public {{ options.modelType }} {{ type }}: {% if parent %}{{ parent.type }}{% el
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         {% for property in properties %}
-        {{ property.name }} = try container.decode{% if property.isArray and not property.isAnyType %}Array{% endif %}{% if property.isAnyType %}Any{% endif %}{% if property.optional %}IfPresent{% endif %}(.{{ property.name }})
+        {{ property.name }} = try container.decode{% if property.isArray and not property.isAnyType %}Array{% endif %}{% if property.isAnyType %}Any{% endif %}{% if property.optional or property.raw.x-fallback %}IfPresent{% endif %}(.{{ property.name }}){% if property.raw.x-fallback %} ?? "{{ property.raw.x-fallback }}"{% endif %}
         {% endfor %}
         {% endif %}
         {% if additionalPropertiesType %}

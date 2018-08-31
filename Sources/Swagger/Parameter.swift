@@ -38,7 +38,7 @@ extension Parameter: JSONObjectConvertible {
         location = try jsonDictionary.json(atKeyPath: "in")
         description = jsonDictionary.json(atKeyPath: "description")
         required = (jsonDictionary.json(atKeyPath: "required")) ?? false
-        example = jsonDictionary.json(atKeyPath: "x-example")
+        example = jsonDictionary["example"] ?? jsonDictionary["x-example"]
 
         switch location {
         case .body:

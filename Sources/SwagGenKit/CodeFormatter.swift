@@ -149,6 +149,9 @@ public class CodeFormatter {
         }
 
         context["description"] = schema.metadata.description
+        context["default"] = schema.metadata.defaultValue
+        context["example"] = schema.metadata.example
+
         if modelInheritance {
             context["requiredProperties"] = schema.requiredProperties.map(getPropertyContext)
             context["optionalProperties"] = schema.optionalProperties.map(getPropertyContext)

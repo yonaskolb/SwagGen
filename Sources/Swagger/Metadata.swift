@@ -18,11 +18,11 @@ extension Metadata: JSONObjectConvertible {
         type = DataType(jsonDictionary: jsonDictionary)
         title = jsonDictionary.json(atKeyPath: "title")
         description = jsonDictionary.json(atKeyPath: "description")
-        defaultValue = jsonDictionary.json(atKeyPath: "default")
+        defaultValue = jsonDictionary["default"]
         enumValues = jsonDictionary["enum"] as? [Any]
         enumNames = jsonDictionary["x-enum-names"] as? [String]
         nullable = (jsonDictionary.json(atKeyPath: "x-nullable")) ?? false
-        example = jsonDictionary.json(atKeyPath: "example")
+        example = jsonDictionary["example"]
         json = jsonDictionary
     }
 }

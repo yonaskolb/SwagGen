@@ -31,7 +31,7 @@ $ brew install SwagGen
 ```sh
 $ git clone https://github.com/yonaskolb/SwagGen.git
 $ cd SwagGen
-$ make
+$ make install
 ```
 
 ### Swift Package Manager

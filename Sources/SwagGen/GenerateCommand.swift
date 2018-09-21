@@ -4,6 +4,7 @@ import SwagGenKit
 import Swagger
 import SwiftCLI
 import Yams
+import Rainbow
 
 // TODO: remove custom newline spacing once https://github.com/jakeheis/SwiftCLI/pull/58 get's merged and integrated
 class GenerateCommand: Command {

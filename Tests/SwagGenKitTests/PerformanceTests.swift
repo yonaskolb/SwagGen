@@ -26,7 +26,7 @@ class PerformanceTests: XCTestCase {
     func testContextGeneration() throws {
 
         let spec = try SwaggerSpec(path: specFixture)
-        let templateConfig = try TemplateConfig(path: templateFixture, options: ["name": "Petstore"])
+        let templateConfig = try TemplateConfig(path: templateFixture, options: ["name": "TestSpec"])
         let codeFormatter = SwiftFormatter(spec: spec, templateConfig: templateConfig)
 
         measure {

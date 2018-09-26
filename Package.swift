@@ -15,7 +15,7 @@ let package = Package(
         .package(url: "https://github.com/jpsim/Yams.git", from: "1.0.0"),
         .package(url: "https://github.com/yonaskolb/JSONUtilities.git", from: "3.3.0"),
         .package(url: "https://github.com/kylef/Spectre.git", from: "0.7.0"),
-        .package(url: "https://github.com/onevcat/Rainbow.git", from: "2.1.0"),
+        .package(url: "https://github.com/onevcat/Rainbow.git", from: "3.1.0"),
     ],
     targets: [
         .target(name: "SwagGen", dependencies: [

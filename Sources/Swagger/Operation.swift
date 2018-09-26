@@ -27,6 +27,10 @@ public struct Operation {
     public let tags: [String]
     public let securityRequirements: [SecurityRequirement]?
 
+    public var generatedIdentifier: String {
+        return identifier ?? "\(method)\(path)"
+    }
+
     public enum Method: String {
         case get
         case put

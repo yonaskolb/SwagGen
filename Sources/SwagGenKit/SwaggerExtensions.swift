@@ -33,7 +33,7 @@ extension SwaggerSpec {
         // add operations with no tag at ""
         let operationsWithoutTag = operations
             .filter { $0.tags.isEmpty }
-            .sorted { $0.identifier ?? "" < $1.identifier ?? "" }
+            .sorted { $0.generatedIdentifier < $1.generatedIdentifier }
         if !operationsWithoutTag.isEmpty {
             dictionary[""] = operationsWithoutTag
         }
@@ -41,7 +41,7 @@ extension SwaggerSpec {
         for tag in tags {
             dictionary[tag] = operations
                 .filter { $0.tags.contains(tag) }
-                .sorted { $0.identifier ?? "" < $1.identifier ?? "" }
+                .sorted { $0.generatedIdentifier < $1.generatedIdentifier }
         }
         return dictionary
     }

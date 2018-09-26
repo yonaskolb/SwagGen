@@ -382,16 +382,16 @@ public class CodeFormatter {
     }
 
     func escapeString(_ string: String) -> String {
-        let replacements: [String: String] = [
-            ">=": "greaterThanOrEqualTo",
-            "<=": "lessThanOrEqualTo",
-            ">": "greaterThan",
-            "<": "lessThan",
-            "$": "dollar",
-            "%": "percent",
-            "#": "hash",
-            "@": "alpha",
-            "&": "and",
+        let replacements: [(String, String)] = [
+            (">=", "greaterThanOrEqualTo"),
+            ("<=", "lessThanOrEqualTo"),
+            (">", "greaterThan"),
+            ("<", "lessThan"),
+            ("$", "dollar"),
+            ("%", "percent"),
+            ("#", "hash"),
+            ("@", "alpha"),
+            ("&", "and"),
         ]
         var escapedString = string
         for (symbol, replacement) in replacements {

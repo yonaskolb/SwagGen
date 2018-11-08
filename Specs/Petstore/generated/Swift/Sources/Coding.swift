@@ -221,7 +221,7 @@ public struct DateDay: Codable, Comparable {
     /// The date formatter used for encoding and decoding
     public static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "YYY-MM-dd"
+        formatter.dateFormat = "yyyy-MM-dd"
         formatter.calendar = .current
         return formatter
     }()

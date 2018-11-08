@@ -99,7 +99,7 @@ Dates are encoded and decoded differently according to the swagger date format. 
     - `DateTime.dateEncodingFormatter`: defaults to `yyyy-MM-dd'T'HH:mm:ss.Z`
     - `DateTime.dateDecodingFormatters`: an array of date formatters. The first one to decode successfully will be used
 - `date`
-    - `DateDay.dateFormatter`: defaults to `YYY-MM-dd`
+    - `DateDay.dateFormatter`: defaults to `yyyy-MM-dd`
 
 #### APIClientError
 This is error enum that `APIResponse.result` may contain:

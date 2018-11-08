@@ -8,6 +8,7 @@
 
 ### Fixed
 - Fixed crash in Swift template when not using any RequestBehaviours #108
+- Fixed date formatting of `DateDay` properties #114
 
 [Commits](https://github.com/yonaskolb/SwagGen/compare/3.0.0...3.0.1)
 

@@ -1,7 +1,6 @@
 import Foundation
 import JSONUtilities
 import PathKit
-import Rainbow
 import Stencil
 
 public class Generator {

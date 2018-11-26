@@ -3,6 +3,7 @@ import PathKit
 import SwagGenKit
 import Swagger
 import SwiftCLI
+import Rainbow
 import Yams
 
 // TODO: remove custom newline spacing once https://github.com/jakeheis/SwiftCLI/pull/58 get's merged and integrated

@@ -1,6 +1,22 @@
 # Change Log
 ## Master
 
+## 3.0.2
+
+### Added
+- Added `example` and `default` to the generator
+
+### Fixed
+- Changed default date formatter in templates to use `yyyy` not `YYY` #114
+- Fixed date formatting of `DateDay` properties #114
+- Fixed encoding of dictionary types #113
+
+### Internal
+- Updated to Swift 4.2
+- Updated YAMS, Rainbow and SwiftCLI
+
+[Commits](https://github.com/yonaskolb/SwagGen/compare/3.0.1...3.0.2)
+
 ## 3.0.1
 
 ### Added
@@ -8,7 +24,6 @@
 
 ### Fixed
 - Fixed crash in Swift template when not using any RequestBehaviours #108
-- Fixed date formatting of `DateDay` properties #114
 
 [Commits](https://github.com/yonaskolb/SwagGen/compare/3.0.0...3.0.1)
 

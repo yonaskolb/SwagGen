@@ -76,7 +76,7 @@ extension String {
                 defer {
                     index += 1
                 }
-                if index > 0 && string.isAcronym {
+                if index > 0, string.isAcronym {
                     return string.uppercased()
                 } else if string.count == 1 {
                     return string
@@ -117,7 +117,7 @@ extension String {
 
         let string = camelCaseSeperators()
 
-        if string == string.uppercased() && !hasSeparator {
+        if string == string.uppercased(), !hasSeparator {
             return string.lowercased()
         }
 
@@ -125,7 +125,7 @@ extension String {
     }
 
     func upperCamelCased() -> String {
-        if acronymStrings.contains(uppercased()) && !hasSeparator {
+        if acronymStrings.contains(uppercased()), !hasSeparator {
             return uppercased()
         }
         return camelCaseSeperators().mapFirstChar { $0.uppercased() }

@@ -1,9 +1,9 @@
 import Foundation
 import PathKit
+import Rainbow
 import SwagGenKit
 import Swagger
 import SwiftCLI
-import Rainbow
 import Yams
 
 // TODO: remove custom newline spacing once https://github.com/jakeheis/SwiftCLI/pull/58 get's merged and integrated
@@ -110,13 +110,15 @@ class GenerateCommand: Command {
             exitWithError("Error loading Swagger Spec: \(error)")
         }
 
-        let specCounts = getCountString(counts: [
-            ("operation", spec.paths.reduce(0) { $0 + $1.operations.count }),
-            ("definition", spec.definitions.count),
-            // ("tag", spec.tags.count),
-            ("parameter", spec.parameters.count),
-            ("security definition", spec.securityDefinitions.count),
-        ], pluralise: true)
+        let specCounts = getCountString(
+            counts: [
+                ("operation", spec.paths.reduce(0) { $0 + $1.operations.count }),
+                ("definition", spec.definitions.count),
+                // ("tag", spec.tags.count),
+                ("parameter", spec.parameters.count),
+                ("security definition", spec.securityDefinitions.count),
+            ], pluralise: true
+        )
         standardOut("Loaded spec: \"\(spec.info.title)\" - \(specCounts)")
 
         //    let invalidReferences = Array(Set(spec.invalidReferences)).sorted()
@@ -131,11 +133,13 @@ class GenerateCommand: Command {
             exitWithError("Error loading template: \(error)")
         }
 
-        let templateCounts = getCountString(counts: [
-            ("template file", templateConfig.templateFiles.count),
-            ("copied file", templateConfig.copiedFiles.count),
-            ("option", templateConfig.options.keys.count),
-        ], pluralise: true)
+        let templateCounts = getCountString(
+            counts: [
+                ("template file", templateConfig.templateFiles.count),
+                ("copied file", templateConfig.copiedFiles.count),
+                ("option", templateConfig.options.keys.count),
+            ], pluralise: true
+        )
         standardOut("Loaded template: \(templateCounts)")
 
         if verbose.value {

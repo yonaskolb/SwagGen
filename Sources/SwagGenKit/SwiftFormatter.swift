@@ -236,7 +236,7 @@ public class SwiftFormatter: CodeFormatter {
 
         let jsonTypes = ["Any", "[String: Any]", "Int", "String", "Float", "Double", "Bool"]
 
-        if !jsonTypes.contains(type) && !jsonTypes.map({ "[\($0)]" }).contains(type) && !jsonTypes.map({ "[String: \($0)]" }).contains(type) {
+        if !jsonTypes.contains(type), !jsonTypes.map({ "[\($0)]" }).contains(type), !jsonTypes.map({ "[String: \($0)]" }).contains(type) {
             if type.hasPrefix("[[") {
                 encodedValue += ".map({ $0.encode() })"
             } else if type.hasPrefix("[String: [") {

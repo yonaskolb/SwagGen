@@ -2,6 +2,7 @@ formatter: swift
 options:
   name: API # the name of the API
   fixedWidthIntegers: false # whether to use types like Int32 and Int64
+  uploadFile: Data
   mutableModels: true # whether model properties are mutable
   safeOptionalDecoding: false # set invalid optionals to nil instead of throwing
   safeArrayDecoding: false # filter out invalid items in array instead of throwing
@@ -39,13 +40,14 @@ templateFiles:
   - path: Sources/APIResult.swift
   - path: Sources/RequestBehaviour.swift
   - path: Sources/AnyCodable.swift
+  - path: Sources/APIServer.swift
   - path: Podspec.podspec
     destination: "{{ options.name }}.podspec"
   - path: Sources/enum.swift
     context: enums
     destination: "Sources/Enums/{{ enumName }}.swift"
   - path: Sources/Model.swift
-    context: definitions
+    context: schemas
     destination: "Sources/Models/{{ type }}.swift"
   - path: Sources/Request.swift
     context: operations

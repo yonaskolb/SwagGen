@@ -24,7 +24,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
     {% endif %}
     public enum {{ type }} {
 
-        public static let service = APIService<Response>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if hasFileParam %}, hasFile: true{% endif %}{% if securityRequirement %}, securityRequirement: SecurityRequirement(type: "{{ securityRequirement.name }}", scopes: [{% for scope in securityRequirement.scopes %}"{{ scope }}"{% ifnot forloop.last %}, {% endif %}{% endfor %}]){% endif %})
+        public static let service = APIService<Response>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if isUpload %}, isUpload: true{% endif %}{% if securityRequirement %}, securityRequirement: SecurityRequirement(type: "{{ securityRequirement.name }}", scopes: [{% for scope in securityRequirement.scopes %}"{{ scope }}"{% ifnot forloop.last %}, {% endif %}{% endfor %}]){% endif %})
         {% for enum in requestEnums %}
         {% if not enum.isGlobal %}
 
@@ -37,10 +37,10 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
 
             {% filter indent:12 %}{% include "Includes/Model.stencil" schema %}{% endfilter %}
             {% endfor %}
-            {% if nonBodyParams %}
+            {% if params %}
 
             public struct Options {
-                {% for param in nonBodyParams %}
+                {% for param in params %}
 
                 {% if param.description %}
                 /** {{ param.description }} */
@@ -48,8 +48,8 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 public var {{ param.name }}: {{ param.optionalType }}
                 {% endfor %}
 
-                public init({% for param in nonBodyParams %}{{param.name}}: {{param.optionalType}}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
-                    {% for param in nonBodyParams %}
+                public init({% for param in params %}{{param.name}}: {{param.optionalType}}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
+                    {% for param in params %}
                     self.{{param.name}} = {{param.name}}
                     {% endfor %}
                 }
@@ -57,31 +57,31 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
 
             public var options: Options
             {% endif %}
-            {% if bodyParam %}
+            {% if body %}
 
-            public var {{ bodyParam.name}}: {{bodyParam.optionalType}}
+            public var {{ body.name}}: {{body.optionalType}}
             {% endif %}
 
-            public init({% if bodyParam %}{{ bodyParam.name}}: {{ bodyParam.optionalType }}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}options: Options{% endif %}) {
-                {% if bodyParam %}
-                self.{{ bodyParam.name}} = {{ bodyParam.name}}
+            public init({% if body %}{{ body.name}}: {{ body.optionalType }}{% if params %}, {% endif %}{% endif %}{% if params %}options: Options{% endif %}) {
+                {% if body %}
+                self.{{ body.name}} = {{ body.name}}
                 {% endif %}
-                {% if nonBodyParams %}
+                {% if params %}
                 self.options = options
                 {% endif %}
-                super.init(service: {{ type }}.service){% if bodyParam %} {
+                super.init(service: {{ type }}.service){% if body %} {
                     let jsonEncoder = JSONEncoder()
-                    return try jsonEncoder.encode({% if bodyParam.isAnyType %}AnyCodable({{ bodyParam.name }}).value{% else %}{{ bodyParam.name }}{% endif %})
+                    return try jsonEncoder.encode({% if body.isAnyType %}AnyCodable({{ body.name }}).value{% else %}{{ body.name }}{% endif %})
                 }{% endif %}
             }
-            {% if nonBodyParams %}
+            {% if params %}
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init({% for param in params %}{{ param.name }}: {{ param.optionalType }}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
-                {% if nonBodyParams %}
-                let options = Options({% for param in nonBodyParams %}{{param.name}}: {{param.name}}{% ifnot forloop.last %}, {% endif %}{% endfor %})
+            public convenience init({% for param in params %}{{ param.name }}: {{ param.optionalType }}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}{% if params and body %}, {% endif %}{% if body %}{{ body.name}}: {{ body.optionalType}}{% ifnot body.required %} = nil{% endif %}{% endif %}) {
+                {% if params %}
+                let options = Options({% for param in params %}{{param.name}}: {{param.name}}{% ifnot forloop.last %}, {% endif %}{% endfor %})
                 {% endif %}
-                self.init({% if bodyParam %}{{ bodyParam.name}}: {{ bodyParam.name}}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}options: options{% endif %})
+                self.init({% if body %}{{ body.name}}: {{ body.name}}{% if params %}, {% endif %}{% endif %}{% if params %}options: options{% endif %})
             }
             {% endif %}
             {% if pathParams %}
@@ -90,11 +90,27 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 return super.path{% for param in pathParams %}.replacingOccurrences(of: "{" + "{{ param.name }}" + "}", with: "\(self.options.{{ param.encodedValue }})"){% endfor %}
             }
             {% endif %}
-            {% if encodedParams %}
+            {% if queryParams %}
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
-                {% for param in encodedParams %}
+                {% for param in queryParams %}
+                {% if param.optional %}
+                if let {{ param.name }} = options.{{ param.encodedValue }} {
+                  params["{{ param.value }}"] = {{ param.name }}
+                }
+                {% else %}
+                params["{{ param.value }}"] = options.{{ param.encodedValue }}
+                {% endif %}
+                {% endfor %}
+                return params
+            }
+            {% endif %}
+            {% if formProperties %}
+
+            public override var formParameters: [String: Any] {
+                var params: [String: Any] = [:]
+                {% for param in formProperties %}
                 {% if param.optional %}
                 if let {{ param.name }} = options.{{ param.encodedValue }} {
                   params["{{ param.value }}"] = {{ param.name }}

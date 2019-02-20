@@ -151,7 +151,7 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 ## Models
 
-{% for model in definitions %}
+{% for model in schemas %}
 - **{{ model.type }}**
 {% endfor %}
 

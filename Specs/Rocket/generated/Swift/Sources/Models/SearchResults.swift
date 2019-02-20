@@ -14,13 +14,11 @@ public class SearchResults: APIModel {
     public var total: Int
 
     /** The list of all items relevant to the search term.
-
 If this is present then the `movies` and `tv` lists won't be.
  */
     public var items: ItemList?
 
     /** The list of movie items relevant to the search term.
-
 If this is present then the `items` list won't be.
  */
     public var movies: ItemList?
@@ -29,7 +27,6 @@ If this is present then the `items` list won't be.
     public var people: [Person]?
 
     /** The list of tv items (shows + programs) relevant to the search term.
-
 If this is present then the `items` list won't be.
  */
     public var tv: ItemList?

@@ -2,7 +2,7 @@
 /** {{ description }} */
 {% endif %}
 {% if enum %}
-{% include "Includes/Enum.stencil" using enum %}
+{% include "Includes/Enum.stencil" enum %}
 {% elif aliasType %}
 public typealias {{ type }} = {{ aliasType }}
 {% elif additionalPropertiesType and allProperties.count == 0 %}
@@ -12,7 +12,7 @@ public {{ options.modelType }} {{ type }}: {% if parent %}{{ parent.type }}{% el
     {% for enum in enums %}
     {% if not enum.isGlobal %}
 
-    {% include "Includes/Enum.stencil" using enum %}
+    {% filter indent:4 %}{% include "Includes/Enum.stencil" enum %}{% endfilter %}
     {% endif %}
     {% endfor %}
     {% for property in properties %}
@@ -28,7 +28,7 @@ public {{ options.modelType }} {{ type }}: {% if parent %}{{ parent.type }}{% el
     {% endif %}
     {% for schema in schemas %}
 
-    {% include "Includes/Model.stencil" using schema %}
+    {% filter indent:4 %}{% include "Includes/Model.stencil" schema %}{% endfilter %}
     {% endfor %}
 
     public init({% for property in allProperties %}{{ property.name }}: {{ property.optionalType }}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {

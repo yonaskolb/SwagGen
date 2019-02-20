@@ -20,7 +20,6 @@ public class PageSummary: APIModel {
     public var template: String
 
     /** True if this page is static and doesn't have any dynamic content to load.
-
 Static pages don't need to go back to the page endpoint to load page content
 instead the page summary loaded with the sitemap should be enough to determine
 the page template type and render based on this.
@@ -28,7 +27,6 @@ the page template type and render based on this.
     public var isStatic: Bool
 
     /** True if this page is a system page type.
-
 **DEPRECATED** This property doesn't have any real use in client applications
 anymore so shouldn't be used. It especially shouldn't be used to determine if
 a page is static or not. Use the `isStatic` property instead.

@@ -16,7 +16,6 @@ extension Rocket.Content {
 
         /** By default people, movies and tv (shows + programs) will be included
         in the search results.
-
         If you don't want all of these types you can specifiy the specific
         includes you care about.
          */
@@ -41,7 +40,6 @@ extension Rocket.Content {
 
                 /** By default people, movies and tv (shows + programs) will be included
 in the search results.
-
 If you don't want all of these types you can specifiy the specific
 includes you care about.
  */
@@ -50,9 +48,7 @@ includes you care about.
                 /** When this option is set, instead of all search result items being returned
 in a single list, they will instead be returned under two lists. One for
 movies and another for tv (shows + programs).
-
 Default is undefined meaning items will be returned in a single list.
-
 The array of `people` results will alway be separate from items.
  */
                 public var group: Bool?
@@ -73,19 +69,14 @@ The array of `people` results will alway be separate from items.
                 public var segments: [String]?
 
                 /** The set of opt in feature flags which cause breaking changes to responses.
-
 While Rocket APIs look to avoid breaking changes under the active major version, the formats of responses
 may need to evolve over this time.
-
 These feature flags allow clients to select which response formats they expect and avoid breaking
 clients as these formats evolve under the current major version.
-
 ### Flags
-
 - `all` - Enable all flags. Useful for testing. _Don't use in production_.
 - `idp` - Dynamic item detail pages with schedulable rows.
 - `ldp` - Dynamic list detail pages with schedulable rows.
-
 See the `feature-flags.md` for available flag details.
  */
                 public var ff: [FeatureFlags]?

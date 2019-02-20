@@ -15,18 +15,14 @@ extension Rocket.Content {
         public static let service = APIService<Response>(id: "getItem", tag: "content", method: "GET", path: "/items/{id}", hasBody: false)
 
         /** If no value is specified no dependencies are expanded.
-
         If 'children' is specified then the list of any direct children will be expanded. For example
         seasons of a show or episodes of a season.
-
         If 'all' is specified then the parent chain will be expanded along with any child list at each level.
         For example if an episode is specified then its season will be expanded and that season's episode list.
         The season will have its show expanded and the show will have its season list expanded.
-
         The 'all' options is useful when you deep link into a show/season/episode for the first time as
         it provides full context for navigating around the show page. Subsequent navigation around
         children of the show should only need to request expand of children.
-
         If an expand is specified which is not relevant to the item type, it will be ignored.
          */
         public enum Expand: String, Codable {
@@ -41,11 +37,9 @@ extension Rocket.Content {
 
         /** Given a provided show id, it can be useful to get the details of a child season. This option
         provides a means to return the `first` or `latest` season of a show given the show id.
-
         The `expand` parameter also works here so for example you could land on a show page and request the
         latest season along with `expand=all`. This would then return the detail of the latest season with
         its list of child episode summaries, and also expand the detail of the show with its list of seasons summaries.
-
         Note the `id` parameter must be a show id for this parameter to work correctly.
          */
         public enum SelectSeason: String, Codable {
@@ -63,7 +57,6 @@ extension Rocket.Content {
             public struct Options {
 
                 /** The identifier of the item to load.
-
 The custom identifier of an item can be used here if the `use_custom_id` parameter is true.
  */
                 public var id: String
@@ -72,29 +65,23 @@ The custom identifier of an item can be used here if the `use_custom_id` paramet
                 public var maxRating: String?
 
                 /** If no value is specified no dependencies are expanded.
-
 If 'children' is specified then the list of any direct children will be expanded. For example
 seasons of a show or episodes of a season.
-
 If 'all' is specified then the parent chain will be expanded along with any child list at each level.
 For example if an episode is specified then its season will be expanded and that season's episode list.
 The season will have its show expanded and the show will have its season list expanded.
-
 The 'all' options is useful when you deep link into a show/season/episode for the first time as
 it provides full context for navigating around the show page. Subsequent navigation around
 children of the show should only need to request expand of children.
-
 If an expand is specified which is not relevant to the item type, it will be ignored.
  */
                 public var expand: Expand?
 
                 /** Given a provided show id, it can be useful to get the details of a child season. This option
 provides a means to return the `first` or `latest` season of a show given the show id.
-
 The `expand` parameter also works here so for example you could land on a show page and request the
 latest season along with `expand=all`. This would then return the detail of the latest season with
 its list of child episode summaries, and also expand the detail of the show with its list of seasons summaries.
-
 Note the `id` parameter must be a show id for this parameter to work correctly.
  */
                 public var selectSeason: SelectSeason?
@@ -112,19 +99,14 @@ Note the `id` parameter must be a show id for this parameter to work correctly.
                 public var segments: [String]?
 
                 /** The set of opt in feature flags which cause breaking changes to responses.
-
 While Rocket APIs look to avoid breaking changes under the active major version, the formats of responses
 may need to evolve over this time.
-
 These feature flags allow clients to select which response formats they expect and avoid breaking
 clients as these formats evolve under the current major version.
-
 ### Flags
-
 - `all` - Enable all flags. Useful for testing. _Don't use in production_.
 - `idp` - Dynamic item detail pages with schedulable rows.
 - `ldp` - Dynamic list detail pages with schedulable rows.
-
 See the `feature-flags.md` for available flag details.
  */
                 public var ff: [FeatureFlags]?

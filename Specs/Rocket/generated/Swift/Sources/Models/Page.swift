@@ -14,20 +14,16 @@ public class Page: PageSummary {
     public var customFields: [String: Any]?
 
     /** When the page represents the detail of an item this property will contain the item detail.
-
 For clients consuming an item detail page, any page row entry of type `ItemDetailEntry`
 should look to obtain its data from the contents of this property.
-
 *Note that you have to be using feature flag `idp` to enable this
 on item detail pages. See `feature-flags.md` for further details.*
  */
     public var item: ItemDetail?
 
     /** When the page represents the detail of a List this property will contain the list in question.
-
 For clients consuming a list detail page, any page row entry of type `ListDetailEntry`
 should look to obtain its data from the contents of this property.
-
 *Note that you have to be using feature flag `ldp` to enable this
 on list detail pages. See `feature-flags.md` for further details.*
  */

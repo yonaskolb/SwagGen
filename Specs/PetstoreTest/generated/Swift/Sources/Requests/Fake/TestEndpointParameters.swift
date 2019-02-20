@@ -12,7 +12,6 @@ extension PetstoreTest.Fake {
 假端點
 偽のエンドポイント
 가짜 엔드 포인트
-
     */
     public enum TestEndpointParameters {
 

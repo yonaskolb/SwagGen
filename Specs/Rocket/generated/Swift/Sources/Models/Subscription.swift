@@ -40,7 +40,6 @@ public class Subscription: APIModel {
     public var status: Status
 
     /** The end date of a subscription.
-
 Some subscriptions may not have an end date, in which case this
 property will not exist.
  */

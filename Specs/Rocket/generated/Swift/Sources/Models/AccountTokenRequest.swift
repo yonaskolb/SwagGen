@@ -28,7 +28,6 @@ public class AccountTokenRequest: APIModel {
     along with the token(s). This is only really intended for web based clients which
     need to pass the cookies to a server to render a page based on the users
     content filters, e.g subscription code.
-
     If type `Session` the cookie will be session based.
     If type `Persistent` the cookie will have a medium term lifespan.
     If undefined no cookies will be set.
@@ -55,7 +54,6 @@ For each scope listed an Account and Profile token of that scope will be returne
 along with the token(s). This is only really intended for web based clients which
 need to pass the cookies to a server to render a page based on the users
 content filters, e.g subscription code.
-
 If type `Session` the cookie will be session based.
 If type `Persistent` the cookie will have a medium term lifespan.
 If undefined no cookies will be set.
@@ -63,13 +61,11 @@ If undefined no cookies will be set.
     public var cookieType: CookieType?
 
     /** The password associated with the account.
-
 Either a pin or password should be supplied. If both are supplied the password will take precedence.
  */
     public var password: String?
 
     /** The pin associated with the account.
-
 Either a pin or password should be supplied. If both are supplied the password will take precedence.
  */
     public var pin: String?

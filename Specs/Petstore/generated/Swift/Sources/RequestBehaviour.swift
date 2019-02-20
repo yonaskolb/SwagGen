@@ -115,7 +115,6 @@ struct RequestBehaviourGroup {
     }
 }
 
-
 //MARK: Type erased Requests and Responses
 
 public typealias AnyResponse = APIResponse<AnyResponseValue>

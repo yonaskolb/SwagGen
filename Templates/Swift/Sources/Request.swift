@@ -23,14 +23,14 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
         {% for enum in requestEnums %}
         {% if not enum.isGlobal %}
 
-        {% include "Includes/Enum.stencil" using enum %}
+        {% filter indent:8 %}{% include "Includes/Enum.stencil" enum %}{% endfilter %}
         {% endif %}
         {% endfor %}
 
         public final class Request: APIRequest<Response> {
             {% for schema in requestSchemas %}
 
-            {% include "Includes/Model.stencil" using schema %}
+            {% filter indent:12 %}{% include "Includes/Model.stencil" schema %}{% endfilter %}
             {% endfor %}
             {% if nonBodyParams %}
 
@@ -106,12 +106,12 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
             {% for schema in responseSchemas %}
 
-            {% include "Includes/Model.stencil" using schema %}
+            {% filter indent:12 %}{% include "Includes/Model.stencil" schema %}{% endfilter %}
             {% endfor %}
             {% for enum in responseEnums %}
             {% if not enum.isGlobal %}
 
-            {% include "Includes/Enum.stencil" using enum %}
+            {% filter indent:12 %}{% include "Includes/Enum.stencil" enum %}{% endfilter %}
             {% endif %}
             {% endfor %}
             public typealias SuccessType = {{ successType|default:"Void"}}

@@ -12,18 +12,14 @@ public class AccountDevices: APIModel {
 
     /** The maximum number of playback devices that can be registered
 under an account at a single time.
-
 If there is no maximum defined this value will be `-1`.
  */
     public var maxRegistered: Int
 
     /** Defines the start and end date of the current deregistration window along with calculated limits.
-
 If undefined then there are no deregistration limits for a period.
-
 For example given a deregistration period of 30 days, this sliding window will start on the
 oldest deregistration of the last 30 days, and end 30 days from that deregistration date.
-
 In this window there is a limit on how many devices can be deregistered in 30 days.
 If exceeded then no more devices can be deregistered unless the oldest deregistration drops
 off the 30 day window.
@@ -31,16 +27,12 @@ off the 30 day window.
     public var deregistrationWindow: DeviceRegistrationWindow?
 
     /** Defines the start and end date of the current registration window along with calculated limits.
-
 If undefined then there are no registration limits for a period.
-
 For example given a registration period of 30 days, this sliding window will start on the
 oldest registration of the last 30 days, and end 30 days from that registration date.
-
 In this window there is a limit on how many devices can be registered in 30 days.
 If exceeded then no more devices can be registered unless one is deregistered or the
 oldest registration drops off the 30 day window.
-
 Deregistration also has potential limits which may prevent a device being deregistered.
 In this case the user must wait until the oldest deregistered device is more than 30
 days old.

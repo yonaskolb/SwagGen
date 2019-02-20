@@ -9,11 +9,8 @@ extension Rocket.Profile {
 
     /**
     Record the watched playhead position of a video under the active profile.
-
 Can be used later to resume a video from where it was last watched.
-
 Creates one if it doesn't exist, overwrites one if it does.
-
     */
     public enum SetItemWatchedStatus {
 

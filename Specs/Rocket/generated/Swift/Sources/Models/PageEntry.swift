@@ -52,7 +52,6 @@ public class PageEntry: APIModel {
     public var customFields: [String: Any]?
 
     /** The images for the page entry if any.
-
 For example the images of an `ImageEntry`.
  */
     public var images: [String: URL]?

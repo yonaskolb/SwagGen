@@ -9,9 +9,7 @@ extension Rocket.Profile {
 
     /**
     Bookmark an item under the active profile.
-
 Creates one if it doesn't exist, overwrites one if it does.
-
     */
     public enum BookmarkItem {
 

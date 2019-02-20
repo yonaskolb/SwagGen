@@ -9,16 +9,12 @@ extension Rocket.Support {
 
     /**
     Request the password of an account's primary profile be reset.
-
 Should be called when a user has forgotten their password.
-
 This will send an email with a password reset link to the email address of the
 primary profile of an account.
-
 The link, once clicked, should take the user to the "reset-password" page of the
 website. Here they will enter their new password and submit to the /reset-password
 endpoint here, along with the password reset token provided in the original link.
-
     */
     public enum ForgotPassword {
 

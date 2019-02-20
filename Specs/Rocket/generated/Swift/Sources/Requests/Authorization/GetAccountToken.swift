@@ -9,28 +9,21 @@ extension Rocket.Authorization {
 
     /**
     Request one or more `Account` level authorization tokens each with a chosen scope.
-
 Tokens are used to access restricted service endpoints. These restricted endpoints
 will require a specific token type (e.g Account) with a specific scope (e.g. Catalog)
 before access is granted.
-
 For convenience, where a Profile level token with the same scope exists it will also be returned.
 This removes the need to prompt a user for a password on login followed directly with a
 pin prompt for a profile token of the same scope.
-
 Where an Account level pin is supported, some tokens may be returned from this endpoint
 by providing this pin instead of a password. For example the `Playback` scoped Account
 token is one such type.
-
 Any token which is returnable with an Account pin will also be returnable with the
 Account password. On the inverse, not all scoped tokens that are returnable via password
 will be returnable via the pin. For example when you log in you receive an Account Catalog
 token. This is not obtainable from an Account pin, only password.
-
 If both a pin and password are supplied only the password will be used.
-
 If neither a pin or password are supplied an http 400 error will be returned.
-
     */
     public enum GetAccountToken {
 

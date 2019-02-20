@@ -9,9 +9,7 @@ extension Rocket.Account {
 
     /**
     Delete a profile with a specific id under the active account.
-
 Note that you cannot delete the primary profile.
-
     */
     public enum DeleteProfileWithId {
 

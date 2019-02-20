@@ -14,7 +14,6 @@ public class ProfileSummary: APIModel {
     public var name: String
 
     /** Whether the profile is active or not.
-
 **DEPRECATED** - Always true. Inactive profiles are no longer returned.
  */
     public var isActive: Bool
@@ -26,7 +25,6 @@ public class ProfileSummary: APIModel {
     public var purchaseEnabled: Bool
 
     /** Whether the profile has opted in or out of marketing material.
-
 **DEPRECATED** - Marketing material is no longer tied to profiles, only account. See `Account.marketingEnabled`.
  */
     public var marketingEnabled: Bool
@@ -35,7 +33,6 @@ public class ProfileSummary: APIModel {
     public var segments: [String]
 
     /** The maximum rating (inclusive) of content to return in feeds.
-
 **DEPRECATED** - It's no longer recommended filtering content globally as apps can end up
 with pages without content, even the homepage. Instead using features like segmentation
 tags to target demographics like kids means content curation can be more thought out.
@@ -43,7 +40,6 @@ tags to target demographics like kids means content curation can be more thought
     public var maxRatingContentFilter: ClassificationSummary?
 
     /** The minumum rating (inclusive) of content where an account pin should be presented before entring playback.
-
 **DEPRECATED** - The playback guard is now defined at the account level, where an account
 pin also exists. This is then applied across all profiles.
  */

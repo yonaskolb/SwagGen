@@ -17,7 +17,6 @@ public class NavEntry: APIModel {
     public var customFields: [String: Any]?
 
     /** True if this is a featured menu item.
-
 Featured menu items may have a more prominent presentation than others in the navigation.
  */
     public var featured: Bool?

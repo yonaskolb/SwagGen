@@ -9,25 +9,20 @@ extension Rocket.Content {
 
     /**
     Returns schedules for a defined set of channels over a requested period.
-
 Schedules are requested in hour blocks and returned grouped by the channel
 they belong to.
-
 For example, to load 12 hours of schedules for channels `4343` and `5234`,
 on 21/2/2017 starting from 08:00.
-
 ```
 channels=4343,5234
 date=2017-02-21
 hour=8
 x=12
 ```
-
 If a channel id is passed which doesn't exist then this endpoint will
 return an empty schedule list for it. If instead we returned 404,
 this would invalidate all other channel schedules in the same request
 which would be unfriendly for clients presenting these channel schedules.
-
     */
     public enum GetSchedules {
 
@@ -41,21 +36,17 @@ which would be unfriendly for clients presenting these channel schedules.
                 public var channels: [String]
 
                 /** The date to target in ISO format, e.g. `2017-05-23`.
-
 The base hour requested will belong to this date.
  */
                 public var date: DateDay
 
                 /** The base hour in the day, defined by the `date` parameter, you wish to load schedules for.
-
 From 0 to 23, where 0 is midnight.
  */
                 public var hour: Int
 
                 /** The number of hours of schedules to load from the base `hour` parameter.
-
 This may be negative or positive depending on whether you want to load past or future schedules.
-
 A value of zero is invalid.
  */
                 public var duration: Int
@@ -70,19 +61,14 @@ A value of zero is invalid.
                 public var segments: [String]?
 
                 /** The set of opt in feature flags which cause breaking changes to responses.
-
 While Rocket APIs look to avoid breaking changes under the active major version, the formats of responses
 may need to evolve over this time.
-
 These feature flags allow clients to select which response formats they expect and avoid breaking
 clients as these formats evolve under the current major version.
-
 ### Flags
-
 - `all` - Enable all flags. Useful for testing. _Don't use in production_.
 - `idp` - Dynamic item detail pages with schedulable rows.
 - `ldp` - Dynamic list detail pages with schedulable rows.
-
 See the `feature-flags.md` for available flag details.
  */
                 public var ff: [FeatureFlags]?
@@ -138,7 +124,6 @@ See the `feature-flags.md` for available flag details.
             public typealias SuccessType = [ItemScheduleList]
 
             /** An array of schedule lists for each channel requested.
-
 The order of the channels will match the order of channel ids passed during the request.
  */
             case status200([ItemScheduleList])

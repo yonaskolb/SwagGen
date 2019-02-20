@@ -9,9 +9,7 @@ extension Rocket.Account {
 
     /**
     Update the details of an account.
-
 This supports partial updates so you can send just the properties you wish to update.
-
     */
     public enum UpdateAccount {
 

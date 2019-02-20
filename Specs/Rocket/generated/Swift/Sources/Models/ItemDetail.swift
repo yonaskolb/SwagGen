@@ -17,7 +17,6 @@ public class ItemDetail: ItemSummary {
     public var credits: [Credit]?
 
     /** An ordered list of custom name-value-pair item metadata.
-
 Usually displayed on an item detail page.
  */
     public var customMetadata: [ItemCustomMetadata]?

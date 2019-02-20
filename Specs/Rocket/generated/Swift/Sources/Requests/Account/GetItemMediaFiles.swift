@@ -10,30 +10,23 @@ extension Rocket.Account {
     /**
     Get the video files associated with an item given maximum resolution, device type
 and one or more delivery types.
-
 This endpoint accepts an Account Catalog token, however if when requesting
 playback files you receive an *403 status code with error code 1* then the file
 you're requesting is classification restricted. This means you should switch
 to target the `/account/items/{id}/videos-guarded` endpoint, passing it an Account
 Playback token. If not already obtained, this token can be requested via the
 `/authorization` endpoint with an account level pin.
-
 For convenience you may also access free / public files through this endpoint
 instead of the /items/{id}/videos endpoint, when authenticated.
-
 Returns an array of video file objects which each include a url to a video.
-
 The first entry in the array contains what is predicted to be the best match.
 The remainder of the entries, if any, may contain resolutions below what was
 requests. For example if you request HD-720 the response may also contain
 SD entries.
-
 If you specify multiple delivery types, then the response array will insert
 types in the order you specify them in the query. For example `stream,progressive`
 would return an array with 0 or more stream files followed by 0 or more progressive files.
-
 If no files are found a 404 is returned.
-
     */
     public enum GetItemMediaFiles {
 
@@ -62,19 +55,14 @@ If no files are found a 404 is returned.
                 public var segments: [String]?
 
                 /** The set of opt in feature flags which cause breaking changes to responses.
-
 While Rocket APIs look to avoid breaking changes under the active major version, the formats of responses
 may need to evolve over this time.
-
 These feature flags allow clients to select which response formats they expect and avoid breaking
 clients as these formats evolve under the current major version.
-
 ### Flags
-
 - `all` - Enable all flags. Useful for testing. _Don't use in production_.
 - `idp` - Dynamic item detail pages with schedulable rows.
 - `ldp` - Dynamic list detail pages with schedulable rows.
-
 See the `feature-flags.md` for available flag details.
  */
                 public var ff: [FeatureFlags]?

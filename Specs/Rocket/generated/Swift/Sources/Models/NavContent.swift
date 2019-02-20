@@ -8,7 +8,6 @@ import Foundation
 public class NavContent: APIModel {
 
     /** The image type to target when rendering items of the list.
-
 e.g wallpaper, poster, hero3x1, logo.
  */
     public var imageType: String?

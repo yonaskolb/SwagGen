@@ -26,7 +26,6 @@ public class Account: APIModel {
     public var primaryProfileId: String
 
     /** The active subscription code for an account.
-
 The value of this should be passed to any endpoints accepting a `sub` query parameter.
  */
     public var subscriptionCode: String
@@ -49,9 +48,7 @@ The value of this should be passed to any endpoints accepting a `sub` query para
     /** The classification rating defining the minimum rating level a user should be
 forced to enter the account pin code for playback. Anything at this rating
 level or above will require the pin for playback.
-
 e.g. AUOFLC-MA15+
-
 If you want to disable this guard pass an empty string or `null`.
  */
     public var minRatingPlaybackGuard: String?

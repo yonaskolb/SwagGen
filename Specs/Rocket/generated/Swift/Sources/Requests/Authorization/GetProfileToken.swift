@@ -9,11 +9,9 @@ extension Rocket.Authorization {
 
     /**
     Request one or more `Profile` level authorization tokens each with a chosen scope.
-
 Tokens are used to access restricted service endpoints. These restriced endpoints
 will require a specific token type (e.g Profile) with a specific scope (e.g. Catalog)
 before access is granted.
-
     */
     public enum GetProfileToken {
 

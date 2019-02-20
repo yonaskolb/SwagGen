@@ -31,19 +31,14 @@ extension Rocket.Content {
                 public var segments: [String]?
 
                 /** The set of opt in feature flags which cause breaking changes to responses.
-
 While Rocket APIs look to avoid breaking changes under the active major version, the formats of responses
 may need to evolve over this time.
-
 These feature flags allow clients to select which response formats they expect and avoid breaking
 clients as these formats evolve under the current major version.
-
 ### Flags
-
 - `all` - Enable all flags. Useful for testing. _Don't use in production_.
 - `idp` - Dynamic item detail pages with schedulable rows.
 - `ldp` - Dynamic list detail pages with schedulable rows.
-
 See the `feature-flags.md` for available flag details.
  */
                 public var ff: [FeatureFlags]?

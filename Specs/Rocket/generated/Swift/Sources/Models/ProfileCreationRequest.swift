@@ -11,7 +11,6 @@ public class ProfileCreationRequest: APIModel {
     public var name: String
 
     /** Whether an account pin is required to enter the profile.
-
 If no account pin is defined this has no impact.
  */
     public var pinEnabled: Bool?

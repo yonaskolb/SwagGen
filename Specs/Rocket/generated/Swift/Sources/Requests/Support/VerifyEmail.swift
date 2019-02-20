@@ -10,14 +10,11 @@ extension Rocket.Support {
     /**
     When an account is created an email is sent to the email address of the new account.
 This contains a link, which once clicked, verifies the email address of the account is correct.
-
 The link contains a token as a query parameter which should be passed as the authorization
 bearer token to this endpoint to complete email verification.
-
 The token has en expiry, so if the link is not clicked before it expires, the account holder
 may need to request a new verification email be sent. This can be done via the endpoint
 /account/request-email-verification.
-
     */
     public enum VerifyEmail {
 

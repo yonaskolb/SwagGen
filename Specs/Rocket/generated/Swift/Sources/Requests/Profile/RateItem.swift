@@ -9,9 +9,7 @@ extension Rocket.Profile {
 
     /**
     Rate an item under the active profile.
-
 Creates one if it doesn't exist, overwrites one if it does.
-
     */
     public enum RateItem {
 

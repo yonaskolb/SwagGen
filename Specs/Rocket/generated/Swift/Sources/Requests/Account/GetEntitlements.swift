@@ -9,10 +9,8 @@ extension Rocket.Account {
 
     /**
     Get all entitlements under the account.
-
 This list is returned under the call to get account information so a call here is
 only required when wishing to refresh a local copy of entitlements.
-
     */
     public enum GetEntitlements {
 

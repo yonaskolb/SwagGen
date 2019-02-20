@@ -19,17 +19,11 @@ extension Rocket.Content {
             public struct Options {
 
                 /** A comma delimited list of item list identifiers.
-
 These can be list ids e.g. `14354,65473,3234`
-
 Or more complex sort/filter queries using pipes e.g.
-
 `14354|max_rating=AUOFLC-E|order=asc|order_by=year-added,65473|page_size=30,3234`
-
 _Note the id must always come first for each encoded list query_
-
 List parameters may be provide without the `param=` prefix e.g. `14354|genre:action`
-
 Only the following options can be present.
   - `order`
   - `order_by`
@@ -65,19 +59,14 @@ Only the following options can be present.
                 public var segments: [String]?
 
                 /** The set of opt in feature flags which cause breaking changes to responses.
-
 While Rocket APIs look to avoid breaking changes under the active major version, the formats of responses
 may need to evolve over this time.
-
 These feature flags allow clients to select which response formats they expect and avoid breaking
 clients as these formats evolve under the current major version.
-
 ### Flags
-
 - `all` - Enable all flags. Useful for testing. _Don't use in production_.
 - `idp` - Dynamic item detail pages with schedulable rows.
 - `ldp` - Dynamic list detail pages with schedulable rows.
-
 See the `feature-flags.md` for available flag details.
  */
                 public var ff: [FeatureFlags]?

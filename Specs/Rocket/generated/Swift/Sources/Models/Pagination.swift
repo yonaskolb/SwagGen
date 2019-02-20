@@ -8,7 +8,6 @@ import Foundation
 public class Pagination: APIModel {
 
     /** The total number of pages available given the current page size.
-
 A value of -1 indicates that the total has not yet been determined. This may
 arise when embedding secure list pagination info in a page which must be cached
 by a CDN. For example a Bookmarks list.
@@ -16,7 +15,6 @@ by a CDN. For example a Bookmarks list.
     public var total: Int
 
     /** The current page number.
-
 A value of 0 indicates that the fist page has not yet been loaded. This is
 useful when wanting to return the paging metadata to indicate how to
 load in the first page.
@@ -24,7 +22,6 @@ load in the first page.
     public var page: Int
 
     /** The authorization requirements to load a page of items.
-
 This will only be present on lists which are protected by some form
 of authorization token e.g. Bookmarks, Watched, Entitlements.
  */
@@ -34,7 +31,6 @@ of authorization token e.g. Bookmarks, Watched, Entitlements.
     public var next: String?
 
     /** Any active list sort and filter options.
-
 If an option has a default value then it won't be defined.
  */
     public var options: PaginationOptions?
@@ -43,7 +39,6 @@ If an option has a default value then it won't be defined.
     public var previous: String?
 
     /** The current page size.
-
 A value of -1 indicates that the size has not yet been determined. This may
 arise when embedding secure list pagination info in a page which must be cached
 by a CDN. For example a Bookmarks list.

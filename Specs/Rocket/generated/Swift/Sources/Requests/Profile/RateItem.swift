@@ -47,7 +47,7 @@ Creates one if it doesn't exist, overwrites one if it does.
                 return super.path.replacingOccurrences(of: "{" + "itemId" + "}", with: "\(self.options.itemId)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["rating"] = options.rating
                 return params

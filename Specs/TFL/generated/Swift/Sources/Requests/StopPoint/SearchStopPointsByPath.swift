@@ -62,7 +62,7 @@ extension TFL.StopPoint {
                 return super.path.replacingOccurrences(of: "{" + "query" + "}", with: "\(self.options.query)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let modes = options.modes?.joined(separator: ",") {
                   params["modes"] = modes

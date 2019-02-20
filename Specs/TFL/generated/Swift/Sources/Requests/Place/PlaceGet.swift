@@ -45,7 +45,7 @@ extension TFL.Place {
                 return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let includeChildren = options.includeChildren {
                   params["includeChildren"] = includeChildren

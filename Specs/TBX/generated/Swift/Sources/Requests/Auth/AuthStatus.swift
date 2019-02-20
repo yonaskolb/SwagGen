@@ -45,7 +45,7 @@ extension TBX.Auth {
                 return super.path.replacingOccurrences(of: "{" + "cp" + "}", with: "\(self.options.cp)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let callback = options.callback {
                   params["callback"] = callback

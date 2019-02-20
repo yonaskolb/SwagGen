@@ -45,7 +45,7 @@ extension TBX.UserService {
                 return super.path.replacingOccurrences(of: "{" + "customer" + "}", with: "\(self.options.customer)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let device = options.device {
                   params["device"] = device

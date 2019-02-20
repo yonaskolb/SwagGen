@@ -37,7 +37,7 @@ extension Petstore.Pets {
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let limit = options.limit {
                   params["limit"] = limit

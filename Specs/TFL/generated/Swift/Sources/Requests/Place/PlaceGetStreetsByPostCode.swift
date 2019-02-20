@@ -39,7 +39,7 @@ extension TFL.Place {
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["postcode"] = options.postcode
                 if let postcodeInputPostcode = options.postcodeInputPostcode {

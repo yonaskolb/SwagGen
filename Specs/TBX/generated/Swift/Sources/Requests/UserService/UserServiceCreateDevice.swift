@@ -53,7 +53,7 @@ extension TBX.UserService {
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var formParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["subscriberId"] = options.subscriberId
                 params["country"] = options.country

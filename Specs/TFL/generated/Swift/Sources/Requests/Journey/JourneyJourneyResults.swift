@@ -219,7 +219,7 @@ extension TFL.Journey {
                 return super.path.replacingOccurrences(of: "{" + "from" + "}", with: "\(self.options.from)").replacingOccurrences(of: "{" + "to" + "}", with: "\(self.options.to)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let via = options.via {
                   params["via"] = via

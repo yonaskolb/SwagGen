@@ -37,7 +37,7 @@ extension TFL.Search {
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["query"] = options.query
                 return params

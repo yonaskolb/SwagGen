@@ -41,7 +41,7 @@ extension PetstoreTest.Pet {
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["tags"] = options.tags.joined(separator: ",")
                 return params

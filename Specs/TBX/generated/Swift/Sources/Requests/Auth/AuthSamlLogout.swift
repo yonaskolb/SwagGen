@@ -39,7 +39,7 @@ extension TBX.Auth {
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let sAMLResponse = options.sAMLResponse {
                   params["SAMLResponse"] = sAMLResponse

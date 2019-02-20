@@ -41,7 +41,7 @@ extension TFL.Place {
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["name"] = options.name
                 if let types = options.types?.joined(separator: ",") {

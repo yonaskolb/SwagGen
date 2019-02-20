@@ -41,7 +41,7 @@ extension TBX.AuthorizationService {
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["api_key"] = options.apiKey
                 params["userToken"] = options.userToken

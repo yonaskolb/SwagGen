@@ -14,14 +14,8 @@ extension TestSpec {
 
         public final class Request: APIRequest<Response> {
 
-            public var body: String?
-
-            public init(body: String?) {
-                self.body = body
-                super.init(service: PostString.service) {
-                    let jsonEncoder = JSONEncoder()
-                    return try jsonEncoder.encode(body)
-                }
+            public init() {
+                super.init(service: PostString.service)
             }
         }
 

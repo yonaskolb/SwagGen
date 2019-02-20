@@ -49,7 +49,7 @@ extension TBX.UserService {
                 return super.path.replacingOccurrences(of: "{" + "customer" + "}", with: "\(self.options.customer)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var formParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["days"] = options.days
                 if let device = options.device {

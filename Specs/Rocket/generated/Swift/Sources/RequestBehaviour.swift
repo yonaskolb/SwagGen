@@ -128,7 +128,7 @@ public class AnyRequest: APIRequest<AnyResponseValue> {
 
     init<T>(request: APIRequest<T>) {
         requestPath = request.path
-        super.init(service: request.service.asAny(), parameters: request.parameters, headers: request.headers, encodeBody: request.encodeBody)
+        super.init(service: request.service.asAny(), queryParameters: request.queryParameters, formParameters: request.formParameters, headers: request.headers, encodeBody: request.encodeBody)
     }
 }
 

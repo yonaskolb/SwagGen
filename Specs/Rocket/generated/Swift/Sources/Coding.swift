@@ -333,3 +333,12 @@ extension String {
         return self
     }
 }
+
+extension Data {
+
+    func encode() -> Any {
+        return self
+    }
+}
+
+public typealias File = Data

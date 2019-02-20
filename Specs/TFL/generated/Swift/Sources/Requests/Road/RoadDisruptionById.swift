@@ -45,7 +45,7 @@ extension TFL.Road {
                 return super.path.replacingOccurrences(of: "{" + "disruptionIds" + "}", with: "\(self.options.disruptionIds.joined(separator: ","))")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let stripContent = options.stripContent {
                   params["stripContent"] = stripContent

@@ -45,7 +45,7 @@ extension TFL.StopPoint {
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["id"] = options.id
                 if let lineIds = options.lineIds?.joined(separator: ",") {

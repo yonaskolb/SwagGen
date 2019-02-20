@@ -10,7 +10,7 @@ extension PetstoreTest.Pet {
     /** uploads an image */
     public enum UploadFile {
 
-        public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, hasFile: true, securityRequirement: SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"]))
+        public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, isUpload: true, securityRequirement: SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"]))
 
         public final class Request: APIRequest<Response> {
 
@@ -23,9 +23,9 @@ extension PetstoreTest.Pet {
                 public var additionalMetadata: String?
 
                 /** file to upload */
-                public var file: File?
+                public var file: Data?
 
-                public init(petId: Int, additionalMetadata: String? = nil, file: File? = nil) {
+                public init(petId: Int, additionalMetadata: String? = nil, file: Data? = nil) {
                     self.petId = petId
                     self.additionalMetadata = additionalMetadata
                     self.file = file
@@ -40,7 +40,7 @@ extension PetstoreTest.Pet {
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(petId: Int, additionalMetadata: String? = nil, file: File? = nil) {
+            public convenience init(petId: Int, additionalMetadata: String? = nil, file: Data? = nil) {
                 let options = Options(petId: petId, additionalMetadata: additionalMetadata, file: file)
                 self.init(options: options)
             }
@@ -49,7 +49,7 @@ extension PetstoreTest.Pet {
                 return super.path.replacingOccurrences(of: "{" + "petId" + "}", with: "\(self.options.petId)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var formParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let additionalMetadata = options.additionalMetadata {
                   params["additionalMetadata"] = additionalMetadata

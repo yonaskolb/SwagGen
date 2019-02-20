@@ -25,22 +25,22 @@ extension TBX.UserService {
                 /** Type of Token */
                 public var type: String
 
-                /** Token expiration date */
-                public var expiration: DateTime?
+                /** Extra data to device */
+                public var attributes: String?
 
                 /** Token credits */
                 public var credits: Double?
 
-                /** Extra data to device */
-                public var attributes: String?
+                /** Token expiration date */
+                public var expiration: DateTime?
 
-                public init(subscriberId: String, country: String, type: String, expiration: DateTime? = nil, credits: Double? = nil, attributes: String? = nil) {
+                public init(subscriberId: String, country: String, type: String, attributes: String? = nil, credits: Double? = nil, expiration: DateTime? = nil) {
                     self.subscriberId = subscriberId
                     self.country = country
                     self.type = type
-                    self.expiration = expiration
-                    self.credits = credits
                     self.attributes = attributes
+                    self.credits = credits
+                    self.expiration = expiration
                 }
             }
 
@@ -52,24 +52,24 @@ extension TBX.UserService {
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(subscriberId: String, country: String, type: String, expiration: DateTime? = nil, credits: Double? = nil, attributes: String? = nil) {
-                let options = Options(subscriberId: subscriberId, country: country, type: type, expiration: expiration, credits: credits, attributes: attributes)
+            public convenience init(subscriberId: String, country: String, type: String, attributes: String? = nil, credits: Double? = nil, expiration: DateTime? = nil) {
+                let options = Options(subscriberId: subscriberId, country: country, type: type, attributes: attributes, credits: credits, expiration: expiration)
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var formParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["subscriberId"] = options.subscriberId
                 params["country"] = options.country
                 params["type"] = options.type
-                if let expiration = options.expiration?.encode() {
-                  params["expiration"] = expiration
+                if let attributes = options.attributes {
+                  params["attributes"] = attributes
                 }
                 if let credits = options.credits {
                   params["credits"] = credits
                 }
-                if let attributes = options.attributes {
-                  params["attributes"] = attributes
+                if let expiration = options.expiration?.encode() {
+                  params["expiration"] = expiration
                 }
                 return params
             }

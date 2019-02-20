@@ -49,7 +49,7 @@ extension Petstore.Pets {
                 return super.path.replacingOccurrences(of: "{" + "petId" + "}", with: "\(self.options.petId)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var formParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let name = options.name {
                   params["name"] = name

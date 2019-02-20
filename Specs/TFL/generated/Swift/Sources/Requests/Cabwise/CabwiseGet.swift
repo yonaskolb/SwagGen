@@ -73,7 +73,7 @@ extension TFL.Cabwise {
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["lat"] = options.lat
                 params["lon"] = options.lon

@@ -61,7 +61,7 @@ extension TBX.Auth {
                 return super.path.replacingOccurrences(of: "{" + "cp" + "}", with: "\(self.options.cp)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["idp"] = options.idp
                 if let `return` = options.`return` {

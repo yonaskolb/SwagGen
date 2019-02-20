@@ -45,7 +45,7 @@ extension TFL.StopPoint {
                 return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let output = options.output {
                   params["output"] = output

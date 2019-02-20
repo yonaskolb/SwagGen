@@ -1,6 +1,6 @@
 import JSONUtilities
 
-public struct StringItem {
+public struct StringSchema {
     public let format: StringFormat?
     public let maxLength: Int?
     public let minLength: Int?
@@ -29,6 +29,7 @@ public enum StringFormat: RawRepresentable {
     public enum StringFormatType: String {
         case byte
         case binary
+        case base64
         case date
         case dateTime = "date-time"
         case email
@@ -41,7 +42,7 @@ public enum StringFormat: RawRepresentable {
     }
 }
 
-extension StringItem {
+extension StringSchema {
 
     public init(jsonDictionary: JSONDictionary) {
         format = jsonDictionary.json(atKeyPath: "format")

@@ -3,15 +3,37 @@ import JSONUtilities
 public struct Schema {
     public let metadata: Metadata
     public let type: SchemaType
+
+    init(metadata: Metadata, type: SchemaType) {
+        self.metadata = metadata
+        self.type = type
+    }
 }
 
 public enum SchemaType {
     indirect case reference(Reference<Schema>)
     indirect case object(ObjectSchema)
     indirect case array(ArraySchema)
-    indirect case allOf(AllOfSchema)
-    case simple(SimpleType)
+    indirect case group(GroupSchema)
+    case boolean
+    case string(StringSchema)
+    case number(NumberSchema)
+    case integer(IntegerSchema)
     case any
+
+    public var object: ObjectSchema? {
+        switch self {
+        case .object(let schema): return schema
+        default: return nil
+        }
+    }
+
+    public var isPrimitive: Bool {
+        switch self {
+        case .boolean, .string, .number, .integer: return true
+        case .reference, .object, .array, .group, .any: return false
+        }
+    }
 }
 
 extension Schema: JSONObjectConvertible {
@@ -25,21 +47,26 @@ extension Schema: JSONObjectConvertible {
 extension SchemaType: JSONObjectConvertible {
 
     public init(jsonDictionary: JSONDictionary) throws {
-        if let simpleType = SimpleType(jsonDictionary: jsonDictionary) {
-            self = .simple(simpleType)
-        } else if let dataType = DataType(jsonDictionary: jsonDictionary) {
+        if let dataType = DataType(jsonDictionary: jsonDictionary) {
             switch dataType {
             case .array:
                 self = .array(try ArraySchema(jsonDictionary: jsonDictionary))
             case .object:
                 self = .object(try ObjectSchema(jsonDictionary: jsonDictionary))
-            default:
-                throw SwaggerError.invalidSchemaType(jsonDictionary)
+            case .string:
+                self = .string(StringSchema(jsonDictionary: jsonDictionary))
+            case .number:
+                self = .number(NumberSchema(jsonDictionary: jsonDictionary))
+            case .integer:
+                self = .integer(IntegerSchema(jsonDictionary: jsonDictionary))
+            case .boolean:
+                self = .boolean
             }
         } else if jsonDictionary["$ref"] != nil {
             self = .reference(try Reference(jsonDictionary: jsonDictionary))
-        } else if jsonDictionary["allOf"] != nil {
-            self = .allOf(try AllOfSchema(jsonDictionary: jsonDictionary))
+        } else if jsonDictionary["allOf"] != nil || jsonDictionary["anyOf"] != nil || jsonDictionary["oneOf"] != nil  {
+            let group = try GroupSchema(jsonDictionary: jsonDictionary)
+            self = .group(group)
         } else {
             self = .any
         }

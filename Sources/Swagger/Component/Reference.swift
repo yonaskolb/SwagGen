@@ -1,6 +1,6 @@
 import JSONUtilities
 
-public class Reference<T: JSONObjectConvertible> {
+public class Reference<T: Component> {
 
     let string: String
 
@@ -24,8 +24,8 @@ public class Reference<T: JSONObjectConvertible> {
         self.init(string)
     }
 
-    public var swaggerObject: SwaggerObject<T> {
-        return SwaggerObject(name: name, value: value)
+    public var component: ComponentObject<T> {
+        return ComponentObject(name: name, value: value)
     }
 
     func resolve(with value: T) {
@@ -39,15 +39,15 @@ public class Reference<T: JSONObjectConvertible> {
     }
 
     public var referenceType: String? {
-        return getReferenceComponent(index: 1)
+        return getReferenceComponent(index: 2)
     }
 
     public var referenceName: String? {
-        return getReferenceComponent(index: 2)
+        return getReferenceComponent(index: 3)
     }
 }
 
-public enum PossibleReference<T: JSONObjectConvertible>: JSONObjectConvertible {
+public enum PossibleReference<T: Component>: JSONObjectConvertible {
 
     case reference(Reference<T>)
     case value(T)
@@ -66,9 +66,9 @@ public enum PossibleReference<T: JSONObjectConvertible>: JSONObjectConvertible {
         return nil
     }
 
-    public var swaggerObject: SwaggerObject<T>? {
+    public var swaggerObject: ComponentObject<T>? {
         if case let .reference(reference) = self {
-            return reference.swaggerObject
+            return reference.component
         }
         return nil
     }

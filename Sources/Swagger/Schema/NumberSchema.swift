@@ -1,6 +1,6 @@
 import JSONUtilities
 
-public struct NumberItem {
+public struct NumberSchema {
     public let format: NumberFormat?
     public let maximum: Double?
     public let exclusiveMaximum: Double?
@@ -14,7 +14,7 @@ public enum NumberFormat: String {
     case double
 }
 
-extension NumberItem {
+extension NumberSchema {
 
     public init(jsonDictionary: JSONDictionary) {
         format = jsonDictionary.json(atKeyPath: "format")

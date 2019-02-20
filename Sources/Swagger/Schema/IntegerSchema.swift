@@ -1,6 +1,6 @@
 import JSONUtilities
 
-public struct IntegerItem {
+public struct IntegerSchema {
     public let format: IntegerFormat?
     public let minimum: Int?
     public let maximum: Int?
@@ -14,7 +14,7 @@ public enum IntegerFormat: String {
     case int64
 }
 
-extension IntegerItem {
+extension IntegerSchema {
 
     public init(jsonDictionary: JSONDictionary) {
         format = jsonDictionary.json(atKeyPath: "format")

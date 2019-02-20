@@ -6,9 +6,14 @@ public struct ObjectSchema {
     public let properties: [Property]
     public let minProperties: Int?
     public let maxProperties: Int?
-    public let additionalProperties: AdditionalProperties
-    public let discriminator: String?
+    public let additionalProperties: Schema?
     public let abstract: Bool
+}
+
+public struct Property {
+    public let name: String
+    public let required: Bool
+    public let schema: Schema
 }
 
 extension ObjectSchema: JSONObjectConvertible {
@@ -35,8 +40,15 @@ extension ObjectSchema: JSONObjectConvertible {
 
         minProperties = jsonDictionary.json(atKeyPath: "minProperties")
         maxProperties = jsonDictionary.json(atKeyPath: "maxProperties")
-        additionalProperties = AdditionalProperties(jsonDictionary: jsonDictionary, key: "additionalProperties")
-        discriminator = jsonDictionary.json(atKeyPath: "discriminator")
+        if let bool: Bool = jsonDictionary.json(atKeyPath: "additionalProperties") {
+            if bool {
+                additionalProperties = Schema(metadata: Metadata(), type: .any)
+            } else {
+                additionalProperties = nil
+            }
+        } else {
+            additionalProperties = jsonDictionary.json(atKeyPath: "additionalProperties")
+        }
         abstract = (jsonDictionary.json(atKeyPath: "x-abstract")) ?? false
     }
 }

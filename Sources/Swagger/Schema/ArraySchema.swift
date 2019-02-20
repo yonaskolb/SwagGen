@@ -4,7 +4,7 @@ public struct ArraySchema {
     public let items: ArraySchemaItems
     public let minItems: Int?
     public let maxItems: Int?
-    public let additionalItems: AdditionalProperties
+    public let additionalItems: Schema?
     public let uniqueItems: Bool
 
     public enum ArraySchemaItems {
@@ -27,7 +27,7 @@ extension ArraySchema: JSONObjectConvertible {
 
         minItems = jsonDictionary.json(atKeyPath: "minItems")
         maxItems = jsonDictionary.json(atKeyPath: "maxItems")
-        additionalItems = AdditionalProperties(jsonDictionary: jsonDictionary, key: "additionalItems")
+        additionalItems = jsonDictionary.json(atKeyPath: "additionalItems")
         uniqueItems = jsonDictionary.json(atKeyPath: "uniqueItems") ?? false
     }
 }

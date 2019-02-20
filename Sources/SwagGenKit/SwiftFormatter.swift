@@ -78,29 +78,24 @@ public class SwiftFormatter: CodeFormatter {
         super.init(spec: spec, templateConfig: templateConfig)
     }
 
-    override func getItemType(name: String, item: Item, checkEnum: Bool = true) -> String {
+    override func getSchemaType(name: String, schema: Schema, checkEnum: Bool = true) -> String {
 
         var enumValue: String?
         if checkEnum {
-            enumValue = item.metadata.getEnum(name: name, type: .item(item), description: "").flatMap { getEnumContext($0)["enumName"] as? String }
+            enumValue = schema.getEnum(name: name, description: "").flatMap { getEnumContext($0)["enumName"] as? String }
         }
-        // TODO: support nonstring enums
 
-        switch item.type {
-        case let .array(item):
-            let type = getItemType(name: name, item: item.items, checkEnum: checkEnum)
-            return checkEnum ? "[\(enumValue ?? type)]" : type
-        case let .simpleType(simpleType):
-            if simpleType.canBeEnum, let enumValue = enumValue {
-                return enumValue
-            } else {
-                return getSimpleType(simpleType)
-            }
+        if schema.generateInlineSchema {
+            return escapeType(name.upperCamelCased())
         }
-    }
 
-    func getSimpleType(_ simpleType: SimpleType) -> String {
-        switch simpleType {
+        if schema.canBeEnum, let enumValue = enumValue {
+            return enumValue
+        }
+
+        switch schema.type {
+        case .boolean:
+            return "Bool"
         case let .string(item):
             guard let format = item.format else {
                 return "String"
@@ -108,7 +103,9 @@ public class SwiftFormatter: CodeFormatter {
             switch format {
             case let .format(format):
                 switch format {
-                case .binary, .byte: return "String" // TODO: Data
+                case .binary: return "Data"
+                case .byte: return "Data"
+                case .base64: return "String"
                 case .dateTime: return "DateTime"
                 case .date: return "DateDay"
                 case .email, .hostname, .ipv4, .ipv6, .password: return "String"
@@ -138,29 +135,6 @@ public class SwiftFormatter: CodeFormatter {
             } else {
                 return "Int"
             }
-        case .boolean:
-            return "Bool"
-        case .file: return "File"
-        }
-    }
-
-    override func getSchemaType(name: String, schema: Schema, checkEnum: Bool = true) -> String {
-        var enumValue: String?
-        if checkEnum {
-            enumValue = schema.getEnum(name: name, description: "").flatMap { getEnumContext($0)["enumName"] as? String }
-        }
-
-        if schema.generateInlineSchema {
-            return escapeType(name.upperCamelCased())
-        }
-
-        switch schema.type {
-        case let .simple(simpleType):
-            if simpleType.canBeEnum, let enumValue = enumValue {
-                return enumValue
-            } else {
-                return getSimpleType(simpleType)
-            }
         case let .array(arraySchema):
             switch arraySchema.items {
             case let .single(type):
@@ -171,37 +145,25 @@ public class SwiftFormatter: CodeFormatter {
                 return checkEnum ? "[\(enumValue ?? typeString)]" : typeString
             }
         case let .object(schema):
-            //            if schema.properties.isEmpty {
-            switch schema.additionalProperties {
-            case .bool:
-                return "[String: Any]"
-            case let .schema(schema):
-                let typeString = getSchemaType(name: name, schema: schema, checkEnum: checkEnum)
+            if let additionalProperties = schema.additionalProperties {
+                let typeString = getSchemaType(name: name, schema: additionalProperties, checkEnum: checkEnum)
                 return checkEnum ? "[String: \(enumValue ?? typeString)]" : typeString
+            } else {
+                return "[String: Any]"
             }
-        //            } else {
-        //                return getModelType(name)
-        //            }
         case let .reference(reference):
-            return getSchemaTypeName(reference.swaggerObject)
-        case .allOf: return "UNKNOWN_ALL_OFF"
-        case .any: return "UNKNOWN_ANY"
+            return getSchemaTypeName(reference.component)
+        case .group(let group): return "UNKNOWN_\(group.type)"
+        case .any: return "Any"
         }
     }
 
     override func getSchemaContext(_ schema: Schema) -> Context {
         var context = super.getSchemaContext(schema)
 
-        if case let .object(objectSchema) = schema.type {
-
-            switch objectSchema.additionalProperties {
-            case let .bool(bool):
-                if bool {
-                    context["additionalPropertiesType"] = "Any"
-                }
-            case let .schema(schema):
-                context["additionalPropertiesType"] = getSchemaType(name: "Anonymous", schema: schema)
-            }
+        if let objectSchema = schema.type.object,
+            let additionalProperties = objectSchema.additionalProperties {
+            context["additionalPropertiesType"] = getSchemaType(name: "Anonymous", schema: additionalProperties)
         }
 
         return context
@@ -216,18 +178,26 @@ public class SwiftFormatter: CodeFormatter {
         context["optionalType"] = type + (parameter.required ? "" : "?")
         var encodedValue = getEncodedValue(name: getName(name), type: type)
 
-        if case let .other(items) = parameter.type,
-            case let .array(item) = items.type {
+        if case let .schema(schema) = parameter.type,
+            case .array = schema.schema.type,
+            let collectionFormat = schema.collectionFormat {
             if type != "[String]" {
                 encodedValue += ".map({ String(describing: $0) })"
             }
-            encodedValue += ".joined(separator: \"\(item.collectionFormat.separator)\")"
+            encodedValue += ".joined(separator: \"\(collectionFormat.separator)\")"
         }
         if !parameter.required, let range = encodedValue.range(of: ".") {
             encodedValue = encodedValue.replacingOccurrences(of: ".", with: "?.", options: [], range: range)
         }
         context["encodedValue"] = encodedValue
         context["isAnyType"] = type.contains("Any")
+        return context
+    }
+
+    override func getRequestBodyContext(_ requestBody: PossibleReference<RequestBody>) -> Context {
+        var context = super.getRequestBodyContext(requestBody)
+        let type = context["type"] as! String
+        context["optionalType"] = type + (requestBody.value.required ? "" : "?")
         return context
     }
 

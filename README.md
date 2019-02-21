@@ -6,14 +6,22 @@
 [![Build Status](https://img.shields.io/circleci/project/github/yonaskolb/SwagGen.svg?style=for-the-badge)](https://circleci.com/gh/yonaskolb/SwagGen)
 [![license](https://img.shields.io/github/license/yonaskolb/SwagGen.svg?style=for-the-badge)](https://github.com/yonaskolb/SwagGen/blob/master/LICENSE)
 
-SwagGen is a command line tool that generates client code from a [Swagger/OpenAPI](http://swagger.io) 2.0 Spec.
+SwagGen is a library and command line tool for parsing and generating code for [OpenAPI/Swagger 3.0](https://swagger.io/specification) specs, completely written in Swift.
 
-It is an alternative the official [swagger-codegen](https://github.com/swagger-api/swagger-codegen) java code generator, and adds some improvements such as speed, configurability, simplicity, extensibility, an improved templating language, and a great Swift template.
+#### Swagger parser
+It contains a `Swagger` library that can be used in Swift to load and parse Swagger specs.
 
-The default Swift templates it generates include support for model inheritance, shared enums, mutable parameter structs, convenience initialisers, inline schemas, Codable and Equatable models, configurable model options, generic networking stack, decoding options, and many other niceties.
+#### Swagger code generator
+`SwagGen` is command line tool that generates code from a [OpenAPI/Swagger 3.0](https://swagger.io/specification) spec.
+Templates for any language can be written that leverage this generator.
+
+It is an alternative the official [swagger-codegen](https://github.com/swagger-api/swagger-codegen) java code generator, and adds some improvements such as speed, configurability, simplicity, extensibility, and an improved templating language.
+
+#### Swift template
+`SwagGen` includes a bundled template for generating a client side Swift library for interfacing with the Swagger spec. It includes support for model inheritance, shared enums, discrete and mutable request objects, inline schemas, Codable and Equatable models, configurable options, generic networking stack, and many other niceties.
 
 ## Installing
-Make sure Xcode 9.3 is installed first.
+Make sure Xcode 10.0 is installed first.
 
 ### [Mint](https://github.com/yonaskolb/mint)
 ```sh
@@ -49,13 +57,14 @@ $ swift run
 Add the following to your Package.swift file's dependencies:
 
 ```swift
-.package(url: "https://github.com/yonaskolb/SwagGen.git", from: "1.1.0"),
+.package(url: "https://github.com/yonaskolb/SwagGen.git", from: "4.0.0"),
 ```
 
 And then import wherever needed:
 
 ```swift
 import SwagGenKit
+import Swagger
 ```
 
 ## Usage

@@ -17,6 +17,8 @@ options:
     Notification: EngagementNotification
     Payment: PaymentData
   enumNames: {} # override enum type names
+  typeAliases:
+    ID: UUID
   dependencies:
     - name: Alamofire
       pod: Alamofire

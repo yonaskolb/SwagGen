@@ -6,7 +6,9 @@ import Foundation
 public protocol {{ options.modelProtocol }}: Codable, Equatable { }
 {% endif %}
 
-public typealias ID = UUID
+{% for type, typealias in options.typeAliases %}
+public typealias {{ type }} = {{ typealias }}
+{% endfor %}
 
 public protocol ResponseDecoder {
 

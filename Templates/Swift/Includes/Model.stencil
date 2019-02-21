@@ -109,6 +109,7 @@ public {{ options.modelType }} {{ type }}: {% if parent %}{{ parent.type }}{% el
     }
     {% endif %}
 
+    {% if options.modelType == "class" %}
     {% if parent %}override {% endif %}public func isEqual(to object: Any?) -> Bool {
       {% if properties.count > 0 or additionalPropertiesType %}
       guard let object = object as? {{ type }} else { return false }
@@ -136,6 +137,7 @@ public {{ options.modelType }} {{ type }}: {% if parent %}{{ parent.type }}{% el
     public static func == (lhs: {{ type }}, rhs: {{ type }}) -> Bool {
         return lhs.isEqual(to: rhs)
     }
+    {% endif %}
     {% endif %}
 }
 {% endif %}

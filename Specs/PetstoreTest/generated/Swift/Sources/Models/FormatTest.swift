@@ -49,56 +49,40 @@ public class FormatTest: APIModel {
         self.uuid = uuid
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case number
-        case byte
-        case date
-        case password
-        case binary
-        case dateTime
-        case double
-        case float
-        case int32
-        case int64
-        case integer
-        case string
-        case uuid
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        number = try container.decode(.number)
-        byte = try container.decode(.byte)
-        date = try container.decode(.date)
-        password = try container.decode(.password)
-        binary = try container.decodeIfPresent(.binary)
-        dateTime = try container.decodeIfPresent(.dateTime)
-        double = try container.decodeIfPresent(.double)
-        float = try container.decodeIfPresent(.float)
-        int32 = try container.decodeIfPresent(.int32)
-        int64 = try container.decodeIfPresent(.int64)
-        integer = try container.decodeIfPresent(.integer)
-        string = try container.decodeIfPresent(.string)
-        uuid = try container.decodeIfPresent(.uuid)
+        number = try container.decode("number")
+        byte = try container.decode("byte")
+        date = try container.decode("date")
+        password = try container.decode("password")
+        binary = try container.decodeIfPresent("binary")
+        dateTime = try container.decodeIfPresent("dateTime")
+        double = try container.decodeIfPresent("double")
+        float = try container.decodeIfPresent("float")
+        int32 = try container.decodeIfPresent("int32")
+        int64 = try container.decodeIfPresent("int64")
+        integer = try container.decodeIfPresent("integer")
+        string = try container.decodeIfPresent("string")
+        uuid = try container.decodeIfPresent("uuid")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(number, forKey: .number)
-        try container.encode(byte, forKey: .byte)
-        try container.encode(date, forKey: .date)
-        try container.encode(password, forKey: .password)
-        try container.encodeIfPresent(binary, forKey: .binary)
-        try container.encodeIfPresent(dateTime, forKey: .dateTime)
-        try container.encodeIfPresent(double, forKey: .double)
-        try container.encodeIfPresent(float, forKey: .float)
-        try container.encodeIfPresent(int32, forKey: .int32)
-        try container.encodeIfPresent(int64, forKey: .int64)
-        try container.encodeIfPresent(integer, forKey: .integer)
-        try container.encodeIfPresent(string, forKey: .string)
-        try container.encodeIfPresent(uuid, forKey: .uuid)
+        try container.encode(number, forKey: "number")
+        try container.encode(byte, forKey: "byte")
+        try container.encode(date, forKey: "date")
+        try container.encode(password, forKey: "password")
+        try container.encodeIfPresent(binary, forKey: "binary")
+        try container.encodeIfPresent(dateTime, forKey: "dateTime")
+        try container.encodeIfPresent(double, forKey: "double")
+        try container.encodeIfPresent(float, forKey: "float")
+        try container.encodeIfPresent(int32, forKey: "int32")
+        try container.encodeIfPresent(int64, forKey: "int64")
+        try container.encodeIfPresent(integer, forKey: "integer")
+        try container.encodeIfPresent(string, forKey: "string")
+        try container.encodeIfPresent(uuid, forKey: "uuid")
     }
 
     public func isEqual(to object: Any?) -> Bool {

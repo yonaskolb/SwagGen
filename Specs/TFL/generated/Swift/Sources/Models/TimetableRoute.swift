@@ -16,23 +16,18 @@ public class TimetableRoute: APIModel {
         self.stationIntervals = stationIntervals
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case schedules
-        case stationIntervals
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        schedules = try container.decodeArrayIfPresent(.schedules)
-        stationIntervals = try container.decodeArrayIfPresent(.stationIntervals)
+        schedules = try container.decodeArrayIfPresent("schedules")
+        stationIntervals = try container.decodeArrayIfPresent("stationIntervals")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(schedules, forKey: .schedules)
-        try container.encodeIfPresent(stationIntervals, forKey: .stationIntervals)
+        try container.encodeIfPresent(schedules, forKey: "schedules")
+        try container.encodeIfPresent(stationIntervals, forKey: "stationIntervals")
     }
 
     public func isEqual(to object: Any?) -> Bool {

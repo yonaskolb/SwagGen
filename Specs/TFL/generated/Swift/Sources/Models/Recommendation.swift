@@ -64,71 +64,50 @@ public class Recommendation: APIModel {
         self.zones = zones
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case cost
-        case discountCard
-        case fareType
-        case gettingYourTicket
-        case id
-        case keyFeatures
-        case notes
-        case priceComparison
-        case priceDescription
-        case product
-        case productType
-        case rank
-        case recommendedTopUp
-        case rule
-        case singleFare
-        case ticketTime
-        case ticketType
-        case zones
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        cost = try container.decodeIfPresent(.cost)
-        discountCard = try container.decodeIfPresent(.discountCard)
-        fareType = try container.decodeIfPresent(.fareType)
-        gettingYourTicket = try container.decodeArrayIfPresent(.gettingYourTicket)
-        id = try container.decodeIfPresent(.id)
-        keyFeatures = try container.decodeArrayIfPresent(.keyFeatures)
-        notes = try container.decodeArrayIfPresent(.notes)
-        priceComparison = try container.decodeIfPresent(.priceComparison)
-        priceDescription = try container.decodeIfPresent(.priceDescription)
-        product = try container.decodeIfPresent(.product)
-        productType = try container.decodeIfPresent(.productType)
-        rank = try container.decodeIfPresent(.rank)
-        recommendedTopUp = try container.decodeIfPresent(.recommendedTopUp)
-        rule = try container.decodeIfPresent(.rule)
-        singleFare = try container.decodeIfPresent(.singleFare)
-        ticketTime = try container.decodeIfPresent(.ticketTime)
-        ticketType = try container.decodeIfPresent(.ticketType)
-        zones = try container.decodeIfPresent(.zones)
+        cost = try container.decodeIfPresent("cost")
+        discountCard = try container.decodeIfPresent("discountCard")
+        fareType = try container.decodeIfPresent("fareType")
+        gettingYourTicket = try container.decodeArrayIfPresent("gettingYourTicket")
+        id = try container.decodeIfPresent("id")
+        keyFeatures = try container.decodeArrayIfPresent("keyFeatures")
+        notes = try container.decodeArrayIfPresent("notes")
+        priceComparison = try container.decodeIfPresent("priceComparison")
+        priceDescription = try container.decodeIfPresent("priceDescription")
+        product = try container.decodeIfPresent("product")
+        productType = try container.decodeIfPresent("productType")
+        rank = try container.decodeIfPresent("rank")
+        recommendedTopUp = try container.decodeIfPresent("recommendedTopUp")
+        rule = try container.decodeIfPresent("rule")
+        singleFare = try container.decodeIfPresent("singleFare")
+        ticketTime = try container.decodeIfPresent("ticketTime")
+        ticketType = try container.decodeIfPresent("ticketType")
+        zones = try container.decodeIfPresent("zones")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(cost, forKey: .cost)
-        try container.encodeIfPresent(discountCard, forKey: .discountCard)
-        try container.encodeIfPresent(fareType, forKey: .fareType)
-        try container.encodeIfPresent(gettingYourTicket, forKey: .gettingYourTicket)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(keyFeatures, forKey: .keyFeatures)
-        try container.encodeIfPresent(notes, forKey: .notes)
-        try container.encodeIfPresent(priceComparison, forKey: .priceComparison)
-        try container.encodeIfPresent(priceDescription, forKey: .priceDescription)
-        try container.encodeIfPresent(product, forKey: .product)
-        try container.encodeIfPresent(productType, forKey: .productType)
-        try container.encodeIfPresent(rank, forKey: .rank)
-        try container.encodeIfPresent(recommendedTopUp, forKey: .recommendedTopUp)
-        try container.encodeIfPresent(rule, forKey: .rule)
-        try container.encodeIfPresent(singleFare, forKey: .singleFare)
-        try container.encodeIfPresent(ticketTime, forKey: .ticketTime)
-        try container.encodeIfPresent(ticketType, forKey: .ticketType)
-        try container.encodeIfPresent(zones, forKey: .zones)
+        try container.encodeIfPresent(cost, forKey: "cost")
+        try container.encodeIfPresent(discountCard, forKey: "discountCard")
+        try container.encodeIfPresent(fareType, forKey: "fareType")
+        try container.encodeIfPresent(gettingYourTicket, forKey: "gettingYourTicket")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(keyFeatures, forKey: "keyFeatures")
+        try container.encodeIfPresent(notes, forKey: "notes")
+        try container.encodeIfPresent(priceComparison, forKey: "priceComparison")
+        try container.encodeIfPresent(priceDescription, forKey: "priceDescription")
+        try container.encodeIfPresent(product, forKey: "product")
+        try container.encodeIfPresent(productType, forKey: "productType")
+        try container.encodeIfPresent(rank, forKey: "rank")
+        try container.encodeIfPresent(recommendedTopUp, forKey: "recommendedTopUp")
+        try container.encodeIfPresent(rule, forKey: "rule")
+        try container.encodeIfPresent(singleFare, forKey: "singleFare")
+        try container.encodeIfPresent(ticketTime, forKey: "ticketTime")
+        try container.encodeIfPresent(ticketType, forKey: "ticketType")
+        try container.encodeIfPresent(zones, forKey: "zones")
     }
 
     public func isEqual(to object: Any?) -> Bool {

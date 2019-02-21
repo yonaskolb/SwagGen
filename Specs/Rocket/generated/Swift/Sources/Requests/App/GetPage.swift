@@ -7,12 +7,11 @@ import Foundation
 
 extension Rocket.App {
 
-    /**
-    Returns a page with the specified id.
+    /** Returns a page with the specified id.
 If targeting the search page you must url encode the search term as a parameter
 using the `q` key. For example if your browser path looks like `/search?q=the`
 then what you pass to this endpoint would look like `/page?path=/search%3Fq%3Dthe`.
-    */
+ */
     public enum GetPage {
 
         public static let service = APIService<Response>(id: "getPage", tag: "app", method: "GET", path: "/page", hasBody: false)

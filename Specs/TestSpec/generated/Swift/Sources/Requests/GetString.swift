@@ -7,12 +7,10 @@ import Foundation
 
 extension TestSpec {
 
-    /**
-    operation with string response
-    */
+    /** operation with string response */
     public enum GetString {
 
-        public static let service = APIService<Response>(id: "getString", tag: "", method: "GET", path: "/string", hasBody: false, securityRequirement: SecurityRequirement(type: "test_auth", scope: "read"))
+        public static let service = APIService<Response>(id: "getString", tag: "", method: "GET", path: "/string", hasBody: false, securityRequirement: SecurityRequirement(type: "test_auth", scopes: ["read"]))
 
         public final class Request: APIRequest<Response> {
 

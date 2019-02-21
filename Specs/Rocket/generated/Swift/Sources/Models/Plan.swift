@@ -123,74 +123,52 @@ public class Plan: APIModel {
         self.price = price
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case tagline
-        case type
-        case isFeatured
-        case isActive
-        case isPrivate
-        case revenueType
-        case subscriptionCode
-        case alias
-        case benefits
-        case billingPeriodType
-        case billingPeriodFrequency
-        case hasTrialPeriod
-        case trialPeriodDays
-        case termsAndConditions
-        case currency
-        case customFields
-        case price
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        id = try container.decode(.id)
-        title = try container.decode(.title)
-        tagline = try container.decode(.tagline)
-        type = try container.decode(.type)
-        isFeatured = try container.decode(.isFeatured)
-        isActive = try container.decode(.isActive)
-        isPrivate = try container.decode(.isPrivate)
-        revenueType = try container.decode(.revenueType)
-        subscriptionCode = try container.decode(.subscriptionCode)
-        alias = try container.decode(.alias)
-        benefits = try container.decodeArray(.benefits)
-        billingPeriodType = try container.decode(.billingPeriodType)
-        billingPeriodFrequency = try container.decode(.billingPeriodFrequency)
-        hasTrialPeriod = try container.decode(.hasTrialPeriod)
-        trialPeriodDays = try container.decode(.trialPeriodDays)
-        termsAndConditions = try container.decode(.termsAndConditions)
-        currency = try container.decode(.currency)
-        customFields = try container.decodeAnyIfPresent(.customFields)
-        price = try container.decodeIfPresent(.price)
+        id = try container.decode("id")
+        title = try container.decode("title")
+        tagline = try container.decode("tagline")
+        type = try container.decode("type")
+        isFeatured = try container.decode("isFeatured")
+        isActive = try container.decode("isActive")
+        isPrivate = try container.decode("isPrivate")
+        revenueType = try container.decode("revenueType")
+        subscriptionCode = try container.decode("subscriptionCode")
+        alias = try container.decode("alias")
+        benefits = try container.decodeArray("benefits")
+        billingPeriodType = try container.decode("billingPeriodType")
+        billingPeriodFrequency = try container.decode("billingPeriodFrequency")
+        hasTrialPeriod = try container.decode("hasTrialPeriod")
+        trialPeriodDays = try container.decode("trialPeriodDays")
+        termsAndConditions = try container.decode("termsAndConditions")
+        currency = try container.decode("currency")
+        customFields = try container.decodeAnyIfPresent("customFields")
+        price = try container.decodeIfPresent("price")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(id, forKey: .id)
-        try container.encode(title, forKey: .title)
-        try container.encode(tagline, forKey: .tagline)
-        try container.encode(type, forKey: .type)
-        try container.encode(isFeatured, forKey: .isFeatured)
-        try container.encode(isActive, forKey: .isActive)
-        try container.encode(isPrivate, forKey: .isPrivate)
-        try container.encode(revenueType, forKey: .revenueType)
-        try container.encode(subscriptionCode, forKey: .subscriptionCode)
-        try container.encode(alias, forKey: .alias)
-        try container.encode(benefits, forKey: .benefits)
-        try container.encode(billingPeriodType, forKey: .billingPeriodType)
-        try container.encode(billingPeriodFrequency, forKey: .billingPeriodFrequency)
-        try container.encode(hasTrialPeriod, forKey: .hasTrialPeriod)
-        try container.encode(trialPeriodDays, forKey: .trialPeriodDays)
-        try container.encode(termsAndConditions, forKey: .termsAndConditions)
-        try container.encode(currency, forKey: .currency)
-        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
-        try container.encodeIfPresent(price, forKey: .price)
+        try container.encode(id, forKey: "id")
+        try container.encode(title, forKey: "title")
+        try container.encode(tagline, forKey: "tagline")
+        try container.encode(type, forKey: "type")
+        try container.encode(isFeatured, forKey: "isFeatured")
+        try container.encode(isActive, forKey: "isActive")
+        try container.encode(isPrivate, forKey: "isPrivate")
+        try container.encode(revenueType, forKey: "revenueType")
+        try container.encode(subscriptionCode, forKey: "subscriptionCode")
+        try container.encode(alias, forKey: "alias")
+        try container.encode(benefits, forKey: "benefits")
+        try container.encode(billingPeriodType, forKey: "billingPeriodType")
+        try container.encode(billingPeriodFrequency, forKey: "billingPeriodFrequency")
+        try container.encode(hasTrialPeriod, forKey: "hasTrialPeriod")
+        try container.encode(trialPeriodDays, forKey: "trialPeriodDays")
+        try container.encode(termsAndConditions, forKey: "termsAndConditions")
+        try container.encode(currency, forKey: "currency")
+        try container.encodeAnyIfPresent(customFields, forKey: "customFields")
+        try container.encodeIfPresent(price, forKey: "price")
     }
 
     public func isEqual(to object: Any?) -> Bool {

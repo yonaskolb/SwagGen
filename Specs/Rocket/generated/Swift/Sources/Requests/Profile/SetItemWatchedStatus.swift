@@ -7,14 +7,13 @@ import Foundation
 
 extension Rocket.Profile {
 
-    /**
-    Record the watched playhead position of a video under the active profile.
+    /** Record the watched playhead position of a video under the active profile.
 Can be used later to resume a video from where it was last watched.
 Creates one if it doesn't exist, overwrites one if it does.
-    */
+ */
     public enum SetItemWatchedStatus {
 
-        public static let service = APIService<Response>(id: "setItemWatchedStatus", tag: "profile", method: "PUT", path: "/account/profile/watched/{itemId}", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "setItemWatchedStatus", tag: "profile", method: "PUT", path: "/account/profile/watched/{itemId}", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scopes: ["Catalog"]))
 
         public final class Request: APIRequest<Response> {
 

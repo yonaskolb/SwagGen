@@ -40,35 +40,26 @@ If this is present then the `items` list won't be.
         self.tv = tv
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case term
-        case total
-        case items
-        case movies
-        case people
-        case tv
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        term = try container.decode(.term)
-        total = try container.decode(.total)
-        items = try container.decodeIfPresent(.items)
-        movies = try container.decodeIfPresent(.movies)
-        people = try container.decodeArrayIfPresent(.people)
-        tv = try container.decodeIfPresent(.tv)
+        term = try container.decode("term")
+        total = try container.decode("total")
+        items = try container.decodeIfPresent("items")
+        movies = try container.decodeIfPresent("movies")
+        people = try container.decodeArrayIfPresent("people")
+        tv = try container.decodeIfPresent("tv")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(term, forKey: .term)
-        try container.encode(total, forKey: .total)
-        try container.encodeIfPresent(items, forKey: .items)
-        try container.encodeIfPresent(movies, forKey: .movies)
-        try container.encodeIfPresent(people, forKey: .people)
-        try container.encodeIfPresent(tv, forKey: .tv)
+        try container.encode(term, forKey: "term")
+        try container.encode(total, forKey: "total")
+        try container.encodeIfPresent(items, forKey: "items")
+        try container.encodeIfPresent(movies, forKey: "movies")
+        try container.encodeIfPresent(people, forKey: "people")
+        try container.encodeIfPresent(tv, forKey: "tv")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -7,9 +7,7 @@ import Foundation
 
 extension TBX.Auth {
 
-    /**
-    Get Javascript SDK
-    */
+    /** Get Javascript SDK */
     public enum AuthGenerateJavascript {
 
         public static let service = APIService<Response>(id: "auth.generateJavascript", tag: "auth", method: "GET", path: "/auth/{cp}/auth.js", hasBody: false)

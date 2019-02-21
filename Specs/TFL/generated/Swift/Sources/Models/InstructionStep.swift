@@ -91,56 +91,40 @@ public class InstructionStep: APIModel {
         self.turnDirection = turnDirection
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case cumulativeDistance
-        case cumulativeTravelTime
-        case description
-        case descriptionHeading
-        case distance
-        case latitude
-        case longitude
-        case pathAttribute
-        case skyDirection
-        case skyDirectionDescription
-        case streetName
-        case trackType
-        case turnDirection
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        cumulativeDistance = try container.decodeIfPresent(.cumulativeDistance)
-        cumulativeTravelTime = try container.decodeIfPresent(.cumulativeTravelTime)
-        description = try container.decodeIfPresent(.description)
-        descriptionHeading = try container.decodeIfPresent(.descriptionHeading)
-        distance = try container.decodeIfPresent(.distance)
-        latitude = try container.decodeIfPresent(.latitude)
-        longitude = try container.decodeIfPresent(.longitude)
-        pathAttribute = try container.decodeIfPresent(.pathAttribute)
-        skyDirection = try container.decodeIfPresent(.skyDirection)
-        skyDirectionDescription = try container.decodeIfPresent(.skyDirectionDescription)
-        streetName = try container.decodeIfPresent(.streetName)
-        trackType = try container.decodeIfPresent(.trackType)
-        turnDirection = try container.decodeIfPresent(.turnDirection)
+        cumulativeDistance = try container.decodeIfPresent("cumulativeDistance")
+        cumulativeTravelTime = try container.decodeIfPresent("cumulativeTravelTime")
+        description = try container.decodeIfPresent("description")
+        descriptionHeading = try container.decodeIfPresent("descriptionHeading")
+        distance = try container.decodeIfPresent("distance")
+        latitude = try container.decodeIfPresent("latitude")
+        longitude = try container.decodeIfPresent("longitude")
+        pathAttribute = try container.decodeIfPresent("pathAttribute")
+        skyDirection = try container.decodeIfPresent("skyDirection")
+        skyDirectionDescription = try container.decodeIfPresent("skyDirectionDescription")
+        streetName = try container.decodeIfPresent("streetName")
+        trackType = try container.decodeIfPresent("trackType")
+        turnDirection = try container.decodeIfPresent("turnDirection")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(cumulativeDistance, forKey: .cumulativeDistance)
-        try container.encodeIfPresent(cumulativeTravelTime, forKey: .cumulativeTravelTime)
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(descriptionHeading, forKey: .descriptionHeading)
-        try container.encodeIfPresent(distance, forKey: .distance)
-        try container.encodeIfPresent(latitude, forKey: .latitude)
-        try container.encodeIfPresent(longitude, forKey: .longitude)
-        try container.encodeIfPresent(pathAttribute, forKey: .pathAttribute)
-        try container.encodeIfPresent(skyDirection, forKey: .skyDirection)
-        try container.encodeIfPresent(skyDirectionDescription, forKey: .skyDirectionDescription)
-        try container.encodeIfPresent(streetName, forKey: .streetName)
-        try container.encodeIfPresent(trackType, forKey: .trackType)
-        try container.encodeIfPresent(turnDirection, forKey: .turnDirection)
+        try container.encodeIfPresent(cumulativeDistance, forKey: "cumulativeDistance")
+        try container.encodeIfPresent(cumulativeTravelTime, forKey: "cumulativeTravelTime")
+        try container.encodeIfPresent(description, forKey: "description")
+        try container.encodeIfPresent(descriptionHeading, forKey: "descriptionHeading")
+        try container.encodeIfPresent(distance, forKey: "distance")
+        try container.encodeIfPresent(latitude, forKey: "latitude")
+        try container.encodeIfPresent(longitude, forKey: "longitude")
+        try container.encodeIfPresent(pathAttribute, forKey: "pathAttribute")
+        try container.encodeIfPresent(skyDirection, forKey: "skyDirection")
+        try container.encodeIfPresent(skyDirectionDescription, forKey: "skyDirectionDescription")
+        try container.encodeIfPresent(streetName, forKey: "streetName")
+        try container.encodeIfPresent(trackType, forKey: "trackType")
+        try container.encodeIfPresent(turnDirection, forKey: "turnDirection")
     }
 
     public func isEqual(to object: Any?) -> Bool {

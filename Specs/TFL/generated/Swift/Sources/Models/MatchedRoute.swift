@@ -42,41 +42,30 @@ public class MatchedRoute: APIModel {
         self.serviceType = serviceType
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case destination
-        case destinationName
-        case direction
-        case name
-        case originationName
-        case originator
-        case routeCode
-        case serviceType
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        destination = try container.decodeIfPresent(.destination)
-        destinationName = try container.decodeIfPresent(.destinationName)
-        direction = try container.decodeIfPresent(.direction)
-        name = try container.decodeIfPresent(.name)
-        originationName = try container.decodeIfPresent(.originationName)
-        originator = try container.decodeIfPresent(.originator)
-        routeCode = try container.decodeIfPresent(.routeCode)
-        serviceType = try container.decodeIfPresent(.serviceType)
+        destination = try container.decodeIfPresent("destination")
+        destinationName = try container.decodeIfPresent("destinationName")
+        direction = try container.decodeIfPresent("direction")
+        name = try container.decodeIfPresent("name")
+        originationName = try container.decodeIfPresent("originationName")
+        originator = try container.decodeIfPresent("originator")
+        routeCode = try container.decodeIfPresent("routeCode")
+        serviceType = try container.decodeIfPresent("serviceType")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(destination, forKey: .destination)
-        try container.encodeIfPresent(destinationName, forKey: .destinationName)
-        try container.encodeIfPresent(direction, forKey: .direction)
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(originationName, forKey: .originationName)
-        try container.encodeIfPresent(originator, forKey: .originator)
-        try container.encodeIfPresent(routeCode, forKey: .routeCode)
-        try container.encodeIfPresent(serviceType, forKey: .serviceType)
+        try container.encodeIfPresent(destination, forKey: "destination")
+        try container.encodeIfPresent(destinationName, forKey: "destinationName")
+        try container.encodeIfPresent(direction, forKey: "direction")
+        try container.encodeIfPresent(name, forKey: "name")
+        try container.encodeIfPresent(originationName, forKey: "originationName")
+        try container.encodeIfPresent(originator, forKey: "originator")
+        try container.encodeIfPresent(routeCode, forKey: "routeCode")
+        try container.encodeIfPresent(serviceType, forKey: "serviceType")
     }
 
     public func isEqual(to object: Any?) -> Bool {

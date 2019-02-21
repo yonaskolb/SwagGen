@@ -28,35 +28,26 @@ public class ContentIdentityCountry: APIModel {
         self.showInList = showInList
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case order
-        case contentProvider
-        case country
-        case id
-        case identityProvider
-        case showInList
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        order = try container.decode(.order)
-        contentProvider = try container.decodeIfPresent(.contentProvider)
-        country = try container.decodeIfPresent(.country)
-        id = try container.decodeIfPresent(.id)
-        identityProvider = try container.decodeIfPresent(.identityProvider)
-        showInList = try container.decodeIfPresent(.showInList)
+        order = try container.decode("order")
+        contentProvider = try container.decodeIfPresent("contentProvider")
+        country = try container.decodeIfPresent("country")
+        id = try container.decodeIfPresent("id")
+        identityProvider = try container.decodeIfPresent("identityProvider")
+        showInList = try container.decodeIfPresent("showInList")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(order, forKey: .order)
-        try container.encodeIfPresent(contentProvider, forKey: .contentProvider)
-        try container.encodeIfPresent(country, forKey: .country)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(identityProvider, forKey: .identityProvider)
-        try container.encodeIfPresent(showInList, forKey: .showInList)
+        try container.encode(order, forKey: "order")
+        try container.encodeIfPresent(contentProvider, forKey: "contentProvider")
+        try container.encodeIfPresent(country, forKey: "country")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(identityProvider, forKey: "identityProvider")
+        try container.encodeIfPresent(showInList, forKey: "showInList")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -16,23 +16,18 @@ public class LineSpecificServiceType: APIModel {
         self.stopServesServiceType = stopServesServiceType
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case serviceType
-        case stopServesServiceType
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        serviceType = try container.decodeIfPresent(.serviceType)
-        stopServesServiceType = try container.decodeIfPresent(.stopServesServiceType)
+        serviceType = try container.decodeIfPresent("serviceType")
+        stopServesServiceType = try container.decodeIfPresent("stopServesServiceType")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(serviceType, forKey: .serviceType)
-        try container.encodeIfPresent(stopServesServiceType, forKey: .stopServesServiceType)
+        try container.encodeIfPresent(serviceType, forKey: "serviceType")
+        try container.encodeIfPresent(stopServesServiceType, forKey: "stopServesServiceType")
     }
 
     public func isEqual(to object: Any?) -> Bool {

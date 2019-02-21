@@ -19,26 +19,20 @@ public class ApiResponse: APIModel {
         self.type = type
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case code
-        case message
-        case type
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        code = try container.decodeIfPresent(.code)
-        message = try container.decodeIfPresent(.message)
-        type = try container.decodeIfPresent(.type)
+        code = try container.decodeIfPresent("code")
+        message = try container.decodeIfPresent("message")
+        type = try container.decodeIfPresent("type")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(code, forKey: .code)
-        try container.encodeIfPresent(message, forKey: .message)
-        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(code, forKey: "code")
+        try container.encodeIfPresent(message, forKey: "message")
+        try container.encodeIfPresent(type, forKey: "type")
     }
 
     public func isEqual(to object: Any?) -> Bool {

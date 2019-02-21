@@ -18,23 +18,18 @@ public class ServiceError: APIModel {
         self.code = code
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case message
-        case code
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        message = try container.decode(.message)
-        code = try container.decodeIfPresent(.code)
+        message = try container.decode("message")
+        code = try container.decodeIfPresent("code")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(message, forKey: .message)
-        try container.encodeIfPresent(code, forKey: .code)
+        try container.encode(message, forKey: "message")
+        try container.encodeIfPresent(code, forKey: "code")
     }
 
     public func isEqual(to object: Any?) -> Bool {

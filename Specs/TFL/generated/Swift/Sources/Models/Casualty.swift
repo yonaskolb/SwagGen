@@ -25,32 +25,24 @@ public class Casualty: APIModel {
         self.severity = severity
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case age
-        case ageBand
-        case `class` = "class"
-        case mode
-        case severity
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        age = try container.decodeIfPresent(.age)
-        ageBand = try container.decodeIfPresent(.ageBand)
-        `class` = try container.decodeIfPresent(.`class`)
-        mode = try container.decodeIfPresent(.mode)
-        severity = try container.decodeIfPresent(.severity)
+        age = try container.decodeIfPresent("age")
+        ageBand = try container.decodeIfPresent("ageBand")
+        `class` = try container.decodeIfPresent("class")
+        mode = try container.decodeIfPresent("mode")
+        severity = try container.decodeIfPresent("severity")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(age, forKey: .age)
-        try container.encodeIfPresent(ageBand, forKey: .ageBand)
-        try container.encodeIfPresent(`class`, forKey: .`class`)
-        try container.encodeIfPresent(mode, forKey: .mode)
-        try container.encodeIfPresent(severity, forKey: .severity)
+        try container.encodeIfPresent(age, forKey: "age")
+        try container.encodeIfPresent(ageBand, forKey: "ageBand")
+        try container.encodeIfPresent(`class`, forKey: "class")
+        try container.encodeIfPresent(mode, forKey: "mode")
+        try container.encodeIfPresent(severity, forKey: "severity")
     }
 
     public func isEqual(to object: Any?) -> Bool {

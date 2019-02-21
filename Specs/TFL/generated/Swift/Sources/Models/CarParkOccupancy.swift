@@ -22,29 +22,22 @@ public class CarParkOccupancy: APIModel {
         self.name = name
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case bays
-        case carParkDetailsUrl
-        case id
-        case name
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        bays = try container.decodeArrayIfPresent(.bays)
-        carParkDetailsUrl = try container.decodeIfPresent(.carParkDetailsUrl)
-        id = try container.decodeIfPresent(.id)
-        name = try container.decodeIfPresent(.name)
+        bays = try container.decodeArrayIfPresent("bays")
+        carParkDetailsUrl = try container.decodeIfPresent("carParkDetailsUrl")
+        id = try container.decodeIfPresent("id")
+        name = try container.decodeIfPresent("name")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(bays, forKey: .bays)
-        try container.encodeIfPresent(carParkDetailsUrl, forKey: .carParkDetailsUrl)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(bays, forKey: "bays")
+        try container.encodeIfPresent(carParkDetailsUrl, forKey: "carParkDetailsUrl")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(name, forKey: "name")
     }
 
     public func isEqual(to object: Any?) -> Bool {

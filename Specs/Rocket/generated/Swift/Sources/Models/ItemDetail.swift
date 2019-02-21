@@ -88,69 +88,49 @@ Specific to a Program item type.
         super.init(id: id, type: type, path: path, title: title, availableEpisodeCount: availableEpisodeCount, availableSeasonCount: availableSeasonCount, averageUserRating: averageUserRating, badge: badge, classification: classification, contextualTitle: contextualTitle, customFields: customFields, customId: customId, duration: duration, episodeCount: episodeCount, episodeNumber: episodeNumber, genres: genres, hasClosedCaptions: hasClosedCaptions, images: images, offers: offers, releaseYear: releaseYear, scopes: scopes, seasonId: seasonId, seasonNumber: seasonNumber, shortDescription: shortDescription, showId: showId, tagline: tagline, watchPath: watchPath)
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case advisoryText
-        case copyright
-        case credits
-        case customMetadata
-        case description
-        case distributor
-        case episodeName
-        case episodes
-        case eventDate
-        case genrePaths
-        case location
-        case season
-        case seasons
-        case show
-        case totalUserRatings
-        case trailers
-        case venue
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        advisoryText = try container.decodeIfPresent(.advisoryText)
-        copyright = try container.decodeIfPresent(.copyright)
-        credits = try container.decodeArrayIfPresent(.credits)
-        customMetadata = try container.decodeArrayIfPresent(.customMetadata)
-        description = try container.decodeIfPresent(.description)
-        distributor = try container.decodeIfPresent(.distributor)
-        episodeName = try container.decodeIfPresent(.episodeName)
-        episodes = try container.decodeIfPresent(.episodes)
-        eventDate = try container.decodeIfPresent(.eventDate)
-        genrePaths = try container.decodeArrayIfPresent(.genrePaths)
-        location = try container.decodeIfPresent(.location)
-        season = try container.decodeIfPresent(.season)
-        seasons = try container.decodeIfPresent(.seasons)
-        show = try container.decodeIfPresent(.show)
-        totalUserRatings = try container.decodeIfPresent(.totalUserRatings)
-        trailers = try container.decodeArrayIfPresent(.trailers)
-        venue = try container.decodeIfPresent(.venue)
+        advisoryText = try container.decodeIfPresent("advisoryText")
+        copyright = try container.decodeIfPresent("copyright")
+        credits = try container.decodeArrayIfPresent("credits")
+        customMetadata = try container.decodeArrayIfPresent("customMetadata")
+        description = try container.decodeIfPresent("description")
+        distributor = try container.decodeIfPresent("distributor")
+        episodeName = try container.decodeIfPresent("episodeName")
+        episodes = try container.decodeIfPresent("episodes")
+        eventDate = try container.decodeIfPresent("eventDate")
+        genrePaths = try container.decodeArrayIfPresent("genrePaths")
+        location = try container.decodeIfPresent("location")
+        season = try container.decodeIfPresent("season")
+        seasons = try container.decodeIfPresent("seasons")
+        show = try container.decodeIfPresent("show")
+        totalUserRatings = try container.decodeIfPresent("totalUserRatings")
+        trailers = try container.decodeArrayIfPresent("trailers")
+        venue = try container.decodeIfPresent("venue")
         try super.init(from: decoder)
     }
 
     public override func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(advisoryText, forKey: .advisoryText)
-        try container.encodeIfPresent(copyright, forKey: .copyright)
-        try container.encodeIfPresent(credits, forKey: .credits)
-        try container.encodeIfPresent(customMetadata, forKey: .customMetadata)
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(distributor, forKey: .distributor)
-        try container.encodeIfPresent(episodeName, forKey: .episodeName)
-        try container.encodeIfPresent(episodes, forKey: .episodes)
-        try container.encodeIfPresent(eventDate, forKey: .eventDate)
-        try container.encodeIfPresent(genrePaths, forKey: .genrePaths)
-        try container.encodeIfPresent(location, forKey: .location)
-        try container.encodeIfPresent(season, forKey: .season)
-        try container.encodeIfPresent(seasons, forKey: .seasons)
-        try container.encodeIfPresent(show, forKey: .show)
-        try container.encodeIfPresent(totalUserRatings, forKey: .totalUserRatings)
-        try container.encodeIfPresent(trailers, forKey: .trailers)
-        try container.encodeIfPresent(venue, forKey: .venue)
+        try container.encodeIfPresent(advisoryText, forKey: "advisoryText")
+        try container.encodeIfPresent(copyright, forKey: "copyright")
+        try container.encodeIfPresent(credits, forKey: "credits")
+        try container.encodeIfPresent(customMetadata, forKey: "customMetadata")
+        try container.encodeIfPresent(description, forKey: "description")
+        try container.encodeIfPresent(distributor, forKey: "distributor")
+        try container.encodeIfPresent(episodeName, forKey: "episodeName")
+        try container.encodeIfPresent(episodes, forKey: "episodes")
+        try container.encodeIfPresent(eventDate, forKey: "eventDate")
+        try container.encodeIfPresent(genrePaths, forKey: "genrePaths")
+        try container.encodeIfPresent(location, forKey: "location")
+        try container.encodeIfPresent(season, forKey: "season")
+        try container.encodeIfPresent(seasons, forKey: "seasons")
+        try container.encodeIfPresent(show, forKey: "show")
+        try container.encodeIfPresent(totalUserRatings, forKey: "totalUserRatings")
+        try container.encodeIfPresent(trailers, forKey: "trailers")
+        try container.encodeIfPresent(venue, forKey: "venue")
         try super.encode(to: encoder)
     }
 

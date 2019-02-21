@@ -16,23 +16,18 @@ public class LineServiceTypeInfo: APIModel {
         self.uri = uri
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case name
-        case uri
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        name = try container.decodeIfPresent(.name)
-        uri = try container.decodeIfPresent(.uri)
+        name = try container.decodeIfPresent("name")
+        uri = try container.decodeIfPresent("uri")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(uri, forKey: .uri)
+        try container.encodeIfPresent(name, forKey: "name")
+        try container.encodeIfPresent(uri, forKey: "uri")
     }
 
     public func isEqual(to object: Any?) -> Bool {

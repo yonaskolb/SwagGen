@@ -7,9 +7,7 @@ import Foundation
 
 extension TBX.AuthorizationService {
 
-    /**
-    Get the list of rules to override the IDP response's
-    */
+    /** Get the list of rules to override the IDP response's */
     public enum AuthorizationServiceGetRulesToOverrideResponse {
 
         public static let service = APIService<Response>(id: "AuthorizationService.getRulesToOverrideResponse", tag: "AuthorizationService", method: "GET", path: "/AuthorizationServices/overrideRules", hasBody: false)

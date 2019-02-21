@@ -26,23 +26,18 @@ public class MapTest: APIModel {
         self.mapOfEnumString = mapOfEnumString
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case mapMapOfString = "map_map_of_string"
-        case mapOfEnumString = "map_of_enum_string"
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        mapMapOfString = try container.decodeIfPresent(.mapMapOfString)
-        mapOfEnumString = try container.decodeIfPresent(.mapOfEnumString)
+        mapMapOfString = try container.decodeIfPresent("map_map_of_string")
+        mapOfEnumString = try container.decodeIfPresent("map_of_enum_string")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(mapMapOfString, forKey: .mapMapOfString)
-        try container.encodeIfPresent(mapOfEnumString, forKey: .mapOfEnumString)
+        try container.encodeIfPresent(mapMapOfString, forKey: "map_map_of_string")
+        try container.encodeIfPresent(mapOfEnumString, forKey: "map_of_enum_string")
     }
 
     public func isEqual(to object: Any?) -> Bool {

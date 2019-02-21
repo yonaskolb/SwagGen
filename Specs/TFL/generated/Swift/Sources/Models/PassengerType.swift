@@ -22,29 +22,22 @@ public class PassengerType: APIModel {
         self.type = type
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case description
-        case displayName
-        case displayOrder
-        case type
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        description = try container.decodeIfPresent(.description)
-        displayName = try container.decodeIfPresent(.displayName)
-        displayOrder = try container.decodeIfPresent(.displayOrder)
-        type = try container.decodeIfPresent(.type)
+        description = try container.decodeIfPresent("description")
+        displayName = try container.decodeIfPresent("displayName")
+        displayOrder = try container.decodeIfPresent("displayOrder")
+        type = try container.decodeIfPresent("type")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(displayName, forKey: .displayName)
-        try container.encodeIfPresent(displayOrder, forKey: .displayOrder)
-        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(description, forKey: "description")
+        try container.encodeIfPresent(displayName, forKey: "displayName")
+        try container.encodeIfPresent(displayOrder, forKey: "displayOrder")
+        try container.encodeIfPresent(type, forKey: "type")
     }
 
     public func isEqual(to object: Any?) -> Bool {

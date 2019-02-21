@@ -24,26 +24,20 @@ e.g wallpaper, poster, hero3x1, logo.
         self.title = title
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case imageType
-        case list
-        case title
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        imageType = try container.decodeIfPresent(.imageType)
-        list = try container.decodeIfPresent(.list)
-        title = try container.decodeIfPresent(.title)
+        imageType = try container.decodeIfPresent("imageType")
+        list = try container.decodeIfPresent("list")
+        title = try container.decodeIfPresent("title")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(imageType, forKey: .imageType)
-        try container.encodeIfPresent(list, forKey: .list)
-        try container.encodeIfPresent(title, forKey: .title)
+        try container.encodeIfPresent(imageType, forKey: "imageType")
+        try container.encodeIfPresent(list, forKey: "list")
+        try container.encodeIfPresent(title, forKey: "title")
     }
 
     public func isEqual(to object: Any?) -> Bool {

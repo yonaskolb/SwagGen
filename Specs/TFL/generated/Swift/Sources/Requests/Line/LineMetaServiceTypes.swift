@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.Line {
 
-    /**
-    Gets a list of valid ServiceTypes to filter on
-    */
+    /** Gets a list of valid ServiceTypes to filter on */
     public enum LineMetaServiceTypes {
 
         public static let service = APIService<Response>(id: "Line_MetaServiceTypes", tag: "Line", method: "GET", path: "/Line/Meta/ServiceTypes", hasBody: false)

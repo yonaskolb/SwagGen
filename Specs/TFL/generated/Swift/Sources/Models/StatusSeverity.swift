@@ -19,26 +19,20 @@ public class StatusSeverity: APIModel {
         self.severityLevel = severityLevel
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case description
-        case modeName
-        case severityLevel
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        description = try container.decodeIfPresent(.description)
-        modeName = try container.decodeIfPresent(.modeName)
-        severityLevel = try container.decodeIfPresent(.severityLevel)
+        description = try container.decodeIfPresent("description")
+        modeName = try container.decodeIfPresent("modeName")
+        severityLevel = try container.decodeIfPresent("severityLevel")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(modeName, forKey: .modeName)
-        try container.encodeIfPresent(severityLevel, forKey: .severityLevel)
+        try container.encodeIfPresent(description, forKey: "description")
+        try container.encodeIfPresent(modeName, forKey: "modeName")
+        try container.encodeIfPresent(severityLevel, forKey: "severityLevel")
     }
 
     public func isEqual(to object: Any?) -> Bool {

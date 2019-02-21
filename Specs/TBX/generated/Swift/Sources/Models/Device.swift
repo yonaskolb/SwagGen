@@ -49,56 +49,40 @@ public class Device: APIModel {
         self.updated = updated
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case created
-        case customer
-        case customerId
-        case data
-        case deactivateDate
-        case description
-        case deviceType
-        case expirationDate
-        case identifier
-        case lastLogin
-        case loggedOutDate
-        case updated
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        id = try container.decode(.id)
-        created = try container.decodeIfPresent(.created)
-        customer = try container.decodeIfPresent(.customer)
-        customerId = try container.decodeIfPresent(.customerId)
-        data = try container.decodeAnyIfPresent(.data)
-        deactivateDate = try container.decodeIfPresent(.deactivateDate)
-        description = try container.decodeIfPresent(.description)
-        deviceType = try container.decodeIfPresent(.deviceType)
-        expirationDate = try container.decodeIfPresent(.expirationDate)
-        identifier = try container.decodeIfPresent(.identifier)
-        lastLogin = try container.decodeIfPresent(.lastLogin)
-        loggedOutDate = try container.decodeIfPresent(.loggedOutDate)
-        updated = try container.decodeIfPresent(.updated)
+        id = try container.decode("id")
+        created = try container.decodeIfPresent("created")
+        customer = try container.decodeIfPresent("customer")
+        customerId = try container.decodeIfPresent("customerId")
+        data = try container.decodeAnyIfPresent("data")
+        deactivateDate = try container.decodeIfPresent("deactivateDate")
+        description = try container.decodeIfPresent("description")
+        deviceType = try container.decodeIfPresent("deviceType")
+        expirationDate = try container.decodeIfPresent("expirationDate")
+        identifier = try container.decodeIfPresent("identifier")
+        lastLogin = try container.decodeIfPresent("lastLogin")
+        loggedOutDate = try container.decodeIfPresent("loggedOutDate")
+        updated = try container.decodeIfPresent("updated")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(id, forKey: .id)
-        try container.encodeIfPresent(created, forKey: .created)
-        try container.encodeIfPresent(customer, forKey: .customer)
-        try container.encodeIfPresent(customerId, forKey: .customerId)
-        try container.encodeAnyIfPresent(data, forKey: .data)
-        try container.encodeIfPresent(deactivateDate, forKey: .deactivateDate)
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(deviceType, forKey: .deviceType)
-        try container.encodeIfPresent(expirationDate, forKey: .expirationDate)
-        try container.encodeIfPresent(identifier, forKey: .identifier)
-        try container.encodeIfPresent(lastLogin, forKey: .lastLogin)
-        try container.encodeIfPresent(loggedOutDate, forKey: .loggedOutDate)
-        try container.encodeIfPresent(updated, forKey: .updated)
+        try container.encode(id, forKey: "id")
+        try container.encodeIfPresent(created, forKey: "created")
+        try container.encodeIfPresent(customer, forKey: "customer")
+        try container.encodeIfPresent(customerId, forKey: "customerId")
+        try container.encodeAnyIfPresent(data, forKey: "data")
+        try container.encodeIfPresent(deactivateDate, forKey: "deactivateDate")
+        try container.encodeIfPresent(description, forKey: "description")
+        try container.encodeIfPresent(deviceType, forKey: "deviceType")
+        try container.encodeIfPresent(expirationDate, forKey: "expirationDate")
+        try container.encodeIfPresent(identifier, forKey: "identifier")
+        try container.encodeIfPresent(lastLogin, forKey: "lastLogin")
+        try container.encodeIfPresent(loggedOutDate, forKey: "loggedOutDate")
+        try container.encodeIfPresent(updated, forKey: "updated")
     }
 
     public func isEqual(to object: Any?) -> Bool {

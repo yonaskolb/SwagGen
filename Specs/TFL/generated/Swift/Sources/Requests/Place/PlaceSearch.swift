@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.Place {
 
-    /**
-    Gets all places that matches the given query
-    */
+    /** Gets all places that matches the given query */
     public enum PlaceSearch {
 
         public static let service = APIService<Response>(id: "Place_Search", tag: "Place", method: "GET", path: "/Place/Search", hasBody: false)

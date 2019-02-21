@@ -16,23 +16,18 @@ public class StopPointCategory: APIModel {
         self.category = category
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case availableKeys
-        case category
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        availableKeys = try container.decodeArrayIfPresent(.availableKeys)
-        category = try container.decodeIfPresent(.category)
+        availableKeys = try container.decodeArrayIfPresent("availableKeys")
+        category = try container.decodeIfPresent("category")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(availableKeys, forKey: .availableKeys)
-        try container.encodeIfPresent(category, forKey: .category)
+        try container.encodeIfPresent(availableKeys, forKey: "availableKeys")
+        try container.encodeIfPresent(category, forKey: "category")
     }
 
     public func isEqual(to object: Any?) -> Bool {

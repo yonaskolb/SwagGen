@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.StopPoint {
 
-    /**
-    Gets the list of available StopPoint additional information categories
-    */
+    /** Gets the list of available StopPoint additional information categories */
     public enum StopPointMetaCategories {
 
         public static let service = APIService<Response>(id: "StopPoint_MetaCategories", tag: "StopPoint", method: "GET", path: "/StopPoint/Meta/Categories", hasBody: false)

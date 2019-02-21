@@ -34,41 +34,30 @@ public class SearchResponse: APIModel {
         self.total = total
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case from
-        case matches
-        case maxScore
-        case page
-        case pageSize
-        case provider
-        case query
-        case total
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        from = try container.decodeIfPresent(.from)
-        matches = try container.decodeArrayIfPresent(.matches)
-        maxScore = try container.decodeIfPresent(.maxScore)
-        page = try container.decodeIfPresent(.page)
-        pageSize = try container.decodeIfPresent(.pageSize)
-        provider = try container.decodeIfPresent(.provider)
-        query = try container.decodeIfPresent(.query)
-        total = try container.decodeIfPresent(.total)
+        from = try container.decodeIfPresent("from")
+        matches = try container.decodeArrayIfPresent("matches")
+        maxScore = try container.decodeIfPresent("maxScore")
+        page = try container.decodeIfPresent("page")
+        pageSize = try container.decodeIfPresent("pageSize")
+        provider = try container.decodeIfPresent("provider")
+        query = try container.decodeIfPresent("query")
+        total = try container.decodeIfPresent("total")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(from, forKey: .from)
-        try container.encodeIfPresent(matches, forKey: .matches)
-        try container.encodeIfPresent(maxScore, forKey: .maxScore)
-        try container.encodeIfPresent(page, forKey: .page)
-        try container.encodeIfPresent(pageSize, forKey: .pageSize)
-        try container.encodeIfPresent(provider, forKey: .provider)
-        try container.encodeIfPresent(query, forKey: .query)
-        try container.encodeIfPresent(total, forKey: .total)
+        try container.encodeIfPresent(from, forKey: "from")
+        try container.encodeIfPresent(matches, forKey: "matches")
+        try container.encodeIfPresent(maxScore, forKey: "maxScore")
+        try container.encodeIfPresent(page, forKey: "page")
+        try container.encodeIfPresent(pageSize, forKey: "pageSize")
+        try container.encodeIfPresent(provider, forKey: "provider")
+        try container.encodeIfPresent(query, forKey: "query")
+        try container.encodeIfPresent(total, forKey: "total")
     }
 
     public func isEqual(to object: Any?) -> Bool {

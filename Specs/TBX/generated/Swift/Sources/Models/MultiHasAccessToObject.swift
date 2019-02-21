@@ -22,29 +22,22 @@ public class MultiHasAccessToObject: APIModel {
         self.details = details
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case granted
-        case denied
-        case failed
-        case details
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        granted = try container.decodeArray(.granted)
-        denied = try container.decodeArray(.denied)
-        failed = try container.decodeArray(.failed)
-        details = try container.decodeArray(.details)
+        granted = try container.decodeArray("granted")
+        denied = try container.decodeArray("denied")
+        failed = try container.decodeArray("failed")
+        details = try container.decodeArray("details")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(granted, forKey: .granted)
-        try container.encode(denied, forKey: .denied)
-        try container.encode(failed, forKey: .failed)
-        try container.encode(details, forKey: .details)
+        try container.encode(granted, forKey: "granted")
+        try container.encode(denied, forKey: "denied")
+        try container.encode(failed, forKey: "failed")
+        try container.encode(details, forKey: "details")
     }
 
     public func isEqual(to object: Any?) -> Bool {

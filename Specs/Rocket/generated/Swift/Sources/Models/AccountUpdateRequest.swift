@@ -35,32 +35,24 @@ If you want to disable this guard pass an empty string or `null`.
         self.trackingEnabled = trackingEnabled
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case defaultPaymentInstrumentId
-        case firstName
-        case lastName
-        case minRatingPlaybackGuard
-        case trackingEnabled
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        defaultPaymentInstrumentId = try container.decodeIfPresent(.defaultPaymentInstrumentId)
-        firstName = try container.decodeIfPresent(.firstName)
-        lastName = try container.decodeIfPresent(.lastName)
-        minRatingPlaybackGuard = try container.decodeIfPresent(.minRatingPlaybackGuard)
-        trackingEnabled = try container.decodeIfPresent(.trackingEnabled)
+        defaultPaymentInstrumentId = try container.decodeIfPresent("defaultPaymentInstrumentId")
+        firstName = try container.decodeIfPresent("firstName")
+        lastName = try container.decodeIfPresent("lastName")
+        minRatingPlaybackGuard = try container.decodeIfPresent("minRatingPlaybackGuard")
+        trackingEnabled = try container.decodeIfPresent("trackingEnabled")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(defaultPaymentInstrumentId, forKey: .defaultPaymentInstrumentId)
-        try container.encodeIfPresent(firstName, forKey: .firstName)
-        try container.encodeIfPresent(lastName, forKey: .lastName)
-        try container.encodeIfPresent(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
-        try container.encodeIfPresent(trackingEnabled, forKey: .trackingEnabled)
+        try container.encodeIfPresent(defaultPaymentInstrumentId, forKey: "defaultPaymentInstrumentId")
+        try container.encodeIfPresent(firstName, forKey: "firstName")
+        try container.encodeIfPresent(lastName, forKey: "lastName")
+        try container.encodeIfPresent(minRatingPlaybackGuard, forKey: "minRatingPlaybackGuard")
+        try container.encodeIfPresent(trackingEnabled, forKey: "trackingEnabled")
     }
 
     public func isEqual(to object: Any?) -> Bool {

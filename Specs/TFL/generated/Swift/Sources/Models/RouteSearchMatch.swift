@@ -43,50 +43,36 @@ public class RouteSearchMatch: APIModel {
         self.url = url
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case lat
-        case lineId
-        case lineName
-        case lineRouteSection
-        case lon
-        case matchedRouteSections
-        case matchedStops
-        case mode
-        case name
-        case url
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        id = try container.decodeIfPresent(.id)
-        lat = try container.decodeIfPresent(.lat)
-        lineId = try container.decodeIfPresent(.lineId)
-        lineName = try container.decodeIfPresent(.lineName)
-        lineRouteSection = try container.decodeArrayIfPresent(.lineRouteSection)
-        lon = try container.decodeIfPresent(.lon)
-        matchedRouteSections = try container.decodeArrayIfPresent(.matchedRouteSections)
-        matchedStops = try container.decodeArrayIfPresent(.matchedStops)
-        mode = try container.decodeIfPresent(.mode)
-        name = try container.decodeIfPresent(.name)
-        url = try container.decodeIfPresent(.url)
+        id = try container.decodeIfPresent("id")
+        lat = try container.decodeIfPresent("lat")
+        lineId = try container.decodeIfPresent("lineId")
+        lineName = try container.decodeIfPresent("lineName")
+        lineRouteSection = try container.decodeArrayIfPresent("lineRouteSection")
+        lon = try container.decodeIfPresent("lon")
+        matchedRouteSections = try container.decodeArrayIfPresent("matchedRouteSections")
+        matchedStops = try container.decodeArrayIfPresent("matchedStops")
+        mode = try container.decodeIfPresent("mode")
+        name = try container.decodeIfPresent("name")
+        url = try container.decodeIfPresent("url")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(lat, forKey: .lat)
-        try container.encodeIfPresent(lineId, forKey: .lineId)
-        try container.encodeIfPresent(lineName, forKey: .lineName)
-        try container.encodeIfPresent(lineRouteSection, forKey: .lineRouteSection)
-        try container.encodeIfPresent(lon, forKey: .lon)
-        try container.encodeIfPresent(matchedRouteSections, forKey: .matchedRouteSections)
-        try container.encodeIfPresent(matchedStops, forKey: .matchedStops)
-        try container.encodeIfPresent(mode, forKey: .mode)
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(lat, forKey: "lat")
+        try container.encodeIfPresent(lineId, forKey: "lineId")
+        try container.encodeIfPresent(lineName, forKey: "lineName")
+        try container.encodeIfPresent(lineRouteSection, forKey: "lineRouteSection")
+        try container.encodeIfPresent(lon, forKey: "lon")
+        try container.encodeIfPresent(matchedRouteSections, forKey: "matchedRouteSections")
+        try container.encodeIfPresent(matchedStops, forKey: "matchedStops")
+        try container.encodeIfPresent(mode, forKey: "mode")
+        try container.encodeIfPresent(name, forKey: "name")
+        try container.encodeIfPresent(url, forKey: "url")
     }
 
     public func isEqual(to object: Any?) -> Bool {

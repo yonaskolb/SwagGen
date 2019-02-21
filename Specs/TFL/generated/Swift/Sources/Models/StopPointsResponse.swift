@@ -31,32 +31,24 @@ public class StopPointsResponse: APIModel {
         self.total = total
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case centrePoint
-        case page
-        case pageSize
-        case stopPoints
-        case total
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        centrePoint = try container.decodeArrayIfPresent(.centrePoint)
-        page = try container.decodeIfPresent(.page)
-        pageSize = try container.decodeIfPresent(.pageSize)
-        stopPoints = try container.decodeArrayIfPresent(.stopPoints)
-        total = try container.decodeIfPresent(.total)
+        centrePoint = try container.decodeArrayIfPresent("centrePoint")
+        page = try container.decodeIfPresent("page")
+        pageSize = try container.decodeIfPresent("pageSize")
+        stopPoints = try container.decodeArrayIfPresent("stopPoints")
+        total = try container.decodeIfPresent("total")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(centrePoint, forKey: .centrePoint)
-        try container.encodeIfPresent(page, forKey: .page)
-        try container.encodeIfPresent(pageSize, forKey: .pageSize)
-        try container.encodeIfPresent(stopPoints, forKey: .stopPoints)
-        try container.encodeIfPresent(total, forKey: .total)
+        try container.encodeIfPresent(centrePoint, forKey: "centrePoint")
+        try container.encodeIfPresent(page, forKey: "page")
+        try container.encodeIfPresent(pageSize, forKey: "pageSize")
+        try container.encodeIfPresent(stopPoints, forKey: "stopPoints")
+        try container.encodeIfPresent(total, forKey: "total")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -16,23 +16,18 @@ public class GeoPoint: APIModel {
         self.lon = lon
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case lat
-        case lon
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        lat = try container.decode(.lat)
-        lon = try container.decode(.lon)
+        lat = try container.decode("lat")
+        lon = try container.decode("lon")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(lat, forKey: .lat)
-        try container.encode(lon, forKey: .lon)
+        try container.encode(lat, forKey: "lat")
+        try container.encode(lon, forKey: "lon")
     }
 
     public func isEqual(to object: Any?) -> Bool {

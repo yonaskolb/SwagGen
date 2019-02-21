@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.Road {
 
-    /**
-    Gets a list of valid RoadDisruption severity codes
-    */
+    /** Gets a list of valid RoadDisruption severity codes */
     public enum RoadMetaSeverities {
 
         public static let service = APIService<Response>(id: "Road_MetaSeverities", tag: "Road", method: "GET", path: "/Road/Meta/Severities", hasBody: false)

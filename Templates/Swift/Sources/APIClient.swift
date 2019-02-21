@@ -29,6 +29,7 @@ public class APIClient {
         self.sessionManager = sessionManager
         self.behaviours = behaviours
         self.defaultHeaders = defaultHeaders
+        jsonDecoder.dateDecodingStrategy = .custom(dateDecoder)
     }
 
     /// Makes a network request
@@ -156,6 +157,8 @@ public class APIClient {
                 let apiError: APIClientError
                 if let error = error as? DecodingError {
                     apiError = APIClientError.decodingError(error)
+                } else if let error = error as? APIClientError {
+                    apiError = error
                 } else {
                     apiError = APIClientError.unknownError(error)
                 }

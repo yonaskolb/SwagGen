@@ -16,23 +16,18 @@ public class RoadDisruptionSchedule: APIModel {
         self.startTime = startTime
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case endTime
-        case startTime
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        endTime = try container.decodeIfPresent(.endTime)
-        startTime = try container.decodeIfPresent(.startTime)
+        endTime = try container.decodeIfPresent("endTime")
+        startTime = try container.decodeIfPresent("startTime")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(endTime, forKey: .endTime)
-        try container.encodeIfPresent(startTime, forKey: .startTime)
+        try container.encodeIfPresent(endTime, forKey: "endTime")
+        try container.encodeIfPresent(startTime, forKey: "startTime")
     }
 
     public func isEqual(to object: Any?) -> Bool {

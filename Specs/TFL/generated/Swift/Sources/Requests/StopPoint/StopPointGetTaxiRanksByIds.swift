@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.StopPoint {
 
-    /**
-    Gets a list of taxi ranks corresponding to the given stop point id.
-    */
+    /** Gets a list of taxi ranks corresponding to the given stop point id. */
     public enum StopPointGetTaxiRanksByIds {
 
         public static let service = APIService<Response>(id: "StopPoint_GetTaxiRanksByIds", tag: "StopPoint", method: "GET", path: "/StopPoint/{stopPointId}/TaxiRanks", hasBody: false)

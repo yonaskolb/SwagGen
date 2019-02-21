@@ -7,9 +7,7 @@ import Foundation
 
 extension Rocket.Content {
 
-    /**
-    Returns the details of an item with the specified id.
-    */
+    /** Returns the details of an item with the specified id. */
     public enum GetItem {
 
         public static let service = APIService<Response>(id: "getItem", tag: "content", method: "GET", path: "/items/{id}", hasBody: false)

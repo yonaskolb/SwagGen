@@ -26,29 +26,22 @@ public class ErrorObject: APIModel {
         self.externalMessage = externalMessage
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case errorCode
-        case message
-        case externalCode
-        case externalMessage
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        errorCode = try container.decode(.errorCode)
-        message = try container.decode(.message)
-        externalCode = try container.decodeIfPresent(.externalCode)
-        externalMessage = try container.decodeIfPresent(.externalMessage)
+        errorCode = try container.decode("errorCode")
+        message = try container.decode("message")
+        externalCode = try container.decodeIfPresent("externalCode")
+        externalMessage = try container.decodeIfPresent("externalMessage")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(errorCode, forKey: .errorCode)
-        try container.encode(message, forKey: .message)
-        try container.encodeIfPresent(externalCode, forKey: .externalCode)
-        try container.encodeIfPresent(externalMessage, forKey: .externalMessage)
+        try container.encode(errorCode, forKey: "errorCode")
+        try container.encode(message, forKey: "message")
+        try container.encodeIfPresent(externalCode, forKey: "externalCode")
+        try container.encodeIfPresent(externalMessage, forKey: "externalMessage")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -22,26 +22,20 @@ public class DeviceRegistrationRequest: APIModel {
         self.type = type
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case type
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        id = try container.decode(.id)
-        name = try container.decode(.name)
-        type = try container.decode(.type)
+        id = try container.decode("id")
+        name = try container.decode("name")
+        type = try container.decode("type")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(id, forKey: .id)
-        try container.encode(name, forKey: .name)
-        try container.encode(type, forKey: .type)
+        try container.encode(id, forKey: "id")
+        try container.encode(name, forKey: "name")
+        try container.encode(type, forKey: "type")
     }
 
     public func isEqual(to object: Any?) -> Bool {

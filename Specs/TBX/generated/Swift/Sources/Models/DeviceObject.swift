@@ -29,23 +29,18 @@ public class DeviceObject: APIModel {
             self.description = description
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case code
-            case description
-        }
-
         public required init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-            code = try container.decodeIfPresent(.code)
-            description = try container.decodeIfPresent(.description)
+            code = try container.decodeIfPresent("code")
+            description = try container.decodeIfPresent("description")
         }
 
         public func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: StringCodingKey.self)
 
-            try container.encodeIfPresent(code, forKey: .code)
-            try container.encodeIfPresent(description, forKey: .description)
+            try container.encodeIfPresent(code, forKey: "code")
+            try container.encodeIfPresent(description, forKey: "description")
         }
 
         public func isEqual(to object: Any?) -> Bool {
@@ -84,23 +79,18 @@ public class DeviceObject: APIModel {
                 self.description = description
             }
 
-            private enum CodingKeys: String, CodingKey {
-                case code
-                case description
-            }
-
             public required init(from decoder: Decoder) throws {
-                let container = try decoder.container(keyedBy: CodingKeys.self)
+                let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-                code = try container.decodeIfPresent(.code)
-                description = try container.decodeIfPresent(.description)
+                code = try container.decodeIfPresent("code")
+                description = try container.decodeIfPresent("description")
             }
 
             public func encode(to encoder: Encoder) throws {
-                var container = encoder.container(keyedBy: CodingKeys.self)
+                var container = encoder.container(keyedBy: StringCodingKey.self)
 
-                try container.encodeIfPresent(code, forKey: .code)
-                try container.encodeIfPresent(description, forKey: .description)
+                try container.encodeIfPresent(code, forKey: "code")
+                try container.encodeIfPresent(description, forKey: "description")
             }
 
             public func isEqual(to object: Any?) -> Bool {
@@ -126,23 +116,18 @@ public class DeviceObject: APIModel {
                 self.description = description
             }
 
-            private enum CodingKeys: String, CodingKey {
-                case code
-                case description
-            }
-
             public required init(from decoder: Decoder) throws {
-                let container = try decoder.container(keyedBy: CodingKeys.self)
+                let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-                code = try container.decodeIfPresent(.code)
-                description = try container.decodeIfPresent(.description)
+                code = try container.decodeIfPresent("code")
+                description = try container.decodeIfPresent("description")
             }
 
             public func encode(to encoder: Encoder) throws {
-                var container = encoder.container(keyedBy: CodingKeys.self)
+                var container = encoder.container(keyedBy: StringCodingKey.self)
 
-                try container.encodeIfPresent(code, forKey: .code)
-                try container.encodeIfPresent(description, forKey: .description)
+                try container.encodeIfPresent(code, forKey: "code")
+                try container.encodeIfPresent(description, forKey: "description")
             }
 
             public func isEqual(to object: Any?) -> Bool {
@@ -165,32 +150,24 @@ public class DeviceObject: APIModel {
             self.subscriberId = subscriberId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case country
-            case createdAt
-            case id
-            case idp
-            case subscriberId
-        }
-
         public required init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-            country = try container.decodeIfPresent(.country)
-            createdAt = try container.decodeIfPresent(.createdAt)
-            id = try container.decodeIfPresent(.id)
-            idp = try container.decodeIfPresent(.idp)
-            subscriberId = try container.decodeIfPresent(.subscriberId)
+            country = try container.decodeIfPresent("country")
+            createdAt = try container.decodeIfPresent("createdAt")
+            id = try container.decodeIfPresent("id")
+            idp = try container.decodeIfPresent("idp")
+            subscriberId = try container.decodeIfPresent("subscriberId")
         }
 
         public func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: StringCodingKey.self)
 
-            try container.encodeIfPresent(country, forKey: .country)
-            try container.encodeIfPresent(createdAt, forKey: .createdAt)
-            try container.encodeIfPresent(id, forKey: .id)
-            try container.encodeIfPresent(idp, forKey: .idp)
-            try container.encodeIfPresent(subscriberId, forKey: .subscriberId)
+            try container.encodeIfPresent(country, forKey: "country")
+            try container.encodeIfPresent(createdAt, forKey: "createdAt")
+            try container.encodeIfPresent(id, forKey: "id")
+            try container.encodeIfPresent(idp, forKey: "idp")
+            try container.encodeIfPresent(subscriberId, forKey: "subscriberId")
         }
 
         public func isEqual(to object: Any?) -> Bool {
@@ -216,32 +193,24 @@ public class DeviceObject: APIModel {
         self.description = description
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case token
-        case createdAt
-        case type
-        case customer
-        case description
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        token = try container.decode(.token)
-        createdAt = try container.decode(.createdAt)
-        type = try container.decode(.type)
-        customer = try container.decode(.customer)
-        description = try container.decodeIfPresent(.description)
+        token = try container.decode("token")
+        createdAt = try container.decode("createdAt")
+        type = try container.decode("type")
+        customer = try container.decode("customer")
+        description = try container.decodeIfPresent("description")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(token, forKey: .token)
-        try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(type, forKey: .type)
-        try container.encode(customer, forKey: .customer)
-        try container.encodeIfPresent(description, forKey: .description)
+        try container.encode(token, forKey: "token")
+        try container.encode(createdAt, forKey: "createdAt")
+        try container.encode(type, forKey: "type")
+        try container.encode(customer, forKey: "customer")
+        try container.encodeIfPresent(description, forKey: "description")
     }
 
     public func isEqual(to object: Any?) -> Bool {

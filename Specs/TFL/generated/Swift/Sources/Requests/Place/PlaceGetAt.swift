@@ -7,10 +7,8 @@ import Foundation
 
 extension TFL.Place {
 
-    /**
-    Gets any places of the given type whose geography intersects the given latitude and longitude. In practice this means the Place
-            must be polygonal e.g. a BoroughBoundary.
-    */
+    /** Gets any places of the given type whose geography intersects the given latitude and longitude. In practice this means the Place
+            must be polygonal e.g. a BoroughBoundary. */
     public enum PlaceGetAt {
 
         public static let service = APIService<Response>(id: "Place_GetAt", tag: "Place", method: "GET", path: "/Place/{type}/At/{Lat}/{Lon}", hasBody: false)

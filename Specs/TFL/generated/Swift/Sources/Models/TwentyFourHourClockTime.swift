@@ -16,23 +16,18 @@ public class TwentyFourHourClockTime: APIModel {
         self.minute = minute
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case hour
-        case minute
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        hour = try container.decodeIfPresent(.hour)
-        minute = try container.decodeIfPresent(.minute)
+        hour = try container.decodeIfPresent("hour")
+        minute = try container.decodeIfPresent("minute")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(hour, forKey: .hour)
-        try container.encodeIfPresent(minute, forKey: .minute)
+        try container.encodeIfPresent(hour, forKey: "hour")
+        try container.encodeIfPresent(minute, forKey: "minute")
     }
 
     public func isEqual(to object: Any?) -> Bool {

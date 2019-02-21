@@ -19,26 +19,20 @@ public class Instruction: APIModel {
         self.summary = summary
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case detailed
-        case steps
-        case summary
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        detailed = try container.decodeIfPresent(.detailed)
-        steps = try container.decodeArrayIfPresent(.steps)
-        summary = try container.decodeIfPresent(.summary)
+        detailed = try container.decodeIfPresent("detailed")
+        steps = try container.decodeArrayIfPresent("steps")
+        summary = try container.decodeIfPresent("summary")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(detailed, forKey: .detailed)
-        try container.encodeIfPresent(steps, forKey: .steps)
-        try container.encodeIfPresent(summary, forKey: .summary)
+        try container.encodeIfPresent(detailed, forKey: "detailed")
+        try container.encodeIfPresent(steps, forKey: "steps")
+        try container.encodeIfPresent(summary, forKey: "summary")
     }
 
     public func isEqual(to object: Any?) -> Bool {

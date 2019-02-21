@@ -16,23 +16,18 @@ public class AdditionalPropertiesClass: APIModel {
         self.mapProperty = mapProperty
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case mapOfMapProperty = "map_of_map_property"
-        case mapProperty = "map_property"
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        mapOfMapProperty = try container.decodeIfPresent(.mapOfMapProperty)
-        mapProperty = try container.decodeIfPresent(.mapProperty)
+        mapOfMapProperty = try container.decodeIfPresent("map_of_map_property")
+        mapProperty = try container.decodeIfPresent("map_property")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(mapOfMapProperty, forKey: .mapOfMapProperty)
-        try container.encodeIfPresent(mapProperty, forKey: .mapProperty)
+        try container.encodeIfPresent(mapOfMapProperty, forKey: "map_of_map_property")
+        try container.encodeIfPresent(mapProperty, forKey: "map_property")
     }
 
     public func isEqual(to object: Any?) -> Bool {

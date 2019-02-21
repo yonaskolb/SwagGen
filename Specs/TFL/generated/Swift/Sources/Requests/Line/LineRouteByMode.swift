@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.Line {
 
-    /**
-    Gets all lines and their valid routes for given modes, including the name and id of the originating and terminating stops for each route
-    */
+    /** Gets all lines and their valid routes for given modes, including the name and id of the originating and terminating stops for each route */
     public enum LineRouteByMode {
 
         public static let service = APIService<Response>(id: "Line_RouteByMode", tag: "Line", method: "GET", path: "/Line/Mode/{modes}/Route", hasBody: false)

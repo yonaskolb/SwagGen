@@ -46,53 +46,38 @@ public class StopPointRouteSection: APIModel {
         self.vehicleDestinationText = vehicleDestinationText
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case destinationName
-        case direction
-        case isActive
-        case lineId
-        case lineString
-        case mode
-        case naptanId
-        case routeSectionName
-        case serviceType
-        case validFrom
-        case validTo
-        case vehicleDestinationText
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        destinationName = try container.decodeIfPresent(.destinationName)
-        direction = try container.decodeIfPresent(.direction)
-        isActive = try container.decodeIfPresent(.isActive)
-        lineId = try container.decodeIfPresent(.lineId)
-        lineString = try container.decodeIfPresent(.lineString)
-        mode = try container.decodeIfPresent(.mode)
-        naptanId = try container.decodeIfPresent(.naptanId)
-        routeSectionName = try container.decodeIfPresent(.routeSectionName)
-        serviceType = try container.decodeIfPresent(.serviceType)
-        validFrom = try container.decodeIfPresent(.validFrom)
-        validTo = try container.decodeIfPresent(.validTo)
-        vehicleDestinationText = try container.decodeIfPresent(.vehicleDestinationText)
+        destinationName = try container.decodeIfPresent("destinationName")
+        direction = try container.decodeIfPresent("direction")
+        isActive = try container.decodeIfPresent("isActive")
+        lineId = try container.decodeIfPresent("lineId")
+        lineString = try container.decodeIfPresent("lineString")
+        mode = try container.decodeIfPresent("mode")
+        naptanId = try container.decodeIfPresent("naptanId")
+        routeSectionName = try container.decodeIfPresent("routeSectionName")
+        serviceType = try container.decodeIfPresent("serviceType")
+        validFrom = try container.decodeIfPresent("validFrom")
+        validTo = try container.decodeIfPresent("validTo")
+        vehicleDestinationText = try container.decodeIfPresent("vehicleDestinationText")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(destinationName, forKey: .destinationName)
-        try container.encodeIfPresent(direction, forKey: .direction)
-        try container.encodeIfPresent(isActive, forKey: .isActive)
-        try container.encodeIfPresent(lineId, forKey: .lineId)
-        try container.encodeIfPresent(lineString, forKey: .lineString)
-        try container.encodeIfPresent(mode, forKey: .mode)
-        try container.encodeIfPresent(naptanId, forKey: .naptanId)
-        try container.encodeIfPresent(routeSectionName, forKey: .routeSectionName)
-        try container.encodeIfPresent(serviceType, forKey: .serviceType)
-        try container.encodeIfPresent(validFrom, forKey: .validFrom)
-        try container.encodeIfPresent(validTo, forKey: .validTo)
-        try container.encodeIfPresent(vehicleDestinationText, forKey: .vehicleDestinationText)
+        try container.encodeIfPresent(destinationName, forKey: "destinationName")
+        try container.encodeIfPresent(direction, forKey: "direction")
+        try container.encodeIfPresent(isActive, forKey: "isActive")
+        try container.encodeIfPresent(lineId, forKey: "lineId")
+        try container.encodeIfPresent(lineString, forKey: "lineString")
+        try container.encodeIfPresent(mode, forKey: "mode")
+        try container.encodeIfPresent(naptanId, forKey: "naptanId")
+        try container.encodeIfPresent(routeSectionName, forKey: "routeSectionName")
+        try container.encodeIfPresent(serviceType, forKey: "serviceType")
+        try container.encodeIfPresent(validFrom, forKey: "validFrom")
+        try container.encodeIfPresent(validTo, forKey: "validTo")
+        try container.encodeIfPresent(vehicleDestinationText, forKey: "vehicleDestinationText")
     }
 
     public func isEqual(to object: Any?) -> Bool {

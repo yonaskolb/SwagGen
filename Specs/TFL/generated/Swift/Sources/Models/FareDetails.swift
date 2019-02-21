@@ -73,80 +73,56 @@ public class FareDetails: APIModel {
         self.via = via
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case boundsId
-        case displayName
-        case displayOrder
-        case endDate
-        case from
-        case fromStation
-        case isTour
-        case messages
-        case mode
-        case `operator` = "operator"
-        case passengerType
-        case routeCode
-        case routeDescription
-        case specialFare
-        case startDate
-        case throughFare
-        case ticketsAvailable
-        case to
-        case toStation
-        case validatorInformation
-        case via
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        boundsId = try container.decodeIfPresent(.boundsId)
-        displayName = try container.decodeIfPresent(.displayName)
-        displayOrder = try container.decodeIfPresent(.displayOrder)
-        endDate = try container.decodeIfPresent(.endDate)
-        from = try container.decodeIfPresent(.from)
-        fromStation = try container.decodeIfPresent(.fromStation)
-        isTour = try container.decodeIfPresent(.isTour)
-        messages = try container.decodeArrayIfPresent(.messages)
-        mode = try container.decodeIfPresent(.mode)
-        `operator` = try container.decodeIfPresent(.`operator`)
-        passengerType = try container.decodeIfPresent(.passengerType)
-        routeCode = try container.decodeIfPresent(.routeCode)
-        routeDescription = try container.decodeIfPresent(.routeDescription)
-        specialFare = try container.decodeIfPresent(.specialFare)
-        startDate = try container.decodeIfPresent(.startDate)
-        throughFare = try container.decodeIfPresent(.throughFare)
-        ticketsAvailable = try container.decodeArrayIfPresent(.ticketsAvailable)
-        to = try container.decodeIfPresent(.to)
-        toStation = try container.decodeIfPresent(.toStation)
-        validatorInformation = try container.decodeIfPresent(.validatorInformation)
-        via = try container.decodeIfPresent(.via)
+        boundsId = try container.decodeIfPresent("boundsId")
+        displayName = try container.decodeIfPresent("displayName")
+        displayOrder = try container.decodeIfPresent("displayOrder")
+        endDate = try container.decodeIfPresent("endDate")
+        from = try container.decodeIfPresent("from")
+        fromStation = try container.decodeIfPresent("fromStation")
+        isTour = try container.decodeIfPresent("isTour")
+        messages = try container.decodeArrayIfPresent("messages")
+        mode = try container.decodeIfPresent("mode")
+        `operator` = try container.decodeIfPresent("operator")
+        passengerType = try container.decodeIfPresent("passengerType")
+        routeCode = try container.decodeIfPresent("routeCode")
+        routeDescription = try container.decodeIfPresent("routeDescription")
+        specialFare = try container.decodeIfPresent("specialFare")
+        startDate = try container.decodeIfPresent("startDate")
+        throughFare = try container.decodeIfPresent("throughFare")
+        ticketsAvailable = try container.decodeArrayIfPresent("ticketsAvailable")
+        to = try container.decodeIfPresent("to")
+        toStation = try container.decodeIfPresent("toStation")
+        validatorInformation = try container.decodeIfPresent("validatorInformation")
+        via = try container.decodeIfPresent("via")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(boundsId, forKey: .boundsId)
-        try container.encodeIfPresent(displayName, forKey: .displayName)
-        try container.encodeIfPresent(displayOrder, forKey: .displayOrder)
-        try container.encodeIfPresent(endDate, forKey: .endDate)
-        try container.encodeIfPresent(from, forKey: .from)
-        try container.encodeIfPresent(fromStation, forKey: .fromStation)
-        try container.encodeIfPresent(isTour, forKey: .isTour)
-        try container.encodeIfPresent(messages, forKey: .messages)
-        try container.encodeIfPresent(mode, forKey: .mode)
-        try container.encodeIfPresent(`operator`, forKey: .`operator`)
-        try container.encodeIfPresent(passengerType, forKey: .passengerType)
-        try container.encodeIfPresent(routeCode, forKey: .routeCode)
-        try container.encodeIfPresent(routeDescription, forKey: .routeDescription)
-        try container.encodeIfPresent(specialFare, forKey: .specialFare)
-        try container.encodeIfPresent(startDate, forKey: .startDate)
-        try container.encodeIfPresent(throughFare, forKey: .throughFare)
-        try container.encodeIfPresent(ticketsAvailable, forKey: .ticketsAvailable)
-        try container.encodeIfPresent(to, forKey: .to)
-        try container.encodeIfPresent(toStation, forKey: .toStation)
-        try container.encodeIfPresent(validatorInformation, forKey: .validatorInformation)
-        try container.encodeIfPresent(via, forKey: .via)
+        try container.encodeIfPresent(boundsId, forKey: "boundsId")
+        try container.encodeIfPresent(displayName, forKey: "displayName")
+        try container.encodeIfPresent(displayOrder, forKey: "displayOrder")
+        try container.encodeIfPresent(endDate, forKey: "endDate")
+        try container.encodeIfPresent(from, forKey: "from")
+        try container.encodeIfPresent(fromStation, forKey: "fromStation")
+        try container.encodeIfPresent(isTour, forKey: "isTour")
+        try container.encodeIfPresent(messages, forKey: "messages")
+        try container.encodeIfPresent(mode, forKey: "mode")
+        try container.encodeIfPresent(`operator`, forKey: "operator")
+        try container.encodeIfPresent(passengerType, forKey: "passengerType")
+        try container.encodeIfPresent(routeCode, forKey: "routeCode")
+        try container.encodeIfPresent(routeDescription, forKey: "routeDescription")
+        try container.encodeIfPresent(specialFare, forKey: "specialFare")
+        try container.encodeIfPresent(startDate, forKey: "startDate")
+        try container.encodeIfPresent(throughFare, forKey: "throughFare")
+        try container.encodeIfPresent(ticketsAvailable, forKey: "ticketsAvailable")
+        try container.encodeIfPresent(to, forKey: "to")
+        try container.encodeIfPresent(toStation, forKey: "toStation")
+        try container.encodeIfPresent(validatorInformation, forKey: "validatorInformation")
+        try container.encodeIfPresent(via, forKey: "via")
     }
 
     public func isEqual(to object: Any?) -> Bool {

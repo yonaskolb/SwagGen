@@ -34,35 +34,26 @@ public class CycleSuperhighway: APIModel {
         self.segmented = segmented
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case geography
-        case id
-        case label
-        case labelShort
-        case modified
-        case segmented
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        geography = try container.decodeIfPresent(.geography)
-        id = try container.decodeIfPresent(.id)
-        label = try container.decodeIfPresent(.label)
-        labelShort = try container.decodeIfPresent(.labelShort)
-        modified = try container.decodeIfPresent(.modified)
-        segmented = try container.decodeIfPresent(.segmented)
+        geography = try container.decodeIfPresent("geography")
+        id = try container.decodeIfPresent("id")
+        label = try container.decodeIfPresent("label")
+        labelShort = try container.decodeIfPresent("labelShort")
+        modified = try container.decodeIfPresent("modified")
+        segmented = try container.decodeIfPresent("segmented")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(geography, forKey: .geography)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(label, forKey: .label)
-        try container.encodeIfPresent(labelShort, forKey: .labelShort)
-        try container.encodeIfPresent(modified, forKey: .modified)
-        try container.encodeIfPresent(segmented, forKey: .segmented)
+        try container.encodeIfPresent(geography, forKey: "geography")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(label, forKey: "label")
+        try container.encodeIfPresent(labelShort, forKey: "labelShort")
+        try container.encodeIfPresent(modified, forKey: "modified")
+        try container.encodeIfPresent(segmented, forKey: "segmented")
     }
 
     public func isEqual(to object: Any?) -> Bool {

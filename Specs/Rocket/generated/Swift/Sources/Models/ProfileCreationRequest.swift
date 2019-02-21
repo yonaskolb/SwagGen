@@ -28,29 +28,22 @@ If no account pin is defined this has no impact.
         self.segments = segments
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case name
-        case pinEnabled
-        case purchaseEnabled
-        case segments
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        name = try container.decode(.name)
-        pinEnabled = try container.decodeIfPresent(.pinEnabled)
-        purchaseEnabled = try container.decodeIfPresent(.purchaseEnabled)
-        segments = try container.decodeArrayIfPresent(.segments)
+        name = try container.decode("name")
+        pinEnabled = try container.decodeIfPresent("pinEnabled")
+        purchaseEnabled = try container.decodeIfPresent("purchaseEnabled")
+        segments = try container.decodeArrayIfPresent("segments")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(name, forKey: .name)
-        try container.encodeIfPresent(pinEnabled, forKey: .pinEnabled)
-        try container.encodeIfPresent(purchaseEnabled, forKey: .purchaseEnabled)
-        try container.encodeIfPresent(segments, forKey: .segments)
+        try container.encode(name, forKey: "name")
+        try container.encodeIfPresent(pinEnabled, forKey: "pinEnabled")
+        try container.encodeIfPresent(purchaseEnabled, forKey: "purchaseEnabled")
+        try container.encodeIfPresent(segments, forKey: "segments")
     }
 
     public func isEqual(to object: Any?) -> Bool {

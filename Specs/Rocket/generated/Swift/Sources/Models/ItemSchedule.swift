@@ -40,41 +40,30 @@ public class ItemSchedule: APIModel {
         self.`repeat` = `repeat`
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case channelId
-        case startDate
-        case endDate
-        case featured
-        case item
-        case live
-        case `repeat` = "repeat"
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        id = try container.decode(.id)
-        channelId = try container.decode(.channelId)
-        startDate = try container.decode(.startDate)
-        endDate = try container.decode(.endDate)
-        featured = try container.decodeIfPresent(.featured)
-        item = try container.decodeIfPresent(.item)
-        live = try container.decodeIfPresent(.live)
-        `repeat` = try container.decodeIfPresent(.`repeat`)
+        id = try container.decode("id")
+        channelId = try container.decode("channelId")
+        startDate = try container.decode("startDate")
+        endDate = try container.decode("endDate")
+        featured = try container.decodeIfPresent("featured")
+        item = try container.decodeIfPresent("item")
+        live = try container.decodeIfPresent("live")
+        `repeat` = try container.decodeIfPresent("repeat")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(id, forKey: .id)
-        try container.encode(channelId, forKey: .channelId)
-        try container.encode(startDate, forKey: .startDate)
-        try container.encode(endDate, forKey: .endDate)
-        try container.encodeIfPresent(featured, forKey: .featured)
-        try container.encodeIfPresent(item, forKey: .item)
-        try container.encodeIfPresent(live, forKey: .live)
-        try container.encodeIfPresent(`repeat`, forKey: .`repeat`)
+        try container.encode(id, forKey: "id")
+        try container.encode(channelId, forKey: "channelId")
+        try container.encode(startDate, forKey: "startDate")
+        try container.encode(endDate, forKey: "endDate")
+        try container.encodeIfPresent(featured, forKey: "featured")
+        try container.encodeIfPresent(item, forKey: "item")
+        try container.encodeIfPresent(live, forKey: "live")
+        try container.encodeIfPresent(`repeat`, forKey: "repeat")
     }
 
     public func isEqual(to object: Any?) -> Bool {

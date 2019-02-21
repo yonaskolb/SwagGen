@@ -32,38 +32,28 @@ public class ItineraryResult: APIModel {
         self.stopMessages = stopMessages
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case cycleHireDockingStationData
-        case journeyVector
-        case journeys
-        case lines
-        case recommendedMaxAgeMinutes
-        case searchCriteria
-        case stopMessages
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        cycleHireDockingStationData = try container.decodeIfPresent(.cycleHireDockingStationData)
-        journeyVector = try container.decodeIfPresent(.journeyVector)
-        journeys = try container.decodeArrayIfPresent(.journeys)
-        lines = try container.decodeArrayIfPresent(.lines)
-        recommendedMaxAgeMinutes = try container.decodeIfPresent(.recommendedMaxAgeMinutes)
-        searchCriteria = try container.decodeIfPresent(.searchCriteria)
-        stopMessages = try container.decodeArrayIfPresent(.stopMessages)
+        cycleHireDockingStationData = try container.decodeIfPresent("cycleHireDockingStationData")
+        journeyVector = try container.decodeIfPresent("journeyVector")
+        journeys = try container.decodeArrayIfPresent("journeys")
+        lines = try container.decodeArrayIfPresent("lines")
+        recommendedMaxAgeMinutes = try container.decodeIfPresent("recommendedMaxAgeMinutes")
+        searchCriteria = try container.decodeIfPresent("searchCriteria")
+        stopMessages = try container.decodeArrayIfPresent("stopMessages")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(cycleHireDockingStationData, forKey: .cycleHireDockingStationData)
-        try container.encodeIfPresent(journeyVector, forKey: .journeyVector)
-        try container.encodeIfPresent(journeys, forKey: .journeys)
-        try container.encodeIfPresent(lines, forKey: .lines)
-        try container.encodeIfPresent(recommendedMaxAgeMinutes, forKey: .recommendedMaxAgeMinutes)
-        try container.encodeIfPresent(searchCriteria, forKey: .searchCriteria)
-        try container.encodeIfPresent(stopMessages, forKey: .stopMessages)
+        try container.encodeIfPresent(cycleHireDockingStationData, forKey: "cycleHireDockingStationData")
+        try container.encodeIfPresent(journeyVector, forKey: "journeyVector")
+        try container.encodeIfPresent(journeys, forKey: "journeys")
+        try container.encodeIfPresent(lines, forKey: "lines")
+        try container.encodeIfPresent(recommendedMaxAgeMinutes, forKey: "recommendedMaxAgeMinutes")
+        try container.encodeIfPresent(searchCriteria, forKey: "searchCriteria")
+        try container.encodeIfPresent(stopMessages, forKey: "stopMessages")
     }
 
     public func isEqual(to object: Any?) -> Bool {

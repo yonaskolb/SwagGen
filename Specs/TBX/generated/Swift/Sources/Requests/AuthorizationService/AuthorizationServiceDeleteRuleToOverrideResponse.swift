@@ -7,9 +7,7 @@ import Foundation
 
 extension TBX.AuthorizationService {
 
-    /**
-    Delete a rule to override the IDP response's
-    */
+    /** Delete a rule to override the IDP response's */
     public enum AuthorizationServiceDeleteRuleToOverrideResponse {
 
         public static let service = APIService<Response>(id: "AuthorizationService.deleteRuleToOverrideResponse", tag: "AuthorizationService", method: "DELETE", path: "/AuthorizationServices/overrideRule/{ruleId}", hasBody: false)
@@ -54,20 +52,16 @@ extension TBX.AuthorizationService {
                     self.status = status
                 }
 
-                private enum CodingKeys: String, CodingKey {
-                    case status
-                }
-
                 public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: CodingKeys.self)
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-                    status = try container.decodeIfPresent(.status)
+                    status = try container.decodeIfPresent("status")
                 }
 
                 public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: CodingKeys.self)
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
 
-                    try container.encodeIfPresent(status, forKey: .status)
+                    try container.encodeIfPresent(status, forKey: "status")
                 }
 
                 public func isEqual(to object: Any?) -> Bool {

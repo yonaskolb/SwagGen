@@ -28,35 +28,26 @@ public class DeviceType: APIModel {
         self.needActivation = needActivation
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case shortName
-        case contentProvider
-        case defaultExpireDays
-        case deviceType
-        case id
-        case needActivation
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        shortName = try container.decode(.shortName)
-        contentProvider = try container.decodeIfPresent(.contentProvider)
-        defaultExpireDays = try container.decodeIfPresent(.defaultExpireDays)
-        deviceType = try container.decodeIfPresent(.deviceType)
-        id = try container.decodeIfPresent(.id)
-        needActivation = try container.decodeIfPresent(.needActivation)
+        shortName = try container.decode("shortName")
+        contentProvider = try container.decodeIfPresent("contentProvider")
+        defaultExpireDays = try container.decodeIfPresent("defaultExpireDays")
+        deviceType = try container.decodeIfPresent("deviceType")
+        id = try container.decodeIfPresent("id")
+        needActivation = try container.decodeIfPresent("needActivation")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(shortName, forKey: .shortName)
-        try container.encodeIfPresent(contentProvider, forKey: .contentProvider)
-        try container.encodeIfPresent(defaultExpireDays, forKey: .defaultExpireDays)
-        try container.encodeIfPresent(deviceType, forKey: .deviceType)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(needActivation, forKey: .needActivation)
+        try container.encode(shortName, forKey: "shortName")
+        try container.encodeIfPresent(contentProvider, forKey: "contentProvider")
+        try container.encodeIfPresent(defaultExpireDays, forKey: "defaultExpireDays")
+        try container.encodeIfPresent(deviceType, forKey: "deviceType")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(needActivation, forKey: "needActivation")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -14,21 +14,17 @@ public class Cat: Animal {
         super.init(className: className, color: color)
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case declawed
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        declawed = try container.decodeIfPresent(.declawed)
+        declawed = try container.decodeIfPresent("declawed")
         try super.init(from: decoder)
     }
 
     public override func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(declawed, forKey: .declawed)
+        try container.encodeIfPresent(declawed, forKey: "declawed")
         try super.encode(to: encoder)
     }
 

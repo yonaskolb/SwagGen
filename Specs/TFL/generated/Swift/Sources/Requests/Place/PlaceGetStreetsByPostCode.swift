@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.Place {
 
-    /**
-    Gets the set of streets associated with a post code.
-    */
+    /** Gets the set of streets associated with a post code. */
     public enum PlaceGetStreetsByPostCode {
 
         public static let service = APIService<Response>(id: "Place_GetStreetsByPostCode", tag: "Place", method: "GET", path: "/Place/Address/Streets/{Postcode}", hasBody: false)

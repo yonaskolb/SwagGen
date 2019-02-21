@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.Road {
 
-    /**
-    Gets all roads managed by TfL
-    */
+    /** Gets all roads managed by TfL */
     public enum GetRoads {
 
         public static let service = APIService<Response>(id: "getRoads", tag: "Road", method: "GET", path: "/Road", hasBody: false)

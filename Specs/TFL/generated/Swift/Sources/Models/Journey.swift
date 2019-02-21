@@ -23,29 +23,22 @@ public class Journey: APIModel {
         self.startDateTime = startDateTime
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case arrivalDateTime
-        case duration
-        case legs
-        case startDateTime
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        arrivalDateTime = try container.decodeIfPresent(.arrivalDateTime)
-        duration = try container.decodeIfPresent(.duration)
-        legs = try container.decodeArrayIfPresent(.legs)
-        startDateTime = try container.decodeIfPresent(.startDateTime)
+        arrivalDateTime = try container.decodeIfPresent("arrivalDateTime")
+        duration = try container.decodeIfPresent("duration")
+        legs = try container.decodeArrayIfPresent("legs")
+        startDateTime = try container.decodeIfPresent("startDateTime")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(arrivalDateTime, forKey: .arrivalDateTime)
-        try container.encodeIfPresent(duration, forKey: .duration)
-        try container.encodeIfPresent(legs, forKey: .legs)
-        try container.encodeIfPresent(startDateTime, forKey: .startDateTime)
+        try container.encodeIfPresent(arrivalDateTime, forKey: "arrivalDateTime")
+        try container.encodeIfPresent(duration, forKey: "duration")
+        try container.encodeIfPresent(legs, forKey: "legs")
+        try container.encodeIfPresent(startDateTime, forKey: "startDateTime")
     }
 
     public func isEqual(to object: Any?) -> Bool {

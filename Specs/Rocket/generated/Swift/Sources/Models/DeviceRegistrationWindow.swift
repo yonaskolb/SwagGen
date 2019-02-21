@@ -36,32 +36,24 @@ This is based on the value of `startDate` plus the number of days defined by  `p
         self.endDate = endDate
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case periodDays
-        case limit
-        case remaining
-        case startDate
-        case endDate
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        periodDays = try container.decode(.periodDays)
-        limit = try container.decode(.limit)
-        remaining = try container.decode(.remaining)
-        startDate = try container.decode(.startDate)
-        endDate = try container.decode(.endDate)
+        periodDays = try container.decode("periodDays")
+        limit = try container.decode("limit")
+        remaining = try container.decode("remaining")
+        startDate = try container.decode("startDate")
+        endDate = try container.decode("endDate")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(periodDays, forKey: .periodDays)
-        try container.encode(limit, forKey: .limit)
-        try container.encode(remaining, forKey: .remaining)
-        try container.encode(startDate, forKey: .startDate)
-        try container.encode(endDate, forKey: .endDate)
+        try container.encode(periodDays, forKey: "periodDays")
+        try container.encode(limit, forKey: "limit")
+        try container.encode(remaining, forKey: "remaining")
+        try container.encode(startDate, forKey: "startDate")
+        try container.encode(endDate, forKey: "endDate")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -19,26 +19,20 @@ public class Redirect: APIModel {
         self.shortUrl = shortUrl
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case active
-        case longUrl
-        case shortUrl
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        active = try container.decodeIfPresent(.active)
-        longUrl = try container.decodeIfPresent(.longUrl)
-        shortUrl = try container.decodeIfPresent(.shortUrl)
+        active = try container.decodeIfPresent("active")
+        longUrl = try container.decodeIfPresent("longUrl")
+        shortUrl = try container.decodeIfPresent("shortUrl")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(active, forKey: .active)
-        try container.encodeIfPresent(longUrl, forKey: .longUrl)
-        try container.encodeIfPresent(shortUrl, forKey: .shortUrl)
+        try container.encodeIfPresent(active, forKey: "active")
+        try container.encodeIfPresent(longUrl, forKey: "longUrl")
+        try container.encodeIfPresent(shortUrl, forKey: "shortUrl")
     }
 
     public func isEqual(to object: Any?) -> Bool {

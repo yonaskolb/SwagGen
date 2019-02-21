@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.Place {
 
-    /**
-    Gets a list of the available types of Place.
-    */
+    /** Gets a list of the available types of Place. */
     public enum PlaceMetaPlaceTypes {
 
         public static let service = APIService<Response>(id: "Place_MetaPlaceTypes", tag: "Place", method: "GET", path: "/Place/Meta/PlaceTypes", hasBody: false)

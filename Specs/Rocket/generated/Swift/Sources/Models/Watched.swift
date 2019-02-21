@@ -24,29 +24,22 @@ public class Watched: APIModel {
         self.itemId = itemId
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case position
-        case firstWatchedDate
-        case lastWatchedDate
-        case itemId
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        position = try container.decode(.position)
-        firstWatchedDate = try container.decode(.firstWatchedDate)
-        lastWatchedDate = try container.decode(.lastWatchedDate)
-        itemId = try container.decodeIfPresent(.itemId)
+        position = try container.decode("position")
+        firstWatchedDate = try container.decode("firstWatchedDate")
+        lastWatchedDate = try container.decode("lastWatchedDate")
+        itemId = try container.decodeIfPresent("itemId")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(position, forKey: .position)
-        try container.encode(firstWatchedDate, forKey: .firstWatchedDate)
-        try container.encode(lastWatchedDate, forKey: .lastWatchedDate)
-        try container.encodeIfPresent(itemId, forKey: .itemId)
+        try container.encode(position, forKey: "position")
+        try container.encode(firstWatchedDate, forKey: "firstWatchedDate")
+        try container.encode(lastWatchedDate, forKey: "lastWatchedDate")
+        try container.encodeIfPresent(itemId, forKey: "itemId")
     }
 
     public func isEqual(to object: Any?) -> Bool {

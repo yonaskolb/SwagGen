@@ -26,29 +26,22 @@ public class ItemScheduleList: APIModel {
         self.schedules = schedules
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case channelId
-        case startDate
-        case endDate
-        case schedules
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        channelId = try container.decode(.channelId)
-        startDate = try container.decode(.startDate)
-        endDate = try container.decode(.endDate)
-        schedules = try container.decodeArray(.schedules)
+        channelId = try container.decode("channelId")
+        startDate = try container.decode("startDate")
+        endDate = try container.decode("endDate")
+        schedules = try container.decodeArray("schedules")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(channelId, forKey: .channelId)
-        try container.encode(startDate, forKey: .startDate)
-        try container.encode(endDate, forKey: .endDate)
-        try container.encode(schedules, forKey: .schedules)
+        try container.encode(channelId, forKey: "channelId")
+        try container.encode(startDate, forKey: "startDate")
+        try container.encode(endDate, forKey: "endDate")
+        try container.encode(schedules, forKey: "schedules")
     }
 
     public func isEqual(to object: Any?) -> Bool {

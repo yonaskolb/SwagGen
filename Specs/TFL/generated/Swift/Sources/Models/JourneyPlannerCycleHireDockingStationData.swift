@@ -28,35 +28,26 @@ public class JourneyPlannerCycleHireDockingStationData: APIModel {
         self.originNumberOfEmptySlots = originNumberOfEmptySlots
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case destinationId
-        case destinationNumberOfBikes
-        case destinationNumberOfEmptySlots
-        case originId
-        case originNumberOfBikes
-        case originNumberOfEmptySlots
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        destinationId = try container.decodeIfPresent(.destinationId)
-        destinationNumberOfBikes = try container.decodeIfPresent(.destinationNumberOfBikes)
-        destinationNumberOfEmptySlots = try container.decodeIfPresent(.destinationNumberOfEmptySlots)
-        originId = try container.decodeIfPresent(.originId)
-        originNumberOfBikes = try container.decodeIfPresent(.originNumberOfBikes)
-        originNumberOfEmptySlots = try container.decodeIfPresent(.originNumberOfEmptySlots)
+        destinationId = try container.decodeIfPresent("destinationId")
+        destinationNumberOfBikes = try container.decodeIfPresent("destinationNumberOfBikes")
+        destinationNumberOfEmptySlots = try container.decodeIfPresent("destinationNumberOfEmptySlots")
+        originId = try container.decodeIfPresent("originId")
+        originNumberOfBikes = try container.decodeIfPresent("originNumberOfBikes")
+        originNumberOfEmptySlots = try container.decodeIfPresent("originNumberOfEmptySlots")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(destinationId, forKey: .destinationId)
-        try container.encodeIfPresent(destinationNumberOfBikes, forKey: .destinationNumberOfBikes)
-        try container.encodeIfPresent(destinationNumberOfEmptySlots, forKey: .destinationNumberOfEmptySlots)
-        try container.encodeIfPresent(originId, forKey: .originId)
-        try container.encodeIfPresent(originNumberOfBikes, forKey: .originNumberOfBikes)
-        try container.encodeIfPresent(originNumberOfEmptySlots, forKey: .originNumberOfEmptySlots)
+        try container.encodeIfPresent(destinationId, forKey: "destinationId")
+        try container.encodeIfPresent(destinationNumberOfBikes, forKey: "destinationNumberOfBikes")
+        try container.encodeIfPresent(destinationNumberOfEmptySlots, forKey: "destinationNumberOfEmptySlots")
+        try container.encodeIfPresent(originId, forKey: "originId")
+        try container.encodeIfPresent(originNumberOfBikes, forKey: "originNumberOfBikes")
+        try container.encodeIfPresent(originNumberOfEmptySlots, forKey: "originNumberOfEmptySlots")
     }
 
     public func isEqual(to object: Any?) -> Bool {

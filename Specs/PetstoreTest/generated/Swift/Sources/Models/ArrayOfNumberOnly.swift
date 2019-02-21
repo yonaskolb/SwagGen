@@ -13,20 +13,16 @@ public class ArrayOfNumberOnly: APIModel {
         self.arrayNumber = arrayNumber
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case arrayNumber = "ArrayNumber"
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        arrayNumber = try container.decodeArrayIfPresent(.arrayNumber)
+        arrayNumber = try container.decodeArrayIfPresent("ArrayNumber")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(arrayNumber, forKey: .arrayNumber)
+        try container.encodeIfPresent(arrayNumber, forKey: "ArrayNumber")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -17,23 +17,18 @@ public class Auth: APIModel {
         self.userToken = userToken
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case status
-        case userToken = "user_token"
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        status = try container.decode(.status)
-        userToken = try container.decodeIfPresent(.userToken)
+        status = try container.decode("status")
+        userToken = try container.decodeIfPresent("user_token")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(status, forKey: .status)
-        try container.encodeIfPresent(userToken, forKey: .userToken)
+        try container.encode(status, forKey: "status")
+        try container.encodeIfPresent(userToken, forKey: "user_token")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -4,22 +4,27 @@ import Foundation
 
 extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }}{% endif %} {
 
-    {% if description or summary %}
+    {% if description and summary %}
+    {% if description == summary %}
+    /** {{ description }} */
+    {% else %}
     /**
-    {% if summary %}
     {{ summary }}
-    {% if description and description != summary %}
 
     {{ description }}
-    {% endif %}
-    {% elif description %}
-    {{ description }}
-    {% endif %}
     */
+    {% endif %}
+    {% else %}
+    {% if description %}
+    /** {{ description }} */
+    {% endif %}
+    {% if summary %}
+    /** {{ summary }} */
+    {% endif %}
     {% endif %}
     public enum {{ type }} {
 
-        public static let service = APIService<Response>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if hasFileParam %}, hasFile: true{% endif %}{% if securityRequirement %}, securityRequirement: SecurityRequirement(type: "{{ securityRequirement.name }}", scope: "{{ securityRequirement.scope }}"){% endif %})
+        public static let service = APIService<Response>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if hasFileParam %}, hasFile: true{% endif %}{% if securityRequirement %}, securityRequirement: SecurityRequirement(type: "{{ securityRequirement.name }}", scopes: [{% for scope in securityRequirement.scopes %}"{{ scope }}"{% ifnot forloop.last %}, {% endif %}{% endfor %}]){% endif %})
         {% for enum in requestEnums %}
         {% if not enum.isGlobal %}
 

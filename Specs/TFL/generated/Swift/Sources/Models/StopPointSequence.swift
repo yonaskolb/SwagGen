@@ -49,41 +49,30 @@ public class StopPointSequence: APIModel {
         self.stopPoint = stopPoint
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case branchId
-        case direction
-        case lineId
-        case lineName
-        case nextBranchIds
-        case prevBranchIds
-        case serviceType
-        case stopPoint
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        branchId = try container.decodeIfPresent(.branchId)
-        direction = try container.decodeIfPresent(.direction)
-        lineId = try container.decodeIfPresent(.lineId)
-        lineName = try container.decodeIfPresent(.lineName)
-        nextBranchIds = try container.decodeArrayIfPresent(.nextBranchIds)
-        prevBranchIds = try container.decodeArrayIfPresent(.prevBranchIds)
-        serviceType = try container.decodeIfPresent(.serviceType)
-        stopPoint = try container.decodeArrayIfPresent(.stopPoint)
+        branchId = try container.decodeIfPresent("branchId")
+        direction = try container.decodeIfPresent("direction")
+        lineId = try container.decodeIfPresent("lineId")
+        lineName = try container.decodeIfPresent("lineName")
+        nextBranchIds = try container.decodeArrayIfPresent("nextBranchIds")
+        prevBranchIds = try container.decodeArrayIfPresent("prevBranchIds")
+        serviceType = try container.decodeIfPresent("serviceType")
+        stopPoint = try container.decodeArrayIfPresent("stopPoint")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(branchId, forKey: .branchId)
-        try container.encodeIfPresent(direction, forKey: .direction)
-        try container.encodeIfPresent(lineId, forKey: .lineId)
-        try container.encodeIfPresent(lineName, forKey: .lineName)
-        try container.encodeIfPresent(nextBranchIds, forKey: .nextBranchIds)
-        try container.encodeIfPresent(prevBranchIds, forKey: .prevBranchIds)
-        try container.encodeIfPresent(serviceType, forKey: .serviceType)
-        try container.encodeIfPresent(stopPoint, forKey: .stopPoint)
+        try container.encodeIfPresent(branchId, forKey: "branchId")
+        try container.encodeIfPresent(direction, forKey: "direction")
+        try container.encodeIfPresent(lineId, forKey: "lineId")
+        try container.encodeIfPresent(lineName, forKey: "lineName")
+        try container.encodeIfPresent(nextBranchIds, forKey: "nextBranchIds")
+        try container.encodeIfPresent(prevBranchIds, forKey: "prevBranchIds")
+        try container.encodeIfPresent(serviceType, forKey: "serviceType")
+        try container.encodeIfPresent(stopPoint, forKey: "stopPoint")
     }
 
     public func isEqual(to object: Any?) -> Bool {

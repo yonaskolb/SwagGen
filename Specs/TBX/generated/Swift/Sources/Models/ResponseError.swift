@@ -13,20 +13,16 @@ public class ResponseError: APIModel {
         self.error = error
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case error
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        error = try container.decode(.error)
+        error = try container.decode("error")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(error, forKey: .error)
+        try container.encode(error, forKey: "error")
     }
 
     public func isEqual(to object: Any?) -> Bool {

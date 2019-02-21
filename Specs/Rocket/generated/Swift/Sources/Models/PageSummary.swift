@@ -46,38 +46,28 @@ a page is static or not. Use the `isStatic` property instead.
         self.key = key
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case path
-        case title
-        case template
-        case isStatic
-        case isSystemPage
-        case key
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        id = try container.decode(.id)
-        path = try container.decode(.path)
-        title = try container.decode(.title)
-        template = try container.decode(.template)
-        isStatic = try container.decode(.isStatic)
-        isSystemPage = try container.decode(.isSystemPage)
-        key = try container.decodeIfPresent(.key)
+        id = try container.decode("id")
+        path = try container.decode("path")
+        title = try container.decode("title")
+        template = try container.decode("template")
+        isStatic = try container.decode("isStatic")
+        isSystemPage = try container.decode("isSystemPage")
+        key = try container.decodeIfPresent("key")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(id, forKey: .id)
-        try container.encode(path, forKey: .path)
-        try container.encode(title, forKey: .title)
-        try container.encode(template, forKey: .template)
-        try container.encode(isStatic, forKey: .isStatic)
-        try container.encode(isSystemPage, forKey: .isSystemPage)
-        try container.encodeIfPresent(key, forKey: .key)
+        try container.encode(id, forKey: "id")
+        try container.encode(path, forKey: "path")
+        try container.encode(title, forKey: "title")
+        try container.encode(template, forKey: "template")
+        try container.encode(isStatic, forKey: "isStatic")
+        try container.encode(isSystemPage, forKey: "isSystemPage")
+        try container.encodeIfPresent(key, forKey: "key")
     }
 
     public func isEqual(to object: Any?) -> Bool {

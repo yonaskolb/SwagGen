@@ -7,9 +7,7 @@ import Foundation
 
 extension TBX.UserService {
 
-    /**
-    Clear user's authorization cache
-    */
+    /** Clear user's authorization cache */
     public enum UserServiceRemoveUserCache {
 
         public static let service = APIService<Response>(id: "UserService.removeUserCache", tag: "UserService", method: "DELETE", path: "/UserServices/cache", hasBody: false)
@@ -61,20 +59,16 @@ extension TBX.UserService {
                     self.status = status
                 }
 
-                private enum CodingKeys: String, CodingKey {
-                    case status
-                }
-
                 public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: CodingKeys.self)
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-                    status = try container.decodeIfPresent(.status)
+                    status = try container.decodeIfPresent("status")
                 }
 
                 public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: CodingKeys.self)
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
 
-                    try container.encodeIfPresent(status, forKey: .status)
+                    try container.encodeIfPresent(status, forKey: "status")
                 }
 
                 public func isEqual(to object: Any?) -> Bool {

@@ -13,20 +13,16 @@ public class Vehicle: APIModel {
         self.type = type
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case type
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        type = try container.decodeIfPresent(.type)
+        type = try container.decodeIfPresent("type")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(type, forKey: "type")
     }
 
     public func isEqual(to object: Any?) -> Bool {

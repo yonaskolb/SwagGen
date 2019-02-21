@@ -31,35 +31,26 @@ public class TryAndBuyObject: APIModel {
         self.lastFinishedTryAndBuy = lastFinishedTryAndBuy
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case active
-        case createdAt
-        case expiration
-        case daysWithTryAndBuy
-        case numTryAndBuyExpired
-        case lastFinishedTryAndBuy
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        active = try container.decode(.active)
-        createdAt = try container.decode(.createdAt)
-        expiration = try container.decode(.expiration)
-        daysWithTryAndBuy = try container.decode(.daysWithTryAndBuy)
-        numTryAndBuyExpired = try container.decode(.numTryAndBuyExpired)
-        lastFinishedTryAndBuy = try container.decodeIfPresent(.lastFinishedTryAndBuy)
+        active = try container.decode("active")
+        createdAt = try container.decode("createdAt")
+        expiration = try container.decode("expiration")
+        daysWithTryAndBuy = try container.decode("daysWithTryAndBuy")
+        numTryAndBuyExpired = try container.decode("numTryAndBuyExpired")
+        lastFinishedTryAndBuy = try container.decodeIfPresent("lastFinishedTryAndBuy")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(active, forKey: .active)
-        try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(expiration, forKey: .expiration)
-        try container.encode(daysWithTryAndBuy, forKey: .daysWithTryAndBuy)
-        try container.encode(numTryAndBuyExpired, forKey: .numTryAndBuyExpired)
-        try container.encodeIfPresent(lastFinishedTryAndBuy, forKey: .lastFinishedTryAndBuy)
+        try container.encode(active, forKey: "active")
+        try container.encode(createdAt, forKey: "createdAt")
+        try container.encode(expiration, forKey: "expiration")
+        try container.encode(daysWithTryAndBuy, forKey: "daysWithTryAndBuy")
+        try container.encode(numTryAndBuyExpired, forKey: "numTryAndBuyExpired")
+        try container.encodeIfPresent(lastFinishedTryAndBuy, forKey: "lastFinishedTryAndBuy")
     }
 
     public func isEqual(to object: Any?) -> Bool {

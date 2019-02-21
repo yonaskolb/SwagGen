@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.StopPoint {
 
-    /**
-    Returns the route sections for all the lines that service the given stop point ids
-    */
+    /** Returns the route sections for all the lines that service the given stop point ids */
     public enum StopPointRoute {
 
         public static let service = APIService<Response>(id: "StopPoint_Route", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/Route", hasBody: false)

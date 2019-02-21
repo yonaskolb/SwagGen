@@ -13,20 +13,16 @@ public class PostcodeInput: APIModel {
         self.postcode = postcode
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case postcode
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        postcode = try container.decodeIfPresent(.postcode)
+        postcode = try container.decodeIfPresent("postcode")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(postcode, forKey: .postcode)
+        try container.encodeIfPresent(postcode, forKey: "postcode")
     }
 
     public func isEqual(to object: Any?) -> Bool {

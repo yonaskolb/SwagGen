@@ -25,32 +25,24 @@ public class FaresPeriod: APIModel {
         self.viewableDate = viewableDate
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case endDate
-        case id
-        case isFuture
-        case startDate
-        case viewableDate
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        endDate = try container.decodeIfPresent(.endDate)
-        id = try container.decodeIfPresent(.id)
-        isFuture = try container.decodeIfPresent(.isFuture)
-        startDate = try container.decodeIfPresent(.startDate)
-        viewableDate = try container.decodeIfPresent(.viewableDate)
+        endDate = try container.decodeIfPresent("endDate")
+        id = try container.decodeIfPresent("id")
+        isFuture = try container.decodeIfPresent("isFuture")
+        startDate = try container.decodeIfPresent("startDate")
+        viewableDate = try container.decodeIfPresent("viewableDate")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(endDate, forKey: .endDate)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(isFuture, forKey: .isFuture)
-        try container.encodeIfPresent(startDate, forKey: .startDate)
-        try container.encodeIfPresent(viewableDate, forKey: .viewableDate)
+        try container.encodeIfPresent(endDate, forKey: "endDate")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(isFuture, forKey: "isFuture")
+        try container.encodeIfPresent(startDate, forKey: "startDate")
+        try container.encodeIfPresent(viewableDate, forKey: "viewableDate")
     }
 
     public func isEqual(to object: Any?) -> Bool {

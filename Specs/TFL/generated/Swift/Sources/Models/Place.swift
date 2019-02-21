@@ -49,47 +49,34 @@ public class Place: APIModel {
         self.url = url
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case additionalProperties
-        case children
-        case childrenUrls
-        case commonName
-        case distance
-        case id
-        case lat
-        case lon
-        case placeType
-        case url
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        additionalProperties = try container.decodeArrayIfPresent(.additionalProperties)
-        children = try container.decodeArrayIfPresent(.children)
-        childrenUrls = try container.decodeArrayIfPresent(.childrenUrls)
-        commonName = try container.decodeIfPresent(.commonName)
-        distance = try container.decodeIfPresent(.distance)
-        id = try container.decodeIfPresent(.id)
-        lat = try container.decodeIfPresent(.lat)
-        lon = try container.decodeIfPresent(.lon)
-        placeType = try container.decodeIfPresent(.placeType)
-        url = try container.decodeIfPresent(.url)
+        additionalProperties = try container.decodeArrayIfPresent("additionalProperties")
+        children = try container.decodeArrayIfPresent("children")
+        childrenUrls = try container.decodeArrayIfPresent("childrenUrls")
+        commonName = try container.decodeIfPresent("commonName")
+        distance = try container.decodeIfPresent("distance")
+        id = try container.decodeIfPresent("id")
+        lat = try container.decodeIfPresent("lat")
+        lon = try container.decodeIfPresent("lon")
+        placeType = try container.decodeIfPresent("placeType")
+        url = try container.decodeIfPresent("url")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(additionalProperties, forKey: .additionalProperties)
-        try container.encodeIfPresent(children, forKey: .children)
-        try container.encodeIfPresent(childrenUrls, forKey: .childrenUrls)
-        try container.encodeIfPresent(commonName, forKey: .commonName)
-        try container.encodeIfPresent(distance, forKey: .distance)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(lat, forKey: .lat)
-        try container.encodeIfPresent(lon, forKey: .lon)
-        try container.encodeIfPresent(placeType, forKey: .placeType)
-        try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(additionalProperties, forKey: "additionalProperties")
+        try container.encodeIfPresent(children, forKey: "children")
+        try container.encodeIfPresent(childrenUrls, forKey: "childrenUrls")
+        try container.encodeIfPresent(commonName, forKey: "commonName")
+        try container.encodeIfPresent(distance, forKey: "distance")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(lat, forKey: "lat")
+        try container.encodeIfPresent(lon, forKey: "lon")
+        try container.encodeIfPresent(placeType, forKey: "placeType")
+        try container.encodeIfPresent(url, forKey: "url")
     }
 
     public func isEqual(to object: Any?) -> Bool {

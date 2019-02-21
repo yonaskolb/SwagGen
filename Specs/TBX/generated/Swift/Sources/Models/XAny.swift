@@ -10,7 +10,6 @@ public class XAny: APIModel {
     public init() {
     }
 
-
     public required init(from decoder: Decoder) throws {
     }
 

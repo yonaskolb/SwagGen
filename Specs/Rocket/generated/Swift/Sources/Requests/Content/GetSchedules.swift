@@ -7,8 +7,7 @@ import Foundation
 
 extension Rocket.Content {
 
-    /**
-    Returns schedules for a defined set of channels over a requested period.
+    /** Returns schedules for a defined set of channels over a requested period.
 Schedules are requested in hour blocks and returned grouped by the channel
 they belong to.
 For example, to load 12 hours of schedules for channels `4343` and `5234`,
@@ -23,7 +22,7 @@ If a channel id is passed which doesn't exist then this endpoint will
 return an empty schedule list for it. If instead we returned 404,
 this would invalidate all other channel schedules in the same request
 which would be unfriendly for clients presenting these channel schedules.
-    */
+ */
     public enum GetSchedules {
 
         public static let service = APIService<Response>(id: "getSchedules", tag: "content", method: "GET", path: "/schedules", hasBody: false)

@@ -79,68 +79,48 @@ public class RoadProject: APIModel {
         self.schemeName = schemeName
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case boroughsBenefited
-        case constructionEndDate
-        case constructionStartDate
-        case consultationEndDate
-        case consultationPageUrl
-        case consultationStartDate
-        case contactEmail
-        case contactName
-        case cycleSuperhighwayId
-        case externalPageUrl
-        case phase
-        case projectDescription
-        case projectId
-        case projectName
-        case projectPageUrl
-        case projectSummaryPageUrl
-        case schemeName
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        boroughsBenefited = try container.decodeArrayIfPresent(.boroughsBenefited)
-        constructionEndDate = try container.decodeIfPresent(.constructionEndDate)
-        constructionStartDate = try container.decodeIfPresent(.constructionStartDate)
-        consultationEndDate = try container.decodeIfPresent(.consultationEndDate)
-        consultationPageUrl = try container.decodeIfPresent(.consultationPageUrl)
-        consultationStartDate = try container.decodeIfPresent(.consultationStartDate)
-        contactEmail = try container.decodeIfPresent(.contactEmail)
-        contactName = try container.decodeIfPresent(.contactName)
-        cycleSuperhighwayId = try container.decodeIfPresent(.cycleSuperhighwayId)
-        externalPageUrl = try container.decodeIfPresent(.externalPageUrl)
-        phase = try container.decodeIfPresent(.phase)
-        projectDescription = try container.decodeIfPresent(.projectDescription)
-        projectId = try container.decodeIfPresent(.projectId)
-        projectName = try container.decodeIfPresent(.projectName)
-        projectPageUrl = try container.decodeIfPresent(.projectPageUrl)
-        projectSummaryPageUrl = try container.decodeIfPresent(.projectSummaryPageUrl)
-        schemeName = try container.decodeIfPresent(.schemeName)
+        boroughsBenefited = try container.decodeArrayIfPresent("boroughsBenefited")
+        constructionEndDate = try container.decodeIfPresent("constructionEndDate")
+        constructionStartDate = try container.decodeIfPresent("constructionStartDate")
+        consultationEndDate = try container.decodeIfPresent("consultationEndDate")
+        consultationPageUrl = try container.decodeIfPresent("consultationPageUrl")
+        consultationStartDate = try container.decodeIfPresent("consultationStartDate")
+        contactEmail = try container.decodeIfPresent("contactEmail")
+        contactName = try container.decodeIfPresent("contactName")
+        cycleSuperhighwayId = try container.decodeIfPresent("cycleSuperhighwayId")
+        externalPageUrl = try container.decodeIfPresent("externalPageUrl")
+        phase = try container.decodeIfPresent("phase")
+        projectDescription = try container.decodeIfPresent("projectDescription")
+        projectId = try container.decodeIfPresent("projectId")
+        projectName = try container.decodeIfPresent("projectName")
+        projectPageUrl = try container.decodeIfPresent("projectPageUrl")
+        projectSummaryPageUrl = try container.decodeIfPresent("projectSummaryPageUrl")
+        schemeName = try container.decodeIfPresent("schemeName")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(boroughsBenefited, forKey: .boroughsBenefited)
-        try container.encodeIfPresent(constructionEndDate, forKey: .constructionEndDate)
-        try container.encodeIfPresent(constructionStartDate, forKey: .constructionStartDate)
-        try container.encodeIfPresent(consultationEndDate, forKey: .consultationEndDate)
-        try container.encodeIfPresent(consultationPageUrl, forKey: .consultationPageUrl)
-        try container.encodeIfPresent(consultationStartDate, forKey: .consultationStartDate)
-        try container.encodeIfPresent(contactEmail, forKey: .contactEmail)
-        try container.encodeIfPresent(contactName, forKey: .contactName)
-        try container.encodeIfPresent(cycleSuperhighwayId, forKey: .cycleSuperhighwayId)
-        try container.encodeIfPresent(externalPageUrl, forKey: .externalPageUrl)
-        try container.encodeIfPresent(phase, forKey: .phase)
-        try container.encodeIfPresent(projectDescription, forKey: .projectDescription)
-        try container.encodeIfPresent(projectId, forKey: .projectId)
-        try container.encodeIfPresent(projectName, forKey: .projectName)
-        try container.encodeIfPresent(projectPageUrl, forKey: .projectPageUrl)
-        try container.encodeIfPresent(projectSummaryPageUrl, forKey: .projectSummaryPageUrl)
-        try container.encodeIfPresent(schemeName, forKey: .schemeName)
+        try container.encodeIfPresent(boroughsBenefited, forKey: "boroughsBenefited")
+        try container.encodeIfPresent(constructionEndDate, forKey: "constructionEndDate")
+        try container.encodeIfPresent(constructionStartDate, forKey: "constructionStartDate")
+        try container.encodeIfPresent(consultationEndDate, forKey: "consultationEndDate")
+        try container.encodeIfPresent(consultationPageUrl, forKey: "consultationPageUrl")
+        try container.encodeIfPresent(consultationStartDate, forKey: "consultationStartDate")
+        try container.encodeIfPresent(contactEmail, forKey: "contactEmail")
+        try container.encodeIfPresent(contactName, forKey: "contactName")
+        try container.encodeIfPresent(cycleSuperhighwayId, forKey: "cycleSuperhighwayId")
+        try container.encodeIfPresent(externalPageUrl, forKey: "externalPageUrl")
+        try container.encodeIfPresent(phase, forKey: "phase")
+        try container.encodeIfPresent(projectDescription, forKey: "projectDescription")
+        try container.encodeIfPresent(projectId, forKey: "projectId")
+        try container.encodeIfPresent(projectName, forKey: "projectName")
+        try container.encodeIfPresent(projectPageUrl, forKey: "projectPageUrl")
+        try container.encodeIfPresent(projectSummaryPageUrl, forKey: "projectSummaryPageUrl")
+        try container.encodeIfPresent(schemeName, forKey: "schemeName")
     }
 
     public func isEqual(to object: Any?) -> Bool {

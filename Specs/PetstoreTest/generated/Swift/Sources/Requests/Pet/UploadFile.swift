@@ -7,12 +7,10 @@ import Foundation
 
 extension PetstoreTest.Pet {
 
-    /**
-    uploads an image
-    */
+    /** uploads an image */
     public enum UploadFile {
 
-        public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, hasFile: true, securityRequirement: SecurityRequirement(type: "petstore_auth", scope: "write:pets"))
+        public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, hasFile: true, securityRequirement: SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"]))
 
         public final class Request: APIRequest<Response> {
 

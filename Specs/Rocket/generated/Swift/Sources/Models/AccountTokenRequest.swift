@@ -78,32 +78,24 @@ Either a pin or password should be supplied. If both are supplied the password w
         self.pin = pin
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case email
-        case scopes
-        case cookieType
-        case password
-        case pin
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        email = try container.decode(.email)
-        scopes = try container.decodeArray(.scopes)
-        cookieType = try container.decodeIfPresent(.cookieType)
-        password = try container.decodeIfPresent(.password)
-        pin = try container.decodeIfPresent(.pin)
+        email = try container.decode("email")
+        scopes = try container.decodeArray("scopes")
+        cookieType = try container.decodeIfPresent("cookieType")
+        password = try container.decodeIfPresent("password")
+        pin = try container.decodeIfPresent("pin")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(email, forKey: .email)
-        try container.encode(scopes, forKey: .scopes)
-        try container.encodeIfPresent(cookieType, forKey: .cookieType)
-        try container.encodeIfPresent(password, forKey: .password)
-        try container.encodeIfPresent(pin, forKey: .pin)
+        try container.encode(email, forKey: "email")
+        try container.encode(scopes, forKey: "scopes")
+        try container.encodeIfPresent(cookieType, forKey: "cookieType")
+        try container.encodeIfPresent(password, forKey: "password")
+        try container.encodeIfPresent(pin, forKey: "pin")
     }
 
     public func isEqual(to object: Any?) -> Bool {

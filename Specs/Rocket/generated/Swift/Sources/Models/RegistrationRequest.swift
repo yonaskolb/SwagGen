@@ -34,38 +34,28 @@ public class RegistrationRequest: APIModel {
         self.segments = segments
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case email
-        case password
-        case firstName
-        case lastName
-        case marketing
-        case pin
-        case segments
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        email = try container.decode(.email)
-        password = try container.decode(.password)
-        firstName = try container.decodeIfPresent(.firstName)
-        lastName = try container.decodeIfPresent(.lastName)
-        marketing = try container.decodeIfPresent(.marketing)
-        pin = try container.decodeIfPresent(.pin)
-        segments = try container.decodeArrayIfPresent(.segments)
+        email = try container.decode("email")
+        password = try container.decode("password")
+        firstName = try container.decodeIfPresent("firstName")
+        lastName = try container.decodeIfPresent("lastName")
+        marketing = try container.decodeIfPresent("marketing")
+        pin = try container.decodeIfPresent("pin")
+        segments = try container.decodeArrayIfPresent("segments")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(email, forKey: .email)
-        try container.encode(password, forKey: .password)
-        try container.encodeIfPresent(firstName, forKey: .firstName)
-        try container.encodeIfPresent(lastName, forKey: .lastName)
-        try container.encodeIfPresent(marketing, forKey: .marketing)
-        try container.encodeIfPresent(pin, forKey: .pin)
-        try container.encodeIfPresent(segments, forKey: .segments)
+        try container.encode(email, forKey: "email")
+        try container.encode(password, forKey: "password")
+        try container.encodeIfPresent(firstName, forKey: "firstName")
+        try container.encodeIfPresent(lastName, forKey: "lastName")
+        try container.encodeIfPresent(marketing, forKey: "marketing")
+        try container.encodeIfPresent(pin, forKey: "pin")
+        try container.encodeIfPresent(segments, forKey: "segments")
     }
 
     public func isEqual(to object: Any?) -> Bool {

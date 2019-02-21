@@ -36,23 +36,18 @@ public class EnumArrays: APIModel {
         self.justSymbol = justSymbol
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case arrayEnum = "array_enum"
-        case justSymbol = "just_symbol"
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        arrayEnum = try container.decodeArrayIfPresent(.arrayEnum)
-        justSymbol = try container.decodeIfPresent(.justSymbol)
+        arrayEnum = try container.decodeArrayIfPresent("array_enum")
+        justSymbol = try container.decodeIfPresent("just_symbol")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
-        try container.encodeIfPresent(justSymbol, forKey: .justSymbol)
+        try container.encodeIfPresent(arrayEnum, forKey: "array_enum")
+        try container.encodeIfPresent(justSymbol, forKey: "just_symbol")
     }
 
     public func isEqual(to object: Any?) -> Bool {

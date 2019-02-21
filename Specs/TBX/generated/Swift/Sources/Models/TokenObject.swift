@@ -32,23 +32,18 @@ public class TokenObject: APIModel {
             self.description = description
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case code
-            case description
-        }
-
         public required init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-            code = try container.decodeIfPresent(.code)
-            description = try container.decodeIfPresent(.description)
+            code = try container.decodeIfPresent("code")
+            description = try container.decodeIfPresent("description")
         }
 
         public func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: StringCodingKey.self)
 
-            try container.encodeIfPresent(code, forKey: .code)
-            try container.encodeIfPresent(description, forKey: .description)
+            try container.encodeIfPresent(code, forKey: "code")
+            try container.encodeIfPresent(description, forKey: "description")
         }
 
         public func isEqual(to object: Any?) -> Bool {
@@ -72,35 +67,26 @@ public class TokenObject: APIModel {
         self.uses = uses
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case token
-        case idp
-        case type
-        case expiration
-        case remainingCredits
-        case uses
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        token = try container.decode(.token)
-        idp = try container.decode(.idp)
-        type = try container.decode(.type)
-        expiration = try container.decodeIfPresent(.expiration)
-        remainingCredits = try container.decodeIfPresent(.remainingCredits)
-        uses = try container.decodeIfPresent(.uses)
+        token = try container.decode("token")
+        idp = try container.decode("idp")
+        type = try container.decode("type")
+        expiration = try container.decodeIfPresent("expiration")
+        remainingCredits = try container.decodeIfPresent("remainingCredits")
+        uses = try container.decodeIfPresent("uses")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(token, forKey: .token)
-        try container.encode(idp, forKey: .idp)
-        try container.encode(type, forKey: .type)
-        try container.encodeIfPresent(expiration, forKey: .expiration)
-        try container.encodeIfPresent(remainingCredits, forKey: .remainingCredits)
-        try container.encodeIfPresent(uses, forKey: .uses)
+        try container.encode(token, forKey: "token")
+        try container.encode(idp, forKey: "idp")
+        try container.encode(type, forKey: "type")
+        try container.encodeIfPresent(expiration, forKey: "expiration")
+        try container.encodeIfPresent(remainingCredits, forKey: "remainingCredits")
+        try container.encodeIfPresent(uses, forKey: "uses")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -25,32 +25,24 @@ public class Message: APIModel {
         self.url = url
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case bulletOrder
-        case header
-        case linkText
-        case messageText
-        case url
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        bulletOrder = try container.decodeIfPresent(.bulletOrder)
-        header = try container.decodeIfPresent(.header)
-        linkText = try container.decodeIfPresent(.linkText)
-        messageText = try container.decodeIfPresent(.messageText)
-        url = try container.decodeIfPresent(.url)
+        bulletOrder = try container.decodeIfPresent("bulletOrder")
+        header = try container.decodeIfPresent("header")
+        linkText = try container.decodeIfPresent("linkText")
+        messageText = try container.decodeIfPresent("messageText")
+        url = try container.decodeIfPresent("url")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(bulletOrder, forKey: .bulletOrder)
-        try container.encodeIfPresent(header, forKey: .header)
-        try container.encodeIfPresent(linkText, forKey: .linkText)
-        try container.encodeIfPresent(messageText, forKey: .messageText)
-        try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(bulletOrder, forKey: "bulletOrder")
+        try container.encodeIfPresent(header, forKey: "header")
+        try container.encodeIfPresent(linkText, forKey: "linkText")
+        try container.encodeIfPresent(messageText, forKey: "messageText")
+        try container.encodeIfPresent(url, forKey: "url")
     }
 
     public func isEqual(to object: Any?) -> Bool {

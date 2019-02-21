@@ -16,23 +16,18 @@ public class PathAttribute: APIModel {
         self.value = value
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case name
-        case value
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        name = try container.decodeIfPresent(.name)
-        value = try container.decodeIfPresent(.value)
+        name = try container.decodeIfPresent("name")
+        value = try container.decodeIfPresent("value")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(value, forKey: .value)
+        try container.encodeIfPresent(name, forKey: "name")
+        try container.encodeIfPresent(value, forKey: "value")
     }
 
     public func isEqual(to object: Any?) -> Bool {

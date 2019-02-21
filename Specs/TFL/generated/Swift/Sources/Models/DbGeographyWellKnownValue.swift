@@ -19,26 +19,20 @@ public class DbGeographyWellKnownValue: APIModel {
         self.wellKnownText = wellKnownText
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case coordinateSystemId
-        case wellKnownBinary
-        case wellKnownText
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        coordinateSystemId = try container.decodeIfPresent(.coordinateSystemId)
-        wellKnownBinary = try container.decodeIfPresent(.wellKnownBinary)
-        wellKnownText = try container.decodeIfPresent(.wellKnownText)
+        coordinateSystemId = try container.decodeIfPresent("coordinateSystemId")
+        wellKnownBinary = try container.decodeIfPresent("wellKnownBinary")
+        wellKnownText = try container.decodeIfPresent("wellKnownText")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(coordinateSystemId, forKey: .coordinateSystemId)
-        try container.encodeIfPresent(wellKnownBinary, forKey: .wellKnownBinary)
-        try container.encodeIfPresent(wellKnownText, forKey: .wellKnownText)
+        try container.encodeIfPresent(coordinateSystemId, forKey: "coordinateSystemId")
+        try container.encodeIfPresent(wellKnownBinary, forKey: "wellKnownBinary")
+        try container.encodeIfPresent(wellKnownText, forKey: "wellKnownText")
     }
 
     public func isEqual(to object: Any?) -> Bool {

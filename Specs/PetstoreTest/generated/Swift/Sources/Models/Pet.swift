@@ -42,35 +42,26 @@ public class Pet: APIModel {
         self.tags = tags
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case name
-        case photoUrls
-        case category
-        case id
-        case status
-        case tags
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        name = try container.decode(.name)
-        photoUrls = try container.decodeArray(.photoUrls)
-        category = try container.decodeIfPresent(.category)
-        id = try container.decodeIfPresent(.id)
-        status = try container.decodeIfPresent(.status)
-        tags = try container.decodeArrayIfPresent(.tags)
+        name = try container.decode("name")
+        photoUrls = try container.decodeArray("photoUrls")
+        category = try container.decodeIfPresent("category")
+        id = try container.decodeIfPresent("id")
+        status = try container.decodeIfPresent("status")
+        tags = try container.decodeArrayIfPresent("tags")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(name, forKey: .name)
-        try container.encode(photoUrls, forKey: .photoUrls)
-        try container.encodeIfPresent(category, forKey: .category)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(status, forKey: .status)
-        try container.encodeIfPresent(tags, forKey: .tags)
+        try container.encode(name, forKey: "name")
+        try container.encode(photoUrls, forKey: "photoUrls")
+        try container.encodeIfPresent(category, forKey: "category")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(status, forKey: "status")
+        try container.encodeIfPresent(tags, forKey: "tags")
     }
 
     public func isEqual(to object: Any?) -> Bool {

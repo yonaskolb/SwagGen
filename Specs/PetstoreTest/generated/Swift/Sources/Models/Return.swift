@@ -14,20 +14,16 @@ public class Return: APIModel {
         self.`return` = `return`
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case `return` = "return"
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        `return` = try container.decodeIfPresent(.`return`)
+        `return` = try container.decodeIfPresent("return")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(`return`, forKey: .`return`)
+        try container.encodeIfPresent(`return`, forKey: "return")
     }
 
     public func isEqual(to object: Any?) -> Bool {

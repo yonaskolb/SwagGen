@@ -19,26 +19,20 @@ public class ArrayTest: APIModel {
         self.arrayOfString = arrayOfString
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case arrayArrayOfInteger = "array_array_of_integer"
-        case arrayArrayOfModel = "array_array_of_model"
-        case arrayOfString = "array_of_string"
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        arrayArrayOfInteger = try container.decodeArrayIfPresent(.arrayArrayOfInteger)
-        arrayArrayOfModel = try container.decodeArrayIfPresent(.arrayArrayOfModel)
-        arrayOfString = try container.decodeArrayIfPresent(.arrayOfString)
+        arrayArrayOfInteger = try container.decodeArrayIfPresent("array_array_of_integer")
+        arrayArrayOfModel = try container.decodeArrayIfPresent("array_array_of_model")
+        arrayOfString = try container.decodeArrayIfPresent("array_of_string")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
-        try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
-        try container.encodeIfPresent(arrayOfString, forKey: .arrayOfString)
+        try container.encodeIfPresent(arrayArrayOfInteger, forKey: "array_array_of_integer")
+        try container.encodeIfPresent(arrayArrayOfModel, forKey: "array_array_of_model")
+        try container.encodeIfPresent(arrayOfString, forKey: "array_of_string")
     }
 
     public func isEqual(to object: Any?) -> Bool {

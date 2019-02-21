@@ -18,23 +18,18 @@ public class Person: APIModel {
         self.path = path
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case name
-        case path
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        name = try container.decode(.name)
-        path = try container.decode(.path)
+        name = try container.decode("name")
+        path = try container.decode("path")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(name, forKey: .name)
-        try container.encode(path, forKey: .path)
+        try container.encode(name, forKey: "name")
+        try container.encode(path, forKey: "path")
     }
 
     public func isEqual(to object: Any?) -> Bool {

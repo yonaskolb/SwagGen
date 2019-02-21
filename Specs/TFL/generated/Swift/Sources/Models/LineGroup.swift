@@ -19,26 +19,20 @@ public class LineGroup: APIModel {
         self.stationAtcoCode = stationAtcoCode
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case lineIdentifier
-        case naptanIdReference
-        case stationAtcoCode
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        lineIdentifier = try container.decodeArrayIfPresent(.lineIdentifier)
-        naptanIdReference = try container.decodeIfPresent(.naptanIdReference)
-        stationAtcoCode = try container.decodeIfPresent(.stationAtcoCode)
+        lineIdentifier = try container.decodeArrayIfPresent("lineIdentifier")
+        naptanIdReference = try container.decodeIfPresent("naptanIdReference")
+        stationAtcoCode = try container.decodeIfPresent("stationAtcoCode")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(lineIdentifier, forKey: .lineIdentifier)
-        try container.encodeIfPresent(naptanIdReference, forKey: .naptanIdReference)
-        try container.encodeIfPresent(stationAtcoCode, forKey: .stationAtcoCode)
+        try container.encodeIfPresent(lineIdentifier, forKey: "lineIdentifier")
+        try container.encodeIfPresent(naptanIdReference, forKey: "naptanIdReference")
+        try container.encodeIfPresent(stationAtcoCode, forKey: "stationAtcoCode")
     }
 
     public func isEqual(to object: Any?) -> Bool {

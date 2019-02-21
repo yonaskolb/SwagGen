@@ -23,29 +23,22 @@ public class Name: APIModel {
         self.snakeCase = snakeCase
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case name
-        case _123Number = "123Number"
-        case property
-        case snakeCase = "snake_case"
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        name = try container.decode(.name)
-        _123Number = try container.decodeIfPresent(._123Number)
-        property = try container.decodeIfPresent(.property)
-        snakeCase = try container.decodeIfPresent(.snakeCase)
+        name = try container.decode("name")
+        _123Number = try container.decodeIfPresent("123Number")
+        property = try container.decodeIfPresent("property")
+        snakeCase = try container.decodeIfPresent("snake_case")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(name, forKey: .name)
-        try container.encodeIfPresent(_123Number, forKey: ._123Number)
-        try container.encodeIfPresent(property, forKey: .property)
-        try container.encodeIfPresent(snakeCase, forKey: .snakeCase)
+        try container.encode(name, forKey: "name")
+        try container.encodeIfPresent(_123Number, forKey: "123Number")
+        try container.encodeIfPresent(property, forKey: "property")
+        try container.encodeIfPresent(snakeCase, forKey: "snake_case")
     }
 
     public func isEqual(to object: Any?) -> Bool {

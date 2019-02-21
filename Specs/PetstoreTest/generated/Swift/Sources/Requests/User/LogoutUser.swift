@@ -7,9 +7,7 @@ import Foundation
 
 extension PetstoreTest.User {
 
-    /**
-    Logs out current logged in user session
-    */
+    /** Logs out current logged in user session */
     public enum LogoutUser {
 
         public static let service = APIService<Response>(id: "logoutUser", tag: "user", method: "GET", path: "/user/logout", hasBody: false)

@@ -28,35 +28,26 @@ public class PredictionTiming: APIModel {
         self.source = source
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case countdownServerAdjustment
-        case insert
-        case read
-        case received
-        case sent
-        case source
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        countdownServerAdjustment = try container.decodeIfPresent(.countdownServerAdjustment)
-        insert = try container.decodeIfPresent(.insert)
-        read = try container.decodeIfPresent(.read)
-        received = try container.decodeIfPresent(.received)
-        sent = try container.decodeIfPresent(.sent)
-        source = try container.decodeIfPresent(.source)
+        countdownServerAdjustment = try container.decodeIfPresent("countdownServerAdjustment")
+        insert = try container.decodeIfPresent("insert")
+        read = try container.decodeIfPresent("read")
+        received = try container.decodeIfPresent("received")
+        sent = try container.decodeIfPresent("sent")
+        source = try container.decodeIfPresent("source")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(countdownServerAdjustment, forKey: .countdownServerAdjustment)
-        try container.encodeIfPresent(insert, forKey: .insert)
-        try container.encodeIfPresent(read, forKey: .read)
-        try container.encodeIfPresent(received, forKey: .received)
-        try container.encodeIfPresent(sent, forKey: .sent)
-        try container.encodeIfPresent(source, forKey: .source)
+        try container.encodeIfPresent(countdownServerAdjustment, forKey: "countdownServerAdjustment")
+        try container.encodeIfPresent(insert, forKey: "insert")
+        try container.encodeIfPresent(read, forKey: "read")
+        try container.encodeIfPresent(received, forKey: "received")
+        try container.encodeIfPresent(sent, forKey: "sent")
+        try container.encodeIfPresent(source, forKey: "source")
     }
 
     public func isEqual(to object: Any?) -> Bool {

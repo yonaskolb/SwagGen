@@ -25,7 +25,7 @@ public protocol RequestBehaviour {
 
 public enum RequestValidationResult {
     case success(URLRequest)
-    case failure(String)
+    case failure(Error)
 }
 
 // Provides empty defaults so that each function becomes optional

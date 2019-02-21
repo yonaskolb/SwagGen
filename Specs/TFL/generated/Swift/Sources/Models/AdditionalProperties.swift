@@ -25,32 +25,24 @@ public class AdditionalProperties: APIModel {
         self.value = value
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case category
-        case key
-        case modified
-        case sourceSystemKey
-        case value
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        category = try container.decodeIfPresent(.category)
-        key = try container.decodeIfPresent(.key)
-        modified = try container.decodeIfPresent(.modified)
-        sourceSystemKey = try container.decodeIfPresent(.sourceSystemKey)
-        value = try container.decodeIfPresent(.value)
+        category = try container.decodeIfPresent("category")
+        key = try container.decodeIfPresent("key")
+        modified = try container.decodeIfPresent("modified")
+        sourceSystemKey = try container.decodeIfPresent("sourceSystemKey")
+        value = try container.decodeIfPresent("value")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(category, forKey: .category)
-        try container.encodeIfPresent(key, forKey: .key)
-        try container.encodeIfPresent(modified, forKey: .modified)
-        try container.encodeIfPresent(sourceSystemKey, forKey: .sourceSystemKey)
-        try container.encodeIfPresent(value, forKey: .value)
+        try container.encodeIfPresent(category, forKey: "category")
+        try container.encodeIfPresent(key, forKey: "key")
+        try container.encodeIfPresent(modified, forKey: "modified")
+        try container.encodeIfPresent(sourceSystemKey, forKey: "sourceSystemKey")
+        try container.encodeIfPresent(value, forKey: "value")
     }
 
     public func isEqual(to object: Any?) -> Bool {

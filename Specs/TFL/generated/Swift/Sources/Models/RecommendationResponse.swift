@@ -13,20 +13,16 @@ public class RecommendationResponse: APIModel {
         self.recommendations = recommendations
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case recommendations
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        recommendations = try container.decodeArrayIfPresent(.recommendations)
+        recommendations = try container.decodeArrayIfPresent("recommendations")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(recommendations, forKey: .recommendations)
+        try container.encodeIfPresent(recommendations, forKey: "recommendations")
     }
 
     public func isEqual(to object: Any?) -> Bool {

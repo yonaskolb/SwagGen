@@ -29,26 +29,20 @@ public class SearchCriteria: APIModel {
         self.timeAdjustments = timeAdjustments
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case dateTime
-        case dateTimeType
-        case timeAdjustments
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        dateTime = try container.decodeIfPresent(.dateTime)
-        dateTimeType = try container.decodeIfPresent(.dateTimeType)
-        timeAdjustments = try container.decodeIfPresent(.timeAdjustments)
+        dateTime = try container.decodeIfPresent("dateTime")
+        dateTimeType = try container.decodeIfPresent("dateTimeType")
+        timeAdjustments = try container.decodeIfPresent("timeAdjustments")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(dateTime, forKey: .dateTime)
-        try container.encodeIfPresent(dateTimeType, forKey: .dateTimeType)
-        try container.encodeIfPresent(timeAdjustments, forKey: .timeAdjustments)
+        try container.encodeIfPresent(dateTime, forKey: "dateTime")
+        try container.encodeIfPresent(dateTimeType, forKey: "dateTimeType")
+        try container.encodeIfPresent(timeAdjustments, forKey: "timeAdjustments")
     }
 
     public func isEqual(to object: Any?) -> Bool {

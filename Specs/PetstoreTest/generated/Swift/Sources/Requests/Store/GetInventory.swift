@@ -14,7 +14,7 @@ extension PetstoreTest.Store {
     */
     public enum GetInventory {
 
-        public static let service = APIService<Response>(id: "getInventory", tag: "store", method: "GET", path: "/store/inventory", hasBody: false, securityRequirement: SecurityRequirement(type: "api_key", scope: ""))
+        public static let service = APIService<Response>(id: "getInventory", tag: "store", method: "GET", path: "/store/inventory", hasBody: false, securityRequirement: SecurityRequirement(type: "api_key", scopes: []))
 
         public final class Request: APIRequest<Response> {
 

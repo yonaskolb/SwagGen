@@ -37,11 +37,11 @@ extension APIService: CustomStringConvertible {
 
 public struct SecurityRequirement {
     public let type: String
-    public let scope: String
+    public let scopes: [String]
 
-    public init(type: String, scope: String) {
+    public init(type: String, scopes: [String]) {
         self.type = type
-        self.scope = scope
+        self.scopes = scopes
     }
 }
 

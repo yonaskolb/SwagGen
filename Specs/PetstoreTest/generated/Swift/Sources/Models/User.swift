@@ -35,41 +35,30 @@ public class User: APIModel {
         self.username = username
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case email
-        case firstName
-        case id
-        case lastName
-        case password
-        case phone
-        case userStatus
-        case username
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        email = try container.decodeIfPresent(.email)
-        firstName = try container.decodeIfPresent(.firstName)
-        id = try container.decodeIfPresent(.id)
-        lastName = try container.decodeIfPresent(.lastName)
-        password = try container.decodeIfPresent(.password)
-        phone = try container.decodeIfPresent(.phone)
-        userStatus = try container.decodeIfPresent(.userStatus)
-        username = try container.decodeIfPresent(.username)
+        email = try container.decodeIfPresent("email")
+        firstName = try container.decodeIfPresent("firstName")
+        id = try container.decodeIfPresent("id")
+        lastName = try container.decodeIfPresent("lastName")
+        password = try container.decodeIfPresent("password")
+        phone = try container.decodeIfPresent("phone")
+        userStatus = try container.decodeIfPresent("userStatus")
+        username = try container.decodeIfPresent("username")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(email, forKey: .email)
-        try container.encodeIfPresent(firstName, forKey: .firstName)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(lastName, forKey: .lastName)
-        try container.encodeIfPresent(password, forKey: .password)
-        try container.encodeIfPresent(phone, forKey: .phone)
-        try container.encodeIfPresent(userStatus, forKey: .userStatus)
-        try container.encodeIfPresent(username, forKey: .username)
+        try container.encodeIfPresent(email, forKey: "email")
+        try container.encodeIfPresent(firstName, forKey: "firstName")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(lastName, forKey: "lastName")
+        try container.encodeIfPresent(password, forKey: "password")
+        try container.encodeIfPresent(phone, forKey: "phone")
+        try container.encodeIfPresent(userStatus, forKey: "userStatus")
+        try container.encodeIfPresent(username, forKey: "username")
     }
 
     public func isEqual(to object: Any?) -> Bool {

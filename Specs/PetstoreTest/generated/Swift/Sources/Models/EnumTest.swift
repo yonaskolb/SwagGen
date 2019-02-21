@@ -54,29 +54,22 @@ public class EnumTest: APIModel {
         self.outerEnum = outerEnum
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case enumInteger = "enum_integer"
-        case enumNumber = "enum_number"
-        case enumString = "enum_string"
-        case outerEnum
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        enumInteger = try container.decodeIfPresent(.enumInteger)
-        enumNumber = try container.decodeIfPresent(.enumNumber)
-        enumString = try container.decodeIfPresent(.enumString)
-        outerEnum = try container.decodeIfPresent(.outerEnum)
+        enumInteger = try container.decodeIfPresent("enum_integer")
+        enumNumber = try container.decodeIfPresent("enum_number")
+        enumString = try container.decodeIfPresent("enum_string")
+        outerEnum = try container.decodeIfPresent("outerEnum")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(enumInteger, forKey: .enumInteger)
-        try container.encodeIfPresent(enumNumber, forKey: .enumNumber)
-        try container.encodeIfPresent(enumString, forKey: .enumString)
-        try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
+        try container.encodeIfPresent(enumInteger, forKey: "enum_integer")
+        try container.encodeIfPresent(enumNumber, forKey: "enum_number")
+        try container.encodeIfPresent(enumString, forKey: "enum_string")
+        try container.encodeIfPresent(outerEnum, forKey: "outerEnum")
     }
 
     public func isEqual(to object: Any?) -> Bool {

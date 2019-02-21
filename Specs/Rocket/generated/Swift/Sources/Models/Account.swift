@@ -77,62 +77,44 @@ If you want to disable this guard pass an empty string or `null`.
         self.usedFreeTrial = usedFreeTrial
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case email
-        case trackingEnabled
-        case pinEnabled
-        case marketingEnabled
-        case primaryProfileId
-        case subscriptionCode
-        case profiles
-        case defaultPaymentInstrumentId
-        case entitlements
-        case firstName
-        case lastName
-        case minRatingPlaybackGuard
-        case subscriptions
-        case usedFreeTrial
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        id = try container.decode(.id)
-        email = try container.decode(.email)
-        trackingEnabled = try container.decode(.trackingEnabled)
-        pinEnabled = try container.decode(.pinEnabled)
-        marketingEnabled = try container.decode(.marketingEnabled)
-        primaryProfileId = try container.decode(.primaryProfileId)
-        subscriptionCode = try container.decode(.subscriptionCode)
-        profiles = try container.decodeArray(.profiles)
-        defaultPaymentInstrumentId = try container.decodeIfPresent(.defaultPaymentInstrumentId)
-        entitlements = try container.decodeArrayIfPresent(.entitlements)
-        firstName = try container.decodeIfPresent(.firstName)
-        lastName = try container.decodeIfPresent(.lastName)
-        minRatingPlaybackGuard = try container.decodeIfPresent(.minRatingPlaybackGuard)
-        subscriptions = try container.decodeArrayIfPresent(.subscriptions)
-        usedFreeTrial = try container.decodeIfPresent(.usedFreeTrial)
+        id = try container.decode("id")
+        email = try container.decode("email")
+        trackingEnabled = try container.decode("trackingEnabled")
+        pinEnabled = try container.decode("pinEnabled")
+        marketingEnabled = try container.decode("marketingEnabled")
+        primaryProfileId = try container.decode("primaryProfileId")
+        subscriptionCode = try container.decode("subscriptionCode")
+        profiles = try container.decodeArray("profiles")
+        defaultPaymentInstrumentId = try container.decodeIfPresent("defaultPaymentInstrumentId")
+        entitlements = try container.decodeArrayIfPresent("entitlements")
+        firstName = try container.decodeIfPresent("firstName")
+        lastName = try container.decodeIfPresent("lastName")
+        minRatingPlaybackGuard = try container.decodeIfPresent("minRatingPlaybackGuard")
+        subscriptions = try container.decodeArrayIfPresent("subscriptions")
+        usedFreeTrial = try container.decodeIfPresent("usedFreeTrial")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(id, forKey: .id)
-        try container.encode(email, forKey: .email)
-        try container.encode(trackingEnabled, forKey: .trackingEnabled)
-        try container.encode(pinEnabled, forKey: .pinEnabled)
-        try container.encode(marketingEnabled, forKey: .marketingEnabled)
-        try container.encode(primaryProfileId, forKey: .primaryProfileId)
-        try container.encode(subscriptionCode, forKey: .subscriptionCode)
-        try container.encode(profiles, forKey: .profiles)
-        try container.encodeIfPresent(defaultPaymentInstrumentId, forKey: .defaultPaymentInstrumentId)
-        try container.encodeIfPresent(entitlements, forKey: .entitlements)
-        try container.encodeIfPresent(firstName, forKey: .firstName)
-        try container.encodeIfPresent(lastName, forKey: .lastName)
-        try container.encodeIfPresent(minRatingPlaybackGuard, forKey: .minRatingPlaybackGuard)
-        try container.encodeIfPresent(subscriptions, forKey: .subscriptions)
-        try container.encodeIfPresent(usedFreeTrial, forKey: .usedFreeTrial)
+        try container.encode(id, forKey: "id")
+        try container.encode(email, forKey: "email")
+        try container.encode(trackingEnabled, forKey: "trackingEnabled")
+        try container.encode(pinEnabled, forKey: "pinEnabled")
+        try container.encode(marketingEnabled, forKey: "marketingEnabled")
+        try container.encode(primaryProfileId, forKey: "primaryProfileId")
+        try container.encode(subscriptionCode, forKey: "subscriptionCode")
+        try container.encode(profiles, forKey: "profiles")
+        try container.encodeIfPresent(defaultPaymentInstrumentId, forKey: "defaultPaymentInstrumentId")
+        try container.encodeIfPresent(entitlements, forKey: "entitlements")
+        try container.encodeIfPresent(firstName, forKey: "firstName")
+        try container.encodeIfPresent(lastName, forKey: "lastName")
+        try container.encodeIfPresent(minRatingPlaybackGuard, forKey: "minRatingPlaybackGuard")
+        try container.encodeIfPresent(subscriptions, forKey: "subscriptions")
+        try container.encodeIfPresent(usedFreeTrial, forKey: "usedFreeTrial")
     }
 
     public func isEqual(to object: Any?) -> Bool {

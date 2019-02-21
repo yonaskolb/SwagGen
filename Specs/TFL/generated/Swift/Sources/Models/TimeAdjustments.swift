@@ -22,29 +22,22 @@ public class TimeAdjustments: APIModel {
         self.latest = latest
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case earlier
-        case earliest
-        case later
-        case latest
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        earlier = try container.decodeIfPresent(.earlier)
-        earliest = try container.decodeIfPresent(.earliest)
-        later = try container.decodeIfPresent(.later)
-        latest = try container.decodeIfPresent(.latest)
+        earlier = try container.decodeIfPresent("earlier")
+        earliest = try container.decodeIfPresent("earliest")
+        later = try container.decodeIfPresent("later")
+        latest = try container.decodeIfPresent("latest")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(earlier, forKey: .earlier)
-        try container.encodeIfPresent(earliest, forKey: .earliest)
-        try container.encodeIfPresent(later, forKey: .later)
-        try container.encodeIfPresent(latest, forKey: .latest)
+        try container.encodeIfPresent(earlier, forKey: "earlier")
+        try container.encodeIfPresent(earliest, forKey: "earliest")
+        try container.encodeIfPresent(later, forKey: "later")
+        try container.encodeIfPresent(latest, forKey: "latest")
     }
 
     public func isEqual(to object: Any?) -> Bool {

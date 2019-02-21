@@ -53,47 +53,34 @@ public class RoadCorridor: APIModel {
         self.url = url
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case bounds
-        case displayName
-        case envelope
-        case group
-        case id
-        case statusAggregationEndDate
-        case statusAggregationStartDate
-        case statusSeverity
-        case statusSeverityDescription
-        case url
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        bounds = try container.decodeIfPresent(.bounds)
-        displayName = try container.decodeIfPresent(.displayName)
-        envelope = try container.decodeIfPresent(.envelope)
-        group = try container.decodeIfPresent(.group)
-        id = try container.decodeIfPresent(.id)
-        statusAggregationEndDate = try container.decodeIfPresent(.statusAggregationEndDate)
-        statusAggregationStartDate = try container.decodeIfPresent(.statusAggregationStartDate)
-        statusSeverity = try container.decodeIfPresent(.statusSeverity)
-        statusSeverityDescription = try container.decodeIfPresent(.statusSeverityDescription)
-        url = try container.decodeIfPresent(.url)
+        bounds = try container.decodeIfPresent("bounds")
+        displayName = try container.decodeIfPresent("displayName")
+        envelope = try container.decodeIfPresent("envelope")
+        group = try container.decodeIfPresent("group")
+        id = try container.decodeIfPresent("id")
+        statusAggregationEndDate = try container.decodeIfPresent("statusAggregationEndDate")
+        statusAggregationStartDate = try container.decodeIfPresent("statusAggregationStartDate")
+        statusSeverity = try container.decodeIfPresent("statusSeverity")
+        statusSeverityDescription = try container.decodeIfPresent("statusSeverityDescription")
+        url = try container.decodeIfPresent("url")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(bounds, forKey: .bounds)
-        try container.encodeIfPresent(displayName, forKey: .displayName)
-        try container.encodeIfPresent(envelope, forKey: .envelope)
-        try container.encodeIfPresent(group, forKey: .group)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(statusAggregationEndDate, forKey: .statusAggregationEndDate)
-        try container.encodeIfPresent(statusAggregationStartDate, forKey: .statusAggregationStartDate)
-        try container.encodeIfPresent(statusSeverity, forKey: .statusSeverity)
-        try container.encodeIfPresent(statusSeverityDescription, forKey: .statusSeverityDescription)
-        try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(bounds, forKey: "bounds")
+        try container.encodeIfPresent(displayName, forKey: "displayName")
+        try container.encodeIfPresent(envelope, forKey: "envelope")
+        try container.encodeIfPresent(group, forKey: "group")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(statusAggregationEndDate, forKey: "statusAggregationEndDate")
+        try container.encodeIfPresent(statusAggregationStartDate, forKey: "statusAggregationStartDate")
+        try container.encodeIfPresent(statusSeverity, forKey: "statusSeverity")
+        try container.encodeIfPresent(statusSeverityDescription, forKey: "statusSeverityDescription")
+        try container.encodeIfPresent(url, forKey: "url")
     }
 
     public func isEqual(to object: Any?) -> Bool {

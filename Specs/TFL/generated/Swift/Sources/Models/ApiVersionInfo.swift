@@ -22,29 +22,22 @@ public class ApiVersionInfo: APIModel {
         self.version = version
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case assemblies
-        case label
-        case timestamp
-        case version
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        assemblies = try container.decodeArrayIfPresent(.assemblies)
-        label = try container.decodeIfPresent(.label)
-        timestamp = try container.decodeIfPresent(.timestamp)
-        version = try container.decodeIfPresent(.version)
+        assemblies = try container.decodeArrayIfPresent("assemblies")
+        label = try container.decodeIfPresent("label")
+        timestamp = try container.decodeIfPresent("timestamp")
+        version = try container.decodeIfPresent("version")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(assemblies, forKey: .assemblies)
-        try container.encodeIfPresent(label, forKey: .label)
-        try container.encodeIfPresent(timestamp, forKey: .timestamp)
-        try container.encodeIfPresent(version, forKey: .version)
+        try container.encodeIfPresent(assemblies, forKey: "assemblies")
+        try container.encodeIfPresent(label, forKey: "label")
+        try container.encodeIfPresent(timestamp, forKey: "timestamp")
+        try container.encodeIfPresent(version, forKey: "version")
     }
 
     public func isEqual(to object: Any?) -> Bool {

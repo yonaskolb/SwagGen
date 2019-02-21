@@ -40,47 +40,34 @@ public class Customer: APIModel {
         self.updated = updated
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case subscriberID
-        case banReason
-        case banned
-        case country
-        case created
-        case hasNotDeviceLimit
-        case id
-        case identityProvider
-        case lastLogin
-        case updated
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        subscriberID = try container.decode(.subscriberID)
-        banReason = try container.decodeIfPresent(.banReason)
-        banned = try container.decodeIfPresent(.banned)
-        country = try container.decodeIfPresent(.country)
-        created = try container.decodeIfPresent(.created)
-        hasNotDeviceLimit = try container.decodeIfPresent(.hasNotDeviceLimit)
-        id = try container.decodeIfPresent(.id)
-        identityProvider = try container.decodeIfPresent(.identityProvider)
-        lastLogin = try container.decodeIfPresent(.lastLogin)
-        updated = try container.decodeIfPresent(.updated)
+        subscriberID = try container.decode("subscriberID")
+        banReason = try container.decodeIfPresent("banReason")
+        banned = try container.decodeIfPresent("banned")
+        country = try container.decodeIfPresent("country")
+        created = try container.decodeIfPresent("created")
+        hasNotDeviceLimit = try container.decodeIfPresent("hasNotDeviceLimit")
+        id = try container.decodeIfPresent("id")
+        identityProvider = try container.decodeIfPresent("identityProvider")
+        lastLogin = try container.decodeIfPresent("lastLogin")
+        updated = try container.decodeIfPresent("updated")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(subscriberID, forKey: .subscriberID)
-        try container.encodeIfPresent(banReason, forKey: .banReason)
-        try container.encodeIfPresent(banned, forKey: .banned)
-        try container.encodeIfPresent(country, forKey: .country)
-        try container.encodeIfPresent(created, forKey: .created)
-        try container.encodeIfPresent(hasNotDeviceLimit, forKey: .hasNotDeviceLimit)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(identityProvider, forKey: .identityProvider)
-        try container.encodeIfPresent(lastLogin, forKey: .lastLogin)
-        try container.encodeIfPresent(updated, forKey: .updated)
+        try container.encode(subscriberID, forKey: "subscriberID")
+        try container.encodeIfPresent(banReason, forKey: "banReason")
+        try container.encodeIfPresent(banned, forKey: "banned")
+        try container.encodeIfPresent(country, forKey: "country")
+        try container.encodeIfPresent(created, forKey: "created")
+        try container.encodeIfPresent(hasNotDeviceLimit, forKey: "hasNotDeviceLimit")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(identityProvider, forKey: "identityProvider")
+        try container.encodeIfPresent(lastLogin, forKey: "lastLogin")
+        try container.encodeIfPresent(updated, forKey: "updated")
     }
 
     public func isEqual(to object: Any?) -> Bool {

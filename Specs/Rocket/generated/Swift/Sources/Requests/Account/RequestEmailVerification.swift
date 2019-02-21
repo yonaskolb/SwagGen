@@ -7,8 +7,7 @@ import Foundation
 
 extension Rocket.Account {
 
-    /**
-    Request that the email address tied to an account be verified.
+    /** Request that the email address tied to an account be verified.
 This will send a verification email to the email address of the primary profile containing
 a link which, once clicked, completes the verification process via the /verify-email endpoint.
 Note that when an account is created this email is sent automatically so there's no need
@@ -16,10 +15,10 @@ to call this directly.
 If the user doesn't click the link before it expires then this endpoint can be called
 to request a new verification email. In the future it may also be used if we add support
 for changing an account email address.
-    */
+ */
     public enum RequestEmailVerification {
 
-        public static let service = APIService<Response>(id: "requestEmailVerification", tag: "account", method: "POST", path: "/account/request-email-verification", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "requestEmailVerification", tag: "account", method: "POST", path: "/account/request-email-verification", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scopes: ["Catalog"]))
 
         public final class Request: APIRequest<Response> {
 

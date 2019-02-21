@@ -25,29 +25,22 @@ public class RouteOption: APIModel {
         self.name = name
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case directions
-        case id
-        case lineIdentifier
-        case name
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        directions = try container.decodeArrayIfPresent(.directions)
-        id = try container.decodeIfPresent(.id)
-        lineIdentifier = try container.decodeIfPresent(.lineIdentifier)
-        name = try container.decodeIfPresent(.name)
+        directions = try container.decodeArrayIfPresent("directions")
+        id = try container.decodeIfPresent("id")
+        lineIdentifier = try container.decodeIfPresent("lineIdentifier")
+        name = try container.decodeIfPresent("name")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(directions, forKey: .directions)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(lineIdentifier, forKey: .lineIdentifier)
-        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(directions, forKey: "directions")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(lineIdentifier, forKey: "lineIdentifier")
+        try container.encodeIfPresent(name, forKey: "name")
     }
 
     public func isEqual(to object: Any?) -> Bool {

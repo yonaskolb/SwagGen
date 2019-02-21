@@ -2,7 +2,9 @@
 
 import Foundation
 
+{% if options.modelProtocol %}
 public protocol {{ options.modelProtocol }}: Codable, Equatable { }
+{% endif %}
 
 public typealias ID = UUID
 

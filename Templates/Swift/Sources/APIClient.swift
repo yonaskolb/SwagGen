@@ -156,6 +156,8 @@ public class APIClient {
                 let apiError: APIClientError
                 if let error = error as? DecodingError {
                     apiError = APIClientError.decodingError(error)
+                } else if let error = error as? APIClientError {
+                    apiError = error
                 } else {
                     apiError = APIClientError.unknownError(error)
                 }

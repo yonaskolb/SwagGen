@@ -1,6 +1,6 @@
 formatter: swift
 options:
-  name: EngagementAPI # the name of the API
+  name: API # the name of the API
   fixedWidthIntegers: false # whether to use types like Int32 and Int64
   mutableModels: true # whether model properties are mutable
   safeOptionalDecoding: false # set invalid optionals to nil instead of throwing
@@ -10,12 +10,7 @@ options:
   modelType: class # can be struct or class
   modelInheritance: true # must be false for struct modelType
   modelProtocol: APIModel # the protocol all models conform to
-  modelNames: # override model type names
-    CreatePaymentRequest: CreatePaymentRequestModel
-    DeclinePaymentRequest: DeclinePaymentRequestModel
-    FulfilPaymentRequest: FulfilPaymentRequestModel
-    Notification: EngagementNotification
-    Payment: PaymentData
+  modelNames: {} # override model type names
   enumNames: {} # override enum type names
   typeAliases:
     ID: UUID

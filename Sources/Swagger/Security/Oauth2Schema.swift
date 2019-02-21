@@ -12,11 +12,18 @@ public struct OAuth2Schema {
         public let scopes: [String: String]
     }
 
-    public enum FlowType: String, CaseIterable {
+    public enum FlowType: String {
         case implicit
         case password
         case clientCredentials
         case authorizationCode
+
+        static let allCases: [FlowType] = [
+            .implicit,
+            .password,
+            .clientCredentials,
+            .authorizationCode,
+        ]
     }
 }
 

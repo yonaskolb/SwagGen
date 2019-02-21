@@ -180,14 +180,15 @@ Usage documentation can be found in the [Readme](Templates/Swift/README.md) that
 
 This tool is powered by:
 
-- custom fork of [JSONUtilities](https://github.com/yonaskolb/JSONUtilities) by [Luciano Marisi](https://github.com/lucianomarisi)
-- custom fork of [Stencil](https://github.com/yonaskolb/Stencil) by [Kyle Fuller](https://github.com/kylef)
-- [Spectre](https://github.com/kylef/Spectre) by [Kyle Fuller](https://github.com/kylef)
-- [PathKit](https://github.com/kylef/PathKit) by [Kyle Fuller](https://github.com/kylef)
-- [SwiftCLI](https://github.com/jakeheis/SwiftCLI) by [Jake Heis](https://github.com/jakeheis)
-- [Yams](https://github.com/jpsim/Yams) by [JP Simard](https://github.com/jpsim)
+- [JSONUtilities](https://github.com/yonaskolb/JSONUtilities)
+- [Stencil](https://github.com/stencilproject/Stencil)
+- [StencilSwiftKit](https://github.com/SwiftGen/StencilSwiftKit)
+- [Spectre](https://github.com/kylef/Spectre)
+- [PathKit](https://github.com/kylef/PathKit)
+- [SwiftCLI](https://github.com/jakeheis/SwiftCLI)
+- [Yams](https://github.com/jpsim/Yams)
 
-Thanks also to [Logan Shire](https://github.com/AttilaTheFun) and his work on [Swagger Parser](https://github.com/AttilaTheFun/SwaggerParser)
+Thanks also to [Logan Shire](https://github.com/AttilaTheFun) and his initial work on [Swagger Parser](https://github.com/AttilaTheFun/SwaggerParser)
 
 ## Contributions
 Pull requests and issues are welcome

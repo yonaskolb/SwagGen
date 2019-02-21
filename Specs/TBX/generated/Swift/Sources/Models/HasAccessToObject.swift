@@ -43,11 +43,11 @@ Options: CACHE_ACCESS / IDP_ACCESS / ACTIVITY_ACCESS / PERMISSION_ACCESS / ETIME
 
         urn = try container.decode("urn")
         access = try container.decode("access")
-        isTryandbuy = try container.decode("isTryandbuy")
+        isTryandbuy = try container.decode("is_tryandbuy")
         reason = try container.decode("reason")
         error = try container.decodeIfPresent("error")
         expiration = try container.decodeIfPresent("expiration")
-        idpAccess = try container.decodeIfPresent("idpAccess")
+        idpAccess = try container.decodeIfPresent("idp_access")
     }
 
     public func encode(to encoder: Encoder) throws {

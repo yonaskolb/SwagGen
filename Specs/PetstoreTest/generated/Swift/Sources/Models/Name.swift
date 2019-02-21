@@ -27,9 +27,9 @@ public class Name: APIModel {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
         name = try container.decode("name")
-        _123Number = try container.decodeIfPresent("_123Number")
+        _123Number = try container.decodeIfPresent("123Number")
         property = try container.decodeIfPresent("property")
-        snakeCase = try container.decodeIfPresent("snakeCase")
+        snakeCase = try container.decodeIfPresent("snake_case")
     }
 
     public func encode(to encoder: Encoder) throws {

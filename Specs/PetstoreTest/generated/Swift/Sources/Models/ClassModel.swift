@@ -17,7 +17,7 @@ public class ClassModel: APIModel {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        `class` = try container.decodeIfPresent("`class`")
+        `class` = try container.decodeIfPresent("_class")
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -50,7 +50,7 @@ public class ItemSchedule: APIModel {
         featured = try container.decodeIfPresent("featured")
         item = try container.decodeIfPresent("item")
         live = try container.decodeIfPresent("live")
-        `repeat` = try container.decodeIfPresent("`repeat`")
+        `repeat` = try container.decodeIfPresent("repeat")
     }
 
     public func encode(to encoder: Encoder) throws {

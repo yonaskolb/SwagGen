@@ -17,7 +17,7 @@ public class Return: APIModel {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        `return` = try container.decodeIfPresent("`return`")
+        `return` = try container.decodeIfPresent("return")
     }
 
     public func encode(to encoder: Encoder) throws {

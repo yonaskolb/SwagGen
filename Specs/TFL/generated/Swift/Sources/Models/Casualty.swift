@@ -30,7 +30,7 @@ public class Casualty: APIModel {
 
         age = try container.decodeIfPresent("age")
         ageBand = try container.decodeIfPresent("ageBand")
-        `class` = try container.decodeIfPresent("`class`")
+        `class` = try container.decodeIfPresent("class")
         mode = try container.decodeIfPresent("mode")
         severity = try container.decodeIfPresent("severity")
     }

@@ -21,7 +21,7 @@ public class Auth: APIModel {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
         status = try container.decode("status")
-        userToken = try container.decodeIfPresent("userToken")
+        userToken = try container.decodeIfPresent("user_token")
     }
 
     public func encode(to encoder: Encoder) throws {

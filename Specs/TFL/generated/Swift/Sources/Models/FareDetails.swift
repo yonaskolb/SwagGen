@@ -85,7 +85,7 @@ public class FareDetails: APIModel {
         isTour = try container.decodeIfPresent("isTour")
         messages = try container.decodeArrayIfPresent("messages")
         mode = try container.decodeIfPresent("mode")
-        `operator` = try container.decodeIfPresent("`operator`")
+        `operator` = try container.decodeIfPresent("operator")
         passengerType = try container.decodeIfPresent("passengerType")
         routeCode = try container.decodeIfPresent("routeCode")
         routeDescription = try container.decodeIfPresent("routeDescription")

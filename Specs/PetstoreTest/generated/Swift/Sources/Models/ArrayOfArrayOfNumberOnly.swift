@@ -16,7 +16,7 @@ public class ArrayOfArrayOfNumberOnly: APIModel {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        arrayArrayNumber = try container.decodeArrayIfPresent("arrayArrayNumber")
+        arrayArrayNumber = try container.decodeArrayIfPresent("ArrayArrayNumber")
     }
 
     public func encode(to encoder: Encoder) throws {

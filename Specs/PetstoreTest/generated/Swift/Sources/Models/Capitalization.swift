@@ -33,12 +33,12 @@ public class Capitalization: APIModel {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        attName = try container.decodeIfPresent("attName")
-        capitalCamel = try container.decodeIfPresent("capitalCamel")
-        capitalSnake = try container.decodeIfPresent("capitalSnake")
-        sCAETHFlowPoints = try container.decodeIfPresent("sCAETHFlowPoints")
+        attName = try container.decodeIfPresent("ATT_NAME")
+        capitalCamel = try container.decodeIfPresent("CapitalCamel")
+        capitalSnake = try container.decodeIfPresent("Capital_Snake")
+        sCAETHFlowPoints = try container.decodeIfPresent("SCA_ETH_Flow_Points")
         smallCamel = try container.decodeIfPresent("smallCamel")
-        smallSnake = try container.decodeIfPresent("smallSnake")
+        smallSnake = try container.decodeIfPresent("small_Snake")
     }
 
     public func encode(to encoder: Encoder) throws {

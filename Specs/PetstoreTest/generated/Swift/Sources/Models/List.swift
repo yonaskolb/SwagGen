@@ -16,7 +16,7 @@ public class List: APIModel {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        _123List = try container.decodeIfPresent("_123List")
+        _123List = try container.decodeIfPresent("123-list")
     }
 
     public func encode(to encoder: Encoder) throws {

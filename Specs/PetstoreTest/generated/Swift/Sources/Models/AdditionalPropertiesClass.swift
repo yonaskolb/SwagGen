@@ -19,8 +19,8 @@ public class AdditionalPropertiesClass: APIModel {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        mapOfMapProperty = try container.decodeIfPresent("mapOfMapProperty")
-        mapProperty = try container.decodeIfPresent("mapProperty")
+        mapOfMapProperty = try container.decodeIfPresent("map_of_map_property")
+        mapProperty = try container.decodeIfPresent("map_property")
     }
 
     public func encode(to encoder: Encoder) throws {

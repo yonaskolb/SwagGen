@@ -61,7 +61,7 @@ public class FareBounds: APIModel {
         isPopularTravelCard = try container.decodeIfPresent("isPopularTravelCard")
         isTour = try container.decodeIfPresent("isTour")
         messages = try container.decodeArrayIfPresent("messages")
-        `operator` = try container.decodeIfPresent("`operator`")
+        `operator` = try container.decodeIfPresent("operator")
         routeCode = try container.decodeIfPresent("routeCode")
         to = try container.decodeIfPresent("to")
         via = try container.decodeIfPresent("via")

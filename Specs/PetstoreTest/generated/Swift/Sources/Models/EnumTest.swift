@@ -57,9 +57,9 @@ public class EnumTest: APIModel {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        enumInteger = try container.decodeIfPresent("enumInteger")
-        enumNumber = try container.decodeIfPresent("enumNumber")
-        enumString = try container.decodeIfPresent("enumString")
+        enumInteger = try container.decodeIfPresent("enum_integer")
+        enumNumber = try container.decodeIfPresent("enum_number")
+        enumString = try container.decodeIfPresent("enum_string")
         outerEnum = try container.decodeIfPresent("outerEnum")
     }
 

@@ -22,9 +22,9 @@ public class ArrayTest: APIModel {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        arrayArrayOfInteger = try container.decodeArrayIfPresent("arrayArrayOfInteger")
-        arrayArrayOfModel = try container.decodeArrayIfPresent("arrayArrayOfModel")
-        arrayOfString = try container.decodeArrayIfPresent("arrayOfString")
+        arrayArrayOfInteger = try container.decodeArrayIfPresent("array_array_of_integer")
+        arrayArrayOfModel = try container.decodeArrayIfPresent("array_array_of_model")
+        arrayOfString = try container.decodeArrayIfPresent("array_of_string")
     }
 
     public func encode(to encoder: Encoder) throws {

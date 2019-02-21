@@ -45,7 +45,7 @@ public {{ options.modelType }} {{ type }}: {% if parent %}{{ parent.type }}{% el
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
         {% for property in properties %}
-        {{ property.name }} = try container.decode{% if property.isArray and not property.isAnyType %}Array{% endif %}{% if property.isAnyType %}Any{% endif %}{% if property.optional %}IfPresent{% endif %}("{{ property.name }}")
+        {{ property.name }} = try container.decode{% if property.isArray and not property.isAnyType %}Array{% endif %}{% if property.isAnyType %}Any{% endif %}{% if property.optional %}IfPresent{% endif %}("{{ property.value }}")
         {% endfor %}
         {% endif %}
         {% if additionalPropertiesType %}

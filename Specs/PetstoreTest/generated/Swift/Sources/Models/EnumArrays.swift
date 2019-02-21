@@ -39,8 +39,8 @@ public class EnumArrays: APIModel {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        arrayEnum = try container.decodeArrayIfPresent("arrayEnum")
-        justSymbol = try container.decodeIfPresent("justSymbol")
+        arrayEnum = try container.decodeArrayIfPresent("array_enum")
+        justSymbol = try container.decodeIfPresent("just_symbol")
     }
 
     public func encode(to encoder: Encoder) throws {

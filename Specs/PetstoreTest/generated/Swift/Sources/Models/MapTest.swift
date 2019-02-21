@@ -29,8 +29,8 @@ public class MapTest: APIModel {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        mapMapOfString = try container.decodeIfPresent("mapMapOfString")
-        mapOfEnumString = try container.decodeIfPresent("mapOfEnumString")
+        mapMapOfString = try container.decodeIfPresent("map_map_of_string")
+        mapOfEnumString = try container.decodeIfPresent("map_of_enum_string")
     }
 
     public func encode(to encoder: Encoder) throws {

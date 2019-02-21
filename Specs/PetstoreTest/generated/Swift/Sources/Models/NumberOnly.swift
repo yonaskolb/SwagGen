@@ -16,7 +16,7 @@ public class NumberOnly: APIModel {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        justNumber = try container.decodeIfPresent("justNumber")
+        justNumber = try container.decodeIfPresent("JustNumber")
     }
 
     public func encode(to encoder: Encoder) throws {

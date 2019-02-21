@@ -10,7 +10,6 @@ public class Object: APIModel {
     public init() {
     }
 
-
     public required init(from decoder: Decoder) throws {
     }
 

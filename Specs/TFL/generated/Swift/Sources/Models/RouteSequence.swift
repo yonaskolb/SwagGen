@@ -37,44 +37,32 @@ public class RouteSequence: APIModel {
         self.stopPointSequences = stopPointSequences
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case direction
-        case isOutboundOnly
-        case lineId
-        case lineName
-        case lineStrings
-        case mode
-        case orderedLineRoutes
-        case stations
-        case stopPointSequences
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        direction = try container.decodeIfPresent(.direction)
-        isOutboundOnly = try container.decodeIfPresent(.isOutboundOnly)
-        lineId = try container.decodeIfPresent(.lineId)
-        lineName = try container.decodeIfPresent(.lineName)
-        lineStrings = try container.decodeArrayIfPresent(.lineStrings)
-        mode = try container.decodeIfPresent(.mode)
-        orderedLineRoutes = try container.decodeArrayIfPresent(.orderedLineRoutes)
-        stations = try container.decodeArrayIfPresent(.stations)
-        stopPointSequences = try container.decodeArrayIfPresent(.stopPointSequences)
+        direction = try container.decodeIfPresent("direction")
+        isOutboundOnly = try container.decodeIfPresent("isOutboundOnly")
+        lineId = try container.decodeIfPresent("lineId")
+        lineName = try container.decodeIfPresent("lineName")
+        lineStrings = try container.decodeArrayIfPresent("lineStrings")
+        mode = try container.decodeIfPresent("mode")
+        orderedLineRoutes = try container.decodeArrayIfPresent("orderedLineRoutes")
+        stations = try container.decodeArrayIfPresent("stations")
+        stopPointSequences = try container.decodeArrayIfPresent("stopPointSequences")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(direction, forKey: .direction)
-        try container.encodeIfPresent(isOutboundOnly, forKey: .isOutboundOnly)
-        try container.encodeIfPresent(lineId, forKey: .lineId)
-        try container.encodeIfPresent(lineName, forKey: .lineName)
-        try container.encodeIfPresent(lineStrings, forKey: .lineStrings)
-        try container.encodeIfPresent(mode, forKey: .mode)
-        try container.encodeIfPresent(orderedLineRoutes, forKey: .orderedLineRoutes)
-        try container.encodeIfPresent(stations, forKey: .stations)
-        try container.encodeIfPresent(stopPointSequences, forKey: .stopPointSequences)
+        try container.encodeIfPresent(direction, forKey: "direction")
+        try container.encodeIfPresent(isOutboundOnly, forKey: "isOutboundOnly")
+        try container.encodeIfPresent(lineId, forKey: "lineId")
+        try container.encodeIfPresent(lineName, forKey: "lineName")
+        try container.encodeIfPresent(lineStrings, forKey: "lineStrings")
+        try container.encodeIfPresent(mode, forKey: "mode")
+        try container.encodeIfPresent(orderedLineRoutes, forKey: "orderedLineRoutes")
+        try container.encodeIfPresent(stations, forKey: "stations")
+        try container.encodeIfPresent(stopPointSequences, forKey: "stopPointSequences")
     }
 
     public func isEqual(to object: Any?) -> Bool {

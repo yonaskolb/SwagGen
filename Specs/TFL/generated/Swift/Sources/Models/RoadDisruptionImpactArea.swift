@@ -31,38 +31,28 @@ public class RoadDisruptionImpactArea: APIModel {
         self.startTime = startTime
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case endDate
-        case endTime
-        case id
-        case polygon
-        case roadDisruptionId
-        case startDate
-        case startTime
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        endDate = try container.decodeIfPresent(.endDate)
-        endTime = try container.decodeIfPresent(.endTime)
-        id = try container.decodeIfPresent(.id)
-        polygon = try container.decodeIfPresent(.polygon)
-        roadDisruptionId = try container.decodeIfPresent(.roadDisruptionId)
-        startDate = try container.decodeIfPresent(.startDate)
-        startTime = try container.decodeIfPresent(.startTime)
+        endDate = try container.decodeIfPresent("endDate")
+        endTime = try container.decodeIfPresent("endTime")
+        id = try container.decodeIfPresent("id")
+        polygon = try container.decodeIfPresent("polygon")
+        roadDisruptionId = try container.decodeIfPresent("roadDisruptionId")
+        startDate = try container.decodeIfPresent("startDate")
+        startTime = try container.decodeIfPresent("startTime")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(endDate, forKey: .endDate)
-        try container.encodeIfPresent(endTime, forKey: .endTime)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(polygon, forKey: .polygon)
-        try container.encodeIfPresent(roadDisruptionId, forKey: .roadDisruptionId)
-        try container.encodeIfPresent(startDate, forKey: .startDate)
-        try container.encodeIfPresent(startTime, forKey: .startTime)
+        try container.encodeIfPresent(endDate, forKey: "endDate")
+        try container.encodeIfPresent(endTime, forKey: "endTime")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(polygon, forKey: "polygon")
+        try container.encodeIfPresent(roadDisruptionId, forKey: "roadDisruptionId")
+        try container.encodeIfPresent(startDate, forKey: "startDate")
+        try container.encodeIfPresent(startTime, forKey: "startTime")
     }
 
     public func isEqual(to object: Any?) -> Bool {

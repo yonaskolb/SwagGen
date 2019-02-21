@@ -81,47 +81,34 @@ For example the images of an `ImageEntry`.
         self.text = text
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case type
-        case title
-        case template
-        case customFields
-        case images
-        case item
-        case list
-        case people
-        case text
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        id = try container.decode(.id)
-        type = try container.decode(.type)
-        title = try container.decode(.title)
-        template = try container.decode(.template)
-        customFields = try container.decodeAnyIfPresent(.customFields)
-        images = try container.decodeIfPresent(.images)
-        item = try container.decodeIfPresent(.item)
-        list = try container.decodeIfPresent(.list)
-        people = try container.decodeArrayIfPresent(.people)
-        text = try container.decodeIfPresent(.text)
+        id = try container.decode("id")
+        type = try container.decode("type")
+        title = try container.decode("title")
+        template = try container.decode("template")
+        customFields = try container.decodeAnyIfPresent("customFields")
+        images = try container.decodeIfPresent("images")
+        item = try container.decodeIfPresent("item")
+        list = try container.decodeIfPresent("list")
+        people = try container.decodeArrayIfPresent("people")
+        text = try container.decodeIfPresent("text")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(id, forKey: .id)
-        try container.encode(type, forKey: .type)
-        try container.encode(title, forKey: .title)
-        try container.encode(template, forKey: .template)
-        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
-        try container.encodeIfPresent(images, forKey: .images)
-        try container.encodeIfPresent(item, forKey: .item)
-        try container.encodeIfPresent(list, forKey: .list)
-        try container.encodeIfPresent(people, forKey: .people)
-        try container.encodeIfPresent(text, forKey: .text)
+        try container.encode(id, forKey: "id")
+        try container.encode(type, forKey: "type")
+        try container.encode(title, forKey: "title")
+        try container.encode(template, forKey: "template")
+        try container.encodeAnyIfPresent(customFields, forKey: "customFields")
+        try container.encodeIfPresent(images, forKey: "images")
+        try container.encodeIfPresent(item, forKey: "item")
+        try container.encodeIfPresent(list, forKey: "list")
+        try container.encodeIfPresent(people, forKey: "people")
+        try container.encodeIfPresent(text, forKey: "text")
     }
 
     public func isEqual(to object: Any?) -> Bool {

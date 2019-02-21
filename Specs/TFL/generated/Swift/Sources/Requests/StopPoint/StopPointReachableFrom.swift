@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.StopPoint {
 
-    /**
-    Gets Stopoints that are reachable from a station/line combination.
-    */
+    /** Gets Stopoints that are reachable from a station/line combination. */
     public enum StopPointReachableFrom {
 
         public static let service = APIService<Response>(id: "StopPoint_ReachableFrom", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/CanReachOnLine/{lineId}", hasBody: false)

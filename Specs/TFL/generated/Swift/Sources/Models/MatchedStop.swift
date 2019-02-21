@@ -70,77 +70,54 @@ public class MatchedStop: APIModel {
         self.zone = zone
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case accessibilitySummary
-        case direction
-        case hasDisruption
-        case icsId
-        case id
-        case lat
-        case lines
-        case lon
-        case modes
-        case name
-        case parentId
-        case routeId
-        case stationId
-        case status
-        case stopLetter
-        case stopType
-        case topMostParentId
-        case towards
-        case url
-        case zone
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        accessibilitySummary = try container.decodeIfPresent(.accessibilitySummary)
-        direction = try container.decodeIfPresent(.direction)
-        hasDisruption = try container.decodeIfPresent(.hasDisruption)
-        icsId = try container.decodeIfPresent(.icsId)
-        id = try container.decodeIfPresent(.id)
-        lat = try container.decodeIfPresent(.lat)
-        lines = try container.decodeArrayIfPresent(.lines)
-        lon = try container.decodeIfPresent(.lon)
-        modes = try container.decodeArrayIfPresent(.modes)
-        name = try container.decodeIfPresent(.name)
-        parentId = try container.decodeIfPresent(.parentId)
-        routeId = try container.decodeIfPresent(.routeId)
-        stationId = try container.decodeIfPresent(.stationId)
-        status = try container.decodeIfPresent(.status)
-        stopLetter = try container.decodeIfPresent(.stopLetter)
-        stopType = try container.decodeIfPresent(.stopType)
-        topMostParentId = try container.decodeIfPresent(.topMostParentId)
-        towards = try container.decodeIfPresent(.towards)
-        url = try container.decodeIfPresent(.url)
-        zone = try container.decodeIfPresent(.zone)
+        accessibilitySummary = try container.decodeIfPresent("accessibilitySummary")
+        direction = try container.decodeIfPresent("direction")
+        hasDisruption = try container.decodeIfPresent("hasDisruption")
+        icsId = try container.decodeIfPresent("icsId")
+        id = try container.decodeIfPresent("id")
+        lat = try container.decodeIfPresent("lat")
+        lines = try container.decodeArrayIfPresent("lines")
+        lon = try container.decodeIfPresent("lon")
+        modes = try container.decodeArrayIfPresent("modes")
+        name = try container.decodeIfPresent("name")
+        parentId = try container.decodeIfPresent("parentId")
+        routeId = try container.decodeIfPresent("routeId")
+        stationId = try container.decodeIfPresent("stationId")
+        status = try container.decodeIfPresent("status")
+        stopLetter = try container.decodeIfPresent("stopLetter")
+        stopType = try container.decodeIfPresent("stopType")
+        topMostParentId = try container.decodeIfPresent("topMostParentId")
+        towards = try container.decodeIfPresent("towards")
+        url = try container.decodeIfPresent("url")
+        zone = try container.decodeIfPresent("zone")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(accessibilitySummary, forKey: .accessibilitySummary)
-        try container.encodeIfPresent(direction, forKey: .direction)
-        try container.encodeIfPresent(hasDisruption, forKey: .hasDisruption)
-        try container.encodeIfPresent(icsId, forKey: .icsId)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(lat, forKey: .lat)
-        try container.encodeIfPresent(lines, forKey: .lines)
-        try container.encodeIfPresent(lon, forKey: .lon)
-        try container.encodeIfPresent(modes, forKey: .modes)
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(parentId, forKey: .parentId)
-        try container.encodeIfPresent(routeId, forKey: .routeId)
-        try container.encodeIfPresent(stationId, forKey: .stationId)
-        try container.encodeIfPresent(status, forKey: .status)
-        try container.encodeIfPresent(stopLetter, forKey: .stopLetter)
-        try container.encodeIfPresent(stopType, forKey: .stopType)
-        try container.encodeIfPresent(topMostParentId, forKey: .topMostParentId)
-        try container.encodeIfPresent(towards, forKey: .towards)
-        try container.encodeIfPresent(url, forKey: .url)
-        try container.encodeIfPresent(zone, forKey: .zone)
+        try container.encodeIfPresent(accessibilitySummary, forKey: "accessibilitySummary")
+        try container.encodeIfPresent(direction, forKey: "direction")
+        try container.encodeIfPresent(hasDisruption, forKey: "hasDisruption")
+        try container.encodeIfPresent(icsId, forKey: "icsId")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(lat, forKey: "lat")
+        try container.encodeIfPresent(lines, forKey: "lines")
+        try container.encodeIfPresent(lon, forKey: "lon")
+        try container.encodeIfPresent(modes, forKey: "modes")
+        try container.encodeIfPresent(name, forKey: "name")
+        try container.encodeIfPresent(parentId, forKey: "parentId")
+        try container.encodeIfPresent(routeId, forKey: "routeId")
+        try container.encodeIfPresent(stationId, forKey: "stationId")
+        try container.encodeIfPresent(status, forKey: "status")
+        try container.encodeIfPresent(stopLetter, forKey: "stopLetter")
+        try container.encodeIfPresent(stopType, forKey: "stopType")
+        try container.encodeIfPresent(topMostParentId, forKey: "topMostParentId")
+        try container.encodeIfPresent(towards, forKey: "towards")
+        try container.encodeIfPresent(url, forKey: "url")
+        try container.encodeIfPresent(zone, forKey: "zone")
     }
 
     public func isEqual(to object: Any?) -> Bool {

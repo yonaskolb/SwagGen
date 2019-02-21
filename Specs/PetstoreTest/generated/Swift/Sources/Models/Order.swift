@@ -42,35 +42,26 @@ public class Order: APIModel {
         self.status = status
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case complete
-        case id
-        case petId
-        case quantity
-        case shipDate
-        case status
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        complete = try container.decodeIfPresent(.complete)
-        id = try container.decodeIfPresent(.id)
-        petId = try container.decodeIfPresent(.petId)
-        quantity = try container.decodeIfPresent(.quantity)
-        shipDate = try container.decodeIfPresent(.shipDate)
-        status = try container.decodeIfPresent(.status)
+        complete = try container.decodeIfPresent("complete")
+        id = try container.decodeIfPresent("id")
+        petId = try container.decodeIfPresent("petId")
+        quantity = try container.decodeIfPresent("quantity")
+        shipDate = try container.decodeIfPresent("shipDate")
+        status = try container.decodeIfPresent("status")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(complete, forKey: .complete)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(petId, forKey: .petId)
-        try container.encodeIfPresent(quantity, forKey: .quantity)
-        try container.encodeIfPresent(shipDate, forKey: .shipDate)
-        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(complete, forKey: "complete")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(petId, forKey: "petId")
+        try container.encodeIfPresent(quantity, forKey: "quantity")
+        try container.encodeIfPresent(shipDate, forKey: "shipDate")
+        try container.encodeIfPresent(status, forKey: "status")
     }
 
     public func isEqual(to object: Any?) -> Bool {

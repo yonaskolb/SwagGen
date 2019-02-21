@@ -49,56 +49,40 @@ public class ContentProvider: APIModel {
         self.whitelistDomains = whitelistDomains
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case description
-        case shortName
-        case active
-        case apiKey
-        case devicesLimit
-        case canLogoutDevice
-        case canCreateTryAndBuy
-        case hasSocialID
-        case id
-        case overrideRules
-        case permittedURN
-        case urlMaintenance
-        case whitelistDomains
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        description = try container.decode(.description)
-        shortName = try container.decode(.shortName)
-        active = try container.decode(.active)
-        apiKey = try container.decode(.apiKey)
-        devicesLimit = try container.decode(.devicesLimit)
-        canLogoutDevice = try container.decode(.canLogoutDevice)
-        canCreateTryAndBuy = try container.decodeIfPresent(.canCreateTryAndBuy)
-        hasSocialID = try container.decodeIfPresent(.hasSocialID)
-        id = try container.decodeIfPresent(.id)
-        overrideRules = try container.decodeArrayIfPresent(.overrideRules)
-        permittedURN = try container.decodeArrayIfPresent(.permittedURN)
-        urlMaintenance = try container.decodeIfPresent(.urlMaintenance)
-        whitelistDomains = try container.decodeArrayIfPresent(.whitelistDomains)
+        description = try container.decode("description")
+        shortName = try container.decode("shortName")
+        active = try container.decode("active")
+        apiKey = try container.decode("apiKey")
+        devicesLimit = try container.decode("devicesLimit")
+        canLogoutDevice = try container.decode("canLogoutDevice")
+        canCreateTryAndBuy = try container.decodeIfPresent("canCreateTryAndBuy")
+        hasSocialID = try container.decodeIfPresent("hasSocialID")
+        id = try container.decodeIfPresent("id")
+        overrideRules = try container.decodeArrayIfPresent("overrideRules")
+        permittedURN = try container.decodeArrayIfPresent("permittedURN")
+        urlMaintenance = try container.decodeIfPresent("urlMaintenance")
+        whitelistDomains = try container.decodeArrayIfPresent("whitelistDomains")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(description, forKey: .description)
-        try container.encode(shortName, forKey: .shortName)
-        try container.encode(active, forKey: .active)
-        try container.encode(apiKey, forKey: .apiKey)
-        try container.encode(devicesLimit, forKey: .devicesLimit)
-        try container.encode(canLogoutDevice, forKey: .canLogoutDevice)
-        try container.encodeIfPresent(canCreateTryAndBuy, forKey: .canCreateTryAndBuy)
-        try container.encodeIfPresent(hasSocialID, forKey: .hasSocialID)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(overrideRules, forKey: .overrideRules)
-        try container.encodeIfPresent(permittedURN, forKey: .permittedURN)
-        try container.encodeIfPresent(urlMaintenance, forKey: .urlMaintenance)
-        try container.encodeIfPresent(whitelistDomains, forKey: .whitelistDomains)
+        try container.encode(description, forKey: "description")
+        try container.encode(shortName, forKey: "shortName")
+        try container.encode(active, forKey: "active")
+        try container.encode(apiKey, forKey: "apiKey")
+        try container.encode(devicesLimit, forKey: "devicesLimit")
+        try container.encode(canLogoutDevice, forKey: "canLogoutDevice")
+        try container.encodeIfPresent(canCreateTryAndBuy, forKey: "canCreateTryAndBuy")
+        try container.encodeIfPresent(hasSocialID, forKey: "hasSocialID")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(overrideRules, forKey: "overrideRules")
+        try container.encodeIfPresent(permittedURN, forKey: "permittedURN")
+        try container.encodeIfPresent(urlMaintenance, forKey: "urlMaintenance")
+        try container.encodeIfPresent(whitelistDomains, forKey: "whitelistDomains")
     }
 
     public func isEqual(to object: Any?) -> Bool {

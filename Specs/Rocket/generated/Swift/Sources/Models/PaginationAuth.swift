@@ -42,23 +42,18 @@ public class PaginationAuth: APIModel {
         self.scope = scope
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case type
-        case scope
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        type = try container.decode(.type)
-        scope = try container.decode(.scope)
+        type = try container.decode("type")
+        scope = try container.decode("scope")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(type, forKey: .type)
-        try container.encode(scope, forKey: .scope)
+        try container.encode(type, forKey: "type")
+        try container.encode(scope, forKey: "scope")
     }
 
     public func isEqual(to object: Any?) -> Bool {

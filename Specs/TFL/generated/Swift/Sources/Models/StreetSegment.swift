@@ -26,29 +26,22 @@ public class StreetSegment: APIModel {
         self.toid = toid
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case lineString
-        case sourceSystemId
-        case sourceSystemKey
-        case toid
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        lineString = try container.decodeIfPresent(.lineString)
-        sourceSystemId = try container.decodeIfPresent(.sourceSystemId)
-        sourceSystemKey = try container.decodeIfPresent(.sourceSystemKey)
-        toid = try container.decodeIfPresent(.toid)
+        lineString = try container.decodeIfPresent("lineString")
+        sourceSystemId = try container.decodeIfPresent("sourceSystemId")
+        sourceSystemKey = try container.decodeIfPresent("sourceSystemKey")
+        toid = try container.decodeIfPresent("toid")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(lineString, forKey: .lineString)
-        try container.encodeIfPresent(sourceSystemId, forKey: .sourceSystemId)
-        try container.encodeIfPresent(sourceSystemKey, forKey: .sourceSystemKey)
-        try container.encodeIfPresent(toid, forKey: .toid)
+        try container.encodeIfPresent(lineString, forKey: "lineString")
+        try container.encodeIfPresent(sourceSystemId, forKey: "sourceSystemId")
+        try container.encodeIfPresent(sourceSystemKey, forKey: "sourceSystemKey")
+        try container.encodeIfPresent(toid, forKey: "toid")
     }
 
     public func isEqual(to object: Any?) -> Bool {

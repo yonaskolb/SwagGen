@@ -7,12 +7,10 @@ import Foundation
 
 extension Rocket.Account {
 
-    /**
-    Get the details of an account along with the profiles and entitlements under it.
-    */
+    /** Get the details of an account along with the profiles and entitlements under it. */
     public enum GetAccount {
 
-        public static let service = APIService<Response>(id: "getAccount", tag: "account", method: "GET", path: "/account", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getAccount", tag: "account", method: "GET", path: "/account", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scopes: ["Catalog"]))
 
         public final class Request: APIRequest<Response> {
 

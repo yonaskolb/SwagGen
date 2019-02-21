@@ -37,44 +37,32 @@ public class AccidentDetail: APIModel {
         self.vehicles = vehicles
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case borough
-        case casualties
-        case date
-        case id
-        case lat
-        case location
-        case lon
-        case severity
-        case vehicles
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        borough = try container.decodeIfPresent(.borough)
-        casualties = try container.decodeArrayIfPresent(.casualties)
-        date = try container.decodeIfPresent(.date)
-        id = try container.decodeIfPresent(.id)
-        lat = try container.decodeIfPresent(.lat)
-        location = try container.decodeIfPresent(.location)
-        lon = try container.decodeIfPresent(.lon)
-        severity = try container.decodeIfPresent(.severity)
-        vehicles = try container.decodeArrayIfPresent(.vehicles)
+        borough = try container.decodeIfPresent("borough")
+        casualties = try container.decodeArrayIfPresent("casualties")
+        date = try container.decodeIfPresent("date")
+        id = try container.decodeIfPresent("id")
+        lat = try container.decodeIfPresent("lat")
+        location = try container.decodeIfPresent("location")
+        lon = try container.decodeIfPresent("lon")
+        severity = try container.decodeIfPresent("severity")
+        vehicles = try container.decodeArrayIfPresent("vehicles")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(borough, forKey: .borough)
-        try container.encodeIfPresent(casualties, forKey: .casualties)
-        try container.encodeIfPresent(date, forKey: .date)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(lat, forKey: .lat)
-        try container.encodeIfPresent(location, forKey: .location)
-        try container.encodeIfPresent(lon, forKey: .lon)
-        try container.encodeIfPresent(severity, forKey: .severity)
-        try container.encodeIfPresent(vehicles, forKey: .vehicles)
+        try container.encodeIfPresent(borough, forKey: "borough")
+        try container.encodeIfPresent(casualties, forKey: "casualties")
+        try container.encodeIfPresent(date, forKey: "date")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(lat, forKey: "lat")
+        try container.encodeIfPresent(location, forKey: "location")
+        try container.encodeIfPresent(lon, forKey: "lon")
+        try container.encodeIfPresent(severity, forKey: "severity")
+        try container.encodeIfPresent(vehicles, forKey: "vehicles")
     }
 
     public func isEqual(to object: Any?) -> Bool {

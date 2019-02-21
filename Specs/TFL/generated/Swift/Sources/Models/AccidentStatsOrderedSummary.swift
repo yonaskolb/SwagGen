@@ -19,26 +19,20 @@ public class AccidentStatsOrderedSummary: APIModel {
         self.year = year
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case accidents
-        case borough
-        case year
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        accidents = try container.decodeIfPresent(.accidents)
-        borough = try container.decodeIfPresent(.borough)
-        year = try container.decodeIfPresent(.year)
+        accidents = try container.decodeIfPresent("accidents")
+        borough = try container.decodeIfPresent("borough")
+        year = try container.decodeIfPresent("year")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(accidents, forKey: .accidents)
-        try container.encodeIfPresent(borough, forKey: .borough)
-        try container.encodeIfPresent(year, forKey: .year)
+        try container.encodeIfPresent(accidents, forKey: "accidents")
+        try container.encodeIfPresent(borough, forKey: "borough")
+        try container.encodeIfPresent(year, forKey: "year")
     }
 
     public func isEqual(to object: Any?) -> Bool {

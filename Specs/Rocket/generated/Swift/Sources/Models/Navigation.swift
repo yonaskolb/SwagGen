@@ -30,32 +30,24 @@ public class Navigation: APIModel {
         self.footer = footer
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case header
-        case account
-        case copyright
-        case customFields
-        case footer
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        header = try container.decodeArray(.header)
-        account = try container.decodeIfPresent(.account)
-        copyright = try container.decodeIfPresent(.copyright)
-        customFields = try container.decodeAnyIfPresent(.customFields)
-        footer = try container.decodeIfPresent(.footer)
+        header = try container.decodeArray("header")
+        account = try container.decodeIfPresent("account")
+        copyright = try container.decodeIfPresent("copyright")
+        customFields = try container.decodeAnyIfPresent("customFields")
+        footer = try container.decodeIfPresent("footer")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(header, forKey: .header)
-        try container.encodeIfPresent(account, forKey: .account)
-        try container.encodeIfPresent(copyright, forKey: .copyright)
-        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
-        try container.encodeIfPresent(footer, forKey: .footer)
+        try container.encode(header, forKey: "header")
+        try container.encodeIfPresent(account, forKey: "account")
+        try container.encodeIfPresent(copyright, forKey: "copyright")
+        try container.encodeAnyIfPresent(customFields, forKey: "customFields")
+        try container.encodeIfPresent(footer, forKey: "footer")
     }
 
     public func isEqual(to object: Any?) -> Bool {

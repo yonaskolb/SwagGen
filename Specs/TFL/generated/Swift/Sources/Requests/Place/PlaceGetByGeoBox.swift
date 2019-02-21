@@ -7,10 +7,8 @@ import Foundation
 
 extension TFL.Place {
 
-    /**
-    Gets the places that lie within the bounding box defined by the lat/lon of its north-west and south-east corners. Optionally filters
-            on type and can strip properties for a smaller payload.
-    */
+    /** Gets the places that lie within the bounding box defined by the lat/lon of its north-west and south-east corners. Optionally filters
+            on type and can strip properties for a smaller payload. */
     public enum PlaceGetByGeoBox {
 
         public static let service = APIService<Response>(id: "Place_GetByGeoBox", tag: "Place", method: "GET", path: "/Place", hasBody: false)

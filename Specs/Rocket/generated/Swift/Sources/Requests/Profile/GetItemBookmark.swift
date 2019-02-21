@@ -7,12 +7,10 @@ import Foundation
 
 extension Rocket.Profile {
 
-    /**
-    Get the bookmark for an item under the active profile.
-    */
+    /** Get the bookmark for an item under the active profile. */
     public enum GetItemBookmark {
 
-        public static let service = APIService<Response>(id: "getItemBookmark", tag: "profile", method: "GET", path: "/account/profile/bookmarks/{itemId}", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getItemBookmark", tag: "profile", method: "GET", path: "/account/profile/bookmarks/{itemId}", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scopes: ["Catalog"]))
 
         public final class Request: APIRequest<Response> {
 

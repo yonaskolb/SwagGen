@@ -16,23 +16,18 @@ public class RouteSearchResponse: APIModel {
         self.searchMatches = searchMatches
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case input
-        case searchMatches
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        input = try container.decodeIfPresent(.input)
-        searchMatches = try container.decodeArrayIfPresent(.searchMatches)
+        input = try container.decodeIfPresent("input")
+        searchMatches = try container.decodeArrayIfPresent("searchMatches")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(input, forKey: .input)
-        try container.encodeIfPresent(searchMatches, forKey: .searchMatches)
+        try container.encodeIfPresent(input, forKey: "input")
+        try container.encodeIfPresent(searchMatches, forKey: "searchMatches")
     }
 
     public func isEqual(to object: Any?) -> Bool {

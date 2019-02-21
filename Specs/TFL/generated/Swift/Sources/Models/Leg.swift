@@ -60,65 +60,46 @@ public class Leg: APIModel {
         self.speed = speed
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case arrivalPoint
-        case arrivalTime
-        case departurePoint
-        case departureTime
-        case disruptions
-        case distance
-        case duration
-        case hasFixedLocations
-        case instruction
-        case isDisrupted
-        case mode
-        case obstacles
-        case path
-        case plannedWorks
-        case routeOptions
-        case speed
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        arrivalPoint = try container.decodeIfPresent(.arrivalPoint)
-        arrivalTime = try container.decodeIfPresent(.arrivalTime)
-        departurePoint = try container.decodeIfPresent(.departurePoint)
-        departureTime = try container.decodeIfPresent(.departureTime)
-        disruptions = try container.decodeArrayIfPresent(.disruptions)
-        distance = try container.decodeIfPresent(.distance)
-        duration = try container.decodeIfPresent(.duration)
-        hasFixedLocations = try container.decodeIfPresent(.hasFixedLocations)
-        instruction = try container.decodeIfPresent(.instruction)
-        isDisrupted = try container.decodeIfPresent(.isDisrupted)
-        mode = try container.decodeIfPresent(.mode)
-        obstacles = try container.decodeArrayIfPresent(.obstacles)
-        path = try container.decodeIfPresent(.path)
-        plannedWorks = try container.decodeArrayIfPresent(.plannedWorks)
-        routeOptions = try container.decodeArrayIfPresent(.routeOptions)
-        speed = try container.decodeIfPresent(.speed)
+        arrivalPoint = try container.decodeIfPresent("arrivalPoint")
+        arrivalTime = try container.decodeIfPresent("arrivalTime")
+        departurePoint = try container.decodeIfPresent("departurePoint")
+        departureTime = try container.decodeIfPresent("departureTime")
+        disruptions = try container.decodeArrayIfPresent("disruptions")
+        distance = try container.decodeIfPresent("distance")
+        duration = try container.decodeIfPresent("duration")
+        hasFixedLocations = try container.decodeIfPresent("hasFixedLocations")
+        instruction = try container.decodeIfPresent("instruction")
+        isDisrupted = try container.decodeIfPresent("isDisrupted")
+        mode = try container.decodeIfPresent("mode")
+        obstacles = try container.decodeArrayIfPresent("obstacles")
+        path = try container.decodeIfPresent("path")
+        plannedWorks = try container.decodeArrayIfPresent("plannedWorks")
+        routeOptions = try container.decodeArrayIfPresent("routeOptions")
+        speed = try container.decodeIfPresent("speed")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(arrivalPoint, forKey: .arrivalPoint)
-        try container.encodeIfPresent(arrivalTime, forKey: .arrivalTime)
-        try container.encodeIfPresent(departurePoint, forKey: .departurePoint)
-        try container.encodeIfPresent(departureTime, forKey: .departureTime)
-        try container.encodeIfPresent(disruptions, forKey: .disruptions)
-        try container.encodeIfPresent(distance, forKey: .distance)
-        try container.encodeIfPresent(duration, forKey: .duration)
-        try container.encodeIfPresent(hasFixedLocations, forKey: .hasFixedLocations)
-        try container.encodeIfPresent(instruction, forKey: .instruction)
-        try container.encodeIfPresent(isDisrupted, forKey: .isDisrupted)
-        try container.encodeIfPresent(mode, forKey: .mode)
-        try container.encodeIfPresent(obstacles, forKey: .obstacles)
-        try container.encodeIfPresent(path, forKey: .path)
-        try container.encodeIfPresent(plannedWorks, forKey: .plannedWorks)
-        try container.encodeIfPresent(routeOptions, forKey: .routeOptions)
-        try container.encodeIfPresent(speed, forKey: .speed)
+        try container.encodeIfPresent(arrivalPoint, forKey: "arrivalPoint")
+        try container.encodeIfPresent(arrivalTime, forKey: "arrivalTime")
+        try container.encodeIfPresent(departurePoint, forKey: "departurePoint")
+        try container.encodeIfPresent(departureTime, forKey: "departureTime")
+        try container.encodeIfPresent(disruptions, forKey: "disruptions")
+        try container.encodeIfPresent(distance, forKey: "distance")
+        try container.encodeIfPresent(duration, forKey: "duration")
+        try container.encodeIfPresent(hasFixedLocations, forKey: "hasFixedLocations")
+        try container.encodeIfPresent(instruction, forKey: "instruction")
+        try container.encodeIfPresent(isDisrupted, forKey: "isDisrupted")
+        try container.encodeIfPresent(mode, forKey: "mode")
+        try container.encodeIfPresent(obstacles, forKey: "obstacles")
+        try container.encodeIfPresent(path, forKey: "path")
+        try container.encodeIfPresent(plannedWorks, forKey: "plannedWorks")
+        try container.encodeIfPresent(routeOptions, forKey: "routeOptions")
+        try container.encodeIfPresent(speed, forKey: "speed")
     }
 
     public func isEqual(to object: Any?) -> Bool {

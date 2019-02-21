@@ -19,26 +19,20 @@ public class Pet: APIModel {
         self.tag = tag
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case tag
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        id = try container.decode(.id)
-        name = try container.decode(.name)
-        tag = try container.decodeIfPresent(.tag)
+        id = try container.decode("id")
+        name = try container.decode("name")
+        tag = try container.decodeIfPresent("tag")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(id, forKey: .id)
-        try container.encode(name, forKey: .name)
-        try container.encodeIfPresent(tag, forKey: .tag)
+        try container.encode(id, forKey: "id")
+        try container.encode(name, forKey: "name")
+        try container.encodeIfPresent(tag, forKey: "tag")
     }
 
     public func isEqual(to object: Any?) -> Bool {

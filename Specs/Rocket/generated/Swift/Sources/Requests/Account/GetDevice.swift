@@ -7,12 +7,10 @@ import Foundation
 
 extension Rocket.Account {
 
-    /**
-    Get a registered device.
-    */
+    /** Get a registered device. */
     public enum GetDevice {
 
-        public static let service = APIService<Response>(id: "getDevice", tag: "account", method: "GET", path: "/account/devices/{id}", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getDevice", tag: "account", method: "GET", path: "/account/devices/{id}", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scopes: ["Catalog"]))
 
         public final class Request: APIRequest<Response> {
 

@@ -47,45 +47,33 @@ public class Entitlement: OfferRights {
         super.init(deliveryType: deliveryType, scopes: scopes, resolution: resolution, ownership: ownership, exclusionRules: exclusionRules, maxDownloads: maxDownloads, maxPlays: maxPlays, playPeriod: playPeriod, rentalPeriod: rentalPeriod)
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case activationDate
-        case classification
-        case creationDate
-        case expirationDate
-        case itemId
-        case itemType
-        case mediaDuration
-        case playCount
-        case remainingDownloads
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        activationDate = try container.decodeIfPresent(.activationDate)
-        classification = try container.decodeIfPresent(.classification)
-        creationDate = try container.decodeIfPresent(.creationDate)
-        expirationDate = try container.decodeIfPresent(.expirationDate)
-        itemId = try container.decodeIfPresent(.itemId)
-        itemType = try container.decodeIfPresent(.itemType)
-        mediaDuration = try container.decodeIfPresent(.mediaDuration)
-        playCount = try container.decodeIfPresent(.playCount)
-        remainingDownloads = try container.decodeIfPresent(.remainingDownloads)
+        activationDate = try container.decodeIfPresent("activationDate")
+        classification = try container.decodeIfPresent("classification")
+        creationDate = try container.decodeIfPresent("creationDate")
+        expirationDate = try container.decodeIfPresent("expirationDate")
+        itemId = try container.decodeIfPresent("itemId")
+        itemType = try container.decodeIfPresent("itemType")
+        mediaDuration = try container.decodeIfPresent("mediaDuration")
+        playCount = try container.decodeIfPresent("playCount")
+        remainingDownloads = try container.decodeIfPresent("remainingDownloads")
         try super.init(from: decoder)
     }
 
     public override func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(activationDate, forKey: .activationDate)
-        try container.encodeIfPresent(classification, forKey: .classification)
-        try container.encodeIfPresent(creationDate, forKey: .creationDate)
-        try container.encodeIfPresent(expirationDate, forKey: .expirationDate)
-        try container.encodeIfPresent(itemId, forKey: .itemId)
-        try container.encodeIfPresent(itemType, forKey: .itemType)
-        try container.encodeIfPresent(mediaDuration, forKey: .mediaDuration)
-        try container.encodeIfPresent(playCount, forKey: .playCount)
-        try container.encodeIfPresent(remainingDownloads, forKey: .remainingDownloads)
+        try container.encodeIfPresent(activationDate, forKey: "activationDate")
+        try container.encodeIfPresent(classification, forKey: "classification")
+        try container.encodeIfPresent(creationDate, forKey: "creationDate")
+        try container.encodeIfPresent(expirationDate, forKey: "expirationDate")
+        try container.encodeIfPresent(itemId, forKey: "itemId")
+        try container.encodeIfPresent(itemType, forKey: "itemType")
+        try container.encodeIfPresent(mediaDuration, forKey: "mediaDuration")
+        try container.encodeIfPresent(playCount, forKey: "playCount")
+        try container.encodeIfPresent(remainingDownloads, forKey: "remainingDownloads")
         try super.encode(to: encoder)
     }
 

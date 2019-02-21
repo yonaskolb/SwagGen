@@ -7,18 +7,17 @@ import Foundation
 
 extension Rocket.Support {
 
-    /**
-    When an account is created an email is sent to the email address of the new account.
+    /** When an account is created an email is sent to the email address of the new account.
 This contains a link, which once clicked, verifies the email address of the account is correct.
 The link contains a token as a query parameter which should be passed as the authorization
 bearer token to this endpoint to complete email verification.
 The token has en expiry, so if the link is not clicked before it expires, the account holder
 may need to request a new verification email be sent. This can be done via the endpoint
 /account/request-email-verification.
-    */
+ */
     public enum VerifyEmail {
 
-        public static let service = APIService<Response>(id: "verifyEmail", tag: "support", method: "POST", path: "/verify-email", hasBody: false, securityRequirement: SecurityRequirement(type: "verifyEmailAuth", scope: ""))
+        public static let service = APIService<Response>(id: "verifyEmail", tag: "support", method: "POST", path: "/verify-email", hasBody: false, securityRequirement: SecurityRequirement(type: "verifyEmailAuth", scopes: []))
 
         public final class Request: APIRequest<Response> {
 

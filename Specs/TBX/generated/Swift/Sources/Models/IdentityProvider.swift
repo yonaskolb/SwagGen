@@ -76,83 +76,58 @@ public class IdentityProvider: APIModel {
         self.wsURL = wsURL
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case description
-        case shortName
-        case apiKey
-        case clientType
-        case devicesLimit
-        case active
-        case canCreateToken
-        case canCreateDevice
-        case conector
-        case haveMultipleURNService
-        case id
-        case maintenance
-        case oauth2
-        case saml
-        case sendRequestorAuthZ
-        case subscriberIdData
-        case whitelistDomains
-        case wsAPIKey
-        case wsMaintenance
-        case wsMaintenanceCountry
-        case wsNameSpace
-        case wsURL
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        description = try container.decode(.description)
-        shortName = try container.decode(.shortName)
-        apiKey = try container.decode(.apiKey)
-        clientType = try container.decode(.clientType)
-        devicesLimit = try container.decode(.devicesLimit)
-        active = try container.decode(.active)
-        canCreateToken = try container.decode(.canCreateToken)
-        canCreateDevice = try container.decode(.canCreateDevice)
-        conector = try container.decodeIfPresent(.conector)
-        haveMultipleURNService = try container.decodeIfPresent(.haveMultipleURNService)
-        id = try container.decodeIfPresent(.id)
-        maintenance = try container.decodeIfPresent(.maintenance)
-        oauth2 = try container.decodeAnyIfPresent(.oauth2)
-        saml = try container.decodeAnyIfPresent(.saml)
-        sendRequestorAuthZ = try container.decodeIfPresent(.sendRequestorAuthZ)
-        subscriberIdData = try container.decodeIfPresent(.subscriberIdData)
-        whitelistDomains = try container.decodeArrayIfPresent(.whitelistDomains)
-        wsAPIKey = try container.decodeIfPresent(.wsAPIKey)
-        wsMaintenance = try container.decodeIfPresent(.wsMaintenance)
-        wsMaintenanceCountry = try container.decodeArrayIfPresent(.wsMaintenanceCountry)
-        wsNameSpace = try container.decodeIfPresent(.wsNameSpace)
-        wsURL = try container.decodeIfPresent(.wsURL)
+        description = try container.decode("description")
+        shortName = try container.decode("shortName")
+        apiKey = try container.decode("apiKey")
+        clientType = try container.decode("clientType")
+        devicesLimit = try container.decode("devicesLimit")
+        active = try container.decode("active")
+        canCreateToken = try container.decode("canCreateToken")
+        canCreateDevice = try container.decode("canCreateDevice")
+        conector = try container.decodeIfPresent("conector")
+        haveMultipleURNService = try container.decodeIfPresent("haveMultipleURNService")
+        id = try container.decodeIfPresent("id")
+        maintenance = try container.decodeIfPresent("maintenance")
+        oauth2 = try container.decodeAnyIfPresent("oauth2")
+        saml = try container.decodeAnyIfPresent("saml")
+        sendRequestorAuthZ = try container.decodeIfPresent("sendRequestorAuthZ")
+        subscriberIdData = try container.decodeIfPresent("subscriberIdData")
+        whitelistDomains = try container.decodeArrayIfPresent("whitelistDomains")
+        wsAPIKey = try container.decodeIfPresent("wsAPIKey")
+        wsMaintenance = try container.decodeIfPresent("wsMaintenance")
+        wsMaintenanceCountry = try container.decodeArrayIfPresent("wsMaintenanceCountry")
+        wsNameSpace = try container.decodeIfPresent("wsNameSpace")
+        wsURL = try container.decodeIfPresent("wsURL")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(description, forKey: .description)
-        try container.encode(shortName, forKey: .shortName)
-        try container.encode(apiKey, forKey: .apiKey)
-        try container.encode(clientType, forKey: .clientType)
-        try container.encode(devicesLimit, forKey: .devicesLimit)
-        try container.encode(active, forKey: .active)
-        try container.encode(canCreateToken, forKey: .canCreateToken)
-        try container.encode(canCreateDevice, forKey: .canCreateDevice)
-        try container.encodeIfPresent(conector, forKey: .conector)
-        try container.encodeIfPresent(haveMultipleURNService, forKey: .haveMultipleURNService)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(maintenance, forKey: .maintenance)
-        try container.encodeAnyIfPresent(oauth2, forKey: .oauth2)
-        try container.encodeAnyIfPresent(saml, forKey: .saml)
-        try container.encodeIfPresent(sendRequestorAuthZ, forKey: .sendRequestorAuthZ)
-        try container.encodeIfPresent(subscriberIdData, forKey: .subscriberIdData)
-        try container.encodeIfPresent(whitelistDomains, forKey: .whitelistDomains)
-        try container.encodeIfPresent(wsAPIKey, forKey: .wsAPIKey)
-        try container.encodeIfPresent(wsMaintenance, forKey: .wsMaintenance)
-        try container.encodeIfPresent(wsMaintenanceCountry, forKey: .wsMaintenanceCountry)
-        try container.encodeIfPresent(wsNameSpace, forKey: .wsNameSpace)
-        try container.encodeIfPresent(wsURL, forKey: .wsURL)
+        try container.encode(description, forKey: "description")
+        try container.encode(shortName, forKey: "shortName")
+        try container.encode(apiKey, forKey: "apiKey")
+        try container.encode(clientType, forKey: "clientType")
+        try container.encode(devicesLimit, forKey: "devicesLimit")
+        try container.encode(active, forKey: "active")
+        try container.encode(canCreateToken, forKey: "canCreateToken")
+        try container.encode(canCreateDevice, forKey: "canCreateDevice")
+        try container.encodeIfPresent(conector, forKey: "conector")
+        try container.encodeIfPresent(haveMultipleURNService, forKey: "haveMultipleURNService")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(maintenance, forKey: "maintenance")
+        try container.encodeAnyIfPresent(oauth2, forKey: "oauth2")
+        try container.encodeAnyIfPresent(saml, forKey: "saml")
+        try container.encodeIfPresent(sendRequestorAuthZ, forKey: "sendRequestorAuthZ")
+        try container.encodeIfPresent(subscriberIdData, forKey: "subscriberIdData")
+        try container.encodeIfPresent(whitelistDomains, forKey: "whitelistDomains")
+        try container.encodeIfPresent(wsAPIKey, forKey: "wsAPIKey")
+        try container.encodeIfPresent(wsMaintenance, forKey: "wsMaintenance")
+        try container.encodeIfPresent(wsMaintenanceCountry, forKey: "wsMaintenanceCountry")
+        try container.encodeIfPresent(wsNameSpace, forKey: "wsNameSpace")
+        try container.encodeIfPresent(wsURL, forKey: "wsURL")
     }
 
     public func isEqual(to object: Any?) -> Bool {

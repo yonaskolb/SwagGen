@@ -13,20 +13,16 @@ public class Disambiguation: APIModel {
         self.disambiguationOptions = disambiguationOptions
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case disambiguationOptions
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        disambiguationOptions = try container.decodeArrayIfPresent(.disambiguationOptions)
+        disambiguationOptions = try container.decodeArrayIfPresent("disambiguationOptions")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(disambiguationOptions, forKey: .disambiguationOptions)
+        try container.encodeIfPresent(disambiguationOptions, forKey: "disambiguationOptions")
     }
 
     public func isEqual(to object: Any?) -> Bool {

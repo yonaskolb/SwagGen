@@ -43,50 +43,36 @@ public class Fare: APIModel {
         self.zone = zone
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case cap
-        case cost
-        case description
-        case id
-        case mode
-        case passengerType
-        case ticketTime
-        case ticketType
-        case validFrom
-        case validUntil
-        case zone
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        cap = try container.decodeIfPresent(.cap)
-        cost = try container.decodeIfPresent(.cost)
-        description = try container.decodeIfPresent(.description)
-        id = try container.decodeIfPresent(.id)
-        mode = try container.decodeIfPresent(.mode)
-        passengerType = try container.decodeIfPresent(.passengerType)
-        ticketTime = try container.decodeIfPresent(.ticketTime)
-        ticketType = try container.decodeIfPresent(.ticketType)
-        validFrom = try container.decodeIfPresent(.validFrom)
-        validUntil = try container.decodeIfPresent(.validUntil)
-        zone = try container.decodeIfPresent(.zone)
+        cap = try container.decodeIfPresent("cap")
+        cost = try container.decodeIfPresent("cost")
+        description = try container.decodeIfPresent("description")
+        id = try container.decodeIfPresent("id")
+        mode = try container.decodeIfPresent("mode")
+        passengerType = try container.decodeIfPresent("passengerType")
+        ticketTime = try container.decodeIfPresent("ticketTime")
+        ticketType = try container.decodeIfPresent("ticketType")
+        validFrom = try container.decodeIfPresent("validFrom")
+        validUntil = try container.decodeIfPresent("validUntil")
+        zone = try container.decodeIfPresent("zone")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(cap, forKey: .cap)
-        try container.encodeIfPresent(cost, forKey: .cost)
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(mode, forKey: .mode)
-        try container.encodeIfPresent(passengerType, forKey: .passengerType)
-        try container.encodeIfPresent(ticketTime, forKey: .ticketTime)
-        try container.encodeIfPresent(ticketType, forKey: .ticketType)
-        try container.encodeIfPresent(validFrom, forKey: .validFrom)
-        try container.encodeIfPresent(validUntil, forKey: .validUntil)
-        try container.encodeIfPresent(zone, forKey: .zone)
+        try container.encodeIfPresent(cap, forKey: "cap")
+        try container.encodeIfPresent(cost, forKey: "cost")
+        try container.encodeIfPresent(description, forKey: "description")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(mode, forKey: "mode")
+        try container.encodeIfPresent(passengerType, forKey: "passengerType")
+        try container.encodeIfPresent(ticketTime, forKey: "ticketTime")
+        try container.encodeIfPresent(ticketType, forKey: "ticketType")
+        try container.encodeIfPresent(validFrom, forKey: "validFrom")
+        try container.encodeIfPresent(validUntil, forKey: "validUntil")
+        try container.encodeIfPresent(zone, forKey: "zone")
     }
 
     public func isEqual(to object: Any?) -> Bool {

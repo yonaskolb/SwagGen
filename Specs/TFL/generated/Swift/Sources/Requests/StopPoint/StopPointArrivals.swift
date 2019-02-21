@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.StopPoint {
 
-    /**
-    Gets the list of arrival predictions for the given stop point id
-    */
+    /** Gets the list of arrival predictions for the given stop point id */
     public enum StopPointArrivals {
 
         public static let service = APIService<Response>(id: "StopPoint_Arrivals", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/Arrivals", hasBody: false)

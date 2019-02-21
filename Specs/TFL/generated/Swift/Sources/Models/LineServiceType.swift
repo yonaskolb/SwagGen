@@ -16,23 +16,18 @@ public class LineServiceType: APIModel {
         self.lineSpecificServiceTypes = lineSpecificServiceTypes
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case lineName
-        case lineSpecificServiceTypes
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        lineName = try container.decodeIfPresent(.lineName)
-        lineSpecificServiceTypes = try container.decodeArrayIfPresent(.lineSpecificServiceTypes)
+        lineName = try container.decodeIfPresent("lineName")
+        lineSpecificServiceTypes = try container.decodeArrayIfPresent("lineSpecificServiceTypes")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(lineName, forKey: .lineName)
-        try container.encodeIfPresent(lineSpecificServiceTypes, forKey: .lineSpecificServiceTypes)
+        try container.encodeIfPresent(lineName, forKey: "lineName")
+        try container.encodeIfPresent(lineSpecificServiceTypes, forKey: "lineSpecificServiceTypes")
     }
 
     public func isEqual(to object: Any?) -> Bool {

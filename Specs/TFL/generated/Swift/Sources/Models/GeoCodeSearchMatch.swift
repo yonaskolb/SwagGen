@@ -33,38 +33,28 @@ public class GeoCodeSearchMatch: APIModel {
         self.url = url
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case address
-        case id
-        case lat
-        case lon
-        case name
-        case types
-        case url
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        address = try container.decodeIfPresent(.address)
-        id = try container.decodeIfPresent(.id)
-        lat = try container.decodeIfPresent(.lat)
-        lon = try container.decodeIfPresent(.lon)
-        name = try container.decodeIfPresent(.name)
-        types = try container.decodeArrayIfPresent(.types)
-        url = try container.decodeIfPresent(.url)
+        address = try container.decodeIfPresent("address")
+        id = try container.decodeIfPresent("id")
+        lat = try container.decodeIfPresent("lat")
+        lon = try container.decodeIfPresent("lon")
+        name = try container.decodeIfPresent("name")
+        types = try container.decodeArrayIfPresent("types")
+        url = try container.decodeIfPresent("url")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(address, forKey: .address)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(lat, forKey: .lat)
-        try container.encodeIfPresent(lon, forKey: .lon)
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(types, forKey: .types)
-        try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(address, forKey: "address")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(lat, forKey: "lat")
+        try container.encodeIfPresent(lon, forKey: "lon")
+        try container.encodeIfPresent(name, forKey: "name")
+        try container.encodeIfPresent(types, forKey: "types")
+        try container.encodeIfPresent(url, forKey: "url")
     }
 
     public func isEqual(to object: Any?) -> Bool {

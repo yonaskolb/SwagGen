@@ -18,23 +18,18 @@ public class Crowding: APIModel {
         self.trainLoadings = trainLoadings
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case passengerFlows
-        case trainLoadings
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        passengerFlows = try container.decodeArrayIfPresent(.passengerFlows)
-        trainLoadings = try container.decodeArrayIfPresent(.trainLoadings)
+        passengerFlows = try container.decodeArrayIfPresent("passengerFlows")
+        trainLoadings = try container.decodeArrayIfPresent("trainLoadings")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(passengerFlows, forKey: .passengerFlows)
-        try container.encodeIfPresent(trainLoadings, forKey: .trainLoadings)
+        try container.encodeIfPresent(passengerFlows, forKey: "passengerFlows")
+        try container.encodeIfPresent(trainLoadings, forKey: "trainLoadings")
     }
 
     public func isEqual(to object: Any?) -> Bool {

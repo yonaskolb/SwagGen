@@ -35,26 +35,20 @@ public class ProfileTokenRequest: APIModel {
         self.pin = pin
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case profileId
-        case scopes
-        case pin
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        profileId = try container.decode(.profileId)
-        scopes = try container.decodeArray(.scopes)
-        pin = try container.decodeIfPresent(.pin)
+        profileId = try container.decode("profileId")
+        scopes = try container.decodeArray("scopes")
+        pin = try container.decodeIfPresent("pin")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(profileId, forKey: .profileId)
-        try container.encode(scopes, forKey: .scopes)
-        try container.encodeIfPresent(pin, forKey: .pin)
+        try container.encode(profileId, forKey: "profileId")
+        try container.encode(scopes, forKey: "scopes")
+        try container.encodeIfPresent(pin, forKey: "pin")
     }
 
     public func isEqual(to object: Any?) -> Bool {

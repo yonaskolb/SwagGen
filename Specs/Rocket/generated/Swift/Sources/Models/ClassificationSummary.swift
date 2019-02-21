@@ -18,23 +18,18 @@ public class ClassificationSummary: APIModel {
         self.name = name
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case code
-        case name
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        code = try container.decode(.code)
-        name = try container.decode(.name)
+        code = try container.decode("code")
+        name = try container.decode("name")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(code, forKey: .code)
-        try container.encode(name, forKey: .name)
+        try container.encode(code, forKey: "code")
+        try container.encode(name, forKey: "name")
     }
 
     public func isEqual(to object: Any?) -> Bool {

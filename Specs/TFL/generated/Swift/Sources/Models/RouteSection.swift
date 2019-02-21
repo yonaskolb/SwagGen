@@ -45,44 +45,32 @@ public class RouteSection: APIModel {
         self.routeSectionNaptanEntrySequence = routeSectionNaptanEntrySequence
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case destinationName
-        case direction
-        case id
-        case lineId
-        case lineString
-        case name
-        case originationName
-        case routeCode
-        case routeSectionNaptanEntrySequence
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        destinationName = try container.decodeIfPresent(.destinationName)
-        direction = try container.decodeIfPresent(.direction)
-        id = try container.decodeIfPresent(.id)
-        lineId = try container.decodeIfPresent(.lineId)
-        lineString = try container.decodeIfPresent(.lineString)
-        name = try container.decodeIfPresent(.name)
-        originationName = try container.decodeIfPresent(.originationName)
-        routeCode = try container.decodeIfPresent(.routeCode)
-        routeSectionNaptanEntrySequence = try container.decodeArrayIfPresent(.routeSectionNaptanEntrySequence)
+        destinationName = try container.decodeIfPresent("destinationName")
+        direction = try container.decodeIfPresent("direction")
+        id = try container.decodeIfPresent("id")
+        lineId = try container.decodeIfPresent("lineId")
+        lineString = try container.decodeIfPresent("lineString")
+        name = try container.decodeIfPresent("name")
+        originationName = try container.decodeIfPresent("originationName")
+        routeCode = try container.decodeIfPresent("routeCode")
+        routeSectionNaptanEntrySequence = try container.decodeArrayIfPresent("routeSectionNaptanEntrySequence")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(destinationName, forKey: .destinationName)
-        try container.encodeIfPresent(direction, forKey: .direction)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(lineId, forKey: .lineId)
-        try container.encodeIfPresent(lineString, forKey: .lineString)
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(originationName, forKey: .originationName)
-        try container.encodeIfPresent(routeCode, forKey: .routeCode)
-        try container.encodeIfPresent(routeSectionNaptanEntrySequence, forKey: .routeSectionNaptanEntrySequence)
+        try container.encodeIfPresent(destinationName, forKey: "destinationName")
+        try container.encodeIfPresent(direction, forKey: "direction")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(lineId, forKey: "lineId")
+        try container.encodeIfPresent(lineString, forKey: "lineString")
+        try container.encodeIfPresent(name, forKey: "name")
+        try container.encodeIfPresent(originationName, forKey: "originationName")
+        try container.encodeIfPresent(routeCode, forKey: "routeCode")
+        try container.encodeIfPresent(routeSectionNaptanEntrySequence, forKey: "routeSectionNaptanEntrySequence")
     }
 
     public func isEqual(to object: Any?) -> Bool {

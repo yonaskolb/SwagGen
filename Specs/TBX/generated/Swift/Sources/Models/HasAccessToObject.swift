@@ -38,38 +38,28 @@ Options: CACHE_ACCESS / IDP_ACCESS / ACTIVITY_ACCESS / PERMISSION_ACCESS / ETIME
         self.idpAccess = idpAccess
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case urn
-        case access
-        case isTryandbuy = "is_tryandbuy"
-        case reason
-        case error
-        case expiration
-        case idpAccess = "idp_access"
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        urn = try container.decode(.urn)
-        access = try container.decode(.access)
-        isTryandbuy = try container.decode(.isTryandbuy)
-        reason = try container.decode(.reason)
-        error = try container.decodeIfPresent(.error)
-        expiration = try container.decodeIfPresent(.expiration)
-        idpAccess = try container.decodeIfPresent(.idpAccess)
+        urn = try container.decode("urn")
+        access = try container.decode("access")
+        isTryandbuy = try container.decode("isTryandbuy")
+        reason = try container.decode("reason")
+        error = try container.decodeIfPresent("error")
+        expiration = try container.decodeIfPresent("expiration")
+        idpAccess = try container.decodeIfPresent("idpAccess")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(urn, forKey: .urn)
-        try container.encode(access, forKey: .access)
-        try container.encode(isTryandbuy, forKey: .isTryandbuy)
-        try container.encode(reason, forKey: .reason)
-        try container.encodeIfPresent(error, forKey: .error)
-        try container.encodeIfPresent(expiration, forKey: .expiration)
-        try container.encodeIfPresent(idpAccess, forKey: .idpAccess)
+        try container.encode(urn, forKey: "urn")
+        try container.encode(access, forKey: "access")
+        try container.encode(isTryandbuy, forKey: "is_tryandbuy")
+        try container.encode(reason, forKey: "reason")
+        try container.encodeIfPresent(error, forKey: "error")
+        try container.encodeIfPresent(expiration, forKey: "expiration")
+        try container.encodeIfPresent(idpAccess, forKey: "idp_access")
     }
 
     public func isEqual(to object: Any?) -> Bool {

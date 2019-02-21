@@ -39,38 +39,28 @@ public class TrainLoading: APIModel {
         self.value = value
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case direction
-        case line
-        case lineDirection
-        case naptanTo
-        case platformDirection
-        case timeSlice
-        case value
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        direction = try container.decodeIfPresent(.direction)
-        line = try container.decodeIfPresent(.line)
-        lineDirection = try container.decodeIfPresent(.lineDirection)
-        naptanTo = try container.decodeIfPresent(.naptanTo)
-        platformDirection = try container.decodeIfPresent(.platformDirection)
-        timeSlice = try container.decodeIfPresent(.timeSlice)
-        value = try container.decodeIfPresent(.value)
+        direction = try container.decodeIfPresent("direction")
+        line = try container.decodeIfPresent("line")
+        lineDirection = try container.decodeIfPresent("lineDirection")
+        naptanTo = try container.decodeIfPresent("naptanTo")
+        platformDirection = try container.decodeIfPresent("platformDirection")
+        timeSlice = try container.decodeIfPresent("timeSlice")
+        value = try container.decodeIfPresent("value")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(direction, forKey: .direction)
-        try container.encodeIfPresent(line, forKey: .line)
-        try container.encodeIfPresent(lineDirection, forKey: .lineDirection)
-        try container.encodeIfPresent(naptanTo, forKey: .naptanTo)
-        try container.encodeIfPresent(platformDirection, forKey: .platformDirection)
-        try container.encodeIfPresent(timeSlice, forKey: .timeSlice)
-        try container.encodeIfPresent(value, forKey: .value)
+        try container.encodeIfPresent(direction, forKey: "direction")
+        try container.encodeIfPresent(line, forKey: "line")
+        try container.encodeIfPresent(lineDirection, forKey: "lineDirection")
+        try container.encodeIfPresent(naptanTo, forKey: "naptanTo")
+        try container.encodeIfPresent(platformDirection, forKey: "platformDirection")
+        try container.encodeIfPresent(timeSlice, forKey: "timeSlice")
+        try container.encodeIfPresent(value, forKey: "value")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -102,98 +102,68 @@ public class StopPoint: APIModel {
         self.url = url
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case accessibilitySummary
-        case additionalProperties
-        case children
-        case childrenUrls
-        case commonName
-        case distance
-        case fullName
-        case hubNaptanCode
-        case icsCode
-        case id
-        case indicator
-        case lat
-        case lineGroup
-        case lineModeGroups
-        case lines
-        case lon
-        case modes
-        case naptanId
-        case naptanMode
-        case placeType
-        case platformName
-        case smsCode
-        case stationNaptan
-        case status
-        case stopLetter
-        case stopType
-        case url
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        accessibilitySummary = try container.decodeIfPresent(.accessibilitySummary)
-        additionalProperties = try container.decodeArrayIfPresent(.additionalProperties)
-        children = try container.decodeArrayIfPresent(.children)
-        childrenUrls = try container.decodeArrayIfPresent(.childrenUrls)
-        commonName = try container.decodeIfPresent(.commonName)
-        distance = try container.decodeIfPresent(.distance)
-        fullName = try container.decodeIfPresent(.fullName)
-        hubNaptanCode = try container.decodeIfPresent(.hubNaptanCode)
-        icsCode = try container.decodeIfPresent(.icsCode)
-        id = try container.decodeIfPresent(.id)
-        indicator = try container.decodeIfPresent(.indicator)
-        lat = try container.decodeIfPresent(.lat)
-        lineGroup = try container.decodeArrayIfPresent(.lineGroup)
-        lineModeGroups = try container.decodeArrayIfPresent(.lineModeGroups)
-        lines = try container.decodeArrayIfPresent(.lines)
-        lon = try container.decodeIfPresent(.lon)
-        modes = try container.decodeArrayIfPresent(.modes)
-        naptanId = try container.decodeIfPresent(.naptanId)
-        naptanMode = try container.decodeIfPresent(.naptanMode)
-        placeType = try container.decodeIfPresent(.placeType)
-        platformName = try container.decodeIfPresent(.platformName)
-        smsCode = try container.decodeIfPresent(.smsCode)
-        stationNaptan = try container.decodeIfPresent(.stationNaptan)
-        status = try container.decodeIfPresent(.status)
-        stopLetter = try container.decodeIfPresent(.stopLetter)
-        stopType = try container.decodeIfPresent(.stopType)
-        url = try container.decodeIfPresent(.url)
+        accessibilitySummary = try container.decodeIfPresent("accessibilitySummary")
+        additionalProperties = try container.decodeArrayIfPresent("additionalProperties")
+        children = try container.decodeArrayIfPresent("children")
+        childrenUrls = try container.decodeArrayIfPresent("childrenUrls")
+        commonName = try container.decodeIfPresent("commonName")
+        distance = try container.decodeIfPresent("distance")
+        fullName = try container.decodeIfPresent("fullName")
+        hubNaptanCode = try container.decodeIfPresent("hubNaptanCode")
+        icsCode = try container.decodeIfPresent("icsCode")
+        id = try container.decodeIfPresent("id")
+        indicator = try container.decodeIfPresent("indicator")
+        lat = try container.decodeIfPresent("lat")
+        lineGroup = try container.decodeArrayIfPresent("lineGroup")
+        lineModeGroups = try container.decodeArrayIfPresent("lineModeGroups")
+        lines = try container.decodeArrayIfPresent("lines")
+        lon = try container.decodeIfPresent("lon")
+        modes = try container.decodeArrayIfPresent("modes")
+        naptanId = try container.decodeIfPresent("naptanId")
+        naptanMode = try container.decodeIfPresent("naptanMode")
+        placeType = try container.decodeIfPresent("placeType")
+        platformName = try container.decodeIfPresent("platformName")
+        smsCode = try container.decodeIfPresent("smsCode")
+        stationNaptan = try container.decodeIfPresent("stationNaptan")
+        status = try container.decodeIfPresent("status")
+        stopLetter = try container.decodeIfPresent("stopLetter")
+        stopType = try container.decodeIfPresent("stopType")
+        url = try container.decodeIfPresent("url")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(accessibilitySummary, forKey: .accessibilitySummary)
-        try container.encodeIfPresent(additionalProperties, forKey: .additionalProperties)
-        try container.encodeIfPresent(children, forKey: .children)
-        try container.encodeIfPresent(childrenUrls, forKey: .childrenUrls)
-        try container.encodeIfPresent(commonName, forKey: .commonName)
-        try container.encodeIfPresent(distance, forKey: .distance)
-        try container.encodeIfPresent(fullName, forKey: .fullName)
-        try container.encodeIfPresent(hubNaptanCode, forKey: .hubNaptanCode)
-        try container.encodeIfPresent(icsCode, forKey: .icsCode)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(indicator, forKey: .indicator)
-        try container.encodeIfPresent(lat, forKey: .lat)
-        try container.encodeIfPresent(lineGroup, forKey: .lineGroup)
-        try container.encodeIfPresent(lineModeGroups, forKey: .lineModeGroups)
-        try container.encodeIfPresent(lines, forKey: .lines)
-        try container.encodeIfPresent(lon, forKey: .lon)
-        try container.encodeIfPresent(modes, forKey: .modes)
-        try container.encodeIfPresent(naptanId, forKey: .naptanId)
-        try container.encodeIfPresent(naptanMode, forKey: .naptanMode)
-        try container.encodeIfPresent(placeType, forKey: .placeType)
-        try container.encodeIfPresent(platformName, forKey: .platformName)
-        try container.encodeIfPresent(smsCode, forKey: .smsCode)
-        try container.encodeIfPresent(stationNaptan, forKey: .stationNaptan)
-        try container.encodeIfPresent(status, forKey: .status)
-        try container.encodeIfPresent(stopLetter, forKey: .stopLetter)
-        try container.encodeIfPresent(stopType, forKey: .stopType)
-        try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(accessibilitySummary, forKey: "accessibilitySummary")
+        try container.encodeIfPresent(additionalProperties, forKey: "additionalProperties")
+        try container.encodeIfPresent(children, forKey: "children")
+        try container.encodeIfPresent(childrenUrls, forKey: "childrenUrls")
+        try container.encodeIfPresent(commonName, forKey: "commonName")
+        try container.encodeIfPresent(distance, forKey: "distance")
+        try container.encodeIfPresent(fullName, forKey: "fullName")
+        try container.encodeIfPresent(hubNaptanCode, forKey: "hubNaptanCode")
+        try container.encodeIfPresent(icsCode, forKey: "icsCode")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(indicator, forKey: "indicator")
+        try container.encodeIfPresent(lat, forKey: "lat")
+        try container.encodeIfPresent(lineGroup, forKey: "lineGroup")
+        try container.encodeIfPresent(lineModeGroups, forKey: "lineModeGroups")
+        try container.encodeIfPresent(lines, forKey: "lines")
+        try container.encodeIfPresent(lon, forKey: "lon")
+        try container.encodeIfPresent(modes, forKey: "modes")
+        try container.encodeIfPresent(naptanId, forKey: "naptanId")
+        try container.encodeIfPresent(naptanMode, forKey: "naptanMode")
+        try container.encodeIfPresent(placeType, forKey: "placeType")
+        try container.encodeIfPresent(platformName, forKey: "platformName")
+        try container.encodeIfPresent(smsCode, forKey: "smsCode")
+        try container.encodeIfPresent(stationNaptan, forKey: "stationNaptan")
+        try container.encodeIfPresent(status, forKey: "status")
+        try container.encodeIfPresent(stopLetter, forKey: "stopLetter")
+        try container.encodeIfPresent(stopType, forKey: "stopType")
+        try container.encodeIfPresent(url, forKey: "url")
     }
 
     public func isEqual(to object: Any?) -> Bool {

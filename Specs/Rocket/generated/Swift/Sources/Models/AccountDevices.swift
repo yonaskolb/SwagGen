@@ -46,29 +46,22 @@ days old.
         self.registrationWindow = registrationWindow
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case devices
-        case maxRegistered
-        case deregistrationWindow
-        case registrationWindow
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        devices = try container.decodeArray(.devices)
-        maxRegistered = try container.decode(.maxRegistered)
-        deregistrationWindow = try container.decodeIfPresent(.deregistrationWindow)
-        registrationWindow = try container.decodeIfPresent(.registrationWindow)
+        devices = try container.decodeArray("devices")
+        maxRegistered = try container.decode("maxRegistered")
+        deregistrationWindow = try container.decodeIfPresent("deregistrationWindow")
+        registrationWindow = try container.decodeIfPresent("registrationWindow")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(devices, forKey: .devices)
-        try container.encode(maxRegistered, forKey: .maxRegistered)
-        try container.encodeIfPresent(deregistrationWindow, forKey: .deregistrationWindow)
-        try container.encodeIfPresent(registrationWindow, forKey: .registrationWindow)
+        try container.encode(devices, forKey: "devices")
+        try container.encode(maxRegistered, forKey: "maxRegistered")
+        try container.encodeIfPresent(deregistrationWindow, forKey: "deregistrationWindow")
+        try container.encodeIfPresent(registrationWindow, forKey: "registrationWindow")
     }
 
     public func isEqual(to object: Any?) -> Bool {

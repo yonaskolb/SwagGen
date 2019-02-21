@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.StopPoint {
 
-    /**
-    Gets a list of StopPoints within {radius} by the specified criteria
-    */
+    /** Gets a list of StopPoints within {radius} by the specified criteria */
     public enum StopPointGetByGeoPoint {
 
         public static let service = APIService<Response>(id: "StopPoint_GetByGeoPoint", tag: "StopPoint", method: "GET", path: "/StopPoint", hasBody: false)

@@ -13,20 +13,16 @@ public class DbGeography: APIModel {
         self.geography = geography
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case geography
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        geography = try container.decodeIfPresent(.geography)
+        geography = try container.decodeIfPresent("geography")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(geography, forKey: .geography)
+        try container.encodeIfPresent(geography, forKey: "geography")
     }
 
     public func isEqual(to object: Any?) -> Bool {

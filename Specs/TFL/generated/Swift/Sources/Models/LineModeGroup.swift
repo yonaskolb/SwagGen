@@ -16,23 +16,18 @@ public class LineModeGroup: APIModel {
         self.modeName = modeName
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case lineIdentifier
-        case modeName
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        lineIdentifier = try container.decodeArrayIfPresent(.lineIdentifier)
-        modeName = try container.decodeIfPresent(.modeName)
+        lineIdentifier = try container.decodeArrayIfPresent("lineIdentifier")
+        modeName = try container.decodeIfPresent("modeName")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(lineIdentifier, forKey: .lineIdentifier)
-        try container.encodeIfPresent(modeName, forKey: .modeName)
+        try container.encodeIfPresent(lineIdentifier, forKey: "lineIdentifier")
+        try container.encodeIfPresent(modeName, forKey: "modeName")
     }
 
     public func isEqual(to object: Any?) -> Bool {

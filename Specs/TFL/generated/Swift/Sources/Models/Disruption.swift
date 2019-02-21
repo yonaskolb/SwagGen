@@ -77,53 +77,38 @@ public class Disruption: APIModel {
         self.type = type
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case additionalInfo
-        case affectedRoutes
-        case affectedStops
-        case category
-        case categoryDescription
-        case closureText
-        case created
-        case description
-        case isBlocking
-        case isWholeLine
-        case lastUpdate
-        case type
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        additionalInfo = try container.decodeIfPresent(.additionalInfo)
-        affectedRoutes = try container.decodeArrayIfPresent(.affectedRoutes)
-        affectedStops = try container.decodeArrayIfPresent(.affectedStops)
-        category = try container.decodeIfPresent(.category)
-        categoryDescription = try container.decodeIfPresent(.categoryDescription)
-        closureText = try container.decodeIfPresent(.closureText)
-        created = try container.decodeIfPresent(.created)
-        description = try container.decodeIfPresent(.description)
-        isBlocking = try container.decodeIfPresent(.isBlocking)
-        isWholeLine = try container.decodeIfPresent(.isWholeLine)
-        lastUpdate = try container.decodeIfPresent(.lastUpdate)
-        type = try container.decodeIfPresent(.type)
+        additionalInfo = try container.decodeIfPresent("additionalInfo")
+        affectedRoutes = try container.decodeArrayIfPresent("affectedRoutes")
+        affectedStops = try container.decodeArrayIfPresent("affectedStops")
+        category = try container.decodeIfPresent("category")
+        categoryDescription = try container.decodeIfPresent("categoryDescription")
+        closureText = try container.decodeIfPresent("closureText")
+        created = try container.decodeIfPresent("created")
+        description = try container.decodeIfPresent("description")
+        isBlocking = try container.decodeIfPresent("isBlocking")
+        isWholeLine = try container.decodeIfPresent("isWholeLine")
+        lastUpdate = try container.decodeIfPresent("lastUpdate")
+        type = try container.decodeIfPresent("type")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(additionalInfo, forKey: .additionalInfo)
-        try container.encodeIfPresent(affectedRoutes, forKey: .affectedRoutes)
-        try container.encodeIfPresent(affectedStops, forKey: .affectedStops)
-        try container.encodeIfPresent(category, forKey: .category)
-        try container.encodeIfPresent(categoryDescription, forKey: .categoryDescription)
-        try container.encodeIfPresent(closureText, forKey: .closureText)
-        try container.encodeIfPresent(created, forKey: .created)
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(isBlocking, forKey: .isBlocking)
-        try container.encodeIfPresent(isWholeLine, forKey: .isWholeLine)
-        try container.encodeIfPresent(lastUpdate, forKey: .lastUpdate)
-        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(additionalInfo, forKey: "additionalInfo")
+        try container.encodeIfPresent(affectedRoutes, forKey: "affectedRoutes")
+        try container.encodeIfPresent(affectedStops, forKey: "affectedStops")
+        try container.encodeIfPresent(category, forKey: "category")
+        try container.encodeIfPresent(categoryDescription, forKey: "categoryDescription")
+        try container.encodeIfPresent(closureText, forKey: "closureText")
+        try container.encodeIfPresent(created, forKey: "created")
+        try container.encodeIfPresent(description, forKey: "description")
+        try container.encodeIfPresent(isBlocking, forKey: "isBlocking")
+        try container.encodeIfPresent(isWholeLine, forKey: "isWholeLine")
+        try container.encodeIfPresent(lastUpdate, forKey: "lastUpdate")
+        try container.encodeIfPresent(type, forKey: "type")
     }
 
     public func isEqual(to object: Any?) -> Bool {

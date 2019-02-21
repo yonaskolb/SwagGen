@@ -7,9 +7,7 @@ import Foundation
 
 extension Rocket.Content {
 
-    /**
-    Returns a list of items under the specified item list
-    */
+    /** Returns a list of items under the specified item list */
     public enum GetList {
 
         public static let service = APIService<Response>(id: "getList", tag: "content", method: "GET", path: "/lists/{id}", hasBody: false)

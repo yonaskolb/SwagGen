@@ -22,29 +22,22 @@ public class FaresSection: APIModel {
         self.rows = rows
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case header
-        case index
-        case messages
-        case rows
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        header = try container.decodeIfPresent(.header)
-        index = try container.decodeIfPresent(.index)
-        messages = try container.decodeArrayIfPresent(.messages)
-        rows = try container.decodeArrayIfPresent(.rows)
+        header = try container.decodeIfPresent("header")
+        index = try container.decodeIfPresent("index")
+        messages = try container.decodeArrayIfPresent("messages")
+        rows = try container.decodeArrayIfPresent("rows")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(header, forKey: .header)
-        try container.encodeIfPresent(index, forKey: .index)
-        try container.encodeIfPresent(messages, forKey: .messages)
-        try container.encodeIfPresent(rows, forKey: .rows)
+        try container.encodeIfPresent(header, forKey: "header")
+        try container.encodeIfPresent(index, forKey: "index")
+        try container.encodeIfPresent(messages, forKey: "messages")
+        try container.encodeIfPresent(rows, forKey: "rows")
     }
 
     public func isEqual(to object: Any?) -> Bool {

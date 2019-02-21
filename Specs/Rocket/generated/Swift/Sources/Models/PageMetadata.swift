@@ -17,23 +17,18 @@ public class PageMetadata: APIModel {
         self.keywords = keywords
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case description
-        case keywords
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        description = try container.decodeIfPresent(.description)
-        keywords = try container.decodeArrayIfPresent(.keywords)
+        description = try container.decodeIfPresent("description")
+        keywords = try container.decodeArrayIfPresent("keywords")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(keywords, forKey: .keywords)
+        try container.encodeIfPresent(description, forKey: "description")
+        try container.encodeIfPresent(keywords, forKey: "keywords")
     }
 
     public func isEqual(to object: Any?) -> Bool {

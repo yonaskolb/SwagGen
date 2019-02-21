@@ -7,9 +7,7 @@ import Foundation
 
 extension TBX.UserService {
 
-    /**
-    Check if the Device has access to execute an action in many URNs
-    */
+    /** Check if the Device has access to execute an action in many URNs */
     public enum UserServiceDeviceAccess {
 
         public static let service = APIService<Response>(id: "UserService.deviceAccess", tag: "UserService", method: "GET", path: "/UserServices/device/{device}/access", hasBody: false)

@@ -34,41 +34,30 @@ public class Ticket: APIModel {
         self.ticketType = ticketType
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case cost
-        case description
-        case displayOrder
-        case messages
-        case mode
-        case passengerType
-        case ticketTime
-        case ticketType
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        cost = try container.decodeIfPresent(.cost)
-        description = try container.decodeIfPresent(.description)
-        displayOrder = try container.decodeIfPresent(.displayOrder)
-        messages = try container.decodeArrayIfPresent(.messages)
-        mode = try container.decodeIfPresent(.mode)
-        passengerType = try container.decodeIfPresent(.passengerType)
-        ticketTime = try container.decodeIfPresent(.ticketTime)
-        ticketType = try container.decodeIfPresent(.ticketType)
+        cost = try container.decodeIfPresent("cost")
+        description = try container.decodeIfPresent("description")
+        displayOrder = try container.decodeIfPresent("displayOrder")
+        messages = try container.decodeArrayIfPresent("messages")
+        mode = try container.decodeIfPresent("mode")
+        passengerType = try container.decodeIfPresent("passengerType")
+        ticketTime = try container.decodeIfPresent("ticketTime")
+        ticketType = try container.decodeIfPresent("ticketType")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(cost, forKey: .cost)
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(displayOrder, forKey: .displayOrder)
-        try container.encodeIfPresent(messages, forKey: .messages)
-        try container.encodeIfPresent(mode, forKey: .mode)
-        try container.encodeIfPresent(passengerType, forKey: .passengerType)
-        try container.encodeIfPresent(ticketTime, forKey: .ticketTime)
-        try container.encodeIfPresent(ticketType, forKey: .ticketType)
+        try container.encodeIfPresent(cost, forKey: "cost")
+        try container.encodeIfPresent(description, forKey: "description")
+        try container.encodeIfPresent(displayOrder, forKey: "displayOrder")
+        try container.encodeIfPresent(messages, forKey: "messages")
+        try container.encodeIfPresent(mode, forKey: "mode")
+        try container.encodeIfPresent(passengerType, forKey: "passengerType")
+        try container.encodeIfPresent(ticketTime, forKey: "ticketTime")
+        try container.encodeIfPresent(ticketType, forKey: "ticketType")
     }
 
     public func isEqual(to object: Any?) -> Bool {

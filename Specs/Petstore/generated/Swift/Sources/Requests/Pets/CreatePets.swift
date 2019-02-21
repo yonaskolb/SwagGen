@@ -7,12 +7,10 @@ import Foundation
 
 extension Petstore.Pets {
 
-    /**
-    Create a pet
-    */
+    /** Create a pet */
     public enum CreatePets {
 
-        public static let service = APIService<Response>(id: "createPets", tag: "pets", method: "POST", path: "/pets", hasBody: false, securityRequirement: SecurityRequirement(type: "petstore_auth", scope: "write:pets"))
+        public static let service = APIService<Response>(id: "createPets", tag: "pets", method: "POST", path: "/pets", hasBody: false, securityRequirement: SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"]))
 
         public final class Request: APIRequest<Response> {
 

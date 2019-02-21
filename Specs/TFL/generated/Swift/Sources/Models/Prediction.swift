@@ -91,77 +91,54 @@ public class Prediction: APIModel {
         self.vehicleId = vehicleId
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case bearing
-        case currentLocation
-        case destinationName
-        case destinationNaptanId
-        case direction
-        case expectedArrival
-        case id
-        case lineId
-        case lineName
-        case modeName
-        case naptanId
-        case operationType
-        case platformName
-        case stationName
-        case timeToLive
-        case timeToStation
-        case timestamp
-        case timing
-        case towards
-        case vehicleId
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        bearing = try container.decodeIfPresent(.bearing)
-        currentLocation = try container.decodeIfPresent(.currentLocation)
-        destinationName = try container.decodeIfPresent(.destinationName)
-        destinationNaptanId = try container.decodeIfPresent(.destinationNaptanId)
-        direction = try container.decodeIfPresent(.direction)
-        expectedArrival = try container.decodeIfPresent(.expectedArrival)
-        id = try container.decodeIfPresent(.id)
-        lineId = try container.decodeIfPresent(.lineId)
-        lineName = try container.decodeIfPresent(.lineName)
-        modeName = try container.decodeIfPresent(.modeName)
-        naptanId = try container.decodeIfPresent(.naptanId)
-        operationType = try container.decodeIfPresent(.operationType)
-        platformName = try container.decodeIfPresent(.platformName)
-        stationName = try container.decodeIfPresent(.stationName)
-        timeToLive = try container.decodeIfPresent(.timeToLive)
-        timeToStation = try container.decodeIfPresent(.timeToStation)
-        timestamp = try container.decodeIfPresent(.timestamp)
-        timing = try container.decodeIfPresent(.timing)
-        towards = try container.decodeIfPresent(.towards)
-        vehicleId = try container.decodeIfPresent(.vehicleId)
+        bearing = try container.decodeIfPresent("bearing")
+        currentLocation = try container.decodeIfPresent("currentLocation")
+        destinationName = try container.decodeIfPresent("destinationName")
+        destinationNaptanId = try container.decodeIfPresent("destinationNaptanId")
+        direction = try container.decodeIfPresent("direction")
+        expectedArrival = try container.decodeIfPresent("expectedArrival")
+        id = try container.decodeIfPresent("id")
+        lineId = try container.decodeIfPresent("lineId")
+        lineName = try container.decodeIfPresent("lineName")
+        modeName = try container.decodeIfPresent("modeName")
+        naptanId = try container.decodeIfPresent("naptanId")
+        operationType = try container.decodeIfPresent("operationType")
+        platformName = try container.decodeIfPresent("platformName")
+        stationName = try container.decodeIfPresent("stationName")
+        timeToLive = try container.decodeIfPresent("timeToLive")
+        timeToStation = try container.decodeIfPresent("timeToStation")
+        timestamp = try container.decodeIfPresent("timestamp")
+        timing = try container.decodeIfPresent("timing")
+        towards = try container.decodeIfPresent("towards")
+        vehicleId = try container.decodeIfPresent("vehicleId")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(bearing, forKey: .bearing)
-        try container.encodeIfPresent(currentLocation, forKey: .currentLocation)
-        try container.encodeIfPresent(destinationName, forKey: .destinationName)
-        try container.encodeIfPresent(destinationNaptanId, forKey: .destinationNaptanId)
-        try container.encodeIfPresent(direction, forKey: .direction)
-        try container.encodeIfPresent(expectedArrival, forKey: .expectedArrival)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(lineId, forKey: .lineId)
-        try container.encodeIfPresent(lineName, forKey: .lineName)
-        try container.encodeIfPresent(modeName, forKey: .modeName)
-        try container.encodeIfPresent(naptanId, forKey: .naptanId)
-        try container.encodeIfPresent(operationType, forKey: .operationType)
-        try container.encodeIfPresent(platformName, forKey: .platformName)
-        try container.encodeIfPresent(stationName, forKey: .stationName)
-        try container.encodeIfPresent(timeToLive, forKey: .timeToLive)
-        try container.encodeIfPresent(timeToStation, forKey: .timeToStation)
-        try container.encodeIfPresent(timestamp, forKey: .timestamp)
-        try container.encodeIfPresent(timing, forKey: .timing)
-        try container.encodeIfPresent(towards, forKey: .towards)
-        try container.encodeIfPresent(vehicleId, forKey: .vehicleId)
+        try container.encodeIfPresent(bearing, forKey: "bearing")
+        try container.encodeIfPresent(currentLocation, forKey: "currentLocation")
+        try container.encodeIfPresent(destinationName, forKey: "destinationName")
+        try container.encodeIfPresent(destinationNaptanId, forKey: "destinationNaptanId")
+        try container.encodeIfPresent(direction, forKey: "direction")
+        try container.encodeIfPresent(expectedArrival, forKey: "expectedArrival")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(lineId, forKey: "lineId")
+        try container.encodeIfPresent(lineName, forKey: "lineName")
+        try container.encodeIfPresent(modeName, forKey: "modeName")
+        try container.encodeIfPresent(naptanId, forKey: "naptanId")
+        try container.encodeIfPresent(operationType, forKey: "operationType")
+        try container.encodeIfPresent(platformName, forKey: "platformName")
+        try container.encodeIfPresent(stationName, forKey: "stationName")
+        try container.encodeIfPresent(timeToLive, forKey: "timeToLive")
+        try container.encodeIfPresent(timeToStation, forKey: "timeToStation")
+        try container.encodeIfPresent(timestamp, forKey: "timestamp")
+        try container.encodeIfPresent(timing, forKey: "timing")
+        try container.encodeIfPresent(towards, forKey: "towards")
+        try container.encodeIfPresent(vehicleId, forKey: "vehicleId")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -46,35 +46,26 @@ public class Street: APIModel {
         self.sourceSystemKey = sourceSystemKey
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case closure
-        case directions
-        case name
-        case segments
-        case sourceSystemId
-        case sourceSystemKey
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        closure = try container.decodeIfPresent(.closure)
-        directions = try container.decodeIfPresent(.directions)
-        name = try container.decodeIfPresent(.name)
-        segments = try container.decodeArrayIfPresent(.segments)
-        sourceSystemId = try container.decodeIfPresent(.sourceSystemId)
-        sourceSystemKey = try container.decodeIfPresent(.sourceSystemKey)
+        closure = try container.decodeIfPresent("closure")
+        directions = try container.decodeIfPresent("directions")
+        name = try container.decodeIfPresent("name")
+        segments = try container.decodeArrayIfPresent("segments")
+        sourceSystemId = try container.decodeIfPresent("sourceSystemId")
+        sourceSystemKey = try container.decodeIfPresent("sourceSystemKey")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(closure, forKey: .closure)
-        try container.encodeIfPresent(directions, forKey: .directions)
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(segments, forKey: .segments)
-        try container.encodeIfPresent(sourceSystemId, forKey: .sourceSystemId)
-        try container.encodeIfPresent(sourceSystemKey, forKey: .sourceSystemKey)
+        try container.encodeIfPresent(closure, forKey: "closure")
+        try container.encodeIfPresent(directions, forKey: "directions")
+        try container.encodeIfPresent(name, forKey: "name")
+        try container.encodeIfPresent(segments, forKey: "segments")
+        try container.encodeIfPresent(sourceSystemId, forKey: "sourceSystemId")
+        try container.encodeIfPresent(sourceSystemKey, forKey: "sourceSystemKey")
     }
 
     public func isEqual(to object: Any?) -> Bool {

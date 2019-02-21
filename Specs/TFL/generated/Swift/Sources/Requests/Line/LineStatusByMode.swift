@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.Line {
 
-    /**
-    Gets the line status of for all lines for the given modes
-    */
+    /** Gets the line status of for all lines for the given modes */
     public enum LineStatusByMode {
 
         public static let service = APIService<Response>(id: "Line_StatusByMode", tag: "Line", method: "GET", path: "/Line/Mode/{modes}/Status", hasBody: false)

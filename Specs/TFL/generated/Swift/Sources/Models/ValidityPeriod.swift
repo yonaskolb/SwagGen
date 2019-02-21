@@ -23,26 +23,20 @@ public class ValidityPeriod: APIModel {
         self.toDate = toDate
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case fromDate
-        case isNow
-        case toDate
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        fromDate = try container.decodeIfPresent(.fromDate)
-        isNow = try container.decodeIfPresent(.isNow)
-        toDate = try container.decodeIfPresent(.toDate)
+        fromDate = try container.decodeIfPresent("fromDate")
+        isNow = try container.decodeIfPresent("isNow")
+        toDate = try container.decodeIfPresent("toDate")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(fromDate, forKey: .fromDate)
-        try container.encodeIfPresent(isNow, forKey: .isNow)
-        try container.encodeIfPresent(toDate, forKey: .toDate)
+        try container.encodeIfPresent(fromDate, forKey: "fromDate")
+        try container.encodeIfPresent(isNow, forKey: "isNow")
+        try container.encodeIfPresent(toDate, forKey: "toDate")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -29,35 +29,26 @@ public class AppConfig: APIModel {
         self.subscription = subscription
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case classification
-        case general
-        case navigation
-        case playback
-        case sitemap
-        case subscription
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        classification = try container.decodeIfPresent(.classification)
-        general = try container.decodeIfPresent(.general)
-        navigation = try container.decodeIfPresent(.navigation)
-        playback = try container.decodeIfPresent(.playback)
-        sitemap = try container.decodeArrayIfPresent(.sitemap)
-        subscription = try container.decodeIfPresent(.subscription)
+        classification = try container.decodeIfPresent("classification")
+        general = try container.decodeIfPresent("general")
+        navigation = try container.decodeIfPresent("navigation")
+        playback = try container.decodeIfPresent("playback")
+        sitemap = try container.decodeArrayIfPresent("sitemap")
+        subscription = try container.decodeIfPresent("subscription")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(classification, forKey: .classification)
-        try container.encodeIfPresent(general, forKey: .general)
-        try container.encodeIfPresent(navigation, forKey: .navigation)
-        try container.encodeIfPresent(playback, forKey: .playback)
-        try container.encodeIfPresent(sitemap, forKey: .sitemap)
-        try container.encodeIfPresent(subscription, forKey: .subscription)
+        try container.encodeIfPresent(classification, forKey: "classification")
+        try container.encodeIfPresent(general, forKey: "general")
+        try container.encodeIfPresent(navigation, forKey: "navigation")
+        try container.encodeIfPresent(playback, forKey: "playback")
+        try container.encodeIfPresent(sitemap, forKey: "sitemap")
+        try container.encodeIfPresent(subscription, forKey: "subscription")
     }
 
     public func isEqual(to object: Any?) -> Bool {

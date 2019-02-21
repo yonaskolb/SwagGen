@@ -7,13 +7,12 @@ import Foundation
 
 extension Rocket.Account {
 
-    /**
-    Update the summary of a profile with a specific id under the active account.
+    /** Update the summary of a profile with a specific id under the active account.
 This supports partial updates so you can send just the properties you wish to update.
-    */
+ */
     public enum UpdateProfileWithId {
 
-        public static let service = APIService<Response>(id: "updateProfileWithId", tag: "account", method: "PATCH", path: "/account/profiles/{id}", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "updateProfileWithId", tag: "account", method: "PATCH", path: "/account/profiles/{id}", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scopes: ["Catalog"]))
 
         public final class Request: APIRequest<Response> {
 

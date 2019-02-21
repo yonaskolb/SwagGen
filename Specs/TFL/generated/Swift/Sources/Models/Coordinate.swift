@@ -28,35 +28,26 @@ public class Coordinate: APIModel {
         self.yCoord = yCoord
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case easting
-        case latitude
-        case longitude
-        case northing
-        case xCoord
-        case yCoord
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        easting = try container.decodeIfPresent(.easting)
-        latitude = try container.decodeIfPresent(.latitude)
-        longitude = try container.decodeIfPresent(.longitude)
-        northing = try container.decodeIfPresent(.northing)
-        xCoord = try container.decodeIfPresent(.xCoord)
-        yCoord = try container.decodeIfPresent(.yCoord)
+        easting = try container.decodeIfPresent("easting")
+        latitude = try container.decodeIfPresent("latitude")
+        longitude = try container.decodeIfPresent("longitude")
+        northing = try container.decodeIfPresent("northing")
+        xCoord = try container.decodeIfPresent("xCoord")
+        yCoord = try container.decodeIfPresent("yCoord")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(easting, forKey: .easting)
-        try container.encodeIfPresent(latitude, forKey: .latitude)
-        try container.encodeIfPresent(longitude, forKey: .longitude)
-        try container.encodeIfPresent(northing, forKey: .northing)
-        try container.encodeIfPresent(xCoord, forKey: .xCoord)
-        try container.encodeIfPresent(yCoord, forKey: .yCoord)
+        try container.encodeIfPresent(easting, forKey: "easting")
+        try container.encodeIfPresent(latitude, forKey: "latitude")
+        try container.encodeIfPresent(longitude, forKey: "longitude")
+        try container.encodeIfPresent(northing, forKey: "northing")
+        try container.encodeIfPresent(xCoord, forKey: "xCoord")
+        try container.encodeIfPresent(yCoord, forKey: "yCoord")
     }
 
     public func isEqual(to object: Any?) -> Bool {

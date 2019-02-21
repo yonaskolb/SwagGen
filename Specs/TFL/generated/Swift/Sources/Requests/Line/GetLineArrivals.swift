@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.Line {
 
-    /**
-    Get the list of arrival predictions for given line ids based at the given stop
-    */
+    /** Get the list of arrival predictions for given line ids based at the given stop */
     public enum GetLineArrivals {
 
         public static let service = APIService<Response>(id: "getLineArrivals", tag: "Line", method: "GET", path: "/Line/{ids}/Arrivals", hasBody: false)

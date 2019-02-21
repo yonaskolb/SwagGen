@@ -16,23 +16,18 @@ public class ServiceFrequency: APIModel {
         self.lowestFrequency = lowestFrequency
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case highestFrequency
-        case lowestFrequency
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        highestFrequency = try container.decodeIfPresent(.highestFrequency)
-        lowestFrequency = try container.decodeIfPresent(.lowestFrequency)
+        highestFrequency = try container.decodeIfPresent("highestFrequency")
+        lowestFrequency = try container.decodeIfPresent("lowestFrequency")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(highestFrequency, forKey: .highestFrequency)
-        try container.encodeIfPresent(lowestFrequency, forKey: .lowestFrequency)
+        try container.encodeIfPresent(highestFrequency, forKey: "highestFrequency")
+        try container.encodeIfPresent(lowestFrequency, forKey: "lowestFrequency")
     }
 
     public func isEqual(to object: Any?) -> Bool {

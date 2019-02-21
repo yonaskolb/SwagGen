@@ -13,20 +13,16 @@ public class Client: APIModel {
         self.client = client
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case client
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        client = try container.decodeIfPresent(.client)
+        client = try container.decodeIfPresent("client")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(client, forKey: .client)
+        try container.encodeIfPresent(client, forKey: "client")
     }
 
     public func isEqual(to object: Any?) -> Bool {

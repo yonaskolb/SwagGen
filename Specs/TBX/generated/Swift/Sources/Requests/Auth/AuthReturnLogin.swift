@@ -7,9 +7,7 @@ import Foundation
 
 extension TBX.Auth {
 
-    /**
-    This API is deprecated please use "login" without send the URL instead
-    */
+    /** This API is deprecated please use "login" without send the URL instead */
     public enum AuthReturnLogin {
 
         public static let service = APIService<Response>(id: "auth.returnLogin", tag: "auth", method: "GET", path: "/auth/{cp}/returnLogin", hasBody: false)

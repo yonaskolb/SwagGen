@@ -29,30 +29,23 @@ Each classification in a system should have a unique level.
         super.init(code: code, name: name)
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case level
-        case system
-        case images
-        case advisoryText
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        level = try container.decode(.level)
-        system = try container.decode(.system)
-        images = try container.decode(.images)
-        advisoryText = try container.decodeIfPresent(.advisoryText)
+        level = try container.decode("level")
+        system = try container.decode("system")
+        images = try container.decode("images")
+        advisoryText = try container.decodeIfPresent("advisoryText")
         try super.init(from: decoder)
     }
 
     public override func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(level, forKey: .level)
-        try container.encode(system, forKey: .system)
-        try container.encode(images, forKey: .images)
-        try container.encodeIfPresent(advisoryText, forKey: .advisoryText)
+        try container.encode(level, forKey: "level")
+        try container.encode(system, forKey: "system")
+        try container.encode(images, forKey: "images")
+        try container.encodeIfPresent(advisoryText, forKey: "advisoryText")
         try super.encode(to: encoder)
     }
 

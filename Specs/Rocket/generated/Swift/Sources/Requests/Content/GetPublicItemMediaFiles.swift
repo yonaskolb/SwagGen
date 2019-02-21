@@ -7,8 +7,7 @@ import Foundation
 
 extension Rocket.Content {
 
-    /**
-    Get the free / public video files associated with an item given maximum resolution,
+    /** Get the free / public video files associated with an item given maximum resolution,
 device type and one or more delivery types.
 Returns an array of video file objects which each include a url to a video.
 The first entry in the array contains what is predicted to be the best match.
@@ -19,7 +18,7 @@ If you specify multiple delivery types, then the response array will insert
 types in the order you specify them in the query. For example `stream,progressive`
 would return an array with 0 or more stream files followed by 0 or more progressive files.
 If no files are found a 404 is returned.
-    */
+ */
     public enum GetPublicItemMediaFiles {
 
         public static let service = APIService<Response>(id: "getPublicItemMediaFiles", tag: "content", method: "GET", path: "/items/{id}/videos", hasBody: false)

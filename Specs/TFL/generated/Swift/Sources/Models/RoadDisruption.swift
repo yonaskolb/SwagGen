@@ -147,110 +147,76 @@ public class RoadDisruption: APIModel {
         self.url = url
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case category
-        case comments
-        case corridorIds
-        case currentUpdate
-        case currentUpdateDateTime
-        case endDateTime
-        case geography
-        case geometry
-        case hasClosures
-        case id
-        case isProvisional
-        case lastModifiedTime
-        case levelOfInterest
-        case linkText
-        case linkUrl
-        case location
-        case ordinal
-        case point
-        case publishEndDate
-        case publishStartDate
-        case recurringSchedules
-        case roadDisruptionImpactAreas
-        case roadDisruptionLines
-        case roadProject
-        case severity
-        case startDateTime
-        case status
-        case streets
-        case subCategory
-        case timeFrame
-        case url
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        category = try container.decodeIfPresent(.category)
-        comments = try container.decodeIfPresent(.comments)
-        corridorIds = try container.decodeArrayIfPresent(.corridorIds)
-        currentUpdate = try container.decodeIfPresent(.currentUpdate)
-        currentUpdateDateTime = try container.decodeIfPresent(.currentUpdateDateTime)
-        endDateTime = try container.decodeIfPresent(.endDateTime)
-        geography = try container.decodeIfPresent(.geography)
-        geometry = try container.decodeIfPresent(.geometry)
-        hasClosures = try container.decodeIfPresent(.hasClosures)
-        id = try container.decodeIfPresent(.id)
-        isProvisional = try container.decodeIfPresent(.isProvisional)
-        lastModifiedTime = try container.decodeIfPresent(.lastModifiedTime)
-        levelOfInterest = try container.decodeIfPresent(.levelOfInterest)
-        linkText = try container.decodeIfPresent(.linkText)
-        linkUrl = try container.decodeIfPresent(.linkUrl)
-        location = try container.decodeIfPresent(.location)
-        ordinal = try container.decodeIfPresent(.ordinal)
-        point = try container.decodeIfPresent(.point)
-        publishEndDate = try container.decodeIfPresent(.publishEndDate)
-        publishStartDate = try container.decodeIfPresent(.publishStartDate)
-        recurringSchedules = try container.decodeArrayIfPresent(.recurringSchedules)
-        roadDisruptionImpactAreas = try container.decodeArrayIfPresent(.roadDisruptionImpactAreas)
-        roadDisruptionLines = try container.decodeArrayIfPresent(.roadDisruptionLines)
-        roadProject = try container.decodeIfPresent(.roadProject)
-        severity = try container.decodeIfPresent(.severity)
-        startDateTime = try container.decodeIfPresent(.startDateTime)
-        status = try container.decodeIfPresent(.status)
-        streets = try container.decodeArrayIfPresent(.streets)
-        subCategory = try container.decodeIfPresent(.subCategory)
-        timeFrame = try container.decodeIfPresent(.timeFrame)
-        url = try container.decodeIfPresent(.url)
+        category = try container.decodeIfPresent("category")
+        comments = try container.decodeIfPresent("comments")
+        corridorIds = try container.decodeArrayIfPresent("corridorIds")
+        currentUpdate = try container.decodeIfPresent("currentUpdate")
+        currentUpdateDateTime = try container.decodeIfPresent("currentUpdateDateTime")
+        endDateTime = try container.decodeIfPresent("endDateTime")
+        geography = try container.decodeIfPresent("geography")
+        geometry = try container.decodeIfPresent("geometry")
+        hasClosures = try container.decodeIfPresent("hasClosures")
+        id = try container.decodeIfPresent("id")
+        isProvisional = try container.decodeIfPresent("isProvisional")
+        lastModifiedTime = try container.decodeIfPresent("lastModifiedTime")
+        levelOfInterest = try container.decodeIfPresent("levelOfInterest")
+        linkText = try container.decodeIfPresent("linkText")
+        linkUrl = try container.decodeIfPresent("linkUrl")
+        location = try container.decodeIfPresent("location")
+        ordinal = try container.decodeIfPresent("ordinal")
+        point = try container.decodeIfPresent("point")
+        publishEndDate = try container.decodeIfPresent("publishEndDate")
+        publishStartDate = try container.decodeIfPresent("publishStartDate")
+        recurringSchedules = try container.decodeArrayIfPresent("recurringSchedules")
+        roadDisruptionImpactAreas = try container.decodeArrayIfPresent("roadDisruptionImpactAreas")
+        roadDisruptionLines = try container.decodeArrayIfPresent("roadDisruptionLines")
+        roadProject = try container.decodeIfPresent("roadProject")
+        severity = try container.decodeIfPresent("severity")
+        startDateTime = try container.decodeIfPresent("startDateTime")
+        status = try container.decodeIfPresent("status")
+        streets = try container.decodeArrayIfPresent("streets")
+        subCategory = try container.decodeIfPresent("subCategory")
+        timeFrame = try container.decodeIfPresent("timeFrame")
+        url = try container.decodeIfPresent("url")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(category, forKey: .category)
-        try container.encodeIfPresent(comments, forKey: .comments)
-        try container.encodeIfPresent(corridorIds, forKey: .corridorIds)
-        try container.encodeIfPresent(currentUpdate, forKey: .currentUpdate)
-        try container.encodeIfPresent(currentUpdateDateTime, forKey: .currentUpdateDateTime)
-        try container.encodeIfPresent(endDateTime, forKey: .endDateTime)
-        try container.encodeIfPresent(geography, forKey: .geography)
-        try container.encodeIfPresent(geometry, forKey: .geometry)
-        try container.encodeIfPresent(hasClosures, forKey: .hasClosures)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(isProvisional, forKey: .isProvisional)
-        try container.encodeIfPresent(lastModifiedTime, forKey: .lastModifiedTime)
-        try container.encodeIfPresent(levelOfInterest, forKey: .levelOfInterest)
-        try container.encodeIfPresent(linkText, forKey: .linkText)
-        try container.encodeIfPresent(linkUrl, forKey: .linkUrl)
-        try container.encodeIfPresent(location, forKey: .location)
-        try container.encodeIfPresent(ordinal, forKey: .ordinal)
-        try container.encodeIfPresent(point, forKey: .point)
-        try container.encodeIfPresent(publishEndDate, forKey: .publishEndDate)
-        try container.encodeIfPresent(publishStartDate, forKey: .publishStartDate)
-        try container.encodeIfPresent(recurringSchedules, forKey: .recurringSchedules)
-        try container.encodeIfPresent(roadDisruptionImpactAreas, forKey: .roadDisruptionImpactAreas)
-        try container.encodeIfPresent(roadDisruptionLines, forKey: .roadDisruptionLines)
-        try container.encodeIfPresent(roadProject, forKey: .roadProject)
-        try container.encodeIfPresent(severity, forKey: .severity)
-        try container.encodeIfPresent(startDateTime, forKey: .startDateTime)
-        try container.encodeIfPresent(status, forKey: .status)
-        try container.encodeIfPresent(streets, forKey: .streets)
-        try container.encodeIfPresent(subCategory, forKey: .subCategory)
-        try container.encodeIfPresent(timeFrame, forKey: .timeFrame)
-        try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(category, forKey: "category")
+        try container.encodeIfPresent(comments, forKey: "comments")
+        try container.encodeIfPresent(corridorIds, forKey: "corridorIds")
+        try container.encodeIfPresent(currentUpdate, forKey: "currentUpdate")
+        try container.encodeIfPresent(currentUpdateDateTime, forKey: "currentUpdateDateTime")
+        try container.encodeIfPresent(endDateTime, forKey: "endDateTime")
+        try container.encodeIfPresent(geography, forKey: "geography")
+        try container.encodeIfPresent(geometry, forKey: "geometry")
+        try container.encodeIfPresent(hasClosures, forKey: "hasClosures")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(isProvisional, forKey: "isProvisional")
+        try container.encodeIfPresent(lastModifiedTime, forKey: "lastModifiedTime")
+        try container.encodeIfPresent(levelOfInterest, forKey: "levelOfInterest")
+        try container.encodeIfPresent(linkText, forKey: "linkText")
+        try container.encodeIfPresent(linkUrl, forKey: "linkUrl")
+        try container.encodeIfPresent(location, forKey: "location")
+        try container.encodeIfPresent(ordinal, forKey: "ordinal")
+        try container.encodeIfPresent(point, forKey: "point")
+        try container.encodeIfPresent(publishEndDate, forKey: "publishEndDate")
+        try container.encodeIfPresent(publishStartDate, forKey: "publishStartDate")
+        try container.encodeIfPresent(recurringSchedules, forKey: "recurringSchedules")
+        try container.encodeIfPresent(roadDisruptionImpactAreas, forKey: "roadDisruptionImpactAreas")
+        try container.encodeIfPresent(roadDisruptionLines, forKey: "roadDisruptionLines")
+        try container.encodeIfPresent(roadProject, forKey: "roadProject")
+        try container.encodeIfPresent(severity, forKey: "severity")
+        try container.encodeIfPresent(startDateTime, forKey: "startDateTime")
+        try container.encodeIfPresent(status, forKey: "status")
+        try container.encodeIfPresent(streets, forKey: "streets")
+        try container.encodeIfPresent(subCategory, forKey: "subCategory")
+        try container.encodeIfPresent(timeFrame, forKey: "timeFrame")
+        try container.encodeIfPresent(url, forKey: "url")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -25,32 +25,24 @@ public class Schedule: APIModel {
         self.periods = periods
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case firstJourney
-        case knownJourneys
-        case lastJourney
-        case name
-        case periods
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        firstJourney = try container.decodeIfPresent(.firstJourney)
-        knownJourneys = try container.decodeArrayIfPresent(.knownJourneys)
-        lastJourney = try container.decodeIfPresent(.lastJourney)
-        name = try container.decodeIfPresent(.name)
-        periods = try container.decodeArrayIfPresent(.periods)
+        firstJourney = try container.decodeIfPresent("firstJourney")
+        knownJourneys = try container.decodeArrayIfPresent("knownJourneys")
+        lastJourney = try container.decodeIfPresent("lastJourney")
+        name = try container.decodeIfPresent("name")
+        periods = try container.decodeArrayIfPresent("periods")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(firstJourney, forKey: .firstJourney)
-        try container.encodeIfPresent(knownJourneys, forKey: .knownJourneys)
-        try container.encodeIfPresent(lastJourney, forKey: .lastJourney)
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(periods, forKey: .periods)
+        try container.encodeIfPresent(firstJourney, forKey: "firstJourney")
+        try container.encodeIfPresent(knownJourneys, forKey: "knownJourneys")
+        try container.encodeIfPresent(lastJourney, forKey: "lastJourney")
+        try container.encodeIfPresent(name, forKey: "name")
+        try container.encodeIfPresent(periods, forKey: "periods")
     }
 
     public func isEqual(to object: Any?) -> Bool {

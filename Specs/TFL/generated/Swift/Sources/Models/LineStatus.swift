@@ -37,44 +37,32 @@ public class LineStatus: APIModel {
         self.validityPeriods = validityPeriods
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case created
-        case disruption
-        case id
-        case lineId
-        case modified
-        case reason
-        case statusSeverity
-        case statusSeverityDescription
-        case validityPeriods
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        created = try container.decodeIfPresent(.created)
-        disruption = try container.decodeIfPresent(.disruption)
-        id = try container.decodeIfPresent(.id)
-        lineId = try container.decodeIfPresent(.lineId)
-        modified = try container.decodeIfPresent(.modified)
-        reason = try container.decodeIfPresent(.reason)
-        statusSeverity = try container.decodeIfPresent(.statusSeverity)
-        statusSeverityDescription = try container.decodeIfPresent(.statusSeverityDescription)
-        validityPeriods = try container.decodeArrayIfPresent(.validityPeriods)
+        created = try container.decodeIfPresent("created")
+        disruption = try container.decodeIfPresent("disruption")
+        id = try container.decodeIfPresent("id")
+        lineId = try container.decodeIfPresent("lineId")
+        modified = try container.decodeIfPresent("modified")
+        reason = try container.decodeIfPresent("reason")
+        statusSeverity = try container.decodeIfPresent("statusSeverity")
+        statusSeverityDescription = try container.decodeIfPresent("statusSeverityDescription")
+        validityPeriods = try container.decodeArrayIfPresent("validityPeriods")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(created, forKey: .created)
-        try container.encodeIfPresent(disruption, forKey: .disruption)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(lineId, forKey: .lineId)
-        try container.encodeIfPresent(modified, forKey: .modified)
-        try container.encodeIfPresent(reason, forKey: .reason)
-        try container.encodeIfPresent(statusSeverity, forKey: .statusSeverity)
-        try container.encodeIfPresent(statusSeverityDescription, forKey: .statusSeverityDescription)
-        try container.encodeIfPresent(validityPeriods, forKey: .validityPeriods)
+        try container.encodeIfPresent(created, forKey: "created")
+        try container.encodeIfPresent(disruption, forKey: "disruption")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(lineId, forKey: "lineId")
+        try container.encodeIfPresent(modified, forKey: "modified")
+        try container.encodeIfPresent(reason, forKey: "reason")
+        try container.encodeIfPresent(statusSeverity, forKey: "statusSeverity")
+        try container.encodeIfPresent(statusSeverityDescription, forKey: "statusSeverityDescription")
+        try container.encodeIfPresent(validityPeriods, forKey: "validityPeriods")
     }
 
     public func isEqual(to object: Any?) -> Bool {

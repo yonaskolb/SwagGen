@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.Search {
 
-    /**
-    Gets the available sorting options.
-    */
+    /** Gets the available sorting options. */
     public enum SearchMetaSorts {
 
         public static let service = APIService<Response>(id: "Search_MetaSorts", tag: "Search", method: "GET", path: "/Search/Meta/Sorts", hasBody: false)

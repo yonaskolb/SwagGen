@@ -63,56 +63,40 @@ For example the Movies Genre list will take a parameter `genre` with a given val
         self.title = title
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case size
-        case items
-        case paging
-        case path
-        case customFields
-        case description
-        case images
-        case itemTypes
-        case parameter
-        case shortDescription
-        case tagline
-        case title
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        id = try container.decode(.id)
-        size = try container.decode(.size)
-        items = try container.decodeArray(.items)
-        paging = try container.decode(.paging)
-        path = try container.decode(.path)
-        customFields = try container.decodeAnyIfPresent(.customFields)
-        description = try container.decodeIfPresent(.description)
-        images = try container.decodeIfPresent(.images)
-        itemTypes = try container.decodeArrayIfPresent(.itemTypes)
-        parameter = try container.decodeIfPresent(.parameter)
-        shortDescription = try container.decodeIfPresent(.shortDescription)
-        tagline = try container.decodeIfPresent(.tagline)
-        title = try container.decodeIfPresent(.title)
+        id = try container.decode("id")
+        size = try container.decode("size")
+        items = try container.decodeArray("items")
+        paging = try container.decode("paging")
+        path = try container.decode("path")
+        customFields = try container.decodeAnyIfPresent("customFields")
+        description = try container.decodeIfPresent("description")
+        images = try container.decodeIfPresent("images")
+        itemTypes = try container.decodeArrayIfPresent("itemTypes")
+        parameter = try container.decodeIfPresent("parameter")
+        shortDescription = try container.decodeIfPresent("shortDescription")
+        tagline = try container.decodeIfPresent("tagline")
+        title = try container.decodeIfPresent("title")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(id, forKey: .id)
-        try container.encode(size, forKey: .size)
-        try container.encode(items, forKey: .items)
-        try container.encode(paging, forKey: .paging)
-        try container.encode(path, forKey: .path)
-        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(images, forKey: .images)
-        try container.encodeIfPresent(itemTypes, forKey: .itemTypes)
-        try container.encodeIfPresent(parameter, forKey: .parameter)
-        try container.encodeIfPresent(shortDescription, forKey: .shortDescription)
-        try container.encodeIfPresent(tagline, forKey: .tagline)
-        try container.encodeIfPresent(title, forKey: .title)
+        try container.encode(id, forKey: "id")
+        try container.encode(size, forKey: "size")
+        try container.encode(items, forKey: "items")
+        try container.encode(paging, forKey: "paging")
+        try container.encode(path, forKey: "path")
+        try container.encodeAnyIfPresent(customFields, forKey: "customFields")
+        try container.encodeIfPresent(description, forKey: "description")
+        try container.encodeIfPresent(images, forKey: "images")
+        try container.encodeIfPresent(itemTypes, forKey: "itemTypes")
+        try container.encodeIfPresent(parameter, forKey: "parameter")
+        try container.encodeIfPresent(shortDescription, forKey: "shortDescription")
+        try container.encodeIfPresent(tagline, forKey: "tagline")
+        try container.encodeIfPresent(title, forKey: "title")
     }
 
     public func isEqual(to object: Any?) -> Bool {

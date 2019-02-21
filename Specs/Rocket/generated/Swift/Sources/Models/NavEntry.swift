@@ -39,35 +39,26 @@ If the value begins with `http` then it's an external url.
         self.path = path
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case children
-        case content
-        case customFields
-        case featured
-        case label
-        case path
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        children = try container.decodeArrayIfPresent(.children)
-        content = try container.decodeIfPresent(.content)
-        customFields = try container.decodeAnyIfPresent(.customFields)
-        featured = try container.decodeIfPresent(.featured)
-        label = try container.decodeIfPresent(.label)
-        path = try container.decodeIfPresent(.path)
+        children = try container.decodeArrayIfPresent("children")
+        content = try container.decodeIfPresent("content")
+        customFields = try container.decodeAnyIfPresent("customFields")
+        featured = try container.decodeIfPresent("featured")
+        label = try container.decodeIfPresent("label")
+        path = try container.decodeIfPresent("path")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(children, forKey: .children)
-        try container.encodeIfPresent(content, forKey: .content)
-        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
-        try container.encodeIfPresent(featured, forKey: .featured)
-        try container.encodeIfPresent(label, forKey: .label)
-        try container.encodeIfPresent(path, forKey: .path)
+        try container.encodeIfPresent(children, forKey: "children")
+        try container.encodeIfPresent(content, forKey: "content")
+        try container.encodeAnyIfPresent(customFields, forKey: "customFields")
+        try container.encodeIfPresent(featured, forKey: "featured")
+        try container.encodeIfPresent(label, forKey: "label")
+        try container.encodeIfPresent(path, forKey: "path")
     }
 
     public func isEqual(to object: Any?) -> Bool {

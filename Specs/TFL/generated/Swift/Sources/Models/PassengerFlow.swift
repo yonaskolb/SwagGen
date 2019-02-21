@@ -18,23 +18,18 @@ public class PassengerFlow: APIModel {
         self.value = value
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case timeSlice
-        case value
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        timeSlice = try container.decodeIfPresent(.timeSlice)
-        value = try container.decodeIfPresent(.value)
+        timeSlice = try container.decodeIfPresent("timeSlice")
+        value = try container.decodeIfPresent("value")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(timeSlice, forKey: .timeSlice)
-        try container.encodeIfPresent(value, forKey: .value)
+        try container.encodeIfPresent(timeSlice, forKey: "timeSlice")
+        try container.encodeIfPresent(value, forKey: "value")
     }
 
     public func isEqual(to object: Any?) -> Bool {

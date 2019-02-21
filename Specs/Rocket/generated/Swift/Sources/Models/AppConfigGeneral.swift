@@ -34,35 +34,26 @@ public class AppConfigGeneral: APIModel {
         self.websiteUrl = websiteUrl
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case currencyCode
-        case customFields
-        case gaToken
-        case itemImageTypes
-        case stripeKey
-        case websiteUrl
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        currencyCode = try container.decodeIfPresent(.currencyCode)
-        customFields = try container.decodeAnyIfPresent(.customFields)
-        gaToken = try container.decodeIfPresent(.gaToken)
-        itemImageTypes = try container.decodeIfPresent(.itemImageTypes)
-        stripeKey = try container.decodeIfPresent(.stripeKey)
-        websiteUrl = try container.decodeIfPresent(.websiteUrl)
+        currencyCode = try container.decodeIfPresent("currencyCode")
+        customFields = try container.decodeAnyIfPresent("customFields")
+        gaToken = try container.decodeIfPresent("gaToken")
+        itemImageTypes = try container.decodeIfPresent("itemImageTypes")
+        stripeKey = try container.decodeIfPresent("stripeKey")
+        websiteUrl = try container.decodeIfPresent("websiteUrl")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(currencyCode, forKey: .currencyCode)
-        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
-        try container.encodeIfPresent(gaToken, forKey: .gaToken)
-        try container.encodeIfPresent(itemImageTypes, forKey: .itemImageTypes)
-        try container.encodeIfPresent(stripeKey, forKey: .stripeKey)
-        try container.encodeIfPresent(websiteUrl, forKey: .websiteUrl)
+        try container.encodeIfPresent(currencyCode, forKey: "currencyCode")
+        try container.encodeAnyIfPresent(customFields, forKey: "customFields")
+        try container.encodeIfPresent(gaToken, forKey: "gaToken")
+        try container.encodeIfPresent(itemImageTypes, forKey: "itemImageTypes")
+        try container.encodeIfPresent(stripeKey, forKey: "stripeKey")
+        try container.encodeIfPresent(websiteUrl, forKey: "websiteUrl")
     }
 
     public func isEqual(to object: Any?) -> Bool {

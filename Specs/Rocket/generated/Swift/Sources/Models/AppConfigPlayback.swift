@@ -22,23 +22,18 @@ Often known as quartiles when four equaly spread event points.
         self.viewEventPoints = viewEventPoints
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case heartbeatFrequency
-        case viewEventPoints
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        heartbeatFrequency = try container.decode(.heartbeatFrequency)
-        viewEventPoints = try container.decodeArray(.viewEventPoints)
+        heartbeatFrequency = try container.decode("heartbeatFrequency")
+        viewEventPoints = try container.decodeArray("viewEventPoints")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(heartbeatFrequency, forKey: .heartbeatFrequency)
-        try container.encode(viewEventPoints, forKey: .viewEventPoints)
+        try container.encode(heartbeatFrequency, forKey: "heartbeatFrequency")
+        try container.encode(viewEventPoints, forKey: "viewEventPoints")
     }
 
     public func isEqual(to object: Any?) -> Bool {

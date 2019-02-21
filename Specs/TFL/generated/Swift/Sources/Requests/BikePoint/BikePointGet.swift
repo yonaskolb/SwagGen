@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.BikePoint {
 
-    /**
-    Gets the bike point with the given id.
-    */
+    /** Gets the bike point with the given id. */
     public enum BikePointGet {
 
         public static let service = APIService<Response>(id: "BikePoint_Get", tag: "BikePoint", method: "GET", path: "/BikePoint/{id}", hasBody: false)

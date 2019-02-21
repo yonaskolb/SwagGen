@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.StopPoint {
 
-    /**
-    Gets a list of StopPoints corresponding to the given list of stop ids.
-    */
+    /** Gets a list of StopPoints corresponding to the given list of stop ids. */
     public enum StopPointGet {
 
         public static let service = APIService<Response>(id: "StopPoint_Get", tag: "StopPoint", method: "GET", path: "/StopPoint/{ids}", hasBody: false)

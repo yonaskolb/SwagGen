@@ -19,26 +19,20 @@ public class MixedPropertiesAndAdditionalPropertiesClass: APIModel {
         self.uuid = uuid
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case dateTime
-        case map
-        case uuid
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        dateTime = try container.decodeIfPresent(.dateTime)
-        map = try container.decodeIfPresent(.map)
-        uuid = try container.decodeIfPresent(.uuid)
+        dateTime = try container.decodeIfPresent("dateTime")
+        map = try container.decodeIfPresent("map")
+        uuid = try container.decodeIfPresent("uuid")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(dateTime, forKey: .dateTime)
-        try container.encodeIfPresent(map, forKey: .map)
-        try container.encodeIfPresent(uuid, forKey: .uuid)
+        try container.encodeIfPresent(dateTime, forKey: "dateTime")
+        try container.encodeIfPresent(map, forKey: "map")
+        try container.encodeIfPresent(uuid, forKey: "uuid")
     }
 
     public func isEqual(to object: Any?) -> Bool {

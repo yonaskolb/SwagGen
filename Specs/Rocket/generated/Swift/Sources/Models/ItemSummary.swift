@@ -121,98 +121,68 @@ For example the id for this item under a different content system.
         self.watchPath = watchPath
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case type
-        case path
-        case title
-        case availableEpisodeCount
-        case availableSeasonCount
-        case averageUserRating
-        case badge
-        case classification
-        case contextualTitle
-        case customFields
-        case customId
-        case duration
-        case episodeCount
-        case episodeNumber
-        case genres
-        case hasClosedCaptions
-        case images
-        case offers
-        case releaseYear
-        case scopes
-        case seasonId
-        case seasonNumber
-        case shortDescription
-        case showId
-        case tagline
-        case watchPath
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        id = try container.decode(.id)
-        type = try container.decode(.type)
-        path = try container.decode(.path)
-        title = try container.decode(.title)
-        availableEpisodeCount = try container.decodeIfPresent(.availableEpisodeCount)
-        availableSeasonCount = try container.decodeIfPresent(.availableSeasonCount)
-        averageUserRating = try container.decodeIfPresent(.averageUserRating)
-        badge = try container.decodeIfPresent(.badge)
-        classification = try container.decodeIfPresent(.classification)
-        contextualTitle = try container.decodeIfPresent(.contextualTitle)
-        customFields = try container.decodeAnyIfPresent(.customFields)
-        customId = try container.decodeIfPresent(.customId)
-        duration = try container.decodeIfPresent(.duration)
-        episodeCount = try container.decodeIfPresent(.episodeCount)
-        episodeNumber = try container.decodeIfPresent(.episodeNumber)
-        genres = try container.decodeArrayIfPresent(.genres)
-        hasClosedCaptions = try container.decodeIfPresent(.hasClosedCaptions)
-        images = try container.decodeIfPresent(.images)
-        offers = try container.decodeArrayIfPresent(.offers)
-        releaseYear = try container.decodeIfPresent(.releaseYear)
-        scopes = try container.decodeArrayIfPresent(.scopes)
-        seasonId = try container.decodeIfPresent(.seasonId)
-        seasonNumber = try container.decodeIfPresent(.seasonNumber)
-        shortDescription = try container.decodeIfPresent(.shortDescription)
-        showId = try container.decodeIfPresent(.showId)
-        tagline = try container.decodeIfPresent(.tagline)
-        watchPath = try container.decodeIfPresent(.watchPath)
+        id = try container.decode("id")
+        type = try container.decode("type")
+        path = try container.decode("path")
+        title = try container.decode("title")
+        availableEpisodeCount = try container.decodeIfPresent("availableEpisodeCount")
+        availableSeasonCount = try container.decodeIfPresent("availableSeasonCount")
+        averageUserRating = try container.decodeIfPresent("averageUserRating")
+        badge = try container.decodeIfPresent("badge")
+        classification = try container.decodeIfPresent("classification")
+        contextualTitle = try container.decodeIfPresent("contextualTitle")
+        customFields = try container.decodeAnyIfPresent("customFields")
+        customId = try container.decodeIfPresent("customId")
+        duration = try container.decodeIfPresent("duration")
+        episodeCount = try container.decodeIfPresent("episodeCount")
+        episodeNumber = try container.decodeIfPresent("episodeNumber")
+        genres = try container.decodeArrayIfPresent("genres")
+        hasClosedCaptions = try container.decodeIfPresent("hasClosedCaptions")
+        images = try container.decodeIfPresent("images")
+        offers = try container.decodeArrayIfPresent("offers")
+        releaseYear = try container.decodeIfPresent("releaseYear")
+        scopes = try container.decodeArrayIfPresent("scopes")
+        seasonId = try container.decodeIfPresent("seasonId")
+        seasonNumber = try container.decodeIfPresent("seasonNumber")
+        shortDescription = try container.decodeIfPresent("shortDescription")
+        showId = try container.decodeIfPresent("showId")
+        tagline = try container.decodeIfPresent("tagline")
+        watchPath = try container.decodeIfPresent("watchPath")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(id, forKey: .id)
-        try container.encode(type, forKey: .type)
-        try container.encode(path, forKey: .path)
-        try container.encode(title, forKey: .title)
-        try container.encodeIfPresent(availableEpisodeCount, forKey: .availableEpisodeCount)
-        try container.encodeIfPresent(availableSeasonCount, forKey: .availableSeasonCount)
-        try container.encodeIfPresent(averageUserRating, forKey: .averageUserRating)
-        try container.encodeIfPresent(badge, forKey: .badge)
-        try container.encodeIfPresent(classification, forKey: .classification)
-        try container.encodeIfPresent(contextualTitle, forKey: .contextualTitle)
-        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
-        try container.encodeIfPresent(customId, forKey: .customId)
-        try container.encodeIfPresent(duration, forKey: .duration)
-        try container.encodeIfPresent(episodeCount, forKey: .episodeCount)
-        try container.encodeIfPresent(episodeNumber, forKey: .episodeNumber)
-        try container.encodeIfPresent(genres, forKey: .genres)
-        try container.encodeIfPresent(hasClosedCaptions, forKey: .hasClosedCaptions)
-        try container.encodeIfPresent(images, forKey: .images)
-        try container.encodeIfPresent(offers, forKey: .offers)
-        try container.encodeIfPresent(releaseYear, forKey: .releaseYear)
-        try container.encodeIfPresent(scopes, forKey: .scopes)
-        try container.encodeIfPresent(seasonId, forKey: .seasonId)
-        try container.encodeIfPresent(seasonNumber, forKey: .seasonNumber)
-        try container.encodeIfPresent(shortDescription, forKey: .shortDescription)
-        try container.encodeIfPresent(showId, forKey: .showId)
-        try container.encodeIfPresent(tagline, forKey: .tagline)
-        try container.encodeIfPresent(watchPath, forKey: .watchPath)
+        try container.encode(id, forKey: "id")
+        try container.encode(type, forKey: "type")
+        try container.encode(path, forKey: "path")
+        try container.encode(title, forKey: "title")
+        try container.encodeIfPresent(availableEpisodeCount, forKey: "availableEpisodeCount")
+        try container.encodeIfPresent(availableSeasonCount, forKey: "availableSeasonCount")
+        try container.encodeIfPresent(averageUserRating, forKey: "averageUserRating")
+        try container.encodeIfPresent(badge, forKey: "badge")
+        try container.encodeIfPresent(classification, forKey: "classification")
+        try container.encodeIfPresent(contextualTitle, forKey: "contextualTitle")
+        try container.encodeAnyIfPresent(customFields, forKey: "customFields")
+        try container.encodeIfPresent(customId, forKey: "customId")
+        try container.encodeIfPresent(duration, forKey: "duration")
+        try container.encodeIfPresent(episodeCount, forKey: "episodeCount")
+        try container.encodeIfPresent(episodeNumber, forKey: "episodeNumber")
+        try container.encodeIfPresent(genres, forKey: "genres")
+        try container.encodeIfPresent(hasClosedCaptions, forKey: "hasClosedCaptions")
+        try container.encodeIfPresent(images, forKey: "images")
+        try container.encodeIfPresent(offers, forKey: "offers")
+        try container.encodeIfPresent(releaseYear, forKey: "releaseYear")
+        try container.encodeIfPresent(scopes, forKey: "scopes")
+        try container.encodeIfPresent(seasonId, forKey: "seasonId")
+        try container.encodeIfPresent(seasonNumber, forKey: "seasonNumber")
+        try container.encodeIfPresent(shortDescription, forKey: "shortDescription")
+        try container.encodeIfPresent(showId, forKey: "showId")
+        try container.encodeIfPresent(tagline, forKey: "tagline")
+        try container.encodeIfPresent(watchPath, forKey: "watchPath")
     }
 
     public func isEqual(to object: Any?) -> Bool {

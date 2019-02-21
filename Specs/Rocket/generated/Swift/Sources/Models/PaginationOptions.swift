@@ -30,32 +30,24 @@ public class PaginationOptions: APIModel {
         self.pageSize = pageSize
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case itemType
-        case maxRating
-        case order
-        case orderBy
-        case pageSize
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        itemType = try container.decodeIfPresent(.itemType)
-        maxRating = try container.decodeIfPresent(.maxRating)
-        order = try container.decodeIfPresent(.order)
-        orderBy = try container.decodeIfPresent(.orderBy)
-        pageSize = try container.decodeIfPresent(.pageSize)
+        itemType = try container.decodeIfPresent("itemType")
+        maxRating = try container.decodeIfPresent("maxRating")
+        order = try container.decodeIfPresent("order")
+        orderBy = try container.decodeIfPresent("orderBy")
+        pageSize = try container.decodeIfPresent("pageSize")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(itemType, forKey: .itemType)
-        try container.encodeIfPresent(maxRating, forKey: .maxRating)
-        try container.encodeIfPresent(order, forKey: .order)
-        try container.encodeIfPresent(orderBy, forKey: .orderBy)
-        try container.encodeIfPresent(pageSize, forKey: .pageSize)
+        try container.encodeIfPresent(itemType, forKey: "itemType")
+        try container.encodeIfPresent(maxRating, forKey: "maxRating")
+        try container.encodeIfPresent(order, forKey: "order")
+        try container.encodeIfPresent(orderBy, forKey: "orderBy")
+        try container.encodeIfPresent(pageSize, forKey: "pageSize")
     }
 
     public func isEqual(to object: Any?) -> Bool {

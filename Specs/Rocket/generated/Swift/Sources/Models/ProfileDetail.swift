@@ -23,27 +23,21 @@ public class ProfileDetail: ProfileSummary {
         super.init(id: id, name: name, isActive: isActive, pinEnabled: pinEnabled, purchaseEnabled: purchaseEnabled, marketingEnabled: marketingEnabled, segments: segments, maxRatingContentFilter: maxRatingContentFilter, minRatingPlaybackGuard: minRatingPlaybackGuard)
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case watched
-        case rated
-        case bookmarked
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        watched = try container.decode(.watched)
-        rated = try container.decode(.rated)
-        bookmarked = try container.decode(.bookmarked)
+        watched = try container.decode("watched")
+        rated = try container.decode("rated")
+        bookmarked = try container.decode("bookmarked")
         try super.init(from: decoder)
     }
 
     public override func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(watched, forKey: .watched)
-        try container.encode(rated, forKey: .rated)
-        try container.encode(bookmarked, forKey: .bookmarked)
+        try container.encode(watched, forKey: "watched")
+        try container.encode(rated, forKey: "rated")
+        try container.encode(bookmarked, forKey: "bookmarked")
         try super.encode(to: encoder)
     }
 

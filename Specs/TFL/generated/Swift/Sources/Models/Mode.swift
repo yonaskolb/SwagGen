@@ -22,29 +22,22 @@ public class Mode: APIModel {
         self.modeName = modeName
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case isFarePaying
-        case isScheduledService
-        case isTflService
-        case modeName
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        isFarePaying = try container.decodeIfPresent(.isFarePaying)
-        isScheduledService = try container.decodeIfPresent(.isScheduledService)
-        isTflService = try container.decodeIfPresent(.isTflService)
-        modeName = try container.decodeIfPresent(.modeName)
+        isFarePaying = try container.decodeIfPresent("isFarePaying")
+        isScheduledService = try container.decodeIfPresent("isScheduledService")
+        isTflService = try container.decodeIfPresent("isTflService")
+        modeName = try container.decodeIfPresent("modeName")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(isFarePaying, forKey: .isFarePaying)
-        try container.encodeIfPresent(isScheduledService, forKey: .isScheduledService)
-        try container.encodeIfPresent(isTflService, forKey: .isTflService)
-        try container.encodeIfPresent(modeName, forKey: .modeName)
+        try container.encodeIfPresent(isFarePaying, forKey: "isFarePaying")
+        try container.encodeIfPresent(isScheduledService, forKey: "isScheduledService")
+        try container.encodeIfPresent(isTflService, forKey: "isTflService")
+        try container.encodeIfPresent(modeName, forKey: "modeName")
     }
 
     public func isEqual(to object: Any?) -> Bool {

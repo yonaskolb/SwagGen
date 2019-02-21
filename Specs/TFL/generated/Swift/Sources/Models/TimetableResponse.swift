@@ -37,44 +37,32 @@ public class TimetableResponse: APIModel {
         self.timetable = timetable
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case direction
-        case disambiguation
-        case lineId
-        case lineName
-        case pdfUrl
-        case stations
-        case statusErrorMessage
-        case stops
-        case timetable
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        direction = try container.decodeIfPresent(.direction)
-        disambiguation = try container.decodeIfPresent(.disambiguation)
-        lineId = try container.decodeIfPresent(.lineId)
-        lineName = try container.decodeIfPresent(.lineName)
-        pdfUrl = try container.decodeIfPresent(.pdfUrl)
-        stations = try container.decodeArrayIfPresent(.stations)
-        statusErrorMessage = try container.decodeIfPresent(.statusErrorMessage)
-        stops = try container.decodeArrayIfPresent(.stops)
-        timetable = try container.decodeIfPresent(.timetable)
+        direction = try container.decodeIfPresent("direction")
+        disambiguation = try container.decodeIfPresent("disambiguation")
+        lineId = try container.decodeIfPresent("lineId")
+        lineName = try container.decodeIfPresent("lineName")
+        pdfUrl = try container.decodeIfPresent("pdfUrl")
+        stations = try container.decodeArrayIfPresent("stations")
+        statusErrorMessage = try container.decodeIfPresent("statusErrorMessage")
+        stops = try container.decodeArrayIfPresent("stops")
+        timetable = try container.decodeIfPresent("timetable")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(direction, forKey: .direction)
-        try container.encodeIfPresent(disambiguation, forKey: .disambiguation)
-        try container.encodeIfPresent(lineId, forKey: .lineId)
-        try container.encodeIfPresent(lineName, forKey: .lineName)
-        try container.encodeIfPresent(pdfUrl, forKey: .pdfUrl)
-        try container.encodeIfPresent(stations, forKey: .stations)
-        try container.encodeIfPresent(statusErrorMessage, forKey: .statusErrorMessage)
-        try container.encodeIfPresent(stops, forKey: .stops)
-        try container.encodeIfPresent(timetable, forKey: .timetable)
+        try container.encodeIfPresent(direction, forKey: "direction")
+        try container.encodeIfPresent(disambiguation, forKey: "disambiguation")
+        try container.encodeIfPresent(lineId, forKey: "lineId")
+        try container.encodeIfPresent(lineName, forKey: "lineName")
+        try container.encodeIfPresent(pdfUrl, forKey: "pdfUrl")
+        try container.encodeIfPresent(stations, forKey: "stations")
+        try container.encodeIfPresent(statusErrorMessage, forKey: "statusErrorMessage")
+        try container.encodeIfPresent(stops, forKey: "stops")
+        try container.encodeIfPresent(timetable, forKey: "timetable")
     }
 
     public func isEqual(to object: Any?) -> Bool {

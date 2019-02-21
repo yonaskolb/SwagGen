@@ -16,23 +16,18 @@ public class PlacePolygon: APIModel {
         self.geoPoints = geoPoints
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case commonName
-        case geoPoints
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        commonName = try container.decodeIfPresent(.commonName)
-        geoPoints = try container.decodeArrayIfPresent(.geoPoints)
+        commonName = try container.decodeIfPresent("commonName")
+        geoPoints = try container.decodeArrayIfPresent("geoPoints")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(commonName, forKey: .commonName)
-        try container.encodeIfPresent(geoPoints, forKey: .geoPoints)
+        try container.encodeIfPresent(commonName, forKey: "commonName")
+        try container.encodeIfPresent(geoPoints, forKey: "geoPoints")
     }
 
     public func isEqual(to object: Any?) -> Bool {

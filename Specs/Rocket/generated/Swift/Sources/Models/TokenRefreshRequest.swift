@@ -43,23 +43,18 @@ If undefined no cookies will be set.
         self.cookieType = cookieType
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case token
-        case cookieType
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        token = try container.decode(.token)
-        cookieType = try container.decodeIfPresent(.cookieType)
+        token = try container.decode("token")
+        cookieType = try container.decodeIfPresent("cookieType")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(token, forKey: .token)
-        try container.encodeIfPresent(cookieType, forKey: .cookieType)
+        try container.encode(token, forKey: "token")
+        try container.encodeIfPresent(cookieType, forKey: "cookieType")
     }
 
     public func isEqual(to object: Any?) -> Bool {

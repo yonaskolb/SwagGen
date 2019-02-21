@@ -7,8 +7,7 @@ import Foundation
 
 extension Rocket.Registration {
 
-    /**
-    Register a new user, creating them an account.
+    /** Register a new user, creating them an account.
 Registration, when successful, will return an array of access tokens so the user is
 immediately signed in.
 It returns Catalog and Commerce scoped tokens for both Account and Profile.
@@ -17,7 +16,7 @@ in the step after registration, without the user being prompted to enter
 their username and password again.
 An email will also be sent with a link they need to click to confirm their
 email address. This confirmation is done via the /verify-email endpoint.
-    */
+ */
     public enum Register {
 
         public static let service = APIService<Response>(id: "register", tag: "registration", method: "POST", path: "/register", hasBody: true)

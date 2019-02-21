@@ -55,38 +55,28 @@ by a CDN. For example a Bookmarks list.
         self.size = size
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case total
-        case page
-        case authorization
-        case next
-        case options
-        case previous
-        case size
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        total = try container.decode(.total)
-        page = try container.decode(.page)
-        authorization = try container.decodeIfPresent(.authorization)
-        next = try container.decodeIfPresent(.next)
-        options = try container.decodeIfPresent(.options)
-        previous = try container.decodeIfPresent(.previous)
-        size = try container.decodeIfPresent(.size)
+        total = try container.decode("total")
+        page = try container.decode("page")
+        authorization = try container.decodeIfPresent("authorization")
+        next = try container.decodeIfPresent("next")
+        options = try container.decodeIfPresent("options")
+        previous = try container.decodeIfPresent("previous")
+        size = try container.decodeIfPresent("size")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(total, forKey: .total)
-        try container.encode(page, forKey: .page)
-        try container.encodeIfPresent(authorization, forKey: .authorization)
-        try container.encodeIfPresent(next, forKey: .next)
-        try container.encodeIfPresent(options, forKey: .options)
-        try container.encodeIfPresent(previous, forKey: .previous)
-        try container.encodeIfPresent(size, forKey: .size)
+        try container.encode(total, forKey: "total")
+        try container.encode(page, forKey: "page")
+        try container.encodeIfPresent(authorization, forKey: "authorization")
+        try container.encodeIfPresent(next, forKey: "next")
+        try container.encodeIfPresent(options, forKey: "options")
+        try container.encodeIfPresent(previous, forKey: "previous")
+        try container.encodeIfPresent(size, forKey: "size")
     }
 
     public func isEqual(to object: Any?) -> Bool {

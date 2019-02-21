@@ -18,23 +18,18 @@ public class PasswordResetRequest: APIModel {
         self.password = password
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case email
-        case password
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        email = try container.decode(.email)
-        password = try container.decode(.password)
+        email = try container.decode("email")
+        password = try container.decode("password")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(email, forKey: .email)
-        try container.encode(password, forKey: .password)
+        try container.encode(email, forKey: "email")
+        try container.encode(password, forKey: "password")
     }
 
     public func isEqual(to object: Any?) -> Bool {

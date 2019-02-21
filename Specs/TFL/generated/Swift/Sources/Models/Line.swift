@@ -40,47 +40,34 @@ public class Line: APIModel {
         self.serviceTypes = serviceTypes
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case created
-        case crowding
-        case disruptions
-        case id
-        case lineStatuses
-        case modeName
-        case modified
-        case name
-        case routeSections
-        case serviceTypes
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        created = try container.decodeIfPresent(.created)
-        crowding = try container.decodeIfPresent(.crowding)
-        disruptions = try container.decodeArrayIfPresent(.disruptions)
-        id = try container.decodeIfPresent(.id)
-        lineStatuses = try container.decodeArrayIfPresent(.lineStatuses)
-        modeName = try container.decodeIfPresent(.modeName)
-        modified = try container.decodeIfPresent(.modified)
-        name = try container.decodeIfPresent(.name)
-        routeSections = try container.decodeArrayIfPresent(.routeSections)
-        serviceTypes = try container.decodeArrayIfPresent(.serviceTypes)
+        created = try container.decodeIfPresent("created")
+        crowding = try container.decodeIfPresent("crowding")
+        disruptions = try container.decodeArrayIfPresent("disruptions")
+        id = try container.decodeIfPresent("id")
+        lineStatuses = try container.decodeArrayIfPresent("lineStatuses")
+        modeName = try container.decodeIfPresent("modeName")
+        modified = try container.decodeIfPresent("modified")
+        name = try container.decodeIfPresent("name")
+        routeSections = try container.decodeArrayIfPresent("routeSections")
+        serviceTypes = try container.decodeArrayIfPresent("serviceTypes")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(created, forKey: .created)
-        try container.encodeIfPresent(crowding, forKey: .crowding)
-        try container.encodeIfPresent(disruptions, forKey: .disruptions)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(lineStatuses, forKey: .lineStatuses)
-        try container.encodeIfPresent(modeName, forKey: .modeName)
-        try container.encodeIfPresent(modified, forKey: .modified)
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(routeSections, forKey: .routeSections)
-        try container.encodeIfPresent(serviceTypes, forKey: .serviceTypes)
+        try container.encodeIfPresent(created, forKey: "created")
+        try container.encodeIfPresent(crowding, forKey: "crowding")
+        try container.encodeIfPresent(disruptions, forKey: "disruptions")
+        try container.encodeIfPresent(id, forKey: "id")
+        try container.encodeIfPresent(lineStatuses, forKey: "lineStatuses")
+        try container.encodeIfPresent(modeName, forKey: "modeName")
+        try container.encodeIfPresent(modified, forKey: "modified")
+        try container.encodeIfPresent(name, forKey: "name")
+        try container.encodeIfPresent(routeSections, forKey: "routeSections")
+        try container.encodeIfPresent(serviceTypes, forKey: "serviceTypes")
     }
 
     public func isEqual(to object: Any?) -> Bool {

@@ -17,23 +17,18 @@ public class _200Response: APIModel {
         self.name = name
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case `class` = "class"
-        case name
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        `class` = try container.decodeIfPresent(.`class`)
-        name = try container.decodeIfPresent(.name)
+        `class` = try container.decodeIfPresent("`class`")
+        name = try container.decodeIfPresent("name")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(`class`, forKey: .`class`)
-        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(`class`, forKey: "class")
+        try container.encodeIfPresent(name, forKey: "name")
     }
 
     public func isEqual(to object: Any?) -> Bool {

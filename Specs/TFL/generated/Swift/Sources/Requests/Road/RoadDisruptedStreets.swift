@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.Road {
 
-    /**
-    Gets a list of disrupted streets. If no date filters are provided, current disruptions are returned.
-    */
+    /** Gets a list of disrupted streets. If no date filters are provided, current disruptions are returned. */
     public enum RoadDisruptedStreets {
 
         public static let service = APIService<Response>(id: "Road_DisruptedStreets", tag: "Road", method: "GET", path: "/Road/all/Street/Disruption", hasBody: false)

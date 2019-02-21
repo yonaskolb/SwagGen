@@ -7,12 +7,10 @@ import Foundation
 
 extension Rocket.Profile {
 
-    /**
-    Returns the list of bookmarked items under the active profile.
-    */
+    /** Returns the list of bookmarked items under the active profile. */
     public enum GetBookmarkList {
 
-        public static let service = APIService<Response>(id: "getBookmarkList", tag: "profile", method: "GET", path: "/account/profile/bookmarks/list", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getBookmarkList", tag: "profile", method: "GET", path: "/account/profile/bookmarks/list", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scopes: ["Catalog"]))
 
         public final class Request: APIRequest<Response> {
 

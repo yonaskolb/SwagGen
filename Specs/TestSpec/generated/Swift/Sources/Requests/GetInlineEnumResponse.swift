@@ -7,12 +7,10 @@ import Foundation
 
 extension TestSpec {
 
-    /**
-    operation with an enum response
-    */
+    /** operation with an enum response */
     public enum GetInlineEnumResponse {
 
-        public static let service = APIService<Response>(id: "getInlineEnumResponse", tag: "", method: "GET", path: "/inlineEnumResponse", hasBody: false, securityRequirement: SecurityRequirement(type: "test_auth", scope: "read"))
+        public static let service = APIService<Response>(id: "getInlineEnumResponse", tag: "", method: "GET", path: "/inlineEnumResponse", hasBody: false, securityRequirement: SecurityRequirement(type: "test_auth", scopes: ["read"]))
 
         public final class Request: APIRequest<Response> {
 

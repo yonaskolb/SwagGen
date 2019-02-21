@@ -7,9 +7,7 @@ import Foundation
 
 extension TFL.Vehicle {
 
-    /**
-    Gets the Emissions Surcharge compliance for the Vehicle
-    */
+    /** Gets the Emissions Surcharge compliance for the Vehicle */
     public enum VehicleGetVehicle {
 
         public static let service = APIService<Response>(id: "Vehicle_GetVehicle", tag: "Vehicle", method: "GET", path: "/Vehicle/EmissionSurcharge", hasBody: false)

@@ -16,14 +16,10 @@ public class ModelWithAdditionalProperties: APIModel {
         self.name = name
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case name
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        name = try container.decodeIfPresent(.name)
+        name = try container.decodeIfPresent("name")
 
         let additionalPropertiesContainer = try decoder.container(keyedBy: StringCodingKey.self)
         var additionalProperties = try additionalPropertiesContainer.toDictionary()
@@ -32,9 +28,9 @@ public class ModelWithAdditionalProperties: APIModel {
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(name, forKey: "name")
 
         var additionalPropertiesContainer = encoder.container(keyedBy: StringCodingKey.self)
         for (key, value) in additionalProperties {

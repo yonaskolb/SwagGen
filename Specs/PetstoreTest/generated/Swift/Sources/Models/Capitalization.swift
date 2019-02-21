@@ -30,35 +30,26 @@ public class Capitalization: APIModel {
         self.smallSnake = smallSnake
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case attName = "ATT_NAME"
-        case capitalCamel = "CapitalCamel"
-        case capitalSnake = "Capital_Snake"
-        case sCAETHFlowPoints = "SCA_ETH_Flow_Points"
-        case smallCamel
-        case smallSnake = "small_Snake"
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        attName = try container.decodeIfPresent(.attName)
-        capitalCamel = try container.decodeIfPresent(.capitalCamel)
-        capitalSnake = try container.decodeIfPresent(.capitalSnake)
-        sCAETHFlowPoints = try container.decodeIfPresent(.sCAETHFlowPoints)
-        smallCamel = try container.decodeIfPresent(.smallCamel)
-        smallSnake = try container.decodeIfPresent(.smallSnake)
+        attName = try container.decodeIfPresent("attName")
+        capitalCamel = try container.decodeIfPresent("capitalCamel")
+        capitalSnake = try container.decodeIfPresent("capitalSnake")
+        sCAETHFlowPoints = try container.decodeIfPresent("sCAETHFlowPoints")
+        smallCamel = try container.decodeIfPresent("smallCamel")
+        smallSnake = try container.decodeIfPresent("smallSnake")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(attName, forKey: .attName)
-        try container.encodeIfPresent(capitalCamel, forKey: .capitalCamel)
-        try container.encodeIfPresent(capitalSnake, forKey: .capitalSnake)
-        try container.encodeIfPresent(sCAETHFlowPoints, forKey: .sCAETHFlowPoints)
-        try container.encodeIfPresent(smallCamel, forKey: .smallCamel)
-        try container.encodeIfPresent(smallSnake, forKey: .smallSnake)
+        try container.encodeIfPresent(attName, forKey: "ATT_NAME")
+        try container.encodeIfPresent(capitalCamel, forKey: "CapitalCamel")
+        try container.encodeIfPresent(capitalSnake, forKey: "Capital_Snake")
+        try container.encodeIfPresent(sCAETHFlowPoints, forKey: "SCA_ETH_Flow_Points")
+        try container.encodeIfPresent(smallCamel, forKey: "smallCamel")
+        try container.encodeIfPresent(smallSnake, forKey: "small_Snake")
     }
 
     public func isEqual(to object: Any?) -> Bool {

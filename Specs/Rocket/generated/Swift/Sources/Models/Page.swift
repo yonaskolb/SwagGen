@@ -40,33 +40,25 @@ on list detail pages. See `feature-flags.md` for further details.*
         super.init(id: id, path: path, title: title, template: template, isStatic: isStatic, isSystemPage: isSystemPage, key: key)
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case entries
-        case customFields
-        case item
-        case list
-        case metadata
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        entries = try container.decodeArray(.entries)
-        customFields = try container.decodeAnyIfPresent(.customFields)
-        item = try container.decodeIfPresent(.item)
-        list = try container.decodeIfPresent(.list)
-        metadata = try container.decodeIfPresent(.metadata)
+        entries = try container.decodeArray("entries")
+        customFields = try container.decodeAnyIfPresent("customFields")
+        item = try container.decodeIfPresent("item")
+        list = try container.decodeIfPresent("list")
+        metadata = try container.decodeIfPresent("metadata")
         try super.init(from: decoder)
     }
 
     public override func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(entries, forKey: .entries)
-        try container.encodeAnyIfPresent(customFields, forKey: .customFields)
-        try container.encodeIfPresent(item, forKey: .item)
-        try container.encodeIfPresent(list, forKey: .list)
-        try container.encodeIfPresent(metadata, forKey: .metadata)
+        try container.encode(entries, forKey: "entries")
+        try container.encodeAnyIfPresent(customFields, forKey: "customFields")
+        try container.encodeIfPresent(item, forKey: "item")
+        try container.encodeIfPresent(list, forKey: "list")
+        try container.encodeIfPresent(metadata, forKey: "metadata")
         try super.encode(to: encoder)
     }
 

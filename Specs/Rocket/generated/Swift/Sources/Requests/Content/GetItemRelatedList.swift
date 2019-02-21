@@ -7,10 +7,9 @@ import Foundation
 
 extension Rocket.Content {
 
-    /**
-    Returns the list of items related to the parent item.
+    /** Returns the list of items related to the parent item.
 Note for now, due to the size of the list being unknown, only a single page will be returned.
-    */
+ */
     public enum GetItemRelatedList {
 
         public static let service = APIService<Response>(id: "getItemRelatedList", tag: "content", method: "GET", path: "/items/{id}/related", hasBody: false)

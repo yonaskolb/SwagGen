@@ -19,26 +19,20 @@ public class MSO: APIModel {
         self.idp = idp
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case countryCode
-        case country
-        case idp
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        countryCode = try container.decode(.countryCode)
-        country = try container.decode(.country)
-        idp = try container.decodeAny(.idp)
+        countryCode = try container.decode("countryCode")
+        country = try container.decode("country")
+        idp = try container.decodeAny("idp")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(countryCode, forKey: .countryCode)
-        try container.encode(country, forKey: .country)
-        try container.encodeAny(idp, forKey: .idp)
+        try container.encode(countryCode, forKey: "countryCode")
+        try container.encode(country, forKey: "country")
+        try container.encodeAny(idp, forKey: "idp")
     }
 
     public func isEqual(to object: Any?) -> Bool {

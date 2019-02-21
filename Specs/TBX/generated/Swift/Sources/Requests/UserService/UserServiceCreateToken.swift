@@ -7,9 +7,7 @@ import Foundation
 
 extension TBX.UserService {
 
-    /**
-    Create a Token to automatically sing in a customer without pass to IDP login page
-    */
+    /** Create a Token to automatically sing in a customer without pass to IDP login page */
     public enum UserServiceCreateToken {
 
         public static let service = APIService<Response>(id: "UserService.createToken", tag: "UserService", method: "POST", path: "/UserServices/token", hasBody: true)

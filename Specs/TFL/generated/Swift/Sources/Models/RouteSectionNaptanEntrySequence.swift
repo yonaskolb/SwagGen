@@ -16,23 +16,18 @@ public class RouteSectionNaptanEntrySequence: APIModel {
         self.stopPoint = stopPoint
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case ordinal
-        case stopPoint
-    }
-
     public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        ordinal = try container.decodeIfPresent(.ordinal)
-        stopPoint = try container.decodeIfPresent(.stopPoint)
+        ordinal = try container.decodeIfPresent("ordinal")
+        stopPoint = try container.decodeIfPresent("stopPoint")
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encodeIfPresent(ordinal, forKey: .ordinal)
-        try container.encodeIfPresent(stopPoint, forKey: .stopPoint)
+        try container.encodeIfPresent(ordinal, forKey: "ordinal")
+        try container.encodeIfPresent(stopPoint, forKey: "stopPoint")
     }
 
     public func isEqual(to object: Any?) -> Bool {

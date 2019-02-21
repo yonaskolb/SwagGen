@@ -100,8 +100,19 @@ extension KeyedDecodingContainer {
     }
 
     public func decodeArray<T: Decodable>(_ key: K) throws -> [T] {
-        var container = try nestedUnkeyedContainer(forKey: key)
+        var container: UnkeyedDecodingContainer
         var array: [T] = []
+
+        do {
+            container = try nestedUnkeyedContainer(forKey: key)
+        } catch {
+            if {{ options.name }}.safeArrayDecoding {
+                return array
+            } else {
+                throw error
+            }
+        }
+
         while !container.isAtEnd {
             do {
                 let element = try container.decode(T.self)

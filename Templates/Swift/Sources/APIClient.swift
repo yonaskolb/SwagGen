@@ -29,6 +29,7 @@ public class APIClient {
         self.sessionManager = sessionManager
         self.behaviours = behaviours
         self.defaultHeaders = defaultHeaders
+        jsonDecoder.dateDecodingStrategy = .custom(dateDecoder)
     }
 
     /// Makes a network request

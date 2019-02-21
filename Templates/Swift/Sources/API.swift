@@ -13,6 +13,9 @@ public struct {{ options.name }} {
     /// Whether to remove invalid elements instead of throwing when decoding arrays
     public static var safeArrayDecoding = {% if options.safeArrayDecoding %}true{% else %}false{% endif %}
 
+    /// Used to encode Dates when uses as string params
+    public static let dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
+
     {% if info.version %}
     public static let version = "{{ info.version }}"
     {% endif %}

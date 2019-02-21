@@ -19,6 +19,7 @@ options:
   enumNames: {} # override enum type names
   typeAliases:
     ID: UUID
+    DateTime: Date
   dependencies:
     - name: Alamofire
       pod: Alamofire

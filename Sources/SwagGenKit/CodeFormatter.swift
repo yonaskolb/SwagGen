@@ -269,7 +269,7 @@ public class CodeFormatter {
         context["formProperties"] = formProperties
 
         // TODO: seperate
-        context["params"] = params.map(getParameterContext) + formProperties // params and form properties
+        context["nonBodyParams"] = params.map(getParameterContext) + formProperties // params and form properties
 
         let securityRequirements = operation.securityRequirements ?? spec.securityRequirements
         context["securityRequirement"] = securityRequirements?.first.flatMap(getSecurityRequirementContext)

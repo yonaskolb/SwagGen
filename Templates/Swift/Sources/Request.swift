@@ -37,10 +37,10 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
 
             {% filter indent:12 %}{% include "Includes/Model.stencil" schema %}{% endfilter %}
             {% endfor %}
-            {% if params %}
+            {% if nonBodyParams %}
 
             public struct Options {
-                {% for param in params %}
+                {% for param in nonBodyParams %}
 
                 {% if param.description %}
                 /** {{ param.description }} */
@@ -48,8 +48,8 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 public var {{ param.name }}: {{ param.optionalType }}
                 {% endfor %}
 
-                public init({% for param in params %}{{param.name}}: {{param.optionalType}}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
-                    {% for param in params %}
+                public init({% for param in nonBodyParams %}{{param.name}}: {{param.optionalType}}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
+                    {% for param in nonBodyParams %}
                     self.{{param.name}} = {{param.name}}
                     {% endfor %}
                 }
@@ -62,11 +62,11 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             public var {{ body.name}}: {{body.optionalType}}
             {% endif %}
 
-            public init({% if body %}{{ body.name}}: {{ body.optionalType }}{% if params %}, {% endif %}{% endif %}{% if params %}options: Options{% endif %}) {
+            public init({% if body %}{{ body.name}}: {{ body.optionalType }}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}options: Options{% endif %}) {
                 {% if body %}
                 self.{{ body.name}} = {{ body.name}}
                 {% endif %}
-                {% if params %}
+                {% if nonBodyParams %}
                 self.options = options
                 {% endif %}
                 super.init(service: {{ type }}.service){% if body %} {
@@ -74,14 +74,14 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                     return try jsonEncoder.encode({% if body.isAnyType %}AnyCodable({{ body.name }}).value{% else %}{{ body.name }}{% endif %})
                 }{% endif %}
             }
-            {% if params %}
+            {% if nonBodyParams %}
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init({% for param in params %}{{ param.name }}: {{ param.optionalType }}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}{% if params and body %}, {% endif %}{% if body %}{{ body.name}}: {{ body.optionalType}}{% ifnot body.required %} = nil{% endif %}{% endif %}) {
-                {% if params %}
-                let options = Options({% for param in params %}{{param.name}}: {{param.name}}{% ifnot forloop.last %}, {% endif %}{% endfor %})
+            public convenience init({% for param in nonBodyParams %}{{ param.name }}: {{ param.optionalType }}{% ifnot param.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}{% if nonBodyParams and body %}, {% endif %}{% if body %}{{ body.name}}: {{ body.optionalType}}{% ifnot body.required %} = nil{% endif %}{% endif %}) {
+                {% if nonBodyParams %}
+                let options = Options({% for param in nonBodyParams %}{{param.name}}: {{param.name}}{% ifnot forloop.last %}, {% endif %}{% endfor %})
                 {% endif %}
-                self.init({% if body %}{{ body.name}}: {{ body.name}}{% if params %}, {% endif %}{% endif %}{% if params %}options: options{% endif %})
+                self.init({% if body %}{{ body.name}}: {{ body.name}}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}options: options{% endif %})
             }
             {% endif %}
             {% if pathParams %}

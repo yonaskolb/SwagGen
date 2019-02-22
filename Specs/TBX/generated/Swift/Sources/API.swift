@@ -23,4 +23,8 @@ public struct TBX {
     public enum UserService {}
     public enum Auth {}
 
+    public enum Server {
+
+        public static let main = "/v2"
+    }
 }

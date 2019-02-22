@@ -20,4 +20,5 @@ public struct TestSpec {
 
     public enum TestTag {}
 
+    // No servers defined in swagger. Documentation for adding them: https://swagger.io/specification/#schema
 }

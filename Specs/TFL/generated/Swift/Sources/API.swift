@@ -33,4 +33,8 @@ public struct TFL {
     public enum TravelTime {}
     public enum Vehicle {}
 
+    public enum Server {
+
+        public static let main = "https://api.tfl.gov.uk"
+    }
 }

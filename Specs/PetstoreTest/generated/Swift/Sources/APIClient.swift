@@ -9,7 +9,7 @@ import Alamofire
 /// Manages and sends APIRequests
 public class APIClient {
 
-    public static var `default` = APIClient(baseURL: APIServer.main)
+    public static var `default` = APIClient(baseURL: PetstoreTest.Server.main)
 
     /// A list of RequestBehaviours that can be used to monitor and alter all requests
     public var behaviours: [RequestBehaviour] = []

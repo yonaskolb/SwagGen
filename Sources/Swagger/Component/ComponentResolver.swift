@@ -109,6 +109,9 @@ class ComponentResolver {
         if let content = response.response.value.content {
             resolve(content)
         }
+        for reference in response.response.value.headers.values {
+            resolveReference(reference, objects: components.headers)
+        }
     }
 
     private func resolve<T>(_ components: [ComponentObject<T>], _ resolver: (T) -> Void) {

@@ -48,3 +48,7 @@ extension SecurityScheme: Component {
 extension RequestBody: Component {
     public static let componentType: ComponentType = .requestBody
 }
+
+extension Header: Component {
+    public static let componentType: ComponentType = .header
+}

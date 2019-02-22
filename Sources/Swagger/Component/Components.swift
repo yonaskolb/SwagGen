@@ -14,6 +14,7 @@ public struct Components {
     public let parameters: [ComponentObject<Parameter>]
     public let responses: [ComponentObject<Response>]
     public let requestBodies: [ComponentObject<RequestBody>]
+    public let headers: [ComponentObject<Header>]
 }
 
 extension Components: JSONObjectConvertible {
@@ -38,6 +39,7 @@ extension Components: JSONObjectConvertible {
         parameters = try decode()
         responses = try decode()
         requestBodies = try decode()
+        headers = try decode()
     }
 }
 

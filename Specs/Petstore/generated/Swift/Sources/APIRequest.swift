@@ -9,9 +9,14 @@ public class APIRequest<ResponseType: APIResponseValue> {
 
     public let service: APIService<ResponseType>
     public private(set) var queryParameters: [String: Any]
-    public private(set) var formParameters: [String: Any] = [:]
+    public private(set) var formParameters: [String: Any]
     public let encodeBody: (() throws -> Data)?
-    public var headers: [String: String] = [:]
+    private(set) var headerParameters: [String: String]
+    public var customHeaders: [String: String] = [:]
+
+    public var headers: [String: String] {
+        return headerParameters.merging(customHeaders) { param, custom in return custom }
+    }
 
     public var path: String {
         return service.path
@@ -25,14 +30,8 @@ public class APIRequest<ResponseType: APIResponseValue> {
         self.service = service
         self.queryParameters = queryParameters
         self.formParameters = formParameters
-        self.headers = headers
+        self.headerParameters = headers
         self.encodeBody = encodeBody
-    }
-
-    public func addHeader(name: String, value: String) {
-        if !value.isEmpty {
-            headers[name] = value
-        }
     }
 }
 

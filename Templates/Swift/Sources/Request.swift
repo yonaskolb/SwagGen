@@ -122,6 +122,22 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 return params
             }
             {% endif %}
+            {% if headerParams %}
+
+            override var headerParameters: [String: String] {
+                var headers: [String: String] = [:]
+                {% for param in headerParams %}
+                {% if param.optional %}
+                if let {{ param.name }} = options.{{ param.encodedValue }} {
+                  headers["{{ param.value }}"] = {% if param.type == "String" %}{{ param.name }}{% else %}String(describing: {{ param.name }}){% endif %}
+                }
+                {% else %}
+                headers["{{ param.value }}"] = {% if param.type == "String" %}options.{{ param.encodedValue }}{% else %}String(describing: options.{{ param.encodedValue }}){% endif %}
+                {% endif %}
+                {% endfor %}
+                return headers
+            }
+            {% endif %}
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {

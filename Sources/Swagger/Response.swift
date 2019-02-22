@@ -9,7 +9,7 @@ public struct Response {
 
     public let description: String
     public let content: Content?
-    public let headers: [String: Header]
+    public let headers: [String: PossibleReference<Header>]
 }
 
 public struct Header {

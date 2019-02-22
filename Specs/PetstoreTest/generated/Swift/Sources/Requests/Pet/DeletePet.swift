@@ -43,6 +43,14 @@ extension PetstoreTest.Pet {
             public override var path: String {
                 return super.path.replacingOccurrences(of: "{" + "petId" + "}", with: "\(self.options.petId)")
             }
+
+            override var headerParameters: [String: String] {
+                var headers: [String: String] = [:]
+                if let apiKey = options.apiKey {
+                  headers["api_key"] = apiKey
+                }
+                return headers
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {

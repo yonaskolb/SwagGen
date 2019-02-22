@@ -186,6 +186,17 @@ extension PetstoreTest.Fake {
                 }
                 return params
             }
+
+            override var headerParameters: [String: String] {
+                var headers: [String: String] = [:]
+                if let enumHeaderStringArray = options.enumHeaderStringArray?.encode().map({ String(describing: $0) }).joined(separator: ",") {
+                  headers["enum_header_string_array"] = String(describing: enumHeaderStringArray)
+                }
+                if let enumHeaderString = options.enumHeaderString?.encode() {
+                  headers["enum_header_string"] = String(describing: enumHeaderString)
+                }
+                return headers
+            }
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {

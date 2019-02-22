@@ -105,7 +105,7 @@ See the `feature-flags.md` for available flag details.
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["term"] = options.term
                 if let include = options.include?.encode().map({ String(describing: $0) }).joined(separator: ",") {

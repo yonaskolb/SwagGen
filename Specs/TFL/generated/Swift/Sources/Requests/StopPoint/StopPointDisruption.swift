@@ -53,7 +53,7 @@ extension TFL.StopPoint {
                 return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids.joined(separator: ","))")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let getFamily = options.getFamily {
                   params["getFamily"] = getFamily

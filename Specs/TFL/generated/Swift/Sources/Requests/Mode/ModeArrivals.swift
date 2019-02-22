@@ -45,7 +45,7 @@ extension TFL.Mode {
                 return super.path.replacingOccurrences(of: "{" + "mode" + "}", with: "\(self.options.mode)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let count = options.count {
                   params["count"] = count

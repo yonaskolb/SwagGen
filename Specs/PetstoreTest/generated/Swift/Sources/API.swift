@@ -24,4 +24,8 @@ public struct PetstoreTest {
     public enum Store {}
     public enum User {}
 
+    public enum Server {
+
+        public static let main = "http://petstore.swagger.io:80/v2"
+    }
 }

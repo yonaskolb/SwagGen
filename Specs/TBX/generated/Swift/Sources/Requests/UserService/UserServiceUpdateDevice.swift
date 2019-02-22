@@ -45,7 +45,7 @@ extension TBX.UserService {
                 return super.path.replacingOccurrences(of: "{" + "device" + "}", with: "\(self.options.device)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var formParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["description"] = options.description
                 return params

@@ -31,4 +31,8 @@ public struct Rocket {
     public enum Registration {}
     public enum Support {}
 
+    public enum Server {
+
+        public static let main = "/"
+    }
 }

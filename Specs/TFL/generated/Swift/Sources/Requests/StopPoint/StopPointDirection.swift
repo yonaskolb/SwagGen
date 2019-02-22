@@ -7,7 +7,7 @@ import Foundation
 
 extension TFL.StopPoint {
 
-    /** Returns the canonical direction, "inbound" or "outbound", for a given pair of stop point Ids in the direction from -&gt; to. */
+    /** Returns the canonical direction, "inbound" or "outbound", for a given pair of stop point Ids in the direction from -> to. */
     public enum StopPointDirection {
 
         public static let service = APIService<Response>(id: "StopPoint_Direction", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/DirectionTo/{toStopPointId}", hasBody: false)
@@ -49,7 +49,7 @@ extension TFL.StopPoint {
                 return super.path.replacingOccurrences(of: "{" + "id" + "}", with: "\(self.options.id)").replacingOccurrences(of: "{" + "toStopPointId" + "}", with: "\(self.options.toStopPointId)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let lineId = options.lineId {
                   params["lineId"] = lineId

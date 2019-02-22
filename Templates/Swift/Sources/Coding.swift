@@ -333,3 +333,10 @@ extension String {
         return self
     }
 }
+
+extension Data {
+
+    func encode() -> Any {
+        return self
+    }
+}

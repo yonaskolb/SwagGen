@@ -27,6 +27,16 @@ public func testSpecs() {
             try expect(spec.paths.count) == 2
         }
 
+        $0.describe("servers") {
+            $0.it("has servers") {
+                try expect(spec.servers.count) == 2
+            }
+
+            $0.it("has server variables") {
+                try expect(spec.servers[0].variables.count) == 2
+            }
+        }
+
         $0.describe("/pets path") {
 
             let path = spec.paths.first { $0.path == "/pets" }
@@ -129,14 +139,16 @@ public func testSpecs() {
                 $0.it("has tags") {
                     try expect(operation?.tags) == ["pets"]
                 }
-                $0.it("has 3 parameters") {
-                    try expect(operation?.parameters.count) == 3
+                $0.it("has a path parameter") {
+                    try expect(operation?.parameters.count) == 1
+                    try expect(operation?.pathParameters.count) == 1
                 }
                 $0.it("has 1 path parameter") {
                     try expect(operation?.parameters.filter { $0.value.location == .path }.count) == 1
                 }
                 $0.it("has 2 form parameters") {
-                    try expect(operation?.parameters.filter { $0.value.location == .formData }.count) == 2
+                    let formSchema = operation?.requestBody?.value.content.formSchema
+                    try expect(formSchema?.type.object?.properties.count) == 2
                 }
                 $0.it("has 1 response") {
                     try expect(operation?.responses.count) == 1
@@ -151,16 +163,16 @@ public func testSpecs() {
             try expect(spec.info.title) == "Swagger Petstore"
         }
 
-        $0.it("has security definitions") {
-            try expect(spec.securityDefinitions.count) == 2
+        $0.it("has security schemes") {
+            try expect(spec.components.securitySchemes.count) == 2
         }
 
-        $0.it("has definitions") {
-            try expect(spec.definitions.count) == 3
+        $0.it("has schema") {
+            try expect(spec.components.schemas.count) == 3
         }
 
         $0.it("has Pet definition") {
-            let petDefinition = spec.definitions.first { $0.name == "Pet" }
+            let petDefinition = spec.components.schemas.named("Pet")
             try expect(petDefinition?.name) == "Pet"
         }
 

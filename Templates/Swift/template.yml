@@ -15,6 +15,7 @@ options:
   typeAliases:
     ID: UUID
     DateTime: Date
+    File: Data
   dependencies:
     - name: Alamofire
       pod: Alamofire
@@ -45,7 +46,7 @@ templateFiles:
     context: enums
     destination: "Sources/Enums/{{ enumName }}.swift"
   - path: Sources/Model.swift
-    context: definitions
+    context: schemas
     destination: "Sources/Models/{{ type }}.swift"
   - path: Sources/Request.swift
     context: operations

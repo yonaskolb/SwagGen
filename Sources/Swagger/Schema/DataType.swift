@@ -7,7 +7,6 @@ public enum DataType: String {
     case number
     case integer
     case boolean
-    case file
 }
 
 extension DataType {

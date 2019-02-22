@@ -22,14 +22,11 @@ extension TBX.AuthorizationService {
                 /** Token credits */
                 public var response: Bool
 
-                /** List of countries to override */
-                public var country: String?
-
-                /** List of IDPs to override */
-                public var idp: String?
-
                 /** List of actions to override */
                 public var action: String?
+
+                /** List of countries to override */
+                public var country: String?
 
                 /** Start date */
                 public var dateFrom: DateTime?
@@ -37,17 +34,20 @@ extension TBX.AuthorizationService {
                 /** until date */
                 public var dateUntil: DateTime?
 
+                /** List of IDPs to override */
+                public var idp: String?
+
                 /** Priority Order */
                 public var priority: Double?
 
-                public init(urn: String, response: Bool, country: String? = nil, idp: String? = nil, action: String? = nil, dateFrom: DateTime? = nil, dateUntil: DateTime? = nil, priority: Double? = nil) {
+                public init(urn: String, response: Bool, action: String? = nil, country: String? = nil, dateFrom: DateTime? = nil, dateUntil: DateTime? = nil, idp: String? = nil, priority: Double? = nil) {
                     self.urn = urn
                     self.response = response
-                    self.country = country
-                    self.idp = idp
                     self.action = action
+                    self.country = country
                     self.dateFrom = dateFrom
                     self.dateUntil = dateUntil
+                    self.idp = idp
                     self.priority = priority
                 }
             }
@@ -60,29 +60,29 @@ extension TBX.AuthorizationService {
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(urn: String, response: Bool, country: String? = nil, idp: String? = nil, action: String? = nil, dateFrom: DateTime? = nil, dateUntil: DateTime? = nil, priority: Double? = nil) {
-                let options = Options(urn: urn, response: response, country: country, idp: idp, action: action, dateFrom: dateFrom, dateUntil: dateUntil, priority: priority)
+            public convenience init(urn: String, response: Bool, action: String? = nil, country: String? = nil, dateFrom: DateTime? = nil, dateUntil: DateTime? = nil, idp: String? = nil, priority: Double? = nil) {
+                let options = Options(urn: urn, response: response, action: action, country: country, dateFrom: dateFrom, dateUntil: dateUntil, idp: idp, priority: priority)
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var formParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["urn"] = options.urn
                 params["response"] = options.response
-                if let country = options.country {
-                  params["country"] = country
-                }
-                if let idp = options.idp {
-                  params["idp"] = idp
-                }
                 if let action = options.action {
                   params["action"] = action
+                }
+                if let country = options.country {
+                  params["country"] = country
                 }
                 if let dateFrom = options.dateFrom?.encode() {
                   params["dateFrom"] = dateFrom
                 }
                 if let dateUntil = options.dateUntil?.encode() {
                   params["dateUntil"] = dateUntil
+                }
+                if let idp = options.idp {
+                  params["idp"] = idp
                 }
                 if let priority = options.priority {
                   params["priority"] = priority

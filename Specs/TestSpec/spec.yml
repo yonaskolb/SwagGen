@@ -1,18 +1,10 @@
-swagger: "2.0"
+openapi: 3.0.0
 info:
   version: "1.0"
   title: Test Spec
 security:
   - test_auth:
-    - read
-securityDefinitions:
-  test_auth:
-    type: oauth2
-    authorizationUrl: http://swagger.io/api/oauth/dialog
-    flow: implicit
-    scopes:
-      write: write scope
-      read: read scope
+      - read
 paths:
   /untagged:
     get:
@@ -20,122 +12,133 @@ paths:
       parameters:
         - id: string
           in: query
+          schema:
+            type: string
       responses:
-        201:
+        "201":
           description: Empty response
   /inlinebody:
     post:
       tags:
         - TestTag
       description: operation with an inline body
-      parameters:
-        - name: item
-          in: body
-          description: An inline item
-          required: true
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+        description: An inline item
+        required: true
       responses:
-        201:
+        "201":
           description: Empty response
       security:
         - test_auth:
-          - write
+            - write
   /inlineEnumResponse:
     get:
       description: operation with an enum response
       responses:
-        200:
+        "200":
           description: enum response
-          schema:
-            type: object
-            additionalProperties:
-              type: integer
-              x-enum-names:
-                - one
-                - two
-              enum:
-                - 1
-                - 2
+          content:
+            "*/*":
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  x-enum-names:
+                    - one
+                    - two
+                  enum:
+                    - 1
+                    - 2
   /string:
     post:
       description: operation with string body
-      consumes:
-      - text/plain
-      produces:
-      - application/json
-      parameters:
-      - in: body
-        name: body
-        required: false
-        schema:
-          type: string
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
       responses:
         default:
           description: successful operation
     get:
       description: operation with string response
-      produces:
-      - text/plain
       responses:
-        200:
+        "200":
           description: ""
+          content:
+            text/plain:
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/400"
+components:
+  responses:
+    "400":
+      description: 400 response
+      content:
+        "*/*":
           schema:
             type: string
-        400:
-          $ref: '#/responses/400'
-definitions:
-  User:
-    type: object
-    properties:
-      name:
-        type: string
-      id:
-        type: integer
-  ModelWithAdditionalProperties:
-    description: definition with additional properties
-    type: object
-    additionalProperties: true
-    properties:
-      name:
-        type: string
-  ModelWithBooleanAdditionalProperties:
-    description: definition with bool additional properties
-    type: object
-    additionalProperties:
-      type: boolean
-    properties:
-      name:
-        type: string
-  ModelWithDefinitionAdditionalProperties:
-    description: definition with a Definition as additional properties
-    type: object
-    additionalProperties:
-      $ref: '#/definitions/User'
-    properties:
-      name:
-        type: string
-  ModelWithOnlyAdditionalProperties:
-    description: definition with only additional properties
-    type: object
-    additionalProperties: true
-  ModelWithInlineSpec:
-    type: object
-    properties:
-      myModel:
-        type: object
-        description: an inline model
-        properties:
-          name:
-            description: name of the model
-            type: string
-responses:
-  400:
-    description: 400 response
-    schema:
-      type: string
+  securitySchemes:
+    test_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://swagger.io/api/oauth/dialog
+          scopes:
+            write: write scope
+            read: read scope
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: integer
+    ModelWithAdditionalProperties:
+      description: definition with additional properties
+      type: object
+      additionalProperties: true
+      properties:
+        name:
+          type: string
+    ModelWithBooleanAdditionalProperties:
+      description: definition with bool additional properties
+      type: object
+      additionalProperties:
+        type: boolean
+      properties:
+        name:
+          type: string
+    ModelWithDefinitionAdditionalProperties:
+      description: definition with a Definition as additional properties
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/User"
+      properties:
+        name:
+          type: string
+    ModelWithOnlyAdditionalProperties:
+      description: definition with only additional properties
+      type: object
+      additionalProperties: true
+    ModelWithInlineSpec:
+      type: object
+      properties:
+        myModel:
+          type: object
+          description: an inline model
+          properties:
+            name:
+              description: name of the model
+              type: string

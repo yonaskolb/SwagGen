@@ -113,10 +113,10 @@ class GenerateCommand: Command {
         let specCounts = getCountString(
             counts: [
                 ("operation", spec.paths.reduce(0) { $0 + $1.operations.count }),
-                ("definition", spec.definitions.count),
+                ("definition", spec.components.schemas.count),
                 // ("tag", spec.tags.count),
-                ("parameter", spec.parameters.count),
-                ("security definition", spec.securityDefinitions.count),
+                ("parameter", spec.components.parameters.count),
+                ("security definition", spec.components.securitySchemes.count),
             ], pluralise: true
         )
         standardOut("Loaded spec: \"\(spec.info.title)\" - \(specCounts)")

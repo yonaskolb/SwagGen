@@ -7,15 +7,10 @@ import Yams
 struct Enum {
     let name: String
     let cases: [Any]
-    let type: EnumType
+    let schema: Schema
     let description: String?
     let metadata: Metadata
     let names: [String]?
-
-    enum EnumType {
-        case schema(Schema)
-        case item(Item)
-    }
 }
 
 struct ResponseFormatter {
@@ -47,15 +42,15 @@ extension SwaggerSpec {
     }
 
     var enums: [Enum] {
-        return parameters.compactMap { $0.value.getEnum(name: $0.name, description: $0.value.description) }
+        return components.parameters.compactMap { $0.value.getEnum(name: $0.name, description: $0.value.description) }
     }
 }
 
 extension Metadata {
 
-    func getEnum(name: String, type: Enum.EnumType, description: String?) -> Enum? {
+    func getEnum(name: String, schema: Schema, description: String?) -> Enum? {
         if let enumValues = enumValues {
-            return Enum(name: name, cases: enumValues.compactMap { $0 }, type: type, description: description ?? self.description, metadata: self, names: enumNames)
+            return Enum(name: name, cases: enumValues.compactMap { $0 }, schema: schema, description: description ?? self.description, metadata: self, names: enumNames)
         }
         return nil
     }
@@ -63,11 +58,11 @@ extension Metadata {
 
 extension Schema {
 
-    var parent: SwaggerObject<Schema>? {
-        if case let .allOf(object) = type {
-            for schema in object.subschemas {
+    var parent: ComponentObject<Schema>? {
+        if case let .group(group) = type, group.type == .all {
+            for schema in group.schemas {
                 if case let .reference(reference) = schema.type {
-                    return reference.swaggerObject
+                    return reference.component
                 }
             }
         }
@@ -81,8 +76,8 @@ extension Schema {
     var requiredProperties: [Property] {
         switch type {
         case let .object(objectSchema): return objectSchema.requiredProperties
-        case let .allOf(allOffSchema):
-            for schema in allOffSchema.subschemas {
+        case let .group(groupSchema) where groupSchema.type == .all:
+            for schema in groupSchema.schemas {
                 if case let .object(objectSchema) = schema.type {
                     return objectSchema.requiredProperties
                 }
@@ -95,8 +90,8 @@ extension Schema {
     var optionalProperties: [Property] {
         switch type {
         case let .object(objectSchema): return objectSchema.optionalProperties
-        case let .allOf(allOffSchema):
-            for schema in allOffSchema.subschemas {
+        case let .group(groupSchema) where groupSchema.type == .all:
+            for schema in groupSchema.schemas {
                 if case let .object(objectSchema) = schema.type {
                     return objectSchema.optionalProperties
                 }
@@ -121,13 +116,11 @@ extension Schema {
     func getEnum(name: String, description: String?) -> Enum? {
         switch type {
         case let .object(objectSchema):
-            if case let .schema(schema) = objectSchema.additionalProperties {
+            if let schema = objectSchema.additionalProperties {
                 return schema.getEnum(name: name, description: description)
             }
-        case let .simple(simpleType):
-            if simpleType.canBeEnum {
-                return metadata.getEnum(name: name, type: .schema(self), description: description)
-            }
+        case .string, .integer, .number:
+            return metadata.getEnum(name: name, schema: self, description: description)
         case let .array(array):
             if case let .single(schema) = array.items {
                 return schema.getEnum(name: name, description: description)
@@ -139,7 +132,7 @@ extension Schema {
 
     var enums: [Enum] {
         var enums = properties.compactMap { $0.schema.getEnum(name: $0.name, description: $0.schema.metadata.description) }
-        if case let .object(objectSchema) = type, case let .schema(schema) = objectSchema.additionalProperties {
+        if case let .object(objectSchema) = type, let schema = objectSchema.additionalProperties {
             enums += schema.enums
         }
         return enums
@@ -151,7 +144,7 @@ extension Schema {
 
     var generateInlineSchema: Bool {
         if case let .object(schema) = type,
-            case let .bool(additionalProperties) = schema.additionalProperties, !additionalProperties,
+            schema.additionalProperties == nil,
             !schema.properties.isEmpty {
             return true
         } else {
@@ -171,7 +164,9 @@ extension Swagger.Operation {
     }
 
     var requestEnums: [Enum] {
-        return parameters.compactMap { $0.value.enumValue }
+        let paramEnums = parameters.compactMap { $0.value.enumValue }
+        let bodyEnums = requestBody?.value.content.defaultSchema?.enums ?? []
+        return paramEnums + bodyEnums
     }
 
     var responseEnums: [Enum] {
@@ -188,7 +183,7 @@ extension ObjectSchema {
                 enums.append(enumValue)
             }
         }
-        if case let .schema(schema) = additionalProperties {
+        if let schema = additionalProperties {
             if let enumValue = schema.getEnum(name: schema.metadata.title ?? "UNNKNOWN_ENUM", description: schema.metadata.description) {
                 enums.append(enumValue)
             }
@@ -220,6 +215,13 @@ extension OperationResponse {
     }
 }
 
+extension Response {
+
+    var schema: Schema? {
+        return content?.defaultSchema
+    }
+}
+
 extension Property {
 
     var isEnum: Bool {
@@ -235,8 +237,8 @@ extension Parameter {
 
     func getEnum(name: String, description: String?) -> Enum? {
         switch type {
-        case let .body(schema): return schema.getEnum(name: name, description: description)
-        case let .other(item): return item.getEnum(name: name, description: description)
+        case let .schema(schema): return schema.schema.getEnum(name: name, description: description)
+        case let .content(content): return content.defaultSchema?.getEnum(name: name, description: description)
         }
     }
 
@@ -247,35 +249,50 @@ extension Parameter {
     var enumValue: Enum? {
         return getEnum(name: name, description: description)
     }
-}
 
-extension SimpleType {
-
-    var canBeEnum: Bool {
-        switch self {
-        case .string, .integer, .number:
-            return true
-        case .boolean, .file: return false
+    var schema: Schema? {
+        switch type {
+        case .content(let content): return content.defaultSchema
+        case .schema(let schema): return schema.schema
         }
     }
 }
 
-extension Item {
 
-    func getEnum(name: String, description: String?) -> Enum? {
+extension Schema {
 
+    var canBeEnum: Bool {
         switch type {
-        case let .array(array):
-            if case let .simpleType(simpleType) = array.items.type {
-                if simpleType.canBeEnum, let enumValue = array.items.metadata.getEnum(name: name, type: .item(self), description: description) {
-                    return enumValue
-                }
-            }
-        case let .simpleType(simpleType):
-            if simpleType.canBeEnum {
-                return metadata.getEnum(name: name, type: .item(self), description: description)
-            }
+        case .string, .integer, .number:
+            return true
+        default: return false
         }
-        return nil
+    }
+
+    var isFile: Bool {
+        switch type {
+        case .string(let format):
+            switch format.format {
+            case .format(let format)?:
+                switch format {
+                case .binary: return true
+                case .byte: return true
+                default: return false
+                }
+            default: return false
+            }
+        default: return false
+        }
+    }
+}
+
+extension Content {
+
+    var defaultSchema: Schema? {
+        return getMediaItem(.json)?.schema ?? mediaItems.values.first?.schema
+    }
+
+    var containsFile: Bool {
+        return mediaItems.values.contains { $0.schema.properties.contains { $0.schema.isFile } }
     }
 }

@@ -54,7 +54,7 @@ extension TFL.Place {
                 return super.path.replacingOccurrences(of: "{" + "type" + "}", with: "\(self.options.type.joined(separator: ","))")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["lat"] = options.lat
                 params["lon"] = options.lon

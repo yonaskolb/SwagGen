@@ -171,7 +171,7 @@ See the `feature-flags.md` for available flag details.
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["path"] = options.path
                 if let listPageSize = options.listPageSize {

@@ -1,32 +1,24 @@
-swagger: "2.0"
+openapi: 3.0.0
 info:
   version: 1.0.0
   title: Swagger Petstore
   license:
     name: MIT
-host: petstore.swagger.io
-basePath: /v1
-schemes:
-  - http
-consumes:
-  - application/json
-produces:
-  - application/json
-securityDefinitions:
-  petstore_auth:
-    type: oauth2
-    authorizationUrl: http://swagger.io/api/oauth/dialog
-    flow: implicit
-    scopes:
-      'write:pets': modify pets in your account
-      'read:pets': read your pets
-  petstore_auth2:
-    type: oauth2
-    authorizationUrl: http://swagger.io/api/oauth/dialog
-    flow: implicit
-    scopes:
-      'scopeA': token scope A
-      'scopeB': token scope B
+servers:
+  - x-name: Test
+    description: Test environment
+    url: https://test.petstore.com/{version}/{space}
+    variables:
+      version:
+        default: v1
+        enum:
+          - v1
+          - v2
+      space:
+        default: main
+  - x-name: Prod
+    description: Prod environment
+    url: http://petstore.swagger.io/v1
 paths:
   /pets:
     get:
@@ -39,46 +31,55 @@ paths:
           in: query
           description: How many items to return at one time (max 100)
           required: false
-          type: integer
-          format: int32
+          schema:
+            type: integer
+            format: int32
       responses:
-        200:
+        "200":
           description: An array of pets
           headers:
             x-next:
-              type: string
               description: A link to the next page of responses
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Pet'
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
         default:
           description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     post:
       summary: Create a pet
       operationId: createPets
       tags:
         - pets
       responses:
-        201:
+        "201":
           description: Null response
         default:
           description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
-          - write:pets
-          - read:pets
-  /pets/{petId}:
+            - write:pets
+            - read:pets
+  "/pets/{petId}":
     parameters:
       - name: petId
         in: path
         required: true
         description: The id of the pet
-        type: string
+        schema:
+          type: string
     get:
       summary: Info for a specific pet
       operationId: showPetById
@@ -89,70 +90,88 @@ paths:
           in: path
           required: true
           description: The id of the pet to retrieve
-          type: string
-      responses:
-        200:
-          description: Expected response to a valid request
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Pet'
+            type: string
+      responses:
+        "200":
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
         default:
           description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     post:
       tags:
         - pets
       summary: Updates a pet in the store with form data
-      description: ''
+      description: ""
       operationId: updatePetWithForm
-      consumes:
-        - application/x-www-form-urlencoded
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: name
-          in: formData
-          description: Updated name of the pet
-          required: false
-          type: string
-        - name: status
-          in: formData
-          description: Updated status of the pet
-          required: false
-          type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Updated name of the pet
+                  type: string
+                status:
+                  description: Updated status of the pet
+                  type: string
       responses:
-        '405':
+        "405":
           description: Invalid input
       security:
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-
-definitions:
-  Pet:
-    required:
-      - id
-      - name
-    properties:
-      id:
-        type: integer
-        format: int64
-      name:
-        type: string
-      tag:
-        type: string
-  SoldPet:
-    $ref: '#/definitions/Pet'
-  Error:
-    required:
-      - code
-      - message
-    properties:
-      code:
-        type: integer
-        format: int32
-      message:
-        type: string
+            - write:pets
+            - read:pets
+components:
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://swagger.io/api/oauth/dialog
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    petstore_auth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://swagger.io/api/oauth/dialog
+          scopes:
+            scopeA: token scope A
+            scopeB: token scope B
+  schemas:
+    Pet:
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        tag:
+          type: string
+    SoldPet:
+      $ref: "#/components/schemas/Pet"
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

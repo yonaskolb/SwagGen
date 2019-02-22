@@ -9,7 +9,7 @@ import Alamofire
 /// Manages and sends APIRequests
 public class APIClient {
 
-    public static var `default` = APIClient(baseURL: "https://api.tfl.gov.uk")
+    public static var `default` = APIClient(baseURL: TFL.Server.main)
 
     /// A list of RequestBehaviours that can be used to monitor and alter all requests
     public var behaviours: [RequestBehaviour] = []
@@ -89,11 +89,11 @@ public class APIClient {
     private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, cancellableRequest: CancellableRequest, requestBehaviour: RequestBehaviourGroup, completionQueue: DispatchQueue, complete: @escaping (APIResponse<T>) -> Void) {
         requestBehaviour.beforeSend()
 
-        if request.service.hasFile {
+        if request.service.isUpload {
             sessionManager.upload(
                 multipartFormData: { multipartFormData in
-                    for (name, value) in request.parameters {
-                        if let file = value as? File {
+                    for (name, value) in request.formParameters {
+                        if let file = value as? UploadFile {
                             switch file.type {
                             case let .url(url):
                                 if let fileName = file.fileName, let mimeType = file.mimeType {
@@ -220,15 +220,24 @@ extension APIRequest {
         urlRequest.allHTTPHeaderFields = headers
 
         // filter out parameters with empty string value
-        var params: [String: Any] = [:]
-        for (key, value) in parameters {
+        var queryParams: [String: Any] = [:]
+        for (key, value) in queryParameters {
             if String.init(describing: value) != "" {
-                params[key] = value
+                queryParams[key] = value
             }
         }
-        if !params.isEmpty {
-            let encoding: ParameterEncoding = service.hasBody ? URLEncoding.httpBody : URLEncoding.queryString
-            urlRequest = try encoding.encode(urlRequest, with: params)
+        if !queryParams.isEmpty {
+            urlRequest = try URLEncoding.queryString.encode(urlRequest, with: queryParams)
+        }
+
+        var formParams: [String: Any] = [:]
+        for (key, value) in formParameters {
+            if String.init(describing: value) != "" {
+                formParams[key] = value
+            }
+        }
+        if !formParams.isEmpty {
+            urlRequest = try URLEncoding.httpBody.encode(urlRequest, with: formParams)
         }
         if let encodeBody = encodeBody {
             urlRequest.httpBody = try encodeBody()

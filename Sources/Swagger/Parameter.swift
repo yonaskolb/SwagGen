@@ -7,44 +7,49 @@ public struct Parameter {
     public let description: String?
     public let required: Bool
     public let example: Any?
-
     public let type: ParameterType
+    public let json: [String: Any]
 
-    public var metadata: Metadata {
-        switch type {
-        case let .body(schema): return schema.metadata
-        case let .other(item): return item.metadata
-        }
-    }
+}
+
+public struct ParameterSchema {
+    public let schema: Schema
+    public let serializationStyle: SerializationStyle
+    public let explode: Bool
 }
 
 public enum ParameterLocation: String {
     case query
     case header
     case path
-    case formData
-    case body
+    case cookie
 }
 
 public enum ParameterType {
-    case body(schema: Schema)
-    case other(item: Item)
+    case content(Content)
+    case schema(ParameterSchema)
 }
 
 extension Parameter: JSONObjectConvertible {
 
     public init(jsonDictionary: JSONDictionary) throws {
+        json = jsonDictionary
         name = try jsonDictionary.json(atKeyPath: "name")
-        location = try jsonDictionary.json(atKeyPath: "in")
+        let location: ParameterLocation = try jsonDictionary.json(atKeyPath: "in")
+        self.location = location
         description = jsonDictionary.json(atKeyPath: "description")
         required = (jsonDictionary.json(atKeyPath: "required")) ?? false
-        example = jsonDictionary["example"] ?? jsonDictionary["x-example"]
+        example = jsonDictionary["example"]
 
-        switch location {
-        case .body:
-            type = .body(schema: try jsonDictionary.json(atKeyPath: "schema"))
-        case .query, .header, .path, .formData:
-            type = .other(item: try Item(jsonDictionary: jsonDictionary))
+        if jsonDictionary["content"] != nil {
+            let content: Content = try jsonDictionary.json(atKeyPath: "content")
+            type = .content(content)
+        } else {
+            let schema: Schema = try jsonDictionary.json(atKeyPath: "schema")
+            let serializationStyle: SerializationStyle = jsonDictionary.json(atKeyPath: "style") ?? location.defaultSerializationStyle
+            let explode: Bool = jsonDictionary.json(atKeyPath: "explode") ?? (serializationStyle == .form ? true : false)
+            let parameterSchema = ParameterSchema(schema: schema, serializationStyle: serializationStyle, explode: explode)
+            type = .schema(parameterSchema)
         }
     }
 }

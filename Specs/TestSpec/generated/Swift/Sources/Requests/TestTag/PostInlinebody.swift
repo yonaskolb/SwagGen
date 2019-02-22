@@ -15,7 +15,7 @@ extension TestSpec.TestTag {
         public final class Request: APIRequest<Response> {
 
             /** operation with an inline body */
-            public class Item: APIModel {
+            public class Body: APIModel {
 
                 public var id: Int?
 
@@ -41,24 +41,24 @@ extension TestSpec.TestTag {
                 }
 
                 public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Item else { return false }
+                  guard let object = object as? Body else { return false }
                   guard self.id == object.id else { return false }
                   guard self.name == object.name else { return false }
                   return true
                 }
 
-                public static func == (lhs: Item, rhs: Item) -> Bool {
+                public static func == (lhs: Body, rhs: Body) -> Bool {
                     return lhs.isEqual(to: rhs)
                 }
             }
 
-            public var item: Item
+            public var body: Body
 
-            public init(item: Item) {
-                self.item = item
+            public init(body: Body) {
+                self.body = body
                 super.init(service: PostInlinebody.service) {
                     let jsonEncoder = JSONEncoder()
-                    return try jsonEncoder.encode(item)
+                    return try jsonEncoder.encode(body)
                 }
             }
         }

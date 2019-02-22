@@ -46,7 +46,7 @@ extension TFL.Place {
                 return super.path.replacingOccurrences(of: "{" + "types" + "}", with: "\(self.options.types.joined(separator: ","))")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let activeOnly = options.activeOnly {
                   params["activeOnly"] = activeOnly

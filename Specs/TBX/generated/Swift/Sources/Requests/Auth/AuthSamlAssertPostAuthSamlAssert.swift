@@ -16,13 +16,13 @@ extension TBX.Auth {
 
             public struct Options {
 
-                public var sAMLResponse: String?
-
                 public var relayState: String?
 
-                public init(sAMLResponse: String? = nil, relayState: String? = nil) {
-                    self.sAMLResponse = sAMLResponse
+                public var sAMLResponse: String?
+
+                public init(relayState: String? = nil, sAMLResponse: String? = nil) {
                     self.relayState = relayState
+                    self.sAMLResponse = sAMLResponse
                 }
             }
 
@@ -34,18 +34,18 @@ extension TBX.Auth {
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(sAMLResponse: String? = nil, relayState: String? = nil) {
-                let options = Options(sAMLResponse: sAMLResponse, relayState: relayState)
+            public convenience init(relayState: String? = nil, sAMLResponse: String? = nil) {
+                let options = Options(relayState: relayState, sAMLResponse: sAMLResponse)
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var formParameters: [String: Any] {
                 var params: [String: Any] = [:]
-                if let sAMLResponse = options.sAMLResponse {
-                  params["SAMLResponse"] = sAMLResponse
-                }
                 if let relayState = options.relayState {
                   params["RelayState"] = relayState
+                }
+                if let sAMLResponse = options.sAMLResponse {
+                  params["SAMLResponse"] = sAMLResponse
                 }
                 return params
             }

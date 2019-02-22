@@ -9,11 +9,11 @@ public class DbGeographyWellKnownValue: APIModel {
 
     public var coordinateSystemId: Int?
 
-    public var wellKnownBinary: String?
+    public var wellKnownBinary: File?
 
     public var wellKnownText: String?
 
-    public init(coordinateSystemId: Int? = nil, wellKnownBinary: String? = nil, wellKnownText: String? = nil) {
+    public init(coordinateSystemId: Int? = nil, wellKnownBinary: File? = nil, wellKnownText: String? = nil) {
         self.coordinateSystemId = coordinateSystemId
         self.wellKnownBinary = wellKnownBinary
         self.wellKnownText = wellKnownText

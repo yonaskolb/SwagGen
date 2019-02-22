@@ -47,7 +47,7 @@ extension TFL.Road {
                 return super.path.replacingOccurrences(of: "{" + "ids" + "}", with: "\(self.options.ids.joined(separator: ","))")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 if let dateRangeNullableStartDate = options.dateRangeNullableStartDate?.encode() {
                   params["dateRangeNullable.startDate"] = dateRangeNullableStartDate

@@ -7,6 +7,7 @@ public struct Operation {
     public let method: Method
     public let summary: String?
     public let description: String?
+    public let requestBody: PossibleReference<RequestBody>?
     public let pathParameters: [PossibleReference<Parameter>]
     public let operationParameters: [PossibleReference<Parameter>]
 
@@ -14,10 +15,6 @@ public struct Operation {
         return pathParameters.filter { pathParam in
             !operationParameters.contains { $0.value.name == pathParam.value.name }
         } + operationParameters
-    }
-
-    public var bodyParam: PossibleReference<Parameter>? {
-        return parameters.first { $0.value.location == .body }
     }
 
     public let responses: [OperationResponse]
@@ -49,9 +46,14 @@ extension Operation {
         self.path = path
         self.method = method
         self.pathParameters = pathParameters
-        operationParameters = (jsonDictionary.json(atKeyPath: "parameters")) ?? []
+        if jsonDictionary["parameters"] != nil {
+            operationParameters = try jsonDictionary.json(atKeyPath: "parameters")
+        } else {
+            operationParameters = []
+        }
         summary = jsonDictionary.json(atKeyPath: "summary")
         description = jsonDictionary.json(atKeyPath: "description")
+        requestBody = jsonDictionary.json(atKeyPath: "requestBody")
 
         identifier = jsonDictionary.json(atKeyPath: "operationId")
         tags = (jsonDictionary.json(atKeyPath: "tags")) ?? []

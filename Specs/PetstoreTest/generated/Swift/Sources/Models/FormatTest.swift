@@ -9,13 +9,13 @@ public class FormatTest: APIModel {
 
     public var number: Double
 
-    public var byte: String
+    public var byte: File
 
     public var date: DateDay
 
     public var password: String
 
-    public var binary: String?
+    public var binary: File?
 
     public var dateTime: DateTime?
 
@@ -33,7 +33,7 @@ public class FormatTest: APIModel {
 
     public var uuid: ID?
 
-    public init(number: Double, byte: String, date: DateDay, password: String, binary: String? = nil, dateTime: DateTime? = nil, double: Double? = nil, float: Float? = nil, int32: Int? = nil, int64: Int? = nil, integer: Int? = nil, string: String? = nil, uuid: ID? = nil) {
+    public init(number: Double, byte: File, date: DateDay, password: String, binary: File? = nil, dateTime: DateTime? = nil, double: Double? = nil, float: Float? = nil, int32: Int? = nil, int64: Int? = nil, integer: Int? = nil, string: String? = nil, uuid: ID? = nil) {
         self.number = number
         self.byte = byte
         self.date = date

@@ -98,7 +98,7 @@ extension TFL.TravelTime {
                 return super.path.replacingOccurrences(of: "{" + "z" + "}", with: "\(self.options.z)").replacingOccurrences(of: "{" + "pinLat" + "}", with: "\(self.options.pinLat)").replacingOccurrences(of: "{" + "pinLon" + "}", with: "\(self.options.pinLon)").replacingOccurrences(of: "{" + "mapCenterLat" + "}", with: "\(self.options.mapCenterLat)").replacingOccurrences(of: "{" + "mapCenterLon" + "}", with: "\(self.options.mapCenterLon)").replacingOccurrences(of: "{" + "width" + "}", with: "\(self.options.width)").replacingOccurrences(of: "{" + "height" + "}", with: "\(self.options.height)")
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["scenarioTitle"] = options.scenarioTitle
                 params["timeOfDayId"] = options.timeOfDayId

@@ -44,7 +44,7 @@ extension TBX.DeviceService {
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["api_key"] = options.apiKey
                 params["deviceToken"] = options.deviceToken

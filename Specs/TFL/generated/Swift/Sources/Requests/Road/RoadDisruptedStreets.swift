@@ -41,7 +41,7 @@ extension TFL.Road {
                 self.init(options: options)
             }
 
-            public override var parameters: [String: Any] {
+            public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["startDate"] = options.startDate.encode()
                 params["endDate"] = options.endDate.encode()

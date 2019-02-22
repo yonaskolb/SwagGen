@@ -6,7 +6,7 @@ import Foundation
 enum APIServer {
     {% for server in servers %}
     {% if server.description %}
-    /** {{ enum.description }} **/
+    /** {{ server.description }} **/
     {% endif %}
     {% if server.variables %}
     static func {{ server.name }}({% for variable in server.variables %}{{ variable.name }}: String = "{{ variable.defaultValue}}"{% ifnot forloop.last %}, {% endif %}{% endfor %}) -> String {

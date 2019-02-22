@@ -6,6 +6,7 @@ info:
     name: MIT
 servers:
   - x-name: Test
+    description: Test environment
     url: https://test.petstore.com/{version}/{space}
     variables:
       version:
@@ -16,6 +17,7 @@ servers:
       space:
         default: main
   - x-name: Prod
+    description: Prod environment
     url: http://petstore.swagger.io/v1
 paths:
   /pets:

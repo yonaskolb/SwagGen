@@ -30,10 +30,10 @@ extension PetstoreTest.Fake {
                 public var patternWithoutDelimiter: String
 
                 /** None */
-                public var byte: Data
+                public var byte: File
 
                 /** None */
-                public var binary: Data?
+                public var binary: File?
 
                 /** None */
                 public var callback: String?
@@ -62,7 +62,7 @@ extension PetstoreTest.Fake {
                 /** None */
                 public var string: String?
 
-                public init(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, binary: Data? = nil, callback: String? = nil, date: DateDay? = nil, dateTime: DateTime? = nil, float: Float? = nil, int32: Int? = nil, int64: Int? = nil, integer: Int? = nil, password: String? = nil, string: String? = nil) {
+                public init(number: Double, double: Double, patternWithoutDelimiter: String, byte: File, binary: File? = nil, callback: String? = nil, date: DateDay? = nil, dateTime: DateTime? = nil, float: Float? = nil, int32: Int? = nil, int64: Int? = nil, integer: Int? = nil, password: String? = nil, string: String? = nil) {
                     self.number = number
                     self.double = double
                     self.patternWithoutDelimiter = patternWithoutDelimiter
@@ -88,7 +88,7 @@ extension PetstoreTest.Fake {
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, binary: Data? = nil, callback: String? = nil, date: DateDay? = nil, dateTime: DateTime? = nil, float: Float? = nil, int32: Int? = nil, int64: Int? = nil, integer: Int? = nil, password: String? = nil, string: String? = nil) {
+            public convenience init(number: Double, double: Double, patternWithoutDelimiter: String, byte: File, binary: File? = nil, callback: String? = nil, date: DateDay? = nil, dateTime: DateTime? = nil, float: Float? = nil, int32: Int? = nil, int64: Int? = nil, integer: Int? = nil, password: String? = nil, string: String? = nil) {
                 let options = Options(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, binary: binary, callback: callback, date: date, dateTime: dateTime, float: float, int32: int32, int64: int64, integer: integer, password: password, string: string)
                 self.init(options: options)
             }

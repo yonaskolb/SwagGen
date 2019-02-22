@@ -103,8 +103,8 @@ public class SwiftFormatter: CodeFormatter {
             switch format {
             case let .format(format):
                 switch format {
-                case .binary: return "Data"
-                case .byte: return "Data"
+                case .binary: return "File"
+                case .byte: return "File"
                 case .base64: return "String"
                 case .dateTime: return "DateTime"
                 case .date: return "DateDay"

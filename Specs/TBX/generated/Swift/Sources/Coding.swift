@@ -8,6 +8,7 @@ import Foundation
 public protocol APIModel: Codable, Equatable { }
 
 public typealias DateTime = Date
+public typealias File = Data
 public typealias ID = UUID
 
 public protocol ResponseDecoder {
@@ -340,5 +341,3 @@ extension Data {
         return self
     }
 }
-
-public typealias File = Data

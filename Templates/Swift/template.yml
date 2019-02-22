@@ -2,7 +2,6 @@ formatter: swift
 options:
   name: API # the name of the API
   fixedWidthIntegers: false # whether to use types like Int32 and Int64
-  uploadFile: Data
   mutableModels: true # whether model properties are mutable
   safeOptionalDecoding: false # set invalid optionals to nil instead of throwing
   safeArrayDecoding: false # filter out invalid items in array instead of throwing
@@ -16,6 +15,7 @@ options:
   typeAliases:
     ID: UUID
     DateTime: Date
+    File: Data
   dependencies:
     - name: Alamofire
       pod: Alamofire

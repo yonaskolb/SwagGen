@@ -23,9 +23,9 @@ extension PetstoreTest.Pet {
                 public var additionalMetadata: String?
 
                 /** file to upload */
-                public var file: Data?
+                public var file: File?
 
-                public init(petId: Int, additionalMetadata: String? = nil, file: Data? = nil) {
+                public init(petId: Int, additionalMetadata: String? = nil, file: File? = nil) {
                     self.petId = petId
                     self.additionalMetadata = additionalMetadata
                     self.file = file
@@ -40,7 +40,7 @@ extension PetstoreTest.Pet {
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(petId: Int, additionalMetadata: String? = nil, file: Data? = nil) {
+            public convenience init(petId: Int, additionalMetadata: String? = nil, file: File? = nil) {
                 let options = Options(petId: petId, additionalMetadata: additionalMetadata, file: file)
                 self.init(options: options)
             }

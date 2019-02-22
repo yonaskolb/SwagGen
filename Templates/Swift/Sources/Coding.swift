@@ -340,5 +340,3 @@ extension Data {
         return self
     }
 }
-
-public typealias File = {% if options.uploadFile %}{{ options.uploadFile }}{% else %}Data{% endif %}

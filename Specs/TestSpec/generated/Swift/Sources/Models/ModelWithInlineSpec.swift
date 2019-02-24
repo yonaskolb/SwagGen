@@ -10,6 +10,7 @@ public class ModelWithInlineSpec: APIModel {
     /** an inline model */
     public var myModel: MyModel?
 
+    /** an inline model */
     public class MyModel: APIModel {
 
         /** name of the model */

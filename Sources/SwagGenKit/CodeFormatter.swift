@@ -138,21 +138,9 @@ public class CodeFormatter {
     }
 
     func getInlineSchemaContext(_ schema: Schema, name: String) -> Context? {
-
         guard schema.generateInlineSchema else { return nil }
-
-        var context: Context = [:]
-
+        var context: Context = getSchemaContext(schema)
         context["type"] = escapeType(name.upperCamelCased())
-        context["requiredProperties"] = schema.requiredProperties.map(getPropertyContext)
-        context["optionalProperties"] = schema.optionalProperties.map(getPropertyContext)
-        context["properties"] = schema.properties.map(getPropertyContext)
-        context["allProperties"] = schema.properties.map(getPropertyContext)
-        context["enums"] = schema.enums.map(getEnumContext)
-
-        context["schemas"] = schema.properties.compactMap { property in
-            getInlineSchemaContext(property.schema, name: property.name)
-        }
         return context
     }
 

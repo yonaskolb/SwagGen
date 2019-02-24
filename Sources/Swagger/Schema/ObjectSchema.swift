@@ -8,6 +8,8 @@ public struct ObjectSchema {
     public let maxProperties: Int?
     public let additionalProperties: Schema?
     public let abstract: Bool
+    public let discriminator: Discriminator?
+
 }
 
 public struct Property {
@@ -50,5 +52,6 @@ extension ObjectSchema: JSONObjectConvertible {
             additionalProperties = jsonDictionary.json(atKeyPath: "additionalProperties")
         }
         abstract = (jsonDictionary.json(atKeyPath: "x-abstract")) ?? false
+        discriminator = jsonDictionary.json(atKeyPath: "discriminator")
     }
 }

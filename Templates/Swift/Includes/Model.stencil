@@ -7,6 +7,34 @@
 public typealias {{ type }} = {{ aliasType }}
 {% elif additionalPropertiesType and allProperties.count == 0 %}
 public typealias {{ type }} = [String: {{ additionalPropertiesType }}]
+{% elif descriminatorType %}
+public enum {{ descriminatorType.type }}: Codable, Equatable {
+    {% for subType in descriminatorType.subTypes %}
+    case {{ subType.name}}({{ subType.type }})
+    {% endfor %}
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
+        let descriminator: String = try container.decode("{{ descriminatorType.descriminatorProperty }}")
+        switch descriminator {
+        {% for subType in descriminatorType.subTypes %}
+        self = .{{ subType.name}}(try {{ subType.type }}(from: decoder))
+        {% endfor %}
+        default:
+            throw DecodingError.dataCorrupted(DecodingError.Context.init(codingPath: decoder.codingPath, debugDescription: "Couldn't find type to decode with descriminator \(descriminator)"))
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .dog(let content):
+            try container.encode(content)
+        case .cat(let content):
+            try container.encode(content)
+        }
+    }
+}
 {% else %}
 public {{ options.modelType }} {{ type }}: {% if parent %}{{ parent.type }}{% else %}{% if options.modelProtocol %}{{ options.modelProtocol }}{% else %}Codable, Equatable{% endif %}{% endif %} {
     {% for enum in enums %}

@@ -8,9 +8,9 @@ import Foundation
 extension TestSpec {
 
     /** Has all sorts of parameters */
-    public enum GetAllParams {
+    public enum PostAllParams {
 
-        public static let service = APIService<Response>(id: "getAllParams", tag: "", method: "GET", path: "/all-params", hasBody: true, securityRequirement: SecurityRequirement(type: "test_auth", scopes: ["read"]))
+        public static let service = APIService<Response>(id: "postAllParams", tag: "", method: "POST", path: "/all-params", hasBody: true, securityRequirement: SecurityRequirement(type: "test_auth", scopes: ["read"]))
 
         public final class Request: APIRequest<Response> {
 
@@ -66,9 +66,9 @@ extension TestSpec {
                 public var apiKey: String
 
                 /** Cookie that tracks pets */
-                public var hasPets: Any
+                public var hasPets: Bool
 
-                public init(userId: String, petId: String, apiKey: String, hasPets: Any) {
+                public init(userId: String, petId: String, apiKey: String, hasPets: Bool) {
                     self.userId = userId
                     self.petId = petId
                     self.apiKey = apiKey
@@ -83,14 +83,14 @@ extension TestSpec {
             public init(body: Body?, options: Options) {
                 self.body = body
                 self.options = options
-                super.init(service: GetAllParams.service) {
+                super.init(service: PostAllParams.service) {
                     let jsonEncoder = JSONEncoder()
                     return try jsonEncoder.encode(body)
                 }
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(userId: String, petId: String, apiKey: String, hasPets: Any, body: Body? = nil) {
+            public convenience init(userId: String, petId: String, apiKey: String, hasPets: Bool, body: Body? = nil) {
                 let options = Options(userId: userId, petId: petId, apiKey: apiKey, hasPets: hasPets)
                 self.init(body: body, options: options)
             }

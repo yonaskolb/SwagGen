@@ -2,25 +2,128 @@ openapi: 3.0.0
 info:
   version: "1.0"
   title: Test Spec
+  license:
+    name: MIT
 security:
   - test_auth:
       - read
+servers:
+  - x-name: Test
+    description: Test environment
+    url: https://test.petstore.com/{version}/{space}
+    variables:
+      version:
+        default: v1
+        enum:
+          - v1
+          - v2
+      space:
+        default: main
+  - x-name: Prod
+    description: Prod environment
+    url: http://petstore.swagger.io/v1
 paths:
-  /untagged:
+  /default-response:
     get:
-      description: operation without a tag
+      description: operation with no responses
+      responses:
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /post-form:
+    post:
+      description: "Posts a form"
+      operationId: updateWithForm
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Updated name of the pet
+                  type: string
+                status:
+                  description: Updated status of the pet
+                  type: string
+      responses:
+        "405":
+          description: Invalid input
+  /multiple-path-params{petID}:
+    parameters:
+      - name: petId
+        in: path
+        required: true
+        description: The id of the pet
+        schema:
+          type: string
+    get:
+      description: Has path and operation parameters
+      operationId: getMultipleParams
       parameters:
-        - id: string
-          in: query
+      - name: userId
+        in: path
+        required: true
+        description: The id of the pet
+        schema:
+          type: string
+      responses:
+        "405":
+          description: Invalid input
+  /all-params:
+    get:
+      description: Has all sorts of parameters
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The id of the user
           schema:
             type: string
+        - name: petId
+          in: query
+          required: true
+          description: The id of the pet
+          schema:
+            type: string
+        - name: apiKey
+          in: header
+          required: true
+          description: The api key
+          schema:
+            type: string
+        - name: hasPets
+          in: cookie
+          required: true
+          description: Cookie that tracks pets
+          schema:
+            type: bool
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Updated name of the pet
+                  type: string
+                status:
+                  description: Updated status of the pet
+                  type: string
       responses:
-        "201":
-          description: Empty response
+        "405":
+          description: Invalid input
+  /tagged:
+    get:
+      description: operation with a tag
+      operationId: Pets
+      responses:
+        "201": {}
   /inlinebody:
     post:
-      tags:
-        - TestTag
       description: operation with an inline body
       requestBody:
         content:
@@ -105,6 +208,15 @@ components:
           type: string
         id:
           type: integer
+    UserSubclass:
+      allOf:
+        - $ref: "#/components/schemas/User"
+        - type: object
+          properties:
+            age:
+              type: integer
+    UserReference:
+      $ref: "#/components/schemas/User"
     ModelWithAdditionalProperties:
       description: definition with additional properties
       type: object
@@ -142,3 +254,13 @@ components:
             name:
               description: name of the model
               type: string
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

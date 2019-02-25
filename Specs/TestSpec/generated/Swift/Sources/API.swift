@@ -17,8 +17,4 @@ public struct TestSpec {
     public static let dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
 
     public static let version = "1.0"
-
-    public enum TestTag {}
-
-    // No servers defined in swagger. Documentation for adding them: https://swagger.io/specification/#schema
 }

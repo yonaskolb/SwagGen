@@ -5,12 +5,12 @@
 
 import Foundation
 
-extension TestSpec.TestTag {
+extension TestSpec {
 
     /** operation with an inline body */
     public enum PostInlinebody {
 
-        public static let service = APIService<Response>(id: "postInlinebody", tag: "TestTag", method: "POST", path: "/inlinebody", hasBody: true, securityRequirement: SecurityRequirement(type: "test_auth", scopes: ["write"]))
+        public static let service = APIService<Response>(id: "postInlinebody", tag: "", method: "POST", path: "/inlinebody", hasBody: true, securityRequirement: SecurityRequirement(type: "test_auth", scopes: ["write"]))
 
         public final class Request: APIRequest<Response> {
 

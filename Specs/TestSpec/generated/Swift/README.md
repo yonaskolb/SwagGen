@@ -151,15 +151,20 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 ## Models
 
+- **Animal**
+- **Cat**
+- **Dog**
 - **ErrorType**
 - **ModelWithAdditionalProperties**
 - **ModelWithBooleanAdditionalProperties**
 - **ModelWithDefinitionAdditionalProperties**
 - **ModelWithInlineSpec**
 - **ModelWithOnlyAdditionalProperties**
+- **SingleAnimal**
 - **User**
 - **UserReference**
 - **UserSubclass**
+- **Zoo**
 
 ## Requests
 

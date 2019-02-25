@@ -7,21 +7,22 @@
 public typealias {{ type }} = {{ aliasType }}
 {% elif additionalPropertiesType and allProperties.count == 0 %}
 public typealias {{ type }} = [String: {{ additionalPropertiesType }}]
-{% elif descriminatorType %}
-public enum {{ descriminatorType.type }}: Codable, Equatable {
-    {% for subType in descriminatorType.subTypes %}
+{% elif discriminatorType %}
+public enum {{ type }}: Codable, Equatable {
+    {% for subType in discriminatorType.subTypes %}
     case {{ subType.name}}({{ subType.type }})
     {% endfor %}
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
-        let descriminator: String = try container.decode("{{ descriminatorType.descriminatorProperty }}")
-        switch descriminator {
-        {% for subType in descriminatorType.subTypes %}
-        self = .{{ subType.name}}(try {{ subType.type }}(from: decoder))
+        let discriminator: String = try container.decode("{{ discriminatorType.discriminatorProperty }}")
+        switch discriminator {
+        {% for name, subType in discriminatorType.mapping %}
+        case "{{ name }}":
+            self = .{{ subType.name}}(try {{ subType.type }}(from: decoder))
         {% endfor %}
         default:
-            throw DecodingError.dataCorrupted(DecodingError.Context.init(codingPath: decoder.codingPath, debugDescription: "Couldn't find type to decode with descriminator \(descriminator)"))
+            throw DecodingError.dataCorrupted(DecodingError.Context.init(codingPath: decoder.codingPath, debugDescription: "Couldn't find type to decode with discriminator \(discriminator)"))
         }
     }
 

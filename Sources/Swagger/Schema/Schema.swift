@@ -28,6 +28,13 @@ public enum SchemaType {
         }
     }
 
+    public var reference: Reference<Schema>? {
+        switch self {
+        case .reference(let reference): return reference
+        default: return nil
+        }
+    }
+
     public var isPrimitive: Bool {
         switch self {
         case .boolean, .string, .number, .integer: return true

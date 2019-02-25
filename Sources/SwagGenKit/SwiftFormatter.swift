@@ -85,10 +85,6 @@ public class SwiftFormatter: CodeFormatter {
             enumValue = schema.getEnum(name: name, description: "").flatMap { getEnumContext($0)["enumName"] as? String }
         }
 
-        if schema.generateInlineSchema {
-            return escapeType(name.upperCamelCased())
-        }
-
         if schema.canBeEnum, let enumValue = enumValue {
             return enumValue
         }
@@ -148,13 +144,17 @@ public class SwiftFormatter: CodeFormatter {
             if let additionalProperties = schema.additionalProperties {
                 let typeString = getSchemaType(name: name, schema: additionalProperties, checkEnum: checkEnum)
                 return checkEnum ? "[String: \(enumValue ?? typeString)]" : typeString
-            } else {
+            } else if schema.properties.isEmpty {
                 return "[String: Any]"
+            } else {
+                return escapeType(name.upperCamelCased())
             }
         case let .reference(reference):
             return getSchemaTypeName(reference.component)
-        case .group(let group): return "UNKNOWN_\(group.type)"
-        case .any: return "Any"
+        case .group:
+            return escapeType(name.upperCamelCased())
+        case .any:
+            return "Any"
         }
     }
 

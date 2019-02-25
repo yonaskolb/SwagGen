@@ -1,5 +1,22 @@
 # Change Log
-## Master
+## Next Version
+
+## 4.0.0
+
+### Added
+- Added support for OpenAPISpec/Swagger 3.
+- Added [StencilSwiftKit](https://github.com/SwiftGen/StencilSwiftKit) support for templates #111
+- Added generated request headers #120
+- Added `oneOf` and `anyOf` with discriminators #121
+- Added generated `servers` #118
+
+### Changed
+- Updated Swift template #117 #118 #120 #121
+
+### Removed
+- Removed support for Swagger 2 #118
+
+[Commits](https://github.com/yonaskolb/SwagGen/compare/3.0.2...4.0.0)
 
 ## 3.0.2
 

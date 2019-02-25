@@ -8,6 +8,8 @@
 
 SwagGen is a library and command line tool for parsing and generating code for [OpenAPI/Swagger 3.0](https://swagger.io/specification) specs, completely written in Swift.
 
+> Swagger 2 support has been removed. For Swagger 2 use version `3.0.2` or the `swagger_2` branch
+
 #### Swagger parser
 It contains a `Swagger` library that can be used in Swift to load and parse Swagger specs.
 

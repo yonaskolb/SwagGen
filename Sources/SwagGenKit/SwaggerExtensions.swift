@@ -142,14 +142,29 @@ extension Schema {
         return (parent?.value.inheritedEnums ?? []) + enums
     }
 
-    var generateInlineSchema: Bool {
-        if case let .object(schema) = type,
-            schema.additionalProperties == nil,
-            !schema.properties.isEmpty {
-            return true
-        } else {
-            return false
+    var inlineSchema: Schema? {
+        switch type {
+        case .object(let schema) where schema.additionalProperties == nil && !schema.properties.isEmpty:
+            return self
+        case .array(let arraySchema):
+            switch arraySchema.items {
+            case .single(let schema):
+                return schema.inlineSchema
+            case .multiple:
+                break
+            }
+        case .group(let group):
+            switch group.type {
+            case .any, .one:
+                if group.discriminator != nil {
+                    return self
+                }
+            case .all:
+                break
+            }
+        default: break
         }
+        return nil
     }
 }
 

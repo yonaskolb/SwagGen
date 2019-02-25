@@ -6,7 +6,7 @@ GREEN='\033[0;32m'
 NO_COLOR='\033[0m'
 SPEC_NAME=$(basename $1)
 SPEC_PATH=$1
-SWAGGER_SPEC=$1/spec.yml
+SWAGGER_SPEC=$SPEC_PATH/spec.yml
 
 if [ -f "${SWAGGER_SPEC}" ]
 then

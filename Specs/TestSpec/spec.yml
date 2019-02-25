@@ -74,7 +74,7 @@ paths:
         "405":
           description: Invalid input
   /all-params:
-    get:
+    post:
       description: Has all sorts of parameters
       parameters:
         - name: userId
@@ -100,7 +100,7 @@ paths:
           required: true
           description: Cookie that tracks pets
           schema:
-            type: bool
+            type: boolean
       requestBody:
         content:
           application/json:
@@ -121,7 +121,8 @@ paths:
       description: operation with a tag
       operationId: Pets
       responses:
-        "201": {}
+        "201":
+          description: Success
   /inlinebody:
     post:
       description: operation with an inline body
@@ -254,6 +255,50 @@ components:
             name:
               description: name of the model
               type: string
+    Zoo:
+      type: object
+      properties:
+        schemaAnimals:
+          type: array
+          items:
+            - $ref: "#/components/schemas/SingleAnimal"
+        inlineAnimals:
+          type: array
+          items:
+            oneOf:
+              - $ref: "#/components/schemas/Cat"
+              - $ref: "#/components/schemas/Dog"
+            discriminator:
+              propertyName: type
+    SingleAnimal:
+      oneOf:
+        - $ref: "#/components/schemas/Cat"
+        - $ref: "#/components/schemas/Dog"
+      discriminator:
+        propertyName: type
+        mapping:
+          woof: "#/components/schemas/Dog"
+          dog: "#/components/schemas/Dog"
+          cat: "#/components/schemas/Cat"
+    Animal:
+      type: object
+      properties:
+        animal:
+          type: string
+    Cat:
+      allOf:
+        - $ref: "#/components/schemas/Animal"
+        - type: object
+          properties:
+            meows:
+              type: boolean
+    Dog:
+      allOf:
+        - $ref: "#/components/schemas/Animal"
+        - type: object
+          properties:
+            barks:
+              type: boolean
     Error:
       required:
         - code

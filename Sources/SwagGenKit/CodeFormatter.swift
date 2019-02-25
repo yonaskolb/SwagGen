@@ -138,21 +138,11 @@ public class CodeFormatter {
     }
 
     func getInlineSchemaContext(_ schema: Schema, name: String) -> Context? {
+        guard let schema = schema.inlineSchema else { return nil }
 
-        guard schema.generateInlineSchema else { return nil }
-
-        var context: Context = [:]
-
+        var context: Context = getSchemaContext(schema)
         context["type"] = escapeType(name.upperCamelCased())
-        context["requiredProperties"] = schema.requiredProperties.map(getPropertyContext)
-        context["optionalProperties"] = schema.optionalProperties.map(getPropertyContext)
-        context["properties"] = schema.properties.map(getPropertyContext)
-        context["allProperties"] = schema.properties.map(getPropertyContext)
-        context["enums"] = schema.enums.map(getEnumContext)
 
-        context["schemas"] = schema.properties.compactMap { property in
-            getInlineSchemaContext(property.schema, name: property.name)
-        }
         return context
     }
 
@@ -188,6 +178,44 @@ public class CodeFormatter {
             }
         }
         context["allProperties"] = schema.inheritedProperties.map(getPropertyContext)
+
+        // fallback
+        context["type"] = getSchemaType(name: "", schema: schema)
+
+        switch schema.type {
+        case .group(let groupSchema):
+            switch groupSchema.type {
+            case .any, .one:
+                let references = groupSchema.schemas.compactMap { $0.type.reference }
+                var descriminatorTypeContext = Context()
+
+                func getReferenceContext<T>(_ reference: Reference<T>) -> Context {
+                    var context: Context = [:]
+                    context["type"] = getModelType(reference.name)
+                    context["name"] = getName(reference.name)
+                    return context
+                }
+
+                descriminatorTypeContext["subTypes"] = references.map(getReferenceContext)
+                var mapping: [String: Context] = [:]
+                for reference in references {
+                    mapping[reference.name] = getReferenceContext(reference)
+                }
+                if let descriminatorMapping = groupSchema.discriminator?.mapping {
+                    for (key, value) in descriminatorMapping {
+                        // TODO: could reference another spec
+                        let reference = Reference<Schema>(value)
+                        mapping[key] = getReferenceContext(reference)
+                    }
+                }
+                descriminatorTypeContext["discriminatorProperty"] = groupSchema.discriminator?.propertyName
+                descriminatorTypeContext["mapping"] = mapping
+
+                context["discriminatorType"] = descriminatorTypeContext
+            case .all: break
+            }
+        default: break
+        }
 
         return context
     }

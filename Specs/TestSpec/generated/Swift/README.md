@@ -151,24 +151,29 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 ## Models
 
+- **Animal**
+- **Cat**
+- **Dog**
 - **ErrorType**
 - **ModelWithAdditionalProperties**
 - **ModelWithBooleanAdditionalProperties**
 - **ModelWithDefinitionAdditionalProperties**
 - **ModelWithInlineSpec**
 - **ModelWithOnlyAdditionalProperties**
+- **SingleAnimal**
 - **User**
 - **UserReference**
 - **UserSubclass**
+- **Zoo**
 
 ## Requests
 
 - **TestSpec.Pets**: GET `/tagged`
-- **TestSpec.GetAllParams**: GET `/all-params`
 - **TestSpec.GetDefaultResponse**: GET `/default-response`
 - **TestSpec.GetInlineEnumResponse**: GET `/inlineenumresponse`
 - **TestSpec.GetString**: GET `/string`
 - **TestSpec.GetMultipleParams**: GET `/multiple-path-params{petid}`
+- **TestSpec.PostAllParams**: POST `/all-params`
 - **TestSpec.PostInlinebody**: POST `/inlinebody`
 - **TestSpec.PostString**: POST `/string`
 - **TestSpec.UpdateWithForm**: POST `/post-form`

@@ -28,6 +28,13 @@ public enum SchemaType {
         }
     }
 
+    public var reference: Reference<Schema>? {
+        switch self {
+        case .reference(let reference): return reference
+        default: return nil
+        }
+    }
+
     public var isPrimitive: Bool {
         switch self {
         case .boolean, .string, .number, .integer: return true
@@ -64,8 +71,14 @@ extension SchemaType: JSONObjectConvertible {
             }
         } else if jsonDictionary["$ref"] != nil {
             self = .reference(try Reference(jsonDictionary: jsonDictionary))
-        } else if jsonDictionary["allOf"] != nil || jsonDictionary["anyOf"] != nil || jsonDictionary["oneOf"] != nil  {
-            let group = try GroupSchema(jsonDictionary: jsonDictionary)
+        } else if jsonDictionary["allOf"] != nil {
+            let group = try GroupSchema(jsonDictionary: jsonDictionary, type: .all)
+            self = .group(group)
+        } else if jsonDictionary["anyOf"] != nil {
+            let group = try GroupSchema(jsonDictionary: jsonDictionary, type: .any)
+            self = .group(group)
+        } else if jsonDictionary["oneOf"] != nil {
+            let group = try GroupSchema(jsonDictionary: jsonDictionary, type: .one)
             self = .group(group)
         } else {
             self = .any

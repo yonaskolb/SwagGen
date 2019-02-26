@@ -31,9 +31,9 @@ public enum SingleAnimal: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case .dog(let content):
-            try container.encode(content)
         case .cat(let content):
+            try container.encode(content)
+        case .dog(let content):
             try container.encode(content)
         }
     }

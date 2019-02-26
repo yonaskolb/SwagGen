@@ -29,10 +29,10 @@ public enum {{ type }}: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case .dog(let content):
+        {% for subType in discriminatorType.subTypes %}
+        case .{{ subType.name}}(let content):
             try container.encode(content)
-        case .cat(let content):
-            try container.encode(content)
+        {% endfor %}
         }
     }
 }

@@ -9,6 +9,8 @@
 - Added generated request headers #120
 - Added `oneOf` and `anyOf` with discriminators #121
 - Added generated `servers` #118
+- Added new `enableModelProtocolDefaultImplememtation` for disabling default implementation of `modelProtocol` #122
+- Added support for generating inline schemas when they are wrapped in an array #121
 
 ### Changed
 - Updated Swift template #117 #118 #120 #121

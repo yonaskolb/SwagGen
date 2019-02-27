@@ -10,6 +10,7 @@ options:
   modelType: class # can be struct or class
   modelInheritance: true # must be false for struct modelType
   modelProtocol: APIModel # the protocol all models conform to
+  enableModelProtocolDefaultImplememtation: true # if disabled allow to use another implementation for modelProtocol
   modelNames: {} # override model type names
   enumNames: {} # override enum type names
   typeAliases:

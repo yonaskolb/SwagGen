@@ -2,8 +2,10 @@
 
 import Foundation
 
+{% if options.enableModelProtocolDefaultImplememtation %}
 {% if options.modelProtocol %}
 public protocol {{ options.modelProtocol }}: Codable, Equatable { }
+{% endif %}
 {% endif %}
 
 {% for type, typealias in options.typeAliases %}

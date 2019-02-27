@@ -14,14 +14,19 @@ clients as these formats evolve under the current major version.
 - `ldp` - Dynamic list detail pages with schedulable rows.
 See the `feature-flags.md` for available flag details.
  */
+#if swift(>=4.2)
+public enum FeatureFlags: String, Codable, Equatable, CaseIterable {
+#else
 public enum FeatureFlags: String, Codable {
+#endif
     case all = "all"
     case idp = "idp"
     case ldp = "ldp"
-
+    #if swift(<4.2)
     public static let cases: [FeatureFlags] = [
       .all,
       .idp,
       .ldp,
     ]
+    #endif
 }

@@ -8,16 +8,21 @@ import Foundation
 public class ProfileTokenRequest: APIModel {
 
     /** The scope(s) of the token(s) required. */
+    #if swift(>=4.2)
+    public enum Scopes: String, Codable, Equatable, CaseIterable {
+    #else
     public enum Scopes: String, Codable {
+    #endif
         case catalog = "Catalog"
         case commerce = "Commerce"
         case settings = "Settings"
-
+        #if swift(<4.2)
         public static let cases: [Scopes] = [
           .catalog,
           .commerce,
           .settings,
         ]
+        #endif
     }
 
     /** The id of the profile the token should grant access rights to. */

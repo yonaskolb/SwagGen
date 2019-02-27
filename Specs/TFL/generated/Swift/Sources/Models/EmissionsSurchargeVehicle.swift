@@ -7,16 +7,21 @@ import Foundation
 
 public class EmissionsSurchargeVehicle: APIModel {
 
+    #if swift(>=4.2)
+    public enum Compliance: String, Codable, Equatable, CaseIterable {
+    #else
     public enum Compliance: String, Codable {
+    #endif
         case notCompliant = "NotCompliant"
         case compliant = "Compliant"
         case exempt = "Exempt"
-
+        #if swift(<4.2)
         public static let cases: [Compliance] = [
           .notCompliant,
           .compliant,
           .exempt,
         ]
+        #endif
     }
 
     public var colour: String?

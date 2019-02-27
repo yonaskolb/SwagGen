@@ -4,12 +4,17 @@
 //
 
 /** The list sort order, either 'asc' or 'desc'. */
+#if swift(>=4.2)
+public enum ListOrder: String, Codable, Equatable, CaseIterable {
+#else
 public enum ListOrder: String, Codable {
+#endif
     case asc = "asc"
     case desc = "desc"
-
+    #if swift(<4.2)
     public static let cases: [ListOrder] = [
       .asc,
       .desc,
     ]
+    #endif
 }

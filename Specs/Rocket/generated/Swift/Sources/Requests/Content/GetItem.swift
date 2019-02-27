@@ -23,14 +23,19 @@ extension Rocket.Content {
         children of the show should only need to request expand of children.
         If an expand is specified which is not relevant to the item type, it will be ignored.
          */
+        #if swift(>=4.2)
+        public enum Expand: String, Codable, Equatable, CaseIterable {
+        #else
         public enum Expand: String, Codable {
+        #endif
             case all = "all"
             case children = "children"
-
+            #if swift(<4.2)
             public static let cases: [Expand] = [
               .all,
               .children,
             ]
+            #endif
         }
 
         /** Given a provided show id, it can be useful to get the details of a child season. This option
@@ -40,14 +45,19 @@ extension Rocket.Content {
         its list of child episode summaries, and also expand the detail of the show with its list of seasons summaries.
         Note the `id` parameter must be a show id for this parameter to work correctly.
          */
+        #if swift(>=4.2)
+        public enum SelectSeason: String, Codable, Equatable, CaseIterable {
+        #else
         public enum SelectSeason: String, Codable {
+        #endif
             case first = "first"
             case latest = "latest"
-
+            #if swift(<4.2)
             public static let cases: [SelectSeason] = [
               .first,
               .latest,
             ]
+            #endif
         }
 
         public final class Request: APIRequest<Response> {

@@ -15,14 +15,19 @@ extension Rocket.Profile {
         /** What to order by.
         Ordering by `date-modified` equates to ordering by the last watched date.
          */
+        #if swift(>=4.2)
+        public enum OrderBy: String, Codable, Equatable, CaseIterable {
+        #else
         public enum OrderBy: String, Codable {
+        #endif
             case dateAdded = "date-added"
             case dateModified = "date-modified"
-
+            #if swift(<4.2)
             public static let cases: [OrderBy] = [
               .dateAdded,
               .dateModified,
             ]
+            #endif
         }
 
         public final class Request: APIRequest<Response> {

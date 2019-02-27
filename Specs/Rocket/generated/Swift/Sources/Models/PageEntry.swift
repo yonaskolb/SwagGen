@@ -12,7 +12,11 @@ Also defines what visual template should be used to render that content.
 public class PageEntry: APIModel {
 
     /** The type of PageEntry. Used to help identify what type of content will be presented. */
+    #if swift(>=4.2)
+    public enum `Type`: String, Codable, Equatable, CaseIterable {
+    #else
     public enum `Type`: String, Codable {
+    #endif
         case itemEntry = "ItemEntry"
         case itemDetailEntry = "ItemDetailEntry"
         case listEntry = "ListEntry"
@@ -22,7 +26,7 @@ public class PageEntry: APIModel {
         case imageEntry = "ImageEntry"
         case customEntry = "CustomEntry"
         case peopleEntry = "PeopleEntry"
-
+        #if swift(<4.2)
         public static let cases: [`Type`] = [
           .itemEntry,
           .itemDetailEntry,
@@ -34,6 +38,7 @@ public class PageEntry: APIModel {
           .customEntry,
           .peopleEntry,
         ]
+        #endif
     }
 
     /** The unique identifier for a page entry. */

@@ -8,14 +8,19 @@ import Foundation
 public class AccessToken: APIModel {
 
     /** The type of the token. */
+    #if swift(>=4.2)
+    public enum `Type`: String, Codable, Equatable, CaseIterable {
+    #else
     public enum `Type`: String, Codable {
+    #endif
         case userAccount = "UserAccount"
         case userProfile = "UserProfile"
-
+        #if swift(<4.2)
         public static let cases: [`Type`] = [
           .userAccount,
           .userProfile,
         ]
+        #endif
     }
 
     /** The token value used for authenticated requests. */

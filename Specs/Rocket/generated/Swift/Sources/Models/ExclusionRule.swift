@@ -9,13 +9,17 @@ import Foundation
 public class ExclusionRule: APIModel {
 
     /** Defines playback exclusion rules for an Offer or Entitlement. */
+    #if swift(>=4.2)
+    public enum ExcludeDelivery: String, Codable, Equatable, CaseIterable {
+    #else
     public enum ExcludeDelivery: String, Codable {
+    #endif
         case stream = "Stream"
         case download = "Download"
         case streamOrDownload = "StreamOrDownload"
         case progressiveDownload = "ProgressiveDownload"
         case none = "None"
-
+        #if swift(<4.2)
         public static let cases: [ExcludeDelivery] = [
           .stream,
           .download,
@@ -23,21 +27,27 @@ public class ExclusionRule: APIModel {
           .progressiveDownload,
           .none,
         ]
+        #endif
     }
 
     /** Defines playback exclusion rules for an Offer or Entitlement. */
+    #if swift(>=4.2)
+    public enum ExcludeMinResolution: String, Codable, Equatable, CaseIterable {
+    #else
     public enum ExcludeMinResolution: String, Codable {
+    #endif
         case sd = "SD"
         case hd720 = "HD-720"
         case hd1080 = "HD-1080"
         case unknown = "Unknown"
-
+        #if swift(<4.2)
         public static let cases: [ExcludeMinResolution] = [
           .sd,
           .hd720,
           .hd1080,
           .unknown,
         ]
+        #endif
     }
 
     public var description: String?

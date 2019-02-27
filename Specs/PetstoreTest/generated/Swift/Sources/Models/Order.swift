@@ -8,16 +8,21 @@ import Foundation
 public class Order: APIModel {
 
     /** Order Status */
+    #if swift(>=4.2)
+    public enum Status: String, Codable, Equatable, CaseIterable {
+    #else
     public enum Status: String, Codable {
+    #endif
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"
-
+        #if swift(<4.2)
         public static let cases: [Status] = [
           .placed,
           .approved,
           .delivered,
         ]
+        #endif
     }
 
     public var complete: Bool?

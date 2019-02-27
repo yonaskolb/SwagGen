@@ -28,14 +28,19 @@ then what you pass to this endpoint would look like `/page?path=/search%3Fq%3Dth
         children of the show should only need to request expand of children.
         If an expand is specified which is not relevant to the item type, it will be ignored.
          */
+        #if swift(>=4.2)
+        public enum ItemDetailExpand: String, Codable, Equatable, CaseIterable {
+        #else
         public enum ItemDetailExpand: String, Codable {
+        #endif
             case all = "all"
             case children = "children"
-
+            #if swift(<4.2)
             public static let cases: [ItemDetailExpand] = [
               .all,
               .children,
             ]
+            #endif
         }
 
         /** Only relevant when loading show detail pages as these embed a detailed item in the main page entry.
@@ -46,27 +51,37 @@ then what you pass to this endpoint would look like `/page?path=/search%3Fq%3Dth
         detail of the latest season with its list of child episode summaries, and also expand
         the detail of the show with its list of seasons summaries.
          */
+        #if swift(>=4.2)
+        public enum ItemDetailSelectSeason: String, Codable, Equatable, CaseIterable {
+        #else
         public enum ItemDetailSelectSeason: String, Codable {
+        #endif
             case first = "first"
             case latest = "latest"
-
+            #if swift(<4.2)
             public static let cases: [ItemDetailSelectSeason] = [
               .first,
               .latest,
             ]
+            #endif
         }
 
         /** Only relevant to page entries of type `TextEntry`.
         Converts the value of a text page entry to the specified format.
          */
+        #if swift(>=4.2)
+        public enum TextEntryFormat: String, Codable, Equatable, CaseIterable {
+        #else
         public enum TextEntryFormat: String, Codable {
+        #endif
             case markdown = "markdown"
             case html = "html"
-
+            #if swift(<4.2)
             public static let cases: [TextEntryFormat] = [
               .markdown,
               .html,
             ]
+            #endif
         }
 
         public final class Request: APIRequest<Response> {

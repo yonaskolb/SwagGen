@@ -13,16 +13,21 @@ extension TFL.StopPoint {
         public static let service = APIService<Response>(id: "StopPoint_Crowding", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/Crowding/{line}", hasBody: false)
 
         /** The direction of travel. Can be inbound or outbound. */
+        #if swift(>=4.2)
+        public enum Direction: String, Codable, Equatable, CaseIterable {
+        #else
         public enum Direction: String, Codable {
+        #endif
             case inbound = "inbound"
             case outbound = "outbound"
             case all = "all"
-
+            #if swift(<4.2)
             public static let cases: [Direction] = [
               .inbound,
               .outbound,
               .all,
             ]
+            #endif
         }
 
         public final class Request: APIRequest<Response> {

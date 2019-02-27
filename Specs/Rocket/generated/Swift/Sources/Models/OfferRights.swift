@@ -9,13 +9,17 @@ import Foundation
 public class OfferRights: APIModel {
 
     /** The base type for both Offer and Entitlement. */
+    #if swift(>=4.2)
+    public enum DeliveryType: String, Codable, Equatable, CaseIterable {
+    #else
     public enum DeliveryType: String, Codable {
+    #endif
         case stream = "Stream"
         case download = "Download"
         case streamOrDownload = "StreamOrDownload"
         case progressiveDownload = "ProgressiveDownload"
         case none = "None"
-
+        #if swift(<4.2)
         public static let cases: [DeliveryType] = [
           .stream,
           .download,
@@ -23,31 +27,41 @@ public class OfferRights: APIModel {
           .progressiveDownload,
           .none,
         ]
+        #endif
     }
 
     /** The base type for both Offer and Entitlement. */
+    #if swift(>=4.2)
+    public enum Resolution: String, Codable, Equatable, CaseIterable {
+    #else
     public enum Resolution: String, Codable {
+    #endif
         case sd = "SD"
         case hd720 = "HD-720"
         case hd1080 = "HD-1080"
         case unknown = "Unknown"
-
+        #if swift(<4.2)
         public static let cases: [Resolution] = [
           .sd,
           .hd720,
           .hd1080,
           .unknown,
         ]
+        #endif
     }
 
     /** The base type for both Offer and Entitlement. */
+    #if swift(>=4.2)
+    public enum Ownership: String, Codable, Equatable, CaseIterable {
+    #else
     public enum Ownership: String, Codable {
+    #endif
         case subscription = "Subscription"
         case free = "Free"
         case rent = "Rent"
         case own = "Own"
         case none = "None"
-
+        #if swift(<4.2)
         public static let cases: [Ownership] = [
           .subscription,
           .free,
@@ -55,6 +69,7 @@ public class OfferRights: APIModel {
           .own,
           .none,
         ]
+        #endif
     }
 
     public var deliveryType: DeliveryType

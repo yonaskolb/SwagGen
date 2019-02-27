@@ -5,14 +5,19 @@
 
 import Foundation
 
+#if swift(>=4.2)
+public enum EnumClass: String, Codable, Equatable, CaseIterable {
+#else
 public enum EnumClass: String, Codable {
+#endif
     case abc = "_abc"
     case efg = "-efg"
     case xyz = "(xyz)"
-
+    #if swift(<4.2)
     public static let cases: [EnumClass] = [
       .abc,
       .efg,
       .xyz,
     ]
+    #endif
 }

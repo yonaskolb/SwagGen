@@ -13,38 +13,52 @@ extension TFL.Journey {
         public static let service = APIService<Response>(id: "Journey_JourneyResults", tag: "Journey", method: "GET", path: "/Journey/JourneyResults/{from}/to/{to}", hasBody: false)
 
         /** Does the time given relate to arrival or leaving time? Possible options: "departing" | "arriving" */
+        #if swift(>=4.2)
+        public enum TimeIs: String, Codable, Equatable, CaseIterable {
+        #else
         public enum TimeIs: String, Codable {
+        #endif
             case arriving = "Arriving"
             case departing = "Departing"
-
+            #if swift(<4.2)
             public static let cases: [TimeIs] = [
               .arriving,
               .departing,
             ]
+            #endif
         }
 
         /** The journey preference eg possible options: "leastinterchange" | "leasttime" | "leastwalking" */
+        #if swift(>=4.2)
+        public enum JourneyPreference: String, Codable, Equatable, CaseIterable {
+        #else
         public enum JourneyPreference: String, Codable {
+        #endif
             case leastInterchange = "LeastInterchange"
             case leastTime = "LeastTime"
             case leastWalking = "LeastWalking"
-
+            #if swift(<4.2)
             public static let cases: [JourneyPreference] = [
               .leastInterchange,
               .leastTime,
               .leastWalking,
             ]
+            #endif
         }
 
         /** The accessibility preference must be a comma separated list eg. "noSolidStairs,noEscalators,noElevators,stepFreeToVehicle,stepFreeToPlatform" */
+        #if swift(>=4.2)
+        public enum AccessibilityPreference: String, Codable, Equatable, CaseIterable {
+        #else
         public enum AccessibilityPreference: String, Codable {
+        #endif
             case noRequirements = "NoRequirements"
             case noSolidStairs = "NoSolidStairs"
             case noEscalators = "NoEscalators"
             case noElevators = "NoElevators"
             case stepFreeToVehicle = "StepFreeToVehicle"
             case stepFreeToPlatform = "StepFreeToPlatform"
-
+            #if swift(<4.2)
             public static let cases: [AccessibilityPreference] = [
               .noRequirements,
               .noSolidStairs,
@@ -53,29 +67,39 @@ extension TFL.Journey {
               .stepFreeToVehicle,
               .stepFreeToPlatform,
             ]
+            #endif
         }
 
         /** The walking speed. eg possible options: "slow" | "average" | "fast". */
+        #if swift(>=4.2)
+        public enum WalkingSpeed: String, Codable, Equatable, CaseIterable {
+        #else
         public enum WalkingSpeed: String, Codable {
+        #endif
             case slow = "Slow"
             case average = "Average"
             case fast = "Fast"
-
+            #if swift(<4.2)
             public static let cases: [WalkingSpeed] = [
               .slow,
               .average,
               .fast,
             ]
+            #endif
         }
 
         /** The cycle preference. eg possible options: "allTheWay" | "leaveAtStation" | "takeOnTransport" | "cycleHire" */
+        #if swift(>=4.2)
+        public enum CyclePreference: String, Codable, Equatable, CaseIterable {
+        #else
         public enum CyclePreference: String, Codable {
+        #endif
             case none = "None"
             case leaveAtStation = "LeaveAtStation"
             case takeOnTransport = "TakeOnTransport"
             case allTheWay = "AllTheWay"
             case cycleHire = "CycleHire"
-
+            #if swift(<4.2)
             public static let cases: [CyclePreference] = [
               .none,
               .leaveAtStation,
@@ -83,19 +107,25 @@ extension TFL.Journey {
               .allTheWay,
               .cycleHire,
             ]
+            #endif
         }
 
         /** A comma separated list of cycling proficiency levels. eg possible options: "easy,moderate,fast" */
+        #if swift(>=4.2)
+        public enum BikeProficiency: String, Codable, Equatable, CaseIterable {
+        #else
         public enum BikeProficiency: String, Codable {
+        #endif
             case easy = "Easy"
             case moderate = "Moderate"
             case fast = "Fast"
-
+            #if swift(<4.2)
             public static let cases: [BikeProficiency] = [
               .easy,
               .moderate,
               .fast,
             ]
+            #endif
         }
 
         public final class Request: APIRequest<Response> {

@@ -7,14 +7,19 @@ import Foundation
 
 public class SearchCriteria: APIModel {
 
+    #if swift(>=4.2)
+    public enum DateTimeType: String, Codable, Equatable, CaseIterable {
+    #else
     public enum DateTimeType: String, Codable {
+    #endif
         case arriving = "Arriving"
         case departing = "Departing"
-
+        #if swift(<4.2)
         public static let cases: [DateTimeType] = [
           .arriving,
           .departing,
         ]
+        #endif
     }
 
     public var dateTime: DateTime?

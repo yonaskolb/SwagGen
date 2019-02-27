@@ -13,14 +13,19 @@ extension TFL.StopPoint {
         public static let service = APIService<Response>(id: "StopPoint_ReachableFrom", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/CanReachOnLine/{lineId}", hasBody: false)
 
         /** A comma-separated list of service types to filter on. If not specified. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
+        #if swift(>=4.2)
+        public enum ServiceTypes: String, Codable, Equatable, CaseIterable {
+        #else
         public enum ServiceTypes: String, Codable {
+        #endif
             case regular = "Regular"
             case night = "Night"
-
+            #if swift(<4.2)
             public static let cases: [ServiceTypes] = [
               .regular,
               .night,
             ]
+            #endif
         }
 
         public final class Request: APIRequest<Response> {

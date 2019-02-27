@@ -4,14 +4,19 @@
 //
 
 /** What to order by. */
+#if swift(>=4.2)
+public enum ListOrderBy: String, Codable, Equatable, CaseIterable {
+#else
 public enum ListOrderBy: String, Codable {
+#endif
     case az = "a-z"
     case releaseYear = "release-year"
     case dateAdded = "date-added"
-
+    #if swift(<4.2)
     public static let cases: [ListOrderBy] = [
       .az,
       .releaseYear,
       .dateAdded,
     ]
+    #endif
 }

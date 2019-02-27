@@ -20,14 +20,18 @@ parameter, or if unspecified, getting all configuration.
         /** A comma delimited list of config objects to return.
         If none specified then all configuration is returned.
          */
+        #if swift(>=4.2)
+        public enum Include: String, Codable, Equatable, CaseIterable {
+        #else
         public enum Include: String, Codable {
+        #endif
             case classification = "classification"
             case playback = "playback"
             case sitemap = "sitemap"
             case navigation = "navigation"
             case subscription = "subscription"
             case general = "general"
-
+            #if swift(<4.2)
             public static let cases: [Include] = [
               .classification,
               .playback,
@@ -36,6 +40,7 @@ parameter, or if unspecified, getting all configuration.
               .subscription,
               .general,
             ]
+            #endif
         }
 
         public final class Request: APIRequest<Response> {

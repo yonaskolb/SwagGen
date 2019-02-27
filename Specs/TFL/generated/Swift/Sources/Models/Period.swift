@@ -7,18 +7,23 @@ import Foundation
 
 public class Period: APIModel {
 
+    #if swift(>=4.2)
+    public enum `Type`: String, Codable, Equatable, CaseIterable {
+    #else
     public enum `Type`: String, Codable {
+    #endif
         case normal = "Normal"
         case frequencyHours = "FrequencyHours"
         case frequencyMinutes = "FrequencyMinutes"
         case unknown = "Unknown"
-
+        #if swift(<4.2)
         public static let cases: [`Type`] = [
           .normal,
           .frequencyHours,
           .frequencyMinutes,
           .unknown,
         ]
+        #endif
     }
 
     public var frequency: ServiceFrequency?

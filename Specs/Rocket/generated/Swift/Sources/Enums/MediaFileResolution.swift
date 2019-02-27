@@ -4,14 +4,19 @@
 //
 
 /** The maximum resolution the device to playback the media can present. */
+#if swift(>=4.2)
+public enum MediaFileResolution: String, Codable, Equatable, CaseIterable {
+#else
 public enum MediaFileResolution: String, Codable {
+#endif
     case hd1080 = "HD-1080"
     case hd720 = "HD-720"
     case sd = "SD"
-
+    #if swift(<4.2)
     public static let cases: [MediaFileResolution] = [
       .hd1080,
       .hd720,
       .sd,
     ]
+    #endif
 }

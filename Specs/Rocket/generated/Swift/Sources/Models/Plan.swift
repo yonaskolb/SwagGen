@@ -8,40 +8,55 @@ import Foundation
 public class Plan: APIModel {
 
     /** The type of plan. */
+    #if swift(>=4.2)
+    public enum `Type`: String, Codable, Equatable, CaseIterable {
+    #else
     public enum `Type`: String, Codable {
+    #endif
         case free = "Free"
         case subscription = "Subscription"
-
+        #if swift(<4.2)
         public static let cases: [`Type`] = [
           .free,
           .subscription,
         ]
+        #endif
     }
 
     /** The revenue type a plan targets. */
+    #if swift(>=4.2)
+    public enum RevenueType: String, Codable, Equatable, CaseIterable {
+    #else
     public enum RevenueType: String, Codable {
+    #endif
         case tvod = "TVOD"
         case svod = "SVOD"
-
+        #if swift(<4.2)
         public static let cases: [RevenueType] = [
           .tvod,
           .svod,
         ]
+        #endif
     }
 
     /** The type of billing period used. */
+    #if swift(>=4.2)
+    public enum BillingPeriodType: String, Codable, Equatable, CaseIterable {
+    #else
     public enum BillingPeriodType: String, Codable {
+    #endif
         case week = "week"
         case month = "month"
         case year = "year"
         case none = "none"
-
+        #if swift(<4.2)
         public static let cases: [BillingPeriodType] = [
           .week,
           .month,
           .year,
           .none,
         ]
+        #endif
     }
 
     /** The identifier of a plan. */

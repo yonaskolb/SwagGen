@@ -12,9 +12,11 @@
 
 ### Changed
 - Updated Swift template #117 #118 #120 #121
+- Making `Enum` conform to  Equatable and CaseIterable
 
 ### Removed
 - Removed support for Swagger 2 #118
+- Removed cases property in `Enum`
 
 [Commits](https://github.com/yonaskolb/SwagGen/compare/3.0.2...4.0.0)
 

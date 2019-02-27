@@ -13,97 +13,137 @@ extension PetstoreTest.Fake {
         public static let service = APIService<Response>(id: "testEnumParameters", tag: "fake", method: "GET", path: "/fake", hasBody: true)
 
         /** Header parameter enum test (string array) */
+        #if swift(>=4.2)
+        public enum EnumHeaderStringArray: String, Codable, Equatable, CaseIterable {
+        #else
         public enum EnumHeaderStringArray: String, Codable {
+        #endif
             case greaterThan = ">"
             case dollar = "$"
-
+            #if swift(<4.2)
             public static let cases: [EnumHeaderStringArray] = [
               .greaterThan,
               .dollar,
             ]
+            #endif
         }
 
         /** Header parameter enum test (string) */
+        #if swift(>=4.2)
+        public enum EnumHeaderString: String, Codable, Equatable, CaseIterable {
+        #else
         public enum EnumHeaderString: String, Codable {
+        #endif
             case abc = "_abc"
             case efg = "-efg"
             case xyz = "(xyz)"
-
+            #if swift(<4.2)
             public static let cases: [EnumHeaderString] = [
               .abc,
               .efg,
               .xyz,
             ]
+            #endif
         }
 
         /** Query parameter enum test (string array) */
+        #if swift(>=4.2)
+        public enum EnumQueryStringArray: String, Codable, Equatable, CaseIterable {
+        #else
         public enum EnumQueryStringArray: String, Codable {
+        #endif
             case greaterThan = ">"
             case dollar = "$"
-
+            #if swift(<4.2)
             public static let cases: [EnumQueryStringArray] = [
               .greaterThan,
               .dollar,
             ]
+            #endif
         }
 
         /** Query parameter enum test (string) */
+        #if swift(>=4.2)
+        public enum EnumQueryString: String, Codable, Equatable, CaseIterable {
+        #else
         public enum EnumQueryString: String, Codable {
+        #endif
             case abc = "_abc"
             case efg = "-efg"
             case xyz = "(xyz)"
-
+            #if swift(<4.2)
             public static let cases: [EnumQueryString] = [
               .abc,
               .efg,
               .xyz,
             ]
+            #endif
         }
 
         /** Query parameter enum test (double) */
+        #if swift(>=4.2)
+        public enum EnumQueryInteger: Int, Codable, Equatable, CaseIterable {
+        #else
         public enum EnumQueryInteger: Int, Codable {
+        #endif
             case _1 = 1
             case negative2 = -2
-
+            #if swift(<4.2)
             public static let cases: [EnumQueryInteger] = [
               ._1,
               .negative2,
             ]
+            #endif
         }
 
         /** Form parameter enum test (string) */
+        #if swift(>=4.2)
+        public enum EnumFormString: String, Codable, Equatable, CaseIterable {
+        #else
         public enum EnumFormString: String, Codable {
+        #endif
             case abc = "_abc"
             case efg = "-efg"
             case xyz = "(xyz)"
-
+            #if swift(<4.2)
             public static let cases: [EnumFormString] = [
               .abc,
               .efg,
               .xyz,
             ]
+            #endif
         }
 
         /** Form parameter enum test (string array) */
+        #if swift(>=4.2)
+        public enum EnumFormStringArray: String, Codable, Equatable, CaseIterable {
+        #else
         public enum EnumFormStringArray: String, Codable {
+        #endif
             case greaterThan = ">"
             case dollar = "$"
-
+            #if swift(<4.2)
             public static let cases: [EnumFormStringArray] = [
               .greaterThan,
               .dollar,
             ]
+            #endif
         }
 
         /** Query parameter enum test (double) */
+        #if swift(>=4.2)
+        public enum EnumQueryDouble: Double, Codable, Equatable, CaseIterable {
+        #else
         public enum EnumQueryDouble: Double, Codable {
+        #endif
             case _11 = 1.1
             case negative12 = -1.2
-
+            #if swift(<4.2)
             public static let cases: [EnumQueryDouble] = [
               ._11,
               .negative12,
             ]
+            #endif
         }
 
         public final class Request: APIRequest<Response> {

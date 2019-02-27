@@ -5,14 +5,19 @@
 
 import Foundation
 
+#if swift(>=4.2)
+public enum OuterEnum: String, Codable, Equatable, CaseIterable {
+#else
 public enum OuterEnum: String, Codable {
+#endif
     case placed = "placed"
     case approved = "approved"
     case delivered = "delivered"
-
+    #if swift(<4.2)
     public static let cases: [OuterEnum] = [
       .placed,
       .approved,
       .delivered,
     ]
+    #endif
 }

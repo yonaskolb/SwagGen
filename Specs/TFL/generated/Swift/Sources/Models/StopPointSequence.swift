@@ -7,14 +7,19 @@ import Foundation
 
 public class StopPointSequence: APIModel {
 
+    #if swift(>=4.2)
+    public enum ServiceType: String, Codable, Equatable, CaseIterable {
+    #else
     public enum ServiceType: String, Codable {
+    #endif
         case regular = "Regular"
         case night = "Night"
-
+        #if swift(<4.2)
         public static let cases: [ServiceType] = [
           .regular,
           .night,
         ]
+        #endif
     }
 
     /** The id of this branch. */

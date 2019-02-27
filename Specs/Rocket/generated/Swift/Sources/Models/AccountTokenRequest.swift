@@ -10,18 +10,23 @@ public class AccountTokenRequest: APIModel {
     /** The scope(s) of the tokens required.
     For each scope listed an Account and Profile token of that scope will be returned
      */
+    #if swift(>=4.2)
+    public enum Scopes: String, Codable, Equatable, CaseIterable {
+    #else
     public enum Scopes: String, Codable {
+    #endif
         case catalog = "Catalog"
         case commerce = "Commerce"
         case settings = "Settings"
         case playback = "Playback"
-
+        #if swift(<4.2)
         public static let cases: [Scopes] = [
           .catalog,
           .commerce,
           .settings,
           .playback,
         ]
+        #endif
     }
 
     /** If you specify a cookie type then a content filter cookie will be returned
@@ -32,14 +37,19 @@ public class AccountTokenRequest: APIModel {
     If type `Persistent` the cookie will have a medium term lifespan.
     If undefined no cookies will be set.
      */
+    #if swift(>=4.2)
+    public enum CookieType: String, Codable, Equatable, CaseIterable {
+    #else
     public enum CookieType: String, Codable {
+    #endif
         case session = "Session"
         case persistent = "Persistent"
-
+        #if swift(<4.2)
         public static let cases: [CookieType] = [
           .session,
           .persistent,
         ]
+        #endif
     }
 
     /** The email associated with the account. */

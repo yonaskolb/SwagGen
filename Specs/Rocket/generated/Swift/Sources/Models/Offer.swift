@@ -7,14 +7,19 @@ import Foundation
 
 public class Offer: OfferRights {
 
+    #if swift(>=4.2)
+    public enum Availability: String, Codable, Equatable, CaseIterable {
+    #else
     public enum Availability: String, Codable {
+    #endif
         case available = "Available"
         case comingSoon = "ComingSoon"
-
+        #if swift(<4.2)
         public static let cases: [Availability] = [
           .available,
           .comingSoon,
         ]
+        #endif
     }
 
     public var price: Float

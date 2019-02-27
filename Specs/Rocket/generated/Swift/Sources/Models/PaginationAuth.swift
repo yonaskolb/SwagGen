@@ -8,27 +8,37 @@ import Foundation
 public class PaginationAuth: APIModel {
 
     /** The token type required to load the list. */
+    #if swift(>=4.2)
+    public enum `Type`: String, Codable, Equatable, CaseIterable {
+    #else
     public enum `Type`: String, Codable {
+    #endif
         case userAccount = "UserAccount"
         case userProfile = "UserProfile"
-
+        #if swift(<4.2)
         public static let cases: [`Type`] = [
           .userAccount,
           .userProfile,
         ]
+        #endif
     }
 
     /** The token scope required. */
+    #if swift(>=4.2)
+    public enum Scope: String, Codable, Equatable, CaseIterable {
+    #else
     public enum Scope: String, Codable {
+    #endif
         case catalog = "Catalog"
         case commerce = "Commerce"
         case settings = "Settings"
-
+        #if swift(<4.2)
         public static let cases: [Scope] = [
           .catalog,
           .commerce,
           .settings,
         ]
+        #endif
     }
 
     /** The token type required to load the list. */

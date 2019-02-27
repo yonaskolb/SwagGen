@@ -15,14 +15,19 @@ public class TokenRefreshRequest: APIModel {
     If type `Persistent` the cookie will have a medium term lifespan.
     If undefined no cookies will be set.
      */
+    #if swift(>=4.2)
+    public enum CookieType: String, Codable, Equatable, CaseIterable {
+    #else
     public enum CookieType: String, Codable {
+    #endif
         case session = "Session"
         case persistent = "Persistent"
-
+        #if swift(<4.2)
         public static let cases: [CookieType] = [
           .session,
           .persistent,
         ]
+        #endif
     }
 
     /** The token to refresh. */

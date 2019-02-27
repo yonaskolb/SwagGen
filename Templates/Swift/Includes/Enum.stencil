@@ -1,14 +1,19 @@
 {% if description %}
 /** {{ description }} */
 {% endif %}
+#if swift(>=4.2)
+public enum {{ enumName }}: {{ type }}, Codable, Equatable, CaseIterable {
+#else
 public enum {{ enumName }}: {{ type }}, Codable {
+#endif
     {% for enumCase in enums %}
     case {{ enumCase.name }} = {% if type == "String" %}"{% endif %}{{enumCase.value}}{% if type == "String" %}"{% endif %}
     {% endfor %}
-
+    #if swift(<4.2)
     public static let cases: [{{ enumName }}] = [
       {% for enumCase in enums %}
       .{{ enumCase.name }},
       {% endfor %}
     ]
+    #endif
 }

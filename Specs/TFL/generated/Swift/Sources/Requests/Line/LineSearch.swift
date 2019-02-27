@@ -13,14 +13,19 @@ extension TFL.Line {
         public static let service = APIService<Response>(id: "Line_Search", tag: "Line", method: "GET", path: "/Line/Search/{query}", hasBody: false)
 
         /** A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
+        #if swift(>=4.2)
+        public enum ServiceTypes: String, Codable, Equatable, CaseIterable {
+        #else
         public enum ServiceTypes: String, Codable {
+        #endif
             case regular = "Regular"
             case night = "Night"
-
+            #if swift(<4.2)
             public static let cases: [ServiceTypes] = [
               .regular,
               .night,
             ]
+            #endif
         }
 
         public final class Request: APIRequest<Response> {

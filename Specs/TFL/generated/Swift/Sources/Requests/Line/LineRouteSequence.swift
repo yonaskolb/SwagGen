@@ -13,27 +13,37 @@ extension TFL.Line {
         public static let service = APIService<Response>(id: "Line_RouteSequence", tag: "Line", method: "GET", path: "/Line/{id}/Route/Sequence/{direction}", hasBody: false)
 
         /** The direction of travel. Can be inbound or outbound. */
+        #if swift(>=4.2)
+        public enum Direction: String, Codable, Equatable, CaseIterable {
+        #else
         public enum Direction: String, Codable {
+        #endif
             case inbound = "inbound"
             case outbound = "outbound"
             case all = "all"
-
+            #if swift(<4.2)
             public static let cases: [Direction] = [
               .inbound,
               .outbound,
               .all,
             ]
+            #endif
         }
 
         /** A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
+        #if swift(>=4.2)
+        public enum ServiceTypes: String, Codable, Equatable, CaseIterable {
+        #else
         public enum ServiceTypes: String, Codable {
+        #endif
             case regular = "Regular"
             case night = "Night"
-
+            #if swift(<4.2)
             public static let cases: [ServiceTypes] = [
               .regular,
               .night,
             ]
+            #endif
         }
 
         public final class Request: APIRequest<Response> {

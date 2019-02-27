@@ -12,6 +12,8 @@
 
 ### Changed
 - Updated Swift template #117 #118 #120 #121
+- Update `Alamofire` dependency to 4.8.1
+- Update `Result` dependency to 4.1.0
 
 ### Removed
 - Removed support for Swagger 2 #118

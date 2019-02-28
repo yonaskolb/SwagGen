@@ -31,6 +31,7 @@ extension TestSpec {
             public var success: User? {
                 switch self {
                 case .status200(let response): return response
+                default: return nil
                 }
             }
 

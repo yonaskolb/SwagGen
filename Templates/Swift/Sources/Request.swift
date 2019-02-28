@@ -173,7 +173,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 case .{{ response.name }}: return ()
                 {% endif %}
                 {% endfor %}
-                {% if not onlySuccessReponses %}
+                {% if not onlySuccessResponses %}
                 default: return nil
                 {% endif %}
                 }

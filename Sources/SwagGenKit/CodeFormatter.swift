@@ -314,7 +314,7 @@ public class CodeFormatter {
         context["successResponse"] = successResponses.first
         context["successType"] = successResponse.flatMap(getResponseContext)?["type"]
         context["defaultResponse"] = responses.first { $0.statusCode == nil }.flatMap(getResponseContext)
-        context["onlySuccessReponses"] = successResponses.count == responses.count
+        context["onlySuccessResponses"] = successResponse != nil && responses.count == 1
         context["alwaysHasResponseType"] = responses.filter { $0.response.value.schema != nil }.count == responses.count
 
         let successTypes = successResponses.compactMap { $0["type"] as? String }

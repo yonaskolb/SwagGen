@@ -144,6 +144,21 @@ paths:
       security:
         - test_auth:
             - write
+  /multiple-success:
+    get:
+      description: operation with multiple success responses
+      responses:
+        "200":
+          description: User response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "201":
+          description: Empty response
+      security:
+        - test_auth:
+            - write
   /inlineEnumResponse:
     get:
       description: operation with an enum response

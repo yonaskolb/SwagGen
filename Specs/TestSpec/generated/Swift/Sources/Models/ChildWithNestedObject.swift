@@ -9,33 +9,34 @@ public class ChildWithNestedObject: User {
 
     public var data: DataType?
 
-    public class DataType: User {
+    public class DataType: APIModel {
 
         public var value: String?
 
         public init(value: String? = nil) {
             self.value = value
-            super.init(id: id, name: name)
         }
 
         public required init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: StringCodingKey.self)
 
             value = try container.decodeIfPresent("value")
-            try super.init(from: decoder)
         }
 
-        public override func encode(to encoder: Encoder) throws {
+        public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: StringCodingKey.self)
 
             try container.encodeIfPresent(value, forKey: "value")
-            try super.encode(to: encoder)
         }
 
-        override public func isEqual(to object: Any?) -> Bool {
+        public func isEqual(to object: Any?) -> Bool {
           guard let object = object as? DataType else { return false }
           guard self.value == object.value else { return false }
-          return super.isEqual(to: object)
+          return true
+        }
+
+        public static func == (lhs: DataType, rhs: DataType) -> Bool {
+            return lhs.isEqual(to: rhs)
         }
     }
 

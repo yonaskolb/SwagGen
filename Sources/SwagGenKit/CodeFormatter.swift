@@ -153,6 +153,8 @@ public class CodeFormatter {
 
         if modelInheritance, let parent = schema.parent {
             context["parent"] = getSchemaContent(parent)
+        } else {
+            context["parent"] = false
         }
 
         context["description"] = schema.metadata.description

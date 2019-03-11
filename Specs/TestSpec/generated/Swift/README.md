@@ -153,6 +153,7 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 - **Animal**
 - **Cat**
+- **ChildWithNestedObject**
 - **Dog**
 - **ErrorType**
 - **ModelWithAdditionalProperties**

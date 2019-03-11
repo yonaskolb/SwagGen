@@ -324,3 +324,13 @@ components:
           format: int32
         message:
           type: string
+    ChildWithNestedObject:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                value:
+                  type: string

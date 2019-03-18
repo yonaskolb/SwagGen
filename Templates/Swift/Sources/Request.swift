@@ -87,7 +87,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             {% if pathParams %}
 
             public override var path: String {
-                return super.path{% for param in pathParams %}.replacingOccurrences(of: "{" + "{{ param.name }}" + "}", with: "\(self.options.{{ param.encodedValue }})"){% endfor %}
+                return super.path{% for param in pathParams %}.replacingOccurrences(of: "{" + "{{ param.value }}" + "}", with: "\(self.options.{{ param.encodedValue }})"){% endfor %}
             }
             {% endif %}
             {% if queryParams %}

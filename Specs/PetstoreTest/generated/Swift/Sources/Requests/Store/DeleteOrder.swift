@@ -42,7 +42,7 @@ extension PetstoreTest.Store {
             }
 
             public override var path: String {
-                return super.path.replacingOccurrences(of: "{" + "orderId" + "}", with: "\(self.options.orderId)")
+                return super.path.replacingOccurrences(of: "{" + "order_id" + "}", with: "\(self.options.orderId)")
             }
         }
 

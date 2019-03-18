@@ -16,6 +16,9 @@
 - Update `Alamofire` dependency to 4.8.1
 - Update `Result` dependency to 4.1.0
 
+### Fixed
+- Fixed path params that don't have swift friendly names #130
+
 ### Removed
 - Removed support for Swagger 2 #118
 

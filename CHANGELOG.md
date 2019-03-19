@@ -10,7 +10,7 @@
 - Added `oneOf` and `anyOf` with discriminators #121
 - Added support for generating inline schemas when they are wrapped in an array #121
 
-### Swift Template Changes
+### Swift Template Updates
 - Swagger 3 support #118
 - Added generated `Server` #118
 - Discriminated `oneOf` and `anyOf` enums #121
@@ -19,19 +19,21 @@
 - Add framework `Info.plist` #117
 - Use `safeArrayDecoding` #117
 - Catch `APIClientError` from RequestBehaviour validation #117
-- Handle nil `modelProtocol` option #117
 - Added `typeAliases` option #117
 - Validation error changed from a String to an Error #117
 - Improve request description and summary #117
 - Change `SecurityRequirement.scope` string to `SecurityRequirement.scopes` array #117
-- Only generate `isEqual` in models classes not structs #117
 - Use `StringCodingKey` instead of enum types #117
 - Replace `DateTime` with `Date` #117
-- Update `Alamofire` dependency to 4.8.1
-- Update `Result` dependency to 4.1.0
+- Update `Alamofire` dependency to 4.8.1 #123
+- Update `Result` dependency to 4.1.0 #123
 - Enums conform to Equatable and CaseIterable #124
-- Fixed path params that don't have swift friendly names #130
 - Removed support for Swift 4.1 #124
+- Only generate `isEqual` in model classes not structs #117
+- Fixed path params that don't have swift friendly names #130
+- Fixed operations with mutiple success responses and no error responses #127
+- Fix nested schemas in subclasses thinking they have a parent #128
+- Handle nil `modelProtocol` option #117
 
 ### Removed
 - Removed support for Swagger 2 #118

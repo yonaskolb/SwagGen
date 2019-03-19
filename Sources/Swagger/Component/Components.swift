@@ -1,10 +1,3 @@
-//
-//  Components.swift
-//  Swagger
-//
-//  Created by Yonas Kolb on 15/2/19.
-//
-
 import Foundation
 import JSONUtilities
 
@@ -46,7 +39,8 @@ extension Components: JSONObjectConvertible {
 public protocol Named {
     var name: String { get }
 }
-extension ComponentObject: Named { }
+
+extension ComponentObject: Named {}
 
 extension Array where Element: Named {
 

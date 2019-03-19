@@ -1,10 +1,3 @@
-//
-//  Content.swift
-//  Swagger
-//
-//  Created by Yonas Kolb on 15/2/19.
-//
-
 import Foundation
 import JSONUtilities
 

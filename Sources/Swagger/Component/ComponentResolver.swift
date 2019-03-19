@@ -1,16 +1,9 @@
-//
-//  ComponentResolver.swift
-//  Swagger
-//
-//  Created by Yonas Kolb on 15/2/19.
-//
-
 import Foundation
 
 #if !swift(>=4.2)
-public protocol CaseIterable {
-    static var allCases: [Self] { get }
-}
+    public protocol CaseIterable {
+        static var allCases: [Self] { get }
+    }
 #endif
 
 class ComponentResolver {
@@ -109,8 +102,8 @@ class ComponentResolver {
     private func resolve(_ parameter: Parameter) {
 
         switch parameter.type {
-        case .schema(let schema): resolve(schema.schema)
-        case .content(let content): resolve(content)
+        case let .schema(schema): resolve(schema.schema)
+        case let .content(content): resolve(content)
         }
     }
 

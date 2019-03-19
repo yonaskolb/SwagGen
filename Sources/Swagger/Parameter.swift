@@ -9,7 +9,6 @@ public struct Parameter {
     public let example: Any?
     public let type: ParameterType
     public let json: [String: Any]
-
 }
 
 public struct ParameterSchema {

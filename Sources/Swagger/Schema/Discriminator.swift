@@ -1,10 +1,3 @@
-//
-//  Discriminator.swift
-//  Swagger
-//
-//  Created by Yonas Kolb on 25/2/19.
-//
-
 import Foundation
 import JSONUtilities
 

@@ -9,7 +9,6 @@ public struct ObjectSchema {
     public let additionalProperties: Schema?
     public let abstract: Bool
     public let discriminator: Discriminator?
-
 }
 
 public struct Property {

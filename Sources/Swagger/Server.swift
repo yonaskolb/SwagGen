@@ -1,10 +1,3 @@
-//
-//  Server.swift
-//  Swagger
-//
-//  Created by Yonas Kolb on 18/2/19.
-//
-
 import Foundation
 import JSONUtilities
 

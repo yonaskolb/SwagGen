@@ -1,10 +1,3 @@
-//
-//  SerializationStyle.swift
-//  Swagger
-//
-//  Created by Yonas Kolb on 15/2/19.
-//
-
 import Foundation
 
 public enum SerializationStyle: String {

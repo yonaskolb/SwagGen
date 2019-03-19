@@ -23,14 +23,14 @@ public enum SchemaType {
 
     public var object: ObjectSchema? {
         switch self {
-        case .object(let schema): return schema
+        case let .object(schema): return schema
         default: return nil
         }
     }
 
     public var reference: Reference<Schema>? {
         switch self {
-        case .reference(let reference): return reference
+        case let .reference(reference): return reference
         default: return nil
         }
     }

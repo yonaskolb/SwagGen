@@ -71,7 +71,7 @@ public class CodeFormatter {
         context["name"] = getName(server.name?.lowercased() ?? defaultName)
         context["url"] = server.url
         context["description"] = server.description
-        context["variables"] = server.variables.sorted { $0.key < $1.key}.map { name, variable -> Context in
+        context["variables"] = server.variables.sorted { $0.key < $1.key }.map { name, variable -> Context in
             var context: Context = [:]
             context["name"] = name
             context["enum"] = variable.enumValues
@@ -185,7 +185,7 @@ public class CodeFormatter {
         context["type"] = getSchemaType(name: "", schema: schema)
 
         switch schema.type {
-        case .group(let groupSchema):
+        case let .group(groupSchema):
             switch groupSchema.type {
             case .any, .one:
                 let references = groupSchema.schemas.compactMap { $0.type.reference }
@@ -264,16 +264,16 @@ public class CodeFormatter {
         context["cookieParams"] = operation.getParameters(type: .cookie).map(getParameterContext)
 
         context["hasBody"] = operation.requestBody != nil
-        
+
         var requestSchemas: [Context] = params.compactMap { parameter in
             switch parameter.type {
-            case .content(let content):
+            case let .content(content):
                 if let schema = content.defaultSchema {
                     return getInlineSchemaContext(schema, name: parameter.name)
                 } else {
                     return nil
                 }
-            case .schema(let schema):
+            case let .schema(schema):
                 return getInlineSchemaContext(schema.schema, name: parameter.name)
             }
         }

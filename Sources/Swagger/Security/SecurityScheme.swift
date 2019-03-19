@@ -20,7 +20,6 @@ public struct SecurityScheme {
     public let json: [String: Any]
     public let description: String?
     public let type: SecuritySchemeType
-
 }
 
 extension SecurityScheme: JSONObjectConvertible {

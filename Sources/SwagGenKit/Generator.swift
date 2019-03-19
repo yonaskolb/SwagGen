@@ -25,9 +25,11 @@ public class Generator {
         let stencilSwiftKitExtension = Extension()
         stencilSwiftKitExtension.registerStencilSwiftExtensions()
 
-        environment = Environment(loader: FileSystemLoader(paths: [templateConfig.basePath]),
-                                  extensions: [filterExtension, stencilSwiftKitExtension],
-                                  templateClass: SwagGenStencilTemplate.self)
+        environment = Environment(
+            loader: FileSystemLoader(paths: [templateConfig.basePath]),
+            extensions: [filterExtension, stencilSwiftKitExtension],
+            templateClass: SwagGenStencilTemplate.self
+        )
     }
 
     public enum Clean: String {

@@ -1,10 +1,3 @@
-//
-//  SwagGenStencilTemplate.swift
-//  SwagGenKit
-//
-//  Created by Yonas Kolb on 20/2/19.
-//
-
 import Foundation
 import Stencil
 
@@ -20,7 +13,7 @@ open class SwagGenStencilTemplate: Template {
     }
 
     // swiftlint:disable:next discouraged_optional_collection
-    override open func render(_ dictionary: [String: Any]? = nil) throws -> String {
+    open override func render(_ dictionary: [String: Any]? = nil) throws -> String {
         return try removeExtraLines(from: super.render(dictionary))
     }
 

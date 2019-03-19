@@ -144,16 +144,16 @@ extension Schema {
 
     var inlineSchema: Schema? {
         switch type {
-        case .object(let schema) where schema.additionalProperties == nil && !schema.properties.isEmpty:
+        case let .object(schema) where schema.additionalProperties == nil && !schema.properties.isEmpty:
             return self
-        case .array(let arraySchema):
+        case let .array(arraySchema):
             switch arraySchema.items {
-            case .single(let schema):
+            case let .single(schema):
                 return schema.inlineSchema
             case .multiple:
                 break
             }
-        case .group(let group):
+        case let .group(group):
             switch group.type {
             case .any, .one:
                 if group.discriminator != nil {
@@ -267,12 +267,11 @@ extension Parameter {
 
     var schema: Schema? {
         switch type {
-        case .content(let content): return content.defaultSchema
-        case .schema(let schema): return schema.schema
+        case let .content(content): return content.defaultSchema
+        case let .schema(schema): return schema.schema
         }
     }
 }
-
 
 extension Schema {
 
@@ -286,9 +285,9 @@ extension Schema {
 
     var isFile: Bool {
         switch type {
-        case .string(let format):
+        case let .string(format):
             switch format.format {
-            case .format(let format)?:
+            case let .format(format)?:
                 switch format {
                 case .binary: return true
                 case .byte: return true

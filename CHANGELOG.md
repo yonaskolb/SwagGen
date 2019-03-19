@@ -4,9 +4,8 @@
 ## 4.0.0
 
 ### Added
-- Added support for OpenAPISpec/Swagger 3.
+- Added support for OpenAPISpec/Swagger 3. Support for Swagger 2 has been removed. For that please use release 3.0.2 or the `swagger_2` branch #118 #121
 - Added [StencilSwiftKit](https://github.com/SwiftGen/StencilSwiftKit) support for templates #111
-- Added generated request headers #120
 - Added `oneOf` and `anyOf` with discriminators #121
 - Added support for generating inline schemas when they are wrapped in an array #121
 

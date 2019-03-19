@@ -189,7 +189,7 @@ public class CodeFormatter {
             switch groupSchema.type {
             case .any, .one:
                 let references = groupSchema.schemas.compactMap { $0.type.reference }
-                var descriminatorTypeContext = Context()
+                var discriminatorTypeContext = Context()
 
                 func getReferenceContext<T>(_ reference: Reference<T>) -> Context {
                     var context: Context = [:]
@@ -198,22 +198,22 @@ public class CodeFormatter {
                     return context
                 }
 
-                descriminatorTypeContext["subTypes"] = references.map(getReferenceContext)
+                discriminatorTypeContext["subTypes"] = references.map(getReferenceContext)
                 var mapping: [String: Context] = [:]
                 for reference in references {
                     mapping[reference.name] = getReferenceContext(reference)
                 }
-                if let descriminatorMapping = groupSchema.discriminator?.mapping {
-                    for (key, value) in descriminatorMapping {
+                if let discriminatorMapping = groupSchema.discriminator?.mapping {
+                    for (key, value) in discriminatorMapping {
                         // TODO: could reference another spec
                         let reference = Reference<Schema>(value)
                         mapping[key] = getReferenceContext(reference)
                     }
                 }
-                descriminatorTypeContext["discriminatorProperty"] = groupSchema.discriminator?.propertyName
-                descriminatorTypeContext["mapping"] = mapping
+                discriminatorTypeContext["discriminatorProperty"] = groupSchema.discriminator?.propertyName
+                discriminatorTypeContext["mapping"] = mapping
 
-                context["discriminatorType"] = descriminatorTypeContext
+                context["discriminatorType"] = discriminatorTypeContext
             case .all: break
             }
         default: break

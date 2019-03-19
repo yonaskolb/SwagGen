@@ -15,12 +15,14 @@
 - Updated Swift template #117 #118 #120 #121
 - Update `Alamofire` dependency to 4.8.1
 - Update `Result` dependency to 4.1.0
+- Made generated enums conform to Equatable and CaseIterable #124
 
 ### Fixed
 - Fixed path params that don't have swift friendly names #130
 
 ### Removed
 - Removed support for Swagger 2 #118
+- Removed support for Swift 4.1 in generated template #124
 
 [Commits](https://github.com/yonaskolb/SwagGen/compare/3.0.2...4.0.0)
 

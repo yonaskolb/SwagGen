@@ -4,14 +4,8 @@
 //
 
 /** The video delivery type you require. */
-public enum MediaFileDelivery: String, Codable {
+public enum MediaFileDelivery: String, Codable, Equatable, CaseIterable {
     case stream = "stream"
     case progressive = "progressive"
     case download = "download"
-
-    public static let cases: [MediaFileDelivery] = [
-      .stream,
-      .progressive,
-      .download,
-    ]
 }

@@ -15,14 +15,9 @@ extension Rocket.Profile {
         /** What to order by.
         Ordering by `date-modified` equates to ordering by the last rated date.
          */
-        public enum OrderBy: String, Codable {
+        public enum OrderBy: String, Codable, Equatable, CaseIterable {
             case dateAdded = "date-added"
             case dateModified = "date-modified"
-
-            public static let cases: [OrderBy] = [
-              .dateAdded,
-              .dateModified,
-            ]
         }
 
         public final class Request: APIRequest<Response> {

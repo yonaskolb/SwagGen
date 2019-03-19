@@ -7,6 +7,12 @@
 
 import Foundation
 
+#if !swift(>=4.2)
+public protocol CaseIterable {
+    static var allCases: [Self] { get }
+}
+#endif
+
 class ComponentResolver {
 
     let spec: SwaggerSpec

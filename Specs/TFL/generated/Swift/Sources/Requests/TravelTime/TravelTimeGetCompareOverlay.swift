@@ -13,16 +13,10 @@ extension TFL.TravelTime {
         public static let service = APIService<Response>(id: "TravelTime_GetCompareOverlay", tag: "TravelTime", method: "GET", path: "/TravelTimes/compareOverlay/{z}/mapcenter/{mapCenterLat}/{mapCenterLon}/pinlocation/{pinLat}/{pinLon}/dimensions/{width}/{height}", hasBody: false)
 
         /** The direction of travel. */
-        public enum Direction: String, Codable {
+        public enum Direction: String, Codable, Equatable, CaseIterable {
             case average = "Average"
             case from = "From"
             case to = "To"
-
-            public static let cases: [Direction] = [
-              .average,
-              .from,
-              .to,
-            ]
         }
 
         public final class Request: APIRequest<Response> {

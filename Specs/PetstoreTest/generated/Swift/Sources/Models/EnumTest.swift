@@ -7,36 +7,20 @@ import Foundation
 
 public class EnumTest: APIModel {
 
-    public enum EnumInteger: Int, Codable {
+    public enum EnumInteger: Int, Codable, Equatable, CaseIterable {
         case _1 = 1
         case negative1 = -1
-
-        public static let cases: [EnumInteger] = [
-          ._1,
-          .negative1,
-        ]
     }
 
-    public enum EnumNumber: Double, Codable {
+    public enum EnumNumber: Double, Codable, Equatable, CaseIterable {
         case _11 = 1.1
         case negative12 = -1.2
-
-        public static let cases: [EnumNumber] = [
-          ._11,
-          .negative12,
-        ]
     }
 
-    public enum EnumString: String, Codable {
+    public enum EnumString: String, Codable, Equatable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
-
-        public static let cases: [EnumString] = [
-          .upper,
-          .lower,
-          .empty,
-        ]
     }
 
     public var enumInteger: EnumInteger?

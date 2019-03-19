@@ -8,20 +8,12 @@ import Foundation
 public class Subscription: APIModel {
 
     /** The status of a subscription. */
-    public enum Status: String, Codable {
+    public enum Status: String, Codable, Equatable, CaseIterable {
         case active = "Active"
         case cancelled = "Cancelled"
         case lapsed = "Lapsed"
         case expired = "Expired"
         case none = "None"
-
-        public static let cases: [Status] = [
-          .active,
-          .cancelled,
-          .lapsed,
-          .expired,
-          .none,
-        ]
     }
 
     /** The unique subscription code. */

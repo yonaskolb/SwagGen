@@ -8,7 +8,7 @@ import Foundation
 public class Credit: Person {
 
     /** The type of role the credit performed, e.g. actor. */
-    public enum Role: String, Codable {
+    public enum Role: String, Codable, Equatable, CaseIterable {
         case actor = "actor"
         case associateproducer = "associateproducer"
         case coactor = "coactor"
@@ -24,24 +24,6 @@ public class Credit: Person {
         case thememusicby = "thememusicby"
         case voice = "voice"
         case writer = "writer"
-
-        public static let cases: [Role] = [
-          .actor,
-          .associateproducer,
-          .coactor,
-          .director,
-          .executiveproducer,
-          .filminglocation,
-          .guest,
-          .narrator,
-          .other,
-          .presenter,
-          .producer,
-          .productmanager,
-          .thememusicby,
-          .voice,
-          .writer,
-        ]
     }
 
     /** The type of role the credit performed, e.g. actor. */

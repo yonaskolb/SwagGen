@@ -4,14 +4,8 @@
 //
 
 /** What to order by. */
-public enum ListOrderBy: String, Codable {
+public enum ListOrderBy: String, Codable, Equatable, CaseIterable {
     case az = "a-z"
     case releaseYear = "release-year"
     case dateAdded = "date-added"
-
-    public static let cases: [ListOrderBy] = [
-      .az,
-      .releaseYear,
-      .dateAdded,
-    ]
 }

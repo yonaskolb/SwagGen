@@ -13,16 +13,10 @@ extension TFL.Line {
         public static let service = APIService<Response>(id: "getLineArrivalsByPath", tag: "Line", method: "GET", path: "/Line/{ids}/Arrivals/{stopPointId}", hasBody: false)
 
         /** The direction of travel. Can be inbound or outbound */
-        public enum Direction: String, Codable {
+        public enum Direction: String, Codable, Equatable, CaseIterable {
             case inbound = "inbound"
             case outbound = "outbound"
             case all = "all"
-
-            public static let cases: [Direction] = [
-              .inbound,
-              .outbound,
-              .all,
-            ]
         }
 
         public final class Request: APIRequest<Response> {

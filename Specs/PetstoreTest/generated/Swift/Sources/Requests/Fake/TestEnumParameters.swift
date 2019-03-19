@@ -13,97 +13,54 @@ extension PetstoreTest.Fake {
         public static let service = APIService<Response>(id: "testEnumParameters", tag: "fake", method: "GET", path: "/fake", hasBody: true)
 
         /** Header parameter enum test (string array) */
-        public enum EnumHeaderStringArray: String, Codable {
+        public enum EnumHeaderStringArray: String, Codable, Equatable, CaseIterable {
             case greaterThan = ">"
             case dollar = "$"
-
-            public static let cases: [EnumHeaderStringArray] = [
-              .greaterThan,
-              .dollar,
-            ]
         }
 
         /** Header parameter enum test (string) */
-        public enum EnumHeaderString: String, Codable {
+        public enum EnumHeaderString: String, Codable, Equatable, CaseIterable {
             case abc = "_abc"
             case efg = "-efg"
             case xyz = "(xyz)"
-
-            public static let cases: [EnumHeaderString] = [
-              .abc,
-              .efg,
-              .xyz,
-            ]
         }
 
         /** Query parameter enum test (string array) */
-        public enum EnumQueryStringArray: String, Codable {
+        public enum EnumQueryStringArray: String, Codable, Equatable, CaseIterable {
             case greaterThan = ">"
             case dollar = "$"
-
-            public static let cases: [EnumQueryStringArray] = [
-              .greaterThan,
-              .dollar,
-            ]
         }
 
         /** Query parameter enum test (string) */
-        public enum EnumQueryString: String, Codable {
+        public enum EnumQueryString: String, Codable, Equatable, CaseIterable {
             case abc = "_abc"
             case efg = "-efg"
             case xyz = "(xyz)"
-
-            public static let cases: [EnumQueryString] = [
-              .abc,
-              .efg,
-              .xyz,
-            ]
         }
 
         /** Query parameter enum test (double) */
-        public enum EnumQueryInteger: Int, Codable {
+        public enum EnumQueryInteger: Int, Codable, Equatable, CaseIterable {
             case _1 = 1
             case negative2 = -2
-
-            public static let cases: [EnumQueryInteger] = [
-              ._1,
-              .negative2,
-            ]
         }
 
         /** Form parameter enum test (string) */
-        public enum EnumFormString: String, Codable {
+        public enum EnumFormString: String, Codable, Equatable, CaseIterable {
             case abc = "_abc"
             case efg = "-efg"
             case xyz = "(xyz)"
-
-            public static let cases: [EnumFormString] = [
-              .abc,
-              .efg,
-              .xyz,
-            ]
         }
 
         /** Form parameter enum test (string array) */
-        public enum EnumFormStringArray: String, Codable {
+        public enum EnumFormStringArray: String, Codable, Equatable, CaseIterable {
             case greaterThan = ">"
             case dollar = "$"
-
-            public static let cases: [EnumFormStringArray] = [
-              .greaterThan,
-              .dollar,
-            ]
         }
 
         /** Query parameter enum test (double) */
-        public enum EnumQueryDouble: Double, Codable {
+        public enum EnumQueryDouble: Double, Codable, Equatable, CaseIterable {
             case _11 = 1.1
             case negative12 = -1.2
-
-            public static let cases: [EnumQueryDouble] = [
-              ._11,
-              .negative12,
-            ]
         }
 
         public final class Request: APIRequest<Response> {

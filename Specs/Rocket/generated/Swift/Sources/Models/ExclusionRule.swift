@@ -9,35 +9,20 @@ import Foundation
 public class ExclusionRule: APIModel {
 
     /** Defines playback exclusion rules for an Offer or Entitlement. */
-    public enum ExcludeDelivery: String, Codable {
+    public enum ExcludeDelivery: String, Codable, Equatable, CaseIterable {
         case stream = "Stream"
         case download = "Download"
         case streamOrDownload = "StreamOrDownload"
         case progressiveDownload = "ProgressiveDownload"
         case none = "None"
-
-        public static let cases: [ExcludeDelivery] = [
-          .stream,
-          .download,
-          .streamOrDownload,
-          .progressiveDownload,
-          .none,
-        ]
     }
 
     /** Defines playback exclusion rules for an Offer or Entitlement. */
-    public enum ExcludeMinResolution: String, Codable {
+    public enum ExcludeMinResolution: String, Codable, Equatable, CaseIterable {
         case sd = "SD"
         case hd720 = "HD-720"
         case hd1080 = "HD-1080"
         case unknown = "Unknown"
-
-        public static let cases: [ExcludeMinResolution] = [
-          .sd,
-          .hd720,
-          .hd1080,
-          .unknown,
-        ]
     }
 
     public var description: String?

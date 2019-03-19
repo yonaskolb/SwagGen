@@ -7,14 +7,9 @@ import Foundation
 
 public class MapTest: APIModel {
 
-    public enum MapOfEnumString: String, Codable {
+    public enum MapOfEnumString: String, Codable, Equatable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
-
-        public static let cases: [MapOfEnumString] = [
-          .upper,
-          .lower,
-        ]
     }
 
     public var mapMapOfString: [String: [String: String]]?

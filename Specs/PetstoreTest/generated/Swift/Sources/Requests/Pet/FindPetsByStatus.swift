@@ -17,16 +17,10 @@ extension PetstoreTest.Pet {
         public static let service = APIService<Response>(id: "findPetsByStatus", tag: "pet", method: "GET", path: "/pet/findByStatus", hasBody: false, securityRequirement: SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"]))
 
         /** Status values that need to be considered for filter */
-        public enum Status: String, Codable {
+        public enum Status: String, Codable, Equatable, CaseIterable {
             case available = "available"
             case pending = "pending"
             case sold = "sold"
-
-            public static let cases: [Status] = [
-              .available,
-              .pending,
-              .sold,
-            ]
         }
 
         public final class Request: APIRequest<Response> {

@@ -28,14 +28,9 @@ then what you pass to this endpoint would look like `/page?path=/search%3Fq%3Dth
         children of the show should only need to request expand of children.
         If an expand is specified which is not relevant to the item type, it will be ignored.
          */
-        public enum ItemDetailExpand: String, Codable {
+        public enum ItemDetailExpand: String, Codable, Equatable, CaseIterable {
             case all = "all"
             case children = "children"
-
-            public static let cases: [ItemDetailExpand] = [
-              .all,
-              .children,
-            ]
         }
 
         /** Only relevant when loading show detail pages as these embed a detailed item in the main page entry.
@@ -46,27 +41,17 @@ then what you pass to this endpoint would look like `/page?path=/search%3Fq%3Dth
         detail of the latest season with its list of child episode summaries, and also expand
         the detail of the show with its list of seasons summaries.
          */
-        public enum ItemDetailSelectSeason: String, Codable {
+        public enum ItemDetailSelectSeason: String, Codable, Equatable, CaseIterable {
             case first = "first"
             case latest = "latest"
-
-            public static let cases: [ItemDetailSelectSeason] = [
-              .first,
-              .latest,
-            ]
         }
 
         /** Only relevant to page entries of type `TextEntry`.
         Converts the value of a text page entry to the specified format.
          */
-        public enum TextEntryFormat: String, Codable {
+        public enum TextEntryFormat: String, Codable, Equatable, CaseIterable {
             case markdown = "markdown"
             case html = "html"
-
-            public static let cases: [TextEntryFormat] = [
-              .markdown,
-              .html,
-            ]
         }
 
         public final class Request: APIRequest<Response> {

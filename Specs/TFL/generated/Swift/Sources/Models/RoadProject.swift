@@ -7,22 +7,13 @@ import Foundation
 
 public class RoadProject: APIModel {
 
-    public enum Phase: String, Codable {
+    public enum Phase: String, Codable, Equatable, CaseIterable {
         case unscoped = "Unscoped"
         case concept = "Concept"
         case consultationEnded = "ConsultationEnded"
         case consultation = "Consultation"
         case construction = "Construction"
         case complete = "Complete"
-
-        public static let cases: [Phase] = [
-          .unscoped,
-          .concept,
-          .consultationEnded,
-          .consultation,
-          .construction,
-          .complete,
-        ]
     }
 
     public var boroughsBenefited: [String]?

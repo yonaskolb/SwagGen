@@ -4,7 +4,7 @@
 //
 
 /** The item type to filter by. Defaults to unspecified. */
-public enum ItemType: String, Codable {
+public enum ItemType: String, Codable, Equatable, CaseIterable {
     case movie = "movie"
     case show = "show"
     case season = "season"
@@ -13,15 +13,4 @@ public enum ItemType: String, Codable {
     case link = "link"
     case trailer = "trailer"
     case channel = "channel"
-
-    public static let cases: [ItemType] = [
-      .movie,
-      .show,
-      .season,
-      .episode,
-      .program,
-      .link,
-      .trailer,
-      .channel,
-    ]
 }

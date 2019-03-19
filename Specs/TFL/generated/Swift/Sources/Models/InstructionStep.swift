@@ -7,7 +7,7 @@ import Foundation
 
 public class InstructionStep: APIModel {
 
-    public enum SkyDirectionDescription: String, Codable {
+    public enum SkyDirectionDescription: String, Codable, Equatable, CaseIterable {
         case north = "North"
         case northEast = "NorthEast"
         case east = "East"
@@ -16,20 +16,9 @@ public class InstructionStep: APIModel {
         case southWest = "SouthWest"
         case west = "West"
         case northWest = "NorthWest"
-
-        public static let cases: [SkyDirectionDescription] = [
-          .north,
-          .northEast,
-          .east,
-          .southEast,
-          .south,
-          .southWest,
-          .west,
-          .northWest,
-        ]
     }
 
-    public enum TrackType: String, Codable {
+    public enum TrackType: String, Codable, Equatable, CaseIterable {
         case cycleSuperHighway = "CycleSuperHighway"
         case canalTowpath = "CanalTowpath"
         case quietRoad = "QuietRoad"
@@ -37,16 +26,6 @@ public class InstructionStep: APIModel {
         case busyRoads = "BusyRoads"
         case none = "None"
         case pushBike = "PushBike"
-
-        public static let cases: [TrackType] = [
-          .cycleSuperHighway,
-          .canalTowpath,
-          .quietRoad,
-          .provisionForCyclists,
-          .busyRoads,
-          .none,
-          .pushBike,
-        ]
     }
 
     public var cumulativeDistance: Int?

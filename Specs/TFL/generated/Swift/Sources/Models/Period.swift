@@ -7,18 +7,11 @@ import Foundation
 
 public class Period: APIModel {
 
-    public enum `Type`: String, Codable {
+    public enum `Type`: String, Codable, Equatable, CaseIterable {
         case normal = "Normal"
         case frequencyHours = "FrequencyHours"
         case frequencyMinutes = "FrequencyMinutes"
         case unknown = "Unknown"
-
-        public static let cases: [`Type`] = [
-          .normal,
-          .frequencyHours,
-          .frequencyMinutes,
-          .unknown,
-        ]
     }
 
     public var frequency: ServiceFrequency?

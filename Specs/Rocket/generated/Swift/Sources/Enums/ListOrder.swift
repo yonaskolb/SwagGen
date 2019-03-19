@@ -4,12 +4,7 @@
 //
 
 /** The list sort order, either 'asc' or 'desc'. */
-public enum ListOrder: String, Codable {
+public enum ListOrder: String, Codable, Equatable, CaseIterable {
     case asc = "asc"
     case desc = "desc"
-
-    public static let cases: [ListOrder] = [
-      .asc,
-      .desc,
-    ]
 }

@@ -5,14 +5,8 @@
 
 import Foundation
 
-public enum EnumClass: String, Codable {
+public enum EnumClass: String, Codable, Equatable, CaseIterable {
     case abc = "_abc"
     case efg = "-efg"
     case xyz = "(xyz)"
-
-    public static let cases: [EnumClass] = [
-      .abc,
-      .efg,
-      .xyz,
-    ]
 }

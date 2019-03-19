@@ -7,14 +7,9 @@ import Foundation
 
 public class Offer: OfferRights {
 
-    public enum Availability: String, Codable {
+    public enum Availability: String, Codable, Equatable, CaseIterable {
         case available = "Available"
         case comingSoon = "ComingSoon"
-
-        public static let cases: [Availability] = [
-          .available,
-          .comingSoon,
-        ]
     }
 
     public var price: Float

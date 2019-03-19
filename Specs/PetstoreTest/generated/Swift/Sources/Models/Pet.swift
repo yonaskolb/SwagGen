@@ -8,16 +8,10 @@ import Foundation
 public class Pet: APIModel {
 
     /** pet status in the store */
-    public enum Status: String, Codable {
+    public enum Status: String, Codable, Equatable, CaseIterable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"
-
-        public static let cases: [Status] = [
-          .available,
-          .pending,
-          .sold,
-        ]
     }
 
     public var name: String

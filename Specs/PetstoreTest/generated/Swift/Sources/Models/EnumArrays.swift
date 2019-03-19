@@ -7,24 +7,14 @@ import Foundation
 
 public class EnumArrays: APIModel {
 
-    public enum ArrayEnum: String, Codable {
+    public enum ArrayEnum: String, Codable, Equatable, CaseIterable {
         case fish = "fish"
         case crab = "crab"
-
-        public static let cases: [ArrayEnum] = [
-          .fish,
-          .crab,
-        ]
     }
 
-    public enum JustSymbol: String, Codable {
+    public enum JustSymbol: String, Codable, Equatable, CaseIterable {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
-
-        public static let cases: [JustSymbol] = [
-          .greaterThanOrEqualTo,
-          .dollar,
-        ]
     }
 
     public var arrayEnum: [ArrayEnum]?

@@ -5,14 +5,8 @@
 
 import Foundation
 
-public enum OuterEnum: String, Codable {
+public enum OuterEnum: String, Codable, Equatable, CaseIterable {
     case placed = "placed"
     case approved = "approved"
     case delivered = "delivered"
-
-    public static let cases: [OuterEnum] = [
-      .placed,
-      .approved,
-      .delivered,
-    ]
 }

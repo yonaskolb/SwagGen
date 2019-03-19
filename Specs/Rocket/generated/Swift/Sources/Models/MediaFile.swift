@@ -8,31 +8,18 @@ import Foundation
 public class MediaFile: APIModel {
 
     /** The way in which the media file is delivered. */
-    public enum DeliveryType: String, Codable {
+    public enum DeliveryType: String, Codable, Equatable, CaseIterable {
         case stream = "Stream"
         case progressive = "Progressive"
         case download = "Download"
-
-        public static let cases: [DeliveryType] = [
-          .stream,
-          .progressive,
-          .download,
-        ]
     }
 
     /** The resolution of the video media. */
-    public enum Resolution: String, Codable {
+    public enum Resolution: String, Codable, Equatable, CaseIterable {
         case sd = "SD"
         case hd720 = "HD-720"
         case hd1080 = "HD-1080"
         case unknown = "Unknown"
-
-        public static let cases: [Resolution] = [
-          .sd,
-          .hd720,
-          .hd1080,
-          .unknown,
-        ]
     }
 
     /** The name of the media file. */

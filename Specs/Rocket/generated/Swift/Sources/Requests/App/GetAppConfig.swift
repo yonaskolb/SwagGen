@@ -20,22 +20,13 @@ parameter, or if unspecified, getting all configuration.
         /** A comma delimited list of config objects to return.
         If none specified then all configuration is returned.
          */
-        public enum Include: String, Codable {
+        public enum Include: String, Codable, Equatable, CaseIterable {
             case classification = "classification"
             case playback = "playback"
             case sitemap = "sitemap"
             case navigation = "navigation"
             case subscription = "subscription"
             case general = "general"
-
-            public static let cases: [Include] = [
-              .classification,
-              .playback,
-              .sitemap,
-              .navigation,
-              .subscription,
-              .general,
-            ]
         }
 
         public final class Request: APIRequest<Response> {

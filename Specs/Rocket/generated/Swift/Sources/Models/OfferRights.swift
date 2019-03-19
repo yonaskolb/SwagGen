@@ -9,52 +9,29 @@ import Foundation
 public class OfferRights: APIModel {
 
     /** The base type for both Offer and Entitlement. */
-    public enum DeliveryType: String, Codable {
+    public enum DeliveryType: String, Codable, Equatable, CaseIterable {
         case stream = "Stream"
         case download = "Download"
         case streamOrDownload = "StreamOrDownload"
         case progressiveDownload = "ProgressiveDownload"
         case none = "None"
-
-        public static let cases: [DeliveryType] = [
-          .stream,
-          .download,
-          .streamOrDownload,
-          .progressiveDownload,
-          .none,
-        ]
     }
 
     /** The base type for both Offer and Entitlement. */
-    public enum Resolution: String, Codable {
+    public enum Resolution: String, Codable, Equatable, CaseIterable {
         case sd = "SD"
         case hd720 = "HD-720"
         case hd1080 = "HD-1080"
         case unknown = "Unknown"
-
-        public static let cases: [Resolution] = [
-          .sd,
-          .hd720,
-          .hd1080,
-          .unknown,
-        ]
     }
 
     /** The base type for both Offer and Entitlement. */
-    public enum Ownership: String, Codable {
+    public enum Ownership: String, Codable, Equatable, CaseIterable {
         case subscription = "Subscription"
         case free = "Free"
         case rent = "Rent"
         case own = "Own"
         case none = "None"
-
-        public static let cases: [Ownership] = [
-          .subscription,
-          .free,
-          .rent,
-          .own,
-          .none,
-        ]
     }
 
     public var deliveryType: DeliveryType

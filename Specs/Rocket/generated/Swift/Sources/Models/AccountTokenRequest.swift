@@ -10,18 +10,11 @@ public class AccountTokenRequest: APIModel {
     /** The scope(s) of the tokens required.
     For each scope listed an Account and Profile token of that scope will be returned
      */
-    public enum Scopes: String, Codable {
+    public enum Scopes: String, Codable, Equatable, CaseIterable {
         case catalog = "Catalog"
         case commerce = "Commerce"
         case settings = "Settings"
         case playback = "Playback"
-
-        public static let cases: [Scopes] = [
-          .catalog,
-          .commerce,
-          .settings,
-          .playback,
-        ]
     }
 
     /** If you specify a cookie type then a content filter cookie will be returned
@@ -32,14 +25,9 @@ public class AccountTokenRequest: APIModel {
     If type `Persistent` the cookie will have a medium term lifespan.
     If undefined no cookies will be set.
      */
-    public enum CookieType: String, Codable {
+    public enum CookieType: String, Codable, Equatable, CaseIterable {
         case session = "Session"
         case persistent = "Persistent"
-
-        public static let cases: [CookieType] = [
-          .session,
-          .persistent,
-        ]
     }
 
     /** The email associated with the account. */

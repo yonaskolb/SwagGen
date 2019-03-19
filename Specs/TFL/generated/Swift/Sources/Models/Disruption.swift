@@ -9,7 +9,7 @@ import Foundation
 public class Disruption: APIModel {
 
     /** Gets or sets the category of this dispruption. */
-    public enum Category: String, Codable {
+    public enum Category: String, Codable, Equatable, CaseIterable {
         case undefined = "Undefined"
         case realTime = "RealTime"
         case plannedWork = "PlannedWork"
@@ -17,16 +17,6 @@ public class Disruption: APIModel {
         case event = "Event"
         case crowding = "Crowding"
         case statusAlert = "StatusAlert"
-
-        public static let cases: [Category] = [
-          .undefined,
-          .realTime,
-          .plannedWork,
-          .information,
-          .event,
-          .crowding,
-          .statusAlert,
-        ]
     }
 
     /** Gets or sets the additionaInfo of this disruption. */

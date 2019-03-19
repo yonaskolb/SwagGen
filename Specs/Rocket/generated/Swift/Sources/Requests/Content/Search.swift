@@ -17,16 +17,10 @@ extension Rocket.Content {
         If you don't want all of these types you can specifiy the specific
         includes you care about.
          */
-        public enum Include: String, Codable {
+        public enum Include: String, Codable, Equatable, CaseIterable {
             case tv = "tv"
             case movies = "movies"
             case people = "people"
-
-            public static let cases: [Include] = [
-              .tv,
-              .movies,
-              .people,
-            ]
         }
 
         public final class Request: APIRequest<Response> {

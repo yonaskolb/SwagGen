@@ -7,17 +7,27 @@ import Foundation
 
 public class dollarspecialmodelName: APIModel {
 
-    public init() {
+    public var dollarspecialpropertyName: Int?
+
+    public init(dollarspecialpropertyName: Int? = nil) {
+        self.dollarspecialpropertyName = dollarspecialpropertyName
     }
 
     public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+        dollarspecialpropertyName = try container.decodeIfPresent("$special[property.name]")
     }
 
     public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: StringCodingKey.self)
+
+        try container.encodeIfPresent(dollarspecialpropertyName, forKey: "$special[property.name]")
     }
 
     public func isEqual(to object: Any?) -> Bool {
-      guard object is dollarspecialmodelName else { return false }
+      guard let object = object as? dollarspecialmodelName else { return false }
+      guard self.dollarspecialpropertyName == object.dollarspecialpropertyName else { return false }
       return true
     }
 

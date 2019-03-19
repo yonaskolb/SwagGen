@@ -24,14 +24,14 @@ class ComponentResolver {
         resolve(components.schemas, resolve)
         resolve(components.parameters, resolve)
         resolve(components.requestBodies, resolve)
+        resolve(components.headers, resolve)
+        resolve(components.requestBodies, resolve)
 
         spec.paths.forEach { path in
             path.parameters.forEach(resolve)
             path.operations.forEach { operation in
                 operation.pathParameters.forEach(resolve)
-                operation.pathParameters.map { $0.value }.forEach(resolve)
                 operation.operationParameters.forEach(resolve)
-                operation.operationParameters.map { $0.value }.forEach(resolve)
                 operation.responses.forEach(resolve)
                 if let requestBody = operation.requestBody {
                     resolveReference(requestBody, objects: components.requestBodies)
@@ -83,6 +83,10 @@ class ComponentResolver {
         }
     }
 
+    private func resolve(_ header: Header) {
+        resolve(header.schema.schema)
+    }
+
     private func resolve(_ requestBody: RequestBody) {
         resolve(requestBody.content)
     }
@@ -93,13 +97,13 @@ class ComponentResolver {
 
     private func resolve(_ reference: PossibleReference<Parameter>) {
         resolveReference(reference, objects: components.parameters)
+        resolve(reference.value)
     }
 
     private func resolve(_ parameter: Parameter) {
 
         switch parameter.type {
-        case .schema: break // resolve schema if Item change to Schema
-        //case .schema(let schema): resolveSchema(schema)
+        case .schema(let schema): resolve(schema.schema)
         case .content(let content): resolve(content)
         }
     }

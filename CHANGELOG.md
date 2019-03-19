@@ -22,6 +22,7 @@
 
 ### Removed
 - Removed support for Swagger 2 #118
+- Removed Swift 4.1 support #134
 - Removed support for Swift 4.1 in generated template #124
 
 [Commits](https://github.com/yonaskolb/SwagGen/compare/3.0.2...4.0.0)

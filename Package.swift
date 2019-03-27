@@ -37,6 +37,7 @@ let package = Package(
         ]),
         .testTarget(name: "SwagGenKitTests", dependencies: [
           "SwagGenKit",
+          "Spectre",
         ]),
         .testTarget(name: "SwaggerTests", dependencies: [
           "Swagger",

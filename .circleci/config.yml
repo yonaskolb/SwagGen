@@ -1,22 +1,5 @@
 version: 2
 jobs:
-  macOS_swift_4.2:
-    macos:
-      xcode: "10.0.0"
-    steps:
-      - checkout
-      - run:
-          name: Build
-          command: swift build
-      - run:
-          name: Test
-          command: swift test
-      - run:
-          name: Build Spec Fixtures
-          command: ./build_specs.sh
-      - run:
-          name: Build Release
-          command: make build
   macOS_swift_5.0:
     macos:
       xcode: "10.2.0"
@@ -38,5 +21,4 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - macOS_swift_4.2
       - macOS_swift_5.0

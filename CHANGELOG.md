@@ -1,6 +1,9 @@
 # Change Log
 ## Next Version
 
+### Changed:
+- Updated to Swift 5 and dropped Swift 4.2 #139
+
 ## 4.0.0
 
 ### Added

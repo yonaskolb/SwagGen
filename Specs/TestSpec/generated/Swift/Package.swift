@@ -8,7 +8,7 @@ let package = Package(
         .library(name: "TestSpec", targets: ["TestSpec"])
     ],
     dependencies: [
-        .package(url: "https://github.com/Alamofire/Alamofire.git", .exact("4.8.1")),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .exact("4.8.2")),
         .package(url: "https://github.com/antitypical/Result.git", .exact("4.1.0")),
     ],
     targets: [

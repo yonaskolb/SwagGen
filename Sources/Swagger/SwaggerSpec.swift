@@ -59,7 +59,7 @@ extension SwaggerSpec {
 
     public init(string: String) throws {
         let yaml = try Yams.load(yaml: string)
-        let json = yaml as! JSONDictionary
+        let json = yaml as? JSONDictionary ?? [:]
 
         try self.init(jsonDictionary: json)
     }

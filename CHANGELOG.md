@@ -1,6 +1,17 @@
 # Change Log
 ## Next Version
 
+## 4.1.0
+
+### Fixed
+- Fixed installing in Swift 5 #139
+- Fixed Swift template building in Swift 5 by Alamofire #139
+
+### Changed:
+- Updated codebase to Swift 5 and dropped Swift 4.2 #139
+
+[Commits](https://github.com/yonaskolb/SwagGen/compare/4.0.0...4.1.0)
+
 ## 4.0.0
 
 ### Added

@@ -23,7 +23,7 @@ It is an alternative the official [swagger-codegen](https://github.com/swagger-a
 `SwagGen` includes a bundled template for generating a client side Swift library for interfacing with the Swagger spec. It includes support for model inheritance, shared enums, discrete and mutable request objects, inline schemas, Codable and Equatable models, configurable options, generic networking stack, and many other niceties.
 
 ## Installing
-Make sure Xcode 10.0 is installed first.
+Make sure Xcode 10.2 is installed first.
 
 ### [Mint](https://github.com/yonaskolb/mint)
 ```sh

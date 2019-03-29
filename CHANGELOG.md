@@ -3,6 +3,9 @@
 
 ## 4.1.0
 
+### Added
+- new swift template option `enumUndecodableCase` that adds an `undecodable` case to enums when decoding fails #141
+
 ### Fixed
 - Fixed installing in Swift 5 #139
 - Fixed Swift template building in Swift 5 by Alamofire #139

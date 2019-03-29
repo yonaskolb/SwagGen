@@ -12,6 +12,9 @@ public enum {{ type }}: Codable, Equatable {
     {% for subType in discriminatorType.subTypes %}
     case {{ subType.name}}({{ subType.type }})
     {% endfor %}
+    {% if options.enumUndecodableCase %}
+    case undecodable
+    {% endif %}
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
@@ -22,7 +25,11 @@ public enum {{ type }}: Codable, Equatable {
             self = .{{ subType.name}}(try {{ subType.type }}(from: decoder))
         {% endfor %}
         default:
+        {% if options.enumUndecodableCase %}
+            self = .undecodable
+        {% else %}
             throw DecodingError.dataCorrupted(DecodingError.Context.init(codingPath: decoder.codingPath, debugDescription: "Couldn't find type to decode with discriminator \(discriminator)"))
+        {% endif %}
         }
     }
 
@@ -33,6 +40,10 @@ public enum {{ type }}: Codable, Equatable {
         case .{{ subType.name}}(let content):
             try container.encode(content)
         {% endfor %}
+        {% if options.enumUndecodableCase %}
+        case .undecodable:
+            try container.encode("undecodable")
+        {% endif %}
         }
     }
 }

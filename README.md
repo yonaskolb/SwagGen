@@ -135,6 +135,7 @@ modelInheritance | whether models use inheritance. Must be false for structs | B
 modelNames | override model names | `[String: String]` | [:]
 modelProtocol | customize protocol name that all models conform to | `String` | APIModel
 enumNames | override enum names | `[String: String]` | [:]
+enumUndecodableCase | whether to add undecodable case to enums | `Bool` | false
 safeArrayDecoding | filter out invalid items in array instead of throwing | `Bool` | false
 safeOptionalDecoding | set invalid optionals to nil instead of throwing | `Bool` | false
 tagPrefix | prefix for all tags | `String` | null

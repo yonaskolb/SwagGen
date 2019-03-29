@@ -5,4 +5,13 @@ public enum {{ enumName }}: {{ type }}, Codable, Equatable, CaseIterable {
     {% for enumCase in enums %}
     case {{ enumCase.name }} = {% if type == "String" %}"{% endif %}{{enumCase.value}}{% if type == "String" %}"{% endif %}
     {% endfor %}
+    {% if options.enumUndecodableCase %}
+    case undecodable
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode({{ type }}.self)
+        self = {{ enumName }}(rawValue: rawValue) ?? .undecodable
+    }
+    {% endif %}
 }

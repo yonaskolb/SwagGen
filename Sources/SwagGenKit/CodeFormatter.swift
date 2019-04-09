@@ -51,6 +51,9 @@ public class CodeFormatter {
             .sorted { $0.0.lowercased() < $1.0.lowercased() }
             .map { ["name": $0, "operations": $1.map(getOperationContext)] }
         context["schemas"] = spec.components.schemas.map(getSchemaContent).sorted { sortContext(by: "type", value1: $0, value2: $1) }
+//        context["requestBodies"] = spec.components.requestBodies.map(getRequestsBodiesContext).sorted { sortContext(by: "type", value1: $0, value2: $1) }
+        context["requestBodies"] = spec.components.requestBodies.map(getRequestsBodiesContext).sorted { sortContext(by: "name", value1: $0, value2: $1) }
+//        context["requestBodies"] = spec.components.schemas.map(getRequestsBodiesContext).sorted { sortContext(by: "type", value1: $0, value2: $1) }
         context["info"] = getSpecInformationContext(spec.info)
         context["servers"] = spec.servers.enumerated().map(getServerContext)
         if let server = spec.servers.first, server.variables.isEmpty {
@@ -101,19 +104,36 @@ public class CodeFormatter {
 
         return context
     }
+    
+    func getRequestsBodiesContext(_ requestBody: ComponentObject<RequestBody>) -> Context {
+        
+        guard let schema = requestBody.value.content.jsonSchema else {
+            return [:]
+        }
+        var context = getSchemaContent(schema, type: requestBody.name)
+        context["name"] = requestBody.name
+        
+        return context
+    }
 
     func getSchemaContent(_ schema: ComponentObject<Schema>) -> Context {
-        var context = getSchemaContext(schema.value)
-
-        context["type"] = getSchemaTypeName(schema)
-
-        let schemaType = getSchemaType(name: schema.name, schema: schema.value)
-
-        switch schema.value.type {
+        let type = getSchemaTypeName(schema)
+        var context = getSchemaContent(schema.value, type: type)
+        return context
+    }
+    
+    func getSchemaContent(_ schema: Schema, type: String) -> Context {
+        var context = getSchemaContext(schema)
+        
+        context["type"] = type
+        
+        let schemaType = getSchemaType(name: type, schema: schema)
+        
+        switch schema.type {
         case .string, .boolean, .integer, .number:
             context["simpleType"] = schemaType
             context["aliasType"] = schemaType
-            if let enumValue = schema.value.getEnum(name: schema.name, description: schema.value.metadata.description) {
+            if let enumValue = schema.getEnum(name: type, description: schema.metadata.description) {
                 context["enum"] = getEnumContext(enumValue)
             }
         case .reference:
@@ -124,7 +144,7 @@ public class CodeFormatter {
             context["aliasType"] = schemaType
         default: break
         }
-
+        
         return context
     }
 

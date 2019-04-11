@@ -11,6 +11,10 @@ public class CodeFormatter {
     let templateConfig: TemplateConfig
     var modelPrefix: String
     var modelSuffix: String
+    var modelRequestBodyPrefix: String
+    var modelRequestBodySuffix: String
+    var modelResponcePrefix: String
+    var modelResponceSuffix: String
     var modelInheritance: Bool
     var modelNames: [String: String]
     var enumNames: [String: String]
@@ -20,6 +24,10 @@ public class CodeFormatter {
         self.templateConfig = templateConfig
         modelPrefix = templateConfig.getStringOption("modelPrefix") ?? ""
         modelSuffix = templateConfig.getStringOption("modelSuffix") ?? ""
+        modelRequestBodyPrefix = templateConfig.getStringOption("modelRequestBodyPrefix") ?? ""
+        modelRequestBodySuffix = templateConfig.getStringOption("modelRequestBodySuffix") ?? ""
+        modelResponcePrefix = templateConfig.getStringOption("modelResponcePrefix") ?? ""
+        modelResponceSuffix = templateConfig.getStringOption("modelResponceSuffix") ?? ""
         modelInheritance = templateConfig.getBooleanOption("modelInheritance") ?? true
         modelNames = templateConfig.options["modelNames"] as? [String: String] ?? [:]
         enumNames = templateConfig.options["enumNames"] as? [String: String] ?? [:]
@@ -51,9 +59,7 @@ public class CodeFormatter {
             .sorted { $0.0.lowercased() < $1.0.lowercased() }
             .map { ["name": $0, "operations": $1.map(getOperationContext)] }
         context["schemas"] = spec.components.schemas.map(getSchemaContent).sorted { sortContext(by: "type", value1: $0, value2: $1) }
-//        context["requestBodies"] = spec.components.requestBodies.map(getRequestsBodiesContext).sorted { sortContext(by: "type", value1: $0, value2: $1) }
-        context["requestBodies"] = spec.components.requestBodies.map(getRequestsBodiesContext).sorted { sortContext(by: "name", value1: $0, value2: $1) }
-//        context["requestBodies"] = spec.components.schemas.map(getRequestsBodiesContext).sorted { sortContext(by: "type", value1: $0, value2: $1) }
+        context["requestBodies"] = spec.components.requestBodies.map(getRequestsBodiesContext).sorted { sortContext(by: "type", value1: $0, value2: $1) }
         context["info"] = getSpecInformationContext(spec.info)
         context["servers"] = spec.servers.enumerated().map(getServerContext)
         if let server = spec.servers.first, server.variables.isEmpty {
@@ -110,8 +116,10 @@ public class CodeFormatter {
         guard let schema = requestBody.value.content.jsonSchema else {
             return [:]
         }
+        
         var context = getSchemaContent(schema, type: requestBody.name)
         context["name"] = requestBody.name
+        context["type"] = getRequestBodyTypeName(requestBody)
         
         return context
     }
@@ -119,6 +127,10 @@ public class CodeFormatter {
     func getSchemaContent(_ schema: ComponentObject<Schema>) -> Context {
         let type = getSchemaTypeName(schema)
         var context = getSchemaContent(schema.value, type: type)
+        
+        context["name"] = schema.name
+        context["type"] = type
+        
         return context
     }
     
@@ -148,13 +160,35 @@ public class CodeFormatter {
         return context
     }
 
-    func getSchemaTypeName(_ schema: ComponentObject<Schema>) -> String {
-        if schema.value.canBeEnum,
-            schema.value.getEnum(name: schema.name, description: schema.value.metadata.description) != nil {
-            return getEnumType(schema.name)
-        } else {
-            return getModelType(schema.name)
+    func getRequestBodyTypeName(_ requestBody: ComponentObject<RequestBody>) -> String {
+        guard let schema = requestBody.value.content.defaultSchema else {
+            return requestBody.name
         }
+        
+        var name = requestBody.name
+        if schema.canBeEnum,
+            schema.getEnum(name: name, description: schema.metadata.description) != nil {
+            name = getEnumType(name)
+        } else {
+            name = getRequestBodyModelType(name)
+            name = getModelType(name)
+        }
+        
+        return name
+    }
+    
+    func getSchemaTypeName(_ schema: ComponentObject<Schema>) -> String {
+        var name = schema.name
+        
+        if schema.value.canBeEnum,
+            schema.value.getEnum(name: name, description: schema.value.metadata.description) != nil {
+            name = getEnumType(name)
+        } else {
+            name = getResponceModelType(name)
+            name = getModelType(name)
+        }
+        
+        return name
     }
 
     func getInlineSchemaContext(_ schema: Schema, name: String) -> Context? {
@@ -537,6 +571,22 @@ public class CodeFormatter {
         }
         let type = name.upperCamelCased()
         return escapeType("\(modelPrefix)\(type)\(modelSuffix)")
+    }
+    
+    func getRequestBodyModelType(_ name: String) -> String {
+        if let modelName = modelNames[name] {
+            return modelName
+        }
+        let type = name.upperCamelCased()
+        return escapeType("\(modelRequestBodyPrefix)\(type)\(modelRequestBodySuffix)")
+    }
+    
+    func getResponceModelType(_ name: String) -> String {
+        if let modelName = modelNames[name] {
+            return modelName
+        }
+        let type = name.upperCamelCased()
+        return escapeType("\(modelResponcePrefix)\(type)\(modelResponceSuffix)")
     }
 
     func getSchemaType(name: String, schema: Schema, checkEnum: Bool = true) -> String {

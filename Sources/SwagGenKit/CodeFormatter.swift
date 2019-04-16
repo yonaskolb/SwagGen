@@ -13,8 +13,8 @@ public class CodeFormatter {
     var modelSuffix: String
     var modelRequestBodyPrefix: String
     var modelRequestBodySuffix: String
-    var modelResponcePrefix: String
-    var modelResponceSuffix: String
+    var modelResponsePrefix: String
+    var modelResponseSuffix: String
     var modelInheritance: Bool
     var modelNames: [String: String]
     var enumNames: [String: String]
@@ -26,8 +26,8 @@ public class CodeFormatter {
         modelSuffix = templateConfig.getStringOption("modelSuffix") ?? ""
         modelRequestBodyPrefix = templateConfig.getStringOption("modelRequestBodyPrefix") ?? ""
         modelRequestBodySuffix = templateConfig.getStringOption("modelRequestBodySuffix") ?? ""
-        modelResponcePrefix = templateConfig.getStringOption("modelResponcePrefix") ?? ""
-        modelResponceSuffix = templateConfig.getStringOption("modelResponceSuffix") ?? ""
+        modelResponsePrefix = templateConfig.getStringOption("modelResponsePrefix") ?? ""
+        modelResponseSuffix = templateConfig.getStringOption("modelResponseSuffix") ?? ""
         modelInheritance = templateConfig.getBooleanOption("modelInheritance") ?? true
         modelNames = templateConfig.options["modelNames"] as? [String: String] ?? [:]
         enumNames = templateConfig.options["enumNames"] as? [String: String] ?? [:]
@@ -184,7 +184,7 @@ public class CodeFormatter {
             schema.value.getEnum(name: name, description: schema.value.metadata.description) != nil {
             name = getEnumType(name)
         } else {
-            name = getResponceModelType(name)
+            name = getResponseModelType(name)
             name = getModelType(name)
         }
         
@@ -581,12 +581,12 @@ public class CodeFormatter {
         return escapeType("\(modelRequestBodyPrefix)\(type)\(modelRequestBodySuffix)")
     }
     
-    func getResponceModelType(_ name: String) -> String {
+    func getResponseModelType(_ name: String) -> String {
         if let modelName = modelNames[name] {
             return modelName
         }
         let type = name.upperCamelCased()
-        return escapeType("\(modelResponcePrefix)\(type)\(modelResponceSuffix)")
+        return escapeType("\(modelResponsePrefix)\(type)\(modelResponseSuffix)")
     }
 
     func getSchemaType(name: String, schema: Schema, checkEnum: Bool = true) -> String {

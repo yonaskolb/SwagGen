@@ -1,6 +1,6 @@
 # {{ options.name }}
 
-This is an api generated from a Swagger 2.0 spec with [SwagGen](https://github.com/yonaskolb/SwagGen)
+This is an api generated from a OpenAPI 3.0 spec with [SwagGen](https://github.com/yonaskolb/SwagGen)
 
 ## Operation
 

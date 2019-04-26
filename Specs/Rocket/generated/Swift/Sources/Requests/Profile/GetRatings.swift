@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Profile {
+extension Profile {
 
     /** Get the map of rated item ids (itemId => rating out of 10) under the active profile. */
     public enum GetRatings {

@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.StopPoint {
+extension StopPoint {
 
     /** Gets Stopoints that are reachable from a station/line combination. */
     public enum StopPointReachableFrom {

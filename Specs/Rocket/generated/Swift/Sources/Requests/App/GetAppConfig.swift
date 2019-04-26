@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.App {
+extension App {
 
     /** Get the global configuration for an application. Should be called during app statup.
 This includes things like device and playback rules, classifications,

@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension PetstoreTest.User {
+extension User {
 
     /** Creates list of users with given input array */
     public enum CreateUsersWithListInput {

@@ -10,8 +10,9 @@ This in turn makes client integration easier and reduces the complexity and size
 Rocket is also customisable - allowing UI engineers to ‘remix’ the existing back-end services into something that
 best suits the application they are developing.
  */
-public struct Rocket {
+public let version = "1.0.0"
 
+public struct Config {
     /// Whether to discard any errors when decoding optional properties
     public static var safeOptionalDecoding = false
 
@@ -20,19 +21,18 @@ public struct Rocket {
 
     /// Used to encode Dates when uses as string params
     public static let dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
-
-    public static let version = "1.0.0"
-
-    public enum Account {}
-    public enum App {}
-    public enum Authorization {}
-    public enum Content {}
-    public enum Profile {}
-    public enum Registration {}
-    public enum Support {}
-
-    public enum Server {
-
-        public static let main = "/"
-    }
 }
+
+public enum Server {
+
+    public static let main = "/"
+}
+
+/// Tags
+public enum Account {}
+public enum App {}
+public enum Authorization {}
+public enum Content {}
+public enum Profile {}
+public enum Registration {}
+public enum Support {}

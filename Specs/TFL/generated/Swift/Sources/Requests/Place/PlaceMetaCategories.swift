@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Place {
+extension Place {
 
     /** Gets a list of all of the available place property categories and keys. */
     public enum PlaceMetaCategories {

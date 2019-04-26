@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Profile {
+extension Profile {
 
     /** Get the map of bookmarked item ids (itemId => creationDate) under the active profile. */
     public enum GetBookmarks {

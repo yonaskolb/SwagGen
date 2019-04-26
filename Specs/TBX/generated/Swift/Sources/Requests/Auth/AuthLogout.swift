@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.Auth {
+extension Auth {
 
     /** URL for the client can start a logout with your IDP */
     public enum AuthLogout {

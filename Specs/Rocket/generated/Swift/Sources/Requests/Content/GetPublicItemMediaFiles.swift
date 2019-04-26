@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Content {
+extension Content {
 
     /** Get the free / public video files associated with an item given maximum resolution,
 device type and one or more delivery types.

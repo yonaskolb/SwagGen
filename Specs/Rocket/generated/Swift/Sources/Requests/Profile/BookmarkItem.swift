@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Profile {
+extension Profile {
 
     /** Bookmark an item under the active profile.
 Creates one if it doesn't exist, overwrites one if it does.

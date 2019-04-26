@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.Auth {
+extension Auth {
 
     /** Return Url from OAuth2.0 login */
     public enum AuthOauth2Assert {

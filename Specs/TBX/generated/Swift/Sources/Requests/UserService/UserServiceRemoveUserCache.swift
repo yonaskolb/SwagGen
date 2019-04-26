@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.UserService {
+extension UserService {
 
     /** Clear user's authorization cache */
     public enum UserServiceRemoveUserCache {

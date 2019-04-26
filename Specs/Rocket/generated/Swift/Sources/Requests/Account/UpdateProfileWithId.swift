@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Account {
+extension Account {
 
     /** Update the summary of a profile with a specific id under the active account.
 This supports partial updates so you can send just the properties you wish to update.

@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Line {
+extension Line {
 
     /** Gets the line status for given line ids during the provided dates e.g Minor Delays */
     public enum GetLineStatus {

@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.Auth {
+extension Auth {
 
     /** Contains information necessary for interaction with SAML-enabled identity or service providers */
     public enum AuthSamlMetadata {

@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TestSpec {
+extension Operation {
 
     /** operation with no responses */
     public enum GetDefaultResponse {

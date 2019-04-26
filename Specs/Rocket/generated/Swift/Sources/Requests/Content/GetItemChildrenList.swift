@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Content {
+extension Content {
 
     /** Returns the List of child summary items under an item.
 If the item is a Season then the children will be episodes and ordered by episode number.

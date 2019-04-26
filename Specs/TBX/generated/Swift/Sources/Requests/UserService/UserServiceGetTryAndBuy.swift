@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.UserService {
+extension UserService {
 
     /** Get Try and Buy data by customerId */
     public enum UserServiceGetTryAndBuy {

@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Profile {
+extension Profile {
 
     /** Get the map of watched item ids (itemId => last playhead position) under the active profile. */
     public enum GetWatched {

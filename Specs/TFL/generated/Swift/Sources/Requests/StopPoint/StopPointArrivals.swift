@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.StopPoint {
+extension StopPoint {
 
     /** Gets the list of arrival predictions for the given stop point id */
     public enum StopPointArrivals {

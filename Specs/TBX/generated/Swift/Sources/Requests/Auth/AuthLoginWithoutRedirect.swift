@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.Auth {
+extension Auth {
 
     /** This API is deprecated please use "login" without send the URL instead */
     public enum AuthLoginWithoutRedirect {

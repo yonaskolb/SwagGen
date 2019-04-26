@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Account {
+extension Account {
 
     /** Get all entitlements under the account.
 This list is returned under the call to get account information so a call here is

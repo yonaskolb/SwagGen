@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Road {
+extension Road {
 
     /** Gets the specified roads with the status aggregated over the date range specified, or now until the end of today if no dates are passed. */
     public enum RoadStatus {

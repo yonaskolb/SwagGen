@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Profile {
+extension Profile {
 
     /** Record the watched playhead position of a video under the active profile.
 Can be used later to resume a video from where it was last watched.

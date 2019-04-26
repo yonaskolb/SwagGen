@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.TravelTime {
+extension TravelTime {
 
     /** Gets the TravelTime overlay. */
     public enum TravelTimeGetOverlay {

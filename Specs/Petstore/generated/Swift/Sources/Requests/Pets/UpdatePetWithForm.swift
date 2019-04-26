@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Petstore.Pets {
+extension Pets {
 
     /** Updates a pet in the store with form data */
     public enum UpdatePetWithForm {

@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension PetstoreTest.Fake {
+extension Fake {
 
     /** To test "client" model */
     public enum TestClientModel {

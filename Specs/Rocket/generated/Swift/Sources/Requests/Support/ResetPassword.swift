@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Support {
+extension Support {
 
     /** When a user requests to reset their password via the /request-password-reset endpoint, an
 email is sent to the email address of the primary profile of the account. This email contains a link

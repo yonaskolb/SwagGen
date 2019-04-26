@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.StopPoint {
+extension StopPoint {
 
     /** Gets all disruptions for the specified StopPointId, plus disruptions for any child Naptan records it may have. */
     public enum StopPointDisruption {

@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.BikePoint {
+extension BikePoint {
 
     /** Search for bike stations by their name, a bike point's name often contains information about the name of the street
             or nearby landmarks, for example. Note that the search result does not contain the PlaceProperties i.e. the status

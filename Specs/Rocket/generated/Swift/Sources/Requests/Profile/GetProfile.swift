@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Profile {
+extension Profile {
 
     /** Get the details of the active profile, including watched, bookmarked and rated items. */
     public enum GetProfile {

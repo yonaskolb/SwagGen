@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension PetstoreTest.User {
+extension User {
 
     /**
     Delete user

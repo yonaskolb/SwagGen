@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.Auth {
+extension Auth {
 
     /** URL for the client can start a new login with your IDP */
     public enum AuthLogin {

@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension PetstoreTest.Pet {
+extension Pet {
 
     /** Add a new pet to the store */
     public enum AddPet {

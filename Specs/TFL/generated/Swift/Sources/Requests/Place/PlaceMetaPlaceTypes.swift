@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Place {
+extension Place {
 
     /** Gets a list of the available types of Place. */
     public enum PlaceMetaPlaceTypes {

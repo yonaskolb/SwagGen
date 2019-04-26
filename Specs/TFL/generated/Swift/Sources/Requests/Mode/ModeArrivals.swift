@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Mode {
+extension Mode {
 
     /** Gets the next arrival predictions for all stops of a given mode */
     public enum ModeArrivals {

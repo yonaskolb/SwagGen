@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.AuthorizationService {
+extension AuthorizationService {
 
     /** Create a rule to override the IDP response's */
     public enum AuthorizationServiceCreateRuleToOverrideResponse {

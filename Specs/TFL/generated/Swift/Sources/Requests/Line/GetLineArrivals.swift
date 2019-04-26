@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Line {
+extension Line {
 
     /** Get the list of arrival predictions for given line ids based at the given stop */
     public enum GetLineArrivals {

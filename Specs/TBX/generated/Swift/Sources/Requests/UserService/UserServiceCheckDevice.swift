@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.UserService {
+extension UserService {
 
     /** Check if a Device exists and this is active */
     public enum UserServiceCheckDevice {

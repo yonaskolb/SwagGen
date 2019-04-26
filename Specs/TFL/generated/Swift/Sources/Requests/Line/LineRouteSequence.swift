@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Line {
+extension Line {
 
     /** Gets all valid routes for given line id, including the sequence of stops on each route. */
     public enum LineRouteSequence {

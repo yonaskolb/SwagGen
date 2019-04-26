@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.UserService {
+extension UserService {
 
     /** Logout a related device by device id */
     public enum UserServiceLogout {

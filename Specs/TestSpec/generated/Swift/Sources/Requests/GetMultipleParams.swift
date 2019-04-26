@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TestSpec {
+extension Operation {
 
     /** Has path and operation parameters */
     public enum GetMultipleParams {

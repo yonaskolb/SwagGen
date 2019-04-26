@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Line {
+extension Line {
 
     /** Gets a list of valid disruption categories */
     public enum LineMetaDisruptionCategories {

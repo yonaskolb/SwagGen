@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension PetstoreTest.Pet {
+extension Pet {
 
     /**
     Finds Pets by tags

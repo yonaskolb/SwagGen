@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Content {
+extension Content {
 
     /** Returns the details of an item with the specified id. */
     public enum GetItem {

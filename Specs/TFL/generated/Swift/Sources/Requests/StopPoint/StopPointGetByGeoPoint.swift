@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.StopPoint {
+extension StopPoint {
 
     /** Gets a list of StopPoints within {radius} by the specified criteria */
     public enum StopPointGetByGeoPoint {

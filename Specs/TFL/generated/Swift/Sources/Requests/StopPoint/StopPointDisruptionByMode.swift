@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.StopPoint {
+extension StopPoint {
 
     /** Gets a distinct list of disrupted stop points for the given modes */
     public enum StopPointDisruptionByMode {

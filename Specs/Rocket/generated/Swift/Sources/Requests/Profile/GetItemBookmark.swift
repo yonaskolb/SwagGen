@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Profile {
+extension Profile {
 
     /** Get the bookmark for an item under the active profile. */
     public enum GetItemBookmark {

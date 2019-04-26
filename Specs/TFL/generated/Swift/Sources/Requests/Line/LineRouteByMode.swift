@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Line {
+extension Line {
 
     /** Gets all lines and their valid routes for given modes, including the name and id of the originating and terminating stops for each route */
     public enum LineRouteByMode {

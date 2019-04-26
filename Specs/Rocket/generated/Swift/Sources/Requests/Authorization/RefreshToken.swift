@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Authorization {
+extension Authorization {
 
     /** Refresh an account or profile level authorization token which is marked as refreshable. */
     public enum RefreshToken {

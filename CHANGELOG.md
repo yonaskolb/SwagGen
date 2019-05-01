@@ -1,6 +1,9 @@
 # Change Log
 ## Next Version
 
+### Swift Template Updates
+- Fixed path to `Enum.swift`
+
 ## 4.1.0
 
 ### Added

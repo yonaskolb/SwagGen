@@ -2,7 +2,7 @@
 ## Next Version
 
 ### Swift Template Updates
-- Fixed path to `Enum.swift`
+- Fixed path to `Enum.swift` on Linux
 
 ## 4.1.0
 

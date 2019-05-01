@@ -43,7 +43,7 @@ templateFiles:
   - path: Sources/AnyCodable.swift
   - path: Podspec.podspec
     destination: "{{ options.name }}.podspec"
-  - path: Sources/enum.swift
+  - path: Sources/Enum.swift
     context: enums
     destination: "Sources/Enums/{{ enumName }}.swift"
   - path: Sources/Model.swift

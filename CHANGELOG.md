@@ -3,6 +3,7 @@
 
 ### Swift Template Updates
 - Fixed path to `Enum.swift` on Linux
+- Added support for objects in query params
 
 ## 4.1.0
 

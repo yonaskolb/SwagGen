@@ -73,7 +73,7 @@ import Swagger
 
 `airtasker/swaggen` image acts as a standalone executable. It can be used as an alternative to installing via homebrew, or for developers who are unable to install Xcode.
 
-To generate code with this image, you'll need to mount a local location as a volume. If you want to pass Swagger spec as a file the spec needs to be inside the mounted volume. Make sure the destination is also inside the mounted volume.   
+To generate code with this image, you'll need to mount a local location as a volume. If you want to pass Swagger spec as a file it needs to be inside the mounted volume as well as the `--destination`.   
 
 ```sh
 $ docker run --rm -v local_dir:/workdir airtasker/swaggen swaggen generate /workdir/api.yml --destination /workdir/generated --template Templates/Swift/template.yml

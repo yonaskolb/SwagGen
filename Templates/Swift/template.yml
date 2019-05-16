@@ -51,9 +51,6 @@ templateFiles:
     context: enums
     destination: "Sources/Enums/{{ enumName }}.swift"
   - path: Sources/Model.swift
-    context: requestBodies
-    destination: "Sources/Models/Request/{{ type }}.swift"
-  - path: Sources/Model.swift
     context: schemas
     destination: "Sources/Models/Response/{{ type }}.swift"
   - path: Sources/Request.swift

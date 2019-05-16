@@ -60,6 +60,7 @@ public class CodeFormatter {
             .map { ["name": $0, "operations": $1.map(getOperationContext)] }
         context["schemas"] = spec.components.schemas.map(getSchemaContent).sorted { sortContext(by: "type", value1: $0, value2: $1) }
         context["requestBodies"] = spec.components.requestBodies.map(getRequestsBodiesContext).sorted { sortContext(by: "type", value1: $0, value2: $1) }
+        context["responses"] = spec.components.responses.map(getResponsesContext).sorted { sortContext(by: "type", value1: $0, value2: $1) }
         context["info"] = getSpecInformationContext(spec.info)
         context["servers"] = spec.servers.enumerated().map(getServerContext)
         if let server = spec.servers.first, server.variables.isEmpty {
@@ -124,6 +125,19 @@ public class CodeFormatter {
         
         return context
     }
+    
+    func getResponsesContext(_ response: ComponentObject<Response>) -> Context {
+        
+        guard let schema = response.value.content?.jsonSchema else {
+            return [:]
+        }
+        
+        var context = getSchemaContent(schema, type: response.name)
+        context["name"] = response.name
+        context["type"] = getResponseTypeName(response)
+        
+        return context
+    }
 
     func getSchemaContent(_ schema: ComponentObject<Schema>) -> Context {
         let type = getSchemaTypeName(schema)
@@ -160,6 +174,23 @@ public class CodeFormatter {
         return name
     }
     
+    func getResponseTypeName(_ response: ComponentObject<Response>) -> String {
+        guard let schema = response.value.content?.defaultSchema else {
+            return response.name
+        }
+        
+        var name = response.name
+        if schema.canBeEnum,
+            schema.getEnum(name: name, description: schema.metadata.description) != nil {
+            name = getEnumType(name)
+        } else {
+            name = getResponseModelType(name)
+            name = getModelType(name)
+        }
+        
+        return name
+    }
+    
     func getSchemaTypeName(_ schema: ComponentObject<Schema>) -> String {
         var name = schema.name
         
@@ -167,7 +198,6 @@ public class CodeFormatter {
             schema.value.getEnum(name: name, description: schema.value.metadata.description) != nil {
             name = getEnumType(name)
         } else {
-            name = getResponseModelType(name)
             name = getModelType(name)
         }
         

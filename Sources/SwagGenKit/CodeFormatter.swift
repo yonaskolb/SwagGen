@@ -84,6 +84,7 @@ public class CodeFormatter {
             var context: Context = [:]
             context["name"] = name
             context["enum"] = variable.enumValues
+            context["safeEnum"] = variable.enumSafeValues
             context["defaultValue"] = variable.defaultValue
             context["description"] = variable.description
             return context
@@ -138,24 +139,6 @@ public class CodeFormatter {
         var context = getSchemaContext(schema)
         
         context["type"] = type
-        
-        let schemaType = getSchemaType(name: type, schema: schema)
-        
-        switch schema.type {
-        case .string, .boolean, .integer, .number:
-            context["simpleType"] = schemaType
-            context["aliasType"] = schemaType
-            if let enumValue = schema.getEnum(name: type, description: schema.metadata.description) {
-                context["enum"] = getEnumContext(enumValue)
-            }
-        case .reference:
-            context["referenceType"] = schemaType
-            context["aliasType"] = schemaType
-        case .array:
-            context["arrayType"] = schemaType
-            context["aliasType"] = schemaType
-        default: break
-        }
         
         return context
     }

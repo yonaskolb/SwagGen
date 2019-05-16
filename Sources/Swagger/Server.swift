@@ -11,6 +11,7 @@ public struct Server {
     public struct Variable {
         public let defaultValue: String
         public let enumValues: [String]?
+        public let enumSafeValues: [String: String]?
         public let description: String?
     }
 }
@@ -31,5 +32,25 @@ extension Server.Variable: JSONObjectConvertible {
         defaultValue = try jsonDictionary.json(atKeyPath: "default")
         enumValues = jsonDictionary.json(atKeyPath: "enum")
         description = jsonDictionary.json(atKeyPath: "description")
+        
+        var enumsList: [String: String] = [:]
+        
+        enumValues?.forEach {
+            enumsList[$0.cleanEnumValue()] = $0
+        }
+        enumSafeValues = enumsList
+    }
+}
+
+private extension String {
+    func cleanEnumValue() -> String {
+        var valueNameComponents = replacingOccurrences(of: "[\\[\\]^+<>\\. ]", with: "_", options: .regularExpression, range: nil)
+            .components(separatedBy: "_")
+        let firstPart = valueNameComponents.first ?? ""
+        valueNameComponents.removeFirst(1)
+        
+        return firstPart + valueNameComponents.map{
+            $0.prefix(1).uppercased() + $0.dropFirst()
+            }.joined(separator: "")
     }
 }

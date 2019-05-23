@@ -1,6 +1,6 @@
 # TBX
 
-This is an api generated from a Swagger 2.0 spec with [SwagGen](https://github.com/yonaskolb/SwagGen)
+This is an api generated from a OpenAPI 3.0 spec with [SwagGen](https://github.com/yonaskolb/SwagGen)
 
 ## Operation
 
@@ -23,7 +23,7 @@ The `options` and `body` structs are both mutable so they can be modified before
 The response is an enum of all the possible responses the request can return. it also contains getters for the `statusCode`, whether it was `successful`, and the actual decoded optional `success` response. If the operation only has one type of failure type there is also an optional `failure` type.
 
 ## Model
-Models that are sent and returned from the API are mutable classes. Each model is `Equatable` and `Codable`. 
+Models that are sent and returned from the API are mutable classes. Each model is `Equatable` and `Codable`.
 
 `Required` properties are non optional and non-required are optional
 
@@ -35,7 +35,7 @@ If a model has `additionalProperties` it will have a subscript to access these b
 The `APIClient` is used to encode, authorize, send, monitor, and decode the requests. There is a `APIClient.default` that uses the default `baseURL` otherwise a custom one can be initialized:
 
 ```swift
-public init(baseURL: String, sessionManager: SessionManager = .default, defaultHeaders: [String: String] = [:], behaviours: [RequestBehaviour] = [], authorizer: RequestAuthorizer? = nil)
+public init(baseURL: String, sessionManager: SessionManager = .default, defaultHeaders: [String: String] = [:], behaviours: [RequestBehaviour] = [])
 ```
 
 #### APIClient properties
@@ -44,7 +44,6 @@ public init(baseURL: String, sessionManager: SessionManager = .default, defaultH
 - `behaviours`: A list of [Request Behaviours](#requestbehaviour) to add to every request
 - `sessionManager`: An `Alamofire.SessionManager` that can be customized
 - `defaultHeaders`: Headers that will be applied to every request
-- `authorizer`: A [RequestAuthorizer](#requestauthorizer) protocol for authorizing requests
 - `decodingQueue`: The `DispatchQueue` to decode responses on
 
 #### Making a request
@@ -116,7 +115,7 @@ public enum APIClientError: Error {
 ```
 
 #### RequestBehaviour
-Request behaviours are used to modify, authorize, monitor or respond to requests. They can be added to the `APIClient.behaviours` for all requests, or they can passed into `makeRequest` for just that single request. 
+Request behaviours are used to modify, authorize, monitor or respond to requests. They can be added to the `APIClient.behaviours` for all requests, or they can passed into `makeRequest` for just that single request.
 
 `RequestBehaviour` is a protocol you can conform to with each function being optional. As the behaviours must work across multiple different request types, they only have access to a typed erased `AnyRequest`.
 

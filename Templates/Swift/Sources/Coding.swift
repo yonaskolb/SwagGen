@@ -17,6 +17,17 @@ public protocol ResponseDecoder {
 
 extension JSONDecoder: ResponseDecoder {}
 
+extension APIModel {
+    func encode() -> [String: Any] {
+        guard
+            let jsonData = try? JSONEncoder().encode(self),
+            let jsonDictionary = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any] else {
+                return [:]
+        }
+        return jsonDictionary ?? [:]
+    }
+}
+
 struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
 
     private let string: String

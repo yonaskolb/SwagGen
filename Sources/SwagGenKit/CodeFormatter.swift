@@ -418,7 +418,7 @@ public class CodeFormatter {
         }
 
         context["required"] = property.required
-        context["optional"] = !property.required
+        context["optional"] = !property.required || property.schema.metadata.nullable
         context["name"] = getName(property.name)
         context["value"] = property.name
         context["type"] = getSchemaType(name: property.name, schema: property.schema)

@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/yonaskolb/JSONUtilities.git",
         "state": {
           "branch": null,
-          "revision": "6403a5455f30add5413095d1b5a70e8a5eb83ba0",
-          "version": "3.3.8"
+          "revision": "128d2ffc22467f69569ef8ff971683e2393191a0",
+          "version": "4.2.0"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/onevcat/Rainbow.git",
         "state": {
           "branch": null,
-          "revision": "df197437d8acefb2ae01ab073be1d531fe7781ef",
-          "version": "2.1.0"
+          "revision": "9c52c1952e9b2305d4507cf473392ac2d7c9b155",
+          "version": "3.1.5"
         }
       },
       {
@@ -39,11 +39,11 @@
       },
       {
         "package": "Stencil",
-        "repositoryURL": "https://github.com/yonaskolb/Stencil.git",
+        "repositoryURL": "https://github.com/stencilproject/Stencil.git",
         "state": {
           "branch": null,
-          "revision": "daf4e41549a534904376794e899ca6aecaf4ff83",
-          "version": "0.9.3"
+          "revision": "0e9a78d6584e3812cd9c09494d5c7b483e8f533c",
+          "version": "0.13.1"
         }
       },
       {

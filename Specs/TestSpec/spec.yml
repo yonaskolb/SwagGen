@@ -270,6 +270,32 @@ components:
             name:
               description: name of the model
               type: string
+    ModelWithNullableProperties:
+      type: object
+      required:
+        - requiredNotNullable
+        - requiredNullable
+        - requiredImplicitNotNullable
+      properties:
+        notRequiredNotNullable:
+          type: string
+          description: "a not required and not nullable property"
+          nullable: false
+        notRequiredNullable:
+          type: string
+          description: "a not required and nullable property"
+          nullable: true
+        requiredNotNullable:
+          type: string
+          description: "a required and not nullable property"
+          nullable: false
+        requiredNullable:
+          type: string
+          description: "a required and nullable property"
+          nullable: true
+        requiredImplicitNotNullable:
+          type: string
+          description: "a required and not nullable property with nullable false implicitly declared"
     Zoo:
       type: object
       properties:

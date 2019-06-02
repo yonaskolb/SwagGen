@@ -1,6 +1,10 @@
+import XCTest
+
 import SwagGenKitTests
 import SwaggerTests
 
-testFixtures()
-testParsing()
-testSpecs()
+var tests = [XCTestCaseEntry]()
+tests += SwagGenKitTests.__allTests()
+tests += SwaggerTests.__allTests()
+
+XCTMain(tests)

@@ -22,10 +22,6 @@ options:
       pod: Alamofire
       github: Alamofire/Alamofire
       version: 4.8.2
-    - name: Result
-      pod: Result
-      github: antitypical/Result
-      version: 4.1.0
 templateFiles:
   - path: README.md
   - path: Package.swift

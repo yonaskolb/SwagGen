@@ -1,6 +1,9 @@
 # Change Log
 ## Next Version
 
+### Fixed
+- Fixed missing customization of JSONEncoder instance to encode request's body #147
+
 ### Swift Template Updates
 - Fixed path to `Enum.swift` on Linux
 - Added support for objects in query params

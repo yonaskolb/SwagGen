@@ -25,10 +25,9 @@ email address. This confirmation is done via the /verify-email endpoint.
 
             public var body: RegistrationRequest
 
-            public init(body: RegistrationRequest) {
+            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: RegistrationRequest) {
                 self.body = body
                 super.init(service: Register.service) {
-                    let jsonEncoder = JSONEncoder()
                     return try jsonEncoder.encode(body)
                 }
             }

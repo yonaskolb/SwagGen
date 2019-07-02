@@ -30,11 +30,10 @@ This supports partial updates so you can send just the properties you wish to up
 
             public var body: ProfileUpdateRequest
 
-            public init(body: ProfileUpdateRequest, options: Options) {
+            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: ProfileUpdateRequest, options: Options) {
                 self.body = body
                 self.options = options
                 super.init(service: UpdateProfileWithId.service) {
-                    let jsonEncoder = JSONEncoder()
                     return try jsonEncoder.encode(body)
                 }
             }

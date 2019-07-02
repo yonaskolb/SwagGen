@@ -16,10 +16,9 @@ extension PetstoreTest.User {
 
             public var body: [User]
 
-            public init(body: [User]) {
+            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: [User]) {
                 self.body = body
                 super.init(service: CreateUsersWithListInput.service) {
-                    let jsonEncoder = JSONEncoder()
                     return try jsonEncoder.encode(body)
                 }
             }

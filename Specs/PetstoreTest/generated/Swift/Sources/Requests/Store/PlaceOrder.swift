@@ -16,10 +16,9 @@ extension PetstoreTest.Store {
 
             public var body: Order
 
-            public init(body: Order) {
+            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: Order) {
                 self.body = body
                 super.init(service: PlaceOrder.service) {
-                    let jsonEncoder = JSONEncoder()
                     return try jsonEncoder.encode(body)
                 }
             }

@@ -20,10 +20,9 @@ before access is granted.
 
             public var body: ProfileTokenRequest
 
-            public init(body: ProfileTokenRequest) {
+            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: ProfileTokenRequest) {
                 self.body = body
                 super.init(service: GetProfileToken.service) {
-                    let jsonEncoder = JSONEncoder()
                     return try jsonEncoder.encode(body)
                 }
             }

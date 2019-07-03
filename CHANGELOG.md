@@ -6,6 +6,9 @@
 - Added support for objects in query params
 - Added support for nullable properties
 
+### Changed:
+- Remove Result 3rd party framework
+
 ## 4.1.0
 
 ### Added

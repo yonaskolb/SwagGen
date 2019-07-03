@@ -340,7 +340,7 @@ components:
           properties:
             barks:
               type: boolean
-    puppi:
+    Puppi:
       allOf:
         - $ref: "#/components/schemas/Dog"
         - type: object

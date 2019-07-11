@@ -1,13 +1,19 @@
 # Change Log
 ## Next Version
 
-### Swift Template Updates
-- Fixed path to `Enum.swift` on Linux
-- Added support for objects in query params
-- Added support for nullable properties
+## 4.2.0
 
-### Changed:
-- Remove Result 3rd party framework
+### Swift Template Changes
+- Added support for objects in query params #158
+- Added support for nullable properties #165
+- Removed 3rd party Result framework #174
+- Fixed path to `Enum.swift` on Linux #157
+- Fixed model initializers with multiple levels of inheritance #175
+
+### Fixes
+- Decode Swagger specs with no components #180
+
+[Commits](https://github.com/yonaskolb/SwagGen/compare/4.1.0...4.2.0)
 
 ## 4.1.0
 

@@ -92,7 +92,11 @@ extension SwaggerSpec: JSONObjectConvertible {
         info = try jsonDictionary.json(atKeyPath: "info")
         servers = jsonDictionary.json(atKeyPath: "servers") ?? []
         securityRequirements = jsonDictionary.json(atKeyPath: "security")
-        components = try jsonDictionary.json(atKeyPath: "components")
+        if jsonDictionary["components"] != nil {
+            components = try jsonDictionary.json(atKeyPath: "components")
+        } else {
+            components = Components()
+        }
         paths = try decodeNamed(jsonDictionary: jsonDictionary, key: "paths")
         operations = paths.reduce([]) { $0 + $1.operations }
 

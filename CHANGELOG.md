@@ -13,6 +13,9 @@
 ### Fixes
 - Decode Swagger specs with no components #180
 
+### Changes
+- Update dependencies
+
 [Commits](https://github.com/yonaskolb/SwagGen/compare/4.1.0...4.2.0)
 
 ## 4.1.0

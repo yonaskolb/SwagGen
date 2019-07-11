@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/yonaskolb/JSONUtilities.git",
         "state": {
           "branch": null,
-          "revision": "db238f4858ac2ac3fff228b5b71ce90488a6a9b3",
-          "version": "4.1.0"
+          "revision": "128d2ffc22467f69569ef8ff971683e2393191a0",
+          "version": "4.2.0"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/onevcat/Rainbow.git",
         "state": {
           "branch": null,
-          "revision": "797a68d0a642609424b08f11eb56974a54d5f6e2",
-          "version": "3.1.4"
+          "revision": "9c52c1952e9b2305d4507cf473392ac2d7c9b155",
+          "version": "3.1.5"
         }
       },
       {
@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/jpsim/Yams.git",
         "state": {
           "branch": null,
-          "revision": "26ab35f50ea891e8edefcc9d975db2f6b67e1d68",
-          "version": "1.0.1"
+          "revision": "b08dba4bcea978bf1ad37703a384097d3efce5af",
+          "version": "1.0.2"
         }
       }
     ]

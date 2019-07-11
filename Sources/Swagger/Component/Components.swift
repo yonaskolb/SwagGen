@@ -8,6 +8,19 @@ public struct Components {
     public let responses: [ComponentObject<Response>]
     public let requestBodies: [ComponentObject<RequestBody>]
     public let headers: [ComponentObject<Header>]
+
+}
+
+extension Components {
+
+    init() {
+        securitySchemes = []
+        schemas = []
+        parameters = []
+        responses = []
+        requestBodies = []
+        headers = []
+    }
 }
 
 extension Components: JSONObjectConvertible {

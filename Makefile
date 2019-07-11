@@ -1,5 +1,5 @@
 TOOL_NAME = swaggen
-VERSION = 4.1.0
+VERSION = 4.2.0
 
 PREFIX = /usr/local
 INSTALL_PATH = $(PREFIX)/bin/$(TOOL_NAME)
@@ -34,7 +34,7 @@ update_brew:
 	git add .
 	git commit -m "Update brew to $(VERSION)"
 
-release: format_code
+release:
 	sed -i '' 's|\(let version = "\)\(.*\)\("\)|\1$(VERSION)\3|' Sources/SwagGen/main.swift
 
 	git add .

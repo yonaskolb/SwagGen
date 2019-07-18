@@ -99,6 +99,12 @@ extension SwaggerSpec: JSONObjectConvertible {
         }
         paths = try decodeNamed(jsonDictionary: jsonDictionary, key: "paths")
         operations = paths.reduce([]) { $0 + $1.operations }
+            .sorted(by: { (lhs, rhs) -> Bool in
+                if lhs.path == rhs.path {
+                    return lhs.method.rawValue < rhs.method.rawValue
+                }
+                return lhs.path < rhs.path
+            })
 
         let resolver = ComponentResolver(spec: self)
         resolver.resolve()

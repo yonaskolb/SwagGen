@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class SearchMatch: Codable, Equatable {
+public class SearchMatch: APIModel {
 
     public var id: String?
 

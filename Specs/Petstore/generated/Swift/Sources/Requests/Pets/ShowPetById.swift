@@ -7,6 +7,9 @@ import Foundation
 
 extension Petstore.Pets {
 
+    /**
+    Info for a specific pet
+    */
     public enum ShowPetById {
 
         public static let service = APIService<Response>(id: "showPetById", tag: "pets", method: "GET", path: "/pets/{petId}", hasBody: false)
@@ -96,8 +99,7 @@ extension Petstore.Pets {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Pet].self, from: data))
                 default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ErrorType.self, from: data))

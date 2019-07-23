@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RoadProject: Codable, Equatable {
+public class RoadProject: APIModel {
 
     public enum Phase: String, Codable {
         case unscoped = "Unscoped"

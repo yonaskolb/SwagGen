@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Navigation: Codable, Equatable {
+public class Navigation: APIModel {
 
     /** The header navigation. */
     public var header: [NavEntry]

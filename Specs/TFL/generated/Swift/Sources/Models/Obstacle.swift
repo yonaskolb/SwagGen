@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Obstacle: Codable, Equatable {
+public class Obstacle: APIModel {
 
     public var incline: String?
 

@@ -7,6 +7,10 @@ import Foundation
 
 extension TFL.Line {
 
+    /**
+    Gets the line status for all lines with a given severity
+            A list of valid severity codes can be obtained from a call to Line/Meta/Severity
+    */
     public enum LineStatusBySeverity {
 
         public static let service = APIService<Response>(id: "Line_StatusBySeverity", tag: "Line", method: "GET", path: "/Line/Status/{severity}", hasBody: false)
@@ -71,11 +75,10 @@ extension TFL.Line {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Line].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

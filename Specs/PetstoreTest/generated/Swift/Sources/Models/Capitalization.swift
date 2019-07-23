@@ -5,11 +5,11 @@
 
 import Foundation
 
-public class Capitalization: Codable, Equatable {
+public class Capitalization: APIModel {
 
     /** Name of the pet
  */
-    public var attname: String?
+    public var attName: String?
 
     public var capitalCamel: String?
 
@@ -21,8 +21,8 @@ public class Capitalization: Codable, Equatable {
 
     public var smallSnake: String?
 
-    public init(attname: String? = nil, capitalCamel: String? = nil, capitalSnake: String? = nil, sCAETHFlowPoints: String? = nil, smallCamel: String? = nil, smallSnake: String? = nil) {
-        self.attname = attname
+    public init(attName: String? = nil, capitalCamel: String? = nil, capitalSnake: String? = nil, sCAETHFlowPoints: String? = nil, smallCamel: String? = nil, smallSnake: String? = nil) {
+        self.attName = attName
         self.capitalCamel = capitalCamel
         self.capitalSnake = capitalSnake
         self.sCAETHFlowPoints = sCAETHFlowPoints
@@ -31,7 +31,7 @@ public class Capitalization: Codable, Equatable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case attname = "ATT_NAME"
+        case attName = "ATT_NAME"
         case capitalCamel = "CapitalCamel"
         case capitalSnake = "Capital_Snake"
         case sCAETHFlowPoints = "SCA_ETH_Flow_Points"
@@ -42,7 +42,7 @@ public class Capitalization: Codable, Equatable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        attname = try container.decodeIfPresent(.attname)
+        attName = try container.decodeIfPresent(.attName)
         capitalCamel = try container.decodeIfPresent(.capitalCamel)
         capitalSnake = try container.decodeIfPresent(.capitalSnake)
         sCAETHFlowPoints = try container.decodeIfPresent(.sCAETHFlowPoints)
@@ -53,7 +53,7 @@ public class Capitalization: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encodeIfPresent(attname, forKey: .attname)
+        try container.encodeIfPresent(attName, forKey: .attName)
         try container.encodeIfPresent(capitalCamel, forKey: .capitalCamel)
         try container.encodeIfPresent(capitalSnake, forKey: .capitalSnake)
         try container.encodeIfPresent(sCAETHFlowPoints, forKey: .sCAETHFlowPoints)
@@ -63,7 +63,7 @@ public class Capitalization: Codable, Equatable {
 
     public func isEqual(to object: Any?) -> Bool {
       guard let object = object as? Capitalization else { return false }
-      guard self.attname == object.attname else { return false }
+      guard self.attName == object.attName else { return false }
       guard self.capitalCamel == object.capitalCamel else { return false }
       guard self.capitalSnake == object.capitalSnake else { return false }
       guard self.sCAETHFlowPoints == object.sCAETHFlowPoints else { return false }

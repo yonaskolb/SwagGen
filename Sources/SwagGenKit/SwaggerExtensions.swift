@@ -10,6 +10,7 @@ struct Enum {
     let type: EnumType
     let description: String?
     let metadata: Metadata
+    let names: [String]?
 
     enum EnumType {
         case schema(Schema)
@@ -30,13 +31,17 @@ extension SwaggerSpec {
         var dictionary: [String: [Swagger.Operation]] = [:]
 
         // add operations with no tag at ""
-        let operationsWithoutTag = operations.filter { $0.tags.isEmpty }
+        let operationsWithoutTag = operations
+            .filter { $0.tags.isEmpty }
+            .sorted { $0.generatedIdentifier < $1.generatedIdentifier }
         if !operationsWithoutTag.isEmpty {
             dictionary[""] = operationsWithoutTag
         }
 
         for tag in tags {
-            dictionary[tag] = operations.filter { $0.tags.contains(tag) }
+            dictionary[tag] = operations
+                .filter { $0.tags.contains(tag) }
+                .sorted { $0.generatedIdentifier < $1.generatedIdentifier }
         }
         return dictionary
     }
@@ -49,8 +54,8 @@ extension SwaggerSpec {
 extension Metadata {
 
     func getEnum(name: String, type: Enum.EnumType, description: String?) -> Enum? {
-        if let enumValues = enumeratedValues {
-            return Enum(name: name, cases: enumValues.compactMap { $0 }, type: type, description: description ?? self.description, metadata: self)
+        if let enumValues = enumValues {
+            return Enum(name: name, cases: enumValues.compactMap { $0 }, type: type, description: description ?? self.description, metadata: self, names: enumNames)
         }
         return nil
     }
@@ -101,16 +106,16 @@ extension Schema {
         return []
     }
 
-    var parentProperties: [Property] {
-        return parentRequiredProperties + parentOptionalProperties
+    var inheritedProperties: [Property] {
+        return inheritedRequiredProperties + inheritedOptionalProperties
     }
 
-    private var parentRequiredProperties: [Property] {
-        return (parent?.value.parentRequiredProperties ?? []) + requiredProperties
+    var inheritedRequiredProperties: [Property] {
+        return (parent?.value.inheritedRequiredProperties ?? []) + requiredProperties
     }
 
-    private var parentOptionalProperties: [Property] {
-        return (parent?.value.parentOptionalProperties ?? []) + optionalProperties
+    var inheritedOptionalProperties: [Property] {
+        return (parent?.value.inheritedOptionalProperties ?? []) + optionalProperties
     }
 
     func getEnum(name: String, description: String?) -> Enum? {
@@ -138,6 +143,10 @@ extension Schema {
             enums += schema.enums
         }
         return enums
+    }
+
+    var inheritedEnums: [Enum] {
+        return (parent?.value.inheritedEnums ?? []) + enums
     }
 
     var generateInlineSchema: Bool {

@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Place {
 
+    /**
+    Gets all places of a given type
+    */
     public enum PlaceGetByType {
 
         public static let service = APIService<Response>(id: "Place_GetByType", tag: "Place", method: "GET", path: "/Place/Type/{types}", hasBody: false)
@@ -84,11 +87,10 @@ extension TFL.Place {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Place].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

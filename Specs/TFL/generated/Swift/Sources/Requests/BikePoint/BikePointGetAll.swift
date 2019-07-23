@@ -7,6 +7,10 @@ import Foundation
 
 extension TFL.BikePoint {
 
+    /**
+    Gets all bike point locations. The Place object has an addtionalProperties array which contains the nbBikes, nbDocks and nbSpaces
+            numbers which give the status of the BikePoint. A mismatch in these numbers i.e. nbDocks - (nbBikes + nbSpaces) != 0 indicates broken docks.
+    */
     public enum BikePointGetAll {
 
         public static let service = APIService<Response>(id: "BikePoint_GetAll", tag: "BikePoint", method: "GET", path: "/BikePoint", hasBody: false)
@@ -48,11 +52,10 @@ extension TFL.BikePoint {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Place].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

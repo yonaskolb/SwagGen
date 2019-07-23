@@ -9,14 +9,20 @@ public class CodeFormatter {
     var filenames: [String] = []
     var enums: [Enum] = []
     let templateConfig: TemplateConfig
-    var modelPrefix: String?
-    var modelSuffix: String?
+    var modelPrefix: String
+    var modelSuffix: String
+    var modelInheritance: Bool
+    var modelNames: [String: String]
+    var enumNames: [String: String]
 
     public init(spec: SwaggerSpec, templateConfig: TemplateConfig) {
         self.spec = spec
         self.templateConfig = templateConfig
-        modelPrefix = templateConfig.getStringOption("modelPrefix")
-        modelSuffix = templateConfig.getStringOption("modelSuffix")
+        modelPrefix = templateConfig.getStringOption("modelPrefix") ?? ""
+        modelSuffix = templateConfig.getStringOption("modelSuffix") ?? ""
+        modelInheritance = templateConfig.getBooleanOption("modelInheritance") ?? true
+        modelNames = templateConfig.options["modelNames"] as? [String: String] ?? [:]
+        enumNames = templateConfig.options["enumNames"] as? [String: String] ?? [:]
     }
 
     var disallowedNames: [String] {
@@ -40,8 +46,11 @@ public class CodeFormatter {
         context["paths"] = spec.paths.map(getPathContext)
         context["operations"] = spec.operations.map(getOperationContext)
         context["tags"] = spec.tags
-        context["operationsByTag"] = spec.operationsByTag.map { ["name": $0, "operations": $1.map(getOperationContext)] }
-        context["definitions"] = spec.definitions.map(getDefinitionContext)
+        context["operationsByTag"] = spec.operationsByTag
+            .map { ($0, $1) }
+            .sorted { $0.0.lowercased() < $1.0.lowercased() }
+            .map { ["name": $0, "operations": $1.map(getOperationContext)] }
+        context["definitions"] = spec.definitions.map(getDefinitionContext).sorted { sortContext(by: "type", value1: $0, value2: $1) }
         context["info"] = getSpecInformationContext(spec.info)
         context["host"] = spec.host
         context["basePath"] = spec.basePath
@@ -51,6 +60,10 @@ public class CodeFormatter {
         context["baseURL"] = "\(scheme ?? "")\(spec.host?.absoluteString ?? "")\(spec.basePath ?? "")"
 
         return context
+    }
+
+    private func sortContext(by: String, value1: [String: Any?], value2: [String: Any?]) -> Bool {
+        return (value1[by] as? String ?? "") < (value2[by] as? String ?? "")
     }
 
     func getSecurityDefinitionContext(_ securityDefinition: SecuritySchema) -> Context {
@@ -131,20 +144,33 @@ public class CodeFormatter {
 
         context["raw"] = schema.metadata.json
 
-        if let parent = schema.parent {
+        if modelInheritance, let parent = schema.parent {
             context["parent"] = getDefinitionContext(parent)
         }
 
         context["description"] = schema.metadata.description
-        context["requiredProperties"] = schema.requiredProperties.map(getPropertyContext)
-        context["optionalProperties"] = schema.optionalProperties.map(getPropertyContext)
-        context["properties"] = schema.properties.map(getPropertyContext)
-        context["allProperties"] = schema.parentProperties.map(getPropertyContext)
-        context["enums"] = schema.enums.map(getEnumContext)
+        context["default"] = schema.metadata.defaultValue
+        context["example"] = schema.metadata.example
 
-        context["schemas"] = schema.properties.compactMap { property in
-            getInlineSchemaContext(property.schema, name: property.name)
+        if modelInheritance {
+            context["requiredProperties"] = schema.requiredProperties.map(getPropertyContext)
+            context["optionalProperties"] = schema.optionalProperties.map(getPropertyContext)
+            context["properties"] = schema.properties.map(getPropertyContext)
+            context["enums"] = schema.enums.map(getEnumContext)
+            context["schemas"] = schema.properties.compactMap { property in
+                getInlineSchemaContext(property.schema, name: property.name)
+            }
+        } else {
+            context["requiredProperties"] = schema.inheritedRequiredProperties.map(getPropertyContext)
+            context["optionalProperties"] = schema.inheritedOptionalProperties.map(getPropertyContext)
+            context["properties"] = schema.inheritedProperties.map(getPropertyContext)
+            context["enums"] = schema.inheritedEnums.map(getEnumContext)
+            context["schemas"] = schema.inheritedProperties.compactMap { property in
+                getInlineSchemaContext(property.schema, name: property.name)
+            }
         }
+        context["allProperties"] = schema.inheritedProperties.map(getPropertyContext)
+
         return context
     }
 
@@ -177,6 +203,7 @@ public class CodeFormatter {
         context["method"] = operation.method.rawValue.uppercased()
         context["path"] = operation.path
         context["description"] = operation.description
+        context["summary"] = operation.summary
         context["tag"] = operation.tags.first
         context["tags"] = operation.tags
 
@@ -194,8 +221,10 @@ public class CodeFormatter {
         context["formParams"] = operation.getParameters(type: .formData).map(getParameterContext)
         context["headerParams"] = operation.getParameters(type: .header).map(getParameterContext)
         context["hasFileParam"] = params.contains { $0.metadata.type == .file }
-        context["securityRequirement"] = operation.security?.first.flatMap(getSecurityRequirementContext)
-        context["securityRequirements"] = operation.security?.map(getSecurityRequirementContext)
+
+        let securityRequirements = operation.securityRequirements ?? spec.securityRequirements
+        context["securityRequirement"] = securityRequirements?.first.flatMap(getSecurityRequirementContext)
+        context["securityRequirements"] = securityRequirements?.map(getSecurityRequirementContext)
 
         // Responses
 
@@ -328,7 +357,20 @@ public class CodeFormatter {
             context["enumName"] = getEnumType(specEnum.name)
             context["isGlobal"] = true
         }
-        context["enums"] = enumValue.cases.map { ["name": getName("\($0)"), "value": $0] }
+        var enumCases: [[String: String]] = []
+        for (index, value) in enumValue.cases.enumerated() {
+            let value = String(describing: value)
+            var name = value
+            if let names = enumValue.names,
+                enumValue.cases.count == names.count {
+                name = names[index]
+            }
+            if name == "" {
+                name = "empty"
+            }
+            enumCases.append(["name": getName(name), "value": value])
+        }
+        context["enums"] = enumCases
         context["description"] = specEnum?.description ?? enumValue.description
         context["raw"] = enumValue.metadata.json
 
@@ -340,16 +382,16 @@ public class CodeFormatter {
     }
 
     func escapeString(_ string: String) -> String {
-        let replacements: [String: String] = [
-            ">=": "greaterThanOrEqualTo",
-            "<=": "lessThanOrEqualTo",
-            ">": "greaterThan",
-            "<": "lessThan",
-            "$": "dollar",
-            "%": "percent",
-            "#": "hash",
-            "@": "alpha",
-            "&": "and",
+        let replacements: [(String, String)] = [
+            (">=", "greaterThanOrEqualTo"),
+            ("<=", "lessThanOrEqualTo"),
+            (">", "greaterThan"),
+            ("<", "lessThan"),
+            ("$", "dollar"),
+            ("%", "percent"),
+            ("#", "hash"),
+            ("@", "alpha"),
+            ("&", "and"),
         ]
         var escapedString = string
         for (symbol, replacement) in replacements {
@@ -378,7 +420,10 @@ public class CodeFormatter {
     }
 
     func getEnumType(_ name: String) -> String {
-        return escapeType("\(modelPrefix ?? "")\(name.upperCamelCased())")
+        if let enumName = enumNames[name] {
+            return enumName
+        }
+        return escapeType("\(modelPrefix)\(name.upperCamelCased())")
     }
 
     func getItemType(name: String, item: Item, checkEnum: Bool = true) -> String {
@@ -386,8 +431,11 @@ public class CodeFormatter {
     }
 
     func getModelType(_ name: String) -> String {
+        if let modelName = modelNames[name] {
+            return modelName
+        }
         let type = name.upperCamelCased()
-        return escapeType("\(modelPrefix ?? "")\(type)\(modelSuffix ?? "")")
+        return escapeType("\(modelPrefix)\(type)\(modelSuffix)")
     }
 
     func getSchemaType(name: String, schema: Schema, checkEnum: Bool = true) -> String {

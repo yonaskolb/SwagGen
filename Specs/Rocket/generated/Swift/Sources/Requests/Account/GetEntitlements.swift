@@ -7,14 +7,16 @@ import Foundation
 
 extension Rocket.Account {
 
-    /** Get all entitlements under the account.
+    /**
+    Get all entitlements under the account.
 
 This list is returned under the call to get account information so a call here is
 only required when wishing to refresh a local copy of entitlements.
- */
+
+    */
     public enum GetEntitlements {
 
-        public static let service = APIService<Response>(id: "getEntitlements", tag: "account", method: "GET", path: "/account/entitlements", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getEntitlements", tag: "account", method: "GET", path: "/account/entitlements", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -113,8 +115,7 @@ only required when wishing to refresh a local copy of entitlements.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Entitlement].self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

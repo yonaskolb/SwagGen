@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.BikePoint {
 
+    /**
+    Gets the bike point with the given id.
+    */
     public enum BikePointGet {
 
         public static let service = APIService<Response>(id: "BikePoint_Get", tag: "BikePoint", method: "GET", path: "/BikePoint/{id}", hasBody: false)
@@ -71,11 +74,10 @@ extension TFL.BikePoint {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(Place.self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

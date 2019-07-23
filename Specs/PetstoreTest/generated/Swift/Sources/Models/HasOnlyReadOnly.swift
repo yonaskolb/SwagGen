@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class HasOnlyReadOnly: Codable, Equatable {
+public class HasOnlyReadOnly: APIModel {
 
     public var bar: String?
 

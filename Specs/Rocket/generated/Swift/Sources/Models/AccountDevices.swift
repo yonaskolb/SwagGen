@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AccountDevices: Codable, Equatable {
+public class AccountDevices: APIModel {
 
     /** The array of registered playack devices. */
     public var devices: [Device]

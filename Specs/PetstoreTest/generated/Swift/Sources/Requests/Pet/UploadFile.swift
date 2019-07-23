@@ -7,9 +7,12 @@ import Foundation
 
 extension PetstoreTest.Pet {
 
+    /**
+    uploads an image
+    */
     public enum UploadFile {
 
-        public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, authorization: Authorization(type: "petstore_auth", scope: "write:pets"))
+        public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, hasFile: true, securityRequirement: SecurityRequirement(type: "petstore_auth", scope: "write:pets"))
 
         public final class Request: APIRequest<Response> {
 
@@ -22,9 +25,9 @@ extension PetstoreTest.Pet {
                 public var additionalMetadata: String?
 
                 /** file to upload */
-                public var file: URL?
+                public var file: File?
 
-                public init(petId: Int, additionalMetadata: String? = nil, file: URL? = nil) {
+                public init(petId: Int, additionalMetadata: String? = nil, file: File? = nil) {
                     self.petId = petId
                     self.additionalMetadata = additionalMetadata
                     self.file = file
@@ -39,7 +42,7 @@ extension PetstoreTest.Pet {
             }
 
             /// convenience initialiser so an Option doesn't have to be created
-            public convenience init(petId: Int, additionalMetadata: String? = nil, file: URL? = nil) {
+            public convenience init(petId: Int, additionalMetadata: String? = nil, file: File? = nil) {
                 let options = Options(petId: petId, additionalMetadata: additionalMetadata, file: file)
                 self.init(options: options)
             }
@@ -90,11 +93,10 @@ extension PetstoreTest.Pet {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(ApiResponse.self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

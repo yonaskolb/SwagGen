@@ -7,7 +7,11 @@ import Foundation
 
 extension PetstoreTest.User {
 
-    /** This can only be done by the logged in user. */
+    /**
+    Delete user
+
+    This can only be done by the logged in user.
+    */
     public enum DeleteUser {
 
         public static let service = APIService<Response>(id: "deleteUser", tag: "user", method: "DELETE", path: "/user/{username}", hasBody: false)
@@ -77,11 +81,11 @@ extension PetstoreTest.User {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 400: self = .status400
                 case 404: self = .status404
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RoadDisruption: Codable, Equatable {
+public class RoadDisruption: APIModel {
 
     /** Describes the nature of disruption e.g. Traffic Incidents, Works */
     public var category: String?

@@ -6,7 +6,7 @@
 import Foundation
 
 /** definition with bool additional properties */
-public class ModelWithBooleanAdditionalProperties: Codable, Equatable {
+public class ModelWithBooleanAdditionalProperties: APIModel {
 
     public var name: String?
 

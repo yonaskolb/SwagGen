@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MultiHasAccessToObject: Codable, Equatable {
+public class MultiHasAccessToObject: APIModel {
 
     public var granted: [String]
 

@@ -7,13 +7,15 @@ import Foundation
 
 extension Rocket.Account {
 
-    /** Get all devices registered under this account.
+    /**
+    Get all devices registered under this account.
 
 Also includes information around device registration and deregistration limits.
- */
+
+    */
     public enum GetDevices {
 
-        public static let service = APIService<Response>(id: "getDevices", tag: "account", method: "GET", path: "/account/devices", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getDevices", tag: "account", method: "GET", path: "/account/devices", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -112,8 +114,7 @@ Also includes information around device registration and deregistration limits.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(AccountDevices.self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

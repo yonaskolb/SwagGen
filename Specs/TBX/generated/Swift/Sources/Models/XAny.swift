@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class XAny: Codable, Equatable {
+public class XAny: APIModel {
 
     public init() {
     }

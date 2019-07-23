@@ -17,7 +17,7 @@ Make sure Xcode 9.3 is installed first.
 
 ### [Mint](https://github.com/yonaskolb/mint)
 ```sh
-$ mint run yonaskolb/SwagGen
+$ mint install yonaskolb/SwagGen
 ```
 ### Homebrew
 
@@ -31,7 +31,7 @@ $ brew install SwagGen
 ```sh
 $ git clone https://github.com/yonaskolb/SwagGen.git
 $ cd SwagGen
-$ make
+$ make install
 ```
 
 ### Swift Package Manager
@@ -104,6 +104,38 @@ swaggen generate http://myapi.com/spec --template Templates/Swift  --destination
 
 For the Swift template, a handy option is `name`, which changes the name of the generated framework from the default of `API`. This can be set in the template or by passing in `--option name:MyCoolAPI`.
 
+
+### Swift Template
+
+List of all available options:
+
+name | action | expected values | default value
+--- | --- | --- | ---
+name | name of the API | `String` | API
+authors | authors in podspec | `String` | Yonas Kolb
+baseURL | baseURL in APIClient | `String` | first scheme, host, and base path of spec
+fixedWidthIntegers | whether to use types like Int32 and Int64 | `Bool` | false
+homepage | homepage in podspec  | `String` | https://github.com/yonaskolb/SwagGen
+modelPrefix | model by adding a prefix and model file name | `String` | null
+modelSuffix | model by adding a suffix and model file name | `String` | null
+mutableModels | whether model properties are mutable | `Bool` | true
+modelType | whether each model is a `struct` or `class` | `String` | class
+modelInheritance | whether models use inheritance. Must be false for structs | Bool | true
+modelNames | override model names | `[String: String]` | [:]
+modelProtocol | customize protocol name that all models conform to | `String` | APIModel
+enumNames | override enum names | `[String: String]` | [:]
+safeArrayDecoding | filter out invalid items in array instead of throwing | `Bool` | false
+safeOptionalDecoding | set invalid optionals to nil instead of throwing | `Bool` | false
+tagPrefix | prefix for all tags | `String` | null
+tagSuffix | suffix for all tags | `String` | null
+
+If writing your own Swift template there are a few types that are generated that you will need to provide typealias's for:
+
+- `ID`: The `UUID` format. Usually `UUID` or `String`
+- `File`: The `file` format. Usually `URL`, `Data` or a custom type with a mimeType and fileName
+- `DateTime`: The `date-time` format. Usually `Date`
+- `DateDay`:  The `date` format. Usually `Date` or a custom type.
+
 ## Editing
 ```
 $ git clone https://github.com/yonaskolb/SwagGen.git
@@ -138,6 +170,9 @@ Formatters change what information is available to the templates and how it's fo
 
 ## Output Languages
 SwagGen can be used to generate code for any language. At the moment there is only a formatter and template for **Swift**
+
+## Swift API usage
+Usage documentation can be found in the [Readme](Templates/Swift/README.md) that is generated with your template.
 
 ---
 

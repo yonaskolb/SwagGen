@@ -36,14 +36,14 @@ public struct TemplateConfig {
         return options[option] as? String
     }
 
-    public func getBooleanOption(_ option: String) -> Bool {
+    public func getBooleanOption(_ option: String) -> Bool? {
         if let bool = options[option] as? Bool {
             return bool
         } else if let string = options[option] as? String {
             let lowercaseString = string.lowercased()
             return lowercaseString == "true" || lowercaseString == "yes"
         } else {
-            return false
+            return nil
         }
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PostcodeInput: Codable, Equatable {
+public class PostcodeInput: APIModel {
 
     public var postcode: String?
 

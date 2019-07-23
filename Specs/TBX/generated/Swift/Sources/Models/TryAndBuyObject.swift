@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TryAndBuyObject: Codable, Equatable {
+public class TryAndBuyObject: APIModel {
 
     public var active: Bool
 

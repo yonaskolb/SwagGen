@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class LineSpecificServiceType: Codable, Equatable {
+public class LineSpecificServiceType: APIModel {
 
     public var serviceType: LineServiceTypeInfo?
 

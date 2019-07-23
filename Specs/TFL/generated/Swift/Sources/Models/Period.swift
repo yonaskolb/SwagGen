@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Period: Codable, Equatable {
+public class Period: APIModel {
 
     public enum `Type`: String, Codable {
         case normal = "Normal"

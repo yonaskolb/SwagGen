@@ -4,12 +4,22 @@ import Foundation
 
 extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }}{% endif %} {
 
-    {% if description %}
-    /** {{ description }} */
+    {% if description or summary %}
+    /**
+    {% if summary %}
+    {{ summary }}
+    {% if description and description != summary %}
+
+    {{ description }}
+    {% endif %}
+    {% elif description %}
+    {{ description }}
+    {% endif %}
+    */
     {% endif %}
     public enum {{ type }} {
 
-        public static let service = APIService<Response>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if securityRequirement %}, authorization: Authorization(type: "{{ securityRequirement.name }}", scope: "{{ securityRequirement.scope }}"){% endif %})
+        public static let service = APIService<Response>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if hasFileParam %}, hasFile: true{% endif %}{% if securityRequirement %}, securityRequirement: SecurityRequirement(type: "{{ securityRequirement.name }}", scope: "{{ securityRequirement.scope }}"){% endif %})
         {% for enum in requestEnums %}
         {% if not enum.isGlobal %}
 
@@ -185,9 +195,8 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 {% if hasResponseModels %}
-                let decoder = JSONDecoder()
                 {% endif %}
                 switch statusCode {
                 {% for response in responses where response.statusCode %}
@@ -204,7 +213,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 default: self = .{{ defaultResponse.name }}(statusCode: statusCode)
                 {% endif %}
                 {% else %}
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 {% endif %}
                 }
             }

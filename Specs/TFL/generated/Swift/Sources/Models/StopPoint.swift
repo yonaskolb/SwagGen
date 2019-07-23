@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StopPoint: Codable, Equatable {
+public class StopPoint: APIModel {
 
     public var accessibilitySummary: String?
 

@@ -7,6 +7,9 @@ import Foundation
 
 extension PetstoreTest.User {
 
+    /**
+    Get user by user name
+    */
     public enum GetUserByName {
 
         public static let service = APIService<Response>(id: "getUserByName", tag: "user", method: "GET", path: "/user/{username}", hasBody: false)
@@ -83,13 +86,12 @@ extension PetstoreTest.User {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(User.self, from: data))
                 case 400: self = .status400
                 case 404: self = .status404
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

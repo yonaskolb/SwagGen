@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TrainLoading: Codable, Equatable {
+public class TrainLoading: APIModel {
 
     /** Direction in regards to Journey Planner i.e. inbound or outbound */
     public var direction: String?

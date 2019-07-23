@@ -7,6 +7,11 @@ import Foundation
 
 extension TFL.BikePoint {
 
+    /**
+    Search for bike stations by their name, a bike point's name often contains information about the name of the street
+            or nearby landmarks, for example. Note that the search result does not contain the PlaceProperties i.e. the status
+            or occupancy of the BikePoint, to get that information you should retrieve the BikePoint by its id on /BikePoint/id.
+    */
     public enum BikePointSearch {
 
         public static let service = APIService<Response>(id: "BikePoint_Search", tag: "BikePoint", method: "GET", path: "/BikePoint/Search", hasBody: false)
@@ -73,11 +78,10 @@ extension TFL.BikePoint {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Place].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

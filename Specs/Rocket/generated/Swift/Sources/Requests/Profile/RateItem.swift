@@ -7,13 +7,15 @@ import Foundation
 
 extension Rocket.Profile {
 
-    /** Rate an item under the active profile.
+    /**
+    Rate an item under the active profile.
 
 Creates one if it doesn't exist, overwrites one if it does.
- */
+
+    */
     public enum RateItem {
 
-        public static let service = APIService<Response>(id: "rateItem", tag: "profile", method: "PUT", path: "/account/profile/ratings/{itemId}", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "rateItem", tag: "profile", method: "PUT", path: "/account/profile/ratings/{itemId}", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -145,8 +147,7 @@ Creates one if it doesn't exist, overwrites one if it does.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(UserRating.self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

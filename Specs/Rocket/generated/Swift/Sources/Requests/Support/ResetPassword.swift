@@ -7,7 +7,8 @@ import Foundation
 
 extension Rocket.Support {
 
-    /** When a user requests to reset their password via the /request-password-reset endpoint, an
+    /**
+    When a user requests to reset their password via the /request-password-reset endpoint, an
 email is sent to the email address of the primary profile of the account. This email contains a link
 with a token as query parameter. The link should takes the user to the "reset-password"
 page of the website.
@@ -16,10 +17,11 @@ From the reset-password page a user should enter their primary account email add
 and the new password they wish to use. These should then be submitted to this endpoint,
 along with the token from the email link. The token should be provided in the authorization
 header as a bearer token.
- */
+
+    */
     public enum ResetPassword {
 
-        public static let service = APIService<Response>(id: "resetPassword", tag: "support", method: "POST", path: "/reset-password", hasBody: true, authorization: Authorization(type: "resetPasswordAuth", scope: ""))
+        public static let service = APIService<Response>(id: "resetPassword", tag: "support", method: "POST", path: "/reset-password", hasBody: true, securityRequirement: SecurityRequirement(type: "resetPasswordAuth", scope: ""))
 
         public final class Request: APIRequest<Response> {
 
@@ -124,8 +126,7 @@ header as a bearer token.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 204: self = .status204
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

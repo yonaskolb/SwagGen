@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Journey {
 
+    /**
+    Perform a Journey Planner search from the parameters specified in simple types
+    */
     public enum JourneyJourneyResults {
 
         public static let service = APIService<Response>(id: "Journey_JourneyResults", tag: "Journey", method: "GET", path: "/Journey/JourneyResults/{from}/to/{to}", hasBody: false)
@@ -320,11 +323,10 @@ extension TFL.Journey {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(ItineraryResult.self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

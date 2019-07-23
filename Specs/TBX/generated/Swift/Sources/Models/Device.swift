@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Device: Codable, Equatable {
+public class Device: APIModel {
 
     public var id: String
 

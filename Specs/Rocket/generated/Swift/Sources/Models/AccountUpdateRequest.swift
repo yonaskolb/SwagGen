@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AccountUpdateRequest: Codable, Equatable {
+public class AccountUpdateRequest: APIModel {
 
     /** The id of the payment instrument to use by default for account transactions. */
     public var defaultPaymentInstrumentId: String?

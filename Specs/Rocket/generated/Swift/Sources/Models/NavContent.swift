@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class NavContent: Codable, Equatable {
+public class NavContent: APIModel {
 
     /** The image type to target when rendering items of the list.
 

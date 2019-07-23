@@ -6,6 +6,7 @@ public class SwiftFormatter: CodeFormatter {
     var disallowedKeywords: [String] {
         return [
             "Type",
+            "Protocol",
             "class",
             "struct",
             "enum",
@@ -73,7 +74,7 @@ public class SwiftFormatter: CodeFormatter {
     let fixedWidthIntegers: Bool
 
     public override init(spec: SwaggerSpec, templateConfig: TemplateConfig) {
-        fixedWidthIntegers = templateConfig.getBooleanOption("fixedWidthIntegers")
+        fixedWidthIntegers = templateConfig.getBooleanOption("fixedWidthIntegers") ?? false
         super.init(spec: spec, templateConfig: templateConfig)
     }
 
@@ -112,7 +113,7 @@ public class SwiftFormatter: CodeFormatter {
                 case .date: return "DateDay"
                 case .email, .hostname, .ipv4, .ipv6, .password: return "String"
                 case .uri: return "URL"
-                case .uuid: return "UUID"
+                case .uuid: return "ID"
                 }
             case .other: return "String"
             }
@@ -139,7 +140,7 @@ public class SwiftFormatter: CodeFormatter {
             }
         case .boolean:
             return "Bool"
-        case .file: return "URL"
+        case .file: return "File"
         }
     }
 
@@ -235,7 +236,7 @@ public class SwiftFormatter: CodeFormatter {
 
         let jsonTypes = ["Any", "[String: Any]", "Int", "String", "Float", "Double", "Bool"]
 
-        if !jsonTypes.contains(type) && !jsonTypes.map({ "[\($0)]" }).contains(type) && !jsonTypes.map({ "[String: \($0)]" }).contains(type) {
+        if !jsonTypes.contains(type), !jsonTypes.map({ "[\($0)]" }).contains(type), !jsonTypes.map({ "[String: \($0)]" }).contains(type) {
             if type.hasPrefix("[[") {
                 encodedValue += ".map({ $0.encode() })"
             } else if type.hasPrefix("[String: [") {

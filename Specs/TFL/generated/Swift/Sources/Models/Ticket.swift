@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Ticket: Codable, Equatable {
+public class Ticket: APIModel {
 
     public var cost: String?
 

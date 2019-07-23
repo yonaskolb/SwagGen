@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PassengerType: Codable, Equatable {
+public class PassengerType: APIModel {
 
     public var description: String?
 

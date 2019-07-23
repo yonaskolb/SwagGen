@@ -7,10 +7,12 @@ import Foundation
 
 extension Rocket.Profile {
 
-    /** Get the map of watched item ids (itemId => last playhead position) under the active profile. */
+    /**
+    Get the map of watched item ids (itemId => last playhead position) under the active profile.
+    */
     public enum GetWatched {
 
-        public static let service = APIService<Response>(id: "getWatched", tag: "profile", method: "GET", path: "/account/profile/watched", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getWatched", tag: "profile", method: "GET", path: "/account/profile/watched", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -109,8 +111,7 @@ extension Rocket.Profile {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([String: Watched].self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

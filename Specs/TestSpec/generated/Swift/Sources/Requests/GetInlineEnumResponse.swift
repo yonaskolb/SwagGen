@@ -7,10 +7,12 @@ import Foundation
 
 extension TestSpec {
 
-    /** operation with an enum response */
+    /**
+    operation with an enum response
+    */
     public enum GetInlineEnumResponse {
 
-        public static let service = APIService<Response>(id: "getInlineEnumResponse", tag: "", method: "GET", path: "/inlineEnumResponse", hasBody: false)
+        public static let service = APIService<Response>(id: "getInlineEnumResponse", tag: "", method: "GET", path: "/inlineEnumResponse", hasBody: false, securityRequirement: SecurityRequirement(type: "test_auth", scope: "read"))
 
         public final class Request: APIRequest<Response> {
 
@@ -22,9 +24,9 @@ extension TestSpec {
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
 
             /** enum response */
-            public enum Status200: String, Codable {
-                case one = "one"
-                case two = "two"
+            public enum Status200: Int, Codable {
+                case one = 1
+                case two = 2
 
                 public static let cases: [Status200] = [
                   .one,
@@ -60,11 +62,10 @@ extension TestSpec {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([String: Status200].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

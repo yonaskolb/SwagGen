@@ -7,6 +7,9 @@ import Foundation
 
 extension TBX.Auth {
 
+    /**
+    URL for the client can start a new login with your IDP
+    */
     public enum AuthLogin {
 
         public static let service = APIService<Response>(id: "auth.login", tag: "auth", method: "GET", path: "/auth/{cp}/login.html", hasBody: false)
@@ -109,11 +112,10 @@ extension TBX.Auth {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(Auth.self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

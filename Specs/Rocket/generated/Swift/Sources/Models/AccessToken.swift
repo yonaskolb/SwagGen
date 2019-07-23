@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AccessToken: Codable, Equatable {
+public class AccessToken: APIModel {
 
     /** The type of the token. */
     public enum `Type`: String, Codable {

@@ -7,7 +7,11 @@ import Foundation
 
 extension PetstoreTest.Store {
 
-    /** For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors */
+    /**
+    Delete purchase order by ID
+
+    For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+    */
     public enum DeleteOrder {
 
         public static let service = APIService<Response>(id: "deleteOrder", tag: "store", method: "DELETE", path: "/store/order/{order_id}", hasBody: false)
@@ -77,11 +81,11 @@ extension PetstoreTest.Store {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 400: self = .status400
                 case 404: self = .status404
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Road {
 
+    /**
+    Gets the road with the specified id (e.g. A1)
+    */
     public enum GetRoad {
 
         public static let service = APIService<Response>(id: "getRoad", tag: "Road", method: "GET", path: "/Road/{ids}", hasBody: false)
@@ -71,11 +74,10 @@ extension TFL.Road {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([RoadCorridor].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

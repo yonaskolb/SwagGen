@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class FaresMode: Codable, Equatable {
+public class FaresMode: APIModel {
 
     public var description: String?
 

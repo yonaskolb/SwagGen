@@ -7,7 +7,9 @@ import Foundation
 
 extension Rocket.Content {
 
-    /** Returns the details of an item with the specified id. */
+    /**
+    Returns the details of an item with the specified id.
+    */
     public enum GetItem {
 
         public static let service = APIService<Response>(id: "getItem", tag: "content", method: "GET", path: "/items/{id}", hasBody: false)
@@ -263,8 +265,7 @@ See the `feature-flags.md` for available flag details.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(ItemDetail.self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

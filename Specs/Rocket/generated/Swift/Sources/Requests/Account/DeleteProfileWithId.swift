@@ -7,13 +7,15 @@ import Foundation
 
 extension Rocket.Account {
 
-    /** Delete a profile with a specific id under the active account.
+    /**
+    Delete a profile with a specific id under the active account.
 
 Note that you cannot delete the primary profile.
- */
+
+    */
     public enum DeleteProfileWithId {
 
-        public static let service = APIService<Response>(id: "deleteProfileWithId", tag: "account", method: "DELETE", path: "/account/profiles/{id}", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "deleteProfileWithId", tag: "account", method: "DELETE", path: "/account/profiles/{id}", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -135,8 +137,7 @@ Note that you cannot delete the primary profile.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 204: self = .status204
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

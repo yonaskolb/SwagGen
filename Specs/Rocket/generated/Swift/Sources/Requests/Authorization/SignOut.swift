@@ -7,9 +7,11 @@ import Foundation
 
 extension Rocket.Authorization {
 
-    /** When a user signs out of an application we need to clear some
+    /**
+    When a user signs out of an application we need to clear some
 basic cookies we assigned them during token authorization.
- */
+
+    */
     public enum SignOut {
 
         public static let service = APIService<Response>(id: "signOut", tag: "authorization", method: "DELETE", path: "/authorization", hasBody: false)
@@ -97,8 +99,7 @@ basic cookies we assigned them during token authorization.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 204: self = .status204
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

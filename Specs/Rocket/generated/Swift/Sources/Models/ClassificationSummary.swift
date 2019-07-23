@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ClassificationSummary: Codable, Equatable {
+public class ClassificationSummary: APIModel {
 
     /** The unique code for a classification. */
     public var code: String

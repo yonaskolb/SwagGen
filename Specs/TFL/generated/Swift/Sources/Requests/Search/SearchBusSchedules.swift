@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Search {
 
+    /**
+    Searches the bus schedules folder on S3 for a given bus number.
+    */
     public enum SearchBusSchedules {
 
         public static let service = APIService<Response>(id: "Search_BusSchedules", tag: "Search", method: "GET", path: "/Search/BusSchedules", hasBody: false)
@@ -73,11 +76,10 @@ extension TFL.Search {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(SearchResponse.self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

@@ -6,7 +6,7 @@
 import Foundation
 
 /** Defines playback exclusion rules for an Offer or Entitlement. */
-public class ExclusionRule: Codable, Equatable {
+public class ExclusionRule: APIModel {
 
     /** Defines playback exclusion rules for an Offer or Entitlement. */
     public enum ExcludeDelivery: String, Codable {

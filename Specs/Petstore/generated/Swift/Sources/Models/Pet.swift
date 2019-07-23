@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Pet: Codable, Equatable {
+public class Pet: APIModel {
 
     public var id: Int
 

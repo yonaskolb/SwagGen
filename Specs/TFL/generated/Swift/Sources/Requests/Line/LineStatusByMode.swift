@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Line {
 
+    /**
+    Gets the line status of for all lines for the given modes
+    */
     public enum LineStatusByMode {
 
         public static let service = APIService<Response>(id: "Line_StatusByMode", tag: "Line", method: "GET", path: "/Line/Mode/{modes}/Status", hasBody: false)
@@ -83,11 +86,10 @@ extension TFL.Line {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Line].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

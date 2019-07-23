@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class HasAccessToObject: Codable, Equatable {
+public class HasAccessToObject: APIModel {
 
     /** Target urn */
     public var urn: String

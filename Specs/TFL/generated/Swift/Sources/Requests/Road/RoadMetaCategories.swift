@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Road {
 
+    /**
+    Gets a list of valid RoadDisruption categories
+    */
     public enum RoadMetaCategories {
 
         public static let service = APIService<Response>(id: "Road_MetaCategories", tag: "Road", method: "GET", path: "/Road/Meta/Categories", hasBody: false)
@@ -48,11 +51,10 @@ extension TFL.Road {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([String].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

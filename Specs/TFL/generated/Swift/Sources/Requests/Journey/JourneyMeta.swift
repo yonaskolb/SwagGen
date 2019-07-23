@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Journey {
 
+    /**
+    Gets a list of all of the available journey planner modes
+    */
     public enum JourneyMeta {
 
         public static let service = APIService<Response>(id: "Journey_Meta", tag: "Journey", method: "GET", path: "/Journey/Meta/Modes", hasBody: false)
@@ -48,11 +51,10 @@ extension TFL.Journey {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Mode].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Disambiguation: Codable, Equatable {
+public class Disambiguation: APIModel {
 
     public var disambiguationOptions: [DisambiguationOption]?
 

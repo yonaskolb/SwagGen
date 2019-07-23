@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RouteSearchResponse: Codable, Equatable {
+public class RouteSearchResponse: APIModel {
 
     public var input: String?
 

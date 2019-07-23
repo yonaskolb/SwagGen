@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Casualty: Codable, Equatable {
+public class Casualty: APIModel {
 
     public var age: Int?
 

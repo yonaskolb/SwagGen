@@ -7,6 +7,9 @@ import Foundation
 
 extension TBX.Auth {
 
+    /**
+    Return url from SAML logout
+    */
     public enum AuthSamlLogout {
 
         public static let service = APIService<Response>(id: "auth.samlLogout", tag: "auth", method: "GET", path: "/auth/saml/logout", hasBody: false)
@@ -80,11 +83,10 @@ extension TBX.Auth {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decodeAny([String: Any].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

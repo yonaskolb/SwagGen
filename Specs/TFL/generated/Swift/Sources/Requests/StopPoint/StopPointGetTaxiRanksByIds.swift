@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.StopPoint {
 
+    /**
+    Gets a list of taxi ranks corresponding to the given stop point id.
+    */
     public enum StopPointGetTaxiRanksByIds {
 
         public static let service = APIService<Response>(id: "StopPoint_GetTaxiRanksByIds", tag: "StopPoint", method: "GET", path: "/StopPoint/{stopPointId}/TaxiRanks", hasBody: false)
@@ -71,11 +74,10 @@ extension TFL.StopPoint {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Place].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

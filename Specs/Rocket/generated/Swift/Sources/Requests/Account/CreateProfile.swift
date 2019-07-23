@@ -7,10 +7,12 @@ import Foundation
 
 extension Rocket.Account {
 
-    /** Create a new profile under the active account. */
+    /**
+    Create a new profile under the active account.
+    */
     public enum CreateProfile {
 
-        public static let service = APIService<Response>(id: "createProfile", tag: "account", method: "POST", path: "/account/profiles", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "createProfile", tag: "account", method: "POST", path: "/account/profiles", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -115,8 +117,7 @@ extension Rocket.Account {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 201: self = try .status201(decoder.decode(ProfileDetail.self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

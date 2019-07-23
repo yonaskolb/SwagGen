@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StationInterval: Codable, Equatable {
+public class StationInterval: APIModel {
 
     public var id: String?
 

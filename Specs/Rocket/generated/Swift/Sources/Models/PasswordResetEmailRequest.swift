@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class PasswordResetEmailRequest: Codable, Equatable {
+public class PasswordResetEmailRequest: APIModel {
 
     /** The email address of the primary account profile to reset the password for. */
     public var email: String

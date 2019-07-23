@@ -7,14 +7,16 @@ import Foundation
 
 extension Rocket.Content {
 
-    /** Returns the List of child summary items under an item.
+    /**
+    Returns the List of child summary items under an item.
 
 If the item is a Season then the children will be episodes and ordered by episode number.
 
 If the item is a Show then the children will be Seasons and ordered by season number.
 
 Returns 404 if no children found.
- */
+
+    */
     public enum GetItemChildrenList {
 
         public static let service = APIService<Response>(id: "getItemChildrenList", tag: "content", method: "GET", path: "/items/{id}/children", hasBody: false)
@@ -201,8 +203,7 @@ See the `feature-flags.md` for available flag details.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(ItemList.self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

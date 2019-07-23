@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class List: Codable, Equatable {
+public class List: APIModel {
 
     public var _123List: String?
 

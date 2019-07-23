@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Subscription: Codable, Equatable {
+public class Subscription: APIModel {
 
     /** The status of a subscription. */
     public enum Status: String, Codable {

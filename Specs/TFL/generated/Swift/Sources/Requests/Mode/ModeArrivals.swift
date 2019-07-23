@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Mode {
 
+    /**
+    Gets the next arrival predictions for all stops of a given mode
+    */
     public enum ModeArrivals {
 
         public static let service = APIService<Response>(id: "Mode_Arrivals", tag: "Mode", method: "GET", path: "/Mode/{mode}/Arrivals", hasBody: false)
@@ -83,11 +86,10 @@ extension TFL.Mode {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Prediction].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

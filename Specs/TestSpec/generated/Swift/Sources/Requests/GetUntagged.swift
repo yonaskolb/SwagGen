@@ -7,10 +7,12 @@ import Foundation
 
 extension TestSpec {
 
-    /** operation without a tag */
+    /**
+    operation without a tag
+    */
     public enum GetUntagged {
 
-        public static let service = APIService<Response>(id: "getUntagged", tag: "", method: "GET", path: "/untagged", hasBody: false)
+        public static let service = APIService<Response>(id: "getUntagged", tag: "", method: "GET", path: "/untagged", hasBody: false, securityRequirement: SecurityRequirement(type: "test_auth", scope: "read"))
 
         public final class Request: APIRequest<Response> {
 
@@ -49,10 +51,10 @@ extension TestSpec {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 201: self = .status201
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

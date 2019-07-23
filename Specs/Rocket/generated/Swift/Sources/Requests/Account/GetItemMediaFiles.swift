@@ -7,7 +7,8 @@ import Foundation
 
 extension Rocket.Account {
 
-    /** Get the video files associated with an item given maximum resolution, device type
+    /**
+    Get the video files associated with an item given maximum resolution, device type
 and one or more delivery types.
 
 This endpoint accepts an Account Catalog token, however if when requesting
@@ -32,10 +33,11 @@ types in the order you specify them in the query. For example `stream,progressiv
 would return an array with 0 or more stream files followed by 0 or more progressive files.
 
 If no files are found a 404 is returned.
- */
+
+    */
     public enum GetItemMediaFiles {
 
-        public static let service = APIService<Response>(id: "getItemMediaFiles", tag: "account", method: "GET", path: "/account/items/{id}/videos", hasBody: false, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getItemMediaFiles", tag: "account", method: "GET", path: "/account/items/{id}/videos", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -217,8 +219,7 @@ The first entry containing what is predicted to be the best match.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([MediaFile].self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

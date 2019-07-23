@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Line {
 
+    /**
+    Gets the timetable for a specified station on the give line
+    */
     public enum LineTimetable {
 
         public static let service = APIService<Response>(id: "Line_Timetable", tag: "Line", method: "GET", path: "/Line/{id}/Timetable/{fromStopPointId}", hasBody: false)
@@ -75,11 +78,10 @@ extension TFL.Line {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(TimetableResponse.self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

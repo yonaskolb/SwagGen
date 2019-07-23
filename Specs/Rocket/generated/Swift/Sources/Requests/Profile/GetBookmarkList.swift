@@ -7,10 +7,12 @@ import Foundation
 
 extension Rocket.Profile {
 
-    /** Returns the list of bookmarked items under the active profile. */
+    /**
+    Returns the list of bookmarked items under the active profile.
+    */
     public enum GetBookmarkList {
 
-        public static let service = APIService<Response>(id: "getBookmarkList", tag: "profile", method: "GET", path: "/account/profile/bookmarks/list", hasBody: false, authorization: Authorization(type: "profileAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getBookmarkList", tag: "profile", method: "GET", path: "/account/profile/bookmarks/list", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -200,8 +202,7 @@ See the `feature-flags.md` for available flag details.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(ItemList.self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

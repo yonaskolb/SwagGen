@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ErrorObject: Codable, Equatable {
+public class ErrorObject: APIModel {
 
     /** CloudPass error code */
     public var errorCode: String

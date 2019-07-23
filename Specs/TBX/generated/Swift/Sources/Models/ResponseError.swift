@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ResponseError: Codable, Equatable {
+public class ResponseError: APIModel {
 
     public var error: ErrorObject
 

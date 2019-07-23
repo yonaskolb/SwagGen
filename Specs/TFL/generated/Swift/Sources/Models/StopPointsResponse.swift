@@ -6,7 +6,7 @@
 import Foundation
 
 /** A paged response containing StopPoints */
-public class StopPointsResponse: Codable, Equatable {
+public class StopPointsResponse: APIModel {
 
     /** The centre latitude/longitude of this list of StopPoints */
     public var centrePoint: [Double]?

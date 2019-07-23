@@ -7,10 +7,14 @@ import Foundation
 
 extension PetstoreTest.Store {
 
-    /** Returns a map of status codes to quantities */
+    /**
+    Returns pet inventories by status
+
+    Returns a map of status codes to quantities
+    */
     public enum GetInventory {
 
-        public static let service = APIService<Response>(id: "getInventory", tag: "store", method: "GET", path: "/store/inventory", hasBody: false, authorization: Authorization(type: "api_key", scope: ""))
+        public static let service = APIService<Response>(id: "getInventory", tag: "store", method: "GET", path: "/store/inventory", hasBody: false, securityRequirement: SecurityRequirement(type: "api_key", scope: ""))
 
         public final class Request: APIRequest<Response> {
 
@@ -49,11 +53,10 @@ extension PetstoreTest.Store {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([String: Int].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Identifier: Codable, Equatable {
+public class Identifier: APIModel {
 
     public var crowding: Crowding?
 

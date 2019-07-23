@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.AccidentStats {
 
+    /**
+    Gets all accident details for accidents occuring in the specified year
+    */
     public enum AccidentStatsGet {
 
         public static let service = APIService<Response>(id: "AccidentStats_Get", tag: "AccidentStats", method: "GET", path: "/AccidentStats/{year}", hasBody: false)
@@ -71,11 +74,10 @@ extension TFL.AccidentStats {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([AccidentDetail].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

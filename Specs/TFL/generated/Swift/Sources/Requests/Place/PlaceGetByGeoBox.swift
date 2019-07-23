@@ -7,6 +7,10 @@ import Foundation
 
 extension TFL.Place {
 
+    /**
+    Gets the places that lie within the bounding box defined by the lat/lon of its north-west and south-east corners. Optionally filters
+            on type and can strip properties for a smaller payload.
+    */
     public enum PlaceGetByGeoBox {
 
         public static let service = APIService<Response>(id: "Place_GetByGeoBox", tag: "Place", method: "GET", path: "/Place", hasBody: false)
@@ -112,11 +116,10 @@ extension TFL.Place {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([StopPoint].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class SearchCriteria: Codable, Equatable {
+public class SearchCriteria: APIModel {
 
     public enum DateTimeType: String, Codable {
         case arriving = "Arriving"

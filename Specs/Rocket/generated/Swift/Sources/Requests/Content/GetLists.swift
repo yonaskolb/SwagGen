@@ -7,7 +7,9 @@ import Foundation
 
 extension Rocket.Content {
 
-    /** Returns an array of item lists with their first page of content resolved. */
+    /**
+    Returns an array of item lists with their first page of content resolved.
+    */
     public enum GetLists {
 
         public static let service = APIService<Response>(id: "getLists", tag: "content", method: "GET", path: "/lists", hasBody: false)
@@ -217,8 +219,7 @@ See the `feature-flags.md` for available flag details.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([ItemList].self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

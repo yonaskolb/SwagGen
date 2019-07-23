@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DeviceObject: Codable, Equatable {
+public class DeviceObject: APIModel {
 
     public var token: String
 
@@ -18,7 +18,7 @@ public class DeviceObject: Codable, Equatable {
 
     public var description: String?
 
-    public class `Type`: Codable, Equatable {
+    public class `Type`: APIModel {
 
         public var code: String?
 
@@ -60,7 +60,7 @@ public class DeviceObject: Codable, Equatable {
         }
     }
 
-    public class Customer: Codable, Equatable {
+    public class Customer: APIModel {
 
         public var country: Country?
 
@@ -73,7 +73,7 @@ public class DeviceObject: Codable, Equatable {
 
         public var subscriberId: String?
 
-        public class Country: Codable, Equatable {
+        public class Country: APIModel {
 
             public var code: String?
 
@@ -115,7 +115,7 @@ public class DeviceObject: Codable, Equatable {
             }
         }
 
-        public class Idp: Codable, Equatable {
+        public class Idp: APIModel {
 
             public var code: String?
 

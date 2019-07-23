@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TokenRefreshRequest: Codable, Equatable {
+public class TokenRefreshRequest: APIModel {
 
     /** If you specify a cookie type then a content filter cookie will be returned
     along with the token(s). This is only really intended for web based clients which

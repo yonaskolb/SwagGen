@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Vehicle {
 
+    /**
+    Gets the Emissions Surcharge compliance for the Vehicle
+    */
     public enum VehicleGetVehicle {
 
         public static let service = APIService<Response>(id: "Vehicle_GetVehicle", tag: "Vehicle", method: "GET", path: "/Vehicle/EmissionSurcharge", hasBody: false)
@@ -73,11 +76,10 @@ extension TFL.Vehicle {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(EmissionsSurchargeVehicle.self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AdditionalProperties: Codable, Equatable {
+public class AdditionalProperties: APIModel {
 
     public var category: String?
 

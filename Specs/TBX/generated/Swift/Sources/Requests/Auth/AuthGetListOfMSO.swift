@@ -7,6 +7,9 @@ import Foundation
 
 extension TBX.Auth {
 
+    /**
+    Get list of IDPs of Content Provider
+    */
     public enum AuthGetListOfMSO {
 
         public static let service = APIService<Response>(id: "auth.getListOfMSO", tag: "auth", method: "GET", path: "/auth/{cp}/mso.json", hasBody: false)
@@ -71,11 +74,10 @@ extension TBX.Auth {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([MSO].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

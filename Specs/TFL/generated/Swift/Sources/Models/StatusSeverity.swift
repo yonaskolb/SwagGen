@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class StatusSeverity: Codable, Equatable {
+public class StatusSeverity: APIModel {
 
     public var description: String?
 

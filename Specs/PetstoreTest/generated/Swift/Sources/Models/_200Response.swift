@@ -6,7 +6,7 @@
 import Foundation
 
 /** Model for testing model name starting with number */
-public class _200Response: Codable, Equatable {
+public class _200Response: APIModel {
 
     public var `class`: String?
 

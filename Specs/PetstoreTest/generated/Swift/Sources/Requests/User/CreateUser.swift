@@ -7,7 +7,11 @@ import Foundation
 
 extension PetstoreTest.User {
 
-    /** This can only be done by the logged in user. */
+    /**
+    Create user
+
+    This can only be done by the logged in user.
+    */
     public enum CreateUser {
 
         public static let service = APIService<Response>(id: "createUser", tag: "user", method: "POST", path: "/user", hasBody: true)
@@ -55,7 +59,7 @@ extension PetstoreTest.User {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 default: self = .defaultResponse(statusCode: statusCode)
                 }

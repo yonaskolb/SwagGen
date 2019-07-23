@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DeviceRegistrationRequest: Codable, Equatable {
+public class DeviceRegistrationRequest: APIModel {
 
     /** The unique identifier for this device e.g. serial number. */
     public var id: String

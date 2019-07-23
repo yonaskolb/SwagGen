@@ -7,15 +7,17 @@ import Foundation
 
 extension TestSpec.TestTag {
 
-    /** operation with an inline body */
+    /**
+    operation with an inline body
+    */
     public enum PostInlinebody {
 
-        public static let service = APIService<Response>(id: "postInlinebody", tag: "TestTag", method: "POST", path: "/inlinebody", hasBody: true)
+        public static let service = APIService<Response>(id: "postInlinebody", tag: "TestTag", method: "POST", path: "/inlinebody", hasBody: true, securityRequirement: SecurityRequirement(type: "test_auth", scope: "write"))
 
         public final class Request: APIRequest<Response> {
 
             /** operation with an inline body */
-            public class Item: Codable, Equatable {
+            public class Item: APIModel {
 
                 public var id: Int?
 
@@ -98,10 +100,10 @@ extension TestSpec.TestTag {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 201: self = .status201
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

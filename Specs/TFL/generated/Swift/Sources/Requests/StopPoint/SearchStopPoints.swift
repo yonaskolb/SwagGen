@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.StopPoint {
 
+    /**
+    Search StopPoints by their common name, or their 5-digit Countdown Bus Stop Code.
+    */
     public enum SearchStopPoints {
 
         public static let service = APIService<Response>(id: "searchStopPoints", tag: "StopPoint", method: "GET", path: "/StopPoint/Search", hasBody: false)
@@ -109,11 +112,10 @@ extension TFL.StopPoint {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(SearchResponse.self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

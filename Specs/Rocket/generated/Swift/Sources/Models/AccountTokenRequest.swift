@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AccountTokenRequest: Codable, Equatable {
+public class AccountTokenRequest: APIModel {
 
     /** The scope(s) of the tokens required.
     For each scope listed an Account and Profile token of that scope will be returned

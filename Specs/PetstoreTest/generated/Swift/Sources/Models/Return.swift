@@ -6,7 +6,7 @@
 import Foundation
 
 /** Model for testing reserved words */
-public class Return: Codable, Equatable {
+public class Return: APIModel {
 
     public var `return`: Int?
 

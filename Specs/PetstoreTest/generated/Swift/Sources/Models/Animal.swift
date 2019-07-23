@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Animal: Codable, Equatable {
+public class Animal: APIModel {
 
     public var className: String
 

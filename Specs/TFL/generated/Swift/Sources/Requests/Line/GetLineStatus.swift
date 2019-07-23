@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.Line {
 
+    /**
+    Gets the line status for given line ids during the provided dates e.g Minor Delays
+    */
     public enum GetLineStatus {
 
         public static let service = APIService<Response>(id: "Get_Line_Status", tag: "Line", method: "GET", path: "/Line/{ids}/Status/{StartDate}/to/{EndDate}", hasBody: false)
@@ -103,11 +106,10 @@ extension TFL.Line {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Line].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

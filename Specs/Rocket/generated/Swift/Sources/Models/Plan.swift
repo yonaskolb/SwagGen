@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Plan: Codable, Equatable {
+public class Plan: APIModel {
 
     /** The type of plan. */
     public enum `Type`: String, Codable {

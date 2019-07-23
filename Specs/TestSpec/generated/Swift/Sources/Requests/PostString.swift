@@ -7,10 +7,12 @@ import Foundation
 
 extension TestSpec {
 
-    /** operation with string body */
+    /**
+    operation with string body
+    */
     public enum PostString {
 
-        public static let service = APIService<Response>(id: "postString", tag: "", method: "POST", path: "/string", hasBody: true)
+        public static let service = APIService<Response>(id: "postString", tag: "", method: "POST", path: "/string", hasBody: true, securityRequirement: SecurityRequirement(type: "test_auth", scope: "read"))
 
         public final class Request: APIRequest<Response> {
 
@@ -55,7 +57,7 @@ extension TestSpec {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 default: self = .defaultResponse(statusCode: statusCode)
                 }

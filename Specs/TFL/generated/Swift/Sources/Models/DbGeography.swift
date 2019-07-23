@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DbGeography: Codable, Equatable {
+public class DbGeography: APIModel {
 
     public var geography: DbGeographyWellKnownValue?
 

@@ -7,6 +7,9 @@ import Foundation
 
 extension TBX.UserService {
 
+    /**
+    Logout a related device by device id
+    */
     public enum UserServiceLogout {
 
         public static let service = APIService<Response>(id: "UserService.logout", tag: "UserService", method: "DELETE", path: "/UserServices/device/{device}", hasBody: false)
@@ -43,7 +46,7 @@ extension TBX.UserService {
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
 
-            public class Status200: Codable, Equatable {
+            public class Status200: APIModel {
 
                 public var status: Bool?
 
@@ -152,15 +155,14 @@ extension TBX.UserService {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode(Status200.self, from: data))
                 case 400: self = try .status400(decoder.decode(ResponseError.self, from: data))
                 case 401: self = try .status401(decoder.decode(ResponseError.self, from: data))
                 case 404: self = try .status404(decoder.decode(ResponseError.self, from: data))
                 case 410: self = try .status410(decoder.decode(ResponseError.self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

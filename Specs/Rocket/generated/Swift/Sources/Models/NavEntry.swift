@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class NavEntry: Codable, Equatable {
+public class NavEntry: APIModel {
 
     /** Child nav entries. */
     public var children: [NavEntry]?

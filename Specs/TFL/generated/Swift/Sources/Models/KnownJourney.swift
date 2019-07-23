@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class KnownJourney: Codable, Equatable {
+public class KnownJourney: APIModel {
 
     public var hour: String?
 

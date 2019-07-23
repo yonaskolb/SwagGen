@@ -18,7 +18,7 @@ public func testFixtures() {
 
                 let possibleExtensions = ["yml", "yaml", "json"]
                 guard let specPath = possibleExtensions.map({ specFolder + "spec.\($0)" }).filter({ $0.exists }).first else {
-                    throw TestSpecError.missingSpec
+                    throw failure("couldn't find spec")
                 }
 
                 let spec = try SwaggerSpec(path: specPath)
@@ -40,8 +40,4 @@ public func testFixtures() {
             }
         }
     }
-}
-
-enum TestSpecError: Error {
-    case missingSpec
 }

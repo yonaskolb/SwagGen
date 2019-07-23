@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ApiVersionInfo: Codable, Equatable {
+public class ApiVersionInfo: APIModel {
 
     public var assemblies: [String]?
 

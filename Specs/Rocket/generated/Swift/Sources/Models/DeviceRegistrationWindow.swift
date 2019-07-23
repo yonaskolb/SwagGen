@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DeviceRegistrationWindow: Codable, Equatable {
+public class DeviceRegistrationWindow: APIModel {
 
     /** The number of days a de/registration period runs for. */
     public var periodDays: Int

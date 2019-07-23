@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class MediaFile: Codable, Equatable {
+public class MediaFile: APIModel {
 
     /** The way in which the media file is delivered. */
     public enum DeliveryType: String, Codable {

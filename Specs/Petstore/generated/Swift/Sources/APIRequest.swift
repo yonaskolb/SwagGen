@@ -53,3 +53,26 @@ extension APIRequest: CustomDebugStringConvertible {
         return string
     }
 }
+
+/// A file upload. Must provide both fileName and mimeType for them to be passed along
+public struct File {
+
+    public var type: FileType
+    public var fileName: String?
+    public var mimeType: String?
+
+    public init(type: FileType, fileName: String? = nil, mimeType: String? = nil) {
+        self.type = type
+        self.fileName = fileName
+        self.mimeType = mimeType
+    }
+
+    public enum FileType {
+        case data(Data)
+        case url(URL)
+    }
+
+    func encode() -> Any {
+        return self
+    }
+}

@@ -25,7 +25,11 @@ public struct Operation {
     public let deprecated: Bool
     public let identifier: String?
     public let tags: [String]
-    public let security: [SecurityRequirement]?
+    public let securityRequirements: [SecurityRequirement]?
+
+    public var generatedIdentifier: String {
+        return identifier ?? "\(method)\(path)"
+    }
 
     public enum Method: String {
         case get
@@ -51,7 +55,7 @@ extension Operation {
 
         identifier = jsonDictionary.json(atKeyPath: "operationId")
         tags = (jsonDictionary.json(atKeyPath: "tags")) ?? []
-        security = jsonDictionary.json(atKeyPath: "security")
+        securityRequirements = jsonDictionary.json(atKeyPath: "security")
 
         let allResponses: [String: PossibleReference<Response>] = try jsonDictionary.json(atKeyPath: "responses")
         var mappedResponses: [OperationResponse] = []

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class GeoPointBBox: Codable, Equatable {
+public class GeoPointBBox: APIModel {
 
     public var swLat: Double
 

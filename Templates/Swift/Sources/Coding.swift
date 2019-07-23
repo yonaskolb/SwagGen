@@ -2,6 +2,17 @@
 
 import Foundation
 
+public protocol {{ options.modelProtocol }}: Codable, Equatable { }
+
+public typealias ID = UUID
+
+public protocol ResponseDecoder {
+
+    func decode<T: Decodable>(_ type: T.Type, from: Data) throws -> T
+}
+
+extension JSONDecoder: ResponseDecoder {}
+
 struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
 
     private let string: String
@@ -31,7 +42,7 @@ struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
 }
 
 // any json decoding
-extension JSONDecoder {
+extension ResponseDecoder {
 
     func decodeAny<T>(_ type: T.Type, from data: Data) throws -> T {
         guard let decoded = try decode(AnyCodable.self, from: data) as? T else {
@@ -134,6 +145,7 @@ extension KeyedDecodingContainer {
 extension KeyedEncodingContainer {
 
     mutating func encodeAnyIfPresent<T>(_ value: T?, forKey key: K) throws {
+        guard let value = value else { return }
         try encodeIfPresent(AnyCodable(value), forKey: key)
     }
 
@@ -206,7 +218,7 @@ public struct DateDay: Codable, Comparable {
     /// The date formatter used for encoding and decoding
     public static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "YYY-MM-dd"
+        formatter.dateFormat = "yyyy-MM-dd"
         formatter.calendar = .current
         return formatter
     }()
@@ -312,5 +324,17 @@ extension Array where Element: RawRepresentable {
 extension Dictionary where Key == String, Value: RawRepresentable {
     func encode() -> [String: Any] {
         return mapValues { $0.rawValue }
+    }
+}
+
+extension UUID {
+    func encode() -> Any {
+        return uuidString
+    }
+}
+
+extension String {
+    func encode() -> Any {
+        return self
     }
 }

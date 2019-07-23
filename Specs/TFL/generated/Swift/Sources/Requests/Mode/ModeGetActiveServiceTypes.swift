@@ -7,6 +7,10 @@ import Foundation
 
 extension TFL.Mode {
 
+    /**
+    Returns the service type active for a mode.
+            Currently only supports tube
+    */
     public enum ModeGetActiveServiceTypes {
 
         public static let service = APIService<Response>(id: "Mode_GetActiveServiceTypes", tag: "Mode", method: "GET", path: "/Mode/ActiveServiceTypes", hasBody: false)
@@ -48,11 +52,10 @@ extension TFL.Mode {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([ActiveServiceType].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

@@ -6,7 +6,7 @@
 import Foundation
 
 /** The base type for both Offer and Entitlement. */
-public class OfferRights: Codable, Equatable {
+public class OfferRights: APIModel {
 
     /** The base type for both Offer and Entitlement. */
     public enum DeliveryType: String, Codable {

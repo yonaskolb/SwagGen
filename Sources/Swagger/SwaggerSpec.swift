@@ -15,6 +15,7 @@ public struct SwaggerSpec {
     public let produces: [String]?
     public let paths: [Path]
     public let securityDefinitions: [SecuritySchema]
+    public let securityRequirements: [SecurityRequirement]?
     public let definitions: [SwaggerObject<Schema>]
     public let parameters: [SwaggerObject<Parameter>]
     public let responses: [SwaggerObject<Response>]
@@ -53,9 +54,14 @@ extension SwaggerSpec {
         } catch {
             throw SwaggerError.loadError(url)
         }
-        let string = String(data: data, encoding: .utf8)!
 
-        try self.init(string: string)
+        if let string = String(data: data, encoding: .utf8) {
+            try self.init(string: string)
+        } else if let string = String(data: data, encoding: .ascii) {
+            try self.init(string: string)
+        } else {
+            throw SwaggerError.parseError("Swagger doc is not utf8 or ascii encoded")
+        }
     }
 
     public init(path: PathKit.Path) throws {
@@ -87,6 +93,7 @@ extension SwaggerSpec: JSONObjectConvertible {
         schemes = jsonDictionary.json(atKeyPath: "schemes")
         consumes = jsonDictionary.json(atKeyPath: "consumes")
         produces = jsonDictionary.json(atKeyPath: "produces")
+        securityRequirements = jsonDictionary.json(atKeyPath: "security")
 
         func decodeObject<T: JSONObjectConvertible>(jsonDictionary: JSONDictionary, key: String) throws -> [SwaggerObject<T>] {
             var values: [SwaggerObject<T>] = []

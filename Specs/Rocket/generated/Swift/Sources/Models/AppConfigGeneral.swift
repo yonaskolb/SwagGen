@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AppConfigGeneral: Codable, Equatable {
+public class AppConfigGeneral: APIModel {
 
     /** The currency code to target. */
     public var currencyCode: String?

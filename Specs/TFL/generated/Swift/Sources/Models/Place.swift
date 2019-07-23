@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Place: Codable, Equatable {
+public class Place: APIModel {
 
     /** A bag of additional key/value pairs with extra information about this place. */
     public var additionalProperties: [AdditionalProperties]?

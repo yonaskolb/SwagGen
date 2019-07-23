@@ -7,15 +7,17 @@ import Foundation
 
 extension Rocket.Authorization {
 
-    /** Request one or more `Profile` level authorization tokens each with a chosen scope.
+    /**
+    Request one or more `Profile` level authorization tokens each with a chosen scope.
 
 Tokens are used to access restricted service endpoints. These restriced endpoints
 will require a specific token type (e.g Profile) with a specific scope (e.g. Catalog)
 before access is granted.
- */
+
+    */
     public enum GetProfileToken {
 
-        public static let service = APIService<Response>(id: "getProfileToken", tag: "authorization", method: "POST", path: "/authorization/profile", hasBody: true, authorization: Authorization(type: "accountAuth", scope: "Catalog"))
+        public static let service = APIService<Response>(id: "getProfileToken", tag: "authorization", method: "POST", path: "/authorization/profile", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scope: "Catalog"))
 
         public final class Request: APIRequest<Response> {
 
@@ -120,8 +122,7 @@ before access is granted.
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([AccessToken].self, from: data))
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

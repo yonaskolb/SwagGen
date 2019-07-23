@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AccidentStatsOrderedSummary: Codable, Equatable {
+public class AccidentStatsOrderedSummary: APIModel {
 
     public var accidents: Int?
 

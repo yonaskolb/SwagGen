@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class RouteSequence: Codable, Equatable {
+public class RouteSequence: APIModel {
 
     public var direction: String?
 

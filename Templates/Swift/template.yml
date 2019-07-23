@@ -1,12 +1,22 @@
 formatter: swift
 options:
-  name: API # the name of the API
+  name: EngagementAPI # the name of the API
   fixedWidthIntegers: false # whether to use types like Int32 and Int64
   mutableModels: true # whether model properties are mutable
   safeOptionalDecoding: false # set invalid optionals to nil instead of throwing
   safeArrayDecoding: false # filter out invalid items in array instead of throwing
   modelPrefix: null # applied to model classes and enums
   modelSuffix: null # applied to model classes
+  modelType: class # can be struct or class
+  modelInheritance: true # must be false for struct modelType
+  modelProtocol: APIModel # the protocol all models conform to
+  modelNames: # override model type names
+    CreatePaymentRequest: CreatePaymentRequestModel
+    DeclinePaymentRequest: DeclinePaymentRequestModel
+    FulfilPaymentRequest: FulfilPaymentRequestModel
+    Notification: EngagementNotification
+    Payment: PaymentData
+  enumNames: {} # override enum type names
   dependencies:
     - name: Alamofire
       pod: Alamofire
@@ -17,6 +27,7 @@ options:
       github: antitypical/Result
       version: 4.0.0
 templateFiles:
+  - path: README.md
   - path: Package.swift
   - path: Cartfile
   - path: Sources/API.swift
@@ -24,9 +35,8 @@ templateFiles:
   - path: Sources/APIRequest.swift
   - path: Sources/APIClient.swift
   - path: Sources/APIService.swift
-  - path: Sources/APIError.swift
+  - path: Sources/APIClientError.swift
   - path: Sources/APIResponse.swift
-  - path: Sources/Authorization.swift
   - path: Sources/APIResult.swift
   - path: Sources/RequestBehaviour.swift
   - path: Sources/AnyCodable.swift

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class AppConfig: Codable, Equatable {
+public class AppConfig: APIModel {
 
     /** The map of classification ratings. */
     public var classification: [String: Classification]?

@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class TwentyFourHourClockTime: Codable, Equatable {
+public class TwentyFourHourClockTime: APIModel {
 
     public var hour: String?
 

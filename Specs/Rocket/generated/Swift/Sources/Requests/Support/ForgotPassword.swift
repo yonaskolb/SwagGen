@@ -7,7 +7,8 @@ import Foundation
 
 extension Rocket.Support {
 
-    /** Request the password of an account's primary profile be reset.
+    /**
+    Request the password of an account's primary profile be reset.
 
 Should be called when a user has forgotten their password.
 
@@ -17,7 +18,8 @@ primary profile of an account.
 The link, once clicked, should take the user to the "reset-password" page of the
 website. Here they will enter their new password and submit to the /reset-password
 endpoint here, along with the password reset token provided in the original link.
- */
+
+    */
     public enum ForgotPassword {
 
         public static let service = APIService<Response>(id: "forgotPassword", tag: "support", method: "POST", path: "/request-password-reset", hasBody: true)
@@ -125,8 +127,7 @@ endpoint here, along with the password reset token provided in the original link
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 204: self = .status204
                 case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))

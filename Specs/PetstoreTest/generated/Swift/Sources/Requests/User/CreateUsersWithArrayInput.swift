@@ -7,6 +7,9 @@ import Foundation
 
 extension PetstoreTest.User {
 
+    /**
+    Creates list of users with given input array
+    */
     public enum CreateUsersWithArrayInput {
 
         public static let service = APIService<Response>(id: "createUsersWithArrayInput", tag: "user", method: "POST", path: "/user/createWithArray", hasBody: true)
@@ -54,7 +57,7 @@ extension PetstoreTest.User {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 default: self = .defaultResponse(statusCode: statusCode)
                 }

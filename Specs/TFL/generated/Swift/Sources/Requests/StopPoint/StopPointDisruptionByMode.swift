@@ -7,6 +7,9 @@ import Foundation
 
 extension TFL.StopPoint {
 
+    /**
+    Gets a distinct list of disrupted stop points for the given modes
+    */
     public enum StopPointDisruptionByMode {
 
         public static let service = APIService<Response>(id: "StopPoint_DisruptionByMode", tag: "StopPoint", method: "GET", path: "/StopPoint/Mode/{modes}/Disruption", hasBody: false)
@@ -82,11 +85,10 @@ extension TFL.StopPoint {
                 }
             }
 
-            public init(statusCode: Int, data: Data) throws {
-                let decoder = JSONDecoder()
+            public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([DisruptedPoint].self, from: data))
-                default: throw APIError.unexpectedStatusCode(statusCode: statusCode, data: data)
+                default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }
 

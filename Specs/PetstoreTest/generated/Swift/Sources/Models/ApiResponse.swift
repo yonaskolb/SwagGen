@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class ApiResponse: Codable, Equatable {
+public class ApiResponse: APIModel {
 
     public var code: Int?
 

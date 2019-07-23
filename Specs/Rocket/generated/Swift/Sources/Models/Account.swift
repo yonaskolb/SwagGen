@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Account: Codable, Equatable {
+public class Account: APIModel {
 
     /** The id of the account. */
     public var id: String

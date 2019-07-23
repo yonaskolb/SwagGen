@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class Street: Codable, Equatable {
+public class Street: APIModel {
 
     /** Type of road closure. Some example values:
             Open = road is open, not blocked, not closed, not restricted. It maybe that the disruption has been moved out of the carriageway.

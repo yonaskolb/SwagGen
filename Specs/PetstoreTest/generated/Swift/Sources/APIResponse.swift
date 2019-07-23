@@ -11,7 +11,7 @@ public protocol APIResponseValue: CustomDebugStringConvertible, CustomStringConv
     var statusCode: Int { get }
     var successful: Bool { get }
     var response: Any { get }
-    init(statusCode: Int, data: Data) throws
+    init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws
     var success: SuccessType? { get }
 }
 

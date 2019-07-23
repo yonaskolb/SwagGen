@@ -5,7 +5,7 @@
 
 import Foundation
 
-public class DisambiguationOption: Codable, Equatable {
+public class DisambiguationOption: APIModel {
 
     public var description: String?
 

@@ -13,7 +13,7 @@ It is an alternative the official [swagger-codegen](https://github.com/swagger-a
 The default Swift templates it generates include support for model inheritance, shared enums, mutable parameter structs, convenience initialisers, inline schemas, Codable and Equatable models, configurable model options, generic networking stack, decoding options, and many other niceties.
 
 ## Installing
-Make sure Xcode 9.3 is installed first.
+Make sure Xcode 10.3 is installed first.
 
 ### [Mint](https://github.com/yonaskolb/mint)
 ```sh

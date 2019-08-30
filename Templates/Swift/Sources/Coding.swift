@@ -17,7 +17,7 @@ public protocol ResponseDecoder {
 
 extension JSONDecoder: ResponseDecoder {}
 
-extension APIModel {
+extension {{ options.modelProtocol }} {
     func encode() -> [String: Any] {
         guard
             let jsonData = try? JSONEncoder().encode(self),

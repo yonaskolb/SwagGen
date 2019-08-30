@@ -1,6 +1,9 @@
 # Change Log
 ## Next Version
 
+### Fixes
+- Add missing custom model protocol name #191
+
 ## 4.2.0
 
 ### Swift Template Changes

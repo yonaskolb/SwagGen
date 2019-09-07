@@ -192,7 +192,6 @@ paths:
       description: operation with string response
       responses:
         "200":
-          description: ""
           content:
             text/plain:
               schema:

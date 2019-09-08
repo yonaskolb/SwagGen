@@ -2,6 +2,7 @@
 ## Next Version
 
 ### Fixes
+- Fixed responses from silently failing to parse when missing a `description`, which is now an optional property that defaults to an empty string #193
 - Add missing custom model protocol name #191
 
 ## 4.2.0

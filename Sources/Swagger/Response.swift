@@ -37,7 +37,7 @@ extension Header: JSONObjectConvertible {
 extension Response: JSONObjectConvertible {
 
     public init(jsonDictionary: JSONDictionary) throws {
-        description = try jsonDictionary.json(atKeyPath: "description")
+        description = jsonDictionary.json(atKeyPath: "description") ?? ""
         content = jsonDictionary.json(atKeyPath: "content")
         headers = jsonDictionary.json(atKeyPath: "headers") ?? [:]
     }

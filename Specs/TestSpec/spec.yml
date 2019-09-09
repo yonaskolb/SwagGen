@@ -192,7 +192,6 @@ paths:
       description: operation with string response
       responses:
         "200":
-          description: ""
           content:
             text/plain:
               schema:
@@ -339,6 +338,13 @@ components:
         - type: object
           properties:
             barks:
+              type: boolean
+    Puppi:
+      allOf:
+        - $ref: "#/components/schemas/Dog"
+        - type: object
+          properties:
+            play:
               type: boolean
     Error:
       required:

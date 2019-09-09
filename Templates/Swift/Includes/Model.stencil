@@ -71,12 +71,12 @@ public {{ options.modelType }} {{ type }}: {% if parent %}{{ parent.type }}{% el
     {% filter indent:4 %}{% include "Includes/Model.stencil" schema %}{% endfilter %}
     {% endfor %}
 
-    public init({% for property in allProperties %}{{ property.name }}: {{ property.optionalType }}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
+    public {% if parent %}{% if properties.count == 0 %}override {% endif %}{% endif %}init({% for property in allProperties %}{{ property.name }}: {{ property.optionalType }}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
         {% for property in properties %}
         self.{{ property.name }} = {{ property.name }}
         {% endfor %}
         {% if parent %}
-        super.init({% for property in parent.properties %}{{ property.name }}: {{ property.name }}{% ifnot forloop.last %}, {% endif %}{% endfor %})
+        super.init({% for property in parent.allProperties %}{{ property.name }}: {{ property.name }}{% ifnot forloop.last %}, {% endif %}{% endfor %})
         {% endif %}
     }
 

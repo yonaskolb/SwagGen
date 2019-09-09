@@ -1,13 +1,33 @@
 # Change Log
 ## Next Version
 
+### Swift Template Changes
+- Added support to custom JSON encoder based on request
+
+### Changes
+- List operations by path and then by method to keep the order consistent between code generations #185
+
 ### Fixed
+- Fixed responses from silently failing to parse when missing a `description`, which is now an optional property that defaults to an empty string #193
+- Add missing custom model protocol name #191
 - Fixed missing customization of JSONEncoder instance to encode request's body #147
 
-### Swift Template Updates
-- Fixed path to `Enum.swift` on Linux
-- Added support for objects in query params
-- Added support for nullable properties
+## 4.2.0
+
+### Swift Template Changes
+- Added support for objects in query params #158
+- Added support for nullable properties #165
+- Removed 3rd party Result framework #174
+- Fixed path to `Enum.swift` on Linux #157
+- Fixed model initializers with multiple levels of inheritance #175
+
+### Fixes
+- Decode Swagger specs with no components #180
+
+### Changes
+- Update dependencies
+
+[Commits](https://github.com/yonaskolb/SwagGen/compare/4.1.0...4.2.0)
 
 ## 4.1.0
 

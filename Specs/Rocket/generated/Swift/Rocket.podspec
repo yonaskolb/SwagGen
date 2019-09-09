@@ -15,5 +15,4 @@ best suits the application they are developing.
     s.osx.deployment_target = '10.9'
     s.source_files = 'Sources/**/*.swift'
     s.dependency 'Alamofire', '~> 4.8.2'
-    s.dependency 'Result', '~> 4.1.0'
 end

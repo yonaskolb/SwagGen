@@ -2,6 +2,7 @@
 /.build/
 /Packages
 /*.xcodeproj
+.swiftpm
 
 # specs
 /Specs/.build/

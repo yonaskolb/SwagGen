@@ -25,7 +25,7 @@ email address. This confirmation is done via the /verify-email endpoint.
 
             public var body: RegistrationRequest
 
-            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: RegistrationRequest) {
+            public init(body: RegistrationRequest, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
                 self.body = body
                 super.init(service: Register.service) {
                     return try jsonEncoder.encode(body)

@@ -16,7 +16,7 @@ extension Rocket.Authorization {
 
             public var body: TokenRefreshRequest
 
-            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: TokenRefreshRequest) {
+            public init(body: TokenRefreshRequest, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
                 self.body = body
                 super.init(service: RefreshToken.service) {
                     return try jsonEncoder.encode(body)

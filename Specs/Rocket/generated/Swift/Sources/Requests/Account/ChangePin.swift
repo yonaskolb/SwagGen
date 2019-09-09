@@ -16,7 +16,7 @@ extension Rocket.Account {
 
             public var body: ChangePinRequest
 
-            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: ChangePinRequest) {
+            public init(body: ChangePinRequest, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
                 self.body = body
                 super.init(service: ChangePin.service) {
                     return try jsonEncoder.encode(body)

@@ -32,7 +32,7 @@ If neither a pin or password are supplied an http 400 error will be returned.
 
             public var body: AccountTokenRequest
 
-            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: AccountTokenRequest) {
+            public init(body: AccountTokenRequest, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
                 self.body = body
                 super.init(service: GetAccountToken.service) {
                     return try jsonEncoder.encode(body)

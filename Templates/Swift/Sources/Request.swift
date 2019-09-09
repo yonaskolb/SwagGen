@@ -62,7 +62,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             public var {{ body.name}}: {{body.optionalType}}
             {% endif %}
 
-            public init({% if body %}jsonEncoder: JSONEncoder = JSONEncoder(), {{ body.name}}: {{ body.optionalType }}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}options: Options{% endif %}) {
+            public init({% if body %}{{ body.name}}: {{ body.optionalType }}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}options: Options{% endif %}{% if body %}, jsonEncoder: JSONEncoder = {{ options.name }}.defaultJSONEncoder{% endif %}) {
                 {% if body %}
                 self.{{ body.name}} = {{ body.name}}
                 {% endif %}

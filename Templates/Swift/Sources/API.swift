@@ -15,7 +15,14 @@ public struct {{ options.name }} {
 
     /// Used to encode Dates when uses as string params
     public static let dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
-
+    public static let jsonDateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .formatted({{ options.name }}.dateEncodingFormatter)
+    public static let defaultJSONEncoder: JSONEncoder = {
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.dateEncodingStrategy = {{ options.name }}.jsonDateEncodingStrategy
+        
+        return jsonEncoder
+    }()
+    
     {% if info.version %}
     public static let version = "{{ info.version }}"
     {% endif %}

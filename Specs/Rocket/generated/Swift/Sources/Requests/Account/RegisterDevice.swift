@@ -18,7 +18,7 @@ If a device with the same id already exists a `409` conflict will be returned.
 
             public var body: DeviceRegistrationRequest
 
-            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: DeviceRegistrationRequest) {
+            public init(body: DeviceRegistrationRequest, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
                 self.body = body
                 super.init(service: RegisterDevice.service) {
                     return try jsonEncoder.encode(body)

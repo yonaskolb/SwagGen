@@ -16,7 +16,7 @@ extension Rocket.Account {
 
             public var body: ProfileCreationRequest
 
-            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: ProfileCreationRequest) {
+            public init(body: ProfileCreationRequest, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
                 self.body = body
                 super.init(service: CreateProfile.service) {
                     return try jsonEncoder.encode(body)

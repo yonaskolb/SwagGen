@@ -15,6 +15,13 @@ public struct TBX {
 
     /// Used to encode Dates when uses as string params
     public static let dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
+    public static let jsonDateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .formatted(TBX.dateEncodingFormatter)
+    public static let defaultJSONEncoder: JSONEncoder = {
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.dateEncodingStrategy = TBX.jsonDateEncodingStrategy
+
+        return jsonEncoder
+    }()
 
     public static let version = "2.4.1"
 

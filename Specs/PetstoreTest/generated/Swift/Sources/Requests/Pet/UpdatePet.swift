@@ -16,7 +16,7 @@ extension PetstoreTest.Pet {
 
             public var body: Pet
 
-            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: Pet) {
+            public init(body: Pet, jsonEncoder: JSONEncoder = PetstoreTest.defaultJSONEncoder) {
                 self.body = body
                 super.init(service: UpdatePet.service) {
                     return try jsonEncoder.encode(body)

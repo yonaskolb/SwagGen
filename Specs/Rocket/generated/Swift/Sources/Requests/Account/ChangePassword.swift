@@ -16,7 +16,7 @@ extension Rocket.Account {
 
             public var body: ChangePasswordRequest
 
-            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: ChangePasswordRequest) {
+            public init(body: ChangePasswordRequest, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
                 self.body = body
                 super.init(service: ChangePassword.service) {
                     return try jsonEncoder.encode(body)

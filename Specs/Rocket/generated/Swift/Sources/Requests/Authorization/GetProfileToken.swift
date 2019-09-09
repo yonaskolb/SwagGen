@@ -20,7 +20,7 @@ before access is granted.
 
             public var body: ProfileTokenRequest
 
-            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: ProfileTokenRequest) {
+            public init(body: ProfileTokenRequest, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
                 self.body = body
                 super.init(service: GetProfileToken.service) {
                     return try jsonEncoder.encode(body)

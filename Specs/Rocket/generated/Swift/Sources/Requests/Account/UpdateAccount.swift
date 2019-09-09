@@ -18,7 +18,7 @@ This supports partial updates so you can send just the properties you wish to up
 
             public var body: AccountUpdateRequest
 
-            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: AccountUpdateRequest) {
+            public init(body: AccountUpdateRequest, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
                 self.body = body
                 super.init(service: UpdateAccount.service) {
                     return try jsonEncoder.encode(body)

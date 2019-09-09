@@ -54,7 +54,7 @@ extension TestSpec {
 
             public var body: Body
 
-            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: Body) {
+            public init(body: Body, jsonEncoder: JSONEncoder = TestSpec.defaultJSONEncoder) {
                 self.body = body
                 super.init(service: PostInlinebody.service) {
                     return try jsonEncoder.encode(body)

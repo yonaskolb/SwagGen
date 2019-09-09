@@ -16,6 +16,13 @@ public struct PetstoreTest {
 
     /// Used to encode Dates when uses as string params
     public static let dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
+    public static let jsonDateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .formatted(PetstoreTest.dateEncodingFormatter)
+    public static let defaultJSONEncoder: JSONEncoder = {
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.dateEncodingStrategy = PetstoreTest.jsonDateEncodingStrategy
+
+        return jsonEncoder
+    }()
 
     public static let version = "1.0.0"
 

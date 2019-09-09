@@ -24,7 +24,7 @@ header as a bearer token.
 
             public var body: PasswordResetRequest
 
-            public init(jsonEncoder: JSONEncoder = JSONEncoder(), body: PasswordResetRequest) {
+            public init(body: PasswordResetRequest, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
                 self.body = body
                 super.init(service: ResetPassword.service) {
                     return try jsonEncoder.encode(body)

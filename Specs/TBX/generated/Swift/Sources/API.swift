@@ -14,14 +14,15 @@ public struct TBX {
     public static var safeArrayDecoding = false
 
     /// Used to encode Dates when uses as string params
-    public static let dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
-    public static let jsonDateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .formatted(TBX.dateEncodingFormatter)
-    public static let defaultJSONEncoder: JSONEncoder = {
+    public static var dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
+
+    /// Default JSONEncoder used to enconde each API request
+    public static var defaultJSONEncoder: JSONEncoder {
         let jsonEncoder = JSONEncoder()
-        jsonEncoder.dateEncodingStrategy = TBX.jsonDateEncodingStrategy
+        jsonEncoder.dateEncodingStrategy = .formatted(TBX.dateEncodingFormatter)
 
         return jsonEncoder
-    }()
+    }
 
     public static let version = "2.4.1"
 

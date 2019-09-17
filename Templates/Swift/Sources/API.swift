@@ -14,14 +14,15 @@ public struct {{ options.name }} {
     public static var safeArrayDecoding = {% if options.safeArrayDecoding %}true{% else %}false{% endif %}
 
     /// Used to encode Dates when uses as string params
-    public static let dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
-    public static let jsonDateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .formatted({{ options.name }}.dateEncodingFormatter)
-    public static let defaultJSONEncoder: JSONEncoder = {
+    public static var dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
+    
+    /// Default JSONEncoder used to enconde each API request
+    public static var defaultJSONEncoder: JSONEncoder {
         let jsonEncoder = JSONEncoder()
-        jsonEncoder.dateEncodingStrategy = {{ options.name }}.jsonDateEncodingStrategy
+        jsonEncoder.dateEncodingStrategy = .formatted({{ options.name }}.dateEncodingFormatter)
         
         return jsonEncoder
-    }()
+    }
     
     {% if info.version %}
     public static let version = "{{ info.version }}"

@@ -4,7 +4,7 @@ import Foundation
 import Alamofire
 
 public protocol APIResponseValue: CustomDebugStringConvertible, CustomStringConvertible {
-    associatedtype SuccessType
+    associatedtype SuccessType : Codable
     var statusCode: Int { get }
     var successful: Bool { get }
     var response: Any { get }

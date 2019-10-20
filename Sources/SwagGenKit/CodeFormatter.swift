@@ -421,13 +421,7 @@ public class CodeFormatter {
 
         context["required"] = property.required
         context["optional"] = !property.required || property.schema.metadata.nullable
-      
-        var name = getName(property.name)
-        if let propertyName = propertyNames[name] {
-          name = propertyName
-        }
-        context["name"] = name
-      
+        context["name"] = propertyNames[property.name] ?? getName(property.name)      
         context["value"] = property.name
         context["type"] = getSchemaType(name: property.name, schema: property.schema)
 

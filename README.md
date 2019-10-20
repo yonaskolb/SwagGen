@@ -136,6 +136,7 @@ modelNames | override model names | `[String: String]` | [:]
 modelProtocol | customize protocol name that all models conform to | `String` | APIModel
 enumNames | override enum names | `[String: String]` | [:]
 enumUndecodableCase | whether to add undecodable case to enums | `Bool` | false
+propertyNames | override property names | `[String: String]` | [:]
 safeArrayDecoding | filter out invalid items in array instead of throwing | `Bool` | false
 safeOptionalDecoding | set invalid optionals to nil instead of throwing | `Bool` | false
 tagPrefix | prefix for all tags | `String` | null

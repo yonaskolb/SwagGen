@@ -13,6 +13,7 @@ options:
   modelNames: {} # override model type names
   enumNames: {} # override enum type names
   enumUndecodableCase: false # whether to add undecodable case to enums
+  propertyNames: {} # override property names
   typeAliases:
     ID: UUID
     DateTime: Date

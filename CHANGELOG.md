@@ -3,6 +3,7 @@
 
 ### Changes
 - List operations by path and then by method to keep the order consistent between code generations #185
+- Add `propertyNames` option that allow to override the name of properties #196
 
 ### Fixes
 - Fixed responses from silently failing to parse when missing a `description`, which is now an optional property that defaults to an empty string #193

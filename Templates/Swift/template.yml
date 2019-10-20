@@ -21,7 +21,7 @@ options:
     - name: Alamofire
       pod: Alamofire
       github: Alamofire/Alamofire
-      version: 4.8.2
+      version: 4.9.0
 templateFiles:
   - path: README.md
   - path: Package.swift

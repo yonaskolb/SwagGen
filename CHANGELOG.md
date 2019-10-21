@@ -3,6 +3,7 @@
 
 ### Changes
 - List operations by path and then by method to keep the order consistent between code generations #185
+- Add `codableResponses` option that constrains all models and responses to Codable #198
 - Add `propertyNames` option that allow to override the name of properties #196
 
 ### Fixes

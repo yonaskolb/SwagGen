@@ -1,6 +1,6 @@
 import Foundation
 
-struct AnyCodable {
+public struct AnyCodable {
     let value: Any
 
     init<T>(_ value: T?) {
@@ -10,7 +10,7 @@ struct AnyCodable {
 
 extension AnyCodable: Codable {
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
 
         if container.decodeNil() {
@@ -34,7 +34,7 @@ extension AnyCodable: Codable {
         }
     }
 
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
 
         switch self.value {
@@ -86,7 +86,7 @@ extension AnyCodable: Codable {
 }
 
 extension AnyCodable: Equatable {
-    static func ==(lhs: AnyCodable, rhs: AnyCodable) -> Bool {
+    static public func ==(lhs: AnyCodable, rhs: AnyCodable) -> Bool {
         switch (lhs.value, rhs.value) {
         case is (Void, Void):
             return true
@@ -129,7 +129,7 @@ extension AnyCodable: Equatable {
 }
 
 extension AnyCodable: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         switch value {
         case is Void:
             return String(describing: nil as Any?)
@@ -142,7 +142,7 @@ extension AnyCodable: CustomStringConvertible {
 }
 
 extension AnyCodable: CustomDebugStringConvertible {
-    var debugDescription: String {
+    public var debugDescription: String {
         switch value {
         case let value as CustomDebugStringConvertible:
             return "AnyCodable(\(value.debugDescription))"
@@ -154,35 +154,35 @@ extension AnyCodable: CustomDebugStringConvertible {
 
 extension AnyCodable: ExpressibleByNilLiteral, ExpressibleByBooleanLiteral, ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral, ExpressibleByStringLiteral, ExpressibleByArrayLiteral, ExpressibleByDictionaryLiteral {
 
-    init(nilLiteral: ()) {
+    public init(nilLiteral: ()) {
         self.init(nil as Any?)
     }
 
-    init(booleanLiteral value: Bool) {
+    public init(booleanLiteral value: Bool) {
         self.init(value)
     }
 
-    init(integerLiteral value: Int) {
+    public init(integerLiteral value: Int) {
         self.init(value)
     }
 
-    init(floatLiteral value: Double) {
+    public init(floatLiteral value: Double) {
         self.init(value)
     }
 
-    init(extendedGraphemeClusterLiteral value: String) {
+    public init(extendedGraphemeClusterLiteral value: String) {
         self.init(value)
     }
 
-    init(stringLiteral value: String) {
+    public init(stringLiteral value: String) {
         self.init(value)
     }
 
-    init(arrayLiteral elements: Any...) {
+    public init(arrayLiteral elements: Any...) {
         self.init(elements)
     }
 
-    init(dictionaryLiteral elements: (AnyHashable, Any)...) {
+    public init(dictionaryLiteral elements: (AnyHashable, Any)...) {
         self.init(Dictionary<AnyHashable, Any>(elements, uniquingKeysWith: { (first, _) in first }))
     }
 }

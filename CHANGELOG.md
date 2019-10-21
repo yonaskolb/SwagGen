@@ -3,7 +3,16 @@
 
 ### Changes
 - List operations by path and then by method to keep the order consistent between code generations #185
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+- Add `codableResponses` option that constrains all models and responses to Codable #198
+>>>>>>> 82e5768... Update CHANGELOG.md
 - Add `propertyNames` option that allow to override the name of properties #196
+- Add the option to set model Codable by default #198
+=======
+- Add `codableModel` option that make all model conform to Codable by default #198
+>>>>>>> 67d4211... Changelog better wording
 
 ### Fixes
 - Fixed responses from silently failing to parse when missing a `description`, which is now an optional property that defaults to an empty string #193

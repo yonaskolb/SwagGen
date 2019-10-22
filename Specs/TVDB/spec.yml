@@ -1,0 +1,1614 @@
+openapi: 3.0.0
+info:
+  description: >-
+    API v2 targets v1 functionality with a few minor additions. The API is
+    accessible via https://api.thetvdb.com and provides the following REST
+    endpoints in JSON format.
+
+
+
+    How to use this API documentation
+
+    ----------------
+
+
+
+    You may browse the API routes without authentication, but if you wish to send requests to the API and see response data, then you must authenticate.
+
+    1. Obtain a JWT token by `POST`ing  to the `/login` route in the `Authentication` section with your API key and credentials.
+
+    1. Paste the JWT token from the response into the "JWT Token" field at the top of the page and click the 'Add Token' button.
+
+
+
+    You will now be able to use the remaining routes to send requests to the API and get a response.
+
+
+
+    Language Selection
+
+    ----------------
+
+
+
+    Language selection is done via the `Accept-Language` header. At the moment, you may only pass one language abbreviation in the header at a time. Valid language abbreviations can be found at the `/languages` route..
+
+
+
+    Authentication
+
+    ----------------
+
+
+
+    Authentication to use the API is similar to the How-to section above. Users must `POST` to the `/login` route with their API key and credentials in the following format in order to obtain a JWT token.
+
+
+    `{"apikey":"APIKEY","username":"USERNAME","userkey":"USERKEY"}`
+
+
+    Note that the username and key are ONLY required for the `/user` routes. The user's key is labled `Account Identifier` in the account section of the main site.
+
+    The token is then used in all subsequent requests by providing it in the `Authorization` header. The header will look like: `Authorization: Bearer `. Currently, the token expires after 24 hours. You can `GET` the `/refresh_token` route to extend that expiration date.
+
+
+
+    Versioning
+
+    ----------------
+
+
+
+    You may request a different version of the API by including an `Accept` header in your request with the following format: `Accept:application/vnd.thetvdb.v$VERSION`. This documentation automatically uses the version seen at the top and bottom of the page.
+  title: TheTVDB API v2
+  version: 2.2.0
+paths:
+  "/episodes/{id}":
+    get:
+      security:
+        - jwtToken: []
+      description: Returns the full information for a given episode id. __Deprecation
+        Warning:__ The _director_ key will be deprecated in favor of the new
+        _directors_ key in a future release.
+      tags:
+        - Episodes
+      parameters:
+        - $ref: "#/components/parameters/episodeId"
+        - $ref: "#/components/parameters/Accept-Language"
+      responses:
+        "200":
+          description: An array of query keys as strings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeRecordData"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if the given episode ID does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  /languages:
+    get:
+      security:
+        - jwtToken: []
+      description: All available languages. These language abbreviations can be used in the
+        `Accept-Language` header for routes that return translation records.
+      tags:
+        - Languages
+      responses:
+        "200":
+          description: An array of language objects.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LanguageData"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+  "/languages/{id}":
+    get:
+      security:
+        - jwtToken: []
+      description: Information about a particular language, given the language ID.
+      tags:
+        - Languages
+      parameters:
+        - $ref: "#/components/parameters/languageId"
+      responses:
+        "200":
+          description: An array of language objects.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Language"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if the given language ID does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  /login:
+    post:
+      description: Returns a session token to be included in the rest of the requests. Note
+        that API key authentication is required for all subsequent requests and
+        user auth is required for routes in the `User` section
+      tags:
+        - Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Auth"
+        description: JSON string containing your authentication details.
+        required: true
+      responses:
+        "200":
+          description: Returns a JWT token for use with the rest of the API routes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+        "401":
+          description: Invalid credentials and/or API token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+  /refresh_token:
+    get:
+      security:
+        - jwtToken: []
+      description: Refreshes your current, valid JWT token and returns a new token. Hit
+        this route so that you do not have to post to `/login` with your API key
+        and credentials once you have already been authenticated.
+      tags:
+        - Authentication
+      responses:
+        "200":
+          description: Returns a new token to use in your subsequent requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+  /search/series:
+    get:
+      security:
+        - jwtToken: []
+      description: Allows the user to search for a series based on the following parameters.
+      tags:
+        - Search
+      parameters:
+        - $ref: "#/components/parameters/seriesSearchName"
+        - $ref: "#/components/parameters/imdbId"
+        - $ref: "#/components/parameters/zap2itId"
+        - $ref: "#/components/parameters/slug"
+        - $ref: "#/components/parameters/Accept-Language"
+      responses:
+        "200":
+          description: An array of results that match the provided query.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeriesSearchResults"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if no records are found that match your query.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  /search/series/params:
+    get:
+      security:
+        - jwtToken: []
+      description: Returns an array of parameters to query by in the `/search/series` route.
+      tags:
+        - Search
+      responses:
+        "200":
+          description: An array of query keys as strings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeDataQueryParams"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+  "/series/{id}":
+    get:
+      security:
+        - jwtToken: []
+      description: Returns a series records that contains all information known about a
+        particular series id.
+      tags:
+        - Series
+      parameters:
+        - $ref: "#/components/parameters/seriesId"
+        - $ref: "#/components/parameters/Accept-Language"
+      responses:
+        "200":
+          description: A series record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeriesData"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if the given series ID does not exist
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  "/series/{id}/actors":
+    get:
+      security:
+        - jwtToken: []
+      description: Returns actors for the given series id
+      tags:
+        - Series
+      parameters:
+        - $ref: "#/components/parameters/seriesId"
+      responses:
+        "200":
+          description: An array of actor objects for the given series id.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeriesActors"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if the given series ID does not exist
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  "/series/{id}/episodes":
+    get:
+      security:
+        - jwtToken: []
+      description: All episodes for a given series. Paginated with 100 results per page.
+      tags:
+        - Series
+      parameters:
+        - $ref: "#/components/parameters/seriesId"
+        - $ref: "#/components/parameters/page"
+      responses:
+        "200":
+          description: An array of episode objects for the given series id.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeriesEpisodes"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if the given series ID does not exist
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  "/series/{id}/episodes/query":
+    get:
+      security:
+        - jwtToken: []
+      description: This route allows the user to query against episodes for the given
+        series. The response is a paginated array of episode records.
+      tags:
+        - Series
+      parameters:
+        - $ref: "#/components/parameters/seriesId"
+        - $ref: "#/components/parameters/absoluteNumber"
+        - $ref: "#/components/parameters/airedSeason"
+        - $ref: "#/components/parameters/airedEpisode"
+        - $ref: "#/components/parameters/dvdSeason"
+        - $ref: "#/components/parameters/dvdEpisode"
+        - $ref: "#/components/parameters/imdbId"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/Accept-Language"
+      responses:
+        "200":
+          description: An array of basic Episode results that matched the query
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeriesEpisodesQuery"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if the given series ID does not exist or the query returns
+            no results.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  "/series/{id}/episodes/query/params":
+    get:
+      security:
+        - jwtToken: []
+      description: Returns the allowed query keys for the `/series/{id}/episodes/query`
+        route
+      tags:
+        - Series
+      parameters:
+        - $ref: "#/components/parameters/seriesId"
+      responses:
+        "200":
+          description: An array of query keys as strings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeriesEpisodesQueryParams"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if the given series ID does not exist or the query returns
+            no results.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  "/series/{id}/episodes/summary":
+    get:
+      security:
+        - jwtToken: []
+      description: >-
+        Returns a summary of the episodes and seasons available for the series.
+
+
+        __Note__: Season "0" is for all episodes that are considered to be specials.
+      tags:
+        - Series
+      parameters:
+        - $ref: "#/components/parameters/seriesId"
+      responses:
+        "200":
+          description: A summary of the episodes and seasons avaialable for the given
+            series.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeriesEpisodesSummary"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if the given series ID does not exist
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  "/series/{id}/filter":
+    get:
+      security:
+        - jwtToken: []
+      description: Returns a series records, filtered by the supplied comma-separated list
+        of keys. Query keys can be found at the `/series/{id}/filter/params`
+        route.
+      tags:
+        - Series
+      parameters:
+        - $ref: "#/components/parameters/seriesId"
+        - $ref: "#/components/parameters/filterKeys"
+        - $ref: "#/components/parameters/Accept-Language"
+      responses:
+        "200":
+          description: A filtered series record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeriesData"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if the given series ID does not exist
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  "/series/{id}/filter/params":
+    get:
+      security:
+        - jwtToken: []
+      description: Returns the list of keys available for the `/series/{id}/filter` route
+      tags:
+        - Series
+      parameters:
+        - $ref: "#/components/parameters/seriesId"
+        - $ref: "#/components/parameters/Accept-Language"
+      responses:
+        "200":
+          description: A list of keys to filter by
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FilterKeys"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if the given series ID does not exist
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  "/series/{id}/images":
+    get:
+      security:
+        - jwtToken: []
+      description: Returns a summary of the images for a particular series
+      tags:
+        - Series
+      parameters:
+        - $ref: "#/components/parameters/seriesId"
+        - $ref: "#/components/parameters/Accept-Language"
+      responses:
+        "200":
+          description: A summary of the image types and counts available for the given
+            series.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeriesImagesCounts"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if the given series ID does not exist
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  "/series/{id}/images/query":
+    get:
+      security:
+        - jwtToken: []
+      description: Query images for the given series ID.
+      tags:
+        - Series
+      parameters:
+        - $ref: "#/components/parameters/seriesId"
+        - $ref: "#/components/parameters/keyType"
+        - $ref: "#/components/parameters/resolution"
+        - $ref: "#/components/parameters/subKey"
+        - $ref: "#/components/parameters/Accept-Language"
+      responses:
+        "200":
+          description: An array of basic Episode results that matched the query
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeriesImageQueryResults"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if the given series ID does not exist or the query returns
+            no results.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  "/series/{id}/images/query/params":
+    get:
+      security:
+        - jwtToken: []
+      description: Returns the allowed query keys for the `/series/{id}/images/query`
+        route. Contains a parameter record for each unique `keyType`, listing
+        values that will return results.
+      tags:
+        - Series
+      parameters:
+        - $ref: "#/components/parameters/seriesId"
+        - $ref: "#/components/parameters/Accept-Language"
+      responses:
+        "200":
+          description: An array of query keys as strings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeriesImagesQueryParams"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if the given series ID does not exist or the query returns
+            no results.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  /updated/query:
+    get:
+      security:
+        - jwtToken: []
+      description: >-
+        Returns an array of series that have changed in a maximum of one week
+        blocks since the provided `fromTime`.
+
+
+
+        The user may specify a `toTime` to grab results for less than a week. Any timespan larger than a week will be reduced down to one week automatically.
+      tags:
+        - Updates
+      parameters:
+        - $ref: "#/components/parameters/fromTime"
+        - $ref: "#/components/parameters/toTime"
+        - $ref: "#/components/parameters/Accept-Language"
+      responses:
+        "200":
+          description: An array of Update objects that match the given timeframe.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateData"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if no records exist for the given timespan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  /updated/query/params:
+    get:
+      security:
+        - jwtToken: []
+      description: Returns an array of valid query keys for the `/updated/query/params`
+        route.
+      tags:
+        - Updates
+      responses:
+        "200":
+          description: An array of Update objects that match the given timeframe.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateDataQueryParams"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if no records exist for the given timespan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  /user:
+    get:
+      security:
+        - jwtToken: []
+      description: Returns basic information about the currently authenticated user.
+      tags:
+        - Users
+      responses:
+        "200":
+          description: User information.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserData"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if no information exists for the current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  /user/favorites:
+    get:
+      security:
+        - jwtToken: []
+      description: Returns an array of favorite series for a given user, will be a blank
+        array if no favorites exist.
+      tags:
+        - Users
+      responses:
+        "200":
+          description: User favorites.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserFavoritesData"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if no information exists for the current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  "/user/favorites/{id}":
+    put:
+      security:
+        - jwtToken: []
+      description: Adds the supplied series ID to the user’s favorite’s list and returns
+        the updated list.
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/seriesId"
+      responses:
+        "200":
+          description: List of user favorites.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserFavoritesData"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if no information exists for the current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+        "409":
+          description: Returned if requested record could not be updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Conflict"
+    delete:
+      security:
+        - jwtToken: []
+      description: Deletes the given series ID from the user’s favorite’s list and returns
+        the updated list.
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/seriesId"
+      responses:
+        "200":
+          description: List of user favorites.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserFavoritesData"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if no information exists for the current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+        "409":
+          description: Returned if requested record could not be deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Conflict"
+  /user/ratings:
+    get:
+      security:
+        - jwtToken: []
+      description: Returns an array of ratings for the given user.
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Array of user ratings.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRatingsData"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if no information exists for the current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  /user/ratings/query:
+    get:
+      security:
+        - jwtToken: []
+      description: Returns an array of ratings for a given user that match the query.
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/itemTypeNR"
+      responses:
+        "200":
+          description: List of user ratings that match the given query.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRatingsData"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if no information exists for the current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  /user/ratings/query/params:
+    get:
+      security:
+        - jwtToken: []
+      description: Returns a list of query params for use in the `/user/ratings/query`
+        route.
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Parameters to use for querying.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRatingsQueryParams"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if no information exists for the current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  "/user/ratings/{itemType}/{itemId}":
+    delete:
+      security:
+        - jwtToken: []
+      description: This route deletes a given rating of a given type.
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/itemType"
+        - $ref: "#/components/parameters/itemId"
+      responses:
+        "200":
+          description: Returns OK if the delete was successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRatingsDataNoLinks"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if no rating is found that matches your given parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+  "/user/ratings/{itemType}/{itemId}/{itemRating}":
+    put:
+      security:
+        - jwtToken: []
+      description: This route updates a given rating of a given type.
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/itemType"
+        - $ref: "#/components/parameters/itemId"
+        - $ref: "#/components/parameters/itemRating"
+      responses:
+        "200":
+          description: Update OK if the update was successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRatingsDataNoLinks"
+        "401":
+          description: Returned if your JWT token is missing or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotAuthorized"
+        "404":
+          description: Returned if no rating is found that matches your given parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFound"
+tags:
+  - description: Obtaining and refreshing your JWT token
+    name: Authentication
+  - description: Information about a specific episode
+    name: Episodes
+  - description: Information about a specific series
+    name: Series
+  - description: Search for a particular series
+    name: Search
+  - description: Series that have been recently updated.
+    name: Updates
+  - description: Routes for handling user data.
+    name: Users
+  - description: Available languages and information
+    name: Languages
+servers:
+  - url: https://api.thetvdb.com
+components:
+  parameters:
+    Accept-Language:
+      description: Records are returned with the Episode name and Overview in the desired
+        language, if it exists. If there is no translation for the given
+        language, then the record is still returned but with empty values for
+        the translated fields.
+      name: Accept-Language
+      in: header
+      schema:
+        type: string
+    absoluteNumber:
+      description: Absolute number of the episode
+      name: absoluteNumber
+      in: query
+      schema:
+        type: string
+    airedEpisode:
+      description: Aired episode number
+      name: airedEpisode
+      in: query
+      schema:
+        type: string
+    airedSeason:
+      description: Aired season number
+      name: airedSeason
+      in: query
+      schema:
+        type: string
+    dvdEpisode:
+      description: DVD episode number
+      name: dvdEpisode
+      in: query
+      schema:
+        type: string
+    dvdSeason:
+      description: DVD season number
+      name: dvdSeason
+      in: query
+      schema:
+        type: string
+    episodeId:
+      description: ID of the episode
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    filterKeys:
+      description: Comma-separated list of keys to filter by
+      name: keys
+      in: query
+      required: true
+      schema:
+        type: string
+    fromTime:
+      description: Epoch time to start your date range.
+      name: fromTime
+      in: query
+      required: true
+      schema:
+        type: string
+    imdbId:
+      description: IMDB id of the series
+      name: imdbId
+      in: query
+      schema:
+        type: string
+    itemId:
+      description: ID of the ratings record that you wish to modify
+      name: itemId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    itemRating:
+      description: The updated rating number
+      name: itemRating
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    itemType:
+      description: Item to update. Can be either 'series', 'episode', or 'image'
+      name: itemType
+      in: path
+      required: true
+      schema:
+        type: string
+        format: string
+    itemTypeNR:
+      description: Item to query. Can be either 'series', 'episode', or 'banner'
+      name: itemType
+      in: query
+      schema:
+        type: string
+        format: string
+    keyType:
+      description: Type of image you're querying for (fanart, poster, etc. See
+        ../images/query/params for more details).
+      name: keyType
+      in: query
+      schema:
+        type: string
+    languageId:
+      description: ID of the language
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    page:
+      description: Page of results to fetch. Defaults to page 1 if not provided.
+      name: page
+      in: query
+      schema:
+        type: string
+    resolution:
+      description: Resolution to filter by (1280x1024, for example)
+      name: resolution
+      in: query
+      schema:
+        type: string
+    seriesId:
+      description: ID of the series
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    seriesSearchName:
+      description: Name of the series to search for.
+      name: name
+      in: query
+      schema:
+        type: string
+    slug:
+      description: Slug from site URL of series (https://www.thetvdb.com/series/$SLUG)
+      name: slug
+      in: query
+      schema:
+        type: string
+    subKey:
+      description: Subkey for the above query keys. See /series/{id}/images/query/params
+        for more information
+      name: subKey
+      in: query
+      schema:
+        type: string
+    toTime:
+      description: Epoch time to end your date range. Must be one week from `fromTime`.
+      name: toTime
+      in: query
+      schema:
+        type: string
+    zap2itId:
+      description: Zap2it ID of the series to search for.
+      name: zap2itId
+      in: query
+      schema:
+        type: string
+  securitySchemes:
+    jwtToken:
+      description: JWT token prefixed with "Bearer "
+      type: apiKey
+      name: Authorization
+      in: header
+  schemas:
+    Auth:
+      properties:
+        apikey:
+          type: string
+        userkey:
+          type: string
+        username:
+          type: string
+    BasicEpisode:
+      type: object
+      properties:
+        absoluteNumber:
+          type: integer
+        airedEpisodeNumber:
+          type: integer
+        airedSeason:
+          type: integer
+        dvdEpisodeNumber:
+          type: integer
+        dvdSeason:
+          type: integer
+        episodeName:
+          type: string
+        firstAired:
+          type: string
+        id:
+          type: integer
+        language:
+          $ref: "#/components/schemas/EpisodeLanguageInfo"
+        lastUpdated:
+          type: integer
+        overview:
+          type: string
+    Conflict:
+      properties:
+        Error:
+          type: string
+          default: Conflict
+    Episode:
+      type: object
+      properties:
+        absoluteNumber:
+          type: integer
+        airedEpisodeNumber:
+          type: integer
+        airedSeason:
+          type: integer
+        airsAfterSeason:
+          type: integer
+        airsBeforeEpisode:
+          type: integer
+        airsBeforeSeason:
+          type: integer
+        director:
+          type: string
+        directors:
+          type: array
+          items:
+            type: string
+        dvdChapter:
+          type: number
+        dvdDiscid:
+          type: string
+        dvdEpisodeNumber:
+          type: number
+        dvdSeason:
+          type: integer
+        episodeName:
+          type: string
+        filename:
+          type: string
+        firstAired:
+          type: string
+        guestStars:
+          type: array
+          items:
+            type: string
+        id:
+          type: integer
+        imdbId:
+          type: string
+        lastUpdated:
+          type: integer
+        lastUpdatedBy:
+          type: string
+        overview:
+          type: string
+        productionCode:
+          type: string
+        seriesId:
+          type: string
+        showUrl:
+          type: string
+        siteRating:
+          type: number
+        siteRatingCount:
+          type: integer
+        thumbAdded:
+          type: string
+        thumbAuthor:
+          type: integer
+        thumbHeight:
+          type: string
+        thumbWidth:
+          type: string
+        writers:
+          type: array
+          items:
+            type: string
+    EpisodeDataQueryParams:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: string
+    EpisodeLanguageInfo:
+      type: object
+      properties:
+        episodeName:
+          type: string
+        overview:
+          type: string
+    EpisodeRecordData:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/Episode"
+        errors:
+          $ref: "#/components/schemas/JSONErrors"
+    FilterKeys:
+      properties:
+        data:
+          type: array
+          items:
+            type: string
+    JSONErrors:
+      type: object
+      properties:
+        invalidFilters:
+          description: Invalid filters passed to route
+          type: array
+          items:
+            type: string
+        invalidLanguage:
+          description: Invalid language or translation missing
+          type: string
+        invalidQueryParams:
+          description: Invalid query params passed to route
+          type: array
+          items:
+            type: string
+    Language:
+      type: object
+      properties:
+        abbreviation:
+          type: string
+        englishName:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+    LanguageData:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Language"
+    Links:
+      type: object
+      properties:
+        first:
+          type: integer
+        last:
+          type: integer
+        next:
+          type: integer
+        previous:
+          type: integer
+    NotAuthorized:
+      properties:
+        Error:
+          type: string
+          default: Not Authorized
+    NotFound:
+      properties:
+        Error:
+          type: string
+          default: Not Found
+    Series:
+      type: object
+      properties:
+        added:
+          type: string
+        airsDayOfWeek:
+          type: string
+        airsTime:
+          type: string
+        aliases:
+          type: array
+          items:
+            type: string
+        banner:
+          type: string
+        firstAired:
+          type: string
+        genre:
+          type: array
+          items:
+            type: string
+        id:
+          type: integer
+        imdbId:
+          type: string
+        lastUpdated:
+          type: integer
+        network:
+          type: string
+        networkId:
+          type: string
+        overview:
+          type: string
+        rating:
+          type: string
+        runtime:
+          type: string
+        seriesId:
+          type: string
+        seriesName:
+          type: string
+        siteRating:
+          type: number
+        siteRatingCount:
+          type: integer
+        slug:
+          type: string
+        status:
+          type: string
+        zap2itId:
+          type: string
+    SeriesActors:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/SeriesActorsData"
+        errors:
+          $ref: "#/components/schemas/JSONErrors"
+    SeriesActorsData:
+      type: object
+      properties:
+        id:
+          type: integer
+        image:
+          type: string
+        imageAdded:
+          type: string
+        imageAuthor:
+          type: integer
+        lastUpdated:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+        seriesId:
+          type: integer
+        sortOrder:
+          type: integer
+    SeriesData:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/Series"
+        errors:
+          $ref: "#/components/schemas/JSONErrors"
+    SeriesEpisodes:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Episode"
+        errors:
+          $ref: "#/components/schemas/JSONErrors"
+        links:
+          $ref: "#/components/schemas/Links"
+    SeriesEpisodesQuery:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Episode"
+        errors:
+          $ref: "#/components/schemas/JSONErrors"
+        links:
+          $ref: "#/components/schemas/Links"
+    SeriesEpisodesQueryParams:
+      properties:
+        data:
+          type: array
+          items:
+            type: string
+    SeriesEpisodesSummary:
+      type: object
+      properties:
+        airedEpisodes:
+          description: Number of all aired episodes for this series
+          type: string
+        airedSeasons:
+          type: array
+          items:
+            type: string
+        dvdEpisodes:
+          description: Number of all dvd episodes for this series
+          type: string
+        dvdSeasons:
+          type: array
+          items:
+            type: string
+    SeriesImageQueryResult:
+      type: object
+      properties:
+        fileName:
+          type: string
+        id:
+          type: integer
+        keyType:
+          type: string
+        languageId:
+          type: integer
+        ratingsInfo:
+          type: object
+          properties:
+            average:
+              description: Average rating for the given record.
+              type: number
+            count:
+              description: Number of ratings for the given record.
+              type: integer
+        resolution:
+          type: string
+        subKey:
+          type: string
+        thumbnail:
+          type: string
+    SeriesImageQueryResults:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/SeriesImageQueryResult"
+        errors:
+          $ref: "#/components/schemas/JSONErrors"
+    SeriesImagesCount:
+      type: object
+      properties:
+        fanart:
+          type: integer
+        poster:
+          type: integer
+        season:
+          type: integer
+        seasonwide:
+          type: integer
+        series:
+          type: integer
+    SeriesImagesCounts:
+      properties:
+        data:
+          $ref: "#/components/schemas/SeriesImagesCount"
+    SeriesImagesQueryParam:
+      properties:
+        keyType:
+          type: string
+        languageId:
+          type: string
+        resolution:
+          type: array
+          items:
+            type: string
+        subKey:
+          type: array
+          items:
+            type: string
+    SeriesImagesQueryParams:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/SeriesImagesQueryParam"
+    SeriesSearchResult:
+      type: object
+      properties:
+        aliases:
+          type: array
+          items:
+            type: string
+        banner:
+          type: string
+        firstAired:
+          type: string
+        id:
+          type: integer
+        network:
+          type: string
+        overview:
+          type: string
+        seriesName:
+          type: string
+        slug:
+          type: string
+        status:
+          type: string
+    SeriesSearchResults:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/SeriesSearchResult"
+    Token:
+      properties:
+        token:
+          type: string
+    Update:
+      type: object
+      properties:
+        id:
+          type: integer
+        lastUpdated:
+          type: integer
+    UpdateData:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Update"
+        errors:
+          $ref: "#/components/schemas/JSONErrors"
+    UpdateDataQueryParams:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: string
+    User:
+      type: object
+      properties:
+        favoritesDisplaymode:
+          type: string
+        language:
+          type: string
+        userName:
+          type: string
+    UserData:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/User"
+    UserFavorites:
+      type: object
+      properties:
+        favorites:
+          type: array
+          items:
+            type: string
+    UserFavoritesData:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/UserFavorites"
+        errors:
+          $ref: "#/components/schemas/JSONErrors"
+    UserRatings:
+      type: object
+      properties:
+        rating:
+          type: integer
+        ratingItemId:
+          type: integer
+        ratingType:
+          type: string
+    UserRatingsData:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserRatings"
+        errors:
+          $ref: "#/components/schemas/JSONErrors"
+        links:
+          $ref: "#/components/schemas/Links"
+    UserRatingsDataNoLinks:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserRatings"
+    UserRatingsQueryParams:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: string

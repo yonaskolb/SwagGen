@@ -17,10 +17,20 @@ fi
 
 rm -f ${SPEC_PATH}/generated/Swift/Package.resolved
 
+cp -R Templates/Swift/* $SPEC_PATH/
+
 # echo "📦  Testing $SPEC_PATH"
+
 echo "⚙️  Generating $SPEC_NAME..."
-swift run swaggen generate ${SWAGGER_SPEC} --template Templates/Swift/template.yml --destination $SPEC_PATH/generated/Swift --option name:$SPEC_NAME --clean all --silent
+swift run swaggen generate "${SWAGGER_SPEC}" --template "${SPEC_PATH}/${SPEC_NAME}_template.yml" --destination "${SPEC_PATH}/generated/Swift" --option name:"${SPEC_NAME}" --clean all --silent
+
 echo "⚙️  Compiling $SPEC_NAME..."
-swift build --package-path ${SPEC_PATH}/generated/Swift --build-path Specs/.build -c release
+swift build --package-path "${SPEC_PATH}/generated/Swift" --build-path Specs/.build -c release
+
 echo "✅  ${GREEN}Built $SPEC_NAME${NO_COLOR}"
-rm -f ${SPEC_PATH}/generated/Swift/Package.resolved
+rm -f "${SPEC_PATH}/generated/Swift/Package.resolved"
+
+echo "🗑 Cleaning"
+cd "${SPEC_PATH}/"
+ls | grep -Ev "spec.yml|spec.json|${SPEC_NAME}_template.yml|generated" | xargs rm -rf
+cd -

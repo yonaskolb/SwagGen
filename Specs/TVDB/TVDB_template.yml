@@ -7,14 +7,14 @@ options:
   safeArrayDecoding: false # filter out invalid items in array instead of throwing
   modelPrefix: null # applied to model classes and enums
   modelSuffix: null # applied to model classes
-  modelType: class # can be struct or class
+  modelType: struct # can be struct or class
   modelInheritance: true # must be false for struct modelType
   modelProtocol: APIModel # the protocol all models conform to
   modelNames: {} # override model type names
   enumNames: {} # override enum type names
   enumUndecodableCase: false # whether to add undecodable case to enums
-  codableResponses: false # constrains all responses/model to be Codable
-  propertyNames: {} # override property names
+  codableResponses: true # constrains all responses/model to be Codable
+  propertyNames: { "id" : "_id" } # override property names
   typeAliases:
     ID: UUID
     DateTime: Date

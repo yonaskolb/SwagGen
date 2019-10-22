@@ -19,6 +19,10 @@ rm -f ${SPEC_PATH}/generated/Swift/Package.resolved
 
 cp -R Templates/Swift/* $SPEC_PATH/
 
+if [[ ! -e "${SPEC_PATH}/${SPEC_NAME}_template.yml" ]]; then
+  cp -R Templates/Swift/template.yml "${SPEC_PATH}/${SPEC_NAME}_template.yml"
+fi
+
 # echo "📦  Testing $SPEC_PATH"
 
 echo "⚙️  Generating $SPEC_NAME..."

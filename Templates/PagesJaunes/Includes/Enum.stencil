@@ -1,0 +1,8 @@
+{% if description %}
+/** {{ description }} */
+{% endif %}
+public enum {{ enumName }}: {{ type }}, Codable, Equatable, CaseIterable {
+    {% for enumCase in enums %}
+    case {{ enumCase.name }} = {% if type == "String" %}"{% endif %}{{enumCase.value}}{% if type == "String" %}"{% endif %}
+    {% endfor %}
+}

@@ -1,0 +1,141 @@
+{% if description %}
+/** {{ description }} */
+{% endif %}
+{% if enum %}
+{% include "Includes/Enum.stencil" using enum %}
+{% elif aliasType %}
+public typealias {{ type }} = {{ aliasType }}
+{% elif additionalPropertiesType and allProperties.count == 0 %}
+public typealias {{ type }} = [String: {{ additionalPropertiesType }}]
+{% else %}
+public {{ options.modelType }} {{ type }}: {% if parent %}{{ parent.type }}{% else %}{{ options.modelProtocol }}{% endif %} {
+    {% for enum in enums %}
+    {% if not enum.isGlobal %}
+
+    {% include "Includes/Enum.stencil" using enum %}
+    {% endif %}
+    {% endfor %}
+    {% for property in properties %}
+
+    {% if property.description %}
+    /** {{ property.description }} */
+    {% endif %}
+    public {% if options.mutableModels %}var{% else %}let{% endif %} {{ property.name }}: {{ property.optionalType }}
+    {% endfor %}
+    {% if additionalPropertiesType %}
+
+    public {% if options.mutableModels %}var{% else %}let{% endif %} additionalProperties: [String: {{ additionalPropertiesType }}] = [:]
+    {% endif %}
+    {% for schema in schemas %}
+
+    {% include "Includes/Model.stencil" using schema %}
+    {% endfor %}
+
+    public init({% for property in allProperties %}{{ property.name }}: {{ property.optionalType }}{% ifnot property.required %} = nil{% endif %}{% ifnot forloop.last %}, {% endif %}{% endfor %}) {
+        {% for property in properties %}
+        self.{{ property.name }} = {{ property.name }}
+        {% endfor %}
+        {% if parent %}
+        super.init({% for property in parent.properties %}{{ property.name }}: {{ property.name }}{% ifnot forloop.last %}, {% endif %}{% endfor %})
+        {% endif %}
+    }
+
+    {% if properties.count > 0 %}
+    private enum CodingKeys: String, Hashable, CodingKey {
+        {% for property in properties %}
+        case {{ property.name }}{% if property.name != property.value %} = "{{ property.value }}"{% endif %}
+        {% endfor %}
+    }
+    {% endif %}
+
+    public {% if options.modelType == 'class' %}required {% endif %}init(from decoder: Decoder) throws {
+        {% if properties.count > 0 %}
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        {% for property in properties %}
+        {{ property.name }} = try container.decode{% if property.isArray and not property.isAnyType %}Array{% endif %}{% if property.isAnyType %}Any{% endif %}{% if property.optional %}IfPresent{% endif %}(.{{ property.name }})
+        {% endfor %}
+        {% endif %}
+        {% if additionalPropertiesType %}
+
+        let additionalPropertiesContainer = try decoder.container(keyedBy: StringCodingKey.self)
+        var additionalProperties = try additionalPropertiesContainer.toDictionary()
+        {% for property in properties %}
+        additionalProperties.removeValue(forKey: "{{ property.value }}")
+        {% endfor %}
+        {% if additionalPropertiesType != "Any" %}
+        var decodedAdditionalProperties: [String: {{ additionalPropertiesType }}] = [:]
+        for key in additionalProperties.keys {
+            decodedAdditionalProperties[key] = try additionalPropertiesContainer.decode(StringCodingKey(string: key))
+        }
+        self.additionalProperties = decodedAdditionalProperties
+        {% else %}
+        self.additionalProperties = additionalProperties
+        {% endif %}
+        {% endif %}
+        {% if parent %}
+        try super.init(from: decoder)
+        {% endif %}
+    }
+
+    public {% if parent %}override {% endif %}func encode(to encoder: Encoder) throws {
+        {% if properties.count > 0 %}
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        {% for property in properties %}
+        try container.encode{% if property.isAnyType %}Any{% endif %}{% if property.optional %}IfPresent{% endif %}({{ property.name }}, forKey: .{{ property.name }})
+        {% endfor %}
+        {% endif %}
+        {% if additionalPropertiesType %}
+
+        var additionalPropertiesContainer = encoder.container(keyedBy: StringCodingKey.self)
+        for (key, value) in additionalProperties {
+            try additionalPropertiesContainer.encode{% if additionalPropertiesType == "Any" %}Any{% endif %}(value, forKey: StringCodingKey(string: key))
+        }
+        {% endif %}
+        {% if parent %}
+        try super.encode(to: encoder)
+        {% endif %}
+    }
+    {% if additionalPropertiesType %}
+
+    public subscript(key: String) -> {{ additionalPropertiesType }}? {
+        get {
+            return additionalProperties[key]
+        }
+        set {
+            additionalProperties[key] = newValue
+        }
+    }
+    {% endif %}
+
+    {% if parent %}override {% endif %}public func isEqual(to object: Any?) -> Bool {
+      {% if properties.count > 0 or additionalPropertiesType %}
+      guard let object = object as? {{ type }} else { return false }
+      {% else %}
+      guard object is {{ type }} else { return false }
+      {% endif %}
+      {% for property in properties %}
+      {% if property.type == "[String: Any]" %}
+      guard NSDictionary(dictionary: self.{{ property.name}} {% if property.optional %}?? [:]{% endif %}).isEqual(to: object.{{ property.name }}{% if property.optional %} ?? [:]{% endif %}) else { return false }
+      {% else %}
+      guard self.{{ property.name }} == object.{{ property.name }} else { return false }
+      {% endif %}
+      {% endfor %}
+      {% if additionalPropertiesType %}
+      guard NSDictionary(dictionary: self.additionalProperties).isEqual(to: object.additionalProperties) else { return false }
+      {% endif %}
+      {% if parent %}
+      return super.isEqual(to: object)
+      {% else %}
+      return true
+      {% endif %}
+    }
+    {% if not parent %}
+
+    public static func == (lhs: {{ type }}, rhs: {{ type }}) -> Bool {
+        return lhs.isEqual(to: rhs)
+    }
+    {% endif %}
+}
+{% endif %}

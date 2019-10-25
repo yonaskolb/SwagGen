@@ -1,0 +1,56 @@
+formatter: SoLocal 
+options:
+  baseURL: https://uiphone-sg.mob.pagesjaunes.fr/CI118
+  authors: "Jeffrey Macko"
+  homepage: https://github.com/PagesjaunesMobile/iOS-StargateKitRequest
+  name: StargateKitRequest # the name of the API
+  fixedWidthIntegers: false # whether to use types like Int32 and Int64
+  mutableModels: true # whether model properties are mutable
+  safeOptionalDecoding: true # set invalid optionals to nil instead of throwing
+  safeArrayDecoding: true # filter out invalid items in array instead of throwing
+  modelPrefix: SKR # applied to model classes and enums
+  modelSuffix: null # applied to model classes
+  modelType: struct # can be struct or class
+  modelInheritance: false # must be false for struct modelType
+  modelProtocol: StargateKitModel # the protocol all models conform to
+  modelNames: {} # override model names
+  enumNames: {} # override enum type names
+  enumUndecodableCase: false # whether to add undecodable case to enums
+  codableResponses: true # constrains all responses/model to be Codable
+  propertyNames: { "id" : "_id" } # override property names
+  typeAliases:
+    DateTime: Date
+    File: Data
+  dependencies:
+    - name: Alamofire
+      pod: Alamofire
+      github: Alamofire/Alamofire
+      version: 4.9.0
+templateFiles:
+  - path: README.md
+  - path: Package.swift
+  - path: Cartfile
+  - path: Info.plist
+  - path: Sources/API.swift
+  - path: Sources/Coding.swift
+  - path: Sources/APIRequest.swift
+  - path: Sources/APIClient.swift
+  - path: Sources/APIService.swift
+  - path: Sources/APIClientError.swift
+  - path: Sources/APIResponse.swift
+  - path: Sources/APIResult.swift
+  - path: Sources/RequestBehaviour.swift
+  - path: Sources/AnyCodable.swift
+  - path: Sources/StargateBaseModel.swift
+  - path: version
+  - path: Podspec.podspec
+    destination: "{{ options.name }}.podspec"
+  - path: Sources/Enum.swift
+    context: enums
+    destination: "Sources/Enums/{{ enumName }}.swift"
+  - path: Sources/Model.swift
+    context: schemas
+    destination: "Sources/Models/{{ type }}.swift"
+  - path: Sources/Request.swift
+    context: operations
+    destination: "Sources/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ type }}.swift"

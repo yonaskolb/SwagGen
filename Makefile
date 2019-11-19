@@ -1,5 +1,5 @@
 TOOL_NAME = swaggen
-VERSION = 4.2.0
+VERSION = 4.3.0
 
 PREFIX = /usr/local
 INSTALL_PATH = $(PREFIX)/bin/$(TOOL_NAME)

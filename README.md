@@ -59,7 +59,7 @@ $ swift run
 Add the following to your Package.swift file's dependencies:
 
 ```swift
-.package(url: "https://github.com/yonaskolb/SwagGen.git", from: "4.0.0"),
+.package(url: "https://github.com/yonaskolb/SwagGen.git", from: "4.3.0"),
 ```
 
 And then import wherever needed:

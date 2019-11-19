@@ -29,7 +29,15 @@ public struct TemplateConfig {
         formatter = json.json(atKeyPath: "formatter")
 
         let templateOptions = json["options"] as? JSONDictionary ?? [:]
-        self.options = templateOptions + options
+        self.options = templateOptions.merging(options) { templateOption, option in
+            guard let templateOptionDict = templateOption as? [String: Any],
+                let optionDict = option as? [String: Any] else {
+                    return option
+            }
+            return templateOptionDict.merging(optionDict) { templateOptionValue, optionValue in
+                optionValue
+            }
+        }
     }
 
     public func getStringOption(_ option: String) -> String? {

@@ -14,6 +14,7 @@ public class CodeFormatter {
     var modelInheritance: Bool
     var modelNames: [String: String]
     var enumNames: [String: String]
+    var propertyNames: [String: String]
 
     public init(spec: SwaggerSpec, templateConfig: TemplateConfig) {
         self.spec = spec
@@ -23,6 +24,7 @@ public class CodeFormatter {
         modelInheritance = templateConfig.getBooleanOption("modelInheritance") ?? true
         modelNames = templateConfig.options["modelNames"] as? [String: String] ?? [:]
         enumNames = templateConfig.options["enumNames"] as? [String: String] ?? [:]
+        propertyNames = templateConfig.options["propertyNames"] as? [String: String] ?? [:]
     }
 
     var disallowedNames: [String] {
@@ -419,7 +421,7 @@ public class CodeFormatter {
 
         context["required"] = property.required
         context["optional"] = !property.required || property.schema.metadata.nullable
-        context["name"] = getName(property.name)
+        context["name"] = propertyNames[property.name] ?? getName(property.name)      
         context["value"] = property.name
         context["type"] = getSchemaType(name: property.name, schema: property.schema)
 

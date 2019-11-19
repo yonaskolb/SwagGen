@@ -131,15 +131,15 @@ public class AnyRequest: APIRequest<AnyResponseValue> {
 
 public struct AnyResponseValue: APIResponseValue, CustomDebugStringConvertible, CustomStringConvertible {
 
-    public typealias SuccessType = Any
+    public typealias SuccessType = {% if options.codableResponses %}AnyCodable{% else %}Any{% endif %}
 
     public let statusCode: Int
     public let successful: Bool
     public let response: Any
     public let responseEnum: Any
-    public let success: Any?
+    public let success: {% if options.codableResponses %}AnyCodable{% else %}Any{% endif %}?
 
-    public init(statusCode: Int, successful: Bool, response: Any, responseEnum: Any, success: Any?) {
+    public init(statusCode: Int, successful: Bool, response: Any, responseEnum: Any, success: {% if options.codableResponses %}AnyCodable{% else %}Any{% endif %}?) {
         self.statusCode = statusCode
         self.successful = successful
         self.response = response
@@ -166,7 +166,7 @@ public struct AnyResponseValue: APIResponseValue, CustomDebugStringConvertible, 
 
 extension APIResponseValue {
     public func asAny() -> AnyResponseValue {
-        return AnyResponseValue(statusCode: statusCode, successful: successful, response: response, responseEnum: self, success: success)
+        return AnyResponseValue(statusCode: statusCode, successful: successful, response: response, responseEnum: self, success: {% if options.codableResponses %}AnyCodable(success){% else %}success{% endif %})
     }
 }
 

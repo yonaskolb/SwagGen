@@ -8,7 +8,7 @@ let package = Package(
         .library(name: "TFL", targets: ["TFL"])
     ],
     dependencies: [
-        .package(url: "https://github.com/Alamofire/Alamofire.git", .exact("4.8.2")),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .exact("4.9.0")),
     ],
     targets: [
         .target(name: "TFL", dependencies: [

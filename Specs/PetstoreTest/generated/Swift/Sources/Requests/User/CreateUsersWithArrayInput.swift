@@ -16,10 +16,10 @@ extension PetstoreTest.User {
 
             public var body: [User]
 
-            public init(body: [User], jsonEncoder: JSONEncoder = PetstoreTest.defaultJSONEncoder) {
+            public init(body: [User], encoder: RequestEncoder? = nil) {
                 self.body = body
-                super.init(service: CreateUsersWithArrayInput.service) {
-                    return try jsonEncoder.encode(body)
+                super.init(service: CreateUsersWithArrayInput.service) { defaultEncoder in
+                    return try (encoder ?? defaultEncoder).encode(body)
                 }
             }
         }

@@ -23,10 +23,10 @@ endpoint here, along with the password reset token provided in the original link
 
             public var body: PasswordResetEmailRequest
 
-            public init(body: PasswordResetEmailRequest, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
+            public init(body: PasswordResetEmailRequest, encoder: RequestEncoder? = nil) {
                 self.body = body
-                super.init(service: ForgotPassword.service) {
-                    return try jsonEncoder.encode(body)
+                super.init(service: ForgotPassword.service) { defaultEncoder in
+                    return try (encoder ?? defaultEncoder).encode(body)
                 }
             }
         }

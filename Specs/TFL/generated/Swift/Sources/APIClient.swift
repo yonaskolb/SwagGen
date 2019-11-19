@@ -24,6 +24,7 @@ public class APIClient {
     public var defaultHeaders: [String: String]
 
     public var jsonDecoder = JSONDecoder()
+    public var jsonEncoder = JSONEncoder()
 
     public var decodingQueue = DispatchQueue(label: "apiClient", qos: .utility, attributes: .concurrent)
 
@@ -33,6 +34,7 @@ public class APIClient {
         self.behaviours = behaviours
         self.defaultHeaders = defaultHeaders
         jsonDecoder.dateDecodingStrategy = .custom(dateDecoder)
+        jsonEncoder.dateEncodingStrategy = .formatted(TFL.dateEncodingFormatter)
     }
 
     /// Makes a network request
@@ -51,7 +53,7 @@ public class APIClient {
         // create the url request from the request
         var urlRequest: URLRequest
         do {
-            urlRequest = try request.createURLRequest(baseURL: baseURL)
+            urlRequest = try request.createURLRequest(baseURL: baseURL, encoder: jsonEncoder)
         } catch {
             let error = APIClientError.requestEncodingError(error)
             requestBehaviour.onFailure(error: error)
@@ -213,7 +215,7 @@ extension APIRequest {
 extension APIRequest {
 
     /// pass in an optional baseURL, otherwise URLRequest.url will be relative
-    public func createURLRequest(baseURL: String = "") throws -> URLRequest {
+    public func createURLRequest(baseURL: String = "", encoder: RequestEncoder = JSONEncoder()) throws -> URLRequest {
         let url = URL(string: "\(baseURL)\(path)")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = service.method
@@ -240,7 +242,7 @@ extension APIRequest {
             urlRequest = try URLEncoding.httpBody.encode(urlRequest, with: formParams)
         }
         if let encodeBody = encodeBody {
-            urlRequest.httpBody = try encodeBody()
+            urlRequest.httpBody = try encodeBody(encoder)
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
         return urlRequest

@@ -16,10 +16,10 @@ extension PetstoreTest.Pet {
 
             public var body: Pet
 
-            public init(body: Pet, jsonEncoder: JSONEncoder = PetstoreTest.defaultJSONEncoder) {
+            public init(body: Pet, encoder: RequestEncoder? = nil) {
                 self.body = body
-                super.init(service: UpdatePet.service) {
-                    return try jsonEncoder.encode(body)
+                super.init(service: UpdatePet.service) { defaultEncoder in
+                    return try (encoder ?? defaultEncoder).encode(body)
                 }
             }
         }

@@ -26,7 +26,7 @@ class GenerateCommand: Command {
 
     let language = Key<String>("--language", "-l", description: "The language of the template that will be generated. This defaults to swift")
 
-    let options = VariadicKey<String>("--option", "-o", description: """
+    let optionsKey = VariadicKey<String>("--option", "-o", description: """
         An option that will be merged with template options, and overwrite any options of the same name.
         Can be repeated multiple times and must be in the format --option "name:value".
         The key can have multiple parts separated by dots to set nested properties:
@@ -67,7 +67,7 @@ class GenerateCommand: Command {
         }
 
         var options: [String: Any] = [:]
-        for option in self.options.values {
+        for option in self.optionsKey.value {
             guard option.contains(":") else {
                 exitWithError("Options argument '\(option)' must have its name and value separated with a colon")
             }
@@ -231,7 +231,7 @@ extension Generator.Clean: ConvertibleFromString {
     public static func convert(from: String) -> Generator.Clean? {
         switch from {
         case "true", "yes", "all": return .all
-        case "false", "no", "none": return .none
+        case "false", "no", "none": return Generator.Clean.none
         case "leave-dot-files", "leaveDotFiles", "leave.files": return .leaveDotFiles
         default: return nil
         }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TestSpec {
+extension Operation {
 
     /** Has all sorts of parameters */
     public enum PostAllParams {

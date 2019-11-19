@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.UserService {
+extension UserService {
 
     /** Update Device info */
     public enum UserServiceUpdateDevice {

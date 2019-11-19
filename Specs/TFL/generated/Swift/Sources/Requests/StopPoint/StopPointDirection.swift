@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.StopPoint {
+extension StopPoint {
 
     /** Returns the canonical direction, "inbound" or "outbound", for a given pair of stop point Ids in the direction from -> to. */
     public enum StopPointDirection {

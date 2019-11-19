@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Account {
+extension Account {
 
     /** Get all devices registered under this account.
 Also includes information around device registration and deregistration limits.

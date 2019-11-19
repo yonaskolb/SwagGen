@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.StopPoint {
+extension StopPoint {
 
     /** Gets a list of taxi ranks corresponding to the given stop point id. */
     public enum StopPointGetTaxiRanksByIds {

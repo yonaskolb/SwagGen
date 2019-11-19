@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TestSpec {
+extension Operation {
 
     /** operation with an enum response */
     public enum GetInlineEnumResponse {

@@ -122,7 +122,7 @@ extension KeyedDecodingContainer {
         do {
             container = try nestedUnkeyedContainer(forKey: key)
         } catch {
-            if TestSpec.safeArrayDecoding {
+            if Config.safeArrayDecoding {
                 return array
             } else {
                 throw error
@@ -134,7 +134,7 @@ extension KeyedDecodingContainer {
                 let element = try container.decode(T.self)
                 array.append(element)
             } catch {
-                if TestSpec.safeArrayDecoding {
+                if Config.safeArrayDecoding {
                     // hack to advance the current index
                     _ = try? container.decode(AnyCodable.self)
                 } else {
@@ -156,7 +156,7 @@ extension KeyedDecodingContainer {
     }
 
     fileprivate func decodeOptional<T>(_ closure: () throws -> T? ) throws -> T? {
-        if TestSpec.safeOptionalDecoding {
+        if Config.safeOptionalDecoding {
             do {
                 return try closure()
             } catch {
@@ -306,7 +306,7 @@ extension DateDay {
 
 extension Date {
     func encode() -> Any {
-        return TestSpec.dateEncodingFormatter.string(from: self)
+        return Config.dateEncodingFormatter.string(from: self)
     }
 }
 
@@ -334,7 +334,7 @@ extension Dictionary where Key == String, Value: RawRepresentable {
     }
 }
 
-extension UUID {
+extension Foundation.UUID {
     func encode() -> Any {
         return uuidString
     }

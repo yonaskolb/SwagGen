@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension PetstoreTest.Fake {
+extension Fake {
 
     /** To test enum parameters */
     public enum TestEnumParameters {

@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Profile {
+extension Profile {
 
     /** Unbookmark an item under the active profile. */
     public enum DeleteItemBookmark {

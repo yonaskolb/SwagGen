@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.UserService {
+extension UserService {
 
     /** Get device data attributes by deviceToken */
     public enum UserServiceGetDeviceAttributes {

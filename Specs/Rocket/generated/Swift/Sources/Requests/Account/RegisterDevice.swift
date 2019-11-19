@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Account {
+extension Account {
 
     /** Register a playback device under an account.
 If a device with the same id already exists a `409` conflict will be returned.

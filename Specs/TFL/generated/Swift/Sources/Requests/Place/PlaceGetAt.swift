@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Place {
+extension Place {
 
     /** Gets any places of the given type whose geography intersects the given latitude and longitude. In practice this means the Place
             must be polygonal e.g. a BoroughBoundary. */

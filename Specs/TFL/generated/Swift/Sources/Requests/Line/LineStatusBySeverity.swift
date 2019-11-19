@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Line {
+extension Line {
 
     /** Gets the line status for all lines with a given severity
             A list of valid severity codes can be obtained from a call to Line/Meta/Severity */

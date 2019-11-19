@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension PetstoreTest.User {
+extension User {
 
     /** Logs user into the system */
     public enum LoginUser {

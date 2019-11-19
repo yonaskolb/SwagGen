@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Occupancy {
+extension Occupancy {
 
     /** Gets the occupancy for a car park with a given id */
     public enum GetOccupant {

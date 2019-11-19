@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.DeviceService {
+extension DeviceService {
 
     public enum DeviceServiceValidateCode {
 

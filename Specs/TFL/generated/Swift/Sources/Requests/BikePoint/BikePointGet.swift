@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.BikePoint {
+extension BikePoint {
 
     /** Gets the bike point with the given id. */
     public enum BikePointGet {

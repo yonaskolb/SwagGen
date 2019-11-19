@@ -5,8 +5,9 @@
 
 import Foundation
 
-public struct TBX {
+public let version = "2.4.1"
 
+public struct Config {
     /// Whether to discard any errors when decoding optional properties
     public static var safeOptionalDecoding = false
 
@@ -15,16 +16,15 @@ public struct TBX {
 
     /// Used to encode Dates when uses as string params
     public static let dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
-
-    public static let version = "2.4.1"
-
-    public enum AuthorizationService {}
-    public enum DeviceService {}
-    public enum UserService {}
-    public enum Auth {}
-
-    public enum Server {
-
-        public static let main = "/v2"
-    }
 }
+
+public enum Server {
+
+    public static let main = "/v2"
+}
+
+/// Tags
+public enum AuthorizationService {}
+public enum DeviceService {}
+public enum UserService {}
+public enum Auth {}

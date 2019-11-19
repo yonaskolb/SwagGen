@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.BikePoint {
+extension BikePoint {
 
     /** Gets all bike point locations. The Place object has an addtionalProperties array which contains the nbBikes, nbDocks and nbSpaces
             numbers which give the status of the BikePoint. A mismatch in these numbers i.e. nbDocks - (nbBikes + nbSpaces) != 0 indicates broken docks. */

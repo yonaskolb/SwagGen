@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Account {
+extension Account {
 
     /** Request that the email address tied to an account be verified.
 This will send a verification email to the email address of the primary profile containing

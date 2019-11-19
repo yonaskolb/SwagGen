@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension PetstoreTest.Store {
+extension Store {
 
     /**
     Delete purchase order by ID

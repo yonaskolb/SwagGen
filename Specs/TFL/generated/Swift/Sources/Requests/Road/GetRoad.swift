@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Road {
+extension Road {
 
     /** Gets the road with the specified id (e.g. A1) */
     public enum GetRoad {

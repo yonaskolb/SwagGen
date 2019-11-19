@@ -5,8 +5,9 @@
 
 import Foundation
 
-public struct TFL {
+public let version = "v1"
 
+public struct Config {
     /// Whether to discard any errors when decoding optional properties
     public static var safeOptionalDecoding = false
 
@@ -15,26 +16,25 @@ public struct TFL {
 
     /// Used to encode Dates when uses as string params
     public static let dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
-
-    public static let version = "v1"
-
-    public enum AccidentStats {}
-    public enum AirQuality {}
-    public enum BikePoint {}
-    public enum Cabwise {}
-    public enum Journey {}
-    public enum Line {}
-    public enum Mode {}
-    public enum Occupancy {}
-    public enum Place {}
-    public enum Road {}
-    public enum Search {}
-    public enum StopPoint {}
-    public enum TravelTime {}
-    public enum Vehicle {}
-
-    public enum Server {
-
-        public static let main = "https://api.tfl.gov.uk"
-    }
 }
+
+public enum Server {
+
+    public static let main = "https://api.tfl.gov.uk"
+}
+
+/// Tags
+public enum AccidentStats {}
+public enum AirQuality {}
+public enum BikePoint {}
+public enum Cabwise {}
+public enum Journey {}
+public enum Line {}
+public enum Mode {}
+public enum Occupancy {}
+public enum Place {}
+public enum Road {}
+public enum Search {}
+public enum StopPoint {}
+public enum TravelTime {}
+public enum Vehicle {}

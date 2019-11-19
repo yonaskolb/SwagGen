@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Account {
+extension Account {
 
     /** Create a new profile under the active account. */
     public enum CreateProfile {

@@ -2,7 +2,7 @@
 
 import Foundation
 
-extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }}{% endif %} {
+extension {% if tag %}{{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }}{% else %}Operation{% endif %} {
 
     {% if description and summary %}
     {% if description == summary %}

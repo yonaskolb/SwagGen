@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TBX.UserService {
+extension UserService {
 
     /** Create a Try and Buy to Customer and  optionally to a specific device */
     public enum UserServiceCreateTryAndBuy {

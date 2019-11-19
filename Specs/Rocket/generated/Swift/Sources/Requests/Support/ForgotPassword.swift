@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Support {
+extension Support {
 
     /** Request the password of an account's primary profile be reset.
 Should be called when a user has forgotten their password.

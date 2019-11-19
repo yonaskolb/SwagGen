@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Road {
+extension Road {
 
     /** Gets a list of valid RoadDisruption categories */
     public enum RoadMetaCategories {

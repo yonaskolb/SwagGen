@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.StopPoint {
+extension StopPoint {
 
     /** Gets all the Crowding data (static) for the StopPointId, plus crowding data for a given line and optionally a particular direction. */
     public enum StopPointCrowding {

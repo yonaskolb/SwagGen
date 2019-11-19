@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Authorization {
+extension Authorization {
 
     /** Request one or more `Profile` level authorization tokens each with a chosen scope.
 Tokens are used to access restricted service endpoints. These restriced endpoints

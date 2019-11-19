@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension Rocket.Registration {
+extension Registration {
 
     /** Register a new user, creating them an account.
 Registration, when successful, will return an array of access tokens so the user is

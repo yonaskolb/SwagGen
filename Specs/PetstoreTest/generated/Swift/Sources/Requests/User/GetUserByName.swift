@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension PetstoreTest.User {
+extension User {
 
     /** Get user by user name */
     public enum GetUserByName {

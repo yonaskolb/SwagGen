@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Journey {
+extension Journey {
 
     /** Perform a Journey Planner search from the parameters specified in simple types */
     public enum JourneyJourneyResults {

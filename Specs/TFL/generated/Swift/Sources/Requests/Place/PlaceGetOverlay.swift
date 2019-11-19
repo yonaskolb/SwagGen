@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension TFL.Place {
+extension Place {
 
     /** Gets the place overlay for a given set of co-ordinates and a given width/height. */
     public enum PlaceGetOverlay {

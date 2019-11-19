@@ -95,10 +95,11 @@ Use `swaggen generate --help` to see the list of generation options.
 - **--language**: The language to generate a template for. This defaults to `swift` for now.
 - **--template**:: This is the path to the template config yaml file. It can either be a direct path to the file, or a path to the parent directory which will by default look for `/template.yml`. If this is not passed, the default template for the language will be used.
 - **--destination**: The directory that the generated files will be added to.
-- **--option**: An option that will be merged with the template config options with those in this argument taking precedence, meaning any existing options of the same name will be overwritten. This argument can be repeated to pass in multiple options. Options must specify the option name and option value seperated by a colon, with any spaces contained in quotes. The following formats are allowed:
+- **--option**: An option that will be merged with the template config options with those in this argument taking precedence, meaning any existing options of the same name will be overwritten. This argument can be repeated to pass in multiple options. Options must specify the option name and option value separated by a colon, with any spaces contained in quotes. Nested options in dictionaries can be set by using a dot syntax. The following formats are allowed:
 	- `-- option myOption:myValue`
+	- `-- option modelSuffix: Model`
+	- `-- option propertyNames.identifier: id`
 	- `-- option "myOption: my value"`
-	- `-- option myOption:" my value"`
 
 - **--clean**: Controls if and how the destination directory is cleaned of non generated files. Options are:
 	- `none`: no files are removed (default)

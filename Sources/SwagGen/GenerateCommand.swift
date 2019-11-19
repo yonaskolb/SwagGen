@@ -55,13 +55,13 @@ class GenerateCommand: Command {
         }
 
         /// Assign a value by key list to a multiply nested dictionary that might not exist yet.
-        func deepAssign(dict: inout [String: Any], keys: ArraySlice<String>, value: Any) {
+        func deepAssign(dict: inout [String: Any], keys: [String], value: Any) {
             guard let key = keys.first else { return }
             if keys.count == 1 {
                 dict[key] = value
             } else {
                 var subdict: [String: Any] = dict[key].flatMap { $0 as? [String: Any] } ?? [:]
-                deepAssign(dict: &subdict, keys: keys.dropFirst(), value: value)
+                deepAssign(dict: &subdict, keys: Array(keys.dropFirst()), value: value)
                 dict[key] = subdict
             }
         }
@@ -75,7 +75,7 @@ class GenerateCommand: Command {
             if parts.count >= 2 {
                 let keys = parts.first!.split(separator: ".").map { String($0) }
                 let value = Array(parts.dropFirst()).joined(separator: ":")
-                deepAssign(dict: &options, keys: ArraySlice(keys), value: value)
+                deepAssign(dict: &options, keys: Array(keys), value: value)
             }
         }
 

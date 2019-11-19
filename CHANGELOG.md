@@ -1,6 +1,9 @@
 # Change Log
 ## Next Version
 
+### Added
+- Added ability to set nested template options from the command line using dot syntax eg `--option "typeAliases.ID: String"` #189
+
 ### Changes
 - List operations by path and then by method to keep the order consistent between code generations #185
 - Add `codableResponses` option that constrains all models and responses to Codable #198

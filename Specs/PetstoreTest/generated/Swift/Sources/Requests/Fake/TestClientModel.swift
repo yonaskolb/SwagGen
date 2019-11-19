@@ -16,10 +16,9 @@ extension PetstoreTest.Fake {
 
             public var body: Client
 
-            public init(body: Client) {
+            public init(body: Client, jsonEncoder: JSONEncoder = PetstoreTest.defaultJSONEncoder) {
                 self.body = body
                 super.init(service: TestClientModel.service) {
-                    let jsonEncoder = JSONEncoder()
                     return try jsonEncoder.encode(body)
                 }
             }

@@ -3,15 +3,18 @@
 
 ### Added
 - Added ability to set nested template options from the command line using dot syntax eg `--option "typeAliases.ID: String"` #189
+- Added support for changing default JSON encoder #172
+- Added support for using a custom JSON encoder per request #172
 
 ### Changes
 - List operations by path and then by method to keep the order consistent between code generations #185
 - Add `codableResponses` option that constrains all models and responses to Codable #198
 - Add `propertyNames` option that allow to override the name of properties #196
 
-### Fixes
+### Fixed
 - Fixed responses from silently failing to parse when missing a `description`, which is now an optional property that defaults to an empty string #193
 - Add missing custom model protocol name #191
+- Fixed missing customization of JSONEncoder instance to encode request's body #147
 
 ## 4.2.0
 

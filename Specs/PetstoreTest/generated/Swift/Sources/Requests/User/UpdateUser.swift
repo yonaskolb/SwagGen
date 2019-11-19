@@ -32,11 +32,11 @@ extension PetstoreTest.User {
 
             public var body: User
 
-            public init(body: User, options: Options, jsonEncoder: JSONEncoder = PetstoreTest.defaultJSONEncoder) {
+            public init(body: User, options: Options, encoder: RequestEncoder? = nil) {
                 self.body = body
                 self.options = options
-                super.init(service: UpdateUser.service) {
-                    return try jsonEncoder.encode(body)
+                super.init(service: UpdateUser.service) { defaultEncoder in
+                    return try (encoder ?? defaultEncoder).encode(body)
                 }
             }
 

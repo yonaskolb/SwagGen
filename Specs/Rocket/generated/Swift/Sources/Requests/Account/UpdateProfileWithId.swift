@@ -30,11 +30,11 @@ This supports partial updates so you can send just the properties you wish to up
 
             public var body: ProfileUpdateRequest
 
-            public init(body: ProfileUpdateRequest, options: Options, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
+            public init(body: ProfileUpdateRequest, options: Options, encoder: RequestEncoder? = nil) {
                 self.body = body
                 self.options = options
-                super.init(service: UpdateProfileWithId.service) {
-                    return try jsonEncoder.encode(body)
+                super.init(service: UpdateProfileWithId.service) { defaultEncoder in
+                    return try (encoder ?? defaultEncoder).encode(body)
                 }
             }
 

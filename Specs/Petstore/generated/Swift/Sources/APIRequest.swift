@@ -10,7 +10,7 @@ public class APIRequest<ResponseType: APIResponseValue> {
     public let service: APIService<ResponseType>
     public private(set) var queryParameters: [String: Any]
     public private(set) var formParameters: [String: Any]
-    public let encodeBody: (() throws -> Data)?
+    public let encodeBody: ((RequestEncoder) throws -> Data)?
     private(set) var headerParameters: [String: String]
     public var customHeaders: [String: String] = [:]
 
@@ -26,7 +26,7 @@ public class APIRequest<ResponseType: APIResponseValue> {
                 queryParameters: [String: Any] = [:], 
                 formParameters: [String: Any] = [:],
                 headers: [String: String] = [:], 
-                encodeBody: (() throws -> Data)? = nil) {
+                encodeBody: ((RequestEncoder) throws -> Data)? = nil) {
         self.service = service
         self.queryParameters = queryParameters
         self.formParameters = formParameters
@@ -51,7 +51,7 @@ extension APIRequest: CustomDebugStringConvertible {
     public var debugDescription: String {
         var string = description
         if let encodeBody = encodeBody,
-            let data = try? encodeBody(),
+            let data = try? encodeBody(JSONEncoder()),
             let bodyString = String(data: data, encoding: .utf8) {
             string += "\nbody: \(bodyString)"
         }

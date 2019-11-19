@@ -16,14 +16,6 @@ public struct Petstore {
     /// Used to encode Dates when uses as string params
     public static var dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
 
-    /// Default JSONEncoder used to enconde each API request
-    public static var defaultJSONEncoder: JSONEncoder {
-        let jsonEncoder = JSONEncoder()
-        jsonEncoder.dateEncodingStrategy = .formatted(Petstore.dateEncodingFormatter)
-
-        return jsonEncoder
-    }
-
     public static let version = "1.0.0"
 
     public enum Pets {}

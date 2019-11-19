@@ -16,10 +16,10 @@ extension Rocket.Authorization {
 
             public var body: TokenRefreshRequest
 
-            public init(body: TokenRefreshRequest, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
+            public init(body: TokenRefreshRequest, encoder: RequestEncoder? = nil) {
                 self.body = body
-                super.init(service: RefreshToken.service) {
-                    return try jsonEncoder.encode(body)
+                super.init(service: RefreshToken.service) { defaultEncoder in
+                    return try (encoder ?? defaultEncoder).encode(body)
                 }
             }
         }

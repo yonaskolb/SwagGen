@@ -24,10 +24,10 @@ header as a bearer token.
 
             public var body: PasswordResetRequest
 
-            public init(body: PasswordResetRequest, jsonEncoder: JSONEncoder = Rocket.defaultJSONEncoder) {
+            public init(body: PasswordResetRequest, encoder: RequestEncoder? = nil) {
                 self.body = body
-                super.init(service: ResetPassword.service) {
-                    return try jsonEncoder.encode(body)
+                super.init(service: ResetPassword.service) { defaultEncoder in
+                    return try (encoder ?? defaultEncoder).encode(body)
                 }
             }
         }

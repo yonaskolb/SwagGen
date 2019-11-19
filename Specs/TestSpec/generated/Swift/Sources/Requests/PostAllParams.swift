@@ -80,11 +80,11 @@ extension TestSpec {
 
             public var body: Body?
 
-            public init(body: Body?, options: Options, jsonEncoder: JSONEncoder = TestSpec.defaultJSONEncoder) {
+            public init(body: Body?, options: Options, encoder: RequestEncoder? = nil) {
                 self.body = body
                 self.options = options
-                super.init(service: PostAllParams.service) {
-                    return try jsonEncoder.encode(body)
+                super.init(service: PostAllParams.service) { defaultEncoder in
+                    return try (encoder ?? defaultEncoder).encode(body)
                 }
             }
 

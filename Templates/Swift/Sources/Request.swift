@@ -62,15 +62,15 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
             public var {{ body.name}}: {{body.optionalType}}
             {% endif %}
 
-            public init({% if body %}{{ body.name}}: {{ body.optionalType }}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}options: Options{% endif %}{% if body %}, jsonEncoder: JSONEncoder = {{ options.name }}.defaultJSONEncoder{% endif %}) {
+            public init({% if body %}{{ body.name}}: {{ body.optionalType }}{% if nonBodyParams %}, {% endif %}{% endif %}{% if nonBodyParams %}options: Options{% endif %}{% if body %}, encoder: RequestEncoder? = nil{% endif %}) {
                 {% if body %}
                 self.{{ body.name}} = {{ body.name}}
                 {% endif %}
                 {% if nonBodyParams %}
                 self.options = options
                 {% endif %}
-                super.init(service: {{ type }}.service){% if body %} {
-                    return try jsonEncoder.encode({% if body.isAnyType %}AnyCodable({{ body.name }}).value{% else %}{{ body.name }}{% endif %})
+                super.init(service: {{ type }}.service){% if body %} { defaultEncoder in
+                    return try (encoder ?? defaultEncoder).encode({% if body.isAnyType %}AnyCodable({{ body.name }}).value{% else %}{{ body.name }}{% endif %})
                 }{% endif %}
             }
             {% if nonBodyParams %}

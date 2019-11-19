@@ -3,8 +3,8 @@
 
 ### Added
 - Added ability to set nested template options from the command line using dot syntax eg `--option "typeAliases.ID: String"` #189
-- Added support for changing default JSON encoder #172
-- Added support for using a custom JSON encoder per request #172
+- Added a customizable `jsonEncoder` on APIClient #172 #203
+- Added support for using a custom encoder per request #172 #203
 
 ### Changes
 - List operations by path and then by method to keep the order consistent between code generations #185

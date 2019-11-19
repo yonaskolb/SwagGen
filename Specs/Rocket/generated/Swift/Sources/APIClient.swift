@@ -114,6 +114,8 @@ public class APIClient {
                             multipartFormData.append(url, withName: name)
                         } else if let data = value as? Data {
                             multipartFormData.append(data, withName: name)
+                        } else if let string = value as? String {
+                            multipartFormData.append(Data(string.utf8), withName: name)
                         }
                     }
                 },

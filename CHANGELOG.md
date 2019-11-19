@@ -15,6 +15,7 @@
 - Fixed responses from silently failing to parse when missing a `description`, which is now an optional property that defaults to an empty string #193
 - Add missing custom model protocol name #191
 - Fixed missing customization of JSONEncoder instance to encode request's body #147
+- Fixed string uploads #161
 
 ## 4.2.0
 

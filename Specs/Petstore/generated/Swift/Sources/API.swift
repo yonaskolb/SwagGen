@@ -25,8 +25,8 @@ public struct Petstore {
         /** Test environment **/
         public static func test(space: String = "main", version: String = "v1") -> String {
             var url = "https://test.petstore.com/{version}/{space}"
-            url = url.replacingOccurrences(of: "{\(space)}", with: space)
-            url = url.replacingOccurrences(of: "{\(version)}", with: version)
+            url = url.replacingOccurrences(of: "{space}", with: space)
+            url = url.replacingOccurrences(of: "{version}", with: version)
             return url
         }
 

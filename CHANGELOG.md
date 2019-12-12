@@ -1,6 +1,10 @@
 # Change Log
 ## Next Version
 
+### Fixed
+- Fixed `'??' has non-optional type` warning #207
+- Fixed wrong replacing string in variable server #208
+
 ## 4.3.0
 
 ### Added

@@ -33,10 +33,10 @@ public struct {{ options.name }} {
         /** {{ server.description }} **/
         {% endif %}
         {% if server.variables %}
-        public static func {{ server.name }}({% for variable in server.variables %}{{ variable.name }}: String = "{{ variable.defaultValue}}"{% ifnot forloop.last %}, {% endif %}{% endfor %}) -> String {
+        public static func {{ server.name }}({% for variable in server.variables %}{{ variable.name }}: String = "{{ variable.defaultValue }}"{% ifnot forloop.last %}, {% endif %}{% endfor %}) -> String {
             var url = "{{ server.url }}"
             {% for variable in server.variables %}
-            url = url.replacingOccurrences(of: "{\({{variable.name}})}", with: {{variable.name}})
+            url = url.replacingOccurrences(of: {{'"{'}}{{variable.name}}{{'}"'}}, with: {{variable.name}})
             {% endfor %}
             return url
         }

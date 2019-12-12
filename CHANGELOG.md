@@ -3,7 +3,7 @@
 
 ### Fixed
 - Fixed `'??' has non-optional type` warning #207
-- Fixed wrong replacing string in variable server #208
+- Fixed incorrect replacements in server variables #209
 
 ## 4.3.0
 

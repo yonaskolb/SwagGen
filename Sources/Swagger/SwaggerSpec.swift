@@ -17,7 +17,7 @@ public struct SwaggerSpec {
 
     public var tags: [String] {
         let tags: [String] = operations.reduce([]) { $0 + $1.tags }
-        let distinctTags = Array(Set(tags))
+        let distinctTags = Set(tags)
         return distinctTags.sorted { $0.compare($1) == .orderedAscending }
     }
 }

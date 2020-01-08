@@ -209,7 +209,7 @@ public class Generator {
 
         let cleanFilesSet = Set(cleanFiles)
         let generatedFilesSet = Set(generatedFiles.map { destination + $0.path })
-        let removedFiles = Array(cleanFilesSet.subtracting(generatedFilesSet)).sorted()
+        let removedFiles = cleanFilesSet.subtracting(generatedFilesSet).sorted()
 
         for file in generatedFiles {
             let outputPath = (destination + file.path).normalize()

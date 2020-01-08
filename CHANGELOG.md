@@ -5,6 +5,9 @@
 - Fixed `'??' has non-optional type` warning #207
 - Fixed incorrect replacements in server variables #209
 
+### Internal
+ - Removed needless `Array` initialization. [#212](https://github.com/yonaskolb/SwagGen/pull/212) @RomanPodymov
+
 ## 4.3.0
 
 ### Added

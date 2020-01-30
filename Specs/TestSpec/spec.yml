@@ -64,12 +64,12 @@ paths:
       description: Has path and operation parameters
       operationId: getMultipleParams
       parameters:
-      - name: userId
-        in: path
-        required: true
-        description: The id of the pet
-        schema:
-          type: string
+        - name: userId
+          in: path
+          required: true
+          description: The id of the pet
+          schema:
+            type: string
       responses:
         "405":
           description: Invalid input
@@ -358,7 +358,7 @@ components:
           type: string
     ChildWithNestedObject:
       allOf:
-        - $ref: '#/components/schemas/User'
+        - $ref: "#/components/schemas/User"
         - type: object
           properties:
             data:
@@ -366,3 +366,18 @@ components:
               properties:
                 value:
                   type: string
+    ObjectHoldingNullableReference:
+      type: object
+      properties:
+        this_property_should_be_optional:
+          $ref: "#/components/schemas/SomeNullableObject"
+      required:
+        - this_property_should_be_optional
+    SomeNullableObject:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: string
+      nullable: true

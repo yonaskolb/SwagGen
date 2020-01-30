@@ -224,7 +224,7 @@ public class SwiftFormatter: CodeFormatter {
 
         let type = context["type"] as! String
         let name = context["name"] as! String
-        
+
         context["optionalType"] = type + (property.nullable ? "?" : "")
         var encodedValue = getEncodedValue(name: getName(name), type: type)
 

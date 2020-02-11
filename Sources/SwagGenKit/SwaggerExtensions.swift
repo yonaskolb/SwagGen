@@ -160,7 +160,7 @@ extension Schema {
                     return self
                 }
             case .all:
-                break
+                return self
             }
         default: break
         }

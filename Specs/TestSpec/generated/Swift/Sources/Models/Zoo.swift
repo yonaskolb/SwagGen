@@ -7,9 +7,31 @@ import Foundation
 
 public class Zoo: APIModel {
 
+    public var inlineAnimal: InlineAnimal?
+
     public var inlineAnimals: [InlineAnimals]?
 
     public var schemaAnimals: [SingleAnimal]?
+
+    public class InlineAnimal: Animal {
+
+        public override init(animal: String? = nil) {
+            super.init(animal: animal)
+        }
+
+        public required init(from decoder: Decoder) throws {
+            try super.init(from: decoder)
+        }
+
+        public override func encode(to encoder: Encoder) throws {
+            try super.encode(to: encoder)
+        }
+
+        override public func isEqual(to object: Any?) -> Bool {
+          guard object is InlineAnimal else { return false }
+          return super.isEqual(to: object)
+        }
+    }
 
     public enum InlineAnimals: Codable, Equatable {
         case cat(Cat)
@@ -39,7 +61,8 @@ public class Zoo: APIModel {
         }
     }
 
-    public init(inlineAnimals: [InlineAnimals]? = nil, schemaAnimals: [SingleAnimal]? = nil) {
+    public init(inlineAnimal: InlineAnimal? = nil, inlineAnimals: [InlineAnimals]? = nil, schemaAnimals: [SingleAnimal]? = nil) {
+        self.inlineAnimal = inlineAnimal
         self.inlineAnimals = inlineAnimals
         self.schemaAnimals = schemaAnimals
     }
@@ -47,6 +70,7 @@ public class Zoo: APIModel {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
+        inlineAnimal = try container.decodeIfPresent("inlineAnimal")
         inlineAnimals = try container.decodeArrayIfPresent("inlineAnimals")
         schemaAnimals = try container.decodeArrayIfPresent("schemaAnimals")
     }
@@ -54,12 +78,14 @@ public class Zoo: APIModel {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: StringCodingKey.self)
 
+        try container.encodeIfPresent(inlineAnimal, forKey: "inlineAnimal")
         try container.encodeIfPresent(inlineAnimals, forKey: "inlineAnimals")
         try container.encodeIfPresent(schemaAnimals, forKey: "schemaAnimals")
     }
 
     public func isEqual(to object: Any?) -> Bool {
       guard let object = object as? Zoo else { return false }
+      guard self.inlineAnimal == object.inlineAnimal else { return false }
       guard self.inlineAnimals == object.inlineAnimals else { return false }
       guard self.schemaAnimals == object.schemaAnimals else { return false }
       return true

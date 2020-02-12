@@ -310,6 +310,9 @@ components:
               - $ref: "#/components/schemas/Dog"
             discriminator:
               propertyName: type
+        inlineAnimal:
+            allOf:
+                - $ref: '#/components/schemas/Animal'
     SingleAnimal:
       oneOf:
         - $ref: "#/components/schemas/Cat"

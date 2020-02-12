@@ -2,6 +2,9 @@
 
 ## Next Version
 
+### Fixed
+- Fixed inline allOf group generation
+
 ## 4.3.1
 
 ### Fixed

@@ -187,6 +187,6 @@ extension APIRequest {
 
 extension APIService {
     public func asAny() -> APIService<AnyResponseValue> {
-        return APIService<AnyResponseValue>(id: id, tag: tag, method: method, path: path, hasBody: hasBody, securityRequirement: securityRequirement)
+        return APIService<AnyResponseValue>(id: id, tag: tag, method: method, path: path, hasBody: hasBody, securityRequirements: securityRequirements)
     }
 }

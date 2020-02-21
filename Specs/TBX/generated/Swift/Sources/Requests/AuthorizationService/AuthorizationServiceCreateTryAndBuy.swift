@@ -9,7 +9,7 @@ extension TBX.AuthorizationService {
 
     public enum AuthorizationServiceCreateTryAndBuy {
 
-        public static let service = APIService<Response>(id: "AuthorizationService.createTryAndBuy", tag: "AuthorizationService", method: "POST", path: "/AuthorizationServices/createTryAndBuy", hasBody: false)
+        public static let service = APIService<Response>(id: "AuthorizationService.createTryAndBuy", tag: "AuthorizationService", method: "POST", path: "/AuthorizationServices/createTryAndBuy", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

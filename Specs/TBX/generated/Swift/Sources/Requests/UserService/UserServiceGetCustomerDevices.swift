@@ -10,7 +10,7 @@ extension TBX.UserService {
     /** Get Devices of Customer. */
     public enum UserServiceGetCustomerDevices {
 
-        public static let service = APIService<Response>(id: "UserService.getCustomerDevices", tag: "UserService", method: "GET", path: "/UserServices/{customer}/devices", hasBody: false)
+        public static let service = APIService<Response>(id: "UserService.getCustomerDevices", tag: "UserService", method: "GET", path: "/UserServices/{customer}/devices", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

@@ -10,7 +10,7 @@ extension TBX.UserService {
     /** Find a Device by device id */
     public enum UserServiceGetDevice {
 
-        public static let service = APIService<Response>(id: "UserService.getDevice", tag: "UserService", method: "GET", path: "/UserServices/device/{device}", hasBody: false)
+        public static let service = APIService<Response>(id: "UserService.getDevice", tag: "UserService", method: "GET", path: "/UserServices/device/{device}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

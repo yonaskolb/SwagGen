@@ -10,7 +10,7 @@ extension TFL.StopPoint {
     /** Gets Stopoints that are reachable from a station/line combination. */
     public enum StopPointReachableFrom {
 
-        public static let service = APIService<Response>(id: "StopPoint_ReachableFrom", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/CanReachOnLine/{lineId}", hasBody: false)
+        public static let service = APIService<Response>(id: "StopPoint_ReachableFrom", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/CanReachOnLine/{lineId}", hasBody: false, securityRequirements: [])
 
         /** A comma-separated list of service types to filter on. If not specified. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
         public enum ServiceTypes: String, Codable, Equatable, CaseIterable {

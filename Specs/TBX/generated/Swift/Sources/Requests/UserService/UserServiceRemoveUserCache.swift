@@ -10,7 +10,7 @@ extension TBX.UserService {
     /** Clear user's authorization cache */
     public enum UserServiceRemoveUserCache {
 
-        public static let service = APIService<Response>(id: "UserService.removeUserCache", tag: "UserService", method: "DELETE", path: "/UserServices/cache", hasBody: false)
+        public static let service = APIService<Response>(id: "UserService.removeUserCache", tag: "UserService", method: "DELETE", path: "/UserServices/cache", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

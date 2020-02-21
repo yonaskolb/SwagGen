@@ -10,7 +10,7 @@ extension TFL.Line {
     /** Gets all valid routes for given line id, including the sequence of stops on each route. */
     public enum LineRouteSequence {
 
-        public static let service = APIService<Response>(id: "Line_RouteSequence", tag: "Line", method: "GET", path: "/Line/{id}/Route/Sequence/{direction}", hasBody: false)
+        public static let service = APIService<Response>(id: "Line_RouteSequence", tag: "Line", method: "GET", path: "/Line/{id}/Route/Sequence/{direction}", hasBody: false, securityRequirements: [])
 
         /** The direction of travel. Can be inbound or outbound. */
         public enum Direction: String, Codable, Equatable, CaseIterable {

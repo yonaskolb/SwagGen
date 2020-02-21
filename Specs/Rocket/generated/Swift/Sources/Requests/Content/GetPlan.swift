@@ -10,7 +10,7 @@ extension Rocket.Content {
     /** Returns the details of a Plan with the specified id. */
     public enum GetPlan {
 
-        public static let service = APIService<Response>(id: "getPlan", tag: "content", method: "GET", path: "/plans/{id}", hasBody: false)
+        public static let service = APIService<Response>(id: "getPlan", tag: "content", method: "GET", path: "/plans/{id}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

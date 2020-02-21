@@ -10,7 +10,7 @@ extension TFL.Line {
     /** Get disruptions for all lines of the given modes. */
     public enum LineDisruptionByMode {
 
-        public static let service = APIService<Response>(id: "Line_DisruptionByMode", tag: "Line", method: "GET", path: "/Line/Mode/{modes}/Disruption", hasBody: false)
+        public static let service = APIService<Response>(id: "Line_DisruptionByMode", tag: "Line", method: "GET", path: "/Line/Mode/{modes}/Disruption", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

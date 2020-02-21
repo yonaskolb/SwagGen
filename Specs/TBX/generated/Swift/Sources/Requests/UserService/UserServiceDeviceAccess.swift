@@ -10,7 +10,7 @@ extension TBX.UserService {
     /** Check if the Device has access to execute an action in many URNs */
     public enum UserServiceDeviceAccess {
 
-        public static let service = APIService<Response>(id: "UserService.deviceAccess", tag: "UserService", method: "GET", path: "/UserServices/device/{device}/access", hasBody: false)
+        public static let service = APIService<Response>(id: "UserService.deviceAccess", tag: "UserService", method: "GET", path: "/UserServices/device/{device}/access", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

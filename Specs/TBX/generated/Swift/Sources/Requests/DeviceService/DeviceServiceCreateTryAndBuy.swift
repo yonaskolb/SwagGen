@@ -9,7 +9,7 @@ extension TBX.DeviceService {
 
     public enum DeviceServiceCreateTryAndBuy {
 
-        public static let service = APIService<Response>(id: "DeviceService.createTryAndBuy", tag: "DeviceService", method: "POST", path: "/DeviceServices/createTryAndBuy", hasBody: false)
+        public static let service = APIService<Response>(id: "DeviceService.createTryAndBuy", tag: "DeviceService", method: "POST", path: "/DeviceServices/createTryAndBuy", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

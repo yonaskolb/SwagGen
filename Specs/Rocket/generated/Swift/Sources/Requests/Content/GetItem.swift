@@ -10,7 +10,7 @@ extension Rocket.Content {
     /** Returns the details of an item with the specified id. */
     public enum GetItem {
 
-        public static let service = APIService<Response>(id: "getItem", tag: "content", method: "GET", path: "/items/{id}", hasBody: false)
+        public static let service = APIService<Response>(id: "getItem", tag: "content", method: "GET", path: "/items/{id}", hasBody: false, securityRequirements: [])
 
         /** If no value is specified no dependencies are expanded.
         If 'children' is specified then the list of any direct children will be expanded. For example

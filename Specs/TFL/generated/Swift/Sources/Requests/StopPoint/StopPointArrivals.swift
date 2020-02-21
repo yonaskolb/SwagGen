@@ -10,7 +10,7 @@ extension TFL.StopPoint {
     /** Gets the list of arrival predictions for the given stop point id */
     public enum StopPointArrivals {
 
-        public static let service = APIService<Response>(id: "StopPoint_Arrivals", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/Arrivals", hasBody: false)
+        public static let service = APIService<Response>(id: "StopPoint_Arrivals", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/Arrivals", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

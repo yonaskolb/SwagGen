@@ -10,7 +10,7 @@ extension TBX.UserService {
     /** Get Try and Buy data by customerId */
     public enum UserServiceGetTryAndBuy {
 
-        public static let service = APIService<Response>(id: "UserService.getTryAndBuy", tag: "UserService", method: "GET", path: "/UserServices/{customer}/tryAndBuy", hasBody: false)
+        public static let service = APIService<Response>(id: "UserService.getTryAndBuy", tag: "UserService", method: "GET", path: "/UserServices/{customer}/tryAndBuy", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

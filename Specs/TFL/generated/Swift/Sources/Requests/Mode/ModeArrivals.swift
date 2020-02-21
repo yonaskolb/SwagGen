@@ -10,7 +10,7 @@ extension TFL.Mode {
     /** Gets the next arrival predictions for all stops of a given mode */
     public enum ModeArrivals {
 
-        public static let service = APIService<Response>(id: "Mode_Arrivals", tag: "Mode", method: "GET", path: "/Mode/{mode}/Arrivals", hasBody: false)
+        public static let service = APIService<Response>(id: "Mode_Arrivals", tag: "Mode", method: "GET", path: "/Mode/{mode}/Arrivals", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

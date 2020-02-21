@@ -10,7 +10,7 @@ extension PetstoreTest.Fake {
     /** To test enum parameters */
     public enum TestEnumParameters {
 
-        public static let service = APIService<Response>(id: "testEnumParameters", tag: "fake", method: "GET", path: "/fake", hasBody: true)
+        public static let service = APIService<Response>(id: "testEnumParameters", tag: "fake", method: "GET", path: "/fake", hasBody: true, securityRequirements: [])
 
         /** Header parameter enum test (string array) */
         public enum EnumHeaderStringArray: String, Codable, Equatable, CaseIterable {

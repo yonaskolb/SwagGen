@@ -11,7 +11,7 @@ extension TFL.Search {
             of 100. To return subsequent pages, use the paginated overload. */
     public enum SearchGet {
 
-        public static let service = APIService<Response>(id: "Search_Get", tag: "Search", method: "GET", path: "/Search", hasBody: false)
+        public static let service = APIService<Response>(id: "Search_Get", tag: "Search", method: "GET", path: "/Search", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

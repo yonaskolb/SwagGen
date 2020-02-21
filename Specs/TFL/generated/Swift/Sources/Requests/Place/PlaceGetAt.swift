@@ -11,7 +11,7 @@ extension TFL.Place {
             must be polygonal e.g. a BoroughBoundary. */
     public enum PlaceGetAt {
 
-        public static let service = APIService<Response>(id: "Place_GetAt", tag: "Place", method: "GET", path: "/Place/{type}/At/{Lat}/{Lon}", hasBody: false)
+        public static let service = APIService<Response>(id: "Place_GetAt", tag: "Place", method: "GET", path: "/Place/{type}/At/{Lat}/{Lon}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

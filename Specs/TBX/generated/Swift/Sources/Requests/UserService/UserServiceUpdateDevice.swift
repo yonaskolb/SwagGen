@@ -10,7 +10,7 @@ extension TBX.UserService {
     /** Update Device info */
     public enum UserServiceUpdateDevice {
 
-        public static let service = APIService<Response>(id: "UserService.updateDevice", tag: "UserService", method: "PUT", path: "/UserServices/device/{device}", hasBody: true)
+        public static let service = APIService<Response>(id: "UserService.updateDevice", tag: "UserService", method: "PUT", path: "/UserServices/device/{device}", hasBody: true, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

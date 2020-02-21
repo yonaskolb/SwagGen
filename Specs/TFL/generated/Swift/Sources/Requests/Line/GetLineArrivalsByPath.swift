@@ -10,7 +10,7 @@ extension TFL.Line {
     /** Get the list of arrival predictions for given line ids based at the given stop going in the procided direction */
     public enum GetLineArrivalsByPath {
 
-        public static let service = APIService<Response>(id: "getLineArrivalsByPath", tag: "Line", method: "GET", path: "/Line/{ids}/Arrivals/{stopPointId}", hasBody: false)
+        public static let service = APIService<Response>(id: "getLineArrivalsByPath", tag: "Line", method: "GET", path: "/Line/{ids}/Arrivals/{stopPointId}", hasBody: false, securityRequirements: [])
 
         /** The direction of travel. Can be inbound or outbound */
         public enum Direction: String, Codable, Equatable, CaseIterable {

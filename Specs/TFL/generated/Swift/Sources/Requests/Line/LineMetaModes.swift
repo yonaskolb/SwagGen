@@ -10,7 +10,7 @@ extension TFL.Line {
     /** Gets a list of valid modes */
     public enum LineMetaModes {
 
-        public static let service = APIService<Response>(id: "Line_MetaModes", tag: "Line", method: "GET", path: "/Line/Meta/Modes", hasBody: false)
+        public static let service = APIService<Response>(id: "Line_MetaModes", tag: "Line", method: "GET", path: "/Line/Meta/Modes", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

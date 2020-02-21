@@ -26,7 +26,7 @@ If neither a pin or password are supplied an http 400 error will be returned.
  */
     public enum GetAccountToken {
 
-        public static let service = APIService<Response>(id: "getAccountToken", tag: "authorization", method: "POST", path: "/authorization", hasBody: true)
+        public static let service = APIService<Response>(id: "getAccountToken", tag: "authorization", method: "POST", path: "/authorization", hasBody: true, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

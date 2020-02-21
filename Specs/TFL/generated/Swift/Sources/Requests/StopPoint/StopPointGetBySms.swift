@@ -10,7 +10,7 @@ extension TFL.StopPoint {
     /** Gets a StopPoint for a given sms code. */
     public enum StopPointGetBySms {
 
-        public static let service = APIService<Response>(id: "StopPoint_GetBySms", tag: "StopPoint", method: "GET", path: "/StopPoint/Sms/{id}", hasBody: false)
+        public static let service = APIService<Response>(id: "StopPoint_GetBySms", tag: "StopPoint", method: "GET", path: "/StopPoint/Sms/{id}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

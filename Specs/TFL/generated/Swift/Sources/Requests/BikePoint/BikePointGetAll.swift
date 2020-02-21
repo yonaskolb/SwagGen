@@ -11,7 +11,7 @@ extension TFL.BikePoint {
             numbers which give the status of the BikePoint. A mismatch in these numbers i.e. nbDocks - (nbBikes + nbSpaces) != 0 indicates broken docks. */
     public enum BikePointGetAll {
 
-        public static let service = APIService<Response>(id: "BikePoint_GetAll", tag: "BikePoint", method: "GET", path: "/BikePoint", hasBody: false)
+        public static let service = APIService<Response>(id: "BikePoint_GetAll", tag: "BikePoint", method: "GET", path: "/BikePoint", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

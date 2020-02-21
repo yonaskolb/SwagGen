@@ -9,7 +9,7 @@ extension TBX.DeviceService {
 
     public enum DeviceServiceValidateCode {
 
-        public static let service = APIService<Response>(id: "DeviceService.validateCode", tag: "DeviceService", method: "POST", path: "/DeviceServices/validateCode", hasBody: false)
+        public static let service = APIService<Response>(id: "DeviceService.validateCode", tag: "DeviceService", method: "POST", path: "/DeviceServices/validateCode", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

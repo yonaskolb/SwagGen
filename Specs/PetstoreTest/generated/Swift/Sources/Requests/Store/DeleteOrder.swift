@@ -14,7 +14,7 @@ extension PetstoreTest.Store {
     */
     public enum DeleteOrder {
 
-        public static let service = APIService<Response>(id: "deleteOrder", tag: "store", method: "DELETE", path: "/store/order/{order_id}", hasBody: false)
+        public static let service = APIService<Response>(id: "deleteOrder", tag: "store", method: "DELETE", path: "/store/order/{order_id}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

@@ -10,7 +10,7 @@ extension Rocket.Content {
     /** Search the catalog of items and people. */
     public enum Search {
 
-        public static let service = APIService<Response>(id: "search", tag: "content", method: "GET", path: "/search", hasBody: false)
+        public static let service = APIService<Response>(id: "search", tag: "content", method: "GET", path: "/search", hasBody: false, securityRequirements: [])
 
         /** By default people, movies and tv (shows + programs) will be included
         in the search results.

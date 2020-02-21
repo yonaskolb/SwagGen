@@ -10,7 +10,7 @@ extension Petstore.Pets {
     /** Info for a specific pet */
     public enum ShowPetById {
 
-        public static let service = APIService<Response>(id: "showPetById", tag: "pets", method: "GET", path: "/pets/{petId}", hasBody: false)
+        public static let service = APIService<Response>(id: "showPetById", tag: "pets", method: "GET", path: "/pets/{petId}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

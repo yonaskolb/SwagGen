@@ -12,7 +12,7 @@ basic cookies we assigned them during token authorization.
  */
     public enum SignOut {
 
-        public static let service = APIService<Response>(id: "signOut", tag: "authorization", method: "DELETE", path: "/authorization", hasBody: false)
+        public static let service = APIService<Response>(id: "signOut", tag: "authorization", method: "DELETE", path: "/authorization", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

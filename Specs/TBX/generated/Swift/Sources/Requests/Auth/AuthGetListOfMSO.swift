@@ -10,7 +10,7 @@ extension TBX.Auth {
     /** Get list of IDPs of Content Provider */
     public enum AuthGetListOfMSO {
 
-        public static let service = APIService<Response>(id: "auth.getListOfMSO", tag: "auth", method: "GET", path: "/auth/{cp}/mso.json", hasBody: false)
+        public static let service = APIService<Response>(id: "auth.getListOfMSO", tag: "auth", method: "GET", path: "/auth/{cp}/mso.json", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

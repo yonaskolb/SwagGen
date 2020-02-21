@@ -10,7 +10,7 @@ extension Rocket.Account {
     /** Create a new profile under the active account. */
     public enum CreateProfile {
 
-        public static let service = APIService<Response>(id: "createProfile", tag: "account", method: "POST", path: "/account/profiles", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scopes: ["Catalog"]))
+        public static let service = APIService<Response>(id: "createProfile", tag: "account", method: "POST", path: "/account/profiles", hasBody: true, securityRequirements: [SecurityRequirement(type: "accountAuth", scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

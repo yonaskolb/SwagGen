@@ -10,7 +10,7 @@ extension TBX.UserService {
     /** Use a Token */
     public enum UserServiceUseToken {
 
-        public static let service = APIService<Response>(id: "UserService.useToken", tag: "UserService", method: "PUT", path: "/UserServices/token/{token}", hasBody: true)
+        public static let service = APIService<Response>(id: "UserService.useToken", tag: "UserService", method: "PUT", path: "/UserServices/token/{token}", hasBody: true, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

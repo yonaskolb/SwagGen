@@ -10,7 +10,7 @@ extension TFL.StopPoint {
     /** Search StopPoints by their common name, or their 5-digit Countdown Bus Stop Code. */
     public enum SearchStopPoints {
 
-        public static let service = APIService<Response>(id: "searchStopPoints", tag: "StopPoint", method: "GET", path: "/StopPoint/Search", hasBody: false)
+        public static let service = APIService<Response>(id: "searchStopPoints", tag: "StopPoint", method: "GET", path: "/StopPoint/Search", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

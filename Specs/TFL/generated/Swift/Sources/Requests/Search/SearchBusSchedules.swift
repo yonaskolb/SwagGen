@@ -10,7 +10,7 @@ extension TFL.Search {
     /** Searches the bus schedules folder on S3 for a given bus number. */
     public enum SearchBusSchedules {
 
-        public static let service = APIService<Response>(id: "Search_BusSchedules", tag: "Search", method: "GET", path: "/Search/BusSchedules", hasBody: false)
+        public static let service = APIService<Response>(id: "Search_BusSchedules", tag: "Search", method: "GET", path: "/Search/BusSchedules", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

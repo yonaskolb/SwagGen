@@ -10,7 +10,7 @@ extension TestSpec {
     /** operation with string body */
     public enum PostString {
 
-        public static let service = APIService<Response>(id: "postString", tag: "", method: "POST", path: "/string", hasBody: true, securityRequirement: SecurityRequirement(type: "test_auth", scopes: ["read"]))
+        public static let service = APIService<Response>(id: "postString", tag: "", method: "POST", path: "/string", hasBody: true, securityRequirements: [SecurityRequirement(type: "test_auth", scopes: ["read"])])
 
         public final class Request: APIRequest<Response> {
 

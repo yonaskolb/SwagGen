@@ -25,7 +25,7 @@ which would be unfriendly for clients presenting these channel schedules.
  */
     public enum GetSchedules {
 
-        public static let service = APIService<Response>(id: "getSchedules", tag: "content", method: "GET", path: "/schedules", hasBody: false)
+        public static let service = APIService<Response>(id: "getSchedules", tag: "content", method: "GET", path: "/schedules", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

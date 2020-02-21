@@ -12,7 +12,7 @@ Note that you cannot delete the primary profile.
  */
     public enum DeleteProfileWithId {
 
-        public static let service = APIService<Response>(id: "deleteProfileWithId", tag: "account", method: "DELETE", path: "/account/profiles/{id}", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scopes: ["Catalog"]))
+        public static let service = APIService<Response>(id: "deleteProfileWithId", tag: "account", method: "DELETE", path: "/account/profiles/{id}", hasBody: false, securityRequirements: [SecurityRequirement(type: "accountAuth", scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

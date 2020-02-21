@@ -12,7 +12,7 @@ Creates one if it doesn't exist, overwrites one if it does.
  */
     public enum RateItem {
 
-        public static let service = APIService<Response>(id: "rateItem", tag: "profile", method: "PUT", path: "/account/profile/ratings/{itemId}", hasBody: false, securityRequirement: SecurityRequirement(type: "profileAuth", scopes: ["Catalog"]))
+        public static let service = APIService<Response>(id: "rateItem", tag: "profile", method: "PUT", path: "/account/profile/ratings/{itemId}", hasBody: false, securityRequirements: [SecurityRequirement(type: "profileAuth", scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

@@ -14,7 +14,7 @@ extension PetstoreTest.User {
     */
     public enum UpdateUser {
 
-        public static let service = APIService<Response>(id: "updateUser", tag: "user", method: "PUT", path: "/user/{username}", hasBody: true)
+        public static let service = APIService<Response>(id: "updateUser", tag: "user", method: "PUT", path: "/user/{username}", hasBody: true, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

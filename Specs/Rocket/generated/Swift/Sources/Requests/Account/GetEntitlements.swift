@@ -13,7 +13,7 @@ only required when wishing to refresh a local copy of entitlements.
  */
     public enum GetEntitlements {
 
-        public static let service = APIService<Response>(id: "getEntitlements", tag: "account", method: "GET", path: "/account/entitlements", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scopes: ["Catalog"]))
+        public static let service = APIService<Response>(id: "getEntitlements", tag: "account", method: "GET", path: "/account/entitlements", hasBody: false, securityRequirements: [SecurityRequirement(type: "accountAuth", scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

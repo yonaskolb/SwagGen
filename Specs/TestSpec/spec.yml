@@ -313,6 +313,15 @@ components:
         inlineAnimal:
             allOf:
                 - $ref: '#/components/schemas/Animal'
+        oneOfDog:
+            oneOf:
+                - $ref: '#/components/schemas/Dog'
+        anyOfDog:
+            anyOf:
+                - $ref: '#/components/schemas/Dog'
+        allOfDog:
+            allOf:
+                - $ref: '#/components/schemas/Dog'
     SingleAnimal:
       oneOf:
         - $ref: "#/components/schemas/Cat"

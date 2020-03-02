@@ -4,7 +4,8 @@
 ### Fixed
 - Fixed `'??' has non-optional type` warning #207
 - Fixed incorrect replacements in server variables #209
-- Fixed missing support for multiple authentication types per operation #214 #222
+- Fixed missing support for multiple authentication types per operation #214 #222 @malteburkert
+- Fixed nullable references not being generated as optionals #216 @alephao
 
 ### Internal
  - Removed needless `Array` initialization. [#212](https://github.com/yonaskolb/SwagGen/pull/212) @RomanPodymov

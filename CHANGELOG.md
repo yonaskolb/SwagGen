@@ -1,5 +1,12 @@
 # Change Log
+
 ## Next Version
+
+### Fixed
+- Fixed inline allOf group generation
+- Fixed property generation when there is only one group schema;  the first group schema type will be used as the type #217
+
+## 4.3.1
 
 ### Fixed
 - Fixed `'??' has non-optional type` warning #207
@@ -8,7 +15,9 @@
 - Fixed nullable references not being generated as optionals #216 @alephao
 
 ### Internal
- - Removed needless `Array` initialization. [#212](https://github.com/yonaskolb/SwagGen/pull/212) @RomanPodymov
+ - Removed needless `Array` initialization. #212 @RomanPodymov
+
+[Commits](https://github.com/yonaskolb/SwagGen/compare/4.3.0...4.3.1)
 
 ## 4.3.0
 

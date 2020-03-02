@@ -151,7 +151,12 @@ public class SwiftFormatter: CodeFormatter {
             }
         case let .reference(reference):
             return getSchemaTypeName(reference.component)
-        case .group:
+        case let .group(groupSchema):
+            if groupSchema.schemas.count == 1, let singleGroupSchema = groupSchema.schemas.first {
+                //flatten group schemas with only one schema
+                return getSchemaType(name: name, schema: singleGroupSchema)
+            }
+
             return escapeType(name.upperCamelCased())
         case .any:
             return "Any"
@@ -225,7 +230,7 @@ public class SwiftFormatter: CodeFormatter {
         let type = context["type"] as! String
         let name = context["name"] as! String
 
-        context["optionalType"] = type + (property.required && !property.schema.metadata.nullable ? "" : "?")
+        context["optionalType"] = type + (property.nullable ? "?" : "")
         var encodedValue = getEncodedValue(name: getName(name), type: type)
 
         if !property.required, let range = encodedValue.range(of: ".") {

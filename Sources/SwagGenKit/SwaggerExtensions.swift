@@ -154,13 +154,8 @@ extension Schema {
                 break
             }
         case let .group(group):
-            switch group.type {
-            case .any, .one:
-                if group.discriminator != nil {
-                    return self
-                }
-            case .all:
-                break
+            if group.discriminator != nil {
+                return self
             }
         default: break
         }

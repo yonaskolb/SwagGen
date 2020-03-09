@@ -2,9 +2,11 @@
 
 import Foundation
 
-public protocol APIModel: Codable, Equatable { }
+{% if options.modelProtocol %}
+public protocol {{ options.modelProtocol }}: Codable, Equatable { }
+{% endif %}
 
-extension APIModel {
+extension {{ options.modelProtocol }} {
     func encode() -> [String: Any] {
         guard
             let jsonData = try? JSONEncoder().encode(self),

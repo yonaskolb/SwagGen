@@ -4,6 +4,8 @@
 //
 
 import Foundation
+import TBXModels
+import TBXSharedCode
 
 extension TBX.AuthorizationService {
 

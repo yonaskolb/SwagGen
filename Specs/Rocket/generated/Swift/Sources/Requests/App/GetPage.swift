@@ -4,6 +4,8 @@
 //
 
 import Foundation
+import RocketModels
+import RocketSharedCode
 
 extension Rocket.App {
 

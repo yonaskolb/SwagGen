@@ -4,6 +4,8 @@
 //
 
 import Foundation
+import PetstoreModels
+import PetstoreSharedCode
 
 extension Petstore.Pets {
 

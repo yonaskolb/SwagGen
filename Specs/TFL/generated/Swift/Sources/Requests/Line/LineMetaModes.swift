@@ -4,6 +4,8 @@
 //
 
 import Foundation
+import TFLModels
+import TFLSharedCode
 
 extension TFL.Line {
 

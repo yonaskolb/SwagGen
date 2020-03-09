@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  macOS_swift_5.0:
+  macOS_swift_5.1:
     macos:
       xcode: "10.2.0"
     steps:
@@ -21,4 +21,4 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - macOS_swift_5.0
+      - macOS_swift_5.1

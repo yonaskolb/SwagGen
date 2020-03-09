@@ -29,24 +29,26 @@ templateFiles:
   - path: Package.swift
   - path: Cartfile
   - path: Info.plist
-  - path: Sources/API.swift
-  - path: Sources/Coding.swift
-  - path: Sources/APIRequest.swift
-  - path: Sources/APIClient.swift
-  - path: Sources/APIService.swift
-  - path: Sources/APIClientError.swift
-  - path: Sources/APIResponse.swift
-  - path: Sources/APIResult.swift
-  - path: Sources/RequestBehaviour.swift
-  - path: Sources/AnyCodable.swift
   - path: Podspec.podspec
     destination: "{{ options.name }}.podspec"
-  - path: Sources/Enum.swift
+  - path: Sources/SharedCode/APIClientError.swift
+  - path: Sources/SharedCode/APIResult.swift
+  - path: Sources/Client/APIClient.swift
+  - path: Sources/Client/RequestBehaviour.swift
+  - path: Sources/Models/AnyCodable.swift
+  - path: Sources/Models/APIModel.swift
+  - path: Sources/Models/Coding.swift
+  - path: Sources/Models/Enum.swift
     context: enums
-    destination: "Sources/Enums/{{ enumName }}.swift"
-  - path: Sources/Model.swift
+    destination: "Sources/Models/Enums/{{ enumName }}.swift"
+  - path: Sources/Models/Model.swift
     context: schemas
-    destination: "Sources/Models/{{ type }}.swift"
-  - path: Sources/Request.swift
+    destination: "Sources/Models/Models/{{ type }}.swift"
+  - path: Sources/Requests/AnyRequest.swift
+  - path: Sources/Requests/API.swift
+  - path: Sources/Requests/APIRequest.swift
+  - path: Sources/Requests/APIResponse.swift
+  - path: Sources/Requests/APIService.swift
+  - path: Sources/Requests/Request.swift
     context: operations
     destination: "Sources/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ type }}.swift"

@@ -1,6 +1,8 @@
 {% include "Includes/Header.stencil" %}
 
 import Foundation
+import {{ options.name }}Models
+import {{ options.name }}SharedCode
 
 extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }}{% endif %} {
 

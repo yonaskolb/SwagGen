@@ -1,6 +1,7 @@
 {% include "Includes/Header.stencil" %}
 
 import Foundation
+import {{ options.name }}Models
 
 public class APIRequest<ResponseType: APIResponseValue> {
 

@@ -14,7 +14,11 @@ public struct {{ options.name }} {
     public static var safeArrayDecoding = {% if options.safeArrayDecoding %}true{% else %}false{% endif %}
 
     /// Used to encode Dates when uses as string params
-    public static var dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
+    public static var dateEncodingFormatter : DateFormatter = {
+      var formatter = DateFormatter()
+      formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+      return formatter
+    }()
     
     {% if info.version %}
     public static let version = "{{ info.version }}"

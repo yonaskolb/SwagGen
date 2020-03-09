@@ -2,6 +2,9 @@
 
 import Foundation
 import Alamofire
+import {{ options.name }}Requests
+import {{ options.name }}Models
+import {{ options.name }}SharedCode
 
 /// Manages and sends APIRequests
 public class APIClient {
@@ -175,7 +178,7 @@ public class APIClient {
             result = .failure(apiError)
             requestBehaviour.onFailure(error: apiError)
         }
-        let response = APIResponse<T>(request: request, result: result, urlRequest: dataResponse.request, urlResponse: dataResponse.response, data: dataResponse.data, timeline: dataResponse.timeline)
+        let response = APIResponse<T>(request: request, result: result, urlRequest: dataResponse.request, urlResponse: dataResponse.response, data: dataResponse.data)
         requestBehaviour.onResponse(response: response.asAny())
 
         completionQueue.async {

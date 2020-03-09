@@ -2,10 +2,6 @@
 
 import Foundation
 
-{% if options.modelProtocol %}
-public protocol {{ options.modelProtocol }}: Codable, Equatable { }
-{% endif %}
-
 {% for type, typealias in options.typeAliases %}
 public typealias {{ type }} = {{ typealias }}
 {% endfor %}
@@ -23,18 +19,6 @@ public protocol RequestEncoder {
 }
 
 extension JSONEncoder: RequestEncoder {}
-
-extension {{ options.modelProtocol }} {
-    func encode() -> [String: Any] {
-        guard
-            let jsonData = try? JSONEncoder().encode(self),
-            let jsonValue = try? JSONSerialization.jsonObject(with: jsonData),
-            let jsonDictionary = jsonValue as? [String: Any] else {
-                return [:]
-        }
-        return jsonDictionary
-    }
-}
 
 struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
 
@@ -129,7 +113,7 @@ extension KeyedDecodingContainer {
         do {
             container = try nestedUnkeyedContainer(forKey: key)
         } catch {
-            if {{ options.name }}.safeArrayDecoding {
+            if {{ options.safeArrayDecoding }} { // safeArrayDecoding
                 return array
             } else {
                 throw error
@@ -141,7 +125,7 @@ extension KeyedDecodingContainer {
                 let element = try container.decode(T.self)
                 array.append(element)
             } catch {
-                if {{ options.name }}.safeArrayDecoding {
+                if {{ options.safeArrayDecoding }} { // safeArrayDecoding
                     // hack to advance the current index
                     _ = try? container.decode(AnyCodable.self)
                 } else {
@@ -163,7 +147,7 @@ extension KeyedDecodingContainer {
     }
 
     fileprivate func decodeOptional<T>(_ closure: () throws -> T? ) throws -> T? {
-        if {{ options.name }}.safeOptionalDecoding {
+        if {{ options.safeOptionalDecoding }} { // safeOptionalDecoding
             do {
                 return try closure()
             } catch {
@@ -210,7 +194,7 @@ extension DateFormatter {
     }
 }
 
-let dateDecoder: (Decoder) throws -> Date = { decoder in
+public let dateDecoder: (Decoder) throws -> Date = { decoder in
         let container = try decoder.singleValueContainer()
         let string = try container.decode(String.self)
 
@@ -313,7 +297,9 @@ extension DateDay {
 
 extension Date {
     func encode() -> Any {
-        return {{ options.name }}.dateEncodingFormatter.string(from: self)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return formatter.string(from: self)
     }
 }
 

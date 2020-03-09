@@ -2,7 +2,7 @@ version: 2
 jobs:
   macOS_swift_5.1:
     macos:
-      xcode: "10.2.0"
+      xcode: "11.3.1"
     steps:
       - checkout
       - run:

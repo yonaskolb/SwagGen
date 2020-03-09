@@ -4,6 +4,10 @@
 //
 
 import Foundation
+#if canImport(TFLModels)
+import TFLModels
+import TFLSharedCode
+#endif
 
 extension TFL.AccidentStats {
 

@@ -4,6 +4,10 @@
 //
 
 import Foundation
+#if canImport(PetstoreTestModels)
+import PetstoreTestModels
+import PetstoreTestSharedCode
+#endif
 
 extension PetstoreTest.Fake {
 

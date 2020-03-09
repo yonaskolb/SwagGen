@@ -1,6 +1,7 @@
 {% include "Includes/Header.stencil" %}
 
 import Foundation
+
 import {{ options.name }}Models
 import {{ options.name }}SharedCode
 

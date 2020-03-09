@@ -1,6 +1,10 @@
 {% include "Includes/Header.stencil" %}
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 import {{ options.name }}Models
 
 public class APIRequest<ResponseType: APIResponseValue> {
@@ -85,3 +89,92 @@ public struct UploadFile: Equatable {
         return self
     }
 }
+
+extension URL {
+  public var resolvingAgainstBaseURL: Bool { get { return (self.baseURL != nil) } }
+}
+
+// Create URLRequest
+extension APIRequest {
+  
+  private func encodeURLParameters(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+    var urlRequest = urlRequest
+    guard let parameters = parameters else { return urlRequest }
+    guard let url = urlRequest.url else { throw(APIClientError.missingURL) }
+    
+    if var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: url.resolvingAgainstBaseURL), !parameters.isEmpty {
+      var queryItems = urlComponents.queryItems ?? []
+      let urlQueryItems = parameters.map { (arg0) -> URLQueryItem in
+        let (key, value) = arg0
+        return URLQueryItem(name: key, value: value as? String)
+      }
+      queryItems.append(contentsOf: urlQueryItems)
+      urlComponents.queryItems = queryItems
+      urlRequest.url = urlComponents.url
+      return urlRequest
+    }
+    throw(APIClientError.urlEncodingError)
+  }
+  
+  private func encodeFormParam(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+    var urlRequest = urlRequest
+    guard let parameters = parameters else { return urlRequest }
+    guard let url = urlRequest.url else { throw(APIClientError.missingURL) }
+    
+    if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
+        urlRequest.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
+    }
+
+    if var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: url.resolvingAgainstBaseURL), !parameters.isEmpty {
+      var queryItems = urlComponents.queryItems ?? []
+      let urlQueryItems = parameters.map { (arg0) -> URLQueryItem in
+        let (key, value) = arg0
+        return URLQueryItem(name: key, value: value as? String)
+      }
+      queryItems.append(contentsOf: urlQueryItems)
+      urlComponents.queryItems = queryItems
+      
+      urlRequest.httpBody = urlComponents.queryItems?.map { (queryItem) -> String in
+        "\(queryItem.name)=\(queryItem.value)"
+      }.joined(separator: "&").data(using: .utf8, allowLossyConversion: false)
+    }
+
+    throw(APIClientError.urlEncodingError)
+  }
+
+
+    /// pass in an optional baseURL, otherwise URLRequest.url will be relative
+    public func createURLRequest(baseURL: String = "", encoder: RequestEncoder = JSONEncoder()) throws -> URLRequest {
+        let url = URL(string: "\(baseURL)\(path)")!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = service.method
+        urlRequest.allHTTPHeaderFields = headers
+
+        // filter out parameters with empty string value
+        var queryParams: [String: Any] = [:]
+        for (key, value) in queryParameters {
+            if String.init(describing: value) != "" {
+                queryParams[key] = value
+            }
+        }
+        if !queryParams.isEmpty {
+          urlRequest = try encodeURLParameters(urlRequest, with: queryParams)
+        }
+
+        var formParams: [String: Any] = [:]
+        for (key, value) in formParameters {
+            if String.init(describing: value) != "" {
+                formParams[key] = value
+            }
+        }
+        if !formParams.isEmpty {
+            urlRequest = try encodeFormParam(urlRequest, with: formParams)
+        }
+        if let encodeBody = encodeBody {
+            urlRequest.httpBody = try encodeBody(encoder)
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+        return urlRequest
+    }
+}
+

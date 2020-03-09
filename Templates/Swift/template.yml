@@ -37,6 +37,7 @@ templateFiles:
   - path: Sources/Client/RequestBehaviour.swift
   - path: Sources/Models/AnyCodable.swift
   - path: Sources/Models/APIModel.swift
+    destination: "Sources/Models/{{ options.modelProtocol }}.swift"
   - path: Sources/Models/Coding.swift
   - path: Sources/Models/Enum.swift
     context: enums
@@ -46,6 +47,7 @@ templateFiles:
     destination: "Sources/Models/Models/{{ type }}.swift"
   - path: Sources/Requests/AnyRequest.swift
   - path: Sources/Requests/API.swift
+    destination: "Sources/Requests/{{ options.name }}.swift"
   - path: Sources/Requests/APIRequest.swift
   - path: Sources/Requests/APIResponse.swift
   - path: Sources/Requests/APIService.swift

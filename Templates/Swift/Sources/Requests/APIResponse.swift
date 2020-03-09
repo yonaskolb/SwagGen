@@ -1,6 +1,10 @@
 {% include "Includes/Header.stencil" %}
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 import {{ options.name }}Models
 import {{ options.name }}SharedCode
 

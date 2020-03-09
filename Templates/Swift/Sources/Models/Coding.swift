@@ -20,7 +20,7 @@ public protocol RequestEncoder {
 
 extension JSONEncoder: RequestEncoder {}
 
-struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
+public struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
 
     private let string: String
     private let int: Int?
@@ -51,7 +51,7 @@ struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
 // any json decoding
 extension ResponseDecoder {
 
-    func decodeAny<T>(_ type: T.Type, from data: Data) throws -> T {
+    public func decodeAny<T>(_ type: T.Type, from data: Data) throws -> T {
         guard let decoded = try decode(AnyCodable.self, from: data) as? T else {
             throw DecodingError.typeMismatch(T.self, DecodingError.Context(codingPath: [StringCodingKey(string: "")], debugDescription: "Decoding of \(T.self) failed"))
         }
@@ -281,7 +281,6 @@ public struct DateDay: Codable, Comparable {
 }
 
 extension DateFormatter {
-
     public func string(from dateDay: DateDay) -> String {
         return string(from: dateDay.date)
     }
@@ -290,13 +289,13 @@ extension DateFormatter {
 // for parameter encoding
 
 extension DateDay {
-    func encode() -> Any {
+    public func encode() -> Any {
         return DateDay.dateFormatter.string(from: date)
     }
 }
 
 extension Date {
-    func encode() -> Any {
+    public func encode() -> Any {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         return formatter.string(from: self)
@@ -304,44 +303,43 @@ extension Date {
 }
 
 extension URL {
-    func encode() -> Any {
+    public func encode() -> Any {
         return absoluteString
     }
 }
 
 extension RawRepresentable {
-    func encode() -> Any {
+    public func encode() -> Any {
         return rawValue
     }
 }
 
 extension Array where Element: RawRepresentable {
-    func encode() -> [Any] {
+    public func encode() -> [Any] {
         return map { $0.rawValue }
     }
 }
 
 extension Dictionary where Key == String, Value: RawRepresentable {
-    func encode() -> [String: Any] {
+    public func encode() -> [String: Any] {
         return mapValues { $0.rawValue }
     }
 }
 
 extension UUID {
-    func encode() -> Any {
+    public func encode() -> Any {
         return uuidString
     }
 }
 
 extension String {
-    func encode() -> Any {
+    public func encode() -> Any {
         return self
     }
 }
 
 extension Data {
-
-    func encode() -> Any {
+    public func encode() -> Any {
         return self
     }
 }

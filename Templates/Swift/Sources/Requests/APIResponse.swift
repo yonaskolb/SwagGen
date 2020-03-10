@@ -5,8 +5,10 @@ import Foundation
 import FoundationNetworking
 #endif
 
+#if canImport({{ options.name }}Models)
 import {{ options.name }}Models
 import {{ options.name }}SharedCode
+#endif
 
 public protocol APIResponseValue: CustomDebugStringConvertible, CustomStringConvertible {
     associatedtype SuccessType{% if options.codableResponses %} : Codable{% endif %}

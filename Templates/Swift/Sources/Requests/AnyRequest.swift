@@ -4,8 +4,9 @@ import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
-
+#if canImport({{ options.name }}Models)
 import {{ options.name }}Models
+#endif
 
 //MARK: Type erased Requests and Responses
 

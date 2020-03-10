@@ -1,8 +1,10 @@
 {% include "Includes/Header.stencil" %}
 
 import Foundation
+#if canImport({{ options.name }}Requests)
 import {{ options.name }}Requests
 import {{ options.name }}SharedCode
+#endif
 
 public protocol RequestBehaviour {
 

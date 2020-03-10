@@ -1,9 +1,10 @@
 {% include "Includes/Header.stencil" %}
 
 import Foundation
-
+#if canImport({{ options.name }}Models)
 import {{ options.name }}Models
 import {{ options.name }}SharedCode
+#endif
 
 extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }}{% endif %} {
 

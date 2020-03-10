@@ -8,8 +8,10 @@ import Foundation
 import FoundationNetworking
 #endif
 
+#if canImport(TBXModels)
 import TBXModels
 import TBXSharedCode
+#endif
 
 public class APIRequest<ResponseType: APIResponseValue> {
 

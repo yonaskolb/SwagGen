@@ -8,8 +8,10 @@ import Foundation
 import FoundationNetworking
 #endif
 
+#if canImport(TFLModels)
 import TFLModels
 import TFLSharedCode
+#endif
 
 public protocol APIResponseValue: CustomDebugStringConvertible, CustomStringConvertible {
     associatedtype SuccessType

@@ -8,8 +8,10 @@ import Foundation
 import FoundationNetworking
 #endif
 
+#if canImport(PetstoreModels)
 import PetstoreModels
 import PetstoreSharedCode
+#endif
 
 public class APIRequest<ResponseType: APIResponseValue> {
 

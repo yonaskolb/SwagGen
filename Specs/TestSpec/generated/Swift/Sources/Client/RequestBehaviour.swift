@@ -4,8 +4,10 @@
 //
 
 import Foundation
+#if canImport(TestSpecRequests)
 import TestSpecRequests
 import TestSpecSharedCode
+#endif
 
 public protocol RequestBehaviour {
 

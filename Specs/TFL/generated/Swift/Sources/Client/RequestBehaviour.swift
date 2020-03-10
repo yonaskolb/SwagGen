@@ -4,8 +4,10 @@
 //
 
 import Foundation
+#if canImport(TFLRequests)
 import TFLRequests
 import TFLSharedCode
+#endif
 
 public protocol RequestBehaviour {
 

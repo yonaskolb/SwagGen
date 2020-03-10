@@ -8,8 +8,10 @@ import Foundation
 import FoundationNetworking
 #endif
 
+#if canImport(RocketModels)
 import RocketModels
 import RocketSharedCode
+#endif
 
 public protocol APIResponseValue: CustomDebugStringConvertible, CustomStringConvertible {
     associatedtype SuccessType

@@ -7,8 +7,9 @@ import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
-
+#if canImport(PetstoreModels)
 import PetstoreModels
+#endif
 
 //MARK: Type erased Requests and Responses
 

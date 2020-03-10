@@ -7,8 +7,9 @@ import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
-
+#if canImport(TFLModels)
 import TFLModels
+#endif
 
 //MARK: Type erased Requests and Responses
 

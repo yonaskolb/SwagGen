@@ -4,8 +4,10 @@
 //
 
 import Foundation
+#if canImport(PetstoreRequests)
 import PetstoreRequests
 import PetstoreSharedCode
+#endif
 
 public protocol RequestBehaviour {
 

@@ -4,9 +4,10 @@
 //
 
 import Foundation
-
+#if canImport(TBXModels)
 import TBXModels
 import TBXSharedCode
+#endif
 
 extension TBX.Auth {
 

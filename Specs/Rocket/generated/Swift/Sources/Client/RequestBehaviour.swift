@@ -4,8 +4,10 @@
 //
 
 import Foundation
+#if canImport(RocketRequests)
 import RocketRequests
 import RocketSharedCode
+#endif
 
 public protocol RequestBehaviour {
 

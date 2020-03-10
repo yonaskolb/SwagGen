@@ -5,9 +5,11 @@
 
 import Foundation
 import Alamofire
+#if canImport(TBXModels)
 import TBXRequests
 import TBXModels
 import TBXSharedCode
+#endif
 
 /// Manages and sends APIRequests
 public class APIClient {
@@ -213,5 +215,43 @@ extension APIRequest {
     /// makes a request using the default APIClient. Change your baseURL in APIClient.default.baseURL
     public func makeRequest(complete: @escaping (APIResponse<ResponseType>) -> Void) {
         APIClient.default.makeRequest(self, complete: complete)
+    }
+}
+
+// Create URLRequest
+extension APIRequest {
+
+    /// pass in an optional baseURL, otherwise URLRequest.url will be relative
+    public func createURLRequest(baseURL: String = "", encoder: RequestEncoder = JSONEncoder()) throws -> URLRequest {
+        let url = URL(string: "\(baseURL)\(path)")!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = service.method
+        urlRequest.allHTTPHeaderFields = headers
+
+        // filter out parameters with empty string value
+        var queryParams: [String: Any] = [:]
+        for (key, value) in queryParameters {
+            if String.init(describing: value) != "" {
+                queryParams[key] = value
+            }
+        }
+        if !queryParams.isEmpty {
+            urlRequest = try URLEncoding.queryString.encode(urlRequest, with: queryParams)
+        }
+
+        var formParams: [String: Any] = [:]
+        for (key, value) in formParameters {
+            if String.init(describing: value) != "" {
+                formParams[key] = value
+            }
+        }
+        if !formParams.isEmpty {
+            urlRequest = try URLEncoding.httpBody.encode(urlRequest, with: formParams)
+        }
+        if let encodeBody = encodeBody {
+            urlRequest.httpBody = try encodeBody(encoder)
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+        return urlRequest
     }
 }

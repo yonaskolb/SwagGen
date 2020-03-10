@@ -4,8 +4,10 @@
 //
 
 import Foundation
+#if canImport(TBXRequests)
 import TBXRequests
 import TBXSharedCode
+#endif
 
 public protocol RequestBehaviour {
 

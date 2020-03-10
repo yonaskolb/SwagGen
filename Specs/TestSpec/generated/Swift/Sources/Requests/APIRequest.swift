@@ -8,8 +8,10 @@ import Foundation
 import FoundationNetworking
 #endif
 
+#if canImport(TestSpecModels)
 import TestSpecModels
 import TestSpecSharedCode
+#endif
 
 public class APIRequest<ResponseType: APIResponseValue> {
 

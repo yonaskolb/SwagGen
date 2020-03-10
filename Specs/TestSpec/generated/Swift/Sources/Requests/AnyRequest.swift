@@ -4,6 +4,10 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 import TestSpecModels
 
 //MARK: Type erased Requests and Responses

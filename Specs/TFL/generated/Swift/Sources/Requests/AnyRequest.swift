@@ -4,6 +4,10 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 import TFLModels
 
 //MARK: Type erased Requests and Responses

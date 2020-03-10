@@ -25,24 +25,24 @@ public struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
     private let string: String
     private let int: Int?
 
-    var stringValue: String { return string }
+    public var stringValue: String { return string }
 
-    init(string: String) {
+    public init(string: String) {
         self.string = string
         int = nil
     }
-    init?(stringValue: String) {
+    public init?(stringValue: String) {
         string = stringValue
         int = nil
     }
 
-    var intValue: Int? { return int }
-    init?(intValue: Int) {
+    public var intValue: Int? { return int }
+    public init?(intValue: Int) {
         string = String(describing: intValue)
         int = intValue
     }
 
-    init(stringLiteral value: String) {
+    public init(stringLiteral value: String) {
         string = value
         int = nil
     }
@@ -88,21 +88,21 @@ extension KeyedDecodingContainer {
         return dictionary
     }
 
-    func decode<T>(_ key: KeyedDecodingContainer.Key) throws -> T where T: Decodable {
+    public func decode<T>(_ key: KeyedDecodingContainer.Key) throws -> T where T: Decodable {
         return try decode(T.self, forKey: key)
     }
 
-    func decodeIfPresent<T>(_ key: KeyedDecodingContainer.Key) throws -> T? where T: Decodable {
+    public func decodeIfPresent<T>(_ key: KeyedDecodingContainer.Key) throws -> T? where T: Decodable {
         return try decodeOptional {
             try decodeIfPresent(T.self, forKey: key)
         }
     }
 
-    func decodeAny<T>(_ key: K) throws -> T {
+    public func decodeAny<T>(_ key: K) throws -> T {
         return try decodeAny(T.self, forKey: key)
     }
 
-    func decodeAnyIfPresent<T>(_ key: K) throws -> T? {
+    public func decodeAnyIfPresent<T>(_ key: K) throws -> T? {
         return try decodeAnyIfPresent(T.self, forKey: key)
     }
 

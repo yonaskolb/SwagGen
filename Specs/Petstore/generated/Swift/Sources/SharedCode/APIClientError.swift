@@ -12,6 +12,8 @@ public enum APIClientError: Error {
     case validationError(Error)
     case networkError(Error)
     case unknownError(Error)
+    case urlEncodingError
+    case missingURL
 
     public var name:String {
         switch self {
@@ -21,6 +23,8 @@ public enum APIClientError: Error {
         case .requestEncodingError: return "Request encoding failed"
         case .networkError: return "Network error"
         case .unknownError: return "Unknown error"
+        case .urlEncodingError: return "Failed to convert component to URL"
+        case .missingURL: return "Missing URL"
         }
     }
 }
@@ -35,6 +39,8 @@ extension APIClientError: CustomStringConvertible {
         case .requestEncodingError(let error): return "\(name): \(error)"
         case .networkError(let error): return "\(name): \(error.localizedDescription)"
         case .unknownError(let error): return "\(name): \(error.localizedDescription)"
+        case .urlEncodingError: return "\(name)"
+        case .missingURL: return "\(name)"
         }
     }
 }

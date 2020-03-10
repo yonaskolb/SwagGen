@@ -6,6 +6,7 @@ import FoundationNetworking
 #endif
 
 import {{ options.name }}Models
+import {{ options.name }}SharedCode
 
 public class APIRequest<ResponseType: APIResponseValue> {
 

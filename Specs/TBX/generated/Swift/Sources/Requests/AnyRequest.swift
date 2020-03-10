@@ -4,6 +4,10 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 import TBXModels
 
 //MARK: Type erased Requests and Responses

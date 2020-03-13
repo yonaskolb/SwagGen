@@ -1,5 +1,22 @@
 version: 2
 jobs:
+  Linux:
+    docker:
+      - image: swift:latest
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: swift build
+      - run:
+          name: Test
+          command: swift test
+      - run:
+          name: Build Spec Fixtures
+          command: ./build_specs.sh
+      - run:
+          name: Build Release
+          command: make build
   macOS_swift_5.1:
     macos:
       xcode: "11.3.1"
@@ -22,3 +39,4 @@ workflows:
   workflow:
     jobs:
       - macOS_swift_5.1
+      - Linux

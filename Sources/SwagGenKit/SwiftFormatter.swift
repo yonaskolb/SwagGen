@@ -145,7 +145,8 @@ public class SwiftFormatter: CodeFormatter {
                 let typeString = getSchemaType(name: name, schema: additionalProperties, checkEnum: checkEnum)
                 return checkEnum ? "[String: \(enumValue ?? typeString)]" : typeString
             } else if schema.properties.isEmpty {
-                return "[String: Any]"
+                let anyType = templateConfig.getStringOption("anyType") ?? "Any"
+                return "[String: \(anyType)]"
             } else {
                 return escapeType(name.upperCamelCased())
             }
@@ -159,7 +160,7 @@ public class SwiftFormatter: CodeFormatter {
 
             return escapeType(name.upperCamelCased())
         case .any:
-            return "Any"
+            return templateConfig.getStringOption("anyType") ?? "Any"
         }
     }
 

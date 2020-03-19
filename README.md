@@ -143,7 +143,7 @@ safeOptionalDecoding | set invalid optionals to nil instead of throwing | `Bool`
 tagPrefix | prefix for all tags | `String` | null
 tagSuffix | suffix for all tags | `String` | null
 codableResponses | constrains all responses to be `Codable` | `Bool` | false
-anyType | override `Any` with custom type | `String` | `AnyCodable`
+anyType | override `Any` with custom type | `String` | `Any`
 
 If writing your own Swift template there are a few types that are generated that you will need to provide typealias's for:
 

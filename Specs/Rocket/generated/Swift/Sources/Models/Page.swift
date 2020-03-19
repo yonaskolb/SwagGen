@@ -11,7 +11,7 @@ public class Page: PageSummary {
     public var entries: [PageEntry]
 
     /** A map of custom fields defined by a curator for a page. */
-    public var customFields: [String: AnyCodable]?
+    public var customFields: [String: Any]?
 
     /** When the page represents the detail of an item this property will contain the item detail.
 For clients consuming an item detail page, any page row entry of type `ItemDetailEntry`
@@ -31,7 +31,7 @@ on list detail pages. See `feature-flags.md` for further details.*
 
     public var metadata: PageMetadata?
 
-    public init(id: String, path: String, title: String, template: String, isStatic: Bool, isSystemPage: Bool, entries: [PageEntry], key: String? = nil, customFields: [String: AnyCodable]? = nil, item: ItemDetail? = nil, list: ItemList? = nil, metadata: PageMetadata? = nil) {
+    public init(id: String, path: String, title: String, template: String, isStatic: Bool, isSystemPage: Bool, entries: [PageEntry], key: String? = nil, customFields: [String: Any]? = nil, item: ItemDetail? = nil, list: ItemList? = nil, metadata: PageMetadata? = nil) {
         self.entries = entries
         self.customFields = customFields
         self.item = item
@@ -65,7 +65,7 @@ on list detail pages. See `feature-flags.md` for further details.*
     override public func isEqual(to object: Any?) -> Bool {
       guard let object = object as? Page else { return false }
       guard self.entries == object.entries else { return false }
-      guard self.customFields == object.customFields else { return false }
+      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
       guard self.item == object.item else { return false }
       guard self.list == object.list else { return false }
       guard self.metadata == object.metadata else { return false }

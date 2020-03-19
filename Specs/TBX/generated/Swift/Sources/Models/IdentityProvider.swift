@@ -31,9 +31,9 @@ public class IdentityProvider: APIModel {
 
     public var maintenance: Bool?
 
-    public var oauth2: [String: AnyCodable]?
+    public var oauth2: [String: Any]?
 
-    public var saml: [String: AnyCodable]?
+    public var saml: [String: Any]?
 
     public var sendRequestorAuthZ: Bool?
 
@@ -51,7 +51,7 @@ public class IdentityProvider: APIModel {
 
     public var wsURL: String?
 
-    public init(description: String, shortName: String, apiKey: String, clientType: String, devicesLimit: Double, active: Bool, canCreateToken: Bool, canCreateDevice: Bool, conector: String? = nil, haveMultipleURNService: Bool? = nil, id: ObjectID? = nil, maintenance: Bool? = nil, oauth2: [String: AnyCodable]? = nil, saml: [String: AnyCodable]? = nil, sendRequestorAuthZ: Bool? = nil, subscriberIdData: String? = nil, whitelistDomains: [String]? = nil, wsAPIKey: String? = nil, wsMaintenance: Bool? = nil, wsMaintenanceCountry: [String]? = nil, wsNameSpace: String? = nil, wsURL: String? = nil) {
+    public init(description: String, shortName: String, apiKey: String, clientType: String, devicesLimit: Double, active: Bool, canCreateToken: Bool, canCreateDevice: Bool, conector: String? = nil, haveMultipleURNService: Bool? = nil, id: ObjectID? = nil, maintenance: Bool? = nil, oauth2: [String: Any]? = nil, saml: [String: Any]? = nil, sendRequestorAuthZ: Bool? = nil, subscriberIdData: String? = nil, whitelistDomains: [String]? = nil, wsAPIKey: String? = nil, wsMaintenance: Bool? = nil, wsMaintenanceCountry: [String]? = nil, wsNameSpace: String? = nil, wsURL: String? = nil) {
         self.description = description
         self.shortName = shortName
         self.apiKey = apiKey
@@ -144,8 +144,8 @@ public class IdentityProvider: APIModel {
       guard self.haveMultipleURNService == object.haveMultipleURNService else { return false }
       guard self.id == object.id else { return false }
       guard self.maintenance == object.maintenance else { return false }
-      guard self.oauth2 == object.oauth2 else { return false }
-      guard self.saml == object.saml else { return false }
+      guard NSDictionary(dictionary: self.oauth2 ?? [:]).isEqual(to: object.oauth2 ?? [:]) else { return false }
+      guard NSDictionary(dictionary: self.saml ?? [:]).isEqual(to: object.saml ?? [:]) else { return false }
       guard self.sendRequestorAuthZ == object.sendRequestorAuthZ else { return false }
       guard self.subscriberIdData == object.subscriberIdData else { return false }
       guard self.whitelistDomains == object.whitelistDomains else { return false }

@@ -10,7 +10,7 @@ public class ModelWithAdditionalProperties: APIModel {
 
     public var name: String?
 
-    public var additionalProperties: [String: AnyCodable] = [:]
+    public var additionalProperties: [String: Any] = [:]
 
     public init(name: String? = nil) {
         self.name = name
@@ -24,11 +24,7 @@ public class ModelWithAdditionalProperties: APIModel {
         let additionalPropertiesContainer = try decoder.container(keyedBy: StringCodingKey.self)
         var additionalProperties = try additionalPropertiesContainer.toDictionary()
         additionalProperties.removeValue(forKey: "name")
-        var decodedAdditionalProperties: [String: AnyCodable] = [:]
-        for key in additionalProperties.keys {
-            decodedAdditionalProperties[key] = try additionalPropertiesContainer.decode(StringCodingKey(string: key))
-        }
-        self.additionalProperties = decodedAdditionalProperties
+        self.additionalProperties = additionalProperties
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -38,11 +34,11 @@ public class ModelWithAdditionalProperties: APIModel {
 
         var additionalPropertiesContainer = encoder.container(keyedBy: StringCodingKey.self)
         for (key, value) in additionalProperties {
-            try additionalPropertiesContainer.encode(value, forKey: StringCodingKey(string: key))
+            try additionalPropertiesContainer.encodeAny(value, forKey: StringCodingKey(string: key))
         }
     }
 
-    public subscript(key: String) -> AnyCodable? {
+    public subscript(key: String) -> Any? {
         get {
             return additionalProperties[key]
         }

@@ -55,12 +55,12 @@ extension TBX.DeviceService {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = [String: AnyCodable]
+            public typealias SuccessType = [String: Any]
 
             /** Request was successful */
-            case status200([String: AnyCodable])
+            case status200([String: Any])
 
-            public var success: [String: AnyCodable]? {
+            public var success: [String: Any]? {
                 switch self {
                 case .status200(let response): return response
                 }
@@ -86,7 +86,7 @@ extension TBX.DeviceService {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decodeAny([String: AnyCodable].self, from: data))
+                case 200: self = try .status200(decoder.decodeAny([String: Any].self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

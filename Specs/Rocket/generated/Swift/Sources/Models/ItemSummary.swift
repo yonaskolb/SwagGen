@@ -40,7 +40,7 @@ Mostly applicable to Season, Episode and Trailer.
     public var contextualTitle: String?
 
     /** A map of custom fields defined by a curator for an item. */
-    public var customFields: [String: AnyCodable]?
+    public var customFields: [String: Any]?
 
     /** A custom identifier for this item.
 For example the id for this item under a different content system.
@@ -91,7 +91,7 @@ For example the id for this item under a different content system.
     /** The path to watch this item, if the item is a watchable type, e.g. a `movie`, `program` and `episode`. */
     public var watchPath: String?
 
-    public init(id: String, type: ItemType, path: String, title: String, availableEpisodeCount: Int? = nil, availableSeasonCount: Int? = nil, averageUserRating: Double? = nil, badge: String? = nil, classification: ClassificationSummary? = nil, contextualTitle: String? = nil, customFields: [String: AnyCodable]? = nil, customId: String? = nil, duration: Int? = nil, episodeCount: Int? = nil, episodeNumber: Int? = nil, genres: [String]? = nil, hasClosedCaptions: Bool? = nil, images: [String: URL]? = nil, offers: [Offer]? = nil, releaseYear: Int? = nil, scopes: [String]? = nil, seasonId: String? = nil, seasonNumber: Int? = nil, shortDescription: String? = nil, showId: String? = nil, tagline: String? = nil, watchPath: String? = nil) {
+    public init(id: String, type: ItemType, path: String, title: String, availableEpisodeCount: Int? = nil, availableSeasonCount: Int? = nil, averageUserRating: Double? = nil, badge: String? = nil, classification: ClassificationSummary? = nil, contextualTitle: String? = nil, customFields: [String: Any]? = nil, customId: String? = nil, duration: Int? = nil, episodeCount: Int? = nil, episodeNumber: Int? = nil, genres: [String]? = nil, hasClosedCaptions: Bool? = nil, images: [String: URL]? = nil, offers: [Offer]? = nil, releaseYear: Int? = nil, scopes: [String]? = nil, seasonId: String? = nil, seasonNumber: Int? = nil, shortDescription: String? = nil, showId: String? = nil, tagline: String? = nil, watchPath: String? = nil) {
         self.id = id
         self.type = type
         self.path = path
@@ -197,7 +197,7 @@ For example the id for this item under a different content system.
       guard self.badge == object.badge else { return false }
       guard self.classification == object.classification else { return false }
       guard self.contextualTitle == object.contextualTitle else { return false }
-      guard self.customFields == object.customFields else { return false }
+      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
       guard self.customId == object.customId else { return false }
       guard self.duration == object.duration else { return false }
       guard self.episodeCount == object.episodeCount else { return false }

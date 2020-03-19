@@ -15,7 +15,7 @@ options:
   enumUndecodableCase: false # whether to add undecodable case to enums
   codableResponses: false # constrains all responses/model to be Codable
   propertyNames: {} # override property names
-  anyType: Any
+  anyType: Any # override Any in generated models
   typeAliases:
     ID: UUID
     DateTime: Date

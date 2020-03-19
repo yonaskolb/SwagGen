@@ -11,7 +11,7 @@ public class AppConfigGeneral: APIModel {
     public var currencyCode: String?
 
     /** A map of custom configuration fields. */
-    public var customFields: [String: Any]?
+    public var customFields: [String: AnyCodable]?
 
     /** A Google Analytics token to track applicaton user events. */
     public var gaToken: String?
@@ -25,7 +25,7 @@ public class AppConfigGeneral: APIModel {
     /** The url of the primary website. */
     public var websiteUrl: URL?
 
-    public init(currencyCode: String? = nil, customFields: [String: Any]? = nil, gaToken: String? = nil, itemImageTypes: [String: String]? = nil, stripeKey: String? = nil, websiteUrl: URL? = nil) {
+    public init(currencyCode: String? = nil, customFields: [String: AnyCodable]? = nil, gaToken: String? = nil, itemImageTypes: [String: String]? = nil, stripeKey: String? = nil, websiteUrl: URL? = nil) {
         self.currencyCode = currencyCode
         self.customFields = customFields
         self.gaToken = gaToken
@@ -59,7 +59,7 @@ public class AppConfigGeneral: APIModel {
     public func isEqual(to object: Any?) -> Bool {
       guard let object = object as? AppConfigGeneral else { return false }
       guard self.currencyCode == object.currencyCode else { return false }
-      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.customFields == object.customFields else { return false }
       guard self.gaToken == object.gaToken else { return false }
       guard self.itemImageTypes == object.itemImageTypes else { return false }
       guard self.stripeKey == object.stripeKey else { return false }

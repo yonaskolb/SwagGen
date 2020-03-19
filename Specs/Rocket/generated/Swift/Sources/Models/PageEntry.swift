@@ -37,7 +37,7 @@ public class PageEntry: APIModel {
     public var template: String
 
     /** A map of custom fields defined by a curator for a page entry. */
-    public var customFields: [String: Any]?
+    public var customFields: [String: AnyCodable]?
 
     /** The images for the page entry if any.
 For example the images of an `ImageEntry`.
@@ -56,7 +56,7 @@ For example the images of an `ImageEntry`.
     /** If 'type' is 'TextEntry' then this is the text to be represented. */
     public var text: String?
 
-    public init(id: String, type: `Type`, title: String, template: String, customFields: [String: Any]? = nil, images: [String: URL]? = nil, item: ItemSummary? = nil, list: ItemList? = nil, people: [Person]? = nil, text: String? = nil) {
+    public init(id: String, type: `Type`, title: String, template: String, customFields: [String: AnyCodable]? = nil, images: [String: URL]? = nil, item: ItemSummary? = nil, list: ItemList? = nil, people: [Person]? = nil, text: String? = nil) {
         self.id = id
         self.type = type
         self.title = title
@@ -105,7 +105,7 @@ For example the images of an `ImageEntry`.
       guard self.type == object.type else { return false }
       guard self.title == object.title else { return false }
       guard self.template == object.template else { return false }
-      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.customFields == object.customFields else { return false }
       guard self.images == object.images else { return false }
       guard self.item == object.item else { return false }
       guard self.list == object.list else { return false }

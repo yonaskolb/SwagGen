@@ -14,7 +14,7 @@ public class NavEntry: APIModel {
     public var content: NavContent?
 
     /** A map of custom fields defined by a curator for a nav entry. */
-    public var customFields: [String: Any]?
+    public var customFields: [String: AnyCodable]?
 
     /** True if this is a featured menu item.
 Featured menu items may have a more prominent presentation than others in the navigation.
@@ -30,7 +30,7 @@ If the value begins with `http` then it's an external url.
  */
     public var path: String?
 
-    public init(children: [NavEntry]? = nil, content: NavContent? = nil, customFields: [String: Any]? = nil, featured: Bool? = nil, label: String? = nil, path: String? = nil) {
+    public init(children: [NavEntry]? = nil, content: NavContent? = nil, customFields: [String: AnyCodable]? = nil, featured: Bool? = nil, label: String? = nil, path: String? = nil) {
         self.children = children
         self.content = content
         self.customFields = customFields
@@ -65,7 +65,7 @@ If the value begins with `http` then it's an external url.
       guard let object = object as? NavEntry else { return false }
       guard self.children == object.children else { return false }
       guard self.content == object.content else { return false }
-      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.customFields == object.customFields else { return false }
       guard self.featured == object.featured else { return false }
       guard self.label == object.label else { return false }
       guard self.path == object.path else { return false }

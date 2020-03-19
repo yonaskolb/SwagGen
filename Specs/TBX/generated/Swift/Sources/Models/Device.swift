@@ -15,7 +15,7 @@ public class Device: APIModel {
 
     public var customerId: ObjectID?
 
-    public var data: [String: Any]?
+    public var data: [String: AnyCodable]?
 
     public var deactivateDate: DateTime?
 
@@ -33,7 +33,7 @@ public class Device: APIModel {
 
     public var updated: DateTime?
 
-    public init(id: String, created: DateTime? = nil, customer: ObjectID? = nil, customerId: ObjectID? = nil, data: [String: Any]? = nil, deactivateDate: DateTime? = nil, description: String? = nil, deviceType: ObjectID? = nil, expirationDate: DateTime? = nil, identifier: String? = nil, lastLogin: DateTime? = nil, loggedOutDate: DateTime? = nil, updated: DateTime? = nil) {
+    public init(id: String, created: DateTime? = nil, customer: ObjectID? = nil, customerId: ObjectID? = nil, data: [String: AnyCodable]? = nil, deactivateDate: DateTime? = nil, description: String? = nil, deviceType: ObjectID? = nil, expirationDate: DateTime? = nil, identifier: String? = nil, lastLogin: DateTime? = nil, loggedOutDate: DateTime? = nil, updated: DateTime? = nil) {
         self.id = id
         self.created = created
         self.customer = customer
@@ -91,7 +91,7 @@ public class Device: APIModel {
       guard self.created == object.created else { return false }
       guard self.customer == object.customer else { return false }
       guard self.customerId == object.customerId else { return false }
-      guard NSDictionary(dictionary: self.data ?? [:]).isEqual(to: object.data ?? [:]) else { return false }
+      guard self.data == object.data else { return false }
       guard self.deactivateDate == object.deactivateDate else { return false }
       guard self.description == object.description else { return false }
       guard self.deviceType == object.deviceType else { return false }

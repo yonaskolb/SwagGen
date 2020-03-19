@@ -43,10 +43,10 @@ extension TBX.UserService {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = [String: Any]
+            public typealias SuccessType = [String: AnyCodable]
 
             /** Request was successful */
-            case status200([String: Any])
+            case status200([String: AnyCodable])
 
             /** Bad Request  */
             case status400(ResponseError)
@@ -60,7 +60,7 @@ extension TBX.UserService {
             /** Device was Logged Out or the customer not longer exists */
             case status410(ResponseError)
 
-            public var success: [String: Any]? {
+            public var success: [String: AnyCodable]? {
                 switch self {
                 case .status200(let response): return response
                 default: return nil
@@ -78,7 +78,7 @@ extension TBX.UserService {
             }
 
             /// either success or failure value. Success is anything in the 200..<300 status code range
-            public var responseResult: APIResponseResult<[String: Any], ResponseError> {
+            public var responseResult: APIResponseResult<[String: AnyCodable], ResponseError> {
                 if let successValue = success {
                     return .success(successValue)
                 } else if let failureValue = failure {
@@ -120,7 +120,7 @@ extension TBX.UserService {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decodeAny([String: Any].self, from: data))
+                case 200: self = try .status200(decoder.decodeAny([String: AnyCodable].self, from: data))
                 case 400: self = try .status400(decoder.decode(ResponseError.self, from: data))
                 case 401: self = try .status401(decoder.decode(ResponseError.self, from: data))
                 case 404: self = try .status404(decoder.decode(ResponseError.self, from: data))

@@ -17,12 +17,12 @@ public class Navigation: APIModel {
     public var copyright: String?
 
     /** A map of custom fields defined by a curator for navigation. */
-    public var customFields: [String: Any]?
+    public var customFields: [String: AnyCodable]?
 
     /** The footer navigation. */
     public var footer: NavEntry?
 
-    public init(header: [NavEntry], account: NavEntry? = nil, copyright: String? = nil, customFields: [String: Any]? = nil, footer: NavEntry? = nil) {
+    public init(header: [NavEntry], account: NavEntry? = nil, copyright: String? = nil, customFields: [String: AnyCodable]? = nil, footer: NavEntry? = nil) {
         self.header = header
         self.account = account
         self.copyright = copyright
@@ -55,7 +55,7 @@ public class Navigation: APIModel {
       guard self.header == object.header else { return false }
       guard self.account == object.account else { return false }
       guard self.copyright == object.copyright else { return false }
-      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.customFields == object.customFields else { return false }
       guard self.footer == object.footer else { return false }
       return true
     }

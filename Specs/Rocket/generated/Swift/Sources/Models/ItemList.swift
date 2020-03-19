@@ -24,7 +24,7 @@ public class ItemList: APIModel {
     public var path: String
 
     /** A map of custom fields defined by a curator for a list. */
-    public var customFields: [String: Any]?
+    public var customFields: [String: AnyCodable]?
 
     /** A full description of this list. */
     public var description: String?
@@ -47,7 +47,7 @@ For example the Movies Genre list will take a parameter `genre` with a given val
     /** The title of this list */
     public var title: String?
 
-    public init(id: String, size: Int, items: [ItemSummary], paging: Pagination, path: String, customFields: [String: Any]? = nil, description: String? = nil, images: [String: URL]? = nil, itemTypes: [ItemType]? = nil, parameter: String? = nil, shortDescription: String? = nil, tagline: String? = nil, title: String? = nil) {
+    public init(id: String, size: Int, items: [ItemSummary], paging: Pagination, path: String, customFields: [String: AnyCodable]? = nil, description: String? = nil, images: [String: URL]? = nil, itemTypes: [ItemType]? = nil, parameter: String? = nil, shortDescription: String? = nil, tagline: String? = nil, title: String? = nil) {
         self.id = id
         self.size = size
         self.items = items
@@ -106,7 +106,7 @@ For example the Movies Genre list will take a parameter `genre` with a given val
       guard self.items == object.items else { return false }
       guard self.paging == object.paging else { return false }
       guard self.path == object.path else { return false }
-      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.customFields == object.customFields else { return false }
       guard self.description == object.description else { return false }
       guard self.images == object.images else { return false }
       guard self.itemTypes == object.itemTypes else { return false }

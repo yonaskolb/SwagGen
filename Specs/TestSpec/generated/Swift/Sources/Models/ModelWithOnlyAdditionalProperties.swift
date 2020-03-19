@@ -6,4 +6,4 @@
 import Foundation
 
 /** definition with only additional properties */
-public typealias ModelWithOnlyAdditionalProperties = [String: Any]
+public typealias ModelWithOnlyAdditionalProperties = [String: AnyCodable]

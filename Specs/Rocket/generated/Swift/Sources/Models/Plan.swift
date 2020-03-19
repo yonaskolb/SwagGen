@@ -79,12 +79,12 @@ public class Plan: APIModel {
     public var currency: String
 
     /** A map of custom fields defined by a curator for a plan. */
-    public var customFields: [String: Any]?
+    public var customFields: [String: AnyCodable]?
 
     /** The price of a plan. If a free plan then undefined. */
     public var price: Float?
 
-    public init(id: String, title: String, tagline: String, type: `Type`, isFeatured: Bool, isActive: Bool, isPrivate: Bool, revenueType: RevenueType, subscriptionCode: String, alias: String, benefits: [String], billingPeriodType: BillingPeriodType, billingPeriodFrequency: Int, hasTrialPeriod: Bool, trialPeriodDays: Int, termsAndConditions: String, currency: String, customFields: [String: Any]? = nil, price: Float? = nil) {
+    public init(id: String, title: String, tagline: String, type: `Type`, isFeatured: Bool, isActive: Bool, isPrivate: Bool, revenueType: RevenueType, subscriptionCode: String, alias: String, benefits: [String], billingPeriodType: BillingPeriodType, billingPeriodFrequency: Int, hasTrialPeriod: Bool, trialPeriodDays: Int, termsAndConditions: String, currency: String, customFields: [String: AnyCodable]? = nil, price: Float? = nil) {
         self.id = id
         self.title = title
         self.tagline = tagline
@@ -173,7 +173,7 @@ public class Plan: APIModel {
       guard self.trialPeriodDays == object.trialPeriodDays else { return false }
       guard self.termsAndConditions == object.termsAndConditions else { return false }
       guard self.currency == object.currency else { return false }
-      guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+      guard self.customFields == object.customFields else { return false }
       guard self.price == object.price else { return false }
       return true
     }

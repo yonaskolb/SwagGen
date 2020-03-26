@@ -2,6 +2,9 @@
 
 ## Next Version
 
+### Added
+- Added ability perform scripts after the code generation #234  @mackoj
+
 ### Fixed
 - Fixed inline allOf group generation
 - Fixed property generation when there is only one group schema;  the first group schema type will be used as the type #217

@@ -16,6 +16,7 @@ options:
   codableResponses: false # constrains all responses/model to be Codable
   propertyNames: {} # override property names
   anyType: Any # override Any in generated models
+  postGenerationScript: [] # script to execute post generation
   typeAliases:
     ID: UUID
     DateTime: Date

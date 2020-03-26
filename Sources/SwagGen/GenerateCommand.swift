@@ -219,6 +219,13 @@ class GenerateCommand: Command {
                     standardOut("Removed \(relativePath)".red)
                 }
             }
+            if let postGenerationScripts = templateConfig.options["postGenerationScript"] as? [String] {
+              for postGenerationScript in postGenerationScripts {
+                let script = postGenerationScript.replacingOccurrences(of: "__DESTINATION_PATH__", with: "\"\(destinationPath)\"")
+                let scriptOutput = try shell(script)
+                standardOut(scriptOutput)
+              }
+            }
             standardOut("Generation complete: \(generationResult)")
         } catch {
             exitWithError("Error generating code: \(error)")

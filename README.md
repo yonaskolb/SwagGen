@@ -189,6 +189,49 @@ SwagGen can be used to generate code for any language. At the moment there is on
 ## Swift API usage
 Usage documentation can be found in the [Readme](Templates/Swift/README.md) that is generated with your template.
 
+## Swagger Version 2 support
+
+> Swagger 2 support has been removed. For Swagger 2 use version `3.0.2` or the `swagger_2` branch
+
+Step to make it work:
+
+- make sure you have Swift 4.2 installed because Swaggen 3.0.2 only works with Swift 4.2
+
+```
+brew install kylef/formulae/swiftenv
+swiftenv install 4.2
+swiftenv global 4.2
+```
+
+- re-build SwagGen with Swift 4.2
+
+```
+git clone https://github.com/yonaskolb/SwagGen.git
+cd SwagGen
+git checkout 3.0.2
+/Library/Developer/Toolchains/swift-4.2-RELEASE.xctoolchain/usr/bin/swift build --disable-sandbox -c release -Xswiftc -static-stdlib
+```
+
+- copy it in your `/usr/local/bin`(optionnal step)
+
+```
+mkdir -p /usr/local/bin
+cp -f .build/release/swaggen /usr/local/bin/swaggen
+mkdir -p /usr/local/share/swaggen
+cp -R "${PWD}/Templates" /usr/local/share/swaggen/Templates
+```
+
+- generation every should work
+
+```
+swaggen generate swagger.json \
+--template Templates/Swift  \
+--language swift \
+--template Templates/Swift/template.yml \
+--destination Generated/Swift \
+--clean all
+```
+
 ---
 
 ## Attributions

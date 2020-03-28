@@ -6,6 +6,7 @@
 - Fixed inline allOf group generation
 - Fixed property generation when there is only one group schema;  the first group schema type will be used as the type #217
 - Added `anyType` option that allows to override `Any` in models
+- Fixed date encoding formatter to conform to RFC3339
 
 ## 4.3.1
 

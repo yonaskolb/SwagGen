@@ -18,9 +18,84 @@ extension PetstoreTest.User {
 
         public final class Request: APIRequest<Response> {
 
-            public var body: User
+            /** This can only be done by the logged in user. */
+            public class Body: APIModel {
 
-            public init(body: User, encoder: RequestEncoder? = nil) {
+                public var email: String?
+
+                public var firstName: String?
+
+                public var id: Int?
+
+                public var lastName: String?
+
+                public var password: String?
+
+                public var phone: String?
+
+                /** User Status */
+                public var userStatus: Int?
+
+                public var username: String?
+
+                public init(email: String? = nil, firstName: String? = nil, id: Int? = nil, lastName: String? = nil, password: String? = nil, phone: String? = nil, userStatus: Int? = nil, username: String? = nil) {
+                    self.email = email
+                    self.firstName = firstName
+                    self.id = id
+                    self.lastName = lastName
+                    self.password = password
+                    self.phone = phone
+                    self.userStatus = userStatus
+                    self.username = username
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    email = try container.decodeIfPresent("email")
+                    firstName = try container.decodeIfPresent("firstName")
+                    id = try container.decodeIfPresent("id")
+                    lastName = try container.decodeIfPresent("lastName")
+                    password = try container.decodeIfPresent("password")
+                    phone = try container.decodeIfPresent("phone")
+                    userStatus = try container.decodeIfPresent("userStatus")
+                    username = try container.decodeIfPresent("username")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encodeIfPresent(email, forKey: "email")
+                    try container.encodeIfPresent(firstName, forKey: "firstName")
+                    try container.encodeIfPresent(id, forKey: "id")
+                    try container.encodeIfPresent(lastName, forKey: "lastName")
+                    try container.encodeIfPresent(password, forKey: "password")
+                    try container.encodeIfPresent(phone, forKey: "phone")
+                    try container.encodeIfPresent(userStatus, forKey: "userStatus")
+                    try container.encodeIfPresent(username, forKey: "username")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Body else { return false }
+                  guard self.email == object.email else { return false }
+                  guard self.firstName == object.firstName else { return false }
+                  guard self.id == object.id else { return false }
+                  guard self.lastName == object.lastName else { return false }
+                  guard self.password == object.password else { return false }
+                  guard self.phone == object.phone else { return false }
+                  guard self.userStatus == object.userStatus else { return false }
+                  guard self.username == object.username else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Body, rhs: Body) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+
+            public var body: Body
+
+            public init(body: Body, encoder: RequestEncoder? = nil) {
                 self.body = body
                 super.init(service: CreateUser.service) { defaultEncoder in
                     return try (encoder ?? defaultEncoder).encode(body)

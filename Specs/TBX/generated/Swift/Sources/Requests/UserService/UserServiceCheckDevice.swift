@@ -49,16 +49,16 @@ extension TBX.UserService {
             case status204
 
             /** Bad Request  */
-            case status400(XAny)
+            case status400([String: Any])
 
             /** Unauthorized  */
-            case status401(XAny)
+            case status401([String: Any])
 
             /** Customer or Device not Found */
-            case status404(XAny)
+            case status404([String: Any])
 
             /** Device was Logged Out or the customer not longer exists */
-            case status410(XAny)
+            case status410([String: Any])
 
             public var success: Void? {
                 switch self {
@@ -67,7 +67,7 @@ extension TBX.UserService {
                 }
             }
 
-            public var failure: XAny? {
+            public var failure: [String: Any]? {
                 switch self {
                 case .status400(let response): return response
                 case .status401(let response): return response
@@ -78,7 +78,7 @@ extension TBX.UserService {
             }
 
             /// either success or failure value. Success is anything in the 200..<300 status code range
-            public var responseResult: APIResponseResult<Void, XAny> {
+            public var responseResult: APIResponseResult<Void, [String: Any]> {
                 if let successValue = success {
                     return .success(successValue)
                 } else if let failureValue = failure {
@@ -121,10 +121,10 @@ extension TBX.UserService {
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 204: self = .status204
-                case 400: self = try .status400(decoder.decodeAny(XAny.self, from: data))
-                case 401: self = try .status401(decoder.decodeAny(XAny.self, from: data))
-                case 404: self = try .status404(decoder.decodeAny(XAny.self, from: data))
-                case 410: self = try .status410(decoder.decodeAny(XAny.self, from: data))
+                case 400: self = try .status400(decoder.decodeAny([String: Any].self, from: data))
+                case 401: self = try .status401(decoder.decodeAny([String: Any].self, from: data))
+                case 404: self = try .status404(decoder.decodeAny([String: Any].self, from: data))
+                case 410: self = try .status410(decoder.decodeAny([String: Any].self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

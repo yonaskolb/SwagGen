@@ -81,12 +81,50 @@ extension TBX.Auth {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = Auth
+
+            public class Status200: APIModel {
+
+                public var status: Bool
+
+                /** this appears if the user is logged in */
+                public var userToken: String?
+
+                public init(status: Bool, userToken: String? = nil) {
+                    self.status = status
+                    self.userToken = userToken
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    status = try container.decode("status")
+                    userToken = try container.decodeIfPresent("user_token")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(status, forKey: "status")
+                    try container.encodeIfPresent(userToken, forKey: "user_token")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status200 else { return false }
+                  guard self.status == object.status else { return false }
+                  guard self.userToken == object.userToken else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status200, rhs: Status200) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+            public typealias SuccessType = Status200
 
             /** Request was successful */
-            case status200(Auth)
+            case status200(Status200)
 
-            public var success: Auth? {
+            public var success: Status200? {
                 switch self {
                 case .status200(let response): return response
                 }
@@ -112,7 +150,7 @@ extension TBX.Auth {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(Auth.self, from: data))
+                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

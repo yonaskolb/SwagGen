@@ -17,19 +17,19 @@ public struct Content {
     }
 
     public var jsonSchema: Schema? {
-        return getMediaItem(.json)?.schema
+        return getMediaItem(.json)?.schema.value
     }
 
     public var formSchema: Schema? {
-        return getMediaItem(.form)?.schema
+        return getMediaItem(.form)?.schema.value
     }
 
     public var multipartFormSchema: Schema? {
-        return getMediaItem(.multipartForm)?.schema
+        return getMediaItem(.multipartForm)?.schema.value
     }
 
     public var xmlSchema: Schema? {
-        return getMediaItem(.xml)?.schema
+        return getMediaItem(.xml)?.schema.value
     }
 }
 
@@ -46,7 +46,7 @@ extension Content: JSONObjectConvertible {
 }
 
 public struct MediaItem {
-    public let schema: Schema
+    public let schema: PossibleReference<Schema>
 }
 
 extension MediaItem: JSONObjectConvertible {

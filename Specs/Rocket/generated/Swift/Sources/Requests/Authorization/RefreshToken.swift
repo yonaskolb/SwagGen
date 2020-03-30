@@ -12,11 +12,84 @@ extension Rocket.Authorization {
 
         public static let service = APIService<Response>(id: "refreshToken", tag: "authorization", method: "POST", path: "/authorization/refresh", hasBody: true)
 
+        /** If you specify a cookie type then a content filter cookie will be returned
+        along with the token(s). This is only really intended for web based clients which
+        need to pass the cookies to a server to render a page based on the users
+        content filters, e.g subscription code.
+        If type `Session` the cookie will be session based.
+        If type `Persistent` the cookie will have a medium term lifespan.
+        If undefined no cookies will be set.
+         */
+        public enum CookieType: String, Codable, Equatable, CaseIterable {
+            case session = "Session"
+            case persistent = "Persistent"
+        }
+
         public final class Request: APIRequest<Response> {
 
-            public var body: TokenRefreshRequest
+            /** Refresh an account or profile level authorization token which is marked as refreshable. */
+            public class Body: APIModel {
 
-            public init(body: TokenRefreshRequest, encoder: RequestEncoder? = nil) {
+                /** If you specify a cookie type then a content filter cookie will be returned
+                along with the token(s). This is only really intended for web based clients which
+                need to pass the cookies to a server to render a page based on the users
+                content filters, e.g subscription code.
+                If type `Session` the cookie will be session based.
+                If type `Persistent` the cookie will have a medium term lifespan.
+                If undefined no cookies will be set.
+                 */
+                public enum CookieType: String, Codable, Equatable, CaseIterable {
+                    case session = "Session"
+                    case persistent = "Persistent"
+                }
+
+                /** The token to refresh. */
+                public var token: String
+
+                /** If you specify a cookie type then a content filter cookie will be returned
+            along with the token(s). This is only really intended for web based clients which
+            need to pass the cookies to a server to render a page based on the users
+            content filters, e.g subscription code.
+            If type `Session` the cookie will be session based.
+            If type `Persistent` the cookie will have a medium term lifespan.
+            If undefined no cookies will be set.
+             */
+                public var cookieType: CookieType?
+
+                public init(token: String, cookieType: CookieType? = nil) {
+                    self.token = token
+                    self.cookieType = cookieType
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    token = try container.decode("token")
+                    cookieType = try container.decodeIfPresent("cookieType")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(token, forKey: "token")
+                    try container.encodeIfPresent(cookieType, forKey: "cookieType")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Body else { return false }
+                  guard self.token == object.token else { return false }
+                  guard self.cookieType == object.cookieType else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Body, rhs: Body) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+
+            public var body: Body
+
+            public init(body: Body, encoder: RequestEncoder? = nil) {
                 self.body = body
                 super.init(service: RefreshToken.service) { defaultEncoder in
                     return try (encoder ?? defaultEncoder).encode(body)
@@ -25,56 +98,333 @@ extension Rocket.Authorization {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = AccessToken
+
+            /** Refresh an account or profile level authorization token which is marked as refreshable. */
+            public class Status200: APIModel {
+
+                /** The type of the token. */
+                public enum `Type`: String, Codable, Equatable, CaseIterable {
+                    case userAccount = "UserAccount"
+                    case userProfile = "UserProfile"
+                }
+
+                /** The token value used for authenticated requests. */
+                public var value: String
+
+                /** True if this token can be refreshed, false if not. */
+                public var refreshable: Bool
+
+                /** The timestamp this token expires. */
+                public var expirationDate: DateTime
+
+                /** The type of the token. */
+                public var type: `Type`
+
+                public init(value: String, refreshable: Bool, expirationDate: DateTime, type: `Type`) {
+                    self.value = value
+                    self.refreshable = refreshable
+                    self.expirationDate = expirationDate
+                    self.type = type
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    value = try container.decode("value")
+                    refreshable = try container.decode("refreshable")
+                    expirationDate = try container.decode("expirationDate")
+                    type = try container.decode("type")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(value, forKey: "value")
+                    try container.encode(refreshable, forKey: "refreshable")
+                    try container.encode(expirationDate, forKey: "expirationDate")
+                    try container.encode(type, forKey: "type")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status200 else { return false }
+                  guard self.value == object.value else { return false }
+                  guard self.refreshable == object.refreshable else { return false }
+                  guard self.expirationDate == object.expirationDate else { return false }
+                  guard self.type == object.type else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status200, rhs: Status200) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+
+            /** Refresh an account or profile level authorization token which is marked as refreshable. */
+            public class Status400: APIModel {
+
+                /** A description of the error. */
+                public var message: String
+
+                /** An optional code classifying the error. Should be taken in the context of the http status code. */
+                public var code: Int?
+
+                public init(message: String, code: Int? = nil) {
+                    self.message = message
+                    self.code = code
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    message = try container.decode("message")
+                    code = try container.decodeIfPresent("code")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(message, forKey: "message")
+                    try container.encodeIfPresent(code, forKey: "code")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status400 else { return false }
+                  guard self.message == object.message else { return false }
+                  guard self.code == object.code else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status400, rhs: Status400) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+
+            /** Refresh an account or profile level authorization token which is marked as refreshable. */
+            public class Status401: APIModel {
+
+                /** A description of the error. */
+                public var message: String
+
+                /** An optional code classifying the error. Should be taken in the context of the http status code. */
+                public var code: Int?
+
+                public init(message: String, code: Int? = nil) {
+                    self.message = message
+                    self.code = code
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    message = try container.decode("message")
+                    code = try container.decodeIfPresent("code")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(message, forKey: "message")
+                    try container.encodeIfPresent(code, forKey: "code")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status401 else { return false }
+                  guard self.message == object.message else { return false }
+                  guard self.code == object.code else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status401, rhs: Status401) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+
+            /** Refresh an account or profile level authorization token which is marked as refreshable. */
+            public class Status403: APIModel {
+
+                /** A description of the error. */
+                public var message: String
+
+                /** An optional code classifying the error. Should be taken in the context of the http status code. */
+                public var code: Int?
+
+                public init(message: String, code: Int? = nil) {
+                    self.message = message
+                    self.code = code
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    message = try container.decode("message")
+                    code = try container.decodeIfPresent("code")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(message, forKey: "message")
+                    try container.encodeIfPresent(code, forKey: "code")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status403 else { return false }
+                  guard self.message == object.message else { return false }
+                  guard self.code == object.code else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status403, rhs: Status403) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+
+            /** Refresh an account or profile level authorization token which is marked as refreshable. */
+            public class Status404: APIModel {
+
+                /** A description of the error. */
+                public var message: String
+
+                /** An optional code classifying the error. Should be taken in the context of the http status code. */
+                public var code: Int?
+
+                public init(message: String, code: Int? = nil) {
+                    self.message = message
+                    self.code = code
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    message = try container.decode("message")
+                    code = try container.decodeIfPresent("code")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(message, forKey: "message")
+                    try container.encodeIfPresent(code, forKey: "code")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status404 else { return false }
+                  guard self.message == object.message else { return false }
+                  guard self.code == object.code else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status404, rhs: Status404) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+
+            /** Refresh an account or profile level authorization token which is marked as refreshable. */
+            public class Status500: APIModel {
+
+                /** A description of the error. */
+                public var message: String
+
+                /** An optional code classifying the error. Should be taken in the context of the http status code. */
+                public var code: Int?
+
+                public init(message: String, code: Int? = nil) {
+                    self.message = message
+                    self.code = code
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    message = try container.decode("message")
+                    code = try container.decodeIfPresent("code")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(message, forKey: "message")
+                    try container.encodeIfPresent(code, forKey: "code")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status500 else { return false }
+                  guard self.message == object.message else { return false }
+                  guard self.code == object.code else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status500, rhs: Status500) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+
+            /** Refresh an account or profile level authorization token which is marked as refreshable. */
+            public class DefaultResponse: APIModel {
+
+                /** A description of the error. */
+                public var message: String
+
+                /** An optional code classifying the error. Should be taken in the context of the http status code. */
+                public var code: Int?
+
+                public init(message: String, code: Int? = nil) {
+                    self.message = message
+                    self.code = code
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    message = try container.decode("message")
+                    code = try container.decodeIfPresent("code")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(message, forKey: "message")
+                    try container.encodeIfPresent(code, forKey: "code")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? DefaultResponse else { return false }
+                  guard self.message == object.message else { return false }
+                  guard self.code == object.code else { return false }
+                  return true
+                }
+
+                public static func == (lhs: DefaultResponse, rhs: DefaultResponse) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+            public typealias SuccessType = Status200
 
             /** OK */
-            case status200(AccessToken)
+            case status200(Status200)
 
             /** Bad request. */
-            case status400(ServiceError)
+            case status400(Status400)
 
             /** Invalid access token. */
-            case status401(ServiceError)
+            case status401(Status401)
 
             /** Forbidden. */
-            case status403(ServiceError)
+            case status403(Status403)
 
             /** Not found. */
-            case status404(ServiceError)
+            case status404(Status404)
 
             /** Internal server error. */
-            case status500(ServiceError)
+            case status500(Status500)
 
             /** Service error. */
-            case defaultResponse(statusCode: Int, ServiceError)
+            case defaultResponse(statusCode: Int, DefaultResponse)
 
-            public var success: AccessToken? {
+            public var success: Status200? {
                 switch self {
                 case .status200(let response): return response
                 default: return nil
-                }
-            }
-
-            public var failure: ServiceError? {
-                switch self {
-                case .status400(let response): return response
-                case .status401(let response): return response
-                case .status403(let response): return response
-                case .status404(let response): return response
-                case .status500(let response): return response
-                case .defaultResponse(_, let response): return response
-                default: return nil
-                }
-            }
-
-            /// either success or failure value. Success is anything in the 200..<300 status code range
-            public var responseResult: APIResponseResult<AccessToken, ServiceError> {
-                if let successValue = success {
-                    return .success(successValue)
-                } else if let failureValue = failure {
-                    return .failure(failureValue)
-                } else {
-                    fatalError("Response does not have success or failure response")
                 }
             }
 
@@ -116,13 +466,13 @@ extension Rocket.Authorization {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(AccessToken.self, from: data))
-                case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))
-                case 401: self = try .status401(decoder.decode(ServiceError.self, from: data))
-                case 403: self = try .status403(decoder.decode(ServiceError.self, from: data))
-                case 404: self = try .status404(decoder.decode(ServiceError.self, from: data))
-                case 500: self = try .status500(decoder.decode(ServiceError.self, from: data))
-                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ServiceError.self, from: data))
+                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
+                case 400: self = try .status400(decoder.decode(Status400.self, from: data))
+                case 401: self = try .status401(decoder.decode(Status401.self, from: data))
+                case 403: self = try .status403(decoder.decode(Status403.self, from: data))
+                case 404: self = try .status404(decoder.decode(Status404.self, from: data))
+                case 500: self = try .status500(decoder.decode(Status500.self, from: data))
+                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(DefaultResponse.self, from: data))
                 }
             }
 

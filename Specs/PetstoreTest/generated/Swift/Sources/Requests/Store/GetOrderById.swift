@@ -47,10 +47,80 @@ extension PetstoreTest.Store {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = Order
+
+            /** For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions */
+            public class Status200: APIModel {
+
+                /** Order Status */
+                public enum Status: String, Codable, Equatable, CaseIterable {
+                    case placed = "placed"
+                    case approved = "approved"
+                    case delivered = "delivered"
+                }
+
+                public var complete: Bool?
+
+                public var id: Int?
+
+                public var petId: Int?
+
+                public var quantity: Int?
+
+                public var shipDate: DateTime?
+
+                /** Order Status */
+                public var status: Status?
+
+                public init(complete: Bool? = nil, id: Int? = nil, petId: Int? = nil, quantity: Int? = nil, shipDate: DateTime? = nil, status: Status? = nil) {
+                    self.complete = complete
+                    self.id = id
+                    self.petId = petId
+                    self.quantity = quantity
+                    self.shipDate = shipDate
+                    self.status = status
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    complete = try container.decodeIfPresent("complete")
+                    id = try container.decodeIfPresent("id")
+                    petId = try container.decodeIfPresent("petId")
+                    quantity = try container.decodeIfPresent("quantity")
+                    shipDate = try container.decodeIfPresent("shipDate")
+                    status = try container.decodeIfPresent("status")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encodeIfPresent(complete, forKey: "complete")
+                    try container.encodeIfPresent(id, forKey: "id")
+                    try container.encodeIfPresent(petId, forKey: "petId")
+                    try container.encodeIfPresent(quantity, forKey: "quantity")
+                    try container.encodeIfPresent(shipDate, forKey: "shipDate")
+                    try container.encodeIfPresent(status, forKey: "status")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status200 else { return false }
+                  guard self.complete == object.complete else { return false }
+                  guard self.id == object.id else { return false }
+                  guard self.petId == object.petId else { return false }
+                  guard self.quantity == object.quantity else { return false }
+                  guard self.shipDate == object.shipDate else { return false }
+                  guard self.status == object.status else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status200, rhs: Status200) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+            public typealias SuccessType = Status200
 
             /** successful operation */
-            case status200(Order)
+            case status200(Status200)
 
             /** Invalid ID supplied */
             case status400
@@ -58,7 +128,7 @@ extension PetstoreTest.Store {
             /** Order not found */
             case status404
 
-            public var success: Order? {
+            public var success: Status200? {
                 switch self {
                 case .status200(let response): return response
                 default: return nil
@@ -90,7 +160,7 @@ extension PetstoreTest.Store {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(Order.self, from: data))
+                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
                 case 400: self = .status400
                 case 404: self = .status404
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)

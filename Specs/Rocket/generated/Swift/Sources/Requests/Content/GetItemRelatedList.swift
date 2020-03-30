@@ -109,48 +109,312 @@ See the `feature-flags.md` for available flag details.
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = ItemList
+
+            /** A pageable list of items. */
+            public class Status200: APIModel {
+
+                /** The id of this list */
+                public var id: String
+
+                /** The total size of the list */
+                public var size: Int
+
+                /** A list of items */
+                public var items: [ItemSummary]
+
+                /** Metadata describing how to load the next or previous page of the list */
+                public var paging: Pagination
+
+                /** The path of this list */
+                public var path: String
+
+                /** A map of custom fields defined by a curator for a list. */
+                public var customFields: [String: Any]?
+
+                /** A full description of this list. */
+                public var description: String?
+
+                public var images: [String: URL]?
+
+                /** The types of items in the list */
+                public var itemTypes: [ItemType]?
+
+                /** If this list is parameterized, then this contains the parameter of the list in the format `name:value`.
+            For example the Movies Genre list will take a parameter `genre` with a given value. e.g. `genre:action` or `genre:drama`. */
+                public var parameter: String?
+
+                /** A short description of this list. */
+                public var shortDescription: String?
+
+                /** The tagline of the item. */
+                public var tagline: String?
+
+                /** The title of this list */
+                public var title: String?
+
+                public init(id: String, size: Int, items: [ItemSummary], paging: Pagination, path: String, customFields: [String: Any]? = nil, description: String? = nil, images: [String: URL]? = nil, itemTypes: [ItemType]? = nil, parameter: String? = nil, shortDescription: String? = nil, tagline: String? = nil, title: String? = nil) {
+                    self.id = id
+                    self.size = size
+                    self.items = items
+                    self.paging = paging
+                    self.path = path
+                    self.customFields = customFields
+                    self.description = description
+                    self.images = images
+                    self.itemTypes = itemTypes
+                    self.parameter = parameter
+                    self.shortDescription = shortDescription
+                    self.tagline = tagline
+                    self.title = title
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    id = try container.decode("id")
+                    size = try container.decode("size")
+                    items = try container.decodeArray("items")
+                    paging = try container.decode("paging")
+                    path = try container.decode("path")
+                    customFields = try container.decodeAnyIfPresent("customFields")
+                    description = try container.decodeIfPresent("description")
+                    images = try container.decodeIfPresent("images")
+                    itemTypes = try container.decodeArrayIfPresent("itemTypes")
+                    parameter = try container.decodeIfPresent("parameter")
+                    shortDescription = try container.decodeIfPresent("shortDescription")
+                    tagline = try container.decodeIfPresent("tagline")
+                    title = try container.decodeIfPresent("title")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(id, forKey: "id")
+                    try container.encode(size, forKey: "size")
+                    try container.encode(items, forKey: "items")
+                    try container.encode(paging, forKey: "paging")
+                    try container.encode(path, forKey: "path")
+                    try container.encodeAnyIfPresent(customFields, forKey: "customFields")
+                    try container.encodeIfPresent(description, forKey: "description")
+                    try container.encodeIfPresent(images, forKey: "images")
+                    try container.encodeIfPresent(itemTypes, forKey: "itemTypes")
+                    try container.encodeIfPresent(parameter, forKey: "parameter")
+                    try container.encodeIfPresent(shortDescription, forKey: "shortDescription")
+                    try container.encodeIfPresent(tagline, forKey: "tagline")
+                    try container.encodeIfPresent(title, forKey: "title")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status200 else { return false }
+                  guard self.id == object.id else { return false }
+                  guard self.size == object.size else { return false }
+                  guard self.items == object.items else { return false }
+                  guard self.paging == object.paging else { return false }
+                  guard self.path == object.path else { return false }
+                  guard NSDictionary(dictionary: self.customFields ?? [:]).isEqual(to: object.customFields ?? [:]) else { return false }
+                  guard self.description == object.description else { return false }
+                  guard self.images == object.images else { return false }
+                  guard self.itemTypes == object.itemTypes else { return false }
+                  guard self.parameter == object.parameter else { return false }
+                  guard self.shortDescription == object.shortDescription else { return false }
+                  guard self.tagline == object.tagline else { return false }
+                  guard self.title == object.title else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status200, rhs: Status200) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+
+            /** Returns the list of items related to the parent item.
+            Note for now, due to the size of the list being unknown, only a single page will be returned.
+             */
+            public class Status400: APIModel {
+
+                /** A description of the error. */
+                public var message: String
+
+                /** An optional code classifying the error. Should be taken in the context of the http status code. */
+                public var code: Int?
+
+                public init(message: String, code: Int? = nil) {
+                    self.message = message
+                    self.code = code
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    message = try container.decode("message")
+                    code = try container.decodeIfPresent("code")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(message, forKey: "message")
+                    try container.encodeIfPresent(code, forKey: "code")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status400 else { return false }
+                  guard self.message == object.message else { return false }
+                  guard self.code == object.code else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status400, rhs: Status400) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+
+            /** Returns the list of items related to the parent item.
+            Note for now, due to the size of the list being unknown, only a single page will be returned.
+             */
+            public class Status404: APIModel {
+
+                /** A description of the error. */
+                public var message: String
+
+                /** An optional code classifying the error. Should be taken in the context of the http status code. */
+                public var code: Int?
+
+                public init(message: String, code: Int? = nil) {
+                    self.message = message
+                    self.code = code
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    message = try container.decode("message")
+                    code = try container.decodeIfPresent("code")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(message, forKey: "message")
+                    try container.encodeIfPresent(code, forKey: "code")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status404 else { return false }
+                  guard self.message == object.message else { return false }
+                  guard self.code == object.code else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status404, rhs: Status404) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+
+            /** Returns the list of items related to the parent item.
+            Note for now, due to the size of the list being unknown, only a single page will be returned.
+             */
+            public class Status500: APIModel {
+
+                /** A description of the error. */
+                public var message: String
+
+                /** An optional code classifying the error. Should be taken in the context of the http status code. */
+                public var code: Int?
+
+                public init(message: String, code: Int? = nil) {
+                    self.message = message
+                    self.code = code
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    message = try container.decode("message")
+                    code = try container.decodeIfPresent("code")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(message, forKey: "message")
+                    try container.encodeIfPresent(code, forKey: "code")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status500 else { return false }
+                  guard self.message == object.message else { return false }
+                  guard self.code == object.code else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status500, rhs: Status500) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+
+            /** Returns the list of items related to the parent item.
+            Note for now, due to the size of the list being unknown, only a single page will be returned.
+             */
+            public class DefaultResponse: APIModel {
+
+                /** A description of the error. */
+                public var message: String
+
+                /** An optional code classifying the error. Should be taken in the context of the http status code. */
+                public var code: Int?
+
+                public init(message: String, code: Int? = nil) {
+                    self.message = message
+                    self.code = code
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    message = try container.decode("message")
+                    code = try container.decodeIfPresent("code")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(message, forKey: "message")
+                    try container.encodeIfPresent(code, forKey: "code")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? DefaultResponse else { return false }
+                  guard self.message == object.message else { return false }
+                  guard self.code == object.code else { return false }
+                  return true
+                }
+
+                public static func == (lhs: DefaultResponse, rhs: DefaultResponse) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+            public typealias SuccessType = Status200
 
             /** The list of items requested. */
-            case status200(ItemList)
+            case status200(Status200)
 
             /** Bad request. */
-            case status400(ServiceError)
+            case status400(Status400)
 
             /** Not found. */
-            case status404(ServiceError)
+            case status404(Status404)
 
             /** Internal server error. */
-            case status500(ServiceError)
+            case status500(Status500)
 
             /** Service error. */
-            case defaultResponse(statusCode: Int, ServiceError)
+            case defaultResponse(statusCode: Int, DefaultResponse)
 
-            public var success: ItemList? {
+            public var success: Status200? {
                 switch self {
                 case .status200(let response): return response
                 default: return nil
-                }
-            }
-
-            public var failure: ServiceError? {
-                switch self {
-                case .status400(let response): return response
-                case .status404(let response): return response
-                case .status500(let response): return response
-                case .defaultResponse(_, let response): return response
-                default: return nil
-                }
-            }
-
-            /// either success or failure value. Success is anything in the 200..<300 status code range
-            public var responseResult: APIResponseResult<ItemList, ServiceError> {
-                if let successValue = success {
-                    return .success(successValue)
-                } else if let failureValue = failure {
-                    return .failure(failureValue)
-                } else {
-                    fatalError("Response does not have success or failure response")
                 }
             }
 
@@ -186,11 +450,11 @@ See the `feature-flags.md` for available flag details.
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(ItemList.self, from: data))
-                case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))
-                case 404: self = try .status404(decoder.decode(ServiceError.self, from: data))
-                case 500: self = try .status500(decoder.decode(ServiceError.self, from: data))
-                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ServiceError.self, from: data))
+                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
+                case 400: self = try .status400(decoder.decode(Status400.self, from: data))
+                case 404: self = try .status404(decoder.decode(Status404.self, from: data))
+                case 500: self = try .status500(decoder.decode(Status500.self, from: data))
+                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(DefaultResponse.self, from: data))
                 }
             }
 

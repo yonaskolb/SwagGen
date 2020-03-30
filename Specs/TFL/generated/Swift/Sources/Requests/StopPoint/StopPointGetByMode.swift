@@ -55,12 +55,73 @@ extension TFL.StopPoint {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = StopPointsResponse
+
+            /** A paged response containing StopPoints */
+            public class Status200: APIModel {
+
+                /** The centre latitude/longitude of this list of StopPoints */
+                public var centrePoint: [Double]?
+
+                /** The index of this page */
+                public var page: Int?
+
+                /** The maximum size of the page in this response i.e. the maximum number of StopPoints */
+                public var pageSize: Int?
+
+                /** Collection of stop points */
+                public var stopPoints: [StopPoint]?
+
+                /** The total number of StopPoints available across all pages */
+                public var total: Int?
+
+                public init(centrePoint: [Double]? = nil, page: Int? = nil, pageSize: Int? = nil, stopPoints: [StopPoint]? = nil, total: Int? = nil) {
+                    self.centrePoint = centrePoint
+                    self.page = page
+                    self.pageSize = pageSize
+                    self.stopPoints = stopPoints
+                    self.total = total
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    centrePoint = try container.decodeArrayIfPresent("centrePoint")
+                    page = try container.decodeIfPresent("page")
+                    pageSize = try container.decodeIfPresent("pageSize")
+                    stopPoints = try container.decodeArrayIfPresent("stopPoints")
+                    total = try container.decodeIfPresent("total")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encodeIfPresent(centrePoint, forKey: "centrePoint")
+                    try container.encodeIfPresent(page, forKey: "page")
+                    try container.encodeIfPresent(pageSize, forKey: "pageSize")
+                    try container.encodeIfPresent(stopPoints, forKey: "stopPoints")
+                    try container.encodeIfPresent(total, forKey: "total")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status200 else { return false }
+                  guard self.centrePoint == object.centrePoint else { return false }
+                  guard self.page == object.page else { return false }
+                  guard self.pageSize == object.pageSize else { return false }
+                  guard self.stopPoints == object.stopPoints else { return false }
+                  guard self.total == object.total else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status200, rhs: Status200) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+            public typealias SuccessType = Status200
 
             /** OK */
-            case status200(StopPointsResponse)
+            case status200(Status200)
 
-            public var success: StopPointsResponse? {
+            public var success: Status200? {
                 switch self {
                 case .status200(let response): return response
                 }
@@ -86,7 +147,7 @@ extension TFL.StopPoint {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(StopPointsResponse.self, from: data))
+                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

@@ -43,10 +43,84 @@ extension PetstoreTest.User {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = User
+
+            public class Status200: APIModel {
+
+                public var email: String?
+
+                public var firstName: String?
+
+                public var id: Int?
+
+                public var lastName: String?
+
+                public var password: String?
+
+                public var phone: String?
+
+                /** User Status */
+                public var userStatus: Int?
+
+                public var username: String?
+
+                public init(email: String? = nil, firstName: String? = nil, id: Int? = nil, lastName: String? = nil, password: String? = nil, phone: String? = nil, userStatus: Int? = nil, username: String? = nil) {
+                    self.email = email
+                    self.firstName = firstName
+                    self.id = id
+                    self.lastName = lastName
+                    self.password = password
+                    self.phone = phone
+                    self.userStatus = userStatus
+                    self.username = username
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    email = try container.decodeIfPresent("email")
+                    firstName = try container.decodeIfPresent("firstName")
+                    id = try container.decodeIfPresent("id")
+                    lastName = try container.decodeIfPresent("lastName")
+                    password = try container.decodeIfPresent("password")
+                    phone = try container.decodeIfPresent("phone")
+                    userStatus = try container.decodeIfPresent("userStatus")
+                    username = try container.decodeIfPresent("username")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encodeIfPresent(email, forKey: "email")
+                    try container.encodeIfPresent(firstName, forKey: "firstName")
+                    try container.encodeIfPresent(id, forKey: "id")
+                    try container.encodeIfPresent(lastName, forKey: "lastName")
+                    try container.encodeIfPresent(password, forKey: "password")
+                    try container.encodeIfPresent(phone, forKey: "phone")
+                    try container.encodeIfPresent(userStatus, forKey: "userStatus")
+                    try container.encodeIfPresent(username, forKey: "username")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status200 else { return false }
+                  guard self.email == object.email else { return false }
+                  guard self.firstName == object.firstName else { return false }
+                  guard self.id == object.id else { return false }
+                  guard self.lastName == object.lastName else { return false }
+                  guard self.password == object.password else { return false }
+                  guard self.phone == object.phone else { return false }
+                  guard self.userStatus == object.userStatus else { return false }
+                  guard self.username == object.username else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status200, rhs: Status200) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+            public typealias SuccessType = Status200
 
             /** successful operation */
-            case status200(User)
+            case status200(Status200)
 
             /** Invalid username supplied */
             case status400
@@ -54,7 +128,7 @@ extension PetstoreTest.User {
             /** User not found */
             case status404
 
-            public var success: User? {
+            public var success: Status200? {
                 switch self {
                 case .status200(let response): return response
                 default: return nil
@@ -86,7 +160,7 @@ extension PetstoreTest.User {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(User.self, from: data))
+                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
                 case 400: self = .status400
                 case 404: self = .status404
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)

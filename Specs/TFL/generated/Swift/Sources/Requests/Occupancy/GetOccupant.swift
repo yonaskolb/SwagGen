@@ -42,12 +42,61 @@ extension TFL.Occupancy {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = CarParkOccupancy
+
+            public class Status200: APIModel {
+
+                public var bays: [Bay]?
+
+                public var carParkDetailsUrl: String?
+
+                public var id: String?
+
+                public var name: String?
+
+                public init(bays: [Bay]? = nil, carParkDetailsUrl: String? = nil, id: String? = nil, name: String? = nil) {
+                    self.bays = bays
+                    self.carParkDetailsUrl = carParkDetailsUrl
+                    self.id = id
+                    self.name = name
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    bays = try container.decodeArrayIfPresent("bays")
+                    carParkDetailsUrl = try container.decodeIfPresent("carParkDetailsUrl")
+                    id = try container.decodeIfPresent("id")
+                    name = try container.decodeIfPresent("name")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encodeIfPresent(bays, forKey: "bays")
+                    try container.encodeIfPresent(carParkDetailsUrl, forKey: "carParkDetailsUrl")
+                    try container.encodeIfPresent(id, forKey: "id")
+                    try container.encodeIfPresent(name, forKey: "name")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status200 else { return false }
+                  guard self.bays == object.bays else { return false }
+                  guard self.carParkDetailsUrl == object.carParkDetailsUrl else { return false }
+                  guard self.id == object.id else { return false }
+                  guard self.name == object.name else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status200, rhs: Status200) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+            public typealias SuccessType = Status200
 
             /** OK */
-            case status200(CarParkOccupancy)
+            case status200(Status200)
 
-            public var success: CarParkOccupancy? {
+            public var success: Status200? {
                 switch self {
                 case .status200(let response): return response
                 }
@@ -73,7 +122,7 @@ extension TFL.Occupancy {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(CarParkOccupancy.self, from: data))
+                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

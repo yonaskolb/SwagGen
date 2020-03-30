@@ -68,12 +68,49 @@ extension TFL.Line {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = RouteSearchResponse
+
+            public class Status200: APIModel {
+
+                public var input: String?
+
+                public var searchMatches: [RouteSearchMatch]?
+
+                public init(input: String? = nil, searchMatches: [RouteSearchMatch]? = nil) {
+                    self.input = input
+                    self.searchMatches = searchMatches
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    input = try container.decodeIfPresent("input")
+                    searchMatches = try container.decodeArrayIfPresent("searchMatches")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encodeIfPresent(input, forKey: "input")
+                    try container.encodeIfPresent(searchMatches, forKey: "searchMatches")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status200 else { return false }
+                  guard self.input == object.input else { return false }
+                  guard self.searchMatches == object.searchMatches else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status200, rhs: Status200) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+            public typealias SuccessType = Status200
 
             /** OK */
-            case status200(RouteSearchResponse)
+            case status200(Status200)
 
-            public var success: RouteSearchResponse? {
+            public var success: Status200? {
                 switch self {
                 case .status200(let response): return response
                 }
@@ -99,7 +136,7 @@ extension TFL.Line {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(RouteSearchResponse.self, from: data))
+                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

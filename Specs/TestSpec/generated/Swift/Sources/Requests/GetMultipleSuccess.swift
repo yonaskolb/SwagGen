@@ -20,15 +20,53 @@ extension TestSpec {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = User
+
+            /** operation with multiple success responses */
+            public class Status200: APIModel {
+
+                public var id: Int?
+
+                public var name: String?
+
+                public init(id: Int? = nil, name: String? = nil) {
+                    self.id = id
+                    self.name = name
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    id = try container.decodeIfPresent("id")
+                    name = try container.decodeIfPresent("name")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encodeIfPresent(id, forKey: "id")
+                    try container.encodeIfPresent(name, forKey: "name")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? Status200 else { return false }
+                  guard self.id == object.id else { return false }
+                  guard self.name == object.name else { return false }
+                  return true
+                }
+
+                public static func == (lhs: Status200, rhs: Status200) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
+            public typealias SuccessType = Status200
 
             /** User response */
-            case status200(User)
+            case status200(Status200)
 
             /** Empty response */
             case status201
 
-            public var success: User? {
+            public var success: Status200? {
                 switch self {
                 case .status200(let response): return response
                 default: return nil
@@ -58,7 +96,7 @@ extension TestSpec {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(User.self, from: data))
+                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
                 case 201: self = .status201
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }

@@ -47,13 +47,50 @@ extension Petstore.Pets {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
+
+            public class DefaultResponse: APIModel {
+
+                public var code: Int
+
+                public var message: String
+
+                public init(code: Int, message: String) {
+                    self.code = code
+                    self.message = message
+                }
+
+                public required init(from decoder: Decoder) throws {
+                    let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                    code = try container.decode("code")
+                    message = try container.decode("message")
+                }
+
+                public func encode(to encoder: Encoder) throws {
+                    var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                    try container.encode(code, forKey: "code")
+                    try container.encode(message, forKey: "message")
+                }
+
+                public func isEqual(to object: Any?) -> Bool {
+                  guard let object = object as? DefaultResponse else { return false }
+                  guard self.code == object.code else { return false }
+                  guard self.message == object.message else { return false }
+                  return true
+                }
+
+                public static func == (lhs: DefaultResponse, rhs: DefaultResponse) -> Bool {
+                    return lhs.isEqual(to: rhs)
+                }
+            }
             public typealias SuccessType = [Pet]
 
             /** An array of pets */
             case status200([Pet])
 
             /** unexpected error */
-            case defaultResponse(statusCode: Int, ErrorType)
+            case defaultResponse(statusCode: Int, DefaultResponse)
 
             public var success: [Pet]? {
                 switch self {
@@ -62,7 +99,7 @@ extension Petstore.Pets {
                 }
             }
 
-            public var failure: ErrorType? {
+            public var failure: DefaultResponse? {
                 switch self {
                 case .defaultResponse(_, let response): return response
                 default: return nil
@@ -70,7 +107,7 @@ extension Petstore.Pets {
             }
 
             /// either success or failure value. Success is anything in the 200..<300 status code range
-            public var responseResult: APIResponseResult<[Pet], ErrorType> {
+            public var responseResult: APIResponseResult<[Pet], DefaultResponse> {
                 if let successValue = success {
                     return .success(successValue)
                 } else if let failureValue = failure {
@@ -104,7 +141,7 @@ extension Petstore.Pets {
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([Pet].self, from: data))
-                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ErrorType.self, from: data))
+                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(DefaultResponse.self, from: data))
                 }
             }
 

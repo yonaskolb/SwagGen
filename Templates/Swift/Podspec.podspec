@@ -1,5 +1,4 @@
 Pod::Spec.new do |s|
-    s.source_files = '*.swift'
     s.name = '{{ options.name }}'
     s.authors = '{{ options.authors|default:"Yonas Kolb" }}'
     s.summary = '{{ info.description|default:"A generated API" }}'

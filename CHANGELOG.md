@@ -4,6 +4,7 @@
 
 ### Added
 - MediaItem schema is now defined as a possible reference in order to generate models of each server response. #239 @alexruperez
+- Added ability to use only some part of the generated code when using SPM #232
 
 ### Fixed
 - Fixed inline allOf group generation

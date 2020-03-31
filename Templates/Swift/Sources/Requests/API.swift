@@ -14,9 +14,13 @@ public struct {{ options.name }} {
     public static var safeArrayDecoding = {% if options.safeArrayDecoding %}true{% else %}false{% endif %}
 
     /// Used to encode Dates when uses as string params
-    public static var dateEncodingFormatter = DateFormatter(formatString: "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
-                                                            locale: Locale(identifier: "en_US_POSIX"),
-                                                            calendar: Calendar(identifier: .gregorian))
+    public static var dateEncodingFormatter : DateFormatter = {
+      var formatter = DateFormatter()
+      formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+      formatter.locale = Locale(identifier: "en_US_POSIX")
+      formatter.calendar = Calendar(identifier: .gregorian)
+      return formatter
+    }()
     
     {% if info.version %}
     public static let version = "{{ info.version }}"

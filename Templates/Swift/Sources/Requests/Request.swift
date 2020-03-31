@@ -2,6 +2,11 @@
 
 import Foundation
 
+#if SPM_SPLIT_MODE_ON
+import {{ options.name }}Models
+import {{ options.name }}SharedCode
+#endif
+
 extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }}{% endif %} {
 
     {% if description and summary %}

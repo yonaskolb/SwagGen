@@ -2,10 +2,6 @@
 
 import Foundation
 
-{% if options.modelProtocol %}
-public protocol {{ options.modelProtocol }}: Codable, Equatable { }
-{% endif %}
-
 {% for type, typealias in options.typeAliases %}
 public typealias {{ type }} = {{ typealias }}
 {% endfor %}
@@ -24,41 +20,29 @@ public protocol RequestEncoder {
 
 extension JSONEncoder: RequestEncoder {}
 
-extension {{ options.modelProtocol }} {
-    func encode() -> [String: Any] {
-        guard
-            let jsonData = try? JSONEncoder().encode(self),
-            let jsonValue = try? JSONSerialization.jsonObject(with: jsonData),
-            let jsonDictionary = jsonValue as? [String: Any] else {
-                return [:]
-        }
-        return jsonDictionary
-    }
-}
-
-struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
+public struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
 
     private let string: String
     private let int: Int?
 
-    var stringValue: String { return string }
+    public var stringValue: String { return string }
 
-    init(string: String) {
+    public init(string: String) {
         self.string = string
         int = nil
     }
-    init?(stringValue: String) {
+    public init?(stringValue: String) {
         string = stringValue
         int = nil
     }
 
-    var intValue: Int? { return int }
-    init?(intValue: Int) {
+    public var intValue: Int? { return int }
+    public init?(intValue: Int) {
         string = String(describing: intValue)
         int = intValue
     }
 
-    init(stringLiteral value: String) {
+    public init(stringLiteral value: String) {
         string = value
         int = nil
     }
@@ -67,7 +51,7 @@ struct StringCodingKey: CodingKey, ExpressibleByStringLiteral {
 // any json decoding
 extension ResponseDecoder {
 
-    func decodeAny<T>(_ type: T.Type, from data: Data) throws -> T {
+    public func decodeAny<T>(_ type: T.Type, from data: Data) throws -> T {
         guard let decoded = try decode(AnyCodable.self, from: data) as? T else {
             throw DecodingError.typeMismatch(T.self, DecodingError.Context(codingPath: [StringCodingKey(string: "")], debugDescription: "Decoding of \(T.self) failed"))
         }
@@ -104,21 +88,21 @@ extension KeyedDecodingContainer {
         return dictionary
     }
 
-    func decode<T>(_ key: KeyedDecodingContainer.Key) throws -> T where T: Decodable {
+    public func decode<T>(_ key: KeyedDecodingContainer.Key) throws -> T where T: Decodable {
         return try decode(T.self, forKey: key)
     }
 
-    func decodeIfPresent<T>(_ key: KeyedDecodingContainer.Key) throws -> T? where T: Decodable {
+    public func decodeIfPresent<T>(_ key: KeyedDecodingContainer.Key) throws -> T? where T: Decodable {
         return try decodeOptional {
             try decodeIfPresent(T.self, forKey: key)
         }
     }
 
-    func decodeAny<T>(_ key: K) throws -> T {
+    public func decodeAny<T>(_ key: K) throws -> T {
         return try decodeAny(T.self, forKey: key)
     }
 
-    func decodeAnyIfPresent<T>(_ key: K) throws -> T? {
+    public func decodeAnyIfPresent<T>(_ key: K) throws -> T? {
         return try decodeAnyIfPresent(T.self, forKey: key)
     }
 
@@ -129,7 +113,7 @@ extension KeyedDecodingContainer {
         do {
             container = try nestedUnkeyedContainer(forKey: key)
         } catch {
-            if {{ options.name }}.safeArrayDecoding {
+            if {{ options.safeArrayDecoding }} { // safeArrayDecoding
                 return array
             } else {
                 throw error
@@ -141,7 +125,7 @@ extension KeyedDecodingContainer {
                 let element = try container.decode(T.self)
                 array.append(element)
             } catch {
-                if {{ options.name }}.safeArrayDecoding {
+                if {{ options.safeArrayDecoding }} { // safeArrayDecoding
                     // hack to advance the current index
                     _ = try? container.decode(AnyCodable.self)
                 } else {
@@ -163,7 +147,7 @@ extension KeyedDecodingContainer {
     }
 
     fileprivate func decodeOptional<T>(_ closure: () throws -> T? ) throws -> T? {
-        if {{ options.name }}.safeOptionalDecoding {
+        if {{ options.safeOptionalDecoding }} { // safeOptionalDecoding
             do {
                 return try closure()
             } catch {
@@ -213,7 +197,7 @@ extension DateFormatter {
     }
 }
 
-let dateDecoder: (Decoder) throws -> Date = { decoder in
+public let dateDecoder: (Decoder) throws -> Date = { decoder in
         let container = try decoder.singleValueContainer()
         let string = try container.decode(String.self)
 
@@ -302,7 +286,6 @@ public struct DateDay: Codable, Comparable {
 }
 
 extension DateFormatter {
-
     public func string(from dateDay: DateDay) -> String {
         return string(from: dateDay.date)
     }
@@ -311,56 +294,57 @@ extension DateFormatter {
 // for parameter encoding
 
 extension DateDay {
-    func encode() -> Any {
+    public func encode() -> Any {
         return DateDay.dateFormatter.string(from: date)
     }
 }
 
 extension Date {
-    func encode() -> Any {
-        return {{ options.name }}.dateEncodingFormatter.string(from: self)
+    public func encode() -> Any {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return formatter.string(from: self)
     }
 }
 
 extension URL {
-    func encode() -> Any {
+    public func encode() -> Any {
         return absoluteString
     }
 }
 
 extension RawRepresentable {
-    func encode() -> Any {
+    public func encode() -> Any {
         return rawValue
     }
 }
 
 extension Array where Element: RawRepresentable {
-    func encode() -> [Any] {
+    public func encode() -> [Any] {
         return map { $0.rawValue }
     }
 }
 
 extension Dictionary where Key == String, Value: RawRepresentable {
-    func encode() -> [String: Any] {
+    public func encode() -> [String: Any] {
         return mapValues { $0.rawValue }
     }
 }
 
 extension UUID {
-    func encode() -> Any {
+    public func encode() -> Any {
         return uuidString
     }
 }
 
 extension String {
-    func encode() -> Any {
+    public func encode() -> Any {
         return self
     }
 }
 
 extension Data {
-
-    func encode() -> Any {
+    public func encode() -> Any {
         return self
     }
 }

@@ -1,11 +1,16 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.1
 
 import PackageDescription
 
 let package = Package(
     name: "{{ options.name }}",
     products: [
-        .library(name: "{{ options.name }}", targets: ["{{ options.name }}"])
+        .library(name: "{{ options.name }}", targets: ["{{ options.name }}Client"]),
+        .library(name: "{{ options.name }}Dynamic", type: .dynamic, targets: ["{{ options.name }}Client"]),
+        .library(name: "{{ options.name }}Requests", targets: ["{{ options.name }}Requests"]),
+        .library(name: "{{ options.name }}DynamicRequests", type: .dynamic, targets: ["{{ options.name }}Requests"]),
+        .library(name: "{{ options.name }}Models", targets: ["{{ options.name }}Models"]),
+        .library(name: "{{ options.name }}DynamicModels", type: .dynamic, targets: ["{{ options.name }}Models"]),
     ],
     dependencies: [
         {% for dependency in options.dependencies %}
@@ -13,10 +18,14 @@ let package = Package(
         {% endfor %}
     ],
     targets: [
-        .target(name: "{{ options.name }}", dependencies: [
+        .target(name: "{{ options.name }}SharedCode", path: "Sources/SharedCode"),
+        .target(name: "{{ options.name }}Models", path: "Sources/Models", swiftSettings: [SwiftSetting.define("SPM_SPLIT_MODE_ON")]),
+        .target(name: "{{ options.name }}Requests", dependencies: [ "{{ options.name }}Models", "{{ options.name }}SharedCode"], path: "Sources/Requests", swiftSettings: [SwiftSetting.define("SPM_SPLIT_MODE_ON")]),
+        .target(name: "{{ options.name }}Client", dependencies: [
+          "{{ options.name }}Requests",
           {% for dependency in options.dependencies %}
           "{{ dependency.pod }}",
           {% endfor %}
-        ], path: "Sources")
+        ], path: "Sources/Client", swiftSettings: [SwiftSetting.define("SPM_SPLIT_MODE_ON")])
     ]
 )

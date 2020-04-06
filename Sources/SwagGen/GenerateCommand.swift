@@ -12,7 +12,7 @@ class GenerateCommand: Command {
     let name = "generate"
     let shortDescription = "Generates code for a Swagger spec"
 
-    let spec = SwiftCLI.Parameter()
+    let spec = SwiftCLI.Param<String>()
 
     let clean = Key<Generator.Clean>("--clean", "-c", description: "How the destination directory will be cleaned of non generated files:\n\(String(repeating: " ", count: 31)) - none: no files will be removed\n\(String(repeating: " ", count: 31)) - leave.files: all other files will be removed except if starting with . in the destination directory\n\(String(repeating: " ", count: 31)) - all: all other files will be removed")
 
@@ -22,10 +22,15 @@ class GenerateCommand: Command {
 
     let language = Key<String>("--language", "-l", description: "The language of the template that will be generated. This defaults to swift")
 
-    let options = VariadicKey<String>("--option", "-o", description: "An option that will be merged with template options, and overwrite any options of the same name.\n\(String(repeating: " ", count: 31))Can be repeated multiple times and must in the format --option \"name:value\"")
+    let optionsKey = VariadicKey<String>("--option", "-o", description: """
+    An option that will be merged with template options, and overwrite any options of the same name.
+    Can be repeated multiple times and must be in the format --option "name:value".
+    The key can have multiple parts separated by dots to set nested properties:
+    for example, --option "typeAliases.ID:String" would change the type alias of ID to String.
+    """)
 
-    let verbose = Flag("--verbose", "-v", description: "Show verbose output", defaultValue: false)
-    let silent = Flag("--silent", "-s", description: "Silence standard output", defaultValue: false)
+    let verbose = Flag("--verbose", "-v", description: "Show verbose output")
+    let silent = Flag("--silent", "-s", description: "Silence standard output")
 
     func execute() throws {
         let clean = self.clean.value ?? .none
@@ -45,16 +50,28 @@ class GenerateCommand: Command {
             exitWithError("Must pass valid spec. It can be a path or a url")
         }
 
+        /// Assign a value by key list to a multiply nested dictionary that might not exist yet.
+        func deepAssign(dict: inout [String: Any], keys: [String], value: Any) {
+            guard let key = keys.first else { return }
+            if keys.count == 1 {
+                dict[key] = value
+            } else {
+                var subdict: [String: Any] = dict[key].flatMap { $0 as? [String: Any] } ?? [:]
+                deepAssign(dict: &subdict, keys: Array(keys.dropFirst()), value: value)
+                dict[key] = subdict
+            }
+        }
+
         var options: [String: Any] = [:]
-        for option in self.options.values {
+        for option in self.optionsKey.value {
             guard option.contains(":") else {
-                exitWithError("Options arguement '\(option)' must be comma delimited and the name and value must be seperated by a colon")
+                exitWithError("Options argument '\(option)' must have its name and value separated with a colon")
             }
             let parts = option.components(separatedBy: ":").map { $0.trimmingCharacters(in: .whitespaces) }
             if parts.count >= 2 {
-                let key = parts.first!
+                let keys = parts.first!.split(separator: ".").map { String($0) }
                 let value = Array(parts.dropFirst()).joined(separator: ":")
-                options[key] = value
+                deepAssign(dict: &options, keys: Array(keys), value: value)
             }
         }
 
@@ -210,7 +227,7 @@ extension Generator.Clean: ConvertibleFromString {
     public static func convert(from: String) -> Generator.Clean? {
         switch from {
         case "true", "yes", "all": return .all
-        case "false", "no", "none": return .none
+        case "false", "no", "none": return Generator.Clean.none
         case "leave-dot-files", "leaveDotFiles", "leave.files": return .leaveDotFiles
         default: return nil
         }

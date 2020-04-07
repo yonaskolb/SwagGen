@@ -8,7 +8,7 @@ public struct OperationResponse {
 public struct Response {
 
     public let description: String
-    public let schema: Schema?
+    public let schema: PossibleReference<Schema>?
     public let headers: [String: Item]
 }
 

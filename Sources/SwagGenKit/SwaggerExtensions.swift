@@ -216,7 +216,7 @@ extension OperationResponse {
     }
 
     var enumValue: Enum? {
-        return response.value.schema?.getEnum(name: name, description: response.value.description)
+        return response.value.schema?.value.getEnum(name: name, description: response.value.description)
     }
 }
 

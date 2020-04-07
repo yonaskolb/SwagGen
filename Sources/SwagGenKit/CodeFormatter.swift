@@ -262,7 +262,7 @@ public class CodeFormatter {
 
         let responseSchemas: [Context] = operation.responses.compactMap { response in
             guard let schema = response.response.value.schema else { return nil }
-            return getInlineSchemaContext(schema, name: response.name.lowerCamelCased())
+            return getInlineSchemaContext(schema.value, name: response.name.lowerCamelCased())
         }
         context["responseSchemas"] = responseSchemas
         context["hasResponseModels"] = !operation.responses.filter { $0.response.value.schema != nil }.isEmpty
@@ -277,9 +277,9 @@ public class CodeFormatter {
         context["name"] = response.name.lowerCamelCased()
         context["statusCode"] = response.statusCode
         context["success"] = response.successful
-        context["schema"] = response.response.value.schema.flatMap(getSchemaContext)
+        context["schema"] = response.response.value.schema.flatMap { getSchemaContext($0.value) }
         context["description"] = response.response.value.description.description
-        context["type"] = response.response.value.schema.flatMap { getSchemaType(name: response.name, schema: $0) }
+        context["type"] = response.response.value.schema.flatMap { getSchemaType(name: response.name, schema: $0.value) }
 
         return context
     }

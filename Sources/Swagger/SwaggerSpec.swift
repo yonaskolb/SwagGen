@@ -191,7 +191,12 @@ extension SwaggerSpec: JSONObjectConvertible {
         func resolveResponse(_ response: OperationResponse) {
             resolveResponseReference(response.response)
             if let schema = response.response.value.schema {
-                resolveSchema(schema)
+                switch schema {
+                case .reference(let schemaReference):
+                    resolveDefinitionReference(schemaReference)
+                case .value(let schema):
+                    resolveSchema(schema)
+                }
             }
         }
 

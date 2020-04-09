@@ -5,6 +5,9 @@
 ### Added
 - MediaItem schema is now defined as a possible reference in order to generate models of each server response. #239 @alexruperez
 
+### Changes
+- Updated SwiftCLI dependency to next major version #241
+
 ### Fixed
 - Fixed inline allOf group generation
 - Fixed property generation when there is only one group schema;  the first group schema type will be used as the type #217

@@ -11,44 +11,53 @@ class GenerateCommand: Command {
     let name = "generate"
     let shortDescription = "Generates code for a Swagger spec"
 
-    let spec = SwiftCLI.Parameter()
+    @Param 
+    var spec: String
 
-    let clean = Key<Generator.Clean>("--clean", "-c", description: """
+    @Key("-c", "--clean",  description: """
         How the destination directory will be cleaned of non generated files:
          - none: no files will be removed
          - leave.files: all other files will be removed except if starting with . in the destination directory
          - all: all other files will be removed
         """)
+    var clean: Generator.Clean?
 
-    let destination = Key<String>("--destination", "-d", description: "The directory where the generated files will be created. Defaults to \"generated\"")
+    @Key("-d", "--destination", description: "The directory where the generated files will be created. Defaults to \"generated\"")
+    var destination: String?
 
-    let template = Key<String>("--template", "-t", description: "path to the template config yaml file. If no template is passed a default template for the language will be used")
+    @Key("-t", "--template", description: "path to the template config yaml file. If no template is passed a default template for the language will be used")
+    var template: String?
 
-    let language = Key<String>("--language", "-l", description: "The language of the template that will be generated. This defaults to swift")
+    @Key("-l", "--language", description: "The language of the template that will be generated. This defaults to swift")
+    var language: String?
 
-    let optionsKey = VariadicKey<String>("--option", "-o", description: """
+    @VariadicKey("-o", "--option", description: """
         An option that will be merged with template options, and overwrite any options of the same name.
         Can be repeated multiple times and must be in the format --option "name:value".
         The key can have multiple parts separated by dots to set nested properties:
         for example, --option "typeAliases.ID:String" would change the type alias of ID to String.
         """)
+    var optionsKey: [String]
 
-    let verbose = Flag("--verbose", "-v", description: "Show verbose output", defaultValue: false)
-    let silent = Flag("--silent", "-s", description: "Silence standard output", defaultValue: false)
+    @Flag("-v", "--verbose", description: "Show verbose output")
+    var verbose: Bool
+
+    @Flag("-s", "--silent", description: "Silence standard output")
+    var silent: Bool
 
     func execute() throws {
-        let clean = self.clean.value ?? .none
-        let destinationPath = destination.value.flatMap { Path($0) } ?? (Path.current + "generated")
-        let language = self.language.value ?? "swift"
+        let clean = self.clean ?? .none
+        let destinationPath = destination.flatMap { Path($0) } ?? (Path.current + "generated")
+        let language = self.language ?? "swift"
 
         let specURL: URL
-        if URL(string: spec.value)?.scheme == nil {
-            let path = Path(spec.value).normalize()
+        if URL(string: spec)?.scheme == nil {
+            let path = Path(spec).normalize()
             guard path.exists else {
                 exitWithError("Could not find spec at \(path)")
             }
             specURL = URL(fileURLWithPath: path.string)
-        } else if let url = URL(string: spec.value) {
+        } else if let url = URL(string: spec) {
             specURL = url
         } else {
             exitWithError("Must pass valid spec. It can be a path or a url")
@@ -67,7 +76,7 @@ class GenerateCommand: Command {
         }
 
         var options: [String: Any] = [:]
-        for option in self.optionsKey.value {
+        for option in self.optionsKey {
             guard option.contains(":") else {
                 exitWithError("Options argument '\(option)' must have its name and value separated with a colon")
             }
@@ -80,7 +89,7 @@ class GenerateCommand: Command {
         }
 
         let templatePath: PathKit.Path
-        if let template = template.value {
+        if let template = template {
             templatePath = Path(template)
         } else {
             let bundlePath = Path(Bundle.main.bundlePath)
@@ -113,7 +122,7 @@ class GenerateCommand: Command {
     }
 
     func standardOut(_ string: String) {
-        if !silent.value {
+        if !silent {
             stdout <<< string
         }
     }
@@ -163,7 +172,7 @@ class GenerateCommand: Command {
         )
         standardOut("Loaded template: \(templateCounts)")
 
-        if verbose.value {
+        if verbose {
             if !templateConfig.options.isEmpty {
                 standardOut("Options:\n  \(templateConfig.options.prettyPrinted.replacingOccurrences(of: "\n", with: "\n  "))")
             }
@@ -199,7 +208,7 @@ class GenerateCommand: Command {
         do {
             let generationResult = try generator.generate(clean: clean) { change in
 
-                guard verbose.value else {
+                guard verbose else {
                     return
                 }
 

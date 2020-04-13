@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push: {}
+  pull_request: {}
+
+jobs:
+  build:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Resolve
+      run: swift package resolve
+    - name: Build
+      run: swift build
+    - name: Run tests
+      run: swift test 2>&1 | xcpretty
+    - name: Build fixtures
+      run: ./build_specs.sh

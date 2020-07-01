@@ -237,7 +237,11 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
                 switch statusCode {
                 {% for response in responses where response.statusCode %}
                 {% if response.type %}
+                {% if response.type == "File" %}
+                case {{ response.statusCode }}: self = try .{{ response.name }}(data)
+                {% else %}
                 case {{ response.statusCode }}: self = try .{{ response.name }}(decoder.decode{% if response.isAnyType %}Any{% endif %}({{ response.type }}.self, from: data))
+                {% endif %}
                 {% else %}
                 case {{ response.statusCode }}: self = .{{ response.name }}
                 {% endif %}

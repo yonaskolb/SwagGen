@@ -15,7 +15,7 @@ parameter, or if unspecified, getting all configuration.
  */
     public enum GetAppConfig {
 
-        public static let service = APIService<Response>(id: "getAppConfig", tag: "app", method: "GET", path: "/config", hasBody: false)
+        public static let service = APIService<Response>(id: "getAppConfig", tag: "app", method: "GET", path: "/config", hasBody: false, securityRequirements: [])
 
         /** A comma delimited list of config objects to return.
         If none specified then all configuration is returned.

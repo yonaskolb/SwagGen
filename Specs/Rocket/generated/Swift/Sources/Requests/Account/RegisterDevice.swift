@@ -12,7 +12,7 @@ If a device with the same id already exists a `409` conflict will be returned.
  */
     public enum RegisterDevice {
 
-        public static let service = APIService<Response>(id: "registerDevice", tag: "account", method: "POST", path: "/account/devices", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scopes: ["Catalog"]))
+        public static let service = APIService<Response>(id: "registerDevice", tag: "account", method: "POST", path: "/account/devices", hasBody: true, securityRequirements: [SecurityRequirement(type: "accountAuth", scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

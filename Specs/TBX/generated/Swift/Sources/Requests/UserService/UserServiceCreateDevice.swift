@@ -10,7 +10,7 @@ extension TBX.UserService {
     /** Create a new Device */
     public enum UserServiceCreateDevice {
 
-        public static let service = APIService<Response>(id: "UserService.createDevice", tag: "UserService", method: "POST", path: "/UserServices/device", hasBody: true)
+        public static let service = APIService<Response>(id: "UserService.createDevice", tag: "UserService", method: "POST", path: "/UserServices/device", hasBody: true, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

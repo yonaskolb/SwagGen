@@ -10,7 +10,7 @@ extension TFL.Journey {
     /** Perform a Journey Planner search from the parameters specified in simple types */
     public enum JourneyJourneyResults {
 
-        public static let service = APIService<Response>(id: "Journey_JourneyResults", tag: "Journey", method: "GET", path: "/Journey/JourneyResults/{from}/to/{to}", hasBody: false)
+        public static let service = APIService<Response>(id: "Journey_JourneyResults", tag: "Journey", method: "GET", path: "/Journey/JourneyResults/{from}/to/{to}", hasBody: false, securityRequirements: [])
 
         /** Does the time given relate to arrival or leaving time? Possible options: "departing" | "arriving" */
         public enum TimeIs: String, Codable, Equatable, CaseIterable {

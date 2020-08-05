@@ -14,7 +14,7 @@ Returns 404 if no children found.
  */
     public enum GetItemChildrenList {
 
-        public static let service = APIService<Response>(id: "getItemChildrenList", tag: "content", method: "GET", path: "/items/{id}/children", hasBody: false)
+        public static let service = APIService<Response>(id: "getItemChildrenList", tag: "content", method: "GET", path: "/items/{id}/children", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

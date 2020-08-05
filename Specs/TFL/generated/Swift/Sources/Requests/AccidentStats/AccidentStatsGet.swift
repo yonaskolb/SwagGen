@@ -10,7 +10,7 @@ extension TFL.AccidentStats {
     /** Gets all accident details for accidents occuring in the specified year */
     public enum AccidentStatsGet {
 
-        public static let service = APIService<Response>(id: "AccidentStats_Get", tag: "AccidentStats", method: "GET", path: "/AccidentStats/{year}", hasBody: false)
+        public static let service = APIService<Response>(id: "AccidentStats_Get", tag: "AccidentStats", method: "GET", path: "/AccidentStats/{year}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

@@ -14,7 +14,7 @@ then what you pass to this endpoint would look like `/page?path=/search%3Fq%3Dth
  */
     public enum GetPage {
 
-        public static let service = APIService<Response>(id: "getPage", tag: "app", method: "GET", path: "/page", hasBody: false)
+        public static let service = APIService<Response>(id: "getPage", tag: "app", method: "GET", path: "/page", hasBody: false, securityRequirements: [])
 
         /** Only relevant when loading item detail pages as these embed a detailed item in the main page entry.
         If no value is specified no item dependencies are expanded.

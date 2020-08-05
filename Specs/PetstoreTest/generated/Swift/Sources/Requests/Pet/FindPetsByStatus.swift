@@ -14,7 +14,7 @@ extension PetstoreTest.Pet {
     */
     public enum FindPetsByStatus {
 
-        public static let service = APIService<Response>(id: "findPetsByStatus", tag: "pet", method: "GET", path: "/pet/findByStatus", hasBody: false, securityRequirement: SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"]))
+        public static let service = APIService<Response>(id: "findPetsByStatus", tag: "pet", method: "GET", path: "/pet/findByStatus", hasBody: false, securityRequirements: [SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"])])
 
         /** Status values that need to be considered for filter */
         public enum Status: String, Codable, Equatable, CaseIterable {

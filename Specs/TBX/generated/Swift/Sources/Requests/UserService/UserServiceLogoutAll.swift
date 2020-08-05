@@ -10,7 +10,7 @@ extension TBX.UserService {
     /** Logout all devices related to the customer */
     public enum UserServiceLogoutAll {
 
-        public static let service = APIService<Response>(id: "UserService.logoutAll", tag: "UserService", method: "DELETE", path: "/UserServices/{customer}/devices", hasBody: false)
+        public static let service = APIService<Response>(id: "UserService.logoutAll", tag: "UserService", method: "DELETE", path: "/UserServices/{customer}/devices", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

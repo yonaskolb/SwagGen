@@ -11,7 +11,7 @@ extension TFL.Line {
             A list of valid severity codes can be obtained from a call to Line/Meta/Severity */
     public enum LineStatusBySeverity {
 
-        public static let service = APIService<Response>(id: "Line_StatusBySeverity", tag: "Line", method: "GET", path: "/Line/Status/{severity}", hasBody: false)
+        public static let service = APIService<Response>(id: "Line_StatusBySeverity", tag: "Line", method: "GET", path: "/Line/Status/{severity}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

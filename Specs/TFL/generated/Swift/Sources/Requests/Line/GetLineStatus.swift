@@ -10,7 +10,7 @@ extension TFL.Line {
     /** Gets the line status for given line ids during the provided dates e.g Minor Delays */
     public enum GetLineStatus {
 
-        public static let service = APIService<Response>(id: "Get_Line_Status", tag: "Line", method: "GET", path: "/Line/{ids}/Status/{StartDate}/to/{EndDate}", hasBody: false)
+        public static let service = APIService<Response>(id: "Get_Line_Status", tag: "Line", method: "GET", path: "/Line/{ids}/Status/{StartDate}/to/{EndDate}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

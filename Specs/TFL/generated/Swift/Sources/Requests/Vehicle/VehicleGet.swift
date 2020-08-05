@@ -10,7 +10,7 @@ extension TFL.Vehicle {
     /** Gets the predictions for a given list of vehicle Id's. */
     public enum VehicleGet {
 
-        public static let service = APIService<Response>(id: "Vehicle_Get", tag: "Vehicle", method: "GET", path: "/Vehicle/{ids}/Arrivals", hasBody: false)
+        public static let service = APIService<Response>(id: "Vehicle_Get", tag: "Vehicle", method: "GET", path: "/Vehicle/{ids}/Arrivals", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

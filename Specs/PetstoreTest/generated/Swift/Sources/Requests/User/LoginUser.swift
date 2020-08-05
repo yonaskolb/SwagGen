@@ -10,7 +10,7 @@ extension PetstoreTest.User {
     /** Logs user into the system */
     public enum LoginUser {
 
-        public static let service = APIService<Response>(id: "loginUser", tag: "user", method: "GET", path: "/user/login", hasBody: false)
+        public static let service = APIService<Response>(id: "loginUser", tag: "user", method: "GET", path: "/user/login", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

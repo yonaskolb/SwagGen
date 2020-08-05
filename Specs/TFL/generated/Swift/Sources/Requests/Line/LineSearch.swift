@@ -10,7 +10,7 @@ extension TFL.Line {
     /** Search for lines or routes matching the query string */
     public enum LineSearch {
 
-        public static let service = APIService<Response>(id: "Line_Search", tag: "Line", method: "GET", path: "/Line/Search/{query}", hasBody: false)
+        public static let service = APIService<Response>(id: "Line_Search", tag: "Line", method: "GET", path: "/Line/Search/{query}", hasBody: false, securityRequirements: [])
 
         /** A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
         public enum ServiceTypes: String, Codable, Equatable, CaseIterable {

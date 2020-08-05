@@ -10,7 +10,7 @@ extension TBX.UserService {
     /** Check if a Device exists and this is active */
     public enum UserServiceCheckDevice {
 
-        public static let service = APIService<Response>(id: "UserService.checkDevice", tag: "UserService", method: "HEAD", path: "/UserServices/device/{device}", hasBody: false)
+        public static let service = APIService<Response>(id: "UserService.checkDevice", tag: "UserService", method: "HEAD", path: "/UserServices/device/{device}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

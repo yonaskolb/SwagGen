@@ -10,7 +10,7 @@ extension TFL.Search {
     /** Gets the available searchProvider names. */
     public enum SearchMetaSearchProviders {
 
-        public static let service = APIService<Response>(id: "Search_MetaSearchProviders", tag: "Search", method: "GET", path: "/Search/Meta/SearchProviders", hasBody: false)
+        public static let service = APIService<Response>(id: "Search_MetaSearchProviders", tag: "Search", method: "GET", path: "/Search/Meta/SearchProviders", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

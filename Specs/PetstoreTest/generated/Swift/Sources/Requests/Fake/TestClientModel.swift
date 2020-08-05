@@ -10,7 +10,7 @@ extension PetstoreTest.Fake {
     /** To test "client" model */
     public enum TestClientModel {
 
-        public static let service = APIService<Response>(id: "testClientModel", tag: "fake", method: "PATCH", path: "/fake", hasBody: true)
+        public static let service = APIService<Response>(id: "testClientModel", tag: "fake", method: "PATCH", path: "/fake", hasBody: true, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

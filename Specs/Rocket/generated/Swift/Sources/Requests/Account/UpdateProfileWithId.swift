@@ -12,7 +12,7 @@ This supports partial updates so you can send just the properties you wish to up
  */
     public enum UpdateProfileWithId {
 
-        public static let service = APIService<Response>(id: "updateProfileWithId", tag: "account", method: "PATCH", path: "/account/profiles/{id}", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scopes: ["Catalog"]))
+        public static let service = APIService<Response>(id: "updateProfileWithId", tag: "account", method: "PATCH", path: "/account/profiles/{id}", hasBody: true, securityRequirements: [SecurityRequirement(type: "accountAuth", scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

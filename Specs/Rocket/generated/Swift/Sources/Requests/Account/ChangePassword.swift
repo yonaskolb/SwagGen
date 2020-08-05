@@ -10,7 +10,7 @@ extension Rocket.Account {
     /** Change the password of an account. */
     public enum ChangePassword {
 
-        public static let service = APIService<Response>(id: "changePassword", tag: "account", method: "PUT", path: "/account/password", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scopes: ["Settings"]))
+        public static let service = APIService<Response>(id: "changePassword", tag: "account", method: "PUT", path: "/account/password", hasBody: true, securityRequirements: [SecurityRequirement(type: "accountAuth", scopes: ["Settings"])])
 
         public final class Request: APIRequest<Response> {
 

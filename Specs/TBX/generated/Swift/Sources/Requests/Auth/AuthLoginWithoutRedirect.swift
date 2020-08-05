@@ -10,7 +10,7 @@ extension TBX.Auth {
     /** This API is deprecated please use "login" without send the URL instead */
     public enum AuthLoginWithoutRedirect {
 
-        public static let service = APIService<Response>(id: "auth.loginWithoutRedirect", tag: "auth", method: "GET", path: "/auth/{cp}/loginWithoutRedirect.html", hasBody: false)
+        public static let service = APIService<Response>(id: "auth.loginWithoutRedirect", tag: "auth", method: "GET", path: "/auth/{cp}/loginWithoutRedirect.html", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

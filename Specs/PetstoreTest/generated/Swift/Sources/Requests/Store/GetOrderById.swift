@@ -14,7 +14,7 @@ extension PetstoreTest.Store {
     */
     public enum GetOrderById {
 
-        public static let service = APIService<Response>(id: "getOrderById", tag: "store", method: "GET", path: "/store/order/{order_id}", hasBody: false)
+        public static let service = APIService<Response>(id: "getOrderById", tag: "store", method: "GET", path: "/store/order/{order_id}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

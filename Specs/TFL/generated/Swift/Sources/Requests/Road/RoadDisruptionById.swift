@@ -10,7 +10,7 @@ extension TFL.Road {
     /** Gets a list of active disruptions filtered by disruption Ids. */
     public enum RoadDisruptionById {
 
-        public static let service = APIService<Response>(id: "Road_DisruptionById", tag: "Road", method: "GET", path: "/Road/all/Disruption/{disruptionIds}", hasBody: false)
+        public static let service = APIService<Response>(id: "Road_DisruptionById", tag: "Road", method: "GET", path: "/Road/all/Disruption/{disruptionIds}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

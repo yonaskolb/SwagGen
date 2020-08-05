@@ -10,7 +10,7 @@ extension TFL.Line {
     /** Gets a list of valid disruption categories */
     public enum LineMetaDisruptionCategories {
 
-        public static let service = APIService<Response>(id: "Line_MetaDisruptionCategories", tag: "Line", method: "GET", path: "/Line/Meta/DisruptionCategories", hasBody: false)
+        public static let service = APIService<Response>(id: "Line_MetaDisruptionCategories", tag: "Line", method: "GET", path: "/Line/Meta/DisruptionCategories", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

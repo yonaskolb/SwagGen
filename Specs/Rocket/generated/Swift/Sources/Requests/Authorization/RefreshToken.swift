@@ -10,7 +10,7 @@ extension Rocket.Authorization {
     /** Refresh an account or profile level authorization token which is marked as refreshable. */
     public enum RefreshToken {
 
-        public static let service = APIService<Response>(id: "refreshToken", tag: "authorization", method: "POST", path: "/authorization/refresh", hasBody: true)
+        public static let service = APIService<Response>(id: "refreshToken", tag: "authorization", method: "POST", path: "/authorization/refresh", hasBody: true, securityRequirements: [])
 
         /** If you specify a cookie type then a content filter cookie will be returned
         along with the token(s). This is only really intended for web based clients which

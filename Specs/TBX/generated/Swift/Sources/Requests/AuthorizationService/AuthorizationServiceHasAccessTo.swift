@@ -9,7 +9,7 @@ extension TBX.AuthorizationService {
 
     public enum AuthorizationServiceHasAccessTo {
 
-        public static let service = APIService<Response>(id: "AuthorizationService.hasAccessTo", tag: "AuthorizationService", method: "GET", path: "/AuthorizationServices/hasAccessTo", hasBody: false)
+        public static let service = APIService<Response>(id: "AuthorizationService.hasAccessTo", tag: "AuthorizationService", method: "GET", path: "/AuthorizationServices/hasAccessTo", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

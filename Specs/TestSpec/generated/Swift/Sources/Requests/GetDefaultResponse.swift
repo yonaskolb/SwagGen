@@ -10,7 +10,7 @@ extension TestSpec {
     /** operation with no responses */
     public enum GetDefaultResponse {
 
-        public static let service = APIService<Response>(id: "getDefaultResponse", tag: "", method: "GET", path: "/default-response", hasBody: false, securityRequirement: SecurityRequirement(type: "test_auth", scopes: ["read"]))
+        public static let service = APIService<Response>(id: "getDefaultResponse", tag: "", method: "GET", path: "/default-response", hasBody: false, securityRequirements: [SecurityRequirement(type: "test_auth", scopes: ["read"])])
 
         public final class Request: APIRequest<Response> {
 

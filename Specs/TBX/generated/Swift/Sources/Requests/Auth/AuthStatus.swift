@@ -10,7 +10,7 @@ extension TBX.Auth {
     /** Check user device status */
     public enum AuthStatus {
 
-        public static let service = APIService<Response>(id: "auth.status", tag: "auth", method: "GET", path: "/auth/{cp}/status.json", hasBody: false)
+        public static let service = APIService<Response>(id: "auth.status", tag: "auth", method: "GET", path: "/auth/{cp}/status.json", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

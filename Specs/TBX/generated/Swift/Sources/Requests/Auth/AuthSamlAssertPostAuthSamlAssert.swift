@@ -10,7 +10,7 @@ extension TBX.Auth {
     /** Return Url from SAML login */
     public enum AuthSamlAssertPostAuthSamlAssert {
 
-        public static let service = APIService<Response>(id: "auth.samlAssert__post_auth_saml_assert", tag: "auth", method: "POST", path: "/auth/saml/assert", hasBody: true)
+        public static let service = APIService<Response>(id: "auth.samlAssert__post_auth_saml_assert", tag: "auth", method: "POST", path: "/auth/saml/assert", hasBody: true, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

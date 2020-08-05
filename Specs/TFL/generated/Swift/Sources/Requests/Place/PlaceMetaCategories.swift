@@ -10,7 +10,7 @@ extension TFL.Place {
     /** Gets a list of all of the available place property categories and keys. */
     public enum PlaceMetaCategories {
 
-        public static let service = APIService<Response>(id: "Place_MetaCategories", tag: "Place", method: "GET", path: "/Place/Meta/Categories", hasBody: false)
+        public static let service = APIService<Response>(id: "Place_MetaCategories", tag: "Place", method: "GET", path: "/Place/Meta/Categories", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

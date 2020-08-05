@@ -10,7 +10,7 @@ extension TFL.Occupancy {
     /** Gets the occupancy for all car parks that have occupancy data */
     public enum GetOccupants {
 
-        public static let service = APIService<Response>(id: "getOccupants", tag: "Occupancy", method: "GET", path: "/Occupancy/CarPark", hasBody: false)
+        public static let service = APIService<Response>(id: "getOccupants", tag: "Occupancy", method: "GET", path: "/Occupancy/CarPark", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

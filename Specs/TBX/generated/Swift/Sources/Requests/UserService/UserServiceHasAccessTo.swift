@@ -10,7 +10,7 @@ extension TBX.UserService {
     /** Check if the Customer has access to execute an action with the URN */
     public enum UserServiceHasAccessTo {
 
-        public static let service = APIService<Response>(id: "UserService.hasAccessTo", tag: "UserService", method: "GET", path: "/UserServices/{customer}/hasAccessTo", hasBody: false)
+        public static let service = APIService<Response>(id: "UserService.hasAccessTo", tag: "UserService", method: "GET", path: "/UserServices/{customer}/hasAccessTo", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

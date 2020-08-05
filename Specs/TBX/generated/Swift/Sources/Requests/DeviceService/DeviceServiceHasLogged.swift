@@ -9,7 +9,7 @@ extension TBX.DeviceService {
 
     public enum DeviceServiceHasLogged {
 
-        public static let service = APIService<Response>(id: "DeviceService.hasLogged", tag: "DeviceService", method: "GET", path: "/DeviceServices/hasLogged", hasBody: false)
+        public static let service = APIService<Response>(id: "DeviceService.hasLogged", tag: "DeviceService", method: "GET", path: "/DeviceServices/hasLogged", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

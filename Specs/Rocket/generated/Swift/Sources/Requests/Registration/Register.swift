@@ -19,7 +19,7 @@ email address. This confirmation is done via the /verify-email endpoint.
  */
     public enum Register {
 
-        public static let service = APIService<Response>(id: "register", tag: "registration", method: "POST", path: "/register", hasBody: true)
+        public static let service = APIService<Response>(id: "register", tag: "registration", method: "POST", path: "/register", hasBody: true, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

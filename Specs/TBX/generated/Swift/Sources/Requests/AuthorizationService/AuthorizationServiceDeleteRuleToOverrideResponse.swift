@@ -10,7 +10,7 @@ extension TBX.AuthorizationService {
     /** Delete a rule to override the IDP response's */
     public enum AuthorizationServiceDeleteRuleToOverrideResponse {
 
-        public static let service = APIService<Response>(id: "AuthorizationService.deleteRuleToOverrideResponse", tag: "AuthorizationService", method: "DELETE", path: "/AuthorizationServices/overrideRule/{ruleId}", hasBody: false)
+        public static let service = APIService<Response>(id: "AuthorizationService.deleteRuleToOverrideResponse", tag: "AuthorizationService", method: "DELETE", path: "/AuthorizationServices/overrideRule/{ruleId}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

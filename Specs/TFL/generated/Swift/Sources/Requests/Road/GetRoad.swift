@@ -10,7 +10,7 @@ extension TFL.Road {
     /** Gets the road with the specified id (e.g. A1) */
     public enum GetRoad {
 
-        public static let service = APIService<Response>(id: "getRoad", tag: "Road", method: "GET", path: "/Road/{ids}", hasBody: false)
+        public static let service = APIService<Response>(id: "getRoad", tag: "Road", method: "GET", path: "/Road/{ids}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

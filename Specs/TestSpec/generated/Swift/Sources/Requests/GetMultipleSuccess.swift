@@ -10,7 +10,7 @@ extension TestSpec {
     /** operation with multiple success responses */
     public enum GetMultipleSuccess {
 
-        public static let service = APIService<Response>(id: "getMultipleSuccess", tag: "", method: "GET", path: "/multiple-success", hasBody: false, securityRequirement: SecurityRequirement(type: "test_auth", scopes: ["write"]))
+        public static let service = APIService<Response>(id: "getMultipleSuccess", tag: "", method: "GET", path: "/multiple-success", hasBody: false, securityRequirements: [SecurityRequirement(type: "test_auth", scopes: ["write"])])
 
         public final class Request: APIRequest<Response> {
 

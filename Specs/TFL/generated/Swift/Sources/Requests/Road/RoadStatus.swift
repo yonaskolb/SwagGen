@@ -10,7 +10,7 @@ extension TFL.Road {
     /** Gets the specified roads with the status aggregated over the date range specified, or now until the end of today if no dates are passed. */
     public enum RoadStatus {
 
-        public static let service = APIService<Response>(id: "Road_Status", tag: "Road", method: "GET", path: "/Road/{ids}/Status", hasBody: false)
+        public static let service = APIService<Response>(id: "Road_Status", tag: "Road", method: "GET", path: "/Road/{ids}/Status", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

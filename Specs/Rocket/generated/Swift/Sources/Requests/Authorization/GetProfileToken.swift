@@ -14,7 +14,7 @@ before access is granted.
  */
     public enum GetProfileToken {
 
-        public static let service = APIService<Response>(id: "getProfileToken", tag: "authorization", method: "POST", path: "/authorization/profile", hasBody: true, securityRequirement: SecurityRequirement(type: "accountAuth", scopes: ["Catalog"]))
+        public static let service = APIService<Response>(id: "getProfileToken", tag: "authorization", method: "POST", path: "/authorization/profile", hasBody: true, securityRequirements: [SecurityRequirement(type: "accountAuth", scopes: ["Catalog"])])
 
         /** The scope(s) of the token(s) required. */
         public enum Scopes: String, Codable, Equatable, CaseIterable {

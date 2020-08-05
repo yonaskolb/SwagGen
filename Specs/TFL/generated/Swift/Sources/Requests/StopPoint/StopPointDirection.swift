@@ -10,7 +10,7 @@ extension TFL.StopPoint {
     /** Returns the canonical direction, "inbound" or "outbound", for a given pair of stop point Ids in the direction from -> to. */
     public enum StopPointDirection {
 
-        public static let service = APIService<Response>(id: "StopPoint_Direction", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/DirectionTo/{toStopPointId}", hasBody: false)
+        public static let service = APIService<Response>(id: "StopPoint_Direction", tag: "StopPoint", method: "GET", path: "/StopPoint/{id}/DirectionTo/{toStopPointId}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

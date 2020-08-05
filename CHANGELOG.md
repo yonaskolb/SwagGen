@@ -4,6 +4,7 @@
 
 ### Added
 - MediaItem schema is now defined as a possible reference in order to generate models of each server response. #239 @alexruperez
+- Support multiple authentication types per operation #222 @malteburkert
 
 ### Fixed
 - Fixed inline allOf group generation
@@ -16,7 +17,6 @@
 ### Fixed
 - Fixed `'??' has non-optional type` warning #207
 - Fixed incorrect replacements in server variables #209
-- Fixed missing support for multiple authentication types per operation #214 #222 @malteburkert
 - Fixed nullable references not being generated as optionals #216 @alephao
 
 ### Internal

@@ -73,12 +73,7 @@ class ComponentResolver {
     }
 
     private func resolve(_ mediaItem: MediaItem) {
-        switch mediaItem.schema {
-        case .reference(let schemaReference):
-            resolveReference(schemaReference, objects: components.schemas)
-        case .value(let schema):
-            resolve(schema)
-        }
+        resolve(mediaItem.schema)
     }
 
     private func resolve(_ content: Content) {

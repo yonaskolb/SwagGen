@@ -14,42 +14,9 @@ extension Rocket.Account {
 
         public final class Request: APIRequest<Response> {
 
-            /** Change the pin of an account. */
-            public class Body: APIModel {
+            public var body: ChangePinRequest
 
-                /** The new pin to set. */
-                public var pin: String
-
-                public init(pin: String) {
-                    self.pin = pin
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    pin = try container.decode("pin")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(pin, forKey: "pin")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Body else { return false }
-                  guard self.pin == object.pin else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Body, rhs: Body) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            public var body: Body
-
-            public init(body: Body, encoder: RequestEncoder? = nil) {
+            public init(body: ChangePinRequest, encoder: RequestEncoder? = nil) {
                 self.body = body
                 super.init(service: ChangePin.service) { defaultEncoder in
                     return try (encoder ?? defaultEncoder).encode(body)
@@ -58,273 +25,56 @@ extension Rocket.Account {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-
-            /** Change the pin of an account. */
-            public class Status400: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status400 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status400, rhs: Status400) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Change the pin of an account. */
-            public class Status401: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status401 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status401, rhs: Status401) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Change the pin of an account. */
-            public class Status403: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status403 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status403, rhs: Status403) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Change the pin of an account. */
-            public class Status404: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status404 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status404, rhs: Status404) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Change the pin of an account. */
-            public class Status500: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status500 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status500, rhs: Status500) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Change the pin of an account. */
-            public class DefaultResponse: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? DefaultResponse else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: DefaultResponse, rhs: DefaultResponse) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
             public typealias SuccessType = Void
 
             /** OK */
             case status204
 
             /** Bad request. */
-            case status400(Status400)
+            case status400(ServiceError)
 
             /** Invalid access token. */
-            case status401(Status401)
+            case status401(ServiceError)
 
             /** Forbidden. */
-            case status403(Status403)
+            case status403(ServiceError)
 
             /** Not found. */
-            case status404(Status404)
+            case status404(ServiceError)
 
             /** Internal server error. */
-            case status500(Status500)
+            case status500(ServiceError)
 
             /** Service error. */
-            case defaultResponse(statusCode: Int, DefaultResponse)
+            case defaultResponse(statusCode: Int, ServiceError)
 
             public var success: Void? {
                 switch self {
                 case .status204: return ()
                 default: return nil
+                }
+            }
+
+            public var failure: ServiceError? {
+                switch self {
+                case .status400(let response): return response
+                case .status401(let response): return response
+                case .status403(let response): return response
+                case .status404(let response): return response
+                case .status500(let response): return response
+                case .defaultResponse(_, let response): return response
+                default: return nil
+                }
+            }
+
+            /// either success or failure value. Success is anything in the 200..<300 status code range
+            public var responseResult: APIResponseResult<Void, ServiceError> {
+                if let successValue = success {
+                    return .success(successValue)
+                } else if let failureValue = failure {
+                    return .failure(failureValue)
+                } else {
+                    fatalError("Response does not have success or failure response")
                 }
             }
 
@@ -367,12 +117,12 @@ extension Rocket.Account {
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 204: self = .status204
-                case 400: self = try .status400(decoder.decode(Status400.self, from: data))
-                case 401: self = try .status401(decoder.decode(Status401.self, from: data))
-                case 403: self = try .status403(decoder.decode(Status403.self, from: data))
-                case 404: self = try .status404(decoder.decode(Status404.self, from: data))
-                case 500: self = try .status500(decoder.decode(Status500.self, from: data))
-                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(DefaultResponse.self, from: data))
+                case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))
+                case 401: self = try .status401(decoder.decode(ServiceError.self, from: data))
+                case 403: self = try .status403(decoder.decode(ServiceError.self, from: data))
+                case 404: self = try .status404(decoder.decode(ServiceError.self, from: data))
+                case 500: self = try .status500(decoder.decode(ServiceError.self, from: data))
+                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ServiceError.self, from: data))
                 }
             }
 

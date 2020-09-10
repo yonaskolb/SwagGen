@@ -45,79 +45,12 @@ extension TFL.Vehicle {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-
-            public class Status200: APIModel {
-
-                public enum Compliance: String, Codable, Equatable, CaseIterable {
-                    case notCompliant = "NotCompliant"
-                    case compliant = "Compliant"
-                    case exempt = "Exempt"
-                }
-
-                public var colour: String?
-
-                public var compliance: Compliance?
-
-                public var make: String?
-
-                public var model: String?
-
-                public var type: String?
-
-                public var vrm: String?
-
-                public init(colour: String? = nil, compliance: Compliance? = nil, make: String? = nil, model: String? = nil, type: String? = nil, vrm: String? = nil) {
-                    self.colour = colour
-                    self.compliance = compliance
-                    self.make = make
-                    self.model = model
-                    self.type = type
-                    self.vrm = vrm
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    colour = try container.decodeIfPresent("colour")
-                    compliance = try container.decodeIfPresent("compliance")
-                    make = try container.decodeIfPresent("make")
-                    model = try container.decodeIfPresent("model")
-                    type = try container.decodeIfPresent("type")
-                    vrm = try container.decodeIfPresent("vrm")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encodeIfPresent(colour, forKey: "colour")
-                    try container.encodeIfPresent(compliance, forKey: "compliance")
-                    try container.encodeIfPresent(make, forKey: "make")
-                    try container.encodeIfPresent(model, forKey: "model")
-                    try container.encodeIfPresent(type, forKey: "type")
-                    try container.encodeIfPresent(vrm, forKey: "vrm")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status200 else { return false }
-                  guard self.colour == object.colour else { return false }
-                  guard self.compliance == object.compliance else { return false }
-                  guard self.make == object.make else { return false }
-                  guard self.model == object.model else { return false }
-                  guard self.type == object.type else { return false }
-                  guard self.vrm == object.vrm else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status200, rhs: Status200) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-            public typealias SuccessType = Status200
+            public typealias SuccessType = EmissionsSurchargeVehicle
 
             /** OK */
-            case status200(Status200)
+            case status200(EmissionsSurchargeVehicle)
 
-            public var success: Status200? {
+            public var success: EmissionsSurchargeVehicle? {
                 switch self {
                 case .status200(let response): return response
                 }
@@ -143,7 +76,7 @@ extension TFL.Vehicle {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
+                case 200: self = try .status200(decoder.decode(EmissionsSurchargeVehicle.self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

@@ -51,91 +51,12 @@ extension TFL.Line {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-
-            public class Status200: APIModel {
-
-                public var direction: String?
-
-                public var disambiguation: Disambiguation?
-
-                public var lineId: String?
-
-                public var lineName: String?
-
-                public var pdfUrl: String?
-
-                public var stations: [MatchedStop]?
-
-                public var statusErrorMessage: String?
-
-                public var stops: [MatchedStop]?
-
-                public var timetable: Timetable?
-
-                public init(direction: String? = nil, disambiguation: Disambiguation? = nil, lineId: String? = nil, lineName: String? = nil, pdfUrl: String? = nil, stations: [MatchedStop]? = nil, statusErrorMessage: String? = nil, stops: [MatchedStop]? = nil, timetable: Timetable? = nil) {
-                    self.direction = direction
-                    self.disambiguation = disambiguation
-                    self.lineId = lineId
-                    self.lineName = lineName
-                    self.pdfUrl = pdfUrl
-                    self.stations = stations
-                    self.statusErrorMessage = statusErrorMessage
-                    self.stops = stops
-                    self.timetable = timetable
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    direction = try container.decodeIfPresent("direction")
-                    disambiguation = try container.decodeIfPresent("disambiguation")
-                    lineId = try container.decodeIfPresent("lineId")
-                    lineName = try container.decodeIfPresent("lineName")
-                    pdfUrl = try container.decodeIfPresent("pdfUrl")
-                    stations = try container.decodeArrayIfPresent("stations")
-                    statusErrorMessage = try container.decodeIfPresent("statusErrorMessage")
-                    stops = try container.decodeArrayIfPresent("stops")
-                    timetable = try container.decodeIfPresent("timetable")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encodeIfPresent(direction, forKey: "direction")
-                    try container.encodeIfPresent(disambiguation, forKey: "disambiguation")
-                    try container.encodeIfPresent(lineId, forKey: "lineId")
-                    try container.encodeIfPresent(lineName, forKey: "lineName")
-                    try container.encodeIfPresent(pdfUrl, forKey: "pdfUrl")
-                    try container.encodeIfPresent(stations, forKey: "stations")
-                    try container.encodeIfPresent(statusErrorMessage, forKey: "statusErrorMessage")
-                    try container.encodeIfPresent(stops, forKey: "stops")
-                    try container.encodeIfPresent(timetable, forKey: "timetable")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status200 else { return false }
-                  guard self.direction == object.direction else { return false }
-                  guard self.disambiguation == object.disambiguation else { return false }
-                  guard self.lineId == object.lineId else { return false }
-                  guard self.lineName == object.lineName else { return false }
-                  guard self.pdfUrl == object.pdfUrl else { return false }
-                  guard self.stations == object.stations else { return false }
-                  guard self.statusErrorMessage == object.statusErrorMessage else { return false }
-                  guard self.stops == object.stops else { return false }
-                  guard self.timetable == object.timetable else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status200, rhs: Status200) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-            public typealias SuccessType = Status200
+            public typealias SuccessType = TimetableResponse
 
             /** OK */
-            case status200(Status200)
+            case status200(TimetableResponse)
 
-            public var success: Status200? {
+            public var success: TimetableResponse? {
                 switch self {
                 case .status200(let response): return response
                 }
@@ -161,7 +82,7 @@ extension TFL.Line {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
+                case 200: self = try .status200(decoder.decode(TimetableResponse.self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

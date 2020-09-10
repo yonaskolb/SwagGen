@@ -3,7 +3,6 @@
 ## Next Version
 
 ### Added
-- MediaItem schema is now defined as a possible reference in order to generate models of each server response. #239 @alexruperez
 - Support multiple authentication types per operation #222 @malteburkert
 
 ### Fixed

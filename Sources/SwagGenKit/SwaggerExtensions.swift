@@ -298,10 +298,10 @@ extension Schema {
 extension Content {
 
     var defaultSchema: Schema? {
-        return getMediaItem(.json)?.schema.value ?? mediaItems.values.first?.schema.value
+        return getMediaItem(.json)?.schema ?? mediaItems.values.first?.schema
     }
 
     var containsFile: Bool {
-        return mediaItems.values.contains { $0.schema.value.properties.contains { $0.schema.isFile } }
+        return mediaItems.values.contains { $0.schema.properties.contains { $0.schema.isFile } }
     }
 }

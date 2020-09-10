@@ -63,293 +63,56 @@ extension TBX.UserService {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-
-            public class Status200: APIModel {
-
-                /** Target urn */
-                public var urn: String
-
-                /** This tell if the client has access to the request */
-                public var access: Bool
-
-                /** This is for know if the client has a TryAndBuy */
-                public var isTryandbuy: Bool
-
-                /** This is for know from where us get the response
-            Options: CACHE_ACCESS / IDP_ACCESS / ACTIVITY_ACCESS / PERMISSION_ACCESS / ETIMEDOUT / IDP_ERROR */
-                public var reason: String
-
-                public var error: ErrorObject?
-
-                /** If the action is PPV this is the date on the PPV will expire */
-                public var expiration: DateTime?
-
-                /** The response received from the IDP */
-                public var idpAccess: Bool?
-
-                public init(urn: String, access: Bool, isTryandbuy: Bool, reason: String, error: ErrorObject? = nil, expiration: DateTime? = nil, idpAccess: Bool? = nil) {
-                    self.urn = urn
-                    self.access = access
-                    self.isTryandbuy = isTryandbuy
-                    self.reason = reason
-                    self.error = error
-                    self.expiration = expiration
-                    self.idpAccess = idpAccess
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    urn = try container.decode("urn")
-                    access = try container.decode("access")
-                    isTryandbuy = try container.decode("is_tryandbuy")
-                    reason = try container.decode("reason")
-                    error = try container.decodeIfPresent("error")
-                    expiration = try container.decodeIfPresent("expiration")
-                    idpAccess = try container.decodeIfPresent("idp_access")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(urn, forKey: "urn")
-                    try container.encode(access, forKey: "access")
-                    try container.encode(isTryandbuy, forKey: "is_tryandbuy")
-                    try container.encode(reason, forKey: "reason")
-                    try container.encodeIfPresent(error, forKey: "error")
-                    try container.encodeIfPresent(expiration, forKey: "expiration")
-                    try container.encodeIfPresent(idpAccess, forKey: "idp_access")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status200 else { return false }
-                  guard self.urn == object.urn else { return false }
-                  guard self.access == object.access else { return false }
-                  guard self.isTryandbuy == object.isTryandbuy else { return false }
-                  guard self.reason == object.reason else { return false }
-                  guard self.error == object.error else { return false }
-                  guard self.expiration == object.expiration else { return false }
-                  guard self.idpAccess == object.idpAccess else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status200, rhs: Status200) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            public class Status400: APIModel {
-
-                public var error: ErrorObject
-
-                public init(error: ErrorObject) {
-                    self.error = error
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    error = try container.decode("error")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(error, forKey: "error")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status400 else { return false }
-                  guard self.error == object.error else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status400, rhs: Status400) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            public class Status401: APIModel {
-
-                public var error: ErrorObject
-
-                public init(error: ErrorObject) {
-                    self.error = error
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    error = try container.decode("error")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(error, forKey: "error")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status401 else { return false }
-                  guard self.error == object.error else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status401, rhs: Status401) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            public class Status404: APIModel {
-
-                public var error: ErrorObject
-
-                public init(error: ErrorObject) {
-                    self.error = error
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    error = try container.decode("error")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(error, forKey: "error")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status404 else { return false }
-                  guard self.error == object.error else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status404, rhs: Status404) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            public class Status408: APIModel {
-
-                public var error: ErrorObject
-
-                public init(error: ErrorObject) {
-                    self.error = error
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    error = try container.decode("error")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(error, forKey: "error")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status408 else { return false }
-                  guard self.error == object.error else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status408, rhs: Status408) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            public class Status410: APIModel {
-
-                public var error: ErrorObject
-
-                public init(error: ErrorObject) {
-                    self.error = error
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    error = try container.decode("error")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(error, forKey: "error")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status410 else { return false }
-                  guard self.error == object.error else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status410, rhs: Status410) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            public class Status424: APIModel {
-
-                public var error: ErrorObject
-
-                public init(error: ErrorObject) {
-                    self.error = error
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    error = try container.decode("error")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(error, forKey: "error")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status424 else { return false }
-                  guard self.error == object.error else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status424, rhs: Status424) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-            public typealias SuccessType = Status200
+            public typealias SuccessType = HasAccessToObject
 
             /** Request was successful */
-            case status200(Status200)
+            case status200(HasAccessToObject)
 
             /** Bad Request  */
-            case status400(Status400)
+            case status400(ResponseError)
 
             /** Unauthorized  */
-            case status401(Status401)
+            case status401(ResponseError)
 
             /** Customer or Device not Found */
-            case status404(Status404)
+            case status404(ResponseError)
 
             /** The IDP took too long to respond */
-            case status408(Status408)
+            case status408(ResponseError)
 
             /** Device was Logged Out or the customer not longer exists */
-            case status410(Status410)
+            case status410(ResponseError)
 
             /** The IDP return an error or the received response from IDP is invalid */
-            case status424(Status424)
+            case status424(ResponseError)
 
-            public var success: Status200? {
+            public var success: HasAccessToObject? {
                 switch self {
                 case .status200(let response): return response
                 default: return nil
+                }
+            }
+
+            public var failure: ResponseError? {
+                switch self {
+                case .status400(let response): return response
+                case .status401(let response): return response
+                case .status404(let response): return response
+                case .status408(let response): return response
+                case .status410(let response): return response
+                case .status424(let response): return response
+                default: return nil
+                }
+            }
+
+            /// either success or failure value. Success is anything in the 200..<300 status code range
+            public var responseResult: APIResponseResult<HasAccessToObject, ResponseError> {
+                if let successValue = success {
+                    return .success(successValue)
+                } else if let failureValue = failure {
+                    return .failure(failureValue)
+                } else {
+                    fatalError("Response does not have success or failure response")
                 }
             }
 
@@ -391,13 +154,13 @@ extension TBX.UserService {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
-                case 400: self = try .status400(decoder.decode(Status400.self, from: data))
-                case 401: self = try .status401(decoder.decode(Status401.self, from: data))
-                case 404: self = try .status404(decoder.decode(Status404.self, from: data))
-                case 408: self = try .status408(decoder.decode(Status408.self, from: data))
-                case 410: self = try .status410(decoder.decode(Status410.self, from: data))
-                case 424: self = try .status424(decoder.decode(Status424.self, from: data))
+                case 200: self = try .status200(decoder.decode(HasAccessToObject.self, from: data))
+                case 400: self = try .status400(decoder.decode(ResponseError.self, from: data))
+                case 401: self = try .status401(decoder.decode(ResponseError.self, from: data))
+                case 404: self = try .status404(decoder.decode(ResponseError.self, from: data))
+                case 408: self = try .status408(decoder.decode(ResponseError.self, from: data))
+                case 410: self = try .status410(decoder.decode(ResponseError.self, from: data))
+                case 424: self = try .status424(decoder.decode(ResponseError.self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

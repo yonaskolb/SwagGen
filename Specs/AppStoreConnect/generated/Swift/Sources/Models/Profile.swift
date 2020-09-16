@@ -175,31 +175,31 @@ public class Profile: APIModel {
 
                 public var related: String?
 
-                public var `self`: String?
+                public var _self: String?
 
-                public init(related: String? = nil, `self`: String? = nil) {
+                public init(related: String? = nil, _self: String? = nil) {
                     self.related = related
-                    self.`self` = `self`
+                    self._self = _self
                 }
 
                 public required init(from decoder: Decoder) throws {
                     let container = try decoder.container(keyedBy: StringCodingKey.self)
 
                     related = try container.decodeIfPresent("related")
-                    `self` = try container.decodeIfPresent("self")
+                    _self = try container.decodeIfPresent("self")
                 }
 
                 public func encode(to encoder: Encoder) throws {
                     var container = encoder.container(keyedBy: StringCodingKey.self)
 
                     try container.encodeIfPresent(related, forKey: "related")
-                    try container.encodeIfPresent(`self`, forKey: "self")
+                    try container.encodeIfPresent(_self, forKey: "self")
                 }
 
                 public func isEqual(to object: Any?) -> Bool {
                   guard let object = object as? Links else { return false }
                   guard self.related == object.related else { return false }
-                  guard self.`self` == object.`self` else { return false }
+                  guard self._self == object._self else { return false }
                   return true
                 }
 
@@ -292,31 +292,31 @@ public class Profile: APIModel {
 
                 public var related: String?
 
-                public var `self`: String?
+                public var _self: String?
 
-                public init(related: String? = nil, `self`: String? = nil) {
+                public init(related: String? = nil, _self: String? = nil) {
                     self.related = related
-                    self.`self` = `self`
+                    self._self = _self
                 }
 
                 public required init(from decoder: Decoder) throws {
                     let container = try decoder.container(keyedBy: StringCodingKey.self)
 
                     related = try container.decodeIfPresent("related")
-                    `self` = try container.decodeIfPresent("self")
+                    _self = try container.decodeIfPresent("self")
                 }
 
                 public func encode(to encoder: Encoder) throws {
                     var container = encoder.container(keyedBy: StringCodingKey.self)
 
                     try container.encodeIfPresent(related, forKey: "related")
-                    try container.encodeIfPresent(`self`, forKey: "self")
+                    try container.encodeIfPresent(_self, forKey: "self")
                 }
 
                 public func isEqual(to object: Any?) -> Bool {
                   guard let object = object as? Links else { return false }
                   guard self.related == object.related else { return false }
-                  guard self.`self` == object.`self` else { return false }
+                  guard self._self == object._self else { return false }
                   return true
                 }
 
@@ -413,31 +413,31 @@ public class Profile: APIModel {
 
                 public var related: String?
 
-                public var `self`: String?
+                public var _self: String?
 
-                public init(related: String? = nil, `self`: String? = nil) {
+                public init(related: String? = nil, _self: String? = nil) {
                     self.related = related
-                    self.`self` = `self`
+                    self._self = _self
                 }
 
                 public required init(from decoder: Decoder) throws {
                     let container = try decoder.container(keyedBy: StringCodingKey.self)
 
                     related = try container.decodeIfPresent("related")
-                    `self` = try container.decodeIfPresent("self")
+                    _self = try container.decodeIfPresent("self")
                 }
 
                 public func encode(to encoder: Encoder) throws {
                     var container = encoder.container(keyedBy: StringCodingKey.self)
 
                     try container.encodeIfPresent(related, forKey: "related")
-                    try container.encodeIfPresent(`self`, forKey: "self")
+                    try container.encodeIfPresent(_self, forKey: "self")
                 }
 
                 public func isEqual(to object: Any?) -> Bool {
                   guard let object = object as? Links else { return false }
                   guard self.related == object.related else { return false }
-                  guard self.`self` == object.`self` else { return false }
+                  guard self._self == object._self else { return false }
                   return true
                 }
 

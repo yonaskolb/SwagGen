@@ -7,27 +7,27 @@ import Foundation
 
 public class ResourceLinks: APIModel {
 
-    public var `self`: String
+    public var _self: String
 
-    public init(`self`: String) {
-        self.`self` = `self`
+    public init(_self: String) {
+        self._self = _self
     }
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
-        `self` = try container.decode("self")
+        _self = try container.decode("self")
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: StringCodingKey.self)
 
-        try container.encode(`self`, forKey: "self")
+        try container.encode(_self, forKey: "self")
     }
 
     public func isEqual(to object: Any?) -> Bool {
       guard let object = object as? ResourceLinks else { return false }
-      guard self.`self` == object.`self` else { return false }
+      guard self._self == object._self else { return false }
       return true
     }
 

@@ -27,11 +27,11 @@ public class CodeFormatter {
         propertyNames = templateConfig.options["propertyNames"] as? [String: String] ?? [:]
     }
 
-    var disallowedNames: [String] {
+    var escapedNames: [String] {
         return []
     }
 
-    var disallowedTypes: [String] {
+    var escapedTypes: [String] {
         return []
     }
 
@@ -529,12 +529,12 @@ public class CodeFormatter {
 
     func escapeName(_ name: String) -> String {
         let string = escapeString(name)
-        return disallowedNames.contains(string) ? getEscapedName(string) : string
+        return escapedNames.contains(string) ? getEscapedName(string) : string
     }
 
     func escapeType(_ type: String) -> String {
         let string = escapeString(type)
-        return disallowedTypes.contains(string) ? getEscapedType(string) : string
+        return escapedTypes.contains(string) ? getEscapedType(string) : string
     }
 
     func getEscapedType(_ type: String) -> String {

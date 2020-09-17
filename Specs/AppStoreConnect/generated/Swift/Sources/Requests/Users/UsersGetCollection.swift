@@ -29,9 +29,9 @@ extension AppStoreConnect.Users {
         /** comma-separated list of sort expressions; resources will be sorted as specified */
         public enum Sort: String, Codable, Equatable, CaseIterable {
             case lastName = "lastName"
-            case lastName = "-lastName"
+            case _lastName = "-lastName"
             case username = "username"
-            case username = "-username"
+            case _username = "-username"
         }
 
         /** the fields to include for returned resources of type users */

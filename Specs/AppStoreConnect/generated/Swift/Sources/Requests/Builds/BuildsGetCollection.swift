@@ -37,11 +37,11 @@ extension AppStoreConnect.Builds {
         /** comma-separated list of sort expressions; resources will be sorted as specified */
         public enum Sort: String, Codable, Equatable, CaseIterable {
             case preReleaseVersion = "preReleaseVersion"
-            case preReleaseVersion = "-preReleaseVersion"
+            case _preReleaseVersion = "-preReleaseVersion"
             case uploadedDate = "uploadedDate"
-            case uploadedDate = "-uploadedDate"
+            case _uploadedDate = "-uploadedDate"
             case version = "version"
-            case version = "-version"
+            case _version = "-version"
         }
 
         /** the fields to include for returned resources of type builds */

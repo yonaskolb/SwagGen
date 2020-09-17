@@ -42,11 +42,11 @@ extension AppStoreConnect.Apps {
         /** comma-separated list of sort expressions; resources will be sorted as specified */
         public enum Sort: String, Codable, Equatable, CaseIterable {
             case bundleId = "bundleId"
-            case bundleId = "-bundleId"
+            case _bundleId = "-bundleId"
             case name = "name"
-            case name = "-name"
+            case _name = "-name"
             case sku = "sku"
-            case sku = "-sku"
+            case _sku = "-sku"
         }
 
         /** the fields to include for returned resources of type apps */

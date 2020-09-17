@@ -29,9 +29,9 @@ extension AppStoreConnect.UserInvitations {
         /** comma-separated list of sort expressions; resources will be sorted as specified */
         public enum Sort: String, Codable, Equatable, CaseIterable {
             case email = "email"
-            case email = "-email"
+            case _email = "-email"
             case lastName = "lastName"
-            case lastName = "-lastName"
+            case _lastName = "-lastName"
         }
 
         /** the fields to include for returned resources of type userInvitations */

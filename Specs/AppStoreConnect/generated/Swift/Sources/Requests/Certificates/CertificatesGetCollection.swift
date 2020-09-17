@@ -27,13 +27,13 @@ extension AppStoreConnect.Certificates {
         /** comma-separated list of sort expressions; resources will be sorted as specified */
         public enum Sort: String, Codable, Equatable, CaseIterable {
             case certificateType = "certificateType"
-            case certificateType = "-certificateType"
+            case _certificateType = "-certificateType"
             case displayName = "displayName"
-            case displayName = "-displayName"
+            case _displayName = "-displayName"
             case id = "id"
-            case id = "-id"
+            case _id = "-id"
             case serialNumber = "serialNumber"
-            case serialNumber = "-serialNumber"
+            case _serialNumber = "-serialNumber"
         }
 
         /** the fields to include for returned resources of type certificates */

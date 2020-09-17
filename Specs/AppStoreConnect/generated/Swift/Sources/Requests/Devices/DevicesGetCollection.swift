@@ -26,15 +26,15 @@ extension AppStoreConnect.Devices {
         /** comma-separated list of sort expressions; resources will be sorted as specified */
         public enum Sort: String, Codable, Equatable, CaseIterable {
             case id = "id"
-            case id = "-id"
+            case _id = "-id"
             case name = "name"
-            case name = "-name"
+            case _name = "-name"
             case platform = "platform"
-            case platform = "-platform"
+            case _platform = "-platform"
             case status = "status"
-            case status = "-status"
+            case _status = "-status"
             case udid = "udid"
-            case udid = "-udid"
+            case _udid = "-udid"
         }
 
         /** the fields to include for returned resources of type devices */

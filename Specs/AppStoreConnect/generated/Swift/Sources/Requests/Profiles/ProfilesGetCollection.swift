@@ -38,13 +38,13 @@ extension AppStoreConnect.Profiles {
         /** comma-separated list of sort expressions; resources will be sorted as specified */
         public enum Sort: String, Codable, Equatable, CaseIterable {
             case id = "id"
-            case id = "-id"
+            case _id = "-id"
             case name = "name"
-            case name = "-name"
+            case _name = "-name"
             case profileState = "profileState"
-            case profileState = "-profileState"
+            case _profileState = "-profileState"
             case profileType = "profileType"
-            case profileType = "-profileType"
+            case _profileType = "-profileType"
         }
 
         /** the fields to include for returned resources of type profiles */

@@ -23,11 +23,11 @@ extension AppStoreConnect.Apps {
         /** comma-separated list of sort expressions; resources will be sorted as specified */
         public enum Sort: String, Codable, Equatable, CaseIterable {
             case inAppPurchaseType = "inAppPurchaseType"
-            case inAppPurchaseType = "-inAppPurchaseType"
+            case _inAppPurchaseType = "-inAppPurchaseType"
             case productId = "productId"
-            case productId = "-productId"
+            case _productId = "-productId"
             case referenceName = "referenceName"
-            case referenceName = "-referenceName"
+            case _referenceName = "-referenceName"
         }
 
         /** the fields to include for returned resources of type inAppPurchases */

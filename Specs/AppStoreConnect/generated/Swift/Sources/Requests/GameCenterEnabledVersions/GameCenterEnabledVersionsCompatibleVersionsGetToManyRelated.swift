@@ -21,7 +21,7 @@ extension AppStoreConnect.GameCenterEnabledVersions {
         /** comma-separated list of sort expressions; resources will be sorted as specified */
         public enum Sort: String, Codable, Equatable, CaseIterable {
             case versionString = "versionString"
-            case versionString = "-versionString"
+            case _versionString = "-versionString"
         }
 
         /** the fields to include for returned resources of type gameCenterEnabledVersions */

@@ -14,13 +14,13 @@ extension AppStoreConnect.BetaGroups {
         /** comma-separated list of sort expressions; resources will be sorted as specified */
         public enum Sort: String, Codable, Equatable, CaseIterable {
             case createdDate = "createdDate"
-            case createdDate = "-createdDate"
+            case _createdDate = "-createdDate"
             case name = "name"
-            case name = "-name"
+            case _name = "-name"
             case publicLinkEnabled = "publicLinkEnabled"
-            case publicLinkEnabled = "-publicLinkEnabled"
+            case _publicLinkEnabled = "-publicLinkEnabled"
             case publicLinkLimit = "publicLinkLimit"
-            case publicLinkLimit = "-publicLinkLimit"
+            case _publicLinkLimit = "-publicLinkLimit"
         }
 
         /** the fields to include for returned resources of type betaGroups */

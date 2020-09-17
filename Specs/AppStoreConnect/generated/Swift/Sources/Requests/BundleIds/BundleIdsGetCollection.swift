@@ -20,15 +20,15 @@ extension AppStoreConnect.BundleIds {
         /** comma-separated list of sort expressions; resources will be sorted as specified */
         public enum Sort: String, Codable, Equatable, CaseIterable {
             case id = "id"
-            case id = "-id"
+            case _id = "-id"
             case identifier = "identifier"
-            case identifier = "-identifier"
+            case _identifier = "-identifier"
             case name = "name"
-            case name = "-name"
+            case _name = "-name"
             case platform = "platform"
-            case platform = "-platform"
+            case _platform = "-platform"
             case seedId = "seedId"
-            case seedId = "-seedId"
+            case _seedId = "-seedId"
         }
 
         /** the fields to include for returned resources of type bundleIds */

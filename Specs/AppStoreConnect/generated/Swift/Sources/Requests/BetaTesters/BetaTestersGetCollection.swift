@@ -20,13 +20,13 @@ extension AppStoreConnect.BetaTesters {
         /** comma-separated list of sort expressions; resources will be sorted as specified */
         public enum Sort: String, Codable, Equatable, CaseIterable {
             case email = "email"
-            case email = "-email"
+            case _email = "-email"
             case firstName = "firstName"
-            case firstName = "-firstName"
+            case _firstName = "-firstName"
             case inviteType = "inviteType"
-            case inviteType = "-inviteType"
+            case _inviteType = "-inviteType"
             case lastName = "lastName"
-            case lastName = "-lastName"
+            case _lastName = "-lastName"
         }
 
         /** the fields to include for returned resources of type betaTesters */

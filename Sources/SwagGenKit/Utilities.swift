@@ -65,7 +65,7 @@ fileprivate let acronymStrings = ["URL"]
 extension String {
 
     private func camelCased(seperator: String) -> String {
-
+        guard !hasPrefix(seperator) else { return self }
         var index = 0
         let components = self.components(separatedBy: seperator)
         if uppercased() == self {

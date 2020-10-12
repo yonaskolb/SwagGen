@@ -33,6 +33,7 @@ public struct Property {
     public let name: String
     public let required: Bool
     public let schema: Schema
+    public let description: String?
 }
 
 public extension Property {
@@ -53,14 +54,14 @@ extension ObjectSchema: JSONObjectConvertible {
 
         requiredProperties = requiredPropertyNames.compactMap { name in
             if let schema = propertiesByName[name] {
-                return Property(name: name, required: true, schema: schema)
+                return Property(name: name, required: true, schema: schema, description: schema.metadata.description)
             }
             return nil
         }
 
         optionalProperties = propertiesByName.compactMap { name, schema in
             if !requiredPropertyNames.contains(name) {
-                return Property(name: name, required: false, schema: schema)
+                return Property(name: name, required: false, schema: schema, description: schema.metadata.description)
             }
             return nil
         }.sorted { $0.name < $1.name }

@@ -4,7 +4,7 @@ public struct Schema {
     public let metadata: Metadata
     public let type: SchemaType
 
-    init(metadata: Metadata, type: SchemaType) {
+    public init(metadata: Metadata, type: SchemaType) {
         self.metadata = metadata
         self.type = type
     }

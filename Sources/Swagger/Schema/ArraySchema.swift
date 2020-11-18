@@ -11,6 +11,18 @@ public struct ArraySchema {
         case single(Schema)
         case multiple([Schema])
     }
+
+    public init(items: ArraySchemaItems,
+                minItems: Int? = nil,
+                maxItems: Int? = nil,
+                additionalItems: Schema? = nil,
+                uniqueItems: Bool = false) {
+        self.items = items
+        self.minItems = minItems
+        self.maxItems = maxItems
+        self.additionalItems = additionalItems
+        self.uniqueItems = uniqueItems
+    }
 }
 
 extension ArraySchema: JSONObjectConvertible {

@@ -4,6 +4,14 @@ public struct StringSchema {
     public let format: StringFormat?
     public let maxLength: Int?
     public let minLength: Int?
+
+    public init(format: StringFormat? = nil,
+                maxLength: Int? = nil,
+                minLength: Int? = nil) {
+        self.format = format
+        self.maxLength = maxLength
+        self.minLength = minLength
+    }
 }
 
 public enum StringFormat: RawRepresentable {

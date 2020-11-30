@@ -11,6 +11,7 @@
 - Added `anyType` option that allows to override `Any` in models
 - Fixed date encoding formatter to conform to RFC3339
 - Fixed `.swift-version` to use Swift 5.2 instead of Swift 4.1 #246
+- Fixed Server is not defined issue #197
 
 ## 4.3.1
 

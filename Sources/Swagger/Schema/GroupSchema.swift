@@ -18,6 +18,12 @@ public struct GroupSchema {
             }
         }
     }
+
+    public init(schemas: [Schema], discriminator: Discriminator? = nil, type: GroupType) {
+        self.schemas = schemas
+        self.discriminator = discriminator
+        self.type = type
+    }
 }
 
 extension GroupSchema {

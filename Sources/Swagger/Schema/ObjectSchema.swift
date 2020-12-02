@@ -33,6 +33,12 @@ public struct Property {
     public let name: String
     public let required: Bool
     public let schema: Schema
+
+    public init(name: String, required: Bool, schema: Schema) {
+        self.name = name
+        self.required = required
+        self.schema = schema
+    }
 }
 
 public extension Property {

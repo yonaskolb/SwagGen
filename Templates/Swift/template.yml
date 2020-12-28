@@ -16,6 +16,7 @@ options:
   codableResponses: false # constrains all responses/model to be Codable
   propertyNames: {} # override property names
   anyType: Any # override Any in generated models
+  numberType: Double # number type without format
   typeAliases:
     ID: UUID
     DateTime: Date

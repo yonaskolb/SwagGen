@@ -112,7 +112,7 @@ public class SwiftFormatter: CodeFormatter {
             }
         case let .number(item):
             guard let format = item.format else {
-                return "Double"
+                return templateConfig.getStringOption("numberType") ?? "Double"
             }
             switch format {
             case .double: return "Double"

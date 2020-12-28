@@ -2,6 +2,8 @@
 
 ## Next Version
 
+## 4.4.0
+
 ### Added
 - Support multiple authentication types per operation #222 @malteburkert
 - Added support for `decimal` number format #259 @yonaskolb
@@ -18,6 +20,8 @@
 
 ### Internal
 - SwagGen minimum Swift version is 5.0
+
+[Commits](https://github.com/yonaskolb/SwagGen/compare/4.3.1...4.4.0)
 
 ## 4.3.1
 

@@ -26,6 +26,7 @@ public struct NumberSchema {
 public enum NumberFormat: String {
     case float
     case double
+    case decimal
 }
 
 extension NumberSchema {

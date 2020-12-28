@@ -117,6 +117,7 @@ public class SwiftFormatter: CodeFormatter {
             switch format {
             case .double: return "Double"
             case .float: return "Float"
+            case .decimal: return "Decimal"
             }
         case let .integer(item):
             guard let format = item.format else {

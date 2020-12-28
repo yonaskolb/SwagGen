@@ -198,6 +198,16 @@ paths:
                 type: string
         "400":
           $ref: "#/components/responses/400"
+  /file:
+    get:
+      description: Binary response
+      responses:
+        "200":
+          content:
+           text/plain:
+            schema:
+              type: string
+              format: binary
 components:
   responses:
     "400":

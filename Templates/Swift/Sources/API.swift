@@ -22,11 +22,11 @@ public struct {{ options.name }} {
     public static let version = "{{ info.version }}"
     {% endif %}
     {% if tags.count >= 0 %}
-        {% for tag in tags %}
-        public enum {{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }} {}
-        {% endfor %}
-    {% endif %}
 
+    {% for tag in tags %}
+    public enum {{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }} {}
+    {% endfor %}
+    {% endif %}
     {% if servers %}
 
     public enum Server {

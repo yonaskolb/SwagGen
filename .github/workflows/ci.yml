@@ -14,6 +14,6 @@ jobs:
     - name: Build
       run: swift build
     - name: Run tests
-      run: swift test 2>&1 | xcpretty
+      run: swift test
     - name: Build fixtures
       run: ./build_specs.sh

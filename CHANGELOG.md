@@ -6,6 +6,7 @@
 - Support multiple authentication types per operation #222 @malteburkert
 - Added support for `decimal` number format #259 @yonaskolb
 - Added `numberType`, `doubleType`, `floatType` and `decimalType` template options #259 @yonaskolb
+- Added support for binary response bodies #224 @Hustenbonbon
 
 ### Fixed
 - Fixed inline allOf group generation

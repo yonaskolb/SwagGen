@@ -16,6 +16,9 @@
 - Fixed `.swift-version` to use Swift 5.2 instead of Swift 4.1 #246
 - Fixed Server is not defined issue #197
 
+### Internal
+- SwagGen minimum Swift version is 5.0
+
 ## 4.3.1
 
 ### Fixed

@@ -19,93 +19,13 @@ email address. This confirmation is done via the /verify-email endpoint.
  */
     public enum Register {
 
-        public static let service = APIService<Response>(id: "register", tag: "registration", method: "POST", path: "/register", hasBody: true)
+        public static let service = APIService<Response>(id: "register", tag: "registration", method: "POST", path: "/register", hasBody: true, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 
-            /** Register a new user, creating them an account.
-            Registration, when successful, will return an array of access tokens so the user is
-            immediately signed in.
-            It returns Catalog and Commerce scoped tokens for both Account and Profile.
-            The Commerce ones are intended to allow the purchase of a subscription plan
-            in the step after registration, without the user being prompted to enter
-            their username and password again.
-            An email will also be sent with a link they need to click to confirm their
-            email address. This confirmation is done via the /verify-email endpoint.
-             */
-            public class Body: APIModel {
+            public var body: RegistrationRequest
 
-                public var email: String
-
-                public var password: String
-
-                public var firstName: String?
-
-                public var lastName: String?
-
-                /** Whether to receive marketing material or not. Default to true. */
-                public var marketing: Bool?
-
-                /** The primary account pin. */
-                public var pin: String?
-
-                /** The segments to apply to the primary profile. */
-                public var segments: [String]?
-
-                public init(email: String, password: String, firstName: String? = nil, lastName: String? = nil, marketing: Bool? = nil, pin: String? = nil, segments: [String]? = nil) {
-                    self.email = email
-                    self.password = password
-                    self.firstName = firstName
-                    self.lastName = lastName
-                    self.marketing = marketing
-                    self.pin = pin
-                    self.segments = segments
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    email = try container.decode("email")
-                    password = try container.decode("password")
-                    firstName = try container.decodeIfPresent("firstName")
-                    lastName = try container.decodeIfPresent("lastName")
-                    marketing = try container.decodeIfPresent("marketing")
-                    pin = try container.decodeIfPresent("pin")
-                    segments = try container.decodeArrayIfPresent("segments")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(email, forKey: "email")
-                    try container.encode(password, forKey: "password")
-                    try container.encodeIfPresent(firstName, forKey: "firstName")
-                    try container.encodeIfPresent(lastName, forKey: "lastName")
-                    try container.encodeIfPresent(marketing, forKey: "marketing")
-                    try container.encodeIfPresent(pin, forKey: "pin")
-                    try container.encodeIfPresent(segments, forKey: "segments")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Body else { return false }
-                  guard self.email == object.email else { return false }
-                  guard self.password == object.password else { return false }
-                  guard self.firstName == object.firstName else { return false }
-                  guard self.lastName == object.lastName else { return false }
-                  guard self.marketing == object.marketing else { return false }
-                  guard self.pin == object.pin else { return false }
-                  guard self.segments == object.segments else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Body, rhs: Body) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            public var body: Body
-
-            public init(body: Body, encoder: RequestEncoder? = nil) {
+            public init(body: RegistrationRequest, encoder: RequestEncoder? = nil) {
                 self.body = body
                 super.init(service: Register.service) { defaultEncoder in
                     return try (encoder ?? defaultEncoder).encode(body)
@@ -114,327 +34,56 @@ email address. This confirmation is done via the /verify-email endpoint.
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-
-            /** Register a new user, creating them an account.
-            Registration, when successful, will return an array of access tokens so the user is
-            immediately signed in.
-            It returns Catalog and Commerce scoped tokens for both Account and Profile.
-            The Commerce ones are intended to allow the purchase of a subscription plan
-            in the step after registration, without the user being prompted to enter
-            their username and password again.
-            An email will also be sent with a link they need to click to confirm their
-            email address. This confirmation is done via the /verify-email endpoint.
-             */
-            public class Status400: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status400 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status400, rhs: Status400) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Register a new user, creating them an account.
-            Registration, when successful, will return an array of access tokens so the user is
-            immediately signed in.
-            It returns Catalog and Commerce scoped tokens for both Account and Profile.
-            The Commerce ones are intended to allow the purchase of a subscription plan
-            in the step after registration, without the user being prompted to enter
-            their username and password again.
-            An email will also be sent with a link they need to click to confirm their
-            email address. This confirmation is done via the /verify-email endpoint.
-             */
-            public class Status401: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status401 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status401, rhs: Status401) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Register a new user, creating them an account.
-            Registration, when successful, will return an array of access tokens so the user is
-            immediately signed in.
-            It returns Catalog and Commerce scoped tokens for both Account and Profile.
-            The Commerce ones are intended to allow the purchase of a subscription plan
-            in the step after registration, without the user being prompted to enter
-            their username and password again.
-            An email will also be sent with a link they need to click to confirm their
-            email address. This confirmation is done via the /verify-email endpoint.
-             */
-            public class Status403: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status403 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status403, rhs: Status403) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Register a new user, creating them an account.
-            Registration, when successful, will return an array of access tokens so the user is
-            immediately signed in.
-            It returns Catalog and Commerce scoped tokens for both Account and Profile.
-            The Commerce ones are intended to allow the purchase of a subscription plan
-            in the step after registration, without the user being prompted to enter
-            their username and password again.
-            An email will also be sent with a link they need to click to confirm their
-            email address. This confirmation is done via the /verify-email endpoint.
-             */
-            public class Status404: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status404 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status404, rhs: Status404) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Register a new user, creating them an account.
-            Registration, when successful, will return an array of access tokens so the user is
-            immediately signed in.
-            It returns Catalog and Commerce scoped tokens for both Account and Profile.
-            The Commerce ones are intended to allow the purchase of a subscription plan
-            in the step after registration, without the user being prompted to enter
-            their username and password again.
-            An email will also be sent with a link they need to click to confirm their
-            email address. This confirmation is done via the /verify-email endpoint.
-             */
-            public class Status500: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status500 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status500, rhs: Status500) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Register a new user, creating them an account.
-            Registration, when successful, will return an array of access tokens so the user is
-            immediately signed in.
-            It returns Catalog and Commerce scoped tokens for both Account and Profile.
-            The Commerce ones are intended to allow the purchase of a subscription plan
-            in the step after registration, without the user being prompted to enter
-            their username and password again.
-            An email will also be sent with a link they need to click to confirm their
-            email address. This confirmation is done via the /verify-email endpoint.
-             */
-            public class DefaultResponse: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? DefaultResponse else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: DefaultResponse, rhs: DefaultResponse) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
             public typealias SuccessType = [AccessToken]
 
             /** OK */
             case status200([AccessToken])
 
             /** Bad request. */
-            case status400(Status400)
+            case status400(ServiceError)
 
             /** Invalid access token. */
-            case status401(Status401)
+            case status401(ServiceError)
 
             /** Forbidden. */
-            case status403(Status403)
+            case status403(ServiceError)
 
             /** Not found. */
-            case status404(Status404)
+            case status404(ServiceError)
 
             /** Internal server error. */
-            case status500(Status500)
+            case status500(ServiceError)
 
             /** Service error. */
-            case defaultResponse(statusCode: Int, DefaultResponse)
+            case defaultResponse(statusCode: Int, ServiceError)
 
             public var success: [AccessToken]? {
                 switch self {
                 case .status200(let response): return response
                 default: return nil
+                }
+            }
+
+            public var failure: ServiceError? {
+                switch self {
+                case .status400(let response): return response
+                case .status401(let response): return response
+                case .status403(let response): return response
+                case .status404(let response): return response
+                case .status500(let response): return response
+                case .defaultResponse(_, let response): return response
+                default: return nil
+                }
+            }
+
+            /// either success or failure value. Success is anything in the 200..<300 status code range
+            public var responseResult: APIResponseResult<[AccessToken], ServiceError> {
+                if let successValue = success {
+                    return .success(successValue)
+                } else if let failureValue = failure {
+                    return .failure(failureValue)
+                } else {
+                    fatalError("Response does not have success or failure response")
                 }
             }
 
@@ -477,12 +126,12 @@ email address. This confirmation is done via the /verify-email endpoint.
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 200: self = try .status200(decoder.decode([AccessToken].self, from: data))
-                case 400: self = try .status400(decoder.decode(Status400.self, from: data))
-                case 401: self = try .status401(decoder.decode(Status401.self, from: data))
-                case 403: self = try .status403(decoder.decode(Status403.self, from: data))
-                case 404: self = try .status404(decoder.decode(Status404.self, from: data))
-                case 500: self = try .status500(decoder.decode(Status500.self, from: data))
-                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(DefaultResponse.self, from: data))
+                case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))
+                case 401: self = try .status401(decoder.decode(ServiceError.self, from: data))
+                case 403: self = try .status403(decoder.decode(ServiceError.self, from: data))
+                case 404: self = try .status404(decoder.decode(ServiceError.self, from: data))
+                case 500: self = try .status500(decoder.decode(ServiceError.self, from: data))
+                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ServiceError.self, from: data))
                 }
             }
 

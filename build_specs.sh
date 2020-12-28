@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 swift build
 for spec in Specs/**

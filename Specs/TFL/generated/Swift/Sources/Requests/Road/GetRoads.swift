@@ -10,7 +10,7 @@ extension TFL.Road {
     /** Gets all roads managed by TfL */
     public enum GetRoads {
 
-        public static let service = APIService<Response>(id: "getRoads", tag: "Road", method: "GET", path: "/Road", hasBody: false)
+        public static let service = APIService<Response>(id: "getRoads", tag: "Road", method: "GET", path: "/Road", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

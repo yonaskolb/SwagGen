@@ -162,6 +162,7 @@ To add support for a specific asynchronous library, just add an extension on `AP
 - **ModelWithNullableProperties**
 - **ModelWithOnlyAdditionalProperties**
 - **ObjectHoldingNullableReference**
+- **PropertyTypes**
 - **Puppi**
 - **SingleAnimal**
 - **SomeNullableObject**

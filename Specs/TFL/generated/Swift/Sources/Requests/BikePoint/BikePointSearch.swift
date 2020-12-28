@@ -12,7 +12,7 @@ extension TFL.BikePoint {
             or occupancy of the BikePoint, to get that information you should retrieve the BikePoint by its id on /BikePoint/id. */
     public enum BikePointSearch {
 
-        public static let service = APIService<Response>(id: "BikePoint_Search", tag: "BikePoint", method: "GET", path: "/BikePoint/Search", hasBody: false)
+        public static let service = APIService<Response>(id: "BikePoint_Search", tag: "BikePoint", method: "GET", path: "/BikePoint/Search", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

@@ -12,7 +12,7 @@ basic cookies we assigned them during token authorization.
  */
     public enum SignOut {
 
-        public static let service = APIService<Response>(id: "signOut", tag: "authorization", method: "DELETE", path: "/authorization", hasBody: false)
+        public static let service = APIService<Response>(id: "signOut", tag: "authorization", method: "DELETE", path: "/authorization", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 
@@ -22,195 +22,48 @@ basic cookies we assigned them during token authorization.
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-
-            /** When a user signs out of an application we need to clear some
-            basic cookies we assigned them during token authorization.
-             */
-            public class Status400: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status400 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status400, rhs: Status400) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** When a user signs out of an application we need to clear some
-            basic cookies we assigned them during token authorization.
-             */
-            public class Status404: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status404 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status404, rhs: Status404) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** When a user signs out of an application we need to clear some
-            basic cookies we assigned them during token authorization.
-             */
-            public class Status500: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status500 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status500, rhs: Status500) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** When a user signs out of an application we need to clear some
-            basic cookies we assigned them during token authorization.
-             */
-            public class DefaultResponse: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? DefaultResponse else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: DefaultResponse, rhs: DefaultResponse) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
             public typealias SuccessType = Void
 
             /** OK */
             case status204
 
             /** Bad request. */
-            case status400(Status400)
+            case status400(ServiceError)
 
             /** Not found. */
-            case status404(Status404)
+            case status404(ServiceError)
 
             /** Internal server error. */
-            case status500(Status500)
+            case status500(ServiceError)
 
             /** Service error. */
-            case defaultResponse(statusCode: Int, DefaultResponse)
+            case defaultResponse(statusCode: Int, ServiceError)
 
             public var success: Void? {
                 switch self {
                 case .status204: return ()
                 default: return nil
+                }
+            }
+
+            public var failure: ServiceError? {
+                switch self {
+                case .status400(let response): return response
+                case .status404(let response): return response
+                case .status500(let response): return response
+                case .defaultResponse(_, let response): return response
+                default: return nil
+                }
+            }
+
+            /// either success or failure value. Success is anything in the 200..<300 status code range
+            public var responseResult: APIResponseResult<Void, ServiceError> {
+                if let successValue = success {
+                    return .success(successValue)
+                } else if let failureValue = failure {
+                    return .failure(failureValue)
+                } else {
+                    fatalError("Response does not have success or failure response")
                 }
             }
 
@@ -247,10 +100,10 @@ basic cookies we assigned them during token authorization.
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
                 case 204: self = .status204
-                case 400: self = try .status400(decoder.decode(Status400.self, from: data))
-                case 404: self = try .status404(decoder.decode(Status404.self, from: data))
-                case 500: self = try .status500(decoder.decode(Status500.self, from: data))
-                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(DefaultResponse.self, from: data))
+                case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))
+                case 404: self = try .status404(decoder.decode(ServiceError.self, from: data))
+                case 500: self = try .status500(decoder.decode(ServiceError.self, from: data))
+                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ServiceError.self, from: data))
                 }
             }
 

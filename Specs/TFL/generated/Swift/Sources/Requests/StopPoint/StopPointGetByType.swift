@@ -10,7 +10,7 @@ extension TFL.StopPoint {
     /** Gets all stop points of a given type */
     public enum StopPointGetByType {
 
-        public static let service = APIService<Response>(id: "StopPoint_GetByType", tag: "StopPoint", method: "GET", path: "/StopPoint/Type/{types}", hasBody: false)
+        public static let service = APIService<Response>(id: "StopPoint_GetByType", tag: "StopPoint", method: "GET", path: "/StopPoint/Type/{types}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

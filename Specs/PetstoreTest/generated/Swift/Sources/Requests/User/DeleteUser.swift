@@ -14,7 +14,7 @@ extension PetstoreTest.User {
     */
     public enum DeleteUser {
 
-        public static let service = APIService<Response>(id: "deleteUser", tag: "user", method: "DELETE", path: "/user/{username}", hasBody: false)
+        public static let service = APIService<Response>(id: "deleteUser", tag: "user", method: "DELETE", path: "/user/{username}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

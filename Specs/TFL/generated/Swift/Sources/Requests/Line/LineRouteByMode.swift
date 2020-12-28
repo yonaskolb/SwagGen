@@ -10,7 +10,7 @@ extension TFL.Line {
     /** Gets all lines and their valid routes for given modes, including the name and id of the originating and terminating stops for each route */
     public enum LineRouteByMode {
 
-        public static let service = APIService<Response>(id: "Line_RouteByMode", tag: "Line", method: "GET", path: "/Line/Mode/{modes}/Route", hasBody: false)
+        public static let service = APIService<Response>(id: "Line_RouteByMode", tag: "Line", method: "GET", path: "/Line/Mode/{modes}/Route", hasBody: false, securityRequirements: [])
 
         /** A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
         public enum ServiceTypes: String, Codable, Equatable, CaseIterable {

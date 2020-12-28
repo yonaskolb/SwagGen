@@ -10,7 +10,7 @@ extension TBX.Auth {
     /** Return url from SAML logout */
     public enum AuthSamlLogout {
 
-        public static let service = APIService<Response>(id: "auth.samlLogout", tag: "auth", method: "GET", path: "/auth/saml/logout", hasBody: false)
+        public static let service = APIService<Response>(id: "auth.samlLogout", tag: "auth", method: "GET", path: "/auth/saml/logout", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

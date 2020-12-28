@@ -10,7 +10,7 @@ extension TFL.StopPoint {
     /** Gets all disruptions for the specified StopPointId, plus disruptions for any child Naptan records it may have. */
     public enum StopPointDisruption {
 
-        public static let service = APIService<Response>(id: "StopPoint_Disruption", tag: "StopPoint", method: "GET", path: "/StopPoint/{ids}/Disruption", hasBody: false)
+        public static let service = APIService<Response>(id: "StopPoint_Disruption", tag: "StopPoint", method: "GET", path: "/StopPoint/{ids}/Disruption", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

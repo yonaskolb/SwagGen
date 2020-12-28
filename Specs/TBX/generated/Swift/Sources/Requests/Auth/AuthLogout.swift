@@ -10,7 +10,7 @@ extension TBX.Auth {
     /** URL for the client can start a logout with your IDP */
     public enum AuthLogout {
 
-        public static let service = APIService<Response>(id: "auth.logout", tag: "auth", method: "GET", path: "/auth/{cp}/logout.json", hasBody: false)
+        public static let service = APIService<Response>(id: "auth.logout", tag: "auth", method: "GET", path: "/auth/{cp}/logout.json", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

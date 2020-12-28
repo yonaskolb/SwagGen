@@ -10,7 +10,7 @@ extension PetstoreTest.Pet {
     /** uploads an image */
     public enum UploadFile {
 
-        public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, isUpload: true, securityRequirement: SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"]))
+        public static let service = APIService<Response>(id: "uploadFile", tag: "pet", method: "POST", path: "/pet/{petId}/uploadImage", hasBody: true, isUpload: true, securityRequirements: [SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"])])
 
         public final class Request: APIRequest<Response> {
 
@@ -62,55 +62,12 @@ extension PetstoreTest.Pet {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-
-            public class Status200: APIModel {
-
-                public var code: Int?
-
-                public var message: String?
-
-                public var type: String?
-
-                public init(code: Int? = nil, message: String? = nil, type: String? = nil) {
-                    self.code = code
-                    self.message = message
-                    self.type = type
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    code = try container.decodeIfPresent("code")
-                    message = try container.decodeIfPresent("message")
-                    type = try container.decodeIfPresent("type")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encodeIfPresent(code, forKey: "code")
-                    try container.encodeIfPresent(message, forKey: "message")
-                    try container.encodeIfPresent(type, forKey: "type")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status200 else { return false }
-                  guard self.code == object.code else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.type == object.type else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status200, rhs: Status200) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-            public typealias SuccessType = Status200
+            public typealias SuccessType = ApiResponse
 
             /** successful operation */
-            case status200(Status200)
+            case status200(ApiResponse)
 
-            public var success: Status200? {
+            public var success: ApiResponse? {
                 switch self {
                 case .status200(let response): return response
                 }
@@ -136,7 +93,7 @@ extension PetstoreTest.Pet {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
+                case 200: self = try .status200(decoder.decode(ApiResponse.self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

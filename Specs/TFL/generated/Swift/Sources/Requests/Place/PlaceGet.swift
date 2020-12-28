@@ -10,7 +10,7 @@ extension TFL.Place {
     /** Gets the place with the given id. */
     public enum PlaceGet {
 
-        public static let service = APIService<Response>(id: "Place_Get", tag: "Place", method: "GET", path: "/Place/{id}", hasBody: false)
+        public static let service = APIService<Response>(id: "Place_Get", tag: "Place", method: "GET", path: "/Place/{id}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

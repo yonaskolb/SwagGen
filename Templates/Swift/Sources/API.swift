@@ -21,11 +21,12 @@ public struct {{ options.name }} {
     {% if info.version %}
     public static let version = "{{ info.version }}"
     {% endif %}
-    {% if tags %}
+    {% if tags.count >= 0 %}
 
     {% for tag in tags %}
     public enum {{ options.tagPrefix }}{{ tag|upperCamelCase }}{{ options.tagSuffix }} {}
     {% endfor %}
+    {% endif %}
     {% if servers %}
 
     public enum Server {
@@ -50,6 +51,5 @@ public struct {{ options.name }} {
     {% else %}
 
     // No servers defined in swagger. Documentation for adding them: https://swagger.io/specification/#schema
-    {% endif %}
     {% endif %}
 }

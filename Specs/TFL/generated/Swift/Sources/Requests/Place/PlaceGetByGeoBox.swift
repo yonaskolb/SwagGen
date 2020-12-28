@@ -11,7 +11,7 @@ extension TFL.Place {
             on type and can strip properties for a smaller payload. */
     public enum PlaceGetByGeoBox {
 
-        public static let service = APIService<Response>(id: "Place_GetByGeoBox", tag: "Place", method: "GET", path: "/Place", hasBody: false)
+        public static let service = APIService<Response>(id: "Place_GetByGeoBox", tag: "Place", method: "GET", path: "/Place", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

@@ -10,7 +10,7 @@ extension TFL.Journey {
     /** Perform a Journey Planner search from the parameters specified in simple types */
     public enum JourneyJourneyResults {
 
-        public static let service = APIService<Response>(id: "Journey_JourneyResults", tag: "Journey", method: "GET", path: "/Journey/JourneyResults/{from}/to/{to}", hasBody: false)
+        public static let service = APIService<Response>(id: "Journey_JourneyResults", tag: "Journey", method: "GET", path: "/Journey/JourneyResults/{from}/to/{to}", hasBody: false, securityRequirements: [])
 
         /** Does the time given relate to arrival or leaving time? Possible options: "departing" | "arriving" */
         public enum TimeIs: String, Codable, Equatable, CaseIterable {
@@ -252,80 +252,12 @@ extension TFL.Journey {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-
-            /** A DTO representing a list of possible journeys. */
-            public class Status200: APIModel {
-
-                public var cycleHireDockingStationData: JourneyPlannerCycleHireDockingStationData?
-
-                public var journeyVector: JourneyVector?
-
-                public var journeys: [Journey]?
-
-                public var lines: [Line]?
-
-                public var recommendedMaxAgeMinutes: Int?
-
-                public var searchCriteria: SearchCriteria?
-
-                public var stopMessages: [String]?
-
-                public init(cycleHireDockingStationData: JourneyPlannerCycleHireDockingStationData? = nil, journeyVector: JourneyVector? = nil, journeys: [Journey]? = nil, lines: [Line]? = nil, recommendedMaxAgeMinutes: Int? = nil, searchCriteria: SearchCriteria? = nil, stopMessages: [String]? = nil) {
-                    self.cycleHireDockingStationData = cycleHireDockingStationData
-                    self.journeyVector = journeyVector
-                    self.journeys = journeys
-                    self.lines = lines
-                    self.recommendedMaxAgeMinutes = recommendedMaxAgeMinutes
-                    self.searchCriteria = searchCriteria
-                    self.stopMessages = stopMessages
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    cycleHireDockingStationData = try container.decodeIfPresent("cycleHireDockingStationData")
-                    journeyVector = try container.decodeIfPresent("journeyVector")
-                    journeys = try container.decodeArrayIfPresent("journeys")
-                    lines = try container.decodeArrayIfPresent("lines")
-                    recommendedMaxAgeMinutes = try container.decodeIfPresent("recommendedMaxAgeMinutes")
-                    searchCriteria = try container.decodeIfPresent("searchCriteria")
-                    stopMessages = try container.decodeArrayIfPresent("stopMessages")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encodeIfPresent(cycleHireDockingStationData, forKey: "cycleHireDockingStationData")
-                    try container.encodeIfPresent(journeyVector, forKey: "journeyVector")
-                    try container.encodeIfPresent(journeys, forKey: "journeys")
-                    try container.encodeIfPresent(lines, forKey: "lines")
-                    try container.encodeIfPresent(recommendedMaxAgeMinutes, forKey: "recommendedMaxAgeMinutes")
-                    try container.encodeIfPresent(searchCriteria, forKey: "searchCriteria")
-                    try container.encodeIfPresent(stopMessages, forKey: "stopMessages")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status200 else { return false }
-                  guard self.cycleHireDockingStationData == object.cycleHireDockingStationData else { return false }
-                  guard self.journeyVector == object.journeyVector else { return false }
-                  guard self.journeys == object.journeys else { return false }
-                  guard self.lines == object.lines else { return false }
-                  guard self.recommendedMaxAgeMinutes == object.recommendedMaxAgeMinutes else { return false }
-                  guard self.searchCriteria == object.searchCriteria else { return false }
-                  guard self.stopMessages == object.stopMessages else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status200, rhs: Status200) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-            public typealias SuccessType = Status200
+            public typealias SuccessType = ItineraryResult
 
             /** OK */
-            case status200(Status200)
+            case status200(ItineraryResult)
 
-            public var success: Status200? {
+            public var success: ItineraryResult? {
                 switch self {
                 case .status200(let response): return response
                 }
@@ -351,7 +283,7 @@ extension TFL.Journey {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
+                case 200: self = try .status200(decoder.decode(ItineraryResult.self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

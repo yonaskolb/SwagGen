@@ -10,7 +10,7 @@ extension Rocket.Account {
     /** Get the summary of a profile with a specific id under the active account. */
     public enum GetProfileWithId {
 
-        public static let service = APIService<Response>(id: "getProfileWithId", tag: "account", method: "GET", path: "/account/profiles/{id}", hasBody: false, securityRequirement: SecurityRequirement(type: "accountAuth", scopes: ["Catalog"]))
+        public static let service = APIService<Response>(id: "getProfileWithId", tag: "account", method: "GET", path: "/account/profiles/{id}", hasBody: false, securityRequirements: [SecurityRequirement(type: "accountAuth", scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 
@@ -43,373 +43,56 @@ extension Rocket.Account {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-
-            /** Get the summary of a profile with a specific id under the active account. */
-            public class Status200: APIModel {
-
-                /** The id of the profile. */
-                public var id: String
-
-                /** The unique name of the profile. */
-                public var name: String
-
-                /** Whether the profile is active or not.
-            **DEPRECATED** - Always true. Inactive profiles are no longer returned.
-             */
-                public var isActive: Bool
-
-                /** Whether a pin is required to enter the profile. */
-                public var pinEnabled: Bool
-
-                /** Whether the profile can make purchases with the account payment options. */
-                public var purchaseEnabled: Bool
-
-                /** Whether the profile has opted in or out of marketing material.
-            **DEPRECATED** - Marketing material is no longer tied to profiles, only account. See `Account.marketingEnabled`.
-             */
-                public var marketingEnabled: Bool
-
-                /** The segments a profile has been placed under */
-                public var segments: [String]
-
-                /** The maximum rating (inclusive) of content to return in feeds.
-            **DEPRECATED** - It's no longer recommended filtering content globally as apps can end up
-            with pages without content, even the homepage. Instead using features like segmentation
-            tags to target demographics like kids means content curation can be more thought out.
-             */
-                public var maxRatingContentFilter: ClassificationSummary?
-
-                /** The minumum rating (inclusive) of content where an account pin should be presented before entring playback.
-            **DEPRECATED** - The playback guard is now defined at the account level, where an account
-            pin also exists. This is then applied across all profiles.
-             */
-                public var minRatingPlaybackGuard: ClassificationSummary?
-
-                public init(id: String, name: String, isActive: Bool, pinEnabled: Bool, purchaseEnabled: Bool, marketingEnabled: Bool, segments: [String], maxRatingContentFilter: ClassificationSummary? = nil, minRatingPlaybackGuard: ClassificationSummary? = nil) {
-                    self.id = id
-                    self.name = name
-                    self.isActive = isActive
-                    self.pinEnabled = pinEnabled
-                    self.purchaseEnabled = purchaseEnabled
-                    self.marketingEnabled = marketingEnabled
-                    self.segments = segments
-                    self.maxRatingContentFilter = maxRatingContentFilter
-                    self.minRatingPlaybackGuard = minRatingPlaybackGuard
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    id = try container.decode("id")
-                    name = try container.decode("name")
-                    isActive = try container.decode("isActive")
-                    pinEnabled = try container.decode("pinEnabled")
-                    purchaseEnabled = try container.decode("purchaseEnabled")
-                    marketingEnabled = try container.decode("marketingEnabled")
-                    segments = try container.decodeArray("segments")
-                    maxRatingContentFilter = try container.decodeIfPresent("maxRatingContentFilter")
-                    minRatingPlaybackGuard = try container.decodeIfPresent("minRatingPlaybackGuard")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(id, forKey: "id")
-                    try container.encode(name, forKey: "name")
-                    try container.encode(isActive, forKey: "isActive")
-                    try container.encode(pinEnabled, forKey: "pinEnabled")
-                    try container.encode(purchaseEnabled, forKey: "purchaseEnabled")
-                    try container.encode(marketingEnabled, forKey: "marketingEnabled")
-                    try container.encode(segments, forKey: "segments")
-                    try container.encodeIfPresent(maxRatingContentFilter, forKey: "maxRatingContentFilter")
-                    try container.encodeIfPresent(minRatingPlaybackGuard, forKey: "minRatingPlaybackGuard")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status200 else { return false }
-                  guard self.id == object.id else { return false }
-                  guard self.name == object.name else { return false }
-                  guard self.isActive == object.isActive else { return false }
-                  guard self.pinEnabled == object.pinEnabled else { return false }
-                  guard self.purchaseEnabled == object.purchaseEnabled else { return false }
-                  guard self.marketingEnabled == object.marketingEnabled else { return false }
-                  guard self.segments == object.segments else { return false }
-                  guard self.maxRatingContentFilter == object.maxRatingContentFilter else { return false }
-                  guard self.minRatingPlaybackGuard == object.minRatingPlaybackGuard else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status200, rhs: Status200) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Get the summary of a profile with a specific id under the active account. */
-            public class Status400: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status400 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status400, rhs: Status400) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Get the summary of a profile with a specific id under the active account. */
-            public class Status401: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status401 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status401, rhs: Status401) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Get the summary of a profile with a specific id under the active account. */
-            public class Status403: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status403 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status403, rhs: Status403) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Get the summary of a profile with a specific id under the active account. */
-            public class Status404: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status404 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status404, rhs: Status404) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Get the summary of a profile with a specific id under the active account. */
-            public class Status500: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status500 else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status500, rhs: Status500) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            /** Get the summary of a profile with a specific id under the active account. */
-            public class DefaultResponse: APIModel {
-
-                /** A description of the error. */
-                public var message: String
-
-                /** An optional code classifying the error. Should be taken in the context of the http status code. */
-                public var code: Int?
-
-                public init(message: String, code: Int? = nil) {
-                    self.message = message
-                    self.code = code
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    message = try container.decode("message")
-                    code = try container.decodeIfPresent("code")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encode(message, forKey: "message")
-                    try container.encodeIfPresent(code, forKey: "code")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? DefaultResponse else { return false }
-                  guard self.message == object.message else { return false }
-                  guard self.code == object.code else { return false }
-                  return true
-                }
-
-                public static func == (lhs: DefaultResponse, rhs: DefaultResponse) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-            public typealias SuccessType = Status200
+            public typealias SuccessType = ProfileSummary
 
             /** OK */
-            case status200(Status200)
+            case status200(ProfileSummary)
 
             /** Bad request. */
-            case status400(Status400)
+            case status400(ServiceError)
 
             /** Invalid access token. */
-            case status401(Status401)
+            case status401(ServiceError)
 
             /** Forbidden. */
-            case status403(Status403)
+            case status403(ServiceError)
 
             /** Not found. */
-            case status404(Status404)
+            case status404(ServiceError)
 
             /** Internal server error. */
-            case status500(Status500)
+            case status500(ServiceError)
 
             /** Service error. */
-            case defaultResponse(statusCode: Int, DefaultResponse)
+            case defaultResponse(statusCode: Int, ServiceError)
 
-            public var success: Status200? {
+            public var success: ProfileSummary? {
                 switch self {
                 case .status200(let response): return response
                 default: return nil
+                }
+            }
+
+            public var failure: ServiceError? {
+                switch self {
+                case .status400(let response): return response
+                case .status401(let response): return response
+                case .status403(let response): return response
+                case .status404(let response): return response
+                case .status500(let response): return response
+                case .defaultResponse(_, let response): return response
+                default: return nil
+                }
+            }
+
+            /// either success or failure value. Success is anything in the 200..<300 status code range
+            public var responseResult: APIResponseResult<ProfileSummary, ServiceError> {
+                if let successValue = success {
+                    return .success(successValue)
+                } else if let failureValue = failure {
+                    return .failure(failureValue)
+                } else {
+                    fatalError("Response does not have success or failure response")
                 }
             }
 
@@ -451,13 +134,13 @@ extension Rocket.Account {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
-                case 400: self = try .status400(decoder.decode(Status400.self, from: data))
-                case 401: self = try .status401(decoder.decode(Status401.self, from: data))
-                case 403: self = try .status403(decoder.decode(Status403.self, from: data))
-                case 404: self = try .status404(decoder.decode(Status404.self, from: data))
-                case 500: self = try .status500(decoder.decode(Status500.self, from: data))
-                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(DefaultResponse.self, from: data))
+                case 200: self = try .status200(decoder.decode(ProfileSummary.self, from: data))
+                case 400: self = try .status400(decoder.decode(ServiceError.self, from: data))
+                case 401: self = try .status401(decoder.decode(ServiceError.self, from: data))
+                case 403: self = try .status403(decoder.decode(ServiceError.self, from: data))
+                case 404: self = try .status404(decoder.decode(ServiceError.self, from: data))
+                case 500: self = try .status500(decoder.decode(ServiceError.self, from: data))
+                default: self = try .defaultResponse(statusCode: statusCode, decoder.decode(ServiceError.self, from: data))
                 }
             }
 

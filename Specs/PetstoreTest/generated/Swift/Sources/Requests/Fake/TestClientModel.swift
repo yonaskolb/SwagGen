@@ -10,45 +10,13 @@ extension PetstoreTest.Fake {
     /** To test "client" model */
     public enum TestClientModel {
 
-        public static let service = APIService<Response>(id: "testClientModel", tag: "fake", method: "PATCH", path: "/fake", hasBody: true)
+        public static let service = APIService<Response>(id: "testClientModel", tag: "fake", method: "PATCH", path: "/fake", hasBody: true, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 
-            /** To test "client" model */
-            public class Body: APIModel {
+            public var body: Client
 
-                public var client: String?
-
-                public init(client: String? = nil) {
-                    self.client = client
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    client = try container.decodeIfPresent("client")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encodeIfPresent(client, forKey: "client")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Body else { return false }
-                  guard self.client == object.client else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Body, rhs: Body) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-
-            public var body: Body
-
-            public init(body: Body, encoder: RequestEncoder? = nil) {
+            public init(body: Client, encoder: RequestEncoder? = nil) {
                 self.body = body
                 super.init(service: TestClientModel.service) { defaultEncoder in
                     return try (encoder ?? defaultEncoder).encode(body)
@@ -57,44 +25,12 @@ extension PetstoreTest.Fake {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-
-            /** To test "client" model */
-            public class Status200: APIModel {
-
-                public var client: String?
-
-                public init(client: String? = nil) {
-                    self.client = client
-                }
-
-                public required init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: StringCodingKey.self)
-
-                    client = try container.decodeIfPresent("client")
-                }
-
-                public func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: StringCodingKey.self)
-
-                    try container.encodeIfPresent(client, forKey: "client")
-                }
-
-                public func isEqual(to object: Any?) -> Bool {
-                  guard let object = object as? Status200 else { return false }
-                  guard self.client == object.client else { return false }
-                  return true
-                }
-
-                public static func == (lhs: Status200, rhs: Status200) -> Bool {
-                    return lhs.isEqual(to: rhs)
-                }
-            }
-            public typealias SuccessType = Status200
+            public typealias SuccessType = Client
 
             /** successful operation */
-            case status200(Status200)
+            case status200(Client)
 
-            public var success: Status200? {
+            public var success: Client? {
                 switch self {
                 case .status200(let response): return response
                 }
@@ -120,7 +56,7 @@ extension PetstoreTest.Fake {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decode(Status200.self, from: data))
+                case 200: self = try .status200(decoder.decode(Client.self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

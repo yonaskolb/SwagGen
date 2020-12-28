@@ -10,7 +10,7 @@ extension PetstoreTest.User {
     /** Creates list of users with given input array */
     public enum CreateUsersWithArrayInput {
 
-        public static let service = APIService<Response>(id: "createUsersWithArrayInput", tag: "user", method: "POST", path: "/user/createWithArray", hasBody: true)
+        public static let service = APIService<Response>(id: "createUsersWithArrayInput", tag: "user", method: "POST", path: "/user/createWithArray", hasBody: true, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

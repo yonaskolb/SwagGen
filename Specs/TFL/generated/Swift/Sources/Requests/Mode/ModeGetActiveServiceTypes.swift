@@ -11,7 +11,7 @@ extension TFL.Mode {
             Currently only supports tube */
     public enum ModeGetActiveServiceTypes {
 
-        public static let service = APIService<Response>(id: "Mode_GetActiveServiceTypes", tag: "Mode", method: "GET", path: "/Mode/ActiveServiceTypes", hasBody: false)
+        public static let service = APIService<Response>(id: "Mode_GetActiveServiceTypes", tag: "Mode", method: "GET", path: "/Mode/ActiveServiceTypes", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

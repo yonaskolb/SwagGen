@@ -8,16 +8,16 @@ public struct APIService<ResponseType: APIResponseValue> {
     public let path: String
     public let hasBody: Bool
     public let isUpload: Bool
-    public let securityRequirement: SecurityRequirement?
+    public let securityRequirements: [SecurityRequirement]
 
-    public init(id: String, tag: String = "", method:String, path:String, hasBody: Bool, isUpload: Bool = false, securityRequirement: SecurityRequirement? = nil) {
+    public init(id: String, tag: String = "", method:String, path:String, hasBody: Bool, isUpload: Bool = false, securityRequirements: [SecurityRequirement] = []) {
         self.id = id
         self.tag = tag
         self.method = method
         self.path = path
         self.hasBody = hasBody
         self.isUpload = isUpload
-        self.securityRequirement = securityRequirement
+        self.securityRequirements = securityRequirements
     }
 }
 

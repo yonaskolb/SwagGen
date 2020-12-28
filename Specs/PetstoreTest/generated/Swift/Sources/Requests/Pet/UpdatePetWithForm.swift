@@ -10,7 +10,7 @@ extension PetstoreTest.Pet {
     /** Updates a pet in the store with form data */
     public enum UpdatePetWithForm {
 
-        public static let service = APIService<Response>(id: "updatePetWithForm", tag: "pet", method: "POST", path: "/pet/{petId}", hasBody: true, securityRequirement: SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"]))
+        public static let service = APIService<Response>(id: "updatePetWithForm", tag: "pet", method: "POST", path: "/pet/{petId}", hasBody: true, securityRequirements: [SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"])])
 
         public final class Request: APIRequest<Response> {
 

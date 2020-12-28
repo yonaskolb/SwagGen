@@ -10,7 +10,7 @@ extension TFL.Cabwise {
     /** Gets taxis and minicabs contact information */
     public enum CabwiseGet {
 
-        public static let service = APIService<Response>(id: "Cabwise_Get", tag: "Cabwise", method: "GET", path: "/Cabwise/search", hasBody: false)
+        public static let service = APIService<Response>(id: "Cabwise_Get", tag: "Cabwise", method: "GET", path: "/Cabwise/search", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 
@@ -106,12 +106,12 @@ extension TFL.Cabwise {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = [String: Any]
+            public typealias SuccessType = Object
 
             /** OK */
-            case status200([String: Any])
+            case status200(Object)
 
-            public var success: [String: Any]? {
+            public var success: Object? {
                 switch self {
                 case .status200(let response): return response
                 }
@@ -137,7 +137,7 @@ extension TFL.Cabwise {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decodeAny([String: Any].self, from: data))
+                case 200: self = try .status200(decoder.decode(Object.self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

@@ -10,7 +10,7 @@ extension TestSpec {
     /** Has path and operation parameters */
     public enum GetMultipleParams {
 
-        public static let service = APIService<Response>(id: "getMultipleParams", tag: "", method: "GET", path: "/multiple-path-params{petID}", hasBody: false, securityRequirement: SecurityRequirement(type: "test_auth", scopes: ["read"]))
+        public static let service = APIService<Response>(id: "getMultipleParams", tag: "", method: "GET", path: "/multiple-path-params{petID}", hasBody: false, securityRequirements: [SecurityRequirement(type: "test_auth", scopes: ["read"])])
 
         public final class Request: APIRequest<Response> {
 

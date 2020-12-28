@@ -11,7 +11,7 @@ public struct Metadata {
     public let example: Any?
     public var json: JSONDictionary
 
-    init() {
+    public init() {
         type = nil
         title = nil
         description = nil

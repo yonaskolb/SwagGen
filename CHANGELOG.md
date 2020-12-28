@@ -3,13 +3,17 @@
 ## Next Version
 
 ### Added
-- MediaItem schema is now defined as a possible reference in order to generate models of each server response. #239 @alexruperez
+- Support multiple authentication types per operation #222 @malteburkert
+- Added support for `decimal` number format #259 @yonaskolb
+- Added `numberType`, `doubleType`, `floatType` and `decimalType` template options #259 @yonaskolb
 
 ### Fixed
 - Fixed inline allOf group generation
 - Fixed property generation when there is only one group schema;  the first group schema type will be used as the type #217
 - Added `anyType` option that allows to override `Any` in models
 - Fixed date encoding formatter to conform to RFC3339
+- Fixed `.swift-version` to use Swift 5.2 instead of Swift 4.1 #246
+- Fixed Server is not defined issue #197
 
 ## 4.3.1
 

@@ -9,7 +9,7 @@ extension TBX.AuthorizationService {
 
     public enum AuthorizationServiceGetAttributes {
 
-        public static let service = APIService<Response>(id: "AuthorizationService.getAttributes", tag: "AuthorizationService", method: "GET", path: "/AuthorizationServices/getAttributes", hasBody: false)
+        public static let service = APIService<Response>(id: "AuthorizationService.getAttributes", tag: "AuthorizationService", method: "GET", path: "/AuthorizationServices/getAttributes", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 

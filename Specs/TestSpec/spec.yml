@@ -393,3 +393,14 @@ components:
         value:
           type: string
       nullable: true
+    PropertyTypes:
+      properties:
+        decimal:
+          type: number
+          format: decimal
+        float:
+          type: number
+          format: float
+        double:
+          type: number
+          format: double

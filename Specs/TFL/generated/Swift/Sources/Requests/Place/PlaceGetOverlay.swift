@@ -10,7 +10,7 @@ extension TFL.Place {
     /** Gets the place overlay for a given set of co-ordinates and a given width/height. */
     public enum PlaceGetOverlay {
 
-        public static let service = APIService<Response>(id: "Place_GetOverlay", tag: "Place", method: "GET", path: "/Place/{type}/overlay/{z}/{Lat}/{Lon}/{width}/{height}", hasBody: false)
+        public static let service = APIService<Response>(id: "Place_GetOverlay", tag: "Place", method: "GET", path: "/Place/{type}/overlay/{z}/{Lat}/{Lon}/{width}/{height}", hasBody: false, securityRequirements: [])
 
         public final class Request: APIRequest<Response> {
 
@@ -76,12 +76,12 @@ extension TFL.Place {
         }
 
         public enum Response: APIResponseValue, CustomStringConvertible, CustomDebugStringConvertible {
-            public typealias SuccessType = [String: Any]
+            public typealias SuccessType = Object
 
             /** OK */
-            case status200([String: Any])
+            case status200(Object)
 
-            public var success: [String: Any]? {
+            public var success: Object? {
                 switch self {
                 case .status200(let response): return response
                 }
@@ -107,7 +107,7 @@ extension TFL.Place {
 
             public init(statusCode: Int, data: Data, decoder: ResponseDecoder) throws {
                 switch statusCode {
-                case 200: self = try .status200(decoder.decodeAny([String: Any].self, from: data))
+                case 200: self = try .status200(decoder.decode(Object.self, from: data))
                 default: throw APIClientError.unexpectedStatusCode(statusCode: statusCode, data: data)
                 }
             }

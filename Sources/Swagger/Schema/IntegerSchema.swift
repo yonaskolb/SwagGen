@@ -7,6 +7,20 @@ public struct IntegerSchema {
     public let exclusiveMinimum: Int?
     public let exclusiveMaximum: Int?
     public let multipleOf: Int?
+
+    public init(format: IntegerFormat? = nil,
+                minimum: Int? = nil,
+                maximum: Int? = nil,
+                exclusiveMinimum: Int? = nil,
+                exclusiveMaximum: Int? = nil,
+                multipleOf: Int? = nil) {
+        self.format = format
+        self.minimum = minimum
+        self.maximum = maximum
+        self.exclusiveMinimum = exclusiveMinimum
+        self.exclusiveMaximum = exclusiveMaximum
+        self.multipleOf = multipleOf
+    }
 }
 
 public enum IntegerFormat: String {

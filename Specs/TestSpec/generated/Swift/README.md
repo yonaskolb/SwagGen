@@ -175,6 +175,7 @@ To add support for a specific asynchronous library, just add an extension on `AP
 
 - **TestSpec.Pets**: GET `/tagged`
 - **TestSpec.GetDefaultResponse**: GET `/default-response`
+- **TestSpec.GetFile**: GET `/file`
 - **TestSpec.GetInlineEnumResponse**: GET `/inlineenumresponse`
 - **TestSpec.GetMultipleSuccess**: GET `/multiple-success`
 - **TestSpec.GetString**: GET `/string`

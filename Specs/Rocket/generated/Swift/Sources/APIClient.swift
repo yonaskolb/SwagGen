@@ -53,7 +53,11 @@ public class APIClient {
         // create the url request from the request
         var urlRequest: URLRequest
         do {
-            urlRequest = try request.createURLRequest(baseURL: baseURL, encoder: jsonEncoder)
+            guard let safeURL = URL(string: baseURL) else {
+                throw InternalError.malformedURL
+            }
+
+            urlRequest = try request.createURLRequest(baseURL: safeURL, encoder: jsonEncoder)
         } catch {
             let error = APIClientError.requestEncodingError(error)
             requestBehaviour.onFailure(error: error)
@@ -154,7 +158,10 @@ public class APIClient {
         switch dataResponse.result {
         case .success(let value):
             do {
-                let statusCode = dataResponse.response!.statusCode
+                guard let statusCode = dataResponse.response?.statusCode else {
+                    throw InternalError.emptyResponse
+                }
+
                 let decoded = try T(statusCode: statusCode, data: value, decoder: jsonDecoder)
                 result = .success(decoded)
                 if decoded.successful {
@@ -187,6 +194,13 @@ public class APIClient {
     }
 }
 
+private extension APIClient {
+    enum InternalError: Error {
+        case malformedURL
+        case emptyResponse
+    }
+}
+
 public class CancellableRequest {
     /// The request used to make the actual network request
     public let request: AnyRequest
@@ -194,13 +208,12 @@ public class CancellableRequest {
     init(request: AnyRequest) {
         self.request = request
     }
+
     var networkRequest: Request?
 
     /// cancels the request
     public func cancel() {
-        if let networkRequest = networkRequest {
-            networkRequest.cancel()
-        }
+        networkRequest?.cancel()
     }
 }
 
@@ -216,33 +229,34 @@ extension APIRequest {
 // Create URLRequest
 extension APIRequest {
 
-    /// pass in an optional baseURL, otherwise URLRequest.url will be relative
-    public func createURLRequest(baseURL: String = "", encoder: RequestEncoder = JSONEncoder()) throws -> URLRequest {
-        let url = URL(string: "\(baseURL)\(path)")!
-        var urlRequest = URLRequest(url: url)
+    public func createURLRequest(baseURL: URL, encoder: RequestEncoder = JSONEncoder()) throws -> URLRequest {
+        var urlRequest = URLRequest(url: baseURL.appendingPathComponent(path))
         urlRequest.httpMethod = service.method
         urlRequest.allHTTPHeaderFields = headers
 
         // filter out parameters with empty string value
         var queryParams: [String: Any] = [:]
         for (key, value) in queryParameters {
-            if String.init(describing: value) != "" {
+            if !String(describing: value).isEmpty {
                 queryParams[key] = value
             }
         }
+
         if !queryParams.isEmpty {
             urlRequest = try URLEncoding.queryString.encode(urlRequest, with: queryParams)
         }
 
         var formParams: [String: Any] = [:]
         for (key, value) in formParameters {
-            if String.init(describing: value) != "" {
+            if !String(describing: value).isEmpty {
                 formParams[key] = value
             }
         }
+
         if !formParams.isEmpty {
             urlRequest = try URLEncoding.httpBody.encode(urlRequest, with: formParams)
         }
+
         if let encodeBody = encodeBody {
             urlRequest.httpBody = try encodeBody(encoder)
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")

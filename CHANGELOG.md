@@ -2,6 +2,9 @@
 
 ## Next Version
 
+### Fixed
+- Fixed sporadic crashes due to malformed URLs #268 @marcelvoss
+
 ## 4.4.0
 
 ### Added

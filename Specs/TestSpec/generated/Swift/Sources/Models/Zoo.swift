@@ -19,6 +19,46 @@ public class Zoo: APIModel {
 
     public var schemaAnimals: [SingleAnimal]?
 
+    public class AllOfDog: Dog {
+
+        public override init(animal: String? = nil, barks: Bool? = nil) {
+            super.init(animal: animal, barks: barks)
+        }
+
+        public required init(from decoder: Decoder) throws {
+            try super.init(from: decoder)
+        }
+
+        public override func encode(to encoder: Encoder) throws {
+            try super.encode(to: encoder)
+        }
+
+        override public func isEqual(to object: Any?) -> Bool {
+          guard object is AllOfDog else { return false }
+          return super.isEqual(to: object)
+        }
+    }
+
+    public class InlineAnimal: Animal {
+
+        public override init(animal: String? = nil) {
+            super.init(animal: animal)
+        }
+
+        public required init(from decoder: Decoder) throws {
+            try super.init(from: decoder)
+        }
+
+        public override func encode(to encoder: Encoder) throws {
+            try super.encode(to: encoder)
+        }
+
+        override public func isEqual(to object: Any?) -> Bool {
+          guard object is InlineAnimal else { return false }
+          return super.isEqual(to: object)
+        }
+    }
+
     public enum InlineAnimals: Codable, Equatable {
         case cat(Cat)
         case dog(Dog)

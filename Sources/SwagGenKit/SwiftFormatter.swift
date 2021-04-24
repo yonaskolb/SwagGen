@@ -3,73 +3,73 @@ import Swagger
 
 public class SwiftFormatter: CodeFormatter {
 
-    var disallowedKeywords: [String] {
-        return [
-            "Type",
-            "Protocol",
-            "class",
-            "struct",
-            "enum",
-            "protocol",
-            "extension",
-            "return",
-            "throw",
-            "throws",
-            "rethrows",
-            "public",
-            "open",
-            "private",
-            "fileprivate",
-            "internal",
-            "let",
-            "var",
-            "where",
-            "guard",
-            "associatedtype",
-            "deinit",
-            "func",
-            "import",
-            "inout",
-            "operator",
-            "static",
-            "subscript",
-            "typealias",
-            "case",
-            "break",
-            "continue",
-            "default",
-            "defer",
-            "do",
-            "else",
-            "fallthrough",
-            "for",
-            "if",
-            "in",
-            "repeat",
-            "switch",
-            "where",
-            "while",
-            "as",
-            "Any",
-            "AnyObject",
-            "catch",
-            "false",
-            "true",
-            "is",
-            "nil",
-            "super",
-            "self",
-            "Self",
-        ]
-    }
+    let keywords: [String] = [
+        "Type",
+        "Protocol",
+        "class",
+        "struct",
+        "enum",
+        "protocol",
+        "extension",
+        "return",
+        "throw",
+        "throws",
+        "rethrows",
+        "public",
+        "open",
+        "private",
+        "fileprivate",
+        "internal",
+        "let",
+        "var",
+        "where",
+        "guard",
+        "associatedtype",
+        "deinit",
+        "func",
+        "import",
+        "inout",
+        "operator",
+        "static",
+        "subscript",
+        "typealias",
+        "case",
+        "break",
+        "continue",
+        "default",
+        "defer",
+        "do",
+        "else",
+        "fallthrough",
+        "for",
+        "if",
+        "in",
+        "repeat",
+        "switch",
+        "where",
+        "while",
+        "as",
+        "Any",
+        "AnyObject",
+        "catch",
+        "false",
+        "true",
+        "is",
+        "nil",
+        "super",
+        "self",
+        "Self",
+    ]
 
-    var inbuiltTypes: [String] = [
+    let inbuiltTypes: [String] = [
         "Error",
         "Data",
     ]
 
-    override var disallowedNames: [String] { return disallowedKeywords + inbuiltTypes }
-    override var disallowedTypes: [String] { return disallowedKeywords + inbuiltTypes }
+    let disallowedNames = ["self"]
+
+    override var escapedNames: [String] { return keywords + inbuiltTypes }
+    override var escapedTypes: [String] { return keywords + inbuiltTypes }
 
     let fixedWidthIntegers: Bool
 
@@ -259,6 +259,10 @@ public class SwiftFormatter: CodeFormatter {
     }
 
     override func getEscapedName(_ name: String) -> String {
-        return "`\(name)`"
+        if disallowedNames.contains(name) {
+            return "_\(name)"
+        } else {
+            return "`\(name)`"
+        }
     }
 }

@@ -27,11 +27,11 @@ public class CodeFormatter {
         propertyNames = templateConfig.options["propertyNames"] as? [String: String] ?? [:]
     }
 
-    var disallowedNames: [String] {
+    var escapedNames: [String] {
         return []
     }
 
-    var disallowedTypes: [String] {
+    var escapedTypes: [String] {
         return []
     }
 
@@ -479,12 +479,14 @@ public class CodeFormatter {
             ("#", "hash"),
             ("@", "alpha"),
             ("&", "and"),
+            ("-", "_")
         ]
         var escapedString = string
         for (symbol, replacement) in replacements {
             escapedString = escapedString.replacingOccurrences(of: symbol, with: replacement)
         }
-        escapedString = String(String.UnicodeScalarView(escapedString.unicodeScalars.filter { CharacterSet.alphanumerics.contains($0) }))
+        let allowedCharacters = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "_"))
+        escapedString = String(String.UnicodeScalarView(escapedString.unicodeScalars.filter { allowedCharacters.contains($0) }))
 
         // prepend _ strings starting with numbers
         if let firstCharacter = escapedString.unicodeScalars.first,
@@ -501,7 +503,7 @@ public class CodeFormatter {
     // MARK: name and types
 
     func getName(_ name: String) -> String {
-        var name = name.replacingOccurrences(of: "^-(\\d)", with: "_negative$1", options: .regularExpression)
+        var name = name.replacingOccurrences(of: "^-(\\d)", with: "negative$1", options: .regularExpression)
         name = name.lowerCamelCased()
         return escapeName(name)
     }
@@ -529,12 +531,12 @@ public class CodeFormatter {
 
     func escapeName(_ name: String) -> String {
         let string = escapeString(name)
-        return disallowedNames.contains(string) ? getEscapedName(string) : string
+        return escapedNames.contains(string) ? getEscapedName(string) : string
     }
 
     func escapeType(_ type: String) -> String {
         let string = escapeString(type)
-        return disallowedTypes.contains(string) ? getEscapedType(string) : string
+        return escapedTypes.contains(string) ? getEscapedType(string) : string
     }
 
     func getEscapedType(_ type: String) -> String {

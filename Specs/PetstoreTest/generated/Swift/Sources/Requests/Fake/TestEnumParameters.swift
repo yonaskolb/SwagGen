@@ -20,8 +20,8 @@ extension PetstoreTest.Fake {
 
         /** Header parameter enum test (string) */
         public enum EnumHeaderString: String, Codable, Equatable, CaseIterable {
-            case abc = "_abc"
-            case efg = "-efg"
+            case _abc = "_abc"
+            case _efg = "-efg"
             case xyz = "(xyz)"
         }
 
@@ -33,8 +33,8 @@ extension PetstoreTest.Fake {
 
         /** Query parameter enum test (string) */
         public enum EnumQueryString: String, Codable, Equatable, CaseIterable {
-            case abc = "_abc"
-            case efg = "-efg"
+            case _abc = "_abc"
+            case _efg = "-efg"
             case xyz = "(xyz)"
         }
 
@@ -46,8 +46,8 @@ extension PetstoreTest.Fake {
 
         /** Form parameter enum test (string) */
         public enum EnumFormString: String, Codable, Equatable, CaseIterable {
-            case abc = "_abc"
-            case efg = "-efg"
+            case _abc = "_abc"
+            case _efg = "-efg"
             case xyz = "(xyz)"
         }
 

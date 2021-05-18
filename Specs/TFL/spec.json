@@ -1076,7 +1076,7 @@
            {
              "name": "serviceTypes",
              "in": "query",
-             "description": "A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified",
+             "description": "A comma separated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified",
              "required": false,
              "explode": true,
              "schema": {
@@ -1156,7 +1156,7 @@
            {
              "name": "serviceTypes",
              "in": "query",
-             "description": "A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified",
+             "description": "A comma separated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified",
              "required": false,
              "explode": true,
              "schema": {
@@ -1236,7 +1236,7 @@
            {
              "name": "serviceTypes",
              "in": "query",
-             "description": "A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified",
+             "description": "A comma separated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified",
              "required": false,
              "explode": true,
              "schema": {
@@ -1327,7 +1327,7 @@
            {
              "name": "serviceTypes",
              "in": "query",
-             "description": "A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified",
+             "description": "A comma separated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified",
              "required": false,
              "explode": true,
              "schema": {
@@ -1592,7 +1592,7 @@
            {
              "name": "serviceTypes",
              "in": "query",
-             "description": "A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified",
+             "description": "A comma separated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified",
              "required": false,
              "explode": true,
              "schema": {
@@ -4610,7 +4610,7 @@
            {
              "name": "modes",
              "in": "path",
-             "description": "A comma-seperated list of modes e.g. tube,dlr",
+             "description": "A comma-separated list of modes e.g. tube,dlr",
              "required": true,
              "schema": {
                "type": "array",
@@ -4682,7 +4682,7 @@
            {
              "name": "ids",
              "in": "path",
-             "description": "A comma-seperated list of stop point ids. Max. approx. 20 ids.\r\n            You can use /StopPoint/Search/{query} endpoint to find a stop point id from a station name.",
+             "description": "A comma-separated list of stop point ids. Max. approx. 20 ids.\r\n            You can use /StopPoint/Search/{query} endpoint to find a stop point id from a station name.",
              "required": true,
              "schema": {
                "type": "array",
@@ -4962,7 +4962,7 @@
            {
              "name": "modes",
              "in": "path",
-             "description": "A comma-seperated list of modes e.g. tube,dlr",
+             "description": "A comma-separated list of modes e.g. tube,dlr",
              "required": true,
              "schema": {
                "type": "array",

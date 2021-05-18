@@ -320,7 +320,7 @@ This includes a large rewrite with a lot more test cases so many more specs shou
 ### Fixed
 - Removed symbols from generated filenames
 - Generate Floats as `Float` not `Double`
-- Fixed some array query parameters not joining their contents with the collectionFormat seperator (uses comma delimeted by default now if none is provided)
+- Fixed some array query parameters not joining their contents with the collectionFormat separator (uses comma delimited by default now if none is provided)
 - Arrays and dictionaries of enums are now encoded
 - Arrays of models are now encoded
 - Support for a default response with no schema

@@ -313,10 +313,10 @@ public class CodeFormatter {
         let successResponses = responses.filter { $0.successful }.map(getResponseContext)
         let failureResponses = responses.filter { !$0.successful }.map(getResponseContext)
 
-        context["responses"] = responses.map(getResponseContext)
+        context["responses"] = successResponses + failureResponses
         context["successResponse"] = successResponses.first
         context["successType"] = successResponses.first?["type"]
-        context["defaultResponse"] = responses.first { $0.statusCode == nil }.flatMap(getResponseContext)
+        context["defaultResponse"] = failureResponses.first { $0["statusCode"] == nil }
         context["onlySuccessResponses"] = !successResponses.isEmpty && responses.count == 1
         context["alwaysHasResponseType"] = responses.filter { $0.response.value.schema != nil }.count == responses.count
 

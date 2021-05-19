@@ -165,17 +165,21 @@ public class CodeFormatter {
         context["isFile"] = schema.isFile
 
         if modelInheritance {
-            context["requiredProperties"] = schema.requiredProperties.map(getPropertyContext)
-            context["optionalProperties"] = schema.optionalProperties.map(getPropertyContext)
-            context["properties"] = schema.properties.map(getPropertyContext)
+            let requiredPropertiesContext = schema.requiredProperties.map(getPropertyContext)
+            let optionalPropertiesContext = schema.optionalProperties.map(getPropertyContext)
+            context["requiredProperties"] = requiredPropertiesContext
+            context["optionalProperties"] = optionalPropertiesContext
+            context["properties"] = requiredPropertiesContext + optionalPropertiesContext
             context["enums"] = schema.enums.map(getEnumContext)
             context["schemas"] = schema.properties.compactMap { property in
                 getInlineSchemaContext(property.schema, name: property.name)
             }
         } else {
-            context["requiredProperties"] = schema.inheritedRequiredProperties.map(getPropertyContext)
-            context["optionalProperties"] = schema.inheritedOptionalProperties.map(getPropertyContext)
-            context["properties"] = schema.inheritedProperties.map(getPropertyContext)
+            let inheritedRequiredPropertiesContext = schema.inheritedRequiredProperties.map(getPropertyContext)
+            let inheritedOptionalPropertiesContext = schema.inheritedOptionalProperties.map(getPropertyContext)
+            context["requiredProperties"] = inheritedRequiredPropertiesContext
+            context["optionalProperties"] = inheritedOptionalPropertiesContext
+            context["properties"] = inheritedRequiredPropertiesContext + inheritedOptionalPropertiesContext
             context["enums"] = schema.inheritedEnums.map(getEnumContext)
             context["schemas"] = schema.inheritedProperties.compactMap { property in
                 getInlineSchemaContext(property.schema, name: property.name)

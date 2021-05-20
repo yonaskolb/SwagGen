@@ -2,6 +2,10 @@
 
 ## Next Version
 
+### Changed
+- Improved `CodeFormatter` efficiency #272 @zntfdr
+- `CodeFormatter`'s `getOperationContext(_:)` can now set `onlySuccessResponses` to `true` even when there are multiple success responses 
+
 ### Fixed
 - Fixed sporadic crashes due to malformed URLs #268 @marcelvoss
 - Fixed generation of inline types for `allOf` #267

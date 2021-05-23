@@ -7,6 +7,10 @@ options:
   safeArrayDecoding: false # filter out invalid items in array instead of throwing
   modelPrefix: null # applied to model classes and enums
   modelSuffix: null # applied to model classes
+  modelRequestBodyPrefix: null # applied to model classes and enums in requestBodies models only
+  modelRequestBodySuffix: null # applied to model classes in requestBodies models only
+  modelResponsePrefix: null # applied to model classes and enums in response models only
+  modelResponseSuffix: null # applied to model classes in response models only
   modelType: class # can be struct or class
   modelInheritance: true # must be false for struct modelType
   modelProtocol: APIModel # the protocol all models conform to
@@ -48,7 +52,7 @@ templateFiles:
     destination: "Sources/Enums/{{ enumName }}.swift"
   - path: Sources/Model.swift
     context: schemas
-    destination: "Sources/Models/{{ type }}.swift"
+    destination: "Sources/Models/Response/{{ type }}.swift"
   - path: Sources/Request.swift
     context: operations
     destination: "Sources/Requests{% if tag %}/{{ tag|upperCamelCase }}{% endif %}/{{ type }}.swift"

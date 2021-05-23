@@ -16,7 +16,7 @@ extension TFL.StopPoint {
 
             public struct Options {
 
-                /** A comma-seperated list of modes e.g. tube,dlr */
+                /** A comma-separated list of modes e.g. tube,dlr */
                 public var modes: [String]
 
                 /** The data set page to return. Page 1 equates to the first 1000 stop points, page 2 equates to 1001-2000 etc. Must be entered for bus mode as data set is too large. */

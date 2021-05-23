@@ -18,7 +18,7 @@ public class APIClient {
     public var baseURL: String
 
     /// The Alamofire SessionManager used for each request
-    public var sessionManager: SessionManager
+    public var sessionManager: Session
 
     /// These headers will get added to every request
     public var defaultHeaders: [String: String]
@@ -28,7 +28,7 @@ public class APIClient {
 
     public var decodingQueue = DispatchQueue(label: "apiClient", qos: .utility, attributes: .concurrent)
 
-    public init(baseURL: String, sessionManager: SessionManager = .default, defaultHeaders: [String: String] = [:], behaviours: [RequestBehaviour] = []) {
+    public init(baseURL: String, sessionManager: Session = .default, defaultHeaders: [String: String] = [:], behaviours: [RequestBehaviour] = []) {
         self.baseURL = baseURL
         self.sessionManager = sessionManager
         self.behaviours = behaviours
@@ -123,24 +123,8 @@ public class APIClient {
                         }
                     }
                 },
-                with: urlRequest,
-                encodingCompletion: { result in
-                    switch result {
-                    case .success(let uploadRequest, _, _):
-                        cancellableRequest.networkRequest = uploadRequest
-                        uploadRequest.responseData { dataResponse in
-                            self.handleResponse(request: request, requestBehaviour: requestBehaviour, dataResponse: dataResponse, completionQueue: completionQueue, complete: complete)
-                        }
-                    case .failure(let error):
-                        let apiError = APIClientError.requestEncodingError(error)
-                        requestBehaviour.onFailure(error: apiError)
-                        let response = APIResponse<T>(request: request, result: .failure(apiError))
-
-                        completionQueue.async {
-                            complete(response)
-                        }
-                    }
-            })
+                with: urlRequest
+            )
         } else {
             let networkRequest = sessionManager.request(urlRequest)
                 .responseData(queue: decodingQueue) { dataResponse in
@@ -151,7 +135,7 @@ public class APIClient {
         }
     }
 
-    private func handleResponse<T>(request: APIRequest<T>, requestBehaviour: RequestBehaviourGroup, dataResponse: DataResponse<Data>, completionQueue: DispatchQueue, complete: @escaping (APIResponse<T>) -> Void) {
+    private func handleResponse<T>(request: APIRequest<T>, requestBehaviour: RequestBehaviourGroup, dataResponse: AFDataResponse<Data>, completionQueue: DispatchQueue, complete: @escaping (APIResponse<T>) -> Void) {
 
         let result: APIResult<T>
 
@@ -185,7 +169,7 @@ public class APIClient {
             result = .failure(apiError)
             requestBehaviour.onFailure(error: apiError)
         }
-        let response = APIResponse<T>(request: request, result: result, urlRequest: dataResponse.request, urlResponse: dataResponse.response, data: dataResponse.data, timeline: dataResponse.timeline)
+        let response = APIResponse<T>(request: request, result: result, urlRequest: dataResponse.request, urlResponse: dataResponse.response, data: dataResponse.data, metrics: dataResponse.metrics)
         requestBehaviour.onResponse(response: response.asAny())
 
         completionQueue.async {

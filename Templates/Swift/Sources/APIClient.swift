@@ -93,7 +93,7 @@ public class APIClient {
         requestBehaviour.beforeSend()
 
         if request.service.isUpload {
-            sessionManager.upload(
+            cancellableRequest.networkRequest = sessionManager.upload(
                 multipartFormData: { multipartFormData in
                     for (name, value) in request.formParameters {
                         if let file = value as? UploadFile {

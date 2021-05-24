@@ -172,7 +172,7 @@ extension APIResponseValue {
 
 extension APIResponse {
     public func asAny() -> APIResponse<AnyResponseValue> {
-        return APIResponse<AnyResponseValue>(request: request.asAny(), result: result.map{ $0.asAny() }, urlRequest: urlRequest, urlResponse: urlResponse, data: data, timeline: timeline)
+        return APIResponse<AnyResponseValue>(request: request.asAny(), result: result.map{ $0.asAny() }, urlRequest: urlRequest, urlResponse: urlResponse, data: data, metrics: metrics)
     }
 }
 

@@ -6,9 +6,9 @@ Pod::Spec.new do |s|
     s.version = '2.4.1'
     s.homepage = 'https://github.com/yonaskolb/SwagGen'
     s.source = { :git => 'git@github.com:https://github.com/yonaskolb/SwagGen.git' }
-    s.ios.deployment_target = '9.0'
-    s.tvos.deployment_target = '9.0'
-    s.osx.deployment_target = '10.9'
+    s.ios.deployment_target = '10.0'
+    s.tvos.deployment_target = '10.0'
+    s.osx.deployment_target = '10.12'
     s.source_files = 'Sources/**/*.swift'
-    s.dependency 'Alamofire', '~> 4.9.0'
+    s.dependency 'Alamofire', '~> 5.4.3'
 end

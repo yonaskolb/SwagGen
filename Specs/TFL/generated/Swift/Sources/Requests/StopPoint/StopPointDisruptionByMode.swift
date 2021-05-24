@@ -16,7 +16,7 @@ extension TFL.StopPoint {
 
             public struct Options {
 
-                /** A comma-seperated list of modes e.g. tube,dlr */
+                /** A comma-separated list of modes e.g. tube,dlr */
                 public var modes: [String]
 
                 public var includeRouteBlockedStops: Bool?

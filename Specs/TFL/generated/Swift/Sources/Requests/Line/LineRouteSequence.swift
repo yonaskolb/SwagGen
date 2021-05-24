@@ -19,7 +19,7 @@ extension TFL.Line {
             case all = "all"
         }
 
-        /** A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
+        /** A comma separated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
         public enum ServiceTypes: String, Codable, Equatable, CaseIterable {
             case regular = "Regular"
             case night = "Night"
@@ -35,7 +35,7 @@ extension TFL.Line {
                 /** The direction of travel. Can be inbound or outbound. */
                 public var direction: Direction
 
-                /** A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
+                /** A comma separated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
                 public var serviceTypes: [ServiceTypes]?
 
                 /** That excludes crowding from line disruptions. Can be true or false. */

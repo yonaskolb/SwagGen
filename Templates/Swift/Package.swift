@@ -1,9 +1,15 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.2
 
 import PackageDescription
 
 let package = Package(
     name: "{{ options.name }}",
+    platforms: [
+        .macOS(.v10_12),
+        .iOS(.v10),
+        .tvOS(.v10),
+        .watchOS(.v3)
+    ],
     products: [
         .library(name: "{{ options.name }}", targets: ["{{ options.name }}"])
     ],

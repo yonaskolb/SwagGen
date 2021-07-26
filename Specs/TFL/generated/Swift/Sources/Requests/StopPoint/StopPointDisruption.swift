@@ -16,7 +16,7 @@ extension TFL.StopPoint {
 
             public struct Options {
 
-                /** A comma-seperated list of stop point ids. Max. approx. 20 ids.
+                /** A comma-separated list of stop point ids. Max. approx. 20 ids.
             You can use /StopPoint/Search/{query} endpoint to find a stop point id from a station name. */
                 public var ids: [String]
 

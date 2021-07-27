@@ -337,6 +337,17 @@ components:
         allOfDog:
             allOf:
                 - $ref: '#/components/schemas/Dog'
+        manager:
+          allOf:
+            - $ref: "#/components/schemas/User"
+            - properties:
+                value:
+                  type: object
+                  required:
+                    - id
+                  properties:
+                    id:
+                      type: string
     SingleAnimal:
       oneOf:
         - $ref: "#/components/schemas/Cat"

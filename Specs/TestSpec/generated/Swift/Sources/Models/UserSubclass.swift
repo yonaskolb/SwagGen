@@ -9,8 +9,12 @@ public class UserSubclass: User {
 
     public var age: Int?
 
-    public init(id: Int? = nil, name: String? = nil, age: Int? = nil) {
+    /** last error reported to user object, or null if they have not seen an error. */
+    public var lastError: ErrorType?
+
+    public init(id: Int? = nil, name: String? = nil, age: Int? = nil, lastError: ErrorType? = nil) {
         self.age = age
+        self.lastError = lastError
         super.init(id: id, name: name)
     }
 
@@ -18,6 +22,7 @@ public class UserSubclass: User {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
 
         age = try container.decodeIfPresent("age")
+        lastError = try container.decodeIfPresent("last_error")
         try super.init(from: decoder)
     }
 
@@ -25,12 +30,14 @@ public class UserSubclass: User {
         var container = encoder.container(keyedBy: StringCodingKey.self)
 
         try container.encodeIfPresent(age, forKey: "age")
+        try container.encodeIfPresent(lastError, forKey: "last_error")
         try super.encode(to: encoder)
     }
 
     override public func isEqual(to object: Any?) -> Bool {
       guard let object = object as? UserSubclass else { return false }
       guard self.age == object.age else { return false }
+      guard self.lastError == object.lastError else { return false }
       return super.isEqual(to: object)
     }
 }

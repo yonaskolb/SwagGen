@@ -2,6 +2,8 @@
 
 ## Next Version
 
+## 4.5.0
+
 ## Changed
 - Updated Alamore version in the Swift template to be 5.4.3 #273 @0x0c
 - Minimum Swift version in the Swift template is now 5.2 #273 @0x0c
@@ -10,6 +12,8 @@
 ### Fixed
 - Fixed sporadic crashes due to malformed URLs #268 @marcelvoss
 - Fixed generation of inline types for `allOf` #267 @nicholascross, #278 @liamnichols
+
+[Commits](https://github.com/yonaskolb/SwagGen/compare/4.4.0...4.5.0)
 
 ## 4.4.0
 

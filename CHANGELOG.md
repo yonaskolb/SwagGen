@@ -4,7 +4,7 @@
 
 ## 4.5.0
 
-## Changed
+### Changed
 - Updated Alamore version in the Swift template to be 5.4.3 #273 @0x0c
 - Minimum Swift version in the Swift template is now 5.2 #273 @0x0c
 - Minimum iOS version in the Swift template is now 10 #273 @0x0c

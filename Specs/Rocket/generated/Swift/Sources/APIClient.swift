@@ -81,7 +81,8 @@ public class APIClient {
         requestBehaviour.validate(urlRequest) { result in
             switch result {
             case .success(let urlRequest):
-                self.makeNetworkRequest(request: request, urlRequest: urlRequest, cancellableRequest: cancellableRequest, requestBehaviour: requestBehaviour, completionQueue: completionQueue, complete: complete)
+                let networkRequest = self.makeNetworkRequest(request: request, urlRequest: urlRequest, requestBehaviour: requestBehaviour, completionQueue: completionQueue, complete: complete)
+                cancellableRequest.networkRequest = networkRequest
             case .failure(let error):
                 let error = APIClientError.validationError(error)
                 let response = APIResponse<T>(request: request, result: .failure(error), urlRequest: urlRequest)
@@ -92,11 +93,11 @@ public class APIClient {
         return cancellableRequest
     }
 
-    private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, cancellableRequest: CancellableRequest, requestBehaviour: RequestBehaviourGroup, completionQueue: DispatchQueue, complete: @escaping (APIResponse<T>) -> Void) {
+    private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: RequestBehaviourGroup, completionQueue: DispatchQueue, complete: @escaping (APIResponse<T>) -> Void) -> Request {
         requestBehaviour.beforeSend()
 
         if request.service.isUpload {
-            cancellableRequest.networkRequest = sessionManager.upload(
+            return sessionManager.upload(
                 multipartFormData: { multipartFormData in
                     for (name, value) in request.formParameters {
                         if let file = value as? UploadFile {
@@ -125,13 +126,15 @@ public class APIClient {
                 },
                 with: urlRequest
             )
+            .responseData(queue: decodingQueue) { dataResponse in
+                self.handleResponse(request: request, requestBehaviour: requestBehaviour, dataResponse: dataResponse, completionQueue: completionQueue, complete: complete)
+            }
         } else {
-            let networkRequest = sessionManager.request(urlRequest)
+            return sessionManager.request(urlRequest)
                 .responseData(queue: decodingQueue) { dataResponse in
                     self.handleResponse(request: request, requestBehaviour: requestBehaviour, dataResponse: dataResponse, completionQueue: completionQueue, complete: complete)
 
             }
-            cancellableRequest.networkRequest = networkRequest
         }
     }
 

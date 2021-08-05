@@ -4,7 +4,7 @@
 
 ### Fixed
 - Fixed sporadic crashes due to malformed URLs #268 @marcelvoss
-- Fixed generation of inline types for `allOf` #267 @nicholascross, @liamnichols
+- Fixed generation of inline types for `allOf` #267 @nicholascross, #278 @liamnichols
 
 ## 4.4.0
 

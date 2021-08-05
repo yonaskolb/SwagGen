@@ -4,7 +4,6 @@
 
 ### Changed
 - Improved `CodeFormatter` efficiency #272 @zntfdr
-- `CodeFormatter`'s `getOperationContext(_:)` can now set `onlySuccessResponses` to `true` even when there are multiple success responses 
 
 ## 4.5.0
 

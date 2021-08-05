@@ -321,7 +321,7 @@ public class CodeFormatter {
         context["successResponse"] = successResponses.first
         context["successType"] = successResponses.first?["type"]
         context["defaultResponse"] = failureResponses.first { $0["statusCode"] == nil }
-        context["onlySuccessResponses"] = successResponses.count == responses.count
+        context["onlySuccessResponses"] = !successResponses.isEmpty && responses.count == 1
         context["alwaysHasResponseType"] = responses.filter { $0.response.value.schema != nil }.count == responses.count
 
         let successTypes = successResponses.compactMap { $0["type"] as? String }

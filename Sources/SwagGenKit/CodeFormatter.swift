@@ -304,7 +304,7 @@ public class CodeFormatter {
         context["requestSchemas"] = requestSchemas
         context["formProperties"] = formProperties
 
-        // TODO: seperate
+        // TODO: separate
         context["nonBodyParams"] = params.map(getParameterContext) + formProperties // params and form properties
 
         let securityRequirements = operation.securityRequirements ?? spec.securityRequirements

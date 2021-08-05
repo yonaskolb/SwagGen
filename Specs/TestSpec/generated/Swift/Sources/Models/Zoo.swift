@@ -15,49 +15,11 @@ public class Zoo: APIModel {
 
     public var inlineAnimals: [InlineAnimals]?
 
+    public var manager: Manager?
+
     public var oneOfDog: Dog?
 
     public var schemaAnimals: [SingleAnimal]?
-
-    public class AllOfDog: Dog {
-
-        public override init(animal: String? = nil, barks: Bool? = nil) {
-            super.init(animal: animal, barks: barks)
-        }
-
-        public required init(from decoder: Decoder) throws {
-            try super.init(from: decoder)
-        }
-
-        public override func encode(to encoder: Encoder) throws {
-            try super.encode(to: encoder)
-        }
-
-        override public func isEqual(to object: Any?) -> Bool {
-          guard object is AllOfDog else { return false }
-          return super.isEqual(to: object)
-        }
-    }
-
-    public class InlineAnimal: Animal {
-
-        public override init(animal: String? = nil) {
-            super.init(animal: animal)
-        }
-
-        public required init(from decoder: Decoder) throws {
-            try super.init(from: decoder)
-        }
-
-        public override func encode(to encoder: Encoder) throws {
-            try super.encode(to: encoder)
-        }
-
-        override public func isEqual(to object: Any?) -> Bool {
-          guard object is InlineAnimal else { return false }
-          return super.isEqual(to: object)
-        }
-    }
 
     public enum InlineAnimals: Codable, Equatable {
         case cat(Cat)
@@ -87,11 +49,73 @@ public class Zoo: APIModel {
         }
     }
 
-    public init(allOfDog: Dog? = nil, anyOfDog: Dog? = nil, inlineAnimal: Animal? = nil, inlineAnimals: [InlineAnimals]? = nil, oneOfDog: Dog? = nil, schemaAnimals: [SingleAnimal]? = nil) {
+    public class Manager: User {
+
+        public var value: Value?
+
+        public class Value: APIModel {
+
+            public var id: String
+
+            public init(id: String) {
+                self.id = id
+            }
+
+            public required init(from decoder: Decoder) throws {
+                let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+                id = try container.decode("id")
+            }
+
+            public func encode(to encoder: Encoder) throws {
+                var container = encoder.container(keyedBy: StringCodingKey.self)
+
+                try container.encode(id, forKey: "id")
+            }
+
+            public func isEqual(to object: Any?) -> Bool {
+              guard let object = object as? Value else { return false }
+              guard self.id == object.id else { return false }
+              return true
+            }
+
+            public static func == (lhs: Value, rhs: Value) -> Bool {
+                return lhs.isEqual(to: rhs)
+            }
+        }
+
+        public init(id: Int? = nil, name: String? = nil, value: Value? = nil) {
+            self.value = value
+            super.init(id: id, name: name)
+        }
+
+        public required init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: StringCodingKey.self)
+
+            value = try container.decodeIfPresent("value")
+            try super.init(from: decoder)
+        }
+
+        public override func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: StringCodingKey.self)
+
+            try container.encodeIfPresent(value, forKey: "value")
+            try super.encode(to: encoder)
+        }
+
+        override public func isEqual(to object: Any?) -> Bool {
+          guard let object = object as? Manager else { return false }
+          guard self.value == object.value else { return false }
+          return super.isEqual(to: object)
+        }
+    }
+
+    public init(allOfDog: Dog? = nil, anyOfDog: Dog? = nil, inlineAnimal: Animal? = nil, inlineAnimals: [InlineAnimals]? = nil, manager: Manager? = nil, oneOfDog: Dog? = nil, schemaAnimals: [SingleAnimal]? = nil) {
         self.allOfDog = allOfDog
         self.anyOfDog = anyOfDog
         self.inlineAnimal = inlineAnimal
         self.inlineAnimals = inlineAnimals
+        self.manager = manager
         self.oneOfDog = oneOfDog
         self.schemaAnimals = schemaAnimals
     }
@@ -103,6 +127,7 @@ public class Zoo: APIModel {
         anyOfDog = try container.decodeIfPresent("anyOfDog")
         inlineAnimal = try container.decodeIfPresent("inlineAnimal")
         inlineAnimals = try container.decodeArrayIfPresent("inlineAnimals")
+        manager = try container.decodeIfPresent("manager")
         oneOfDog = try container.decodeIfPresent("oneOfDog")
         schemaAnimals = try container.decodeArrayIfPresent("schemaAnimals")
     }
@@ -114,6 +139,7 @@ public class Zoo: APIModel {
         try container.encodeIfPresent(anyOfDog, forKey: "anyOfDog")
         try container.encodeIfPresent(inlineAnimal, forKey: "inlineAnimal")
         try container.encodeIfPresent(inlineAnimals, forKey: "inlineAnimals")
+        try container.encodeIfPresent(manager, forKey: "manager")
         try container.encodeIfPresent(oneOfDog, forKey: "oneOfDog")
         try container.encodeIfPresent(schemaAnimals, forKey: "schemaAnimals")
     }
@@ -124,6 +150,7 @@ public class Zoo: APIModel {
       guard self.anyOfDog == object.anyOfDog else { return false }
       guard self.inlineAnimal == object.inlineAnimal else { return false }
       guard self.inlineAnimals == object.inlineAnimals else { return false }
+      guard self.manager == object.manager else { return false }
       guard self.oneOfDog == object.oneOfDog else { return false }
       guard self.schemaAnimals == object.schemaAnimals else { return false }
       return true

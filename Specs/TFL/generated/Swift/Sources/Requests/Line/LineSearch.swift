@@ -12,7 +12,7 @@ extension TFL.Line {
 
         public static let service = APIService<Response>(id: "Line_Search", tag: "Line", method: "GET", path: "/Line/Search/{query}", hasBody: false, securityRequirements: [])
 
-        /** A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
+        /** A comma separated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
         public enum ServiceTypes: String, Codable, Equatable, CaseIterable {
             case regular = "Regular"
             case night = "Night"
@@ -28,7 +28,7 @@ extension TFL.Line {
                 /** Optionally filter by the specified modes */
                 public var modes: [String]?
 
-                /** A comma seperated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
+                /** A comma separated list of service types to filter on. Supported values: Regular, Night. Defaulted to 'Regular' if not specified */
                 public var serviceTypes: [ServiceTypes]?
 
                 public init(query: String, modes: [String]? = nil, serviceTypes: [ServiceTypes]? = nil) {

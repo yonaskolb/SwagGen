@@ -6,9 +6,18 @@
 - Improved `CodeFormatter` efficiency #272 @zntfdr
 - `CodeFormatter`'s `getOperationContext(_:)` can now set `onlySuccessResponses` to `true` even when there are multiple success responses 
 
+## 4.5.0
+
+### Changed
+- Updated Alamore version in the Swift template to be 5.4.3 #273 @0x0c
+- Minimum Swift version in the Swift template is now 5.2 #273 @0x0c
+- Minimum iOS version in the Swift template is now 10 #273 @0x0c
+
 ### Fixed
 - Fixed sporadic crashes due to malformed URLs #268 @marcelvoss
-- Fixed generation of inline types for `allOf` #267
+- Fixed generation of inline types for `allOf` #267 @nicholascross, #278 @liamnichols
+
+[Commits](https://github.com/yonaskolb/SwagGen/compare/4.4.0...4.5.0)
 
 ## 4.4.0
 
@@ -324,7 +333,7 @@ This includes a large rewrite with a lot more test cases so many more specs shou
 ### Fixed
 - Removed symbols from generated filenames
 - Generate Floats as `Float` not `Double`
-- Fixed some array query parameters not joining their contents with the collectionFormat seperator (uses comma delimeted by default now if none is provided)
+- Fixed some array query parameters not joining their contents with the collectionFormat separator (uses comma delimited by default now if none is provided)
 - Arrays and dictionaries of enums are now encoded
 - Arrays of models are now encoded
 - Support for a default response with no schema

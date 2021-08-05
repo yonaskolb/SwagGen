@@ -64,10 +64,10 @@ fileprivate let acronymStrings = ["URL"]
 
 extension String {
 
-    private func camelCased(seperator: String) -> String {
+    private func camelCased(separator: String) -> String {
 
         var index = 0
-        let components = self.components(separatedBy: seperator)
+        let components = self.components(separatedBy: separator)
         if uppercased() == self {
             return components.map { $0.lowercased().mapFirstChar { $0.uppercased() } }.joined(separator: "")
         }
@@ -95,11 +95,11 @@ extension String {
         return first + rest
     }
 
-    private func camelCaseSeperators() -> String {
+    private func camelCaseSeparators() -> String {
         var string = self
         for separator in separators {
             if string.contains(separator) {
-                string = string.camelCased(seperator: separator)
+                string = string.camelCased(separator: separator)
             }
         }
         return string
@@ -115,7 +115,7 @@ extension String {
 
     func lowerCamelCased() -> String {
 
-        let string = camelCaseSeperators()
+        let string = camelCaseSeparators()
 
         if string == string.uppercased(), !hasSeparator {
             return string.lowercased()
@@ -128,7 +128,7 @@ extension String {
         if acronymStrings.contains(uppercased()), !hasSeparator {
             return uppercased()
         }
-        return camelCaseSeperators().mapFirstChar { $0.uppercased() }
+        return camelCaseSeparators().mapFirstChar { $0.uppercased() }
     }
 }
 

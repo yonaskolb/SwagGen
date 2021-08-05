@@ -240,6 +240,11 @@ components:
           properties:
             age:
               type: integer
+            last_error:
+              allOf:
+                - $ref: "#/components/schemas/Error"
+              nullable: true
+              description: last error reported to user object, or null if they have not seen an error.
     UserReference:
       $ref: "#/components/schemas/User"
     ModelWithAdditionalProperties:
@@ -332,6 +337,17 @@ components:
         allOfDog:
             allOf:
                 - $ref: '#/components/schemas/Dog'
+        manager:
+          allOf:
+            - $ref: "#/components/schemas/User"
+            - properties:
+                value:
+                  type: object
+                  required:
+                    - id
+                  properties:
+                    id:
+                      type: string
     SingleAnimal:
       oneOf:
         - $ref: "#/components/schemas/Cat"

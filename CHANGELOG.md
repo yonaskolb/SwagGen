@@ -2,6 +2,11 @@
 
 ## Next Version
 
+## Changed
+- Updated Alamore version in the Swift template to be 5.4.3 #273 @0x0c
+- Minimum Swift version in the Swift template is now 5.2 #273 @0x0c
+- Minimum iOS version in the Swift template is now 10 #273 @0x0c
+
 ### Fixed
 - Fixed sporadic crashes due to malformed URLs #268 @marcelvoss
 - Fixed generation of inline types for `allOf` #267

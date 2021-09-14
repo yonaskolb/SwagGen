@@ -60,7 +60,7 @@ public {{ options.modelType }} {{ type }}: {% if parent %}{{ parent.type }}{% el
     {% if property.description %}
     /** {{ property.description }} */
     {% endif %}
-    {% if options.nullCodableEnabled and options.mutableModels and property.required == false %}@NullCodable{% endif %}
+    {% if options.nullCodable and options.mutableModels and property.required == false %}@NullCodable{% endif %}
     public {% if options.mutableModels %}var{% else %}let{% endif %} {{ property.name }}: {{ property.optionalType }}
     {% endfor %}
     {% if additionalPropertiesType %}

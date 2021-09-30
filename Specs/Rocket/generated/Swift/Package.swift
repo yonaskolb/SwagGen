@@ -14,7 +14,7 @@ let package = Package(
         .library(name: "Rocket", targets: ["Rocket"])
     ],
     dependencies: [
-        .package(url: "https://github.com/Alamofire/Alamofire.git", .exact("5.4.3")),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .exact("5.4.4")),
     ],
     targets: [
         .target(name: "Rocket", dependencies: [

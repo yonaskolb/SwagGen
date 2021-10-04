@@ -1,21 +1,23 @@
-TOOL_NAME = swaggen
+export EXECUTABLE_NAME = SwagGen
 VERSION = 4.6.0
 
 PREFIX = /usr/local
-INSTALL_PATH = $(PREFIX)/bin/$(TOOL_NAME)
-SHARE_PATH = $(PREFIX)/share/$(TOOL_NAME)
-BUILD_PATH = .build/release/$(TOOL_NAME)
+INSTALL_PATH = $(PREFIX)/bin/$(EXECUTABLE_NAME)
+SHARE_PATH = $(PREFIX)/share/$(EXECUTABLE_NAME)
+BUILD_PATH = .build/release/$(EXECUTABLE_NAME)
 CURRENT_PATH = $(PWD)
-REPO = https://github.com/yonaskolb/$(TOOL_NAME)
+REPO = https://github.com/yonaskolb/$(EXECUTABLE_NAME)
 RELEASE_TAR = $(REPO)/archive/$(VERSION).tar.gz
+SWIFT_BUILD_FLAGS = --disable-sandbox -c release --arch arm64 --arch x86_64
 SHA = $(shell curl -L -s $(RELEASE_TAR) | shasum -a 256 | sed 's/ .*//')
+EXECUTABLE_PATH = $(shell swift build $(SWIFT_BUILD_FLAGS) --show-bin-path)/$(EXECUTABLE_NAME)
 
 build:
-	swift build --disable-sandbox -c release
+	swift build $(SWIFT_BUILD_FLAGS)
 
 install: build
 	mkdir -p $(PREFIX)/bin
-	cp -f $(BUILD_PATH) $(INSTALL_PATH)
+	cp -f $(EXECUTABLE_PATH) $(INSTALL_PATH)
 	mkdir -p $(SHARE_PATH)
 	cp -R $(CURRENT_PATH)/Templates $(SHARE_PATH)/Templates
 

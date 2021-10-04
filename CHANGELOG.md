@@ -2,6 +2,9 @@
 
 ## Next Version
 
+### Changed
+- Improved `CodeFormatter` efficiency #272 @zntfdr
+
 ## 4.5.0
 
 ### Changed

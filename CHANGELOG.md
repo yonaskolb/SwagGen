@@ -9,7 +9,7 @@
 
 ### Changed
 - Improved `CodeFormatter` efficiency #272 @zntfdr
-- Updated Alamofire used in template to 5.4.4 #283 0x0c
+- Updated Alamofire used in template to 5.4.4 #283 @0x0c
 
 [Commits](https://github.com/yonaskolb/SwagGen/compare/4.5.0...4.6.0)
 

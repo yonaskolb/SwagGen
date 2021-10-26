@@ -63,6 +63,17 @@ extension KeyedEncodingContainer {
         }
     }
     
+    public mutating func encodeAnyIfPresent<Value>(
+        _ value: NullCodable<Value>,
+        forKey key: KeyedDecodingContainer<K>.Key
+    ) throws {
+        if value.projectedValue.encodingOption == .default {
+            try encodeAnyIfPresent(value.wrappedValue, forKey: key)
+        } else {
+            try encode(AnyCodable(value.wrappedValue), forKey: key)
+        }
+    }
+    
 }
 
 extension KeyedDecodingContainer {

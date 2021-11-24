@@ -152,15 +152,8 @@ If writing your own Swift template there are a few types that are generated that
 - `DateTime`: The `date-time` format. Usually `Date`
 - `DateDay`:  The `date` format. Usually `Date` or a custom type.
 
-## Editing
-```
-$ git clone https://github.com/yonaskolb/SwagGen.git
-$ cd SwagGen
-$ swift package generate-xcodeproj
-```
-This use Swift Project Manager to create an `xcodeproj` file that you can open, edit and run in Xcode, which makes editing any code easier.
-
-If you want to pass any required arguments when running in XCode, you can edit the scheme to include launch arguments.
+## Development
+If you want to pass any required arguments when running in Xcode, you can edit the scheme to include launch arguments.
 
 ## Templates
 Templates are made up of a template config file, a bunch of **Stencil** files, and other files that will be copied over during generation

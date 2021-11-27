@@ -11,7 +11,7 @@ class GenerateCommand: Command {
     let name = "generate"
     let shortDescription = "Generates code for a Swagger spec"
 
-    let spec = SwiftCLI.Parameter()
+    let spec = SwiftCLI.Param<String>()
 
     let clean = Key<Generator.Clean>("--clean", "-c", description: """
         How the destination directory will be cleaned of non generated files:
@@ -33,8 +33,11 @@ class GenerateCommand: Command {
         for example, --option "typeAliases.ID:String" would change the type alias of ID to String.
         """)
 
-    let verbose = Flag("--verbose", "-v", description: "Show verbose output", defaultValue: false)
-    let silent = Flag("--silent", "-s", description: "Silence standard output", defaultValue: false)
+    @Flag("--verbose", "-v", description: "Show verbose output")
+    var verbose: Bool
+    
+    @Flag("--silent", "-s", description: "Silence standard output")
+    var silent: Bool
 
     func execute() throws {
         let clean = self.clean.value ?? .none
@@ -113,7 +116,7 @@ class GenerateCommand: Command {
     }
 
     func standardOut(_ string: String) {
-        if !silent.value {
+        if !silent {
             stdout <<< string
         }
     }
@@ -163,7 +166,7 @@ class GenerateCommand: Command {
         )
         standardOut("Loaded template: \(templateCounts)")
 
-        if verbose.value {
+        if verbose {
             if !templateConfig.options.isEmpty {
                 standardOut("Options:\n  \(templateConfig.options.prettyPrinted.replacingOccurrences(of: "\n", with: "\n  "))")
             }
@@ -199,7 +202,7 @@ class GenerateCommand: Command {
         do {
             let generationResult = try generator.generate(clean: clean) { change in
 
-                guard verbose.value else {
+                guard verbose else {
                     return
                 }
 

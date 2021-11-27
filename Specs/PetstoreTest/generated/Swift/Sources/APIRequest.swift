@@ -60,7 +60,7 @@ extension APIRequest: CustomDebugStringConvertible {
 }
 
 /// A file upload
-public struct UploadFile: Equatable {
+public struct UploadFile: Equatable, Codable {
 
     public let type: FileType
     public let fileName: String?
@@ -78,9 +78,51 @@ public struct UploadFile: Equatable {
         self.mimeType = mimeType
     }
 
-    public enum FileType: Equatable {
+    public enum FileType: Equatable, Codable {
         case data(Data)
         case url(URL)
+
+        enum CodingKeys: CodingKey {
+            case data
+            case url
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case let .data(value):
+                try container.encode(value, forKey: .data)
+            case let .url(value):
+                try container.encode(value, forKey: .url)
+            }
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let key = container.allKeys.first
+
+            switch key {
+            case .data:
+                let value = try container.decode(
+                    Data.self,
+                    forKey: .data
+                )
+                self = .data(value)
+            case .url:
+                let value = try container.decode(
+                    URL.self,
+                    forKey: .url
+                )
+                self = .url(value)
+            default:
+                throw DecodingError.dataCorrupted(
+                    DecodingError.Context(
+                        codingPath: container.codingPath,
+                        debugDescription: "Unabled to decode FileType."
+                    )
+                )
+            }
+        }
     }
 
     func encode() -> Any {

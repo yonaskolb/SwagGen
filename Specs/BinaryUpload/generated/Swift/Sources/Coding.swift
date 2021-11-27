@@ -8,7 +8,7 @@ import Foundation
 public protocol APIModel: Codable, Equatable { }
 
 public typealias DateTime = Date
-public typealias File = Data
+public typealias File = UploadFile
 public typealias ID = UUID
 
 public protocol ResponseDecoder {

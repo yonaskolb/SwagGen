@@ -16,8 +16,6 @@ It contains a `Swagger` library that can be used in Swift to load and parse Swag
 `SwagGen` is command line tool that generates code from a [OpenAPI/Swagger 3.0](https://swagger.io/specification) spec.
 Templates for any language can be written that leverage this generator.
 
-It is an alternative the official [swagger-codegen](https://github.com/swagger-api/swagger-codegen) java code generator, and adds some improvements such as speed, configurability, simplicity, extensibility, and an improved templating language.
-
 #### Swift template
 `SwagGen` includes a bundled template for generating a client side Swift library for interfacing with the Swagger spec. It includes support for model inheritance, shared enums, discrete and mutable request objects, inline schemas, Codable and Equatable models, configurable options, generic networking stack, and many other niceties.
 
@@ -198,6 +196,10 @@ This tool is powered by:
 - [Yams](https://github.com/jpsim/Yams)
 
 Thanks also to [Logan Shire](https://github.com/AttilaTheFun) and his initial work on [Swagger Parser](https://github.com/AttilaTheFun/SwaggerParser)
+
+## Alternatives
+- [swagger-codegen](https://github.com/swagger-api/swagger-codegen)
+- [CreateAPI](https://github.com/kean/CreateAPI)
 
 ## Contributions
 Pull requests and issues are welcome

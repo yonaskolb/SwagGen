@@ -39,11 +39,21 @@ public class APIClient {
     /// - Parameters:
     ///   - request: The API request to make
     ///   - behaviours: A list of behaviours that will be run for this request. Merged with APIClient.behaviours
+    ///   - dataPreprocessor:    `DataPreprocessor` which processes the received `Data` before calling the
+    ///                          `completionHandler`. `PassthroughPreprocessor()` by default.
+    ///   - emptyResponseCodes:  HTTP status codes for which empty responses are always valid. `[204, 205]` by default.
+    ///   - emptyRequestMethods: `HTTPMethod`s for which empty responses are always valid. `[.head]` by default.
     ///   - completionQueue: The queue that complete will be called on
     ///   - complete: A closure that gets passed the APIResponse
     /// - Returns: A cancellable request. Not that cancellation will only work after any validation RequestBehaviours have run
     @discardableResult
-    public func makeRequest<T>(_ request: APIRequest<T>, behaviours: [RequestBehaviour] = [], completionQueue: DispatchQueue = DispatchQueue.main, complete: @escaping (APIResponse<T>) -> Void) -> CancellableRequest? {
+    public func makeRequest<T>(_ request: APIRequest<T>,
+                               behaviours: [RequestBehaviour] = [],
+                               dataPreprocessor: DataPreprocessor = DataResponseSerializer.defaultDataPreprocessor,
+                               emptyResponseCodes: Set<Int> = DataResponseSerializer.defaultEmptyResponseCodes,
+                               emptyRequestMethods: Set<HTTPMethod> = DataResponseSerializer.defaultEmptyRequestMethods,
+                               completionQueue: DispatchQueue = DispatchQueue.main,
+                               complete: @escaping (APIResponse<T>) -> Void) -> CancellableRequest? {
         // create composite behaviour to make it easy to call functions on array of behaviours
         let requestBehaviour = RequestBehaviourGroup(request: request, behaviours: self.behaviours + behaviours)
 
@@ -78,7 +88,14 @@ public class APIClient {
         requestBehaviour.validate(urlRequest) { result in
             switch result {
             case .success(let urlRequest):
-                let networkRequest = self.makeNetworkRequest(request: request, urlRequest: urlRequest, requestBehaviour: requestBehaviour, completionQueue: completionQueue, complete: complete)
+                let networkRequest = self.makeNetworkRequest(request: request,
+                                                             urlRequest: urlRequest,
+                                                             requestBehaviour: requestBehaviour,
+                                                             dataPreprocessor: dataPreprocessor,
+                                                             emptyResponseCodes: emptyResponseCodes,
+                                                             emptyRequestMethods: emptyRequestMethods,
+                                                             completionQueue: completionQueue,
+                                                             complete: complete)
                 cancellableRequest.networkRequest = networkRequest
             case .failure(let error):
                 let error = APIClientError.validationError(error)
@@ -90,7 +107,14 @@ public class APIClient {
         return cancellableRequest
     }
 
-    private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: RequestBehaviourGroup, completionQueue: DispatchQueue, complete: @escaping (APIResponse<T>) -> Void) -> Request {
+    private func makeNetworkRequest<T>(request: APIRequest<T>,
+                                       urlRequest: URLRequest,
+                                       requestBehaviour: RequestBehaviourGroup,
+                                       dataPreprocessor: DataPreprocessor,
+                                       emptyResponseCodes: Set<Int>,
+                                       emptyRequestMethods: Set<HTTPMethod>,
+                                       completionQueue: DispatchQueue,
+                                       complete: @escaping (APIResponse<T>) -> Void) -> Request {
         requestBehaviour.beforeSend()
 
         if request.service.isUpload {
@@ -123,14 +147,28 @@ public class APIClient {
                 },
                 with: urlRequest
             )
-            .responseData(queue: decodingQueue) { dataResponse in
-                self.handleResponse(request: request, requestBehaviour: requestBehaviour, dataResponse: dataResponse, completionQueue: completionQueue, complete: complete)
+            .responseData(queue: decodingQueue,
+                          dataPreprocessor: dataPreprocessor,
+                          emptyResponseCodes: emptyResponseCodes,
+                          emptyRequestMethods: emptyRequestMethods) { dataResponse in
+                self.handleResponse(request: request,
+                                    requestBehaviour: requestBehaviour,
+                                    dataResponse: dataResponse,
+                                    completionQueue: completionQueue,
+                                    complete: complete)
             }
         } else {
-            return sessionManager.request(urlRequest)
-                .responseData(queue: decodingQueue) { dataResponse in
-                    self.handleResponse(request: request, requestBehaviour: requestBehaviour, dataResponse: dataResponse, completionQueue: completionQueue, complete: complete)
-
+            return sessionManager
+                .request(urlRequest)
+                .responseData(queue: decodingQueue,
+                              dataPreprocessor: dataPreprocessor,
+                              emptyResponseCodes: emptyResponseCodes,
+                              emptyRequestMethods: emptyRequestMethods) { dataResponse in
+                self.handleResponse(request: request,
+                                    requestBehaviour: requestBehaviour,
+                                    dataResponse: dataResponse,
+                                    completionQueue: completionQueue,
+                                    complete: complete)
             }
         }
     }

@@ -35,24 +35,26 @@ public class CodeFormatter {
         return []
     }
 
-    public func getContext() -> [String: Any] {
-        return getSpecContext().clean()
+    public func getContext() throws -> [String: Any] {
+        return try getSpecContext().clean()
     }
 
-    func getSpecContext() -> Context {
+    func getSpecContext() throws -> Context {
         var context: Context = [:]
 
         context["raw"] = spec.json
         enums = spec.enums
-        context["enums"] = enums.map(getEnumContext)
-        context["paths"] = spec.paths.map(getPathContext)
-        context["operations"] = spec.operations.map(getOperationContext)
+        context["enums"] = try enums.map(getEnumContext)
+			context["paths"] = try spec.paths.map { try getPathContext($0.value.value(), url: $0.key) }
+			context["operations"] = try spec.operations.reduce([]) { f, s in
+				try f + s.value.map { try getOperationContext($0, path: s.key) }
+			}
         context["tags"] = spec.tags
-        context["operationsByTag"] = spec.operationsByTag
+        context["operationsByTag"] = try spec.operationsByTag
             .map { ($0, $1) }
             .sorted { $0.0.lowercased() < $1.0.lowercased() }
-            .map { ["name": $0, "operations": $1.map(getOperationContext)] }
-        context["schemas"] = spec.components.schemas.map(getSchemaContent).sorted { sortContext(by: "type", value1: $0, value2: $1) }
+						.map { k, v in ["name": k, "operations": try v.map { try getOperationContext($0, path: k) }] }
+        context["schemas"] = try spec.components.schemas.map(getSchemaContent).sorted { sortContext(by: "type", value1: $0, value2: $1) }
         context["info"] = getSpecInformationContext(spec.info)
         context["servers"] = spec.servers.enumerated().map(getServerContext)
         if let server = spec.servers.first, server.variables.isEmpty {
@@ -104,19 +106,19 @@ public class CodeFormatter {
         return context
     }
 
-    func getSchemaContent(_ schema: ComponentObject<Schema>) -> Context {
-        var context = getSchemaContext(schema.value)
+    func getSchemaContent(_ schema: ComponentObject<Schema>) throws -> Context {
+        var context = try getSchemaContext(schema.value)
 
         context["type"] = getSchemaTypeName(schema)
 
-        let schemaType = getSchemaType(name: schema.name, schema: schema.value)
+        let schemaType = try getSchemaType(name: schema.name, schema: schema.value)
 
         switch schema.value.type {
         case .string, .boolean, .integer, .number:
             context["simpleType"] = schemaType
             context["aliasType"] = schemaType
             if let enumValue = schema.value.getEnum(name: schema.name, description: schema.value.metadata.description) {
-                context["enum"] = getEnumContext(enumValue)
+                context["enum"] = try getEnumContext(enumValue)
             }
         case .reference:
             context["referenceType"] = schemaType
@@ -139,22 +141,22 @@ public class CodeFormatter {
         }
     }
 
-    func getInlineSchemaContext(_ schema: Schema, name: String) -> Context? {
-        guard let schema = schema.inlineSchema else { return nil }
+    func getInlineSchemaContext(_ schema: Schema?, name: String) throws -> Context? {
+        guard let schema = schema?.inlineSchema else { return nil }
 
-        var context: Context = getSchemaContext(schema)
+        var context: Context = try getSchemaContext(schema)
         context["type"] = escapeType(name.upperCamelCased())
 
         return context
     }
 
-    func getSchemaContext(_ schema: Schema) -> Context {
+    func getSchemaContext(_ schema: Schema) throws -> Context {
         var context: Context = [:]
 
         context["raw"] = schema.metadata.json
 
         if modelInheritance, let parent = schema.parent {
-            context["parent"] = getSchemaContent(parent)
+            context["parent"] = try getSchemaContent(parent)
         } else {
             context["parent"] = false
         }
@@ -165,30 +167,30 @@ public class CodeFormatter {
         context["isFile"] = schema.isFile
 
         if modelInheritance {
-            let requiredPropertiesContext = schema.requiredProperties.map(getPropertyContext)
-            let optionalPropertiesContext = schema.optionalProperties.map(getPropertyContext)
+            let requiredPropertiesContext = try schema.requiredProperties.map(getPropertyContext)
+            let optionalPropertiesContext = try schema.optionalProperties.map(getPropertyContext)
             context["requiredProperties"] = requiredPropertiesContext
             context["optionalProperties"] = optionalPropertiesContext
             context["properties"] = requiredPropertiesContext + optionalPropertiesContext
-            context["enums"] = schema.enums.map(getEnumContext)
-            context["schemas"] = schema.properties.compactMap { property in
-                getInlineSchemaContext(property.schema, name: property.name)
+            context["enums"] = try schema.enums.map(getEnumContext)
+            context["schemas"] = try schema.properties.compactMap { property in
+                try getInlineSchemaContext(property.schema, name: property.name)
             }
         } else {
-            let inheritedRequiredPropertiesContext = schema.inheritedRequiredProperties.map(getPropertyContext)
-            let inheritedOptionalPropertiesContext = schema.inheritedOptionalProperties.map(getPropertyContext)
+            let inheritedRequiredPropertiesContext = try schema.inheritedRequiredProperties.map(getPropertyContext)
+            let inheritedOptionalPropertiesContext = try schema.inheritedOptionalProperties.map(getPropertyContext)
             context["requiredProperties"] = inheritedRequiredPropertiesContext
             context["optionalProperties"] = inheritedOptionalPropertiesContext
             context["properties"] = inheritedRequiredPropertiesContext + inheritedOptionalPropertiesContext
-            context["enums"] = schema.inheritedEnums.map(getEnumContext)
-            context["schemas"] = schema.inheritedProperties.compactMap { property in
-                getInlineSchemaContext(property.schema, name: property.name)
+            context["enums"] = try schema.inheritedEnums.map(getEnumContext)
+            context["schemas"] = try schema.inheritedProperties.compactMap { property in
+                try getInlineSchemaContext(property.schema, name: property.name)
             }
         }
-        context["allProperties"] = schema.inheritedProperties.map(getPropertyContext)
+        context["allProperties"] = try schema.inheritedProperties.map(getPropertyContext)
 
         // fallback
-        context["type"] = getSchemaType(name: "", schema: schema)
+        context["type"] = try getSchemaType(name: "", schema: schema)
 
         switch schema.type {
         case let .group(groupSchema):
@@ -228,24 +230,24 @@ public class CodeFormatter {
         return context
     }
 
-    func getPathContext(_ path: Path) -> Context {
-        var context: Context = [:]
+	func getPathContext(_ path: Path, url: String) throws -> Context {
+		var context: Context = [:]
 
-        context["path"] = path.path
-        context["parameters"] = path.parameters.map { $0.value }.map(getParameterContext)
-        context["operations"] = path.operations.map(getOperationContext)
+		context["path"] = url
+		context["parameters"] = try path.parameters.map { try $0.value() }.map(getParameterContext)
+		context["operations"] = try path.operations.map { try getOperationContext($0, path: url) }
 
-        return context
-    }
+		return context
+	}
 
-    func getOperationContext(_ operation: Swagger.Operation) -> Context {
+	func getOperationContext(_ operation: Swagger.Operation, path: String) throws -> Context {
         var context: Context = [:]
 
         if let operationId = operation.identifier {
             context["operationId"] = operationId
             context["type"] = escapeType(operationId.upperCamelCased())
         } else {
-            let pathParts = operation.path.components(separatedBy: "/")
+            let pathParts = path.components(separatedBy: "/")
             var pathName = pathParts.map { $0.upperCamelCased() }.joined(separator: "")
             pathName = pathName.replacingOccurrences(of: "\\{(.*?)\\}", with: "By_$1", options: .regularExpression, range: nil)
             let generatedOperationId = operation.method.rawValue.lowercased() + pathName.upperCamelCased()
@@ -255,32 +257,32 @@ public class CodeFormatter {
 
         context["raw"] = operation.json
         context["method"] = operation.method.rawValue.uppercased()
-        context["path"] = operation.path
+        context["path"] = path
         context["description"] = operation.description
         context["summary"] = operation.summary
         context["tag"] = operation.tags.first
         context["tags"] = operation.tags
 
-        let params = operation.parameters.map { $0.value }
+        let params = try operation.parameters.map { try $0.value() }
 
-        context["params"] = params.map(getParameterContext)
-        context["pathParams"] = operation.getParameters(type: .path).map(getParameterContext)
-        context["queryParams"] = operation.getParameters(type: .query).map(getParameterContext)
-        context["headerParams"] = operation.getParameters(type: .header).map(getParameterContext)
-        context["cookieParams"] = operation.getParameters(type: .cookie).map(getParameterContext)
+        context["params"] = try params.map(getParameterContext)
+        context["pathParams"] = try operation.getParameters(type: .path).map(getParameterContext)
+        context["queryParams"] = try operation.getParameters(type: .query).map(getParameterContext)
+        context["headerParams"] = try operation.getParameters(type: .header).map(getParameterContext)
+        context["cookieParams"] = try operation.getParameters(type: .cookie).map(getParameterContext)
 
         context["hasBody"] = operation.requestBody != nil
 
-        var requestSchemas: [Context] = params.compactMap { parameter in
+        var requestSchemas: [Context] = try params.compactMap { parameter in
             switch parameter.type {
             case let .content(content):
                 if let schema = content.defaultSchema {
-                    return getInlineSchemaContext(schema, name: parameter.name)
+                    return try getInlineSchemaContext(schema, name: parameter.name)
                 } else {
                     return nil
                 }
             case let .schema(schema):
-                return getInlineSchemaContext(schema.schema, name: parameter.name)
+                return try getInlineSchemaContext(schema.schema, name: parameter.name)
             }
         }
 
@@ -288,16 +290,16 @@ public class CodeFormatter {
 
         if let requestBody = operation.requestBody {
             // TODO: allow other types of schemas
-            if let schema = requestBody.value.content.jsonSchema {
+            if let schema = try requestBody.value().content.jsonSchema {
                 let name = requestBody.name ?? "Body"
-                if let schemaContext = getInlineSchemaContext(schema, name: name) {
+                if let schemaContext = try getInlineSchemaContext(schema, name: name) {
                     requestSchemas.append(schemaContext)
                 }
-                context["body"] = getRequestBodyContext(requestBody)
-                context["bodyProperties"] = schema.properties.map(getPropertyContext)
+                context["body"] = try getRequestBodyContext(requestBody)
+                context["bodyProperties"] = try schema.properties.map(getPropertyContext)
             }
-            if let formSchema = requestBody.value.content.formSchema ?? requestBody.value.content.multipartFormSchema {
-                formProperties = formSchema.properties.map(getPropertyContext)
+            if let formSchema = try requestBody.value().content.formSchema ?? requestBody.value().content.multipartFormSchema {
+                formProperties = try formSchema.properties.map(getPropertyContext)
                 context["isUpload"] = formSchema.properties.contains { $0.schema.isFile }
             }
         }
@@ -305,7 +307,7 @@ public class CodeFormatter {
         context["formProperties"] = formProperties
 
         // TODO: separate
-        context["nonBodyParams"] = params.map(getParameterContext) + formProperties // params and form properties
+        context["nonBodyParams"] = try params.map(getParameterContext) + formProperties // params and form properties
 
         let securityRequirements = operation.securityRequirements ?? spec.securityRequirements
         context["securityRequirement"] = securityRequirements?.first.flatMap(getSecurityRequirementContext)
@@ -314,15 +316,15 @@ public class CodeFormatter {
         // Responses
 
         let responses = operation.responses
-        let successResponses = responses.filter { $0.successful }.map(getResponseContext)
-        let failureResponses = responses.filter { !$0.successful }.map(getResponseContext)
+        let successResponses = try responses.filter { $0.successful }.map(getResponseContext)
+        let failureResponses = try responses.filter { !$0.successful }.map(getResponseContext)
 
         context["responses"] = successResponses + failureResponses
         context["successResponse"] = successResponses.first
         context["successType"] = successResponses.first?["type"]
         context["defaultResponse"] = failureResponses.first { $0["statusCode"] == nil }
         context["onlySuccessResponses"] = !successResponses.isEmpty && responses.count == 1
-        context["alwaysHasResponseType"] = responses.filter { $0.response.value.schema != nil }.count == responses.count
+        context["alwaysHasResponseType"] = responses.filter { $0.response._value?.schema != nil }.count == responses.count
 
         let successTypes = successResponses.compactMap { $0["type"] as? String }
         let failureTypes = failureResponses.compactMap { $0["type"] as? String }
@@ -334,43 +336,43 @@ public class CodeFormatter {
             context["singleFailureType"] = failureTypes.first
         }
 
-        context["enums"] = operation.enums.map(getEnumContext)
-        context["requestEnums"] = operation.requestEnums.map(getEnumContext)
-        context["responseEnums"] = operation.responseEnums.map(getEnumContext)
+        context["enums"] = try operation.enums.map(getEnumContext)
+        context["requestEnums"] = try operation.requestEnums.map(getEnumContext)
+        context["responseEnums"] = try operation.responseEnums.map(getEnumContext)
 
-        let responseSchemas: [Context] = operation.responses.compactMap { response in
-            guard let schema = response.response.value.schema else { return nil }
-            return getInlineSchemaContext(schema, name: response.name.lowerCamelCased())
+        let responseSchemas: [Context] = try operation.responses.compactMap { response in
+            guard let schema = response.response._value?.schema else { return nil }
+            return try getInlineSchemaContext(schema, name: response.name.lowerCamelCased())
         }
         context["responseSchemas"] = responseSchemas
-        context["hasResponseModels"] = !operation.responses.filter { $0.response.value.schema != nil }.isEmpty
+        context["hasResponseModels"] = !operation.responses.filter { $0.response._value?.schema != nil }.isEmpty
 
         return context
     }
 
-    func getRequestBodyContext(_ requestBody: PossibleReference<RequestBody>) -> Context {
+    func getRequestBodyContext(_ requestBody: PossibleReference<RequestBody>) throws -> Context {
         var context: Context = [:]
         let name = "body"
-        if let schema = requestBody.value.content.defaultSchema {
-            context = getSchemaContext(schema)
-            context["type"] = getSchemaType(name: requestBody.name ?? name, schema: schema)
+        if let schema = requestBody._value?.content.defaultSchema {
+            context = try getSchemaContext(schema)
+            context["type"] = try getSchemaType(name: requestBody.name ?? name, schema: schema)
         }
         context["name"] = name
-        context["required"] = requestBody.value.required
+        context["required"] = try requestBody.value().required
 
         return context
     }
 
-    func getResponseContext(_ response: OperationResponse) -> Context {
+    func getResponseContext(_ response: OperationResponse) throws -> Context {
         var context: Context = [:]
 
         context["success"] = response.successful
         context["name"] = response.name.lowerCamelCased()
         context["statusCode"] = response.statusCode
         context["success"] = response.successful
-        context["schema"] = response.response.value.schema.flatMap(getSchemaContext)
-        context["description"] = response.response.value.description.description
-        context["type"] = response.response.value.schema.flatMap { getSchemaType(name: response.name, schema: $0) }
+        context["schema"] = try response.response.value().schema.flatMap(getSchemaContext)
+        context["description"] = try response.response.value().description.description
+        context["type"] = try response.response.value().schema.flatMap { try getSchemaType(name: response.name, schema: $0) }
 
         return context
     }
@@ -385,7 +387,7 @@ public class CodeFormatter {
         return context
     }
 
-    func getParameterContext(_ parameter: Parameter) -> Context {
+    func getParameterContext(_ parameter: Parameter) throws -> Context {
         var context: Context = [:]
 
         context["raw"] = parameter.json
@@ -404,17 +406,17 @@ public class CodeFormatter {
         switch parameter.type {
         case let .content(content):
             if let schema = content.defaultSchema {
-                context["type"] = getSchemaType(name: parameter.name, schema: schema)
+                context["type"] = try getSchemaType(name: parameter.name, schema: schema)
             }
         case let .schema(schema):
-            context["type"] = getSchemaType(name: parameter.name, schema: schema.schema)
+            context["type"] = try getSchemaType(name: parameter.name, schema: schema.schema)
         }
 
         return context
     }
 
-    func getPropertyContext(_ property: Property) -> Context {
-        var context: Context = getSchemaContext(property.schema)
+    func getPropertyContext(_ property: Property) throws -> Context {
+        var context: Context = try getSchemaContext(property.schema)
 
         if let json = context["raw"] as? [String: Any] {
             var newJson = json
@@ -424,9 +426,9 @@ public class CodeFormatter {
 
         context["required"] = property.required
         context["optional"] = property.nullable
-        context["name"] = propertyNames[property.name] ?? getName(property.name)      
+        context["name"] = propertyNames[property.name] ?? getName(property.name)
         context["value"] = property.name
-        context["type"] = getSchemaType(name: property.name, schema: property.schema)
+        context["type"] = try getSchemaType(name: property.name, schema: property.schema)
 
         if case .array = property.schema.type {
             context["isArray"] = true
@@ -435,7 +437,7 @@ public class CodeFormatter {
         return context
     }
 
-    func getEnumContext(_ enumValue: Enum) -> Context {
+    func getEnumContext(_ enumValue: Enum) throws -> Context {
         var context: Context = [:]
 
         var specEnum: Enum?
@@ -467,7 +469,7 @@ public class CodeFormatter {
         context["enums"] = enumCases
         context["description"] = specEnum?.description ?? enumValue.description
         context["raw"] = enumValue.metadata.json
-        context["type"] = getSchemaType(name: "", schema: enumValue.schema, checkEnum: false)
+        context["type"] = try getSchemaType(name: "", schema: enumValue.schema, checkEnum: false)
         return context
     }
 
@@ -524,7 +526,7 @@ public class CodeFormatter {
         return escapeType("\(modelPrefix)\(type)\(modelSuffix)")
     }
 
-    func getSchemaType(name: String, schema: Schema, checkEnum: Bool = true) -> String {
+    func getSchemaType(name: String, schema: Schema?, checkEnum: Bool = true) throws -> String {
         return "UNKNOWN_SCHEMA_TYPE"
     }
 

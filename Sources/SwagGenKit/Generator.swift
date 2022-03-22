@@ -198,7 +198,7 @@ public class Generator {
         // clean
         var cleanFiles: [Path] = []
         switch clean {
-        case .all:
+				case .all:
             cleanFiles = try destination.recursiveChildren().filter { $0.isFile }
         case .leaveDotFiles:
             let nonDotFiles = try destination.children().filter { !$0.lastComponentWithoutExtension.hasPrefix(".") }

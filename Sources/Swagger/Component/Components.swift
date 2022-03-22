@@ -2,12 +2,12 @@ import Foundation
 import JSONUtilities
 
 public struct Components {
-    public let securitySchemes: [ComponentObject<SecurityScheme>]
-    public let schemas: [ComponentObject<Schema>]
-    public let parameters: [ComponentObject<Parameter>]
-    public let responses: [ComponentObject<Response>]
-    public let requestBodies: [ComponentObject<RequestBody>]
-    public let headers: [ComponentObject<Header>]
+    public var securitySchemes: [ComponentObject<SecurityScheme>]
+    public var schemas: [ComponentObject<Schema>]
+    public var parameters: [ComponentObject<Parameter>]
+    public var responses: [ComponentObject<Response>]
+    public var requestBodies: [ComponentObject<RequestBody>]
+    public var headers: [ComponentObject<Header>]
 
 }
 

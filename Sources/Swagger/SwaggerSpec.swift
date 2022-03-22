@@ -5,18 +5,29 @@ import Yams
 
 public struct SwaggerSpec {
 
-    public let json: [String: Any]
-    public let version: String
-    public let info: Info
-    public let paths: [Path]
-    public let servers: [Server]
-    public let components: Components
-    public let securityRequirements: [SecurityRequirement]?
+    public var json: [String: Any]
+    public var version: String
+    public var info: Info
+		public var paths: [String: PossibleReference<Path>]
+    public var servers: [Server]
+    public var components: Components
+    public var securityRequirements: [SecurityRequirement]?
 
-    public let operations: [Operation]
+	public var allOperations: [(String, Operation)] {
+		operations.flatMap { v in v.value.map { (v.key, $0) } }
+	}
+	
+	public var operations: [String: [Operation]] {
+		paths
+			.mapValues {
+				$0._value?.operations.sorted(by: { $0.method < $1.method }) ?? []
+			}
+//			.sorted(by: { $0.key < $1.key })
+//			.reduce([]) { $0 + ($1.value._value?.operations.sorted(by: { $0.method < $1.method }) ?? []) }
+	}
 
     public var tags: [String] {
-        let tags: [String] = operations.reduce([]) { $0 + $1.tags }
+			let tags: [String] = operations.reduce([]) { $0 + $1.value.flatMap({ $0.tags }) }
         let distinctTags = Set(tags)
         return distinctTags.sorted { $0.compare($1) == .orderedAscending }
     }
@@ -44,9 +55,9 @@ extension SwaggerSpec {
         }
 
         if let string = String(data: data, encoding: .utf8) {
-            try self.init(string: string)
+					try self.init(string: string, url: url)
         } else if let string = String(data: data, encoding: .ascii) {
-            try self.init(string: string)
+					try self.init(string: string, url: url)
         } else {
             throw SwaggerError.parseError("Swagger doc is not utf8 or ascii encoded")
         }
@@ -54,34 +65,33 @@ extension SwaggerSpec {
 
     public init(path: PathKit.Path) throws {
         let string: String = try path.read()
-        try self.init(string: string)
+			try self.init(string: string, url: nil)
     }
 
-    public init(string: String) throws {
-        let yaml = try Yams.load(yaml: string)
-        let json = yaml as? JSONDictionary ?? [:]
-
-        try self.init(jsonDictionary: json)
-    }
+	public init(string: String, url: URL? = nil) throws {
+		let yaml = try Yams.load(yaml: string)
+		let json = yaml as? JSONDictionary ?? [:]
+		try self.init(jsonDictionary: json, url: url)
+	}
 }
 
-extension SwaggerSpec: JSONObjectConvertible {
+extension SwaggerSpec {
 
-    public init(jsonDictionary: JSONDictionary) throws {
+	public init(jsonDictionary: JSONDictionary, url: URL?) throws {
 
-        func decodeNamed<T: NamedMappable>(jsonDictionary: JSONDictionary, key: String) throws -> [T] {
-            var values: [T] = []
+			func decodeNamed<T: JSONObjectConvertible>(jsonDictionary: JSONDictionary, key: String) throws -> [String: T] {
             if let dictionary = jsonDictionary[key] as? [String: Any] {
-                for (key, value) in dictionary {
-                    if let dictionary = value as? [String: Any] {
-                        let value = try T(name: key, jsonDictionary: dictionary)
-                        values.append(value)
-                    }
-                }
-            }
-            return values
+							return try dictionary.compactMapValues {
+								if let dictionary = $0 as? [String: Any] {
+									return try T(jsonDictionary: dictionary)
+								} else {
+									return nil
+								}
+							}
+						} else {
+							return [:]
+						}
         }
-
         json = jsonDictionary
         version = try jsonDictionary.json(atKeyPath: "openapi")
         let versionParts = version.components(separatedBy: ".")
@@ -98,15 +108,7 @@ extension SwaggerSpec: JSONObjectConvertible {
             components = Components()
         }
         paths = try decodeNamed(jsonDictionary: jsonDictionary, key: "paths")
-        operations = paths.reduce([]) { $0 + $1.operations }
-            .sorted(by: { (lhs, rhs) -> Bool in
-                if lhs.path == rhs.path {
-                    return lhs.method.rawValue < rhs.method.rawValue
-                }
-                return lhs.path < rhs.path
-            })
-
-        let resolver = ComponentResolver(spec: self)
-        resolver.resolve()
+        let resolver = ComponentResolver(spec: self, schemeURL: url)
+        try resolver.resolve()
     }
 }

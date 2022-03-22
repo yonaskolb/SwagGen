@@ -2,7 +2,7 @@ import JSONUtilities
 
 public struct OperationResponse {
     public let statusCode: Int?
-    public let response: PossibleReference<Response>
+    public var response: PossibleReference<Response>
 }
 
 public struct Response {

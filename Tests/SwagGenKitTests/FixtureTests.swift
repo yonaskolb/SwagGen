@@ -31,7 +31,7 @@ class FixturesTests: XCTestCase {
                     let templateConfig = try TemplateConfig(path: templatePath, options: ["name": specName])
 
                     let codeFormatter = SwiftFormatter(spec: spec, templateConfig: templateConfig)
-                    let context = codeFormatter.getContext()
+                    let context = try codeFormatter.getContext()
 
                     let destinationPath = specFolder + "generated/\(templateType)"
                     try destinationPath.mkpath()

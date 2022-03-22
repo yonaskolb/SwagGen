@@ -7,7 +7,7 @@ import SwiftCLI
 import Yams
 
 class GenerateCommand: Command {
-
+ 
     let name = "generate"
     let shortDescription = "Generates code for a Swagger spec"
 
@@ -35,7 +35,7 @@ class GenerateCommand: Command {
 
     @Flag("--verbose", "-v", description: "Show verbose output")
     var verbose: Bool
-    
+
     @Flag("--silent", "-s", description: "Silence standard output")
     var silent: Bool
 
@@ -107,7 +107,7 @@ class GenerateCommand: Command {
             templatePath = path
         }
 
-        generate(specURL: specURL, templatePath: templatePath, destinationPath: destinationPath, clean: clean, options: options)
+        try generate(specURL: specURL, templatePath: templatePath, destinationPath: destinationPath, clean: clean, options: options)
     }
 
     func exitWithError(_ string: String) -> Never {
@@ -120,15 +120,13 @@ class GenerateCommand: Command {
             stdout <<< string
         }
     }
-
-    func generate(specURL: URL, templatePath: PathKit.Path, destinationPath: PathKit.Path, clean: Generator.Clean, options: [String: Any]) {
+    func generate(specURL: URL, templatePath: PathKit.Path, destinationPath: PathKit.Path, clean: Generator.Clean, options: [String: Any]) throws {
 
         let spec: SwaggerSpec
         do {
             if specURL.scheme != nil {
                 standardOut("Loading spec from \(specURL.absoluteString)")
             }
-
             spec = try SwaggerSpec(url: specURL)
         } catch {
             exitWithError("Error loading Swagger Spec: \(error)")
@@ -136,7 +134,7 @@ class GenerateCommand: Command {
 
         let specCounts = getCountString(
             counts: [
-                ("operation", spec.paths.reduce(0) { $0 + $1.operations.count }),
+							("operation", try spec.paths.reduce(0) { try $0 + $1.value.value().operations.count }),
                 ("definition", spec.components.schemas.count),
                 // ("tag", spec.tags.count),
                 ("parameter", spec.components.parameters.count),
@@ -186,7 +184,7 @@ class GenerateCommand: Command {
             codeFormatter = CodeFormatter(spec: spec, templateConfig: templateConfig)
         }
 
-        let context = codeFormatter.getContext()
+        let context = try codeFormatter.getContext()
 
         //    for schema in codeFormatter.schemaTypeErrors {
         //        writeError("Couldn't calculate type for: \(schema)\(schema.metadata.description.flatMap{" \"\($0)\""} ?? "")")

@@ -3,32 +3,34 @@ import JSONUtilities
 public struct Operation {
 
     public let json: [String: Any]
-    public let path: String
     public let method: Method
     public let summary: String?
     public let description: String?
     public let requestBody: PossibleReference<RequestBody>?
     public let pathParameters: [PossibleReference<Parameter>]
     public let operationParameters: [PossibleReference<Parameter>]
-
-    public var parameters: [PossibleReference<Parameter>] {
-        return pathParameters.filter { pathParam in
-            !operationParameters.contains { $0.value.name == pathParam.value.name }
-        } + operationParameters
-    }
-
     public let responses: [OperationResponse]
     public let defaultResponse: PossibleReference<Response>?
     public let deprecated: Bool
     public let identifier: String?
     public let tags: [String]
     public let securityRequirements: [SecurityRequirement]?
+	
+	public var parameters: [PossibleReference<Parameter>] {
+		return pathParameters.filter { pathParam in
+			!operationParameters.contains { $0._value?.name == pathParam._value?.name }
+		} + operationParameters
+	}
+	
+	public func generatedIdentifier(path: String) -> String {
+		identifier ?? "\(method)\(path)"
+	}
 
-    public var generatedIdentifier: String {
-        return identifier ?? "\(method)\(path)"
-    }
-
-    public enum Method: String {
+	public enum Method: String, Comparable {
+		public static func < (lhs: Operation.Method, rhs: Operation.Method) -> Bool {
+			lhs.rawValue < rhs.rawValue
+		}
+		
         case get
         case put
         case post
@@ -41,9 +43,8 @@ public struct Operation {
 
 extension Operation {
 
-    public init(path: String, method: Method, pathParameters: [PossibleReference<Parameter>], jsonDictionary: JSONDictionary) throws {
+    public init(method: Method, pathParameters: [PossibleReference<Parameter>], jsonDictionary: JSONDictionary) throws {
         json = jsonDictionary
-        self.path = path
         self.method = method
         self.pathParameters = pathParameters
         if jsonDictionary["parameters"] != nil {

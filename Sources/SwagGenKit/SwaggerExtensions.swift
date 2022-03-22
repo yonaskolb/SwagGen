@@ -26,17 +26,18 @@ extension SwaggerSpec {
         var dictionary: [String: [Swagger.Operation]] = [:]
 
         // add operations with no tag at ""
-        let operationsWithoutTag = operations
-            .filter { $0.tags.isEmpty }
-            .sorted { $0.generatedIdentifier < $1.generatedIdentifier }
+        let operationsWithoutTag = allOperations
+						.filter { $0.1.tags.isEmpty }
+						.sorted { $0.1.generatedIdentifier(path: $0.0) < $1.1.generatedIdentifier(path: $1.0) }
         if !operationsWithoutTag.isEmpty {
-            dictionary[""] = operationsWithoutTag
+					dictionary[""] = operationsWithoutTag.map { $0.1 }
         }
 
         for tag in tags {
-            dictionary[tag] = operations
-                .filter { $0.tags.contains(tag) }
-                .sorted { $0.generatedIdentifier < $1.generatedIdentifier }
+            dictionary[tag] = allOperations
+								.filter { $0.1.tags.contains(tag) }
+								.sorted { $0.1.generatedIdentifier(path: $0.0) < $1.1.generatedIdentifier(path: $1.0) }
+								.map { $0.1 }
         }
         return dictionary
     }
@@ -62,7 +63,7 @@ extension Schema {
         if case let .group(group) = type, group.type == .all {
             for schema in group.schemas {
                 if case let .reference(reference) = schema.type {
-                    return reference.component
+                    return try? reference.component()
                 }
             }
         }
@@ -168,7 +169,7 @@ extension Schema {
 extension Swagger.Operation {
 
     func getParameters(type: ParameterLocation) -> [Parameter] {
-        return parameters.map { $0.value }.filter { $0.location == type }
+        return parameters.compactMap { $0._value }.filter { $0.location == type }
     }
 
     var enums: [Enum] {
@@ -176,8 +177,8 @@ extension Swagger.Operation {
     }
 
     var requestEnums: [Enum] {
-        let paramEnums = parameters.compactMap { $0.value.enumValue }
-        let bodyEnums = requestBody?.value.content.defaultSchema?.enums ?? []
+        let paramEnums = parameters.compactMap { $0._value?.enumValue }
+        let bodyEnums = requestBody?._value?.content.defaultSchema?.enums ?? []
         return paramEnums + bodyEnums
     }
 
@@ -223,7 +224,7 @@ extension OperationResponse {
     }
 
     var enumValue: Enum? {
-        return response.value.schema?.getEnum(name: name, description: response.value.description)
+        return response._value?.schema?.getEnum(name: name, description: response._value?.description)
     }
 }
 
@@ -249,7 +250,7 @@ extension Parameter {
 
     func getEnum(name: String, description: String?) -> Enum? {
         switch type {
-        case let .schema(schema): return schema.schema.getEnum(name: name, description: description)
+        case let .schema(schema): return schema.schema?.getEnum(name: name, description: description)
         case let .content(content): return content.defaultSchema?.getEnum(name: name, description: description)
         }
     }

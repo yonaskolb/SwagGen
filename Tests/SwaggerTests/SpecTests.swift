@@ -42,33 +42,33 @@ class SpecTests: XCTestCase {
 
             $0.describe("/pets path") {
 
-                let path = spec.paths.first { $0.path == "/pets" }
+                let path = spec.paths.first { $0.key == "/pets" }
 
                 $0.it("has correct path") {
-                    try expect(path?.path) == "/pets"
+                    try expect(path?.key) == "/pets"
                 }
 
                 $0.it("has operations") {
-                    try expect(path?.operations.count) == 2
+									try expect(path?.value._value?.operations.count) == 2
                 }
 
                 $0.it("has a get operation") {
-                    try expect(path?.operations.filter { $0.method == .get }.count) == 1
+                    try expect(path?.value._value?.operations.filter { $0.method == .get }.count) == 1
                 }
 
                 $0.it("has a listPets operation") {
-                    try expect(path?.operations.filter { $0.identifier == "listPets" }.count) == 1
+                    try expect(path?.value._value?.operations.filter { $0.identifier == "listPets" }.count) == 1
                 }
 
                 $0.describe("listPets operation") {
 
-                    let operation = path?.operations.filter { $0.identifier == "listPets" }.first
+                    let operation = path?.value._value?.operations.filter { $0.identifier == "listPets" }.first
                     $0.it("has get operation id") {
                         try expect(operation?.identifier) == "listPets"
                     }
-                    $0.it("has a path") {
-                        try expect(operation?.path) == "/pets"
-                    }
+//                    $0.it("has a path") {
+//                        try expect(operation?.path) == "/pets"
+//                    }
                     $0.it("has tags") {
                         try expect(operation?.tags) == ["pets"]
                     }
@@ -79,36 +79,36 @@ class SpecTests: XCTestCase {
                         try expect(operation?.responses.count) == 2
                     }
                     $0.it("has a default responses") {
-                        try expect(operation?.defaultResponse?.value.description) == "unexpected error"
+                        try expect(operation?.defaultResponse?.value().description) == "unexpected error"
                     }
                 }
             }
 
             $0.describe("/pets/{petId} path") {
 
-                let path = spec.paths.first { $0.path == "/pets/{petId}" }
+                let path = spec.paths.first { $0.key == "/pets/{petId}" }
 
                 $0.it("has correct path") {
-                    try expect(path?.path) == "/pets/{petId}"
+                    try expect(path?.key) == "/pets/{petId}"
                 }
 
                 $0.it("has 2 operations") {
-                    try expect(path?.operations.count) == 2
+                    try expect(path?.value._value?.operations.count) == 2
                 }
 
                 $0.it("has a showPetById operation") {
-                    try expect(path?.operations.filter { $0.identifier == "showPetById" }.count) == 1
+                    try expect(path?.value._value?.operations.filter { $0.identifier == "showPetById" }.count) == 1
                 }
 
                 $0.describe("showPetById operation") {
 
-                    let operation = path?.operations.filter { $0.identifier == "showPetById" }.first
+                    let operation = path?.value._value?.operations.filter { $0.identifier == "showPetById" }.first
                     $0.it("has get operation id") {
                         try expect(operation?.identifier) == "showPetById"
                     }
-                    $0.it("has a path") {
-                        try expect(operation?.path) == "/pets/{petId}"
-                    }
+//                    $0.it("has a path") {
+//                        try expect(operation?.path) == "/pets/{petId}"
+//                    }
                     $0.it("has tags") {
                         try expect(operation?.tags) == ["pets"]
                     }
@@ -119,7 +119,7 @@ class SpecTests: XCTestCase {
                         try expect(operation?.responses.count) == 2
                     }
                     $0.it("has a default responses") {
-                        try expect(operation?.defaultResponse?.value.description) == "unexpected error"
+                        try expect(operation?.defaultResponse?.value().description) == "unexpected error"
                     }
                     $0.it("is a get operation") {
                         try expect(operation?.method) == .get
@@ -127,18 +127,18 @@ class SpecTests: XCTestCase {
                 }
 
                 $0.it("has a updatePetWithForm operation") {
-                    try expect(path?.operations.filter { $0.identifier == "updatePetWithForm" }.count) == 1
+                    try expect(path?.value._value?.operations.filter { $0.identifier == "updatePetWithForm" }.count) == 1
                 }
 
                 $0.describe("updatePetWithForm operation") {
 
-                    let operation = path?.operations.filter { $0.identifier == "updatePetWithForm" }.first
+                    let operation = path?.value._value?.operations.filter { $0.identifier == "updatePetWithForm" }.first
                     $0.it("has operation id") {
                         try expect(operation?.identifier) == "updatePetWithForm"
                     }
-                    $0.it("has a path") {
-                        try expect(operation?.path) == "/pets/{petId}"
-                    }
+//                    $0.it("has a path") {
+//                        try expect(operation?.path) == "/pets/{petId}"
+//                    }
                     $0.it("has tags") {
                         try expect(operation?.tags) == ["pets"]
                     }
@@ -147,10 +147,10 @@ class SpecTests: XCTestCase {
                         try expect(operation?.pathParameters.count) == 1
                     }
                     $0.it("has 1 path parameter") {
-                        try expect(operation?.parameters.filter { $0.value.location == .path }.count) == 1
+                        try expect(operation?.parameters.filter { try $0.value().location == .path }.count) == 1
                     }
                     $0.it("has 2 form parameters") {
-                        let formSchema = operation?.requestBody?.value.content.formSchema
+                        let formSchema = try operation?.requestBody?.value().content.formSchema
                         try expect(formSchema?.type.object?.properties.count) == 2
                     }
                     $0.it("has 1 response") {

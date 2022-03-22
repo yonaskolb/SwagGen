@@ -12,7 +12,7 @@ public struct Parameter {
 }
 
 public struct ParameterSchema {
-    public let schema: Schema
+    public let schema: Schema?
     public let serializationStyle: SerializationStyle
     public let explode: Bool
 }
@@ -44,7 +44,7 @@ extension Parameter: JSONObjectConvertible {
             let content: Content = try jsonDictionary.json(atKeyPath: "content")
             type = .content(content)
         } else {
-            let schema: Schema = try jsonDictionary.json(atKeyPath: "schema")
+            let schema: Schema? = jsonDictionary.json(atKeyPath: "schema")
             let serializationStyle: SerializationStyle = jsonDictionary.json(atKeyPath: "style") ?? location.defaultSerializationStyle
             let explode: Bool = jsonDictionary.json(atKeyPath: "explode") ?? (serializationStyle == .form ? true : false)
             let parameterSchema = ParameterSchema(schema: schema, serializationStyle: serializationStyle, explode: explode)

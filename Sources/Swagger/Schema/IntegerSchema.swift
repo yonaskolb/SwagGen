@@ -24,8 +24,14 @@ public struct IntegerSchema {
 }
 
 public enum IntegerFormat: String {
+    case int8
+    case int16
     case int32
     case int64
+    case uint8
+    case uint16
+    case uint32
+    case uint64
 }
 
 extension IntegerSchema {

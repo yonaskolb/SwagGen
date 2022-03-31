@@ -5,11 +5,13 @@
 ### Changed
 - Expanded `IntegerFormat` to support more fixed width integers #301 @wqz-leo
 
+### Fixed
+- Fixed duplicated switch cases when using explicit mappings in oneOf discriminator #297 @JanC
+
 ## 4.6.0
 
 ### Fixed
 - Fixed compilation with Xcode 13 #282 @sroebert
-- Fixed duplicated switch cases when using explicit mappings in oneOf discriminator #297 @JanC
 
 ### Changed
 - Improved `CodeFormatter` efficiency #272 @zntfdr

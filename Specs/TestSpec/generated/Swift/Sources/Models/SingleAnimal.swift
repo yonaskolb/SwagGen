@@ -13,10 +13,6 @@ public enum SingleAnimal: Codable, Equatable {
         let container = try decoder.container(keyedBy: StringCodingKey.self)
         let discriminator: String = try container.decode("type")
         switch discriminator {
-        case "Cat":
-            self = .cat(try Cat(from: decoder))
-        case "Dog":
-            self = .dog(try Dog(from: decoder))
         case "cat":
             self = .cat(try Cat(from: decoder))
         case "dog":

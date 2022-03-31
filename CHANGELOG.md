@@ -9,6 +9,7 @@
 
 ### Fixed
 - Fixed compilation with Xcode 13 #282 @sroebert
+- Fixed duplicated switch cases when using explicit mappings in oneOf discriminator #297 @JanC
 
 ### Changed
 - Improved `CodeFormatter` efficiency #272 @zntfdr

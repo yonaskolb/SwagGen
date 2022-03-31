@@ -2,6 +2,9 @@
 
 ## Next Version
 
+### Changed
+- Expanded `IntegerFormat` to support more fixed width integers #301 @wqz-leo
+
 ## 4.6.0
 
 ### Fixed

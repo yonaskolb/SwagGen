@@ -7,6 +7,7 @@
 
 ### Fixed
 - Fixed duplicated switch cases when using explicit mappings in oneOf discriminator #297 @JanC
+- Prefer generating composed types (oneOf, anyOf, ..) if the schema contains both `type: object` and `oneOf` #302 @JanC
 
 ## 4.6.0
 

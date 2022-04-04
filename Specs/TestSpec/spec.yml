@@ -358,6 +358,15 @@ components:
           woof: "#/components/schemas/Dog"
           dog: "#/components/schemas/Dog"
           cat: "#/components/schemas/Cat"
+    SingleAnimalWithObjectType:
+      oneOf:
+        - $ref: "#/components/schemas/Cat"
+        - $ref: "#/components/schemas/Dog"
+      discriminator:
+        propertyName: type
+        mapping:
+          dog: "#/components/schemas/Dog"
+          cat: "#/components/schemas/Cat"
     Animal:
       type: object
       properties:

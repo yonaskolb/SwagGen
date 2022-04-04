@@ -359,6 +359,7 @@ components:
           dog: "#/components/schemas/Dog"
           cat: "#/components/schemas/Cat"
     SingleAnimalWithObjectType:
+      type: object
       oneOf:
         - $ref: "#/components/schemas/Cat"
         - $ref: "#/components/schemas/Dog"

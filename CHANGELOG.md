@@ -2,6 +2,12 @@
 
 ## Next Version
 
+### Changed
+- Expanded `IntegerFormat` to support more fixed width integers #301 @wqz-leo
+
+### Fixed
+- Fixed duplicated switch cases when using explicit mappings in oneOf discriminator #297 @JanC
+
 ## 4.6.0
 
 ### Fixed

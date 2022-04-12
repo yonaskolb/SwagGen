@@ -16,8 +16,6 @@ It contains a `Swagger` library that can be used in Swift to load and parse Swag
 `SwagGen` is command line tool that generates code from a [OpenAPI/Swagger 3.0](https://swagger.io/specification) spec.
 Templates for any language can be written that leverage this generator.
 
-It is an alternative the official [swagger-codegen](https://github.com/swagger-api/swagger-codegen) java code generator, and adds some improvements such as speed, configurability, simplicity, extensibility, and an improved templating language.
-
 #### Swift template
 `SwagGen` includes a bundled template for generating a client side Swift library for interfacing with the Swagger spec. It includes support for model inheritance, shared enums, discrete and mutable request objects, inline schemas, Codable and Equatable models, configurable options, generic networking stack, and many other niceties.
 
@@ -152,15 +150,8 @@ If writing your own Swift template there are a few types that are generated that
 - `DateTime`: The `date-time` format. Usually `Date`
 - `DateDay`:  The `date` format. Usually `Date` or a custom type.
 
-## Editing
-```
-$ git clone https://github.com/yonaskolb/SwagGen.git
-$ cd SwagGen
-$ swift package generate-xcodeproj
-```
-This use Swift Project Manager to create an `xcodeproj` file that you can open, edit and run in Xcode, which makes editing any code easier.
-
-If you want to pass any required arguments when running in XCode, you can edit the scheme to include launch arguments.
+## Development
+If you want to pass any required arguments when running in Xcode, you can edit the scheme to include launch arguments.
 
 ## Templates
 Templates are made up of a template config file, a bunch of **Stencil** files, and other files that will be copied over during generation
@@ -205,6 +196,10 @@ This tool is powered by:
 - [Yams](https://github.com/jpsim/Yams)
 
 Thanks also to [Logan Shire](https://github.com/AttilaTheFun) and his initial work on [Swagger Parser](https://github.com/AttilaTheFun/SwaggerParser)
+
+## Alternatives
+- [swagger-codegen](https://github.com/swagger-api/swagger-codegen)
+- [CreateAPI](https://github.com/kean/CreateAPI)
 
 ## Contributions
 Pull requests and issues are welcome

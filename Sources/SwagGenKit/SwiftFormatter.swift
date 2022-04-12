@@ -126,8 +126,14 @@ public class SwiftFormatter: CodeFormatter {
 
             if fixedWidthIntegers {
                 switch format {
+                case .int8: return "Int8"
+                case .int16: return "Int16"
                 case .int32: return "Int32"
                 case .int64: return "Int64"
+                case .uint8: return "UInt8"
+                case .uint16: return "UInt16"
+                case .uint32: return "UInt32"
+                case .uint64: return "UInt64"
                 }
             } else {
                 return "Int"

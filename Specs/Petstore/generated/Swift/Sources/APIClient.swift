@@ -115,12 +115,30 @@ public class APIClient {
                                     multipartFormData.append(data, withName: name)
                                 }
                             }
-                        } else if let url = value as? URL {
-                            multipartFormData.append(url, withName: name)
-                        } else if let data = value as? Data {
-                            multipartFormData.append(data, withName: name)
-                        } else if let string = value as? String {
-                            multipartFormData.append(Data(string.utf8), withName: name)
+                        } else {
+                            func recursiveAppend(formData: MultipartFormData, key: String, value: Any) {
+                                switch value {
+                                    case let dictionary as [String: Any]:
+                                        for (dictionaryKey, dictionaryValue) in dictionary {
+                                            recursiveAppend(formData: formData, key: "\(key)[\(dictionaryKey)]", value: dictionaryValue)
+                                        }
+                                    case let array as [Any]:
+                                        for arrayValue in array {
+                                            recursiveAppend(formData: formData, key: "\(key)[]", value: arrayValue)
+                                        }
+                                    case let number as NSNumber:
+                                        formData.append(Data(number.stringValue.utf8), withName: key)
+                                    case let string as String:
+                                        formData.append(Data(string.utf8), withName: key)
+                                    case let data as Data:
+                                        formData.append(data, withName: key)
+                                    case let url as URL:
+                                        formData.append(url, withName: key)
+                                    default:
+                                        formData.append(Data("\(value)".utf8), withName: key)
+                                }
+                            }
+                            recursiveAppend(formData: multipartFormData, key: name, value: value)
                         }
                     }
                 },

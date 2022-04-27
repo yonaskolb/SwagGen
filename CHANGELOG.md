@@ -4,6 +4,7 @@
 
 ### Changed
 - Expanded `IntegerFormat` to support more fixed width integers #301 @wqz-leo
+- Append more types of values to MultipartFormData including arrays and dictionaries #293 @0x0c
 
 ### Fixed
 - Fixed duplicated switch cases when using explicit mappings in oneOf discriminator #297 @JanC

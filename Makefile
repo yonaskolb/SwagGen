@@ -1,5 +1,5 @@
 export EXECUTABLE_NAME = SwagGen
-VERSION = 4.6.0
+VERSION = 4.7.0
 
 PREFIX = /usr/local
 INSTALL_PATH = $(PREFIX)/bin/$(EXECUTABLE_NAME)

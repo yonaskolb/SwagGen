@@ -54,7 +54,18 @@ extension Schema: JSONObjectConvertible {
 extension SchemaType: JSONObjectConvertible {
 
     public init(jsonDictionary: JSONDictionary) throws {
-        if let dataType = DataType(jsonDictionary: jsonDictionary) {
+        if jsonDictionary["$ref"] != nil {
+            self = .reference(try Reference(jsonDictionary: jsonDictionary))
+        } else if jsonDictionary["allOf"] != nil {
+            let group = try GroupSchema(jsonDictionary: jsonDictionary, type: .all)
+            self = .group(group)
+        } else if jsonDictionary["anyOf"] != nil {
+            let group = try GroupSchema(jsonDictionary: jsonDictionary, type: .any)
+            self = .group(group)
+        } else if jsonDictionary["oneOf"] != nil {
+            let group = try GroupSchema(jsonDictionary: jsonDictionary, type: .one)
+            self = .group(group)
+        } else if let dataType = DataType(jsonDictionary: jsonDictionary){
             switch dataType {
             case .array:
                 self = .array(try ArraySchema(jsonDictionary: jsonDictionary))
@@ -69,17 +80,6 @@ extension SchemaType: JSONObjectConvertible {
             case .boolean:
                 self = .boolean
             }
-        } else if jsonDictionary["$ref"] != nil {
-            self = .reference(try Reference(jsonDictionary: jsonDictionary))
-        } else if jsonDictionary["allOf"] != nil {
-            let group = try GroupSchema(jsonDictionary: jsonDictionary, type: .all)
-            self = .group(group)
-        } else if jsonDictionary["anyOf"] != nil {
-            let group = try GroupSchema(jsonDictionary: jsonDictionary, type: .any)
-            self = .group(group)
-        } else if jsonDictionary["oneOf"] != nil {
-            let group = try GroupSchema(jsonDictionary: jsonDictionary, type: .one)
-            self = .group(group)
         } else {
             self = .any
         }

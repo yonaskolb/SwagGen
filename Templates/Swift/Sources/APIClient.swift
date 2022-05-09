@@ -92,6 +92,7 @@ public class APIClient {
 
     private func makeNetworkRequest<T>(request: APIRequest<T>, urlRequest: URLRequest, requestBehaviour: RequestBehaviourGroup, completionQueue: DispatchQueue, complete: @escaping (APIResponse<T>) -> Void) -> Request {
         requestBehaviour.beforeSend()
+        let allowedEmptyResponseCodes = requestBehaviour.allowedEmptyResponseCodes().union(DataResponseSerializer.defaultEmptyResponseCodes)
 
         if request.service.isUpload {
             return sessionManager.upload(
@@ -141,12 +142,12 @@ public class APIClient {
                 },
                 with: urlRequest
             )
-            .responseData(queue: decodingQueue) { dataResponse in
+            .responseData(queue: decodingQueue, emptyResponseCodes: allowedEmptyResponseCodes) { dataResponse in
                 self.handleResponse(request: request, requestBehaviour: requestBehaviour, dataResponse: dataResponse, completionQueue: completionQueue, complete: complete)
             }
         } else {
             return sessionManager.request(urlRequest)
-                .responseData(queue: decodingQueue) { dataResponse in
+                .responseData(queue: decodingQueue, emptyResponseCodes: allowedEmptyResponseCodes) { dataResponse in
                     self.handleResponse(request: request, requestBehaviour: requestBehaviour, dataResponse: dataResponse, completionQueue: completionQueue, complete: complete)
 
             }

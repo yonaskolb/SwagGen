@@ -13,6 +13,9 @@ public protocol RequestBehaviour {
     /// called before request is sent
     func beforeSend(request: AnyRequest)
 
+    /// called before make response handler
+    func allowedEmptyResponseCodes(request: AnyRequest) -> Set<Int>
+
     /// called when request successfuly returns a 200 range response
     func onSuccess(request: AnyRequest, result: Any)
 
@@ -35,6 +38,7 @@ public extension RequestBehaviour {
         complete(.success(urlRequest))
     }
     func beforeSend(request: AnyRequest) {}
+    func allowedEmptyResponseCodes(request: AnyRequest) -> Set<Int> { [] }
     func onSuccess(request: AnyRequest, result: Any) {}
     func onFailure(request: AnyRequest, error: APIClientError) {}
     func onResponse(request: AnyRequest, response: AnyResponse) {}
@@ -55,6 +59,14 @@ struct RequestBehaviourGroup {
         behaviours.forEach {
             $0.beforeSend(request: request)
         }
+    }
+
+    func allowedEmptyResponseCodes() -> Set<Int> { 
+        Set(
+            behaviours
+                .compactMap { $0.allowedEmptyResponseCodes(request: request) }
+                .flatMap { $0 }
+        )
     }
 
     func validate(_ urlRequest: URLRequest, complete: @escaping (RequestValidationResult) -> Void) {

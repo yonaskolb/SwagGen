@@ -380,6 +380,7 @@ public class CodeFormatter {
         var context: Context = [:]
 
         context["name"] = securityRequirement.name
+        context["isRequired"] = securityRequirement.isRequired
         context["scopes"] = securityRequirement.scopes
         context["scope"] = securityRequirement.scopes.first
 

@@ -54,6 +54,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      security:
+        - {}
+        - petstore_auth:
+            - read:pets
     post:
       summary: Create a pet
       operationId: createPets

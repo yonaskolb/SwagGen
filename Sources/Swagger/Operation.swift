@@ -57,7 +57,7 @@ extension Operation {
 
         identifier = jsonDictionary.json(atKeyPath: "operationId")
         tags = (jsonDictionary.json(atKeyPath: "tags")) ?? []
-        securityRequirements = jsonDictionary.json(atKeyPath: "security")
+        securityRequirements = type(of: self).getSecurityRequirements(from: jsonDictionary)
 
         let allResponses: [String: PossibleReference<Response>] = try jsonDictionary.json(atKeyPath: "responses")
         var mappedResponses: [OperationResponse] = []
@@ -87,5 +87,16 @@ extension Operation {
         }
 
         deprecated = (jsonDictionary.json(atKeyPath: "deprecated")) ?? false
+    }
+
+    private static func getSecurityRequirements(
+        from jsonDictionary: JSONDictionary
+    ) -> [SecurityRequirement]? {
+        guard let securityRequirements: [SecurityRequirement] =
+                jsonDictionary.json(atKeyPath: "security") else {
+            return nil
+        }
+
+        return securityRequirements.updatingRequiredFlag()
     }
 }

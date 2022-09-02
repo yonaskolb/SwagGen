@@ -34,10 +34,12 @@ extension APIService: CustomStringConvertible {
 
 public struct SecurityRequirement {
     public let type: String
+    public let isRequired: Bool
     public let scopes: [String]
 
-    public init(type: String, scopes: [String]) {
+    public init(type: String, isRequired: Bool, scopes: [String]) {
         self.type = type
+        self.isRequired = isRequired
         self.scopes = scopes
     }
 }

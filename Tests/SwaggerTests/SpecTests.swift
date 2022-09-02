@@ -81,6 +81,11 @@ class SpecTests: XCTestCase {
                     $0.it("has a default responses") {
                         try expect(operation?.defaultResponse?.value.description) == "unexpected error"
                     }
+                    $0.it("has 1 optional security requirement") {
+                        try expect(operation?.securityRequirements?.count) == 1
+                        try expect(operation?.securityRequirements?.contains(where: { $0 == .optionalMarker })) == false
+                        try expect(operation?.securityRequirements?.first?.isRequired) == false
+                    }
                 }
             }
 
@@ -158,6 +163,13 @@ class SpecTests: XCTestCase {
                     }
                     $0.it("is a post operation") {
                         try expect(operation?.method) == .post
+                    }
+                    $0.it("has 1 non-optional security requirement") {
+                        try expect(operation?.securityRequirements?.count) == 1
+                        let securityRequirement = operation?.securityRequirements?.first
+                        try expect(securityRequirement?.name) == "petstore_auth"
+                        try expect(securityRequirement?.isRequired) == true
+                        try expect(securityRequirement?.scopes) == ["write:pets", "read:pets"]
                     }
                 }
             }

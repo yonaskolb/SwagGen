@@ -41,7 +41,11 @@ public struct Operation {
 
 extension Operation {
 
-    public init(path: String, method: Method, pathParameters: [PossibleReference<Parameter>], jsonDictionary: JSONDictionary) throws {
+    public init(path: String,
+                method: Method,
+                pathParameters: [PossibleReference<Parameter>],
+                jsonDictionary: JSONDictionary,
+                topLevelSecurityRequirements: [SecurityRequirement]?) throws {
         json = jsonDictionary
         self.path = path
         self.method = method
@@ -57,7 +61,10 @@ extension Operation {
 
         identifier = jsonDictionary.json(atKeyPath: "operationId")
         tags = (jsonDictionary.json(atKeyPath: "tags")) ?? []
-        securityRequirements = type(of: self).getSecurityRequirements(from: jsonDictionary)
+        securityRequirements = type(of: self).getSecurityRequirements(
+            from: jsonDictionary,
+            topLevelSecurityRequirements: topLevelSecurityRequirements
+        )
 
         let allResponses: [String: PossibleReference<Response>] = try jsonDictionary.json(atKeyPath: "responses")
         var mappedResponses: [OperationResponse] = []
@@ -90,11 +97,14 @@ extension Operation {
     }
 
     private static func getSecurityRequirements(
-        from jsonDictionary: JSONDictionary
+        from jsonDictionary: JSONDictionary,
+        topLevelSecurityRequirements: [SecurityRequirement]?
     ) -> [SecurityRequirement]? {
+        // Even an empty list of operation security requirements
+        // can remove top-level security requirements.
         guard let securityRequirements: [SecurityRequirement] =
                 jsonDictionary.json(atKeyPath: "security") else {
-            return nil
+            return topLevelSecurityRequirements
         }
 
         return securityRequirements.updatingRequiredFlag()

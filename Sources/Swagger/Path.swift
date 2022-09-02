@@ -9,7 +9,9 @@ public struct Path {
 
 extension Path: NamedMappable {
 
-    public init(name: String, jsonDictionary: JSONDictionary) throws {
+    public init(name: String,
+                jsonDictionary: JSONDictionary,
+                topLevelSecurityRequirements: [SecurityRequirement]?) throws {
         path = name
         parameters = (jsonDictionary.json(atKeyPath: "parameters")) ?? []
 
@@ -17,7 +19,12 @@ extension Path: NamedMappable {
         for (key, value) in jsonDictionary {
             if let method = Operation.Method(rawValue: key) {
                 if let json = value as? [String: Any] {
-                    let operation = try Operation(path: path, method: method, pathParameters: parameters, jsonDictionary: json)
+                    let operation = try Operation(
+                        path: path,
+                        method: method,
+                        pathParameters: parameters,
+                        jsonDictionary: json,
+                        topLevelSecurityRequirements: topLevelSecurityRequirements)
                     mappedOperations.append(operation)
                 }
             }

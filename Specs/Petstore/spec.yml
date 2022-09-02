@@ -19,6 +19,9 @@ servers:
   - x-name: Prod
     description: Prod environment
     url: http://petstore.swagger.io/v1
+security:
+  - petstore_auth:
+    - read:pets
 paths:
   /pets:
     get:
@@ -133,9 +136,7 @@ paths:
         "405":
           description: Invalid input
       security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
+        - []
 components:
   securitySchemes:
     petstore_auth:

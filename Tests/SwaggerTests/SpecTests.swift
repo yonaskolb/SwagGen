@@ -9,7 +9,7 @@ class SpecTests: XCTestCase {
     func testSpecs() {
 
         describe("petstore spec") {
-            let path = Path(#file) + "../../../Specs/petstore/spec.yml"
+            let path = Path(#file) + "../../../Specs/Petstore/spec.yml"
 
             $0.it("can load") {
                 _ = try SwaggerSpec(path: Path(path.string))
@@ -82,9 +82,33 @@ class SpecTests: XCTestCase {
                         try expect(operation?.defaultResponse?.value.description) == "unexpected error"
                     }
                     $0.it("has 1 optional security requirement") {
-                        try expect(operation?.securityRequirements?.count) == 1
-                        try expect(operation?.securityRequirements?.contains(where: { $0 == .optionalMarker })) == false
-                        try expect(operation?.securityRequirements?.first?.isRequired) == false
+                        let securityRequirements = try XCTUnwrap(operation?.securityRequirements)
+                        try expect(securityRequirements.count) == 1
+                        try expect(securityRequirements.contains(
+                            where: { $0 == .optionalMarker })
+                        ) == false
+
+                        let securityRequirement = try XCTUnwrap(securityRequirements.first)
+                        try expect(securityRequirement.isRequired) == false
+                        try expect(securityRequirement.name) == "petstore_auth"
+                        try expect(securityRequirement.scopes) == ["read:pets"]
+                    }
+                }
+
+                $0.describe("Create a pet operation") {
+
+                    let operation = path?.operations.filter { $0.identifier == "createPets" }.first
+                    $0.it("has get operation id") {
+                        try expect(operation?.identifier) == "createPets"
+                    }
+                    $0.it("has 1 required security requirement") {
+                        let securityRequirements = try XCTUnwrap(operation?.securityRequirements)
+                        try expect(securityRequirements.count) == 1
+
+                        let securityRequirement = try XCTUnwrap(securityRequirements.first)
+                        try expect(securityRequirement.isRequired) == true
+                        try expect(securityRequirement.name) == "petstore_auth"
+                        try expect(securityRequirement.scopes) == ["write:pets", "read:pets"]
                     }
                 }
             }
@@ -129,6 +153,10 @@ class SpecTests: XCTestCase {
                     $0.it("is a get operation") {
                         try expect(operation?.method) == .get
                     }
+                    $0.it("has top-level security requirements") {
+                        XCTAssertEqual(operation?.securityRequirements,
+                                       spec.securityRequirements)
+                    }
                 }
 
                 $0.it("has a updatePetWithForm operation") {
@@ -164,12 +192,8 @@ class SpecTests: XCTestCase {
                     $0.it("is a post operation") {
                         try expect(operation?.method) == .post
                     }
-                    $0.it("has 1 non-optional security requirement") {
-                        try expect(operation?.securityRequirements?.count) == 1
-                        let securityRequirement = operation?.securityRequirements?.first
-                        try expect(securityRequirement?.name) == "petstore_auth"
-                        try expect(securityRequirement?.isRequired) == true
-                        try expect(securityRequirement?.scopes) == ["write:pets", "read:pets"]
+                    $0.it("has no security requirements") {
+                        try expect(operation?.securityRequirements?.isEmpty) == true
                     }
                 }
             }
@@ -189,6 +213,15 @@ class SpecTests: XCTestCase {
             $0.it("has Pet definition") {
                 let petDefinition = spec.components.schemas.named("Pet")
                 try expect(petDefinition?.name) == "Pet"
+            }
+
+            $0.it("has top-level security requirements") {
+                let securityRequirements = try XCTUnwrap(spec.securityRequirements)
+                try expect(securityRequirements.count) == 1
+                let securityRequirement = try XCTUnwrap(securityRequirements.first)
+                try expect(securityRequirement.isRequired) == true
+                try expect(securityRequirement.name) == "petstore_auth"
+                try expect(securityRequirement.scopes) == ["read:pets"]
             }
 
             $0.it("has tags") {

@@ -10,7 +10,7 @@ extension PetstoreTest.Pet {
     /** Deletes a pet */
     public enum DeletePet {
 
-        public static let service = APIService<Response>(id: "deletePet", tag: "pet", method: "DELETE", path: "/pet/{petId}", hasBody: false, securityRequirements: [SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"])])
+        public static let service = APIService<Response>(id: "deletePet", tag: "pet", method: "DELETE", path: "/pet/{petId}", hasBody: false, securityRequirements: [SecurityRequirement(type: "petstore_auth", isRequired: true, scopes: ["write:pets", "read:pets"])])
 
         public final class Request: APIRequest<Response> {
 

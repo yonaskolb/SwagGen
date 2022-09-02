@@ -10,7 +10,7 @@ extension TestSpec {
     /** Has all sorts of parameters */
     public enum PostAllParams {
 
-        public static let service = APIService<Response>(id: "postAllParams", tag: "", method: "POST", path: "/all-params", hasBody: true, securityRequirements: [SecurityRequirement(type: "test_auth", scopes: ["read"])])
+        public static let service = APIService<Response>(id: "postAllParams", tag: "", method: "POST", path: "/all-params", hasBody: true, securityRequirements: [SecurityRequirement(type: "test_auth", isRequired: true, scopes: ["read"])])
 
         public final class Request: APIRequest<Response> {
 

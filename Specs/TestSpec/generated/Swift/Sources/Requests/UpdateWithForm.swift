@@ -10,7 +10,7 @@ extension TestSpec {
     /** Posts a form */
     public enum UpdateWithForm {
 
-        public static let service = APIService<Response>(id: "updateWithForm", tag: "", method: "POST", path: "/post-form", hasBody: true, securityRequirements: [SecurityRequirement(type: "test_auth", scopes: ["read"])])
+        public static let service = APIService<Response>(id: "updateWithForm", tag: "", method: "POST", path: "/post-form", hasBody: true, securityRequirements: [SecurityRequirement(type: "test_auth", isRequired: true, scopes: ["read"])])
 
         public final class Request: APIRequest<Response> {
 

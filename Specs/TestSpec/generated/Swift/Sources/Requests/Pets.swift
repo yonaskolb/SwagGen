@@ -10,7 +10,7 @@ extension TestSpec {
     /** operation with a tag */
     public enum Pets {
 
-        public static let service = APIService<Response>(id: "Pets", tag: "", method: "GET", path: "/tagged", hasBody: false, securityRequirements: [SecurityRequirement(type: "test_auth", scopes: ["read"])])
+        public static let service = APIService<Response>(id: "Pets", tag: "", method: "GET", path: "/tagged", hasBody: false, securityRequirements: [SecurityRequirement(type: "test_auth", isRequired: true, scopes: ["read"])])
 
         public final class Request: APIRequest<Response> {
 

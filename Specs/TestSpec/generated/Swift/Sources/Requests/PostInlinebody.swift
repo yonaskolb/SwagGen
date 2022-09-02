@@ -10,7 +10,7 @@ extension TestSpec {
     /** operation with an inline body */
     public enum PostInlinebody {
 
-        public static let service = APIService<Response>(id: "postInlinebody", tag: "", method: "POST", path: "/inlinebody", hasBody: true, securityRequirements: [SecurityRequirement(type: "test_auth", scopes: ["write"])])
+        public static let service = APIService<Response>(id: "postInlinebody", tag: "", method: "POST", path: "/inlinebody", hasBody: true, securityRequirements: [SecurityRequirement(type: "test_auth", isRequired: true, scopes: ["write"])])
 
         public final class Request: APIRequest<Response> {
 

@@ -10,7 +10,7 @@ extension Rocket.Account {
     /** Rename a device */
     public enum RenameDevice {
 
-        public static let service = APIService<Response>(id: "renameDevice", tag: "account", method: "PUT", path: "/account/devices/{id}/name", hasBody: false, securityRequirements: [SecurityRequirement(type: "accountAuth", scopes: ["Catalog"])])
+        public static let service = APIService<Response>(id: "renameDevice", tag: "account", method: "PUT", path: "/account/devices/{id}/name", hasBody: false, securityRequirements: [SecurityRequirement(type: "accountAuth", isRequired: true, scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

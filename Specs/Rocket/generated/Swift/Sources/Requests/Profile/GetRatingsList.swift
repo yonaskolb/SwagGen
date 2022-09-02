@@ -10,7 +10,7 @@ extension Rocket.Profile {
     /** Returns the list of rated items under the active profile. */
     public enum GetRatingsList {
 
-        public static let service = APIService<Response>(id: "getRatingsList", tag: "profile", method: "GET", path: "/account/profile/ratings/list", hasBody: false, securityRequirements: [SecurityRequirement(type: "profileAuth", scopes: ["Catalog"])])
+        public static let service = APIService<Response>(id: "getRatingsList", tag: "profile", method: "GET", path: "/account/profile/ratings/list", hasBody: false, securityRequirements: [SecurityRequirement(type: "profileAuth", isRequired: true, scopes: ["Catalog"])])
 
         /** What to order by.
         Ordering by `date-modified` equates to ordering by the last rated date.

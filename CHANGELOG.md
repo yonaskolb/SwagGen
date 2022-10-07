@@ -2,6 +2,9 @@
 
 ## Next Version
 
+### Changed
+- Updated `StencilSwiftKit` to 2.10.1 and therefore Stencil to 0.15.1 #309 @flex-tackgyu
+
 ## 4.7.0
 
 ### Changed

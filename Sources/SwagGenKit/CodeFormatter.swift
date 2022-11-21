@@ -454,7 +454,7 @@ public class CodeFormatter {
         }
         var enumCases: [[String: String]] = []
         for (index, value) in enumValue.cases.enumerated() {
-            let value = String(describing: value)
+            let value = self.enumValue(from: value)
             var name = value
             if let names = enumValue.names,
                 enumValue.cases.count == names.count {
@@ -470,6 +470,15 @@ public class CodeFormatter {
         context["raw"] = enumValue.metadata.json
         context["type"] = getSchemaType(name: "", schema: enumValue.schema, checkEnum: false)
         return context
+    }
+
+    private func enumValue(from caseValue: Any) -> String {
+        // `String(describing:` will not give a correct description for NSNumber value, use instead `NSNumber` string value:
+        if let number = caseValue as? NSNumber {
+            return String(describing: number.stringValue)
+        } else {
+            return String(describing: caseValue)
+        }
     }
 
     func escapeString(_ string: String) -> String {

@@ -74,7 +74,7 @@ apiClient.makeRequest(getUserRequest) { apiResponse in
 }
 ```
 
-Each [Request](#request) also has a `makeRequest` convenience function that uses `PetstoreTest.shared`.
+Each [Request](#request) also has a `makeRequest` convenience function that uses `PetstoreTest.default`.
 
 #### APIResponse
 The `APIResponse` that gets passed to the completion closure contains the following properties:

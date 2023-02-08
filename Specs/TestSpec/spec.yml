@@ -394,6 +394,35 @@ components:
           properties:
             play:
               type: boolean
+    Donkeys:
+      type: object
+      required:
+        - donkeys
+      properties:
+        donkey:
+          type: array
+          items:
+            type: object
+            required:
+              - knownKind
+            properties:
+              spot:
+                type: string
+              knownKind:
+                anyOf:
+                  - type: string
+                    enum:
+                      - asinus
+                      - hemippus
+                      - hemionus
+                      - kulan
+                      - onager
+                  - type: string
+                    enum:
+                      - polyodon
+                      - kiang
+                      - holdereri
+                  - type: string
     Error:
       required:
         - code

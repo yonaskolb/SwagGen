@@ -1,14 +1,14 @@
 import JSONUtilities
 
 public struct Metadata {
-    public let type: DataType?
-    public let title: String?
-    public let description: String?
-    public let defaultValue: Any?
-    public let enumValues: [Any]?
-    public let enumNames: [String]?
-    public let nullable: Bool
-    public let example: Any?
+    public private(set) var type: DataType?
+    public private(set) var title: String?
+    public private(set) var description: String?
+    public private(set) var defaultValue: Any?
+    public private(set) var enumValues: [Any]?
+    public private(set) var enumNames: [String]?
+    public private(set) var nullable: Bool
+    public private(set) var example: Any?
     public var json: JSONDictionary
 
     public init() {
@@ -21,6 +21,34 @@ public struct Metadata {
         nullable = false
         example = nil
         json = [:]
+    }
+    
+    public mutating func merging(_ other: Metadata) {
+        precondition(type != nil && type == other.type)
+        title = optionalDiamond(title, other.title, merging: +)
+        description = optionalDiamond(description, other.description, merging: +)
+        enumValues = optionalDiamond(enumValues, other.enumValues, merging: +)
+        enumNames = optionalDiamond(enumNames, other.enumNames, merging: +)
+        nullable = nullable && other.nullable
+        json["enum"] = optionalDiamond(json["enum"] as? [Any], other.json["enum"] as? [Any], merging: +)
+        json["x-enum-names"] = optionalDiamond(json["x-enum-names"] as? [Any], other.json["x-enum-names"] as? [Any], merging: +)
+    }
+    
+    func optionalDiamond<S>(
+        _ lhs: S?,
+        _ rhs: S?,
+        merging op: (S, S) -> S
+    ) -> S? {
+        switch (lhs, rhs) {
+        case (nil, nil):
+            return nil
+        case (nil, .some(let rvalue)):
+            return rvalue
+        case (.some(let lvalue), nil):
+            return lvalue
+        case (.some(let lvalue), .some(let rvalue)):
+            return op(lvalue, rvalue)
+        }
     }
 }
 

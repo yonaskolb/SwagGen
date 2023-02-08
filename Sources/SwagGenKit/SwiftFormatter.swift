@@ -164,7 +164,27 @@ public class SwiftFormatter: CodeFormatter {
                 //flatten group schemas with only one schema
                 return getSchemaType(name: name, schema: singleGroupSchema)
             }
+            
+            let groupTypes = groupSchema.schemas.map(\.type)
 
+            if groupTypes.reduce(into: true, { if case .string(_) = $1 {} else { $0 = false } }),
+               let singleGroupSchema = groupSchema.schemas.first(where: { $0.metadata.enumValues == nil })
+            {
+                return getSchemaType(name: name, schema: singleGroupSchema)
+            }
+
+            if groupTypes.reduce(into: true, { if case .integer(_) = $1 {} else { $0 = false } }),
+               let singleGroupSchema = groupSchema.schemas.first(where: { $0.metadata.enumValues == nil })
+            {
+                return getSchemaType(name: name, schema: singleGroupSchema)
+            }
+
+            if groupTypes.reduce(into: true, { if case .number(_) = $1 {} else { $0 = false } }),
+               let singleGroupSchema = groupSchema.schemas.first(where: { $0.metadata.enumValues == nil })
+            {
+                return getSchemaType(name: name, schema: singleGroupSchema)
+            }
+            
             return escapeType(name.upperCamelCased())
         case .any:
             return templateConfig.getStringOption("anyType") ?? "Any"

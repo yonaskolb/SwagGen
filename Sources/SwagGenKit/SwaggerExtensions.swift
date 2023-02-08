@@ -125,6 +125,28 @@ extension Schema {
             if case let .single(schema) = array.items {
                 return schema.getEnum(name: name, description: description)
             }
+        case let .group(groupSchema) where groupSchema.type == .any:
+            let enumableSchema = groupSchema.schemas.filter { $0.metadata.enumValues != nil }
+            guard
+                Set(enumableSchema.compactMap(\.metadata.type)).count == 1,
+                enumableSchema.allSatisfy(\.canBeEnum),
+                let type = { () -> SchemaType? in
+                    switch enumableSchema.first?.metadata.type {
+                    case .string:
+                        return .string(.init())
+                    case .integer:
+                        return .integer(.init())
+                    case .number:
+                        return .number(.init())
+                    default:
+                        return nil
+                    }
+                }()
+            else { return nil }
+            let (head, tails) = (enumableSchema.first!, enumableSchema.dropFirst())
+            let squashEnumableMetadata = tails.reduce(into: head.metadata, { $0.merging($1.metadata) })
+            let squashEnumableSchema = Schema(metadata: squashEnumableMetadata, type: type)
+            return squashEnumableSchema.getEnum(name: name, description: description)
         default: break
         }
         return nil

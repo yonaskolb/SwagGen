@@ -9,6 +9,7 @@ public enum SwaggerError: Error, CustomStringConvertible {
     case invalidArraySchema([String: Any])
     case loadError(URL)
     case parseError(String)
+    case missingURL
 
     public var description: String {
         switch self {
@@ -25,6 +26,8 @@ public enum SwaggerError: Error, CustomStringConvertible {
             return "Couldn't load url \(url)"
         case let .parseError(message):
             return "Swagger Parsing Error \(message)"
+        case .missingURL:
+            return "Missing schema URL"
         }
     }
 }

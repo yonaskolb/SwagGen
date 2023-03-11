@@ -73,9 +73,6 @@ class ComponentResolver {
     }
     
     private func resolveReference<T: JSONObjectConvertible>(_ reference: Reference<T>, _ resolver: (T) throws -> Void) throws {
-        guard reference.string.hasSuffix("yaml") else {
-            return
-        }
         let url = try url(for: reference.string)
         let data: Data
         do {

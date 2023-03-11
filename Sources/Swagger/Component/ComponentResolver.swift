@@ -80,9 +80,14 @@ class ComponentResolver {
         } catch {
             throw SwaggerError.loadError(url)
         }
-        let string = String(data: data, encoding: .utf8) ?? ""
-        let yaml = try Yams.load(yaml: string)
-        let json = yaml as? JSONDictionary ?? [:]
+        let json: JSONDictionary
+        do {
+        		let string = String(data: data, encoding: .utf8) ?? ""
+            let yaml = try Yams.load(yaml: string)
+            json = yaml as? JSONDictionary ?? [:]
+        } catch {
+            json = try .from(jsonData: data)
+        }
         let value = try T.init(jsonDictionary: json)
         reference.resolve(with: value)
         let currentURL = ComponentResolver.schemeURL
@@ -164,6 +169,7 @@ class ComponentResolver {
     }
     
     private func url(for ref: String) throws -> URL {
+        if let url = URL(string: ref) { return url }
         guard var url = ComponentResolver.schemeURL else {
             throw SwaggerError.missingURL
         }

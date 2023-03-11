@@ -57,7 +57,7 @@ extension ObjectSchema: JSONObjectConvertible {
         let requiredPropertyNames: [String] = (jsonDictionary.json(atKeyPath: "required")) ?? []
         let propertiesByName: [String: Schema] = (jsonDictionary.json(atKeyPath: "properties")) ?? [:]
 
-        requiredProperties = requiredPropertyNames.compactMap { name in
+        requiredProperties = requiredPropertyNames.sorted().compactMap { name in
             if let schema = propertiesByName[name] {
                 return Property(name: name, required: true, schema: schema)
             }
@@ -71,7 +71,7 @@ extension ObjectSchema: JSONObjectConvertible {
             return nil
         }.sorted { $0.name < $1.name }
 
-        properties = requiredProperties + optionalProperties
+        properties = (requiredProperties + optionalProperties).sorted { $0.name < $1.name }
 
         minProperties = jsonDictionary.json(atKeyPath: "minProperties")
         maxProperties = jsonDictionary.json(atKeyPath: "maxProperties")

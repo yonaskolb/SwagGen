@@ -82,7 +82,7 @@ class ComponentResolver {
         }
         let json: JSONDictionary
         do {
-        		let string = String(data: data, encoding: .utf8) ?? ""
+            let string = String(data: data, encoding: .utf8) ?? ""
             let yaml = try Yams.load(yaml: string)
             json = yaml as? JSONDictionary ?? [:]
         } catch {
@@ -169,19 +169,14 @@ class ComponentResolver {
     }
     
     private func url(for ref: String) throws -> URL {
+        let ref = ref.replacingOccurrences(of: "\\/", with: "/")
         if let url = URL(string: ref) { return url }
-        guard var url = ComponentResolver.schemeURL else {
+        guard
+            let baseURL = ComponentResolver.schemeURL,
+            let url = URL(string: ref, relativeTo: baseURL)
+        else {
             throw SwaggerError.missingURL
         }
-        var value = ref.replacingOccurrences(of: "\\/", with: "/")
-        while value.hasPrefix("./") {
-            value.removeFirst(2)
-        }
-        while value.hasPrefix("../") {
-            value.removeFirst(3)
-            url = url.deletingLastPathComponent()
-        }
-        value = value.trimmingCharacters(in: CharacterSet(charactersIn: "./#"))
-        return url.appendingPathComponent(value)
+        return url
     }
 }

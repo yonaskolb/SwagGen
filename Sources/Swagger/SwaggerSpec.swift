@@ -5,15 +5,15 @@ import Yams
 
 public struct SwaggerSpec {
 
-    public let json: [String: Any]
-    public let version: String
-    public let info: Info
-    public let paths: [Path]
-    public let servers: [Server]
-    public let components: Components
-    public let securityRequirements: [SecurityRequirement]?
+    public var json: [String: Any]
+    public var version: String
+    public var info: Info
+    public var paths: [Path]
+    public var servers: [Server]
+    public var components: Components
+    public var securityRequirements: [SecurityRequirement]?
 
-    public let operations: [Operation]
+    public var operations: [Operation]
 
     public var tags: [String] {
         let tags: [String] = operations.reduce([]) { $0 + $1.tags }
@@ -42,7 +42,7 @@ extension SwaggerSpec {
         } catch {
             throw SwaggerError.loadError(url)
         }
-
+        ComponentResolver.schemeURL = url
         if let string = String(data: data, encoding: .utf8) {
             try self.init(string: string)
         } else if let string = String(data: data, encoding: .ascii) {
@@ -107,6 +107,7 @@ extension SwaggerSpec: JSONObjectConvertible {
             })
 
         let resolver = ComponentResolver(spec: self)
-        resolver.resolve()
+        try resolver.resolve()
+        self = resolver.spec
     }
 }

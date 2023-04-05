@@ -200,6 +200,7 @@ Thanks also to [Logan Shire](https://github.com/AttilaTheFun) and his initial wo
 ## Alternatives
 - [swagger-codegen](https://github.com/swagger-api/swagger-codegen)
 - [CreateAPI](https://github.com/kean/CreateAPI)
+- [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator)
 
 ## Contributions
 Pull requests and issues are welcome

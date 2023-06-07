@@ -1,3 +1,5 @@
+### ⚠️ This project is no longer under development. Please see [alternatives](#alternatives) including a project maintained by Apple
+
 # SwagGen
 
 ![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20macOS-blue.svg?style=for-the-badge)
@@ -201,6 +203,7 @@ Thanks also to [Logan Shire](https://github.com/AttilaTheFun) and his initial wo
 - [swagger-codegen](https://github.com/swagger-api/swagger-codegen)
 - [CreateAPI](https://github.com/kean/CreateAPI)
 - [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator)
+- [swift-openapi-generator](https://github.com/apple/swift-openapi-generator)
 
 ## Contributions
 Pull requests and issues are welcome

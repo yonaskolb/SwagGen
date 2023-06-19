@@ -10,7 +10,7 @@ extension Rocket.Profile {
     /** Get the map of rated item ids (itemId => rating out of 10) under the active profile. */
     public enum GetRatings {
 
-        public static let service = APIService<Response>(id: "getRatings", tag: "profile", method: "GET", path: "/account/profile/ratings", hasBody: false, securityRequirements: [SecurityRequirement(type: "profileAuth", scopes: ["Catalog"])])
+        public static let service = APIService<Response>(id: "getRatings", tag: "profile", method: "GET", path: "/account/profile/ratings", hasBody: false, securityRequirements: [SecurityRequirement(type: "profileAuth", isRequired: true, scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

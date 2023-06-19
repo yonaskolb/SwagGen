@@ -25,7 +25,7 @@ If no files are found a 404 is returned.
  */
     public enum GetItemMediaFilesGuarded {
 
-        public static let service = APIService<Response>(id: "getItemMediaFilesGuarded", tag: "account", method: "GET", path: "/account/items/{id}/videos-guarded", hasBody: false, securityRequirements: [SecurityRequirement(type: "accountAuth", scopes: ["Playback"])])
+        public static let service = APIService<Response>(id: "getItemMediaFilesGuarded", tag: "account", method: "GET", path: "/account/items/{id}/videos-guarded", hasBody: false, securityRequirements: [SecurityRequirement(type: "accountAuth", isRequired: true, scopes: ["Playback"])])
 
         public final class Request: APIRequest<Response> {
 

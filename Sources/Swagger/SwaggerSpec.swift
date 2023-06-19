@@ -30,7 +30,9 @@ public enum TransferScheme: String {
 }
 
 public protocol NamedMappable {
-    init(name: String, jsonDictionary: JSONDictionary) throws
+    init(name: String,
+         jsonDictionary: JSONDictionary,
+         topLevelSecurityRequirements: [SecurityRequirement]?) throws
 }
 
 extension SwaggerSpec {
@@ -69,12 +71,20 @@ extension SwaggerSpec: JSONObjectConvertible {
 
     public init(jsonDictionary: JSONDictionary) throws {
 
-        func decodeNamed<T: NamedMappable>(jsonDictionary: JSONDictionary, key: String) throws -> [T] {
+        func decodeNamed<T: NamedMappable>(
+            jsonDictionary: JSONDictionary,
+            key: String,
+            topLevelSecurityRequirements: [SecurityRequirement]?
+        ) throws -> [T] {
             var values: [T] = []
             if let dictionary = jsonDictionary[key] as? [String: Any] {
                 for (key, value) in dictionary {
                     if let dictionary = value as? [String: Any] {
-                        let value = try T(name: key, jsonDictionary: dictionary)
+                        let value = try T(
+                            name: key,
+                            jsonDictionary: dictionary,
+                            topLevelSecurityRequirements: topLevelSecurityRequirements
+                        )
                         values.append(value)
                     }
                 }
@@ -91,13 +101,15 @@ extension SwaggerSpec: JSONObjectConvertible {
 
         info = try jsonDictionary.json(atKeyPath: "info")
         servers = jsonDictionary.json(atKeyPath: "servers") ?? []
-        securityRequirements = jsonDictionary.json(atKeyPath: "security")
+        securityRequirements = type(of: self).getSecurityRequirements(from: jsonDictionary)
         if jsonDictionary["components"] != nil {
             components = try jsonDictionary.json(atKeyPath: "components")
         } else {
             components = Components()
         }
-        paths = try decodeNamed(jsonDictionary: jsonDictionary, key: "paths")
+        paths = try decodeNamed(jsonDictionary: jsonDictionary,
+                                key: "paths",
+                                topLevelSecurityRequirements: securityRequirements)
         operations = paths.reduce([]) { $0 + $1.operations }
             .sorted(by: { (lhs, rhs) -> Bool in
                 if lhs.path == rhs.path {
@@ -108,5 +120,16 @@ extension SwaggerSpec: JSONObjectConvertible {
 
         let resolver = ComponentResolver(spec: self)
         resolver.resolve()
+    }
+
+    private static func getSecurityRequirements(
+        from jsonDictionary: JSONDictionary
+    ) -> [SecurityRequirement]? {
+        guard let securityRequirements: [SecurityRequirement] =
+                jsonDictionary.json(atKeyPath: "security") else {
+            return nil
+        }
+
+        return securityRequirements.updatingRequiredFlag()
     }
 }

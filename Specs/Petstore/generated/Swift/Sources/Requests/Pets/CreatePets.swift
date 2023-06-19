@@ -10,7 +10,7 @@ extension Petstore.Pets {
     /** Create a pet */
     public enum CreatePets {
 
-        public static let service = APIService<Response>(id: "createPets", tag: "pets", method: "POST", path: "/pets", hasBody: false, securityRequirements: [SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"])])
+        public static let service = APIService<Response>(id: "createPets", tag: "pets", method: "POST", path: "/pets", hasBody: false, securityRequirements: [SecurityRequirement(type: "petstore_auth", isRequired: true, scopes: ["write:pets", "read:pets"])])
 
         public final class Request: APIRequest<Response> {
 

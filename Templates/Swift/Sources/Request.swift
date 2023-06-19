@@ -24,7 +24,7 @@ extension {{ options.name }}{% if tag %}.{{ options.tagPrefix }}{{ tag|upperCame
     {% endif %}
     public enum {{ type }} {
 
-        public static let service = APIService<Response>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if isUpload %}, isUpload: true{% endif %}, securityRequirements: [{% for securityRequirement in securityRequirements %}SecurityRequirement(type: "{{ securityRequirement.name }}", scopes: [{% for scope in securityRequirement.scopes %}"{{ scope }}"{% ifnot forloop.last %}, {% endif %}{% endfor %}]){% ifnot forloop.last %}, {% endif %}{% endfor %}])
+        public static let service = APIService<Response>(id: "{{ operationId }}", tag: "{{ tag }}", method: "{{ method|uppercase }}", path: "{{ path }}", hasBody: {% if hasBody %}true{% else %}false{% endif %}{% if isUpload %}, isUpload: true{% endif %}, securityRequirements: [{% for securityRequirement in securityRequirements %}SecurityRequirement(type: "{{ securityRequirement.name }}", isRequired: {% if securityRequirement.isRequired %}true{% else %}false{% endif %}, scopes: [{% for scope in securityRequirement.scopes %}"{{ scope }}"{% ifnot forloop.last %}, {% endif %}{% endfor %}]){% ifnot forloop.last %}, {% endif %}{% endfor %}])
         {% for enum in requestEnums %}
         {% if not enum.isGlobal %}
 

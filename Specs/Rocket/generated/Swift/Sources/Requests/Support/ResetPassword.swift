@@ -18,7 +18,7 @@ header as a bearer token.
  */
     public enum ResetPassword {
 
-        public static let service = APIService<Response>(id: "resetPassword", tag: "support", method: "POST", path: "/reset-password", hasBody: true, securityRequirements: [SecurityRequirement(type: "resetPasswordAuth", scopes: [])])
+        public static let service = APIService<Response>(id: "resetPassword", tag: "support", method: "POST", path: "/reset-password", hasBody: true, securityRequirements: [SecurityRequirement(type: "resetPasswordAuth", isRequired: true, scopes: [])])
 
         public final class Request: APIRequest<Response> {
 

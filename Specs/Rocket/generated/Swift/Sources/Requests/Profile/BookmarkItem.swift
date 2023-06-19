@@ -12,7 +12,7 @@ Creates one if it doesn't exist, overwrites one if it does.
  */
     public enum BookmarkItem {
 
-        public static let service = APIService<Response>(id: "bookmarkItem", tag: "profile", method: "PUT", path: "/account/profile/bookmarks/{itemId}", hasBody: false, securityRequirements: [SecurityRequirement(type: "profileAuth", scopes: ["Catalog"])])
+        public static let service = APIService<Response>(id: "bookmarkItem", tag: "profile", method: "PUT", path: "/account/profile/bookmarks/{itemId}", hasBody: false, securityRequirements: [SecurityRequirement(type: "profileAuth", isRequired: true, scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

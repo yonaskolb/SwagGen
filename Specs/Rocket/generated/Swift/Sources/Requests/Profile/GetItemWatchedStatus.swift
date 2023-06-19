@@ -10,7 +10,7 @@ extension Rocket.Profile {
     /** Get the watched status info for an item under the active profile. */
     public enum GetItemWatchedStatus {
 
-        public static let service = APIService<Response>(id: "getItemWatchedStatus", tag: "profile", method: "GET", path: "/account/profile/watched/{itemId}", hasBody: false, securityRequirements: [SecurityRequirement(type: "profileAuth", scopes: ["Catalog"])])
+        public static let service = APIService<Response>(id: "getItemWatchedStatus", tag: "profile", method: "GET", path: "/account/profile/watched/{itemId}", hasBody: false, securityRequirements: [SecurityRequirement(type: "profileAuth", isRequired: true, scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

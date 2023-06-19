@@ -17,7 +17,7 @@ may need to request a new verification email be sent. This can be done via the e
  */
     public enum VerifyEmail {
 
-        public static let service = APIService<Response>(id: "verifyEmail", tag: "support", method: "POST", path: "/verify-email", hasBody: false, securityRequirements: [SecurityRequirement(type: "verifyEmailAuth", scopes: [])])
+        public static let service = APIService<Response>(id: "verifyEmail", tag: "support", method: "POST", path: "/verify-email", hasBody: false, securityRequirements: [SecurityRequirement(type: "verifyEmailAuth", isRequired: true, scopes: [])])
 
         public final class Request: APIRequest<Response> {
 

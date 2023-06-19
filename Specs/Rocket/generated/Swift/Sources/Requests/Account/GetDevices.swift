@@ -12,7 +12,7 @@ Also includes information around device registration and deregistration limits.
  */
     public enum GetDevices {
 
-        public static let service = APIService<Response>(id: "getDevices", tag: "account", method: "GET", path: "/account/devices", hasBody: false, securityRequirements: [SecurityRequirement(type: "accountAuth", scopes: ["Catalog"])])
+        public static let service = APIService<Response>(id: "getDevices", tag: "account", method: "GET", path: "/account/devices", hasBody: false, securityRequirements: [SecurityRequirement(type: "accountAuth", isRequired: true, scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

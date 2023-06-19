@@ -10,7 +10,7 @@ extension TestSpec {
     /** Binary response */
     public enum GetFile {
 
-        public static let service = APIService<Response>(id: "getFile", tag: "", method: "GET", path: "/file", hasBody: false, securityRequirements: [SecurityRequirement(type: "test_auth", scopes: ["read"])])
+        public static let service = APIService<Response>(id: "getFile", tag: "", method: "GET", path: "/file", hasBody: false, securityRequirements: [SecurityRequirement(type: "test_auth", isRequired: true, scopes: ["read"])])
 
         public final class Request: APIRequest<Response> {
 

@@ -14,7 +14,7 @@ extension PetstoreTest.Pet {
     */
     public enum FindPetsByTags {
 
-        public static let service = APIService<Response>(id: "findPetsByTags", tag: "pet", method: "GET", path: "/pet/findByTags", hasBody: false, securityRequirements: [SecurityRequirement(type: "petstore_auth", scopes: ["write:pets", "read:pets"])])
+        public static let service = APIService<Response>(id: "findPetsByTags", tag: "pet", method: "GET", path: "/pet/findByTags", hasBody: false, securityRequirements: [SecurityRequirement(type: "petstore_auth", isRequired: true, scopes: ["write:pets", "read:pets"])])
 
         public final class Request: APIRequest<Response> {
 

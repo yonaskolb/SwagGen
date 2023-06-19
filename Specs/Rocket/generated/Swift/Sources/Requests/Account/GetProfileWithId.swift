@@ -10,7 +10,7 @@ extension Rocket.Account {
     /** Get the summary of a profile with a specific id under the active account. */
     public enum GetProfileWithId {
 
-        public static let service = APIService<Response>(id: "getProfileWithId", tag: "account", method: "GET", path: "/account/profiles/{id}", hasBody: false, securityRequirements: [SecurityRequirement(type: "accountAuth", scopes: ["Catalog"])])
+        public static let service = APIService<Response>(id: "getProfileWithId", tag: "account", method: "GET", path: "/account/profiles/{id}", hasBody: false, securityRequirements: [SecurityRequirement(type: "accountAuth", isRequired: true, scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

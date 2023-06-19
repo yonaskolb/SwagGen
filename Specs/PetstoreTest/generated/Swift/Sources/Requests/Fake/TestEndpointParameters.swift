@@ -14,7 +14,7 @@ extension PetstoreTest.Fake {
  */
     public enum TestEndpointParameters {
 
-        public static let service = APIService<Response>(id: "testEndpointParameters", tag: "fake", method: "POST", path: "/fake", hasBody: true, isUpload: true, securityRequirements: [SecurityRequirement(type: "http_basic_test", scopes: [])])
+        public static let service = APIService<Response>(id: "testEndpointParameters", tag: "fake", method: "POST", path: "/fake", hasBody: true, isUpload: true, securityRequirements: [SecurityRequirement(type: "http_basic_test", isRequired: true, scopes: [])])
 
         public final class Request: APIRequest<Response> {
 

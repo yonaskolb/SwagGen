@@ -10,7 +10,7 @@ extension Rocket.Account {
     /** Deregister a playback device from an account. */
     public enum DeregisterDevice {
 
-        public static let service = APIService<Response>(id: "deregisterDevice", tag: "account", method: "DELETE", path: "/account/devices/{id}", hasBody: false, securityRequirements: [SecurityRequirement(type: "accountAuth", scopes: ["Catalog"])])
+        public static let service = APIService<Response>(id: "deregisterDevice", tag: "account", method: "DELETE", path: "/account/devices/{id}", hasBody: false, securityRequirements: [SecurityRequirement(type: "accountAuth", isRequired: true, scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

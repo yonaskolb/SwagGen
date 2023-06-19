@@ -10,7 +10,7 @@ extension Rocket.Profile {
     /** Unbookmark an item under the active profile. */
     public enum DeleteItemBookmark {
 
-        public static let service = APIService<Response>(id: "deleteItemBookmark", tag: "profile", method: "DELETE", path: "/account/profile/bookmarks/{itemId}", hasBody: false, securityRequirements: [SecurityRequirement(type: "profileAuth", scopes: ["Catalog"])])
+        public static let service = APIService<Response>(id: "deleteItemBookmark", tag: "profile", method: "DELETE", path: "/account/profile/bookmarks/{itemId}", hasBody: false, securityRequirements: [SecurityRequirement(type: "profileAuth", isRequired: true, scopes: ["Catalog"])])
 
         public final class Request: APIRequest<Response> {
 

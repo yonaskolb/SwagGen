@@ -129,6 +129,10 @@ fixedWidthIntegers | whether to use types like Int32 and Int64 | `Bool` | false
 homepage | homepage in podspec  | `String` | https://github.com/yonaskolb/SwagGen
 modelPrefix | model by adding a prefix and model file name | `String` | null
 modelSuffix | model by adding a suffix and model file name | `String` | null
+modelRequestBodyPrefix | applied to model classes and enums in requestBodies models only | `String` | null
+modelRequestBodySuffix | applied to model classes in requestBodies models only | `String` | null
+modelResponsePrefix | applied to model classes and enums in response models only | `String` | null
+modelResponseSuffix | applied to model classes in response models only | `String` | null
 mutableModels | whether model properties are mutable | `Bool` | true
 modelType | whether each model is a `struct` or `class` | `String` | class
 modelInheritance | whether models use inheritance. Must be false for structs | Bool | true

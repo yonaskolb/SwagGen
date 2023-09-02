@@ -1,0 +1,64 @@
+openapi: 3.1.0
+info:
+  title: test
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /withoutModel:
+    post:
+      summary: Create New User
+      operationId: post-user
+      responses:
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                binary:
+                  type: string
+                  format: binary
+              required:
+                - binary
+            examples:
+              Create User Bob Fellow:
+                value:
+                  firstName: Bob
+                  lastName: Fellow
+                  email: bob.fellow@gmail.com
+                  dateOfBirth: '1996-08-24'
+        description: Post the necessary fields for the API to create a new user.
+      description: Create a new user.
+    parameters: []
+  /withModel:
+    post:
+      summary: ''
+      operationId: post-withType
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uploadData:
+                  $ref: '#/components/schemas/UploadModel'
+    parameters: []
+components:
+  schemas:
+    UploadModel:
+      title: UploadModel
+      type: object
+      properties:
+        id:
+          type: string
+        binary:
+          type: string
+          format: binary

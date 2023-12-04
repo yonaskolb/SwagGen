@@ -118,7 +118,7 @@ extension PetstoreTest.Fake {
 
             public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
-                if let enumQueryStringArray = options.enumQueryStringArray?.encode().map({ String(describing: $0) }).joined(separator: ",") {
+                if let enumQueryStringArray = options.enumQueryStringArray?.encode().map({ String(describing: $0) }).enumerated().map { number, item in return number == 0 ? item : "enumQueryStringArray=\(item)" }.joined(separator: "&") {
                   params["enum_query_string_array"] = enumQueryStringArray
                 }
                 if let enumQueryString = options.enumQueryString?.encode() {

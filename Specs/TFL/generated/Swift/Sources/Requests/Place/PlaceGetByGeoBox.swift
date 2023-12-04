@@ -64,13 +64,13 @@ extension TFL.Place {
 
             public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
-                if let categories = options.categories?.joined(separator: ",") {
+                if let categories = options.categories?.enumerated().map { number, item in return number == 0 ? item : "categories=\(item)" }.joined(separator: "&") {
                   params["categories"] = categories
                 }
                 if let includeChildren = options.includeChildren {
                   params["includeChildren"] = includeChildren
                 }
-                if let type = options.type?.joined(separator: ",") {
+                if let type = options.type?.enumerated().map { number, item in return number == 0 ? item : "type=\(item)" }.joined(separator: "&") {
                   params["type"] = type
                 }
                 if let activeOnly = options.activeOnly {

@@ -44,7 +44,7 @@ extension TFL.Place {
             public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["name"] = options.name
-                if let types = options.types?.joined(separator: ",") {
+                if let types = options.types?.enumerated().map { number, item in return number == 0 ? item : "types=\(item)" }.joined(separator: "&") {
                   params["types"] = types
                 }
                 return params

@@ -45,7 +45,7 @@ extension TFL.Line {
 
             public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
-                if let serviceTypes = options.serviceTypes?.encode().map({ String(describing: $0) }).joined(separator: ",") {
+                if let serviceTypes = options.serviceTypes?.encode().map({ String(describing: $0) }).enumerated().map { number, item in return number == 0 ? item : "serviceTypes=\(item)" }.joined(separator: "&") {
                   params["serviceTypes"] = serviceTypes
                 }
                 return params

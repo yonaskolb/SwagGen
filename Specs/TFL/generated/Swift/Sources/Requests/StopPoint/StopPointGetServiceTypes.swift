@@ -48,10 +48,10 @@ extension TFL.StopPoint {
             public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
                 params["id"] = options.id
-                if let lineIds = options.lineIds?.joined(separator: ",") {
+                if let lineIds = options.lineIds?.enumerated().map { number, item in return number == 0 ? item : "lineIds=\(item)" }.joined(separator: "&") {
                   params["lineIds"] = lineIds
                 }
-                if let modes = options.modes?.joined(separator: ",") {
+                if let modes = options.modes?.enumerated().map { number, item in return number == 0 ? item : "modes=\(item)" }.joined(separator: "&") {
                   params["modes"] = modes
                 }
                 return params

@@ -198,12 +198,18 @@ public class SwiftFormatter: CodeFormatter {
         var encodedValue = getEncodedValue(name: getName(name), type: type)
 
         if case let .schema(schema) = parameter.type,
-            case .array = schema.schema.type,
-            let collectionFormat = schema.collectionFormat {
+           case .array = schema.schema.type,
+           let collectionFormat = schema.collectionFormat {
             if type != "[String]" {
                 encodedValue += ".map({ String(describing: $0) })"
             }
-            encodedValue += ".joined(separator: \"\(collectionFormat.separator)\")"
+            if parameter.location == .query, schema.explode {
+                encodedValue += ".enumerated()"
+                encodedValue += ".map { number, item in return number == 0 ? item : \"\(name)=\\(item)\" }"
+                encodedValue += ".joined(separator: \"&\")"
+            } else {
+                encodedValue += ".joined(separator: \"\(collectionFormat.separator)\")"
+            }
         }
         if !parameter.required, let range = encodedValue.range(of: ".") {
             encodedValue = encodedValue.replacingOccurrences(of: ".", with: "?.", options: [], range: range)

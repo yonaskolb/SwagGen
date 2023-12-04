@@ -62,10 +62,10 @@ extension TFL.Road {
                 if let stripContent = options.stripContent {
                   params["stripContent"] = stripContent
                 }
-                if let severities = options.severities?.joined(separator: ",") {
+                if let severities = options.severities?.enumerated().map { number, item in return number == 0 ? item : "severities=\(item)" }.joined(separator: "&") {
                   params["severities"] = severities
                 }
-                if let categories = options.categories?.joined(separator: ",") {
+                if let categories = options.categories?.enumerated().map { number, item in return number == 0 ? item : "categories=\(item)" }.joined(separator: "&") {
                   params["categories"] = categories
                 }
                 if let closures = options.closures {

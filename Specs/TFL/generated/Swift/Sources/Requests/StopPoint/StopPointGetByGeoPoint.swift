@@ -65,17 +65,17 @@ extension TFL.StopPoint {
 
             public override var queryParameters: [String: Any] {
                 var params: [String: Any] = [:]
-                params["stopTypes"] = options.stopTypes.joined(separator: ",")
+                params["stopTypes"] = options.stopTypes.enumerated().map { number, item in return number == 0 ? item : "stopTypes=\(item)" }.joined(separator: "&")
                 if let radius = options.radius {
                   params["radius"] = radius
                 }
                 if let useStopPointHierarchy = options.useStopPointHierarchy {
                   params["useStopPointHierarchy"] = useStopPointHierarchy
                 }
-                if let modes = options.modes?.joined(separator: ",") {
+                if let modes = options.modes?.enumerated().map { number, item in return number == 0 ? item : "modes=\(item)" }.joined(separator: "&") {
                   params["modes"] = modes
                 }
-                if let categories = options.categories?.joined(separator: ",") {
+                if let categories = options.categories?.enumerated().map { number, item in return number == 0 ? item : "categories=\(item)" }.joined(separator: "&") {
                   params["categories"] = categories
                 }
                 if let returnLines = options.returnLines {
